@@ -1,0 +1,18 @@
+[
+	{
+  		"modid": "electrometrics",
+  		"name": "Electrometrics",
+  		"description": "Electrometrics is a Minecraft mod that adds electrical components for measuring energy and monitor your grid.",
+  		"version": "${version}",
+  		"mcversion": "${minecraft_version}",
+  		"url": "https://github.com/halvors/Electrometrics/",
+  		"updateUrl": "",
+  		"authorList": [
+  			"halvors"
+  		],
+  		"credits": "halvors",
+  		"logoFile": "logo.png",
+		"screenshots": [],
+		"dependencies": []
+	}
+]

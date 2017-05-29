@@ -1,0 +1,65 @@
+# Electrometrics Language Properties
+
+// Creative tab
+itemGroup.tabElectrometrics=Electrometrics
+
+// Tier names
+tier.Basic=Basic
+tier.Advanced=Advanced
+tier.Elite=Elite
+tier.Ultimate=Ultimate
+
+// Blocks
+tile.ElectricityMeter.name=Electricity Meter
+
+// Items
+item.Multimeter.name=Multimeter
+
+// Gui
+gui.measured=Measured
+gui.usage=Usage
+gui.reset=Reset
+gui.stored=Stored
+gui.maxOutput=Max output
+
+// Gui configuration
+gui.configuration.category.general=General
+gui.configuration.category.general.tooltip=General settings
+gui.configuration.category.machine=Machine
+gui.configuration.category.machine.tooltip=Settings regarding enabling and disabling of specific machines
+gui.configuration.category.integration=Integration
+gui.configuration.category.integration.tooltip=Settings regarding enabling and disabling of specific mod integrations
+gui.configuration.category.client=Client
+gui.configuration.category.client.tooltip=Client-specific settings
+
+// Tooltip
+tooltip.download=Download
+tooltip.clickToDownload=Click to download the latest version.
+tooltip.newVersionAvailable=A new version is available
+
+tooltip.hold=Hold
+tooltip.forDetails=for details
+tooltip.noInformation=No information to display
+tooltip.measuredEnergy=Measured energy
+tooltip.storedEnergy=Stored energy
+tooltip.blockOwnedBy=This %s is owned by %s, you don't have permission to remove this block.
+
+// Colors
+color.black=Black
+color.darkBlue=Dark Blue
+color.darkGreen=Dark Green
+color.darkAqua=Dark Aqua
+color.darkRed=Dark Red
+color.purple=Purple
+color.orange=Orange
+color.grey=Grey
+color.darkGrey=Dark Grey
+color.indigo=Indigo
+color.brightGreen=Bright Green
+color.aqua=Aqua
+color.red=Red
+color.pink=Pink
+color.yellow=Yellow
+color.white=White
+color.brown=Brown
+color.brightPink=Bright Pink

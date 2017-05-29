@@ -1,0 +1,65 @@
+# Electrometrics Language Properties
+
+// Creative tab
+itemGroup.tabElectrometrics=Electrometrics
+
+// Tier names
+tier.Basic=Basique
+tier.Advanced=Advancé
+tier.Elite=Elite
+tier.Ultimate=Ultime
+
+// Blocks
+tile.ElectricityMeter.name=Compteur électrique
+
+// Items
+item.Multimeter.name=Multimètre
+
+// Gui
+gui.measured=Mesuré
+gui.usage=Usage
+gui.reset=Mis à zéro
+gui.stored=Stocké
+gui.maxOutput=Sortie maxi
+
+// Gui configuration
+gui.configuration.category.general=Général
+gui.configuration.category.general.tooltip=Options générales
+gui.configuration.category.machine=Machine
+gui.configuration.category.machine.tooltip=Options d'arret ou de mise en route des machines
+gui.configuration.category.integration=Intégration
+gui.configuration.category.integration.tooltip=Options d'intégration de mod spécifiques
+gui.configuration.category.client=Client
+gui.configuration.category.client.tooltip=Client-Options client
+
+// Tooltip
+tooltip.download=Download
+tooltip.clickToDownload=Click to download the latest version.
+tooltip.newVersionAvailable=A new version is available
+
+tooltip.hold=Maintenir
+tooltip.forDetails=pour les détails
+tooltip.noInformation=Pas d'information a afficher
+tooltip.measuredEnergy=Energie mesurée
+tooltip.storedEnergy=Energie stockée
+tooltip.blockOwnedBy=Ce %s est la propriété de %s, vous ne pouvez pas le supprimer.
+
+// Colors
+color.black=Noir
+color.darkBlue=Bleu foncé
+color.darkGreen=Vert foncé
+color.darkAqua=Bleu vert foncé
+color.darkRed=Rouge foncé
+color.purple=Violet
+color.orange=Orange
+color.grey=Gris
+color.darkGrey=Gris foncé
+color.indigo=Indigo
+color.brightGreen=Vert clair
+color.aqua=Bleu vert
+color.red=Rouge
+color.pink=Rose
+color.yellow=Jaune
+color.white=Blanc
+color.brown=Marron
+color.brightPink=Rose clair

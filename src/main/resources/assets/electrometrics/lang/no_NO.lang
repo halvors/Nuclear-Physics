@@ -1,0 +1,65 @@
+# Electrometrics Language Properties
+
+// Creative tab
+itemGroup.tabElectrometrics=Electrometrics
+
+// Tier names
+tier.Basic=Enkel
+tier.Advanced=Avansert
+tier.Elite=Elite
+tier.Ultimate=Ultimat
+
+// Blocks
+tile.ElectricityMeter.name=Amperemeter
+
+// Items
+item.Multimeter.name=Multimeter
+
+// Gui
+gui.measured=Målt
+gui.usage=Forbruk
+gui.reset=Nullstill
+gui.stored=Lagret
+gui.maxOutput=Maks utgående
+
+// Gui configuration
+gui.configuration.category.general=Generelle innstillinger
+gui.configuration.category.general.tooltip=Generelle innstillinger
+gui.configuration.category.machine=Machine
+gui.configuration.category.machine.tooltip=Innstillinger vedrørende aktivering og deaktivering av spesifikke maskiner
+gui.configuration.category.integration=Integrasjon
+gui.configuration.category.integration.tooltip=Innstillinger vedrørende aktivering og deaktivering av mod integrasjoner
+gui.configuration.category.client=Klient
+gui.configuration.category.client.tooltip=Klient-spesifikke innstillinger
+
+// Tooltip
+tooltip.download=Last ned
+tooltip.clickToDownload=Klikk for å laste ned den siste versjonen.
+tooltip.newVersionAvailable=En ny versjon er tilgjengelig.
+
+tooltip.hold=Hold
+tooltip.forDetails=for detaljer
+tooltip.noInformation=Ingen informasjon å vise
+tooltip.measuredEnergy=Målt energi
+tooltip.storedEnergy=Lagret energi
+tooltip.blockOwnedBy=Denne %s eies av %s, du har ikke rettigheter til å fjerne denne blokken.
+
+// Colors
+color.black=Svart
+color.darkBlue=Mørkeblå
+color.darkGreen=Mørkegrønn
+color.darkAqua=Mørkeaqua
+color.darkRed=Mørkerød
+color.purple=Lilla
+color.orange=Oransje
+color.grey=Grå
+color.darkGrey=Mørkegrå
+color.indigo=Indigo
+color.brightGreen=Lysegrønn
+color.aqua=Aqua
+color.red=Rød
+color.pink=Rosa
+color.yellow=Gul
+color.white=Hvit
+color.brown=Brun
+color.brightPink=Lyserosa
