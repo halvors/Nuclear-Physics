@@ -6,7 +6,6 @@ itemGroup.tabQuantum=Quantum
 // Blocks.
 
 // Items.
-
 // Cells.
 item.cellEmpty.0.name=Empty Cell
 item.antimatter.0.name=Antimatter
@@ -25,6 +24,10 @@ item.hazmatMask.name=Hazmat Mask
 item.hazmatBody.name=Hazmat Body
 item.hazmatLeggings.name=Hazmat Leggings
 item.hazmatBoots.name=Hazmat Boots
+
+// Potions
+potion.radiation=Radiation
+death.attack.radiation=%1$s died from radiation.
 
 // Gui
 gui.measured=Measured
