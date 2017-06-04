@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.item;
+package org.halvors.quantum.common.item.armor;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -6,19 +6,14 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.poison.IAntiPoisonArmor;
 
-public class ItemArmorHazmat extends ItemArmor implements IAntiPoisonArmor {
+public class ItemArmorHazmat extends ItemQuantumArmor implements IAntiPoisonArmor {
     public static final ItemArmor.ArmorMaterial hazmatArmorMaterial = EnumHelper.addArmorMaterial("HAZMAT", 0, new int[] { 0, 0, 0, 0 }, 0);
 
     public ItemArmorHazmat(String name, int slot) {
-        super(hazmatArmorMaterial, 0, slot);
+        super(name, hazmatArmorMaterial, slot);
 
-        setUnlocalizedName(Reference.PREFIX + name);
-        setTextureName(Reference.PREFIX + name);
-        setCreativeTab(Quantum.getCreativeTab());
         setMaxDurability(200000);
     }
 
