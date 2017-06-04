@@ -3,9 +3,7 @@ package org.halvors.quantum.common.transform.vector;
 import com.google.common.io.ByteArrayDataInput;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class Vector2
-        implements Cloneable, IVector2
-{
+public class Vector2 implements Cloneable, IVector2 {
     public double x;
     public double y;
 
@@ -14,14 +12,12 @@ public class Vector2
         this(0.0D, 0.0D);
     }
 
-    public Vector2(double x, double y)
-    {
+    public Vector2(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    public Vector2(IVector2 vec)
-    {
+    public Vector2(IVector2 vec) {
         this.x = vec.x();
         this.y = vec.y();
     }
@@ -71,12 +67,13 @@ public class Vector2
         return this.x * this.x + this.y * this.y;
     }
 
-    public Vector2 normalize()
-    {
+    public Vector2 normalize() {
         double d = getMagnitude();
+
         if (d != 0.0D) {
             scale(1.0D / d);
         }
+
         return this;
     }
 
@@ -85,8 +82,7 @@ public class Vector2
         return point1.clone().distance(point2);
     }
 
-    public static double slope(Vector2 point1, Vector2 point2)
-    {
+    public static double slope(Vector2 point1, Vector2 point2) {
         double xDifference = point1.x - point2.x;
         double yDiference = point1.y - point2.y;
         return yDiference / xDifference;
@@ -97,43 +93,40 @@ public class Vector2
         return new Vector2((this.x + pos.x) / 2.0D, (this.y + pos.y) / 2.0D);
     }
 
-    public double distance(Vector2 target)
-    {
+    public double distance(Vector2 target) {
         Vector2 difference = clone().subtract(target);
         return difference.getMagnitude();
     }
 
-    public Vector2 add(Vector2 par1)
-    {
+    public Vector2 add(Vector2 par1) {
         this.x += par1.x;
         this.y += par1.y;
         return this;
     }
 
-    public Vector2 add(double par1)
-    {
+    public Vector2 add(double par1) {
         this.x += par1;
         this.y += par1;
         return this;
     }
 
-    public Vector2 subtract(Vector2 par1)
-    {
+    public Vector2 subtract(Vector2 par1) {
         this.x -= par1.x;
         this.y -= par1.y;
+
         return this;
     }
 
-    public Vector2 invert()
-    {
+    public Vector2 invert() {
         scale(-1.0D);
+
         return this;
     }
 
-    public Vector2 scale(double amount)
-    {
+    public Vector2 scale(double amount) {
         this.x *= amount;
         this.y *= amount;
+
         return this;
     }
 
@@ -158,15 +151,14 @@ public class Vector2
         return new Vector2(Math.floor(this.x), Math.floor(this.y));
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         long x = Double.doubleToLongBits(this.x);
         long y = Double.doubleToLongBits(this.y);
+
         return 31 * (int)(x ^ x >>> 32) + (int)(y ^ y >>> 32);
     }
 
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if ((o instanceof Vector2))
         {
             Vector2 vector = (Vector2)o;

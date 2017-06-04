@@ -17,15 +17,12 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.transform.rotation.EulerAngle;
 import org.halvors.quantum.common.transform.rotation.Quaternion;
 
-public class Vector3
-        implements Cloneable, IVector3, Comparable<IVector3>
-{
+public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
     public double x;
     public double y;
     public double z;
 
-    public Vector3(double x, double y, double z)
-    {
+    public Vector3(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -97,13 +94,11 @@ public class Vector3
         this(new EulerAngle(yaw, pitch));
     }
 
-    public static Vector3 fromCenter(Entity e)
-    {
+    public static Vector3 fromCenter(Entity e) {
         return new Vector3(e.posX, e.posY - e.yOffset + e.height / 2.0F, e.posZ);
     }
 
-    public static Vector3 fromCenter(TileEntity e)
-    {
+    public static Vector3 fromCenter(TileEntity e) {
         return new Vector3(e.xCoord + 0.5D, e.yCoord + 0.5D, e.zCoord + 0.5D);
     }
 
@@ -172,8 +167,7 @@ public class Vector3
         return world.getTileEntity(intX(), intY(), intZ());
     }
 
-    public boolean setBlock(World world, Block block, int metadata, int notify)
-    {
+    public boolean setBlock(World world, Block block, int metadata, int notify) {
         return world.setBlock(intX(), intY(), intZ(), block, metadata, notify);
     }
 
@@ -197,8 +191,7 @@ public class Vector3
         return Vec3.createVectorHelper(this.x, this.y, this.z);
     }
 
-    public EulerAngle toAngle()
-    {
+    public EulerAngle toAngle() {
         return new EulerAngle(Math.toDegrees(Math.atan2(this.x, this.z)), Math.toDegrees(-Math.atan2(this.y, Math.hypot(this.z, this.x))));
     }
 
@@ -207,21 +200,21 @@ public class Vector3
         return clone().difference(target).toAngle();
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt)
-    {
+    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         nbt.setDouble("x", this.x);
         nbt.setDouble("y", this.y);
         nbt.setDouble("z", this.z);
+
         return nbt;
     }
 
-    public ForgeDirection toForgeDirection()
-    {
+    public ForgeDirection toForgeDirection() {
         for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-            if ((this.x == direction.offsetX) && (this.y == direction.offsetY) && (this.z == direction.offsetZ)) {
+            if (x == direction.offsetX && y == direction.offsetY && z == direction.offsetZ) {
                 return direction;
             }
         }
+
         return ForgeDirection.UNKNOWN;
     }
 
@@ -235,12 +228,13 @@ public class Vector3
         return this.x * this.x + this.y * this.y + this.z * this.z;
     }
 
-    public Vector3 normalize()
-    {
+    public Vector3 normalize() {
         double d = getMagnitude();
+
         if (d != 0.0D) {
             scale(1.0D / d);
         }
+
         return this;
     }
 
@@ -254,9 +248,9 @@ public class Vector3
         return new Vector3(vec1).distance(vec2);
     }
 
-    public double distance(double x, double y, double z)
-    {
+    public double distance(double x, double y, double z) {
         Vector3 difference = clone().difference(x, y, z);
+
         return difference.getMagnitude();
     }
 
@@ -270,9 +264,9 @@ public class Vector3
         return distance(entity.posX, entity.posY, entity.posZ);
     }
 
-    public Vector3 invert()
-    {
+    public Vector3 invert() {
         scale(-1.0D);
+
         return this;
     }
 
@@ -298,27 +292,27 @@ public class Vector3
         return translate(side);
     }
 
-    public Vector3 translate(IVector3 addition)
-    {
+    public Vector3 translate(IVector3 addition) {
         this.x += addition.x();
         this.y += addition.y();
         this.z += addition.z();
+
         return this;
     }
 
-    public Vector3 translate(double x, double y, double z)
-    {
+    public Vector3 translate(double x, double y, double z) {
         this.x += x;
         this.y += y;
         this.z += z;
+
         return this;
     }
 
-    public Vector3 translate(double addition)
-    {
+    public Vector3 translate(double addition) {
         this.x += addition;
         this.y += addition;
         this.z += addition;
+
         return this;
     }
 
@@ -327,8 +321,7 @@ public class Vector3
         return first.clone().translate(second);
     }
 
-    public static Vector3 translate(Vector3 translate, double addition)
-    {
+    public static Vector3 translate(Vector3 translate, double addition) {
         return translate.clone().translate(addition);
     }
 
@@ -367,35 +360,35 @@ public class Vector3
         return translate(-amount);
     }
 
-    public Vector3 difference(double x, double y, double z)
-    {
+    public Vector3 difference(double x, double y, double z) {
         this.x -= x;
         this.y -= y;
         this.z -= z;
+
         return this;
     }
 
-    public Vector3 scale(double amount)
-    {
+    public Vector3 scale(double amount) {
         this.x *= amount;
         this.y *= amount;
         this.z *= amount;
+
         return this;
     }
 
-    public Vector3 scale(double x, double y, double z)
-    {
+    public Vector3 scale(double x, double y, double z) {
         this.x *= x;
         this.y *= y;
         this.z *= z;
+
         return this;
     }
 
-    public Vector3 scale(Vector3 amount)
-    {
+    public Vector3 scale(Vector3 amount) {
         this.x *= amount.x;
         this.y *= amount.y;
         this.z *= amount.z;
+
         return this;
     }
 
@@ -409,13 +402,11 @@ public class Vector3
         return vec.scale(amount);
     }
 
-    public Vector3 max(Vector3 other)
-    {
+    public Vector3 max(Vector3 other) {
         return new Vector3(Math.max(this.x, other.x), Math.max(this.y, other.y), Math.max(this.z, other.z));
     }
 
-    public Vector3 min(Vector3 other)
-    {
+    public Vector3 min(Vector3 other) {
         return new Vector3(Math.min(this.x, other.x), Math.min(this.y, other.y), Math.min(this.z, other.z));
     }
 
@@ -434,48 +425,46 @@ public class Vector3
         return new Vector3(Math.floor(this.x), Math.floor(this.y), Math.floor(this.z));
     }
 
-    public Vector3 toRound()
-    {
+    public Vector3 toRound() {
         this.x = Math.round(this.x);
         this.y = Math.round(this.y);
         this.z = Math.round(this.z);
+
         return this;
     }
 
-    public Vector3 toCeil()
-    {
+    public Vector3 toCeil() {
         this.x = Math.ceil(this.x);
         this.y = Math.ceil(this.y);
         this.z = Math.ceil(this.z);
+
         return this;
     }
 
-    public Vector3 toFloor()
-    {
+    public Vector3 toFloor() {
         this.x = Math.floor(this.x);
         this.y = Math.floor(this.y);
         this.z = Math.floor(this.z);
+
         return this;
     }
 
-    public List<Entity> getEntitiesWithin(World worldObj, Class<? extends Entity> par1Class)
-    {
+    public List<Entity> getEntitiesWithin(World worldObj, Class<? extends Entity> par1Class) {
         return worldObj.getEntitiesWithinAABB(par1Class, AxisAlignedBB.getBoundingBox(intX(), intY(), intZ(), intX() + 1, intY() + 1, intZ() + 1));
     }
 
-    public Vector3 midPoint(Vector3 pos)
-    {
+    public Vector3 midPoint(Vector3 pos) {
         return new Vector3((this.x + pos.x) / 2.0D, (this.y + pos.y) / 2.0D, (this.z + pos.z) / 2.0D);
     }
 
-    public Vector3 toCrossProduct(Vector3 compare)
-    {
+    public Vector3 toCrossProduct(Vector3 compare) {
         double newX = this.y * compare.z - this.z * compare.y;
         double newY = this.z * compare.x - this.x * compare.z;
         double newZ = this.x * compare.y - this.y * compare.x;
         this.x = newX;
         this.y = newY;
         this.z = newZ;
+
         return this;
     }
 
@@ -499,11 +488,11 @@ public class Vector3
         return this.x * vec2.x + this.y * vec2.y + this.z * vec2.z;
     }
 
-    public Vector3 getPerpendicular()
-    {
+    public Vector3 getPerpendicular() {
         if (this.z == 0.0D) {
             return zCrossProduct();
         }
+
         return xCrossProduct();
     }
 
@@ -517,8 +506,7 @@ public class Vector3
         return translateMatrix(getRotationMatrix(angle, axis), this);
     }
 
-    public double[] getRotationMatrix(float angle)
-    {
+    public double[] getRotationMatrix(float angle) {
         double[] matrix = new double[16];
         Vector3 axis = clone().normalize();
         double x = axis.x;
@@ -538,17 +526,18 @@ public class Vector3
         matrix[9] = (y * z * ocos - x * sin);
         matrix[10] = (z * z * ocos + cos);
         matrix[15] = 1.0D;
+
         return matrix;
     }
 
-    public static Vector3 translateMatrix(double[] matrix, Vector3 translation)
-    {
+    public static Vector3 translateMatrix(double[] matrix, Vector3 translation) {
         double x = translation.x * matrix[0] + translation.y * matrix[1] + translation.z * matrix[2] + matrix[3];
         double y = translation.x * matrix[4] + translation.y * matrix[5] + translation.z * matrix[6] + matrix[7];
         double z = translation.x * matrix[8] + translation.y * matrix[9] + translation.z * matrix[10] + matrix[11];
         translation.x = x;
         translation.y = y;
         translation.z = z;
+
         return translation;
     }
 
@@ -563,8 +552,7 @@ public class Vector3
         rotate(new EulerAngle(yaw, roll));
     }
 
-    public void rotate(EulerAngle angle)
-    {
+    public void rotate(EulerAngle angle) {
         double yawRadians = angle.yawRadians();
         double pitchRadians = angle.pitchRadians();
         double rollRadians = angle.rollRadians();
@@ -583,28 +571,25 @@ public class Vector3
         rotate(new EulerAngle(yaw, pitch));
     }
 
-    public void rotate(double yaw)
-    {
+    public void rotate(double yaw) {
         double yawRadians = Math.toRadians(yaw);
 
         double x = this.x;
         double z = this.z;
-        if (yaw != 0.0D)
-        {
+
+        if (yaw != 0.0D) {
             this.x = (x * Math.cos(yawRadians) - z * Math.sin(yawRadians));
             this.z = (x * Math.sin(yawRadians) + z * Math.cos(yawRadians));
         }
     }
 
-    public Vector3 rotate(Quaternion rotator)
-    {
+    public Vector3 rotate(Quaternion rotator) {
         rotator.rotate(this);
         return this;
     }
 
     @Deprecated
-    public static Vector3 getDeltaPositionFromRotation(float rotationYaw, float rotationPitch)
-    {
+    public static Vector3 getDeltaPositionFromRotation(float rotationYaw, float rotationPitch) {
         return new Vector3(rotationYaw, rotationPitch);
     }
 
@@ -668,49 +653,49 @@ public class Vector3
         return new Vector3(0.5D, 0.5D, 0.5D);
     }
 
-    public MovingObjectPosition rayTrace(World world, float rotationYaw, float rotationPitch, double reachDistance)
-    {
+    public MovingObjectPosition rayTrace(World world, float rotationYaw, float rotationPitch, double reachDistance) {
         Vector3 lookVector = getDeltaPositionFromRotation(rotationYaw, rotationPitch);
         Vector3 reachPoint = clone().translate(lookVector.clone().scale(reachDistance));
+
         return rayTrace(world, reachPoint);
     }
 
-    public MovingObjectPosition rayTrace(World world, Vector3 reachPoint)
-    {
+    public MovingObjectPosition rayTrace(World world, Vector3 reachPoint) {
         MovingObjectPosition pickedBlock = rayTraceBlocks(world, reachPoint.clone());
         MovingObjectPosition pickedEntity = rayTraceEntities(world, reachPoint.clone());
+
         if (pickedBlock == null) {
             return pickedEntity;
         }
+
         if (pickedEntity == null) {
             return pickedBlock;
         }
+
         double dBlock = distance(new Vector3(pickedBlock.hitVec));
         double dEntity = distance(new Vector3(pickedEntity.hitVec));
+
         if (dEntity < dBlock) {
             return pickedEntity;
         }
+
         return pickedBlock;
     }
 
-    public MovingObjectPosition rayTraceBlocks(World world, Vector3 end)
-    {
+    public MovingObjectPosition rayTraceBlocks(World world, Vector3 end) {
         return world.rayTraceBlocks(toVec3(), end.toVec3());
     }
 
     @Deprecated
-    public MovingObjectPosition rayTraceEntities(World world, float rotationYaw, float rotationPitch, boolean collisionFlag, double reachDistance)
-    {
+    public MovingObjectPosition rayTraceEntities(World world, float rotationYaw, float rotationPitch, boolean collisionFlag, double reachDistance) {
         return rayTraceEntities(world, rotationYaw, rotationPitch, reachDistance);
     }
 
-    public MovingObjectPosition rayTraceEntities(World world, float rotationYaw, float rotationPitch, double reachDistance)
-    {
+    public MovingObjectPosition rayTraceEntities(World world, float rotationYaw, float rotationPitch, double reachDistance) {
         return rayTraceEntities(world, getDeltaPositionFromRotation(rotationYaw, rotationPitch).scale(reachDistance));
     }
 
-    public MovingObjectPosition rayTraceEntities(World world, Vector3 target)
-    {
+    public MovingObjectPosition rayTraceEntities(World world, Vector3 target) {
         MovingObjectPosition pickedEntity = null;
         Vec3 startingPosition = toVec3();
         Vec3 look = target.toVec3();
@@ -722,33 +707,31 @@ public class Vector3
 
         List<Entity> entitiesInBounds = world.getEntitiesWithinAABB(null, boxToScan);
         double closestEntity = reachDistance;
+
         if ((entitiesInBounds == null) || (entitiesInBounds.isEmpty())) {
             return null;
         }
+
         for (Entity possibleHits : entitiesInBounds) {
-            if ((possibleHits != null) && (possibleHits.canBeCollidedWith()) && (possibleHits.boundingBox != null))
-            {
+            if ((possibleHits != null) && (possibleHits.canBeCollidedWith()) && (possibleHits.boundingBox != null)) {
                 float border = possibleHits.getCollisionBorderSize();
                 AxisAlignedBB aabb = possibleHits.boundingBox.expand(border, border, border);
                 MovingObjectPosition hitMOP = aabb.calculateIntercept(startingPosition, target.toVec3());
+
                 if (hitMOP != null) {
-                    if (aabb.isVecInside(startingPosition))
-                    {
-                        if ((0.0D < closestEntity) || (closestEntity == 0.0D))
-                        {
+                    if (aabb.isVecInside(startingPosition)) {
+                        if ((0.0D < closestEntity) || (closestEntity == 0.0D)) {
                             pickedEntity = new MovingObjectPosition(possibleHits);
-                            if (pickedEntity != null)
-                            {
+
+                            if (pickedEntity != null) {
                                 pickedEntity.hitVec = hitMOP.hitVec;
                                 closestEntity = 0.0D;
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         double distance = startingPosition.distanceTo(hitMOP.hitVec);
-                        if ((distance < closestEntity) || (closestEntity == 0.0D))
-                        {
+
+                        if ((distance < closestEntity) || (closestEntity == 0.0D)) {
                             pickedEntity = new MovingObjectPosition(possibleHits);
                             pickedEntity.hitVec = hitMOP.hitVec;
                             closestEntity = distance;
@@ -757,32 +740,32 @@ public class Vector3
                 }
             }
         }
+
         return pickedEntity;
     }
 
-    public MovingObjectPosition rayTraceEntities(World world, Entity target)
-    {
+    public MovingObjectPosition rayTraceEntities(World world, Entity target) {
         return rayTraceEntities(world, new Vector3(target));
     }
 
-    public int hashCode()
-    {
+    public int hashCode() {
         long x = Double.doubleToLongBits(this.x);
         long y = Double.doubleToLongBits(this.y);
         long z = Double.doubleToLongBits(this.z);
         int hash = (int)(x ^ x >>> 32);
         hash = 31 * hash + (int)(y ^ y >>> 32);
         hash = 31 * hash + (int)(z ^ z >>> 32);
+
         return hash;
     }
 
-    public boolean equals(Object o)
-    {
-        if ((o instanceof Vector3))
-        {
-            Vector3 vector3 = (Vector3)o;
+    public boolean equals(Object o) {
+        if ((o instanceof Vector3)) {
+            Vector3 vector3 = (Vector3) o;
+
             return (this.x == vector3.x) && (this.y == vector3.y) && (this.z == vector3.z);
         }
+
         return false;
     }
 
