@@ -21,8 +21,8 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.network.packet.*;
 import org.halvors.quantum.common.tile.TileEntity;
-import org.halvors.quantum.common.util.PlayerUtils;
-import org.halvors.quantum.common.util.location.Range;
+import org.halvors.quantum.common.utility.PlayerUtils;
+import org.halvors.quantum.common.utility.location.Range;
 
 import java.util.List;
 

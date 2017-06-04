@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import org.halvors.quantum.common.base.ResourceType;
-import org.halvors.quantum.common.util.ResourceUtils;
+import org.halvors.quantum.common.utility.ResourceUtils;
 
 @SideOnly(Side.CLIENT)
 public class SoundHandler {

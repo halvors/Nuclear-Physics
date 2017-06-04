@@ -14,9 +14,9 @@ import org.halvors.quantum.common.base.*;
 import org.halvors.quantum.common.tile.TileEntity;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityStorage;
-import org.halvors.quantum.common.util.LanguageUtils;
-import org.halvors.quantum.common.util.energy.EnergyUtils;
-import org.halvors.quantum.common.util.render.Color;
+import org.halvors.quantum.common.utility.LanguageUtility;
+import org.halvors.quantum.common.utility.energy.EnergyUtils;
+import org.halvors.quantum.common.utility.render.Color;
 
 import java.util.List;
 
@@ -46,19 +46,19 @@ public class ItemBlockMachine extends ItemBlockMetadata {
 		MachineType machineType = MachineType.getType(itemStack);
 
 		if (!KeyHandler.getIsKeyPressed(Key.SNEAK.getKeyBinding())) {
-			list.add(LanguageUtils.localize("tooltip.hold") + " " + Color.AQUA + GameSettings.getKeyDisplayString(Key.SNEAK.getKeyBinding().getKeyCode()) + Color.GREY + " " + LanguageUtils.localize("tooltip.forDetails") + ".");
+			list.add(LanguageUtility.localize("tooltip.hold") + " " + Color.AQUA + GameSettings.getKeyDisplayString(Key.SNEAK.getKeyBinding().getKeyCode()) + Color.GREY + " " + LanguageUtility.localize("tooltip.forDetails") + ".");
 		} else {
 			switch (machineType) {
 				case BASIC_ELECTRICITY_METER:
 				case ADVANCED_ELECTRICITY_METER:
 				case ELITE_ELECTRICITY_METER:
 				case ULTIMATE_ELECTRICITY_METER:
-					list.add(Color.BRIGHT_GREEN + LanguageUtils.localize("tooltip.measuredEnergy") + ": " + Color.GREY + EnergyUtils.getEnergyDisplay(getElectricityCount(itemStack)));
-					list.add(Color.AQUA + LanguageUtils.localize("tooltip.storedEnergy") + ": " + Color.GREY + EnergyUtils.getEnergyDisplay(getElectricityStored(itemStack)));
+					list.add(Color.BRIGHT_GREEN + LanguageUtility.localize("tooltip.measuredEnergy") + ": " + Color.GREY + EnergyUtils.getEnergyDisplay(getElectricityCount(itemStack)));
+					list.add(Color.AQUA + LanguageUtility.localize("tooltip.storedEnergy") + ": " + Color.GREY + EnergyUtils.getEnergyDisplay(getElectricityStored(itemStack)));
 					break;
 
 				default:
-					list.add(Color.RED + LanguageUtils.localize("tooltip.noInformation"));
+					list.add(Color.RED + LanguageUtility.localize("tooltip.noInformation"));
 					break;
 			}
 		}

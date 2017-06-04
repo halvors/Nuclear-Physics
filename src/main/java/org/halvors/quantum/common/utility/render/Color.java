@@ -1,6 +1,6 @@
-package org.halvors.quantum.common.util.render;
+package org.halvors.quantum.common.utility.render;
 
-import org.halvors.quantum.common.util.LanguageUtils;
+import org.halvors.quantum.common.utility.LanguageUtility;
 
 /**
  * Simple color enum for adding colors to in-game GUI strings of text.
@@ -46,7 +46,7 @@ public enum Color {
 	 * @return localized name
 	 */
 	public String getLocalizedName() {
-		return LanguageUtils.localize("color." + name);
+		return LanguageUtility.localize("color." + name);
 	}
 
 	/**

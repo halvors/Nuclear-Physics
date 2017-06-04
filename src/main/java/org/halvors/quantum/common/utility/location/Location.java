@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.util.location;
+package org.halvors.quantum.common.utility.location;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

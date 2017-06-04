@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.tile.TileEntity;
-import org.halvors.quantum.common.util.location.Location;
+import org.halvors.quantum.common.utility.location.Location;
 
 import java.util.ArrayList;
 import java.util.List;

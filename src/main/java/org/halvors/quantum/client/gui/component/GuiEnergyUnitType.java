@@ -8,7 +8,7 @@ import org.halvors.quantum.client.gui.IGui;
 import org.halvors.quantum.client.sound.SoundHandler;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Client;
-import org.halvors.quantum.common.util.energy.EnergyUnit;
+import org.halvors.quantum.common.utility.energy.EnergyUnit;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnergyUnitType extends GuiComponentBase implements IGuiComponent {

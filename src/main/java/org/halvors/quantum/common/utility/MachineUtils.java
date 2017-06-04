@@ -1,6 +1,5 @@
-package org.halvors.quantum.common.util;
+package org.halvors.quantum.common.utility;
 
-import buildcraft.api.tools.IToolWrench;
 import cofh.api.item.IToolHammer;
 import mekanism.api.IMekWrench;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,19 +23,6 @@ public class MachineUtils {
 
 		if (itemStack != null) {
 			Item item = itemStack.getItem();
-
-			if (Integration.isBuildCraftEnabled) {
-				// Check if item is a Buildcraft wrench.
-				if (item instanceof IToolWrench) {
-					IToolWrench wrench = (IToolWrench) item;
-
-					if (wrench.canWrench(player, x, y, z)) {
-						wrench.wrenchUsed(player, x, y, z);
-
-						return true;
-					}
-				}
-			}
 
 			if (Integration.isCoFHCoreEnabled) {
 				// Check if item is a CoFH wrench.

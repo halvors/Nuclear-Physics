@@ -4,7 +4,7 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager.General;
 import org.halvors.quantum.common.base.MachineType;
 import org.halvors.quantum.common.tile.TileEntityRotatable;
-import org.halvors.quantum.common.util.location.Location;
+import org.halvors.quantum.common.utility.location.Location;
 
 public class TileEntityMachine extends TileEntityRotatable {
 	private final MachineType machineType;

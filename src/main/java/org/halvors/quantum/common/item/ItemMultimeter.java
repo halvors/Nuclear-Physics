@@ -1,14 +1,11 @@
 package org.halvors.quantum.common.item;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.tile.TileEntity;
-import org.halvors.quantum.common.util.render.Color;
-
-import java.util.List;
+import org.halvors.quantum.common.utility.render.Color;
 
 public class ItemMultimeter extends ItemTextured {
 	public ItemMultimeter() {
@@ -26,10 +23,5 @@ public class ItemMultimeter extends ItemTextured {
 		}
 
 		return false;
-	}
-
-	@Override
-	public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-
 	}
 }

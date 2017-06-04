@@ -5,8 +5,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.component.*;
 import org.halvors.quantum.common.base.tile.ITileOwnable;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricMachine;
-import org.halvors.quantum.common.util.LanguageUtils;
-import org.halvors.quantum.common.util.energy.EnergyUtils;
+import org.halvors.quantum.common.utility.LanguageUtility;
+import org.halvors.quantum.common.utility.energy.EnergyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +34,8 @@ public class GuiElectricMachine extends GuiMachine {
 			@Override
 			public List<String> getInfo() {
 				List<String> list = new ArrayList<>();
-				list.add(LanguageUtils.localize("gui.stored") + ": " + EnergyUtils.getEnergyDisplay(tileEntity.getStorage().getEnergyStored()));
-				list.add(LanguageUtils.localize("gui.maxOutput") + ": " + EnergyUtils.getEnergyDisplay(tileEntity.getStorage().getMaxExtract()) + "/t");
+				list.add(LanguageUtility.localize("gui.stored") + ": " + EnergyUtils.getEnergyDisplay(tileEntity.getStorage().getEnergyStored()));
+				list.add(LanguageUtility.localize("gui.maxOutput") + ": " + EnergyUtils.getEnergyDisplay(tileEntity.getStorage().getMaxExtract()) + "/t");
 
 				return list;
 			}

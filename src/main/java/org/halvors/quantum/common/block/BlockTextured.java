@@ -11,7 +11,7 @@ import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.tile.ITileActiveState;
 import org.halvors.quantum.common.base.tile.ITileRotatable;
 import org.halvors.quantum.common.tile.TileEntity;
-import org.halvors.quantum.common.util.render.Orientation;
+import org.halvors.quantum.common.utility.render.Orientation;
 
 public abstract class BlockTextured extends BlockMetadata {
     protected final IIcon[][] iconMetadataList = new IIcon[16][16];

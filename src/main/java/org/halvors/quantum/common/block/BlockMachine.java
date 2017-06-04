@@ -30,9 +30,9 @@ import org.halvors.quantum.common.tile.TileEntity;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricMachine;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityStorage;
-import org.halvors.quantum.common.util.LanguageUtils;
-import org.halvors.quantum.common.util.MachineUtils;
-import org.halvors.quantum.common.util.PlayerUtils;
+import org.halvors.quantum.common.utility.LanguageUtility;
+import org.halvors.quantum.common.utility.MachineUtils;
+import org.halvors.quantum.common.utility.PlayerUtils;
 
 import java.util.List;
 
@@ -120,7 +120,7 @@ public class BlockMachine extends BlockRotatable {
 				ITileOwnable tileOwnable = (ITileOwnable) tileEntity;
 
 				if (!tileOwnable.isOwner(player)) {
-					player.addChatMessage(new ChatComponentText(String.format(LanguageUtils.localize("tooltip.blockOwnedBy"), machineType.getLocalizedName(), tileOwnable.getOwnerName())));
+					player.addChatMessage(new ChatComponentText(String.format(LanguageUtility.localize("tooltip.blockOwnedBy"), machineType.getLocalizedName(), tileOwnable.getOwnerName())));
 				}
 			}
 		}

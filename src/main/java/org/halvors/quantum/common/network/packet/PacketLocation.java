@@ -6,7 +6,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import org.halvors.quantum.common.tile.TileEntity;
-import org.halvors.quantum.common.util.location.Location;
+import org.halvors.quantum.common.utility.location.Location;
 
 /**
  * This is a packet that provides a location, and is meant to be extended.

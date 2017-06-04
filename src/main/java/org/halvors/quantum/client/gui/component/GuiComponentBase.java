@@ -7,7 +7,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import org.halvors.quantum.client.gui.IGui;
 import org.halvors.quantum.common.base.ResourceType;
-import org.halvors.quantum.common.util.ResourceUtils;
+import org.halvors.quantum.common.utility.ResourceUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;

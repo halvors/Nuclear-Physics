@@ -5,7 +5,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.ResourceLocation;
 import org.halvors.quantum.client.gui.IGui;
-import org.halvors.quantum.common.util.energy.EnergyUtils;
+import org.halvors.quantum.common.utility.energy.EnergyUtils;
 
 @SideOnly(Side.CLIENT)
 public class GuiPowerBar extends GuiComponentBase implements IGuiComponent {

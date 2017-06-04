@@ -9,9 +9,9 @@ import org.halvors.quantum.common.base.tile.ITileOwnable;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntityElectricityMeter;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
-import org.halvors.quantum.common.util.LanguageUtils;
-import org.halvors.quantum.common.util.PlayerUtils;
-import org.halvors.quantum.common.util.energy.EnergyUtils;
+import org.halvors.quantum.common.utility.LanguageUtility;
+import org.halvors.quantum.common.utility.PlayerUtils;
+import org.halvors.quantum.common.utility.energy.EnergyUtils;
 
 /**
  * This is the GUI of the Electricity Meter which provides a simple way to keep count of the electricity you use.
@@ -41,7 +41,7 @@ public class GuiElectricityMeter extends GuiElectricMachine {
 		int guiHeight = (height - ySize) / 2;
 
 		// Create buttons.
-		GuiButton resetButton = new GuiButton(0, guiWidth + 6, (guiHeight + ySize) - (20 + 6), 60, 20, LanguageUtils.localize("gui.reset"));
+		GuiButton resetButton = new GuiButton(0, guiWidth + 6, (guiHeight + ySize) - (20 + 6), 60, 20, LanguageUtility.localize("gui.reset"));
 
 		// If this has a owner, restrict the reset button to that player.
 		if (tileEntity instanceof ITileOwnable) {
@@ -71,8 +71,8 @@ public class GuiElectricityMeter extends GuiElectricMachine {
 		int x = 6 + 12;
 		int y = ySize / 2;
 
-		String measured = LanguageUtils.localize("gui.measured");
-		String usage = LanguageUtils.localize("gui.usage");
+		String measured = LanguageUtility.localize("gui.measured");
+		String usage = LanguageUtility.localize("gui.usage");
 		int xOffset = Math.max(fontRendererObj.getStringWidth(measured), fontRendererObj.getStringWidth(usage)) + 8;
 
 		drawString(measured + ":", x, y - 24);

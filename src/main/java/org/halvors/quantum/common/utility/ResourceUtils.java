@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.util;
+package org.halvors.quantum.common.utility;
 
 import net.minecraft.util.ResourceLocation;
 import org.halvors.quantum.common.Reference;

@@ -15,8 +15,8 @@ import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.base.tile.ITileOwnable;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.util.MachineUtils;
-import org.halvors.quantum.common.util.PlayerUtils;
+import org.halvors.quantum.common.utility.MachineUtils;
+import org.halvors.quantum.common.utility.PlayerUtils;
 
 import java.util.EnumSet;
 import java.util.List;

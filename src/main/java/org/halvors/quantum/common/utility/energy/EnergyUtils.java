@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.util.energy;
+package org.halvors.quantum.common.utility.energy;
 
 import org.halvors.quantum.common.ConfigurationManager.Client;
 import org.halvors.quantum.common.ConfigurationManager.General;

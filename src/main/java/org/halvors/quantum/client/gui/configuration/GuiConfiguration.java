@@ -13,7 +13,7 @@ import org.halvors.quantum.client.gui.configuration.category.CategoryEntryIntegr
 import org.halvors.quantum.client.gui.configuration.category.CategoryEntryMachine;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.util.LanguageUtils;
+import org.halvors.quantum.common.utility.LanguageUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,6 @@ public class GuiConfiguration extends GuiConfig {
     }
 
     private static void register(String category, Class<? extends IConfigEntry> configEntryClass) {
-        configElements.add(new DummyCategoryElement(LanguageUtils.localize("gui.configuration.category." + category), "gui.configuration.category." + category, configEntryClass));
+        configElements.add(new DummyCategoryElement(LanguageUtility.localize("gui.configuration.category." + category), "gui.configuration.category." + category, configEntryClass));
     }
 }

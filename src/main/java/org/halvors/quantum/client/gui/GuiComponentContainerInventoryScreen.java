@@ -14,7 +14,7 @@ import org.halvors.quantum.common.base.ResourceType;
 import org.halvors.quantum.common.component.IComponent;
 import org.halvors.quantum.common.component.IComponentContainer;
 import org.halvors.quantum.common.tile.TileEntity;
-import org.halvors.quantum.common.util.ResourceUtils;
+import org.halvors.quantum.common.utility.ResourceUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;

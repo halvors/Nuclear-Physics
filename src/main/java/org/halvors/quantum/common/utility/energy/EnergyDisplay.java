@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.util.energy;
+package org.halvors.quantum.common.utility.energy;
 
 /**
  * An easy way to display information on electricity for the client.

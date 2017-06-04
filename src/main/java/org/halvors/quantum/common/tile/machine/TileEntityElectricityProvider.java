@@ -5,7 +5,7 @@ import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.base.MachineType;
-import org.halvors.quantum.common.util.MachineUtils;
+import org.halvors.quantum.common.utility.MachineUtils;
 
 import java.util.EnumSet;
 

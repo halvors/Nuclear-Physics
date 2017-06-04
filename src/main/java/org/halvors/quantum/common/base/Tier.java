@@ -1,7 +1,7 @@
 package org.halvors.quantum.common.base;
 
-import org.halvors.quantum.common.util.LanguageUtils;
-import org.halvors.quantum.common.util.render.Color;
+import org.halvors.quantum.common.utility.LanguageUtility;
+import org.halvors.quantum.common.utility.render.Color;
 
 public class Tier {
 	public enum Base {
@@ -23,7 +23,7 @@ public class Tier {
 		}
 
 		public String getLocalizedName() {
-			return LanguageUtils.localize("tier." + name);
+			return LanguageUtility.localize("tier." + name);
 		}
 
 		public Color getColor() {

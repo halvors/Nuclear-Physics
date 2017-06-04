@@ -8,7 +8,7 @@ import net.minecraft.util.IIcon;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.ResourceType;
-import org.halvors.quantum.common.util.ResourceUtils;
+import org.halvors.quantum.common.utility.ResourceUtils;
 
 @SideOnly(Side.CLIENT)
 public class BlockRenderer {

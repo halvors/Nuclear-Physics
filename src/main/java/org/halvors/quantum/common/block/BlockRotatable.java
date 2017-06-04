@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.base.tile.ITileRotatable;
 import org.halvors.quantum.common.tile.TileEntity;
-import org.halvors.quantum.common.util.MachineUtils;
+import org.halvors.quantum.common.utility.MachineUtils;
 
 public abstract class BlockRotatable extends BlockTextured {
 	protected BlockRotatable(String name, Material material) {

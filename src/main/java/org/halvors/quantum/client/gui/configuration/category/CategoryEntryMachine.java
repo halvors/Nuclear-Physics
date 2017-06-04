@@ -9,7 +9,7 @@ import net.minecraftforge.common.config.ConfigElement;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.util.LanguageUtils;
+import org.halvors.quantum.common.utility.LanguageUtility;
 
 public class CategoryEntryMachine extends CategoryEntry {
     public CategoryEntryMachine(GuiConfig guiConfig, GuiConfigEntries guiConfigEntries, IConfigElement configElement) {
@@ -27,6 +27,6 @@ public class CategoryEntryMachine extends CategoryEntry {
                 category,
                 false,
                 false,
-                Reference.NAME + " - " + LanguageUtils.localize("gui.configuration.category." + category));
+                Reference.NAME + " - " + LanguageUtility.localize("gui.configuration.category." + category));
     }
 }

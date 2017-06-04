@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.util.render;
+package org.halvors.quantum.common.utility.render;
 
 import net.minecraftforge.common.util.ForgeDirection;
 

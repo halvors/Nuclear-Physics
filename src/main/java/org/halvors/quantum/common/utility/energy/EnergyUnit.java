@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.util.energy;
+package org.halvors.quantum.common.utility.energy;
 
 import java.util.ArrayList;
 import java.util.List;

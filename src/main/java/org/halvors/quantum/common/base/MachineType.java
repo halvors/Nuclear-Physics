@@ -4,11 +4,11 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.ConfigurationManager.Machine;
+import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.block.BlockMachine;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
 import org.halvors.quantum.common.tile.machine.TileEntityMachine;
-import org.halvors.quantum.common.util.LanguageUtils;
+import org.halvors.quantum.common.utility.LanguageUtility;
 
 public enum MachineType {
 	BASIC_ELECTRICITY_METER(0, "ElectricityMeter", TileEntityElectricityMeter.class),
@@ -43,7 +43,7 @@ public enum MachineType {
 	}
 
 	public String getLocalizedName() {
-		String localizedName = LanguageUtils.localize("tile." + name + ".name");
+		String localizedName = LanguageUtility.localize("tile." + name + ".name");
 
 		switch (this) {
 			case BASIC_ELECTRICITY_METER:
@@ -93,7 +93,7 @@ public enum MachineType {
 	}
 
 	public boolean isEnabled() {
-		return Machine.isEnabled(this);
+		return ConfigurationManager.Machine.isEnabled(this);
 	}
 
 	public static MachineType getType(Block block, int metadata) {
