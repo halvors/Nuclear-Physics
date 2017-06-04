@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.poison;
+package org.halvors.quantum.common.item.armor;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
