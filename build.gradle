@@ -28,8 +28,8 @@ configFile.withReader {
 }
 
 version = config.minecraft_version + "-" + config.mod_version
-group = "org.halvors.atomicscience"
-archivesBaseName = "Atomic Science"
+group = "org.halvors.electrometrics"
+archivesBaseName = "Electrometrics"
 sourceCompatibility = "7"
 targetCompatibility = "7"
 
