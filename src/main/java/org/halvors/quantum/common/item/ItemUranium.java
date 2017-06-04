@@ -17,6 +17,11 @@ public class ItemUranium extends ItemRadioactive {
         setMaxDurability(0);
     }
 
+    @Override
+    public String getUnlocalizedName(ItemStack itemStack) {
+        return LanguageUtility.localize(getUnlocalizedName() + "." + itemStack.getMetadata());
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
