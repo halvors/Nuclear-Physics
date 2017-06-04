@@ -10,8 +10,8 @@ import org.halvors.quantum.common.base.MachineType;
  *
  * @author halvors
  */
-public class CreativeTab extends CreativeTabs {
-	public CreativeTab() {
+public class QuantumCreativeTab extends CreativeTabs {
+	public QuantumCreativeTab() {
 		super("tab" + Reference.NAME);
 	}
 

@@ -17,13 +17,14 @@ import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
-import org.halvors.quantum.common.CreativeTab;
+import org.halvors.quantum.common.QuantumCreativeTab;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.IUpdatableMod;
 import org.halvors.quantum.common.block.Block;
 import org.halvors.quantum.common.block.BlockMachine;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.item.*;
+import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
 import org.halvors.quantum.common.updater.UpdateManager;
 
@@ -54,28 +55,41 @@ public class Quantum implements IUpdatableMod {
 	private static Configuration configuration;
 
 	// Creative Tab.
-	private static final CreativeTab creativeTab = new CreativeTab();
+	private static final QuantumCreativeTab creativeTab = new QuantumCreativeTab();
 
 	// Blocks.
 	public static final Block blockMachine = new BlockMachine();
 
 	// Items.
-	//public static final Item itemMultimeter = new ItemMultimeter();
+	//public static final ItemQuantum itemMultimeter = new ItemMultimeter();
 
 	// Cells
-	public static final Item itemCell = new ItemCell("cellEmpty");
-	//var itemFissileFuel: Item = new ItemFuelRod
-	//var itemBreedingRod: Item = new ItemBreederFuel
-	//var itemDarkMatter: Item = new ItemCell("darkMatter")
 	public static final Item itemAntimatter = new ItemAntimatter();
-	//var itemDeuteriumCell: Item = new ItemCell("cellDeuterium")
-	//var itemTritiumCell: Item = new ItemCell("cellTritium")
-	//var itemWaterCell: Item = new ItemCell("cellWater")
-	//var itemYellowCake: Item = new ItemRadioactive().setTextureName(Reference.prefix + "yellowcake").setCreativeTab(EDXCreativeTab)
-	//var itemUranium: Item = new ItemUranium().setCreativeTab(EDXCreativeTab)
+	//public static final Item itemBreedingRod = contentRegistry.createItem("rodBreederFuel", ItemBreederFuel.class);
+	public static final Item itemCell = new ItemCell("cellEmpty");
+	//public static final Item itemDarkMatter = contentRegistry.createItem("darkMatter", ItemDarkMatter.class);
+	//public static final Item itemDeuteriumCell = contentRegistry.createItem("cellDeuterium", ItemCell.class);
+	//public static final Item itemFissileFuel = contentRegistry.createItem("rodFissileFuel", ItemFissileFuel.class);
+	//public static final Item itemTritiumCell = contentRegistry.createItem("cellTritium", ItemCell.class);
+	public static final Item itemUranium = new ItemUranium();
+	//public static final Item itemWaterCell = contentRegistry.createItem("cellWater", ItemCell.class);
+	//public static final Item itemYellowCake = contentRegistry.createItem("yellowcake", ItemRadioactive.class);
+
+	/*
+	public static final Item itemCell = new ItemCell("cellEmpty");
+	//var itemFissileFuel: ItemQuantum = new ItemFuelRod
+	//var itemBreedingRod: ItemQuantum = new ItemBreederFuel
+	//var itemDarkMatter: ItemQuantum = new ItemCell("darkMatter")
+	public static final Item itemAntimatter = new ItemAntimatter();
+	//var itemDeuteriumCell: ItemQuantum = new ItemCell("cellDeuterium")
+	//var itemTritiumCell: ItemQuantum = new ItemCell("cellTritium")
+	//var itemWaterCell: ItemQuantum = new ItemCell("cellWater")
+	//var itemYellowCake: ItemQuantum = new ItemRadioactive().setTextureName(Reference.prefix + "yellowcake").setCreativeTab(EDXCreativeTab)
+	//var itemUranium: ItemQuantum = new ItemUranium().setCreativeTab(EDXCreativeTab)
+	*/
 
 	// Buckets
-	//var itemBucketToxic: Item = null
+	//var itemBucketToxic: ItemQuantum = null
 
 	// Hazmat
 	public static final Item itemHazmatMask = new ItemArmorHazmat("hazmatMask", 0);
@@ -95,7 +109,6 @@ public class Quantum implements IUpdatableMod {
 		FMLCommonHandler.instance().bus().register(new UpdateManager(this, Reference.RELEASE_URL, Reference.DOWNLOAD_URL));
 
 		// Mod integration.
-		logger.log(Level.INFO, "BuildCraft integration is " + (Integration.isBuildCraftEnabled ? "enabled" : "disabled") + ".");
 		logger.log(Level.INFO, "CoFHCore integration is " + (Integration.isCoFHCoreEnabled ? "enabled" : "disabled") + ".");
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 	}
@@ -122,8 +135,16 @@ public class Quantum implements IUpdatableMod {
 
 	private void registerItems() {
 		// Register items.
-		GameRegistry.registerItem(itemCell, "itemCell");
 		GameRegistry.registerItem(itemAntimatter, "itemAntimatter");
+		//GameRegistry.registerItem(itemBreedingRod, "rodBreedingFuel");
+		GameRegistry.registerItem(itemCell, "cellEmpty");
+		//GameRegistry.registerItem(itemDarkMatter, "darkMatter");
+		//GameRegistry.registerItem(itemDeuteriumCell, "cellDeuterium");
+		//GameRegistry.registerItem(itemFissileFuel, "rodFissileFuel");
+		//GameRegistry.registerItem(itemTritiumCell, "cellTritium");
+		GameRegistry.registerItem(itemUranium, "itemUranium");
+		//GameRegistry.registerItem(itemWaterCell, "cellWater");
+		//GameRegistry.registerItem(itemYellowCake, "yellowcake");
 
 		// Hazmat.
 		GameRegistry.registerItem(itemHazmatMask, "itemHazmatMask");
@@ -153,7 +174,7 @@ public class Quantum implements IUpdatableMod {
 		return logger;
 	}
 
-	public static CreativeTab getCreativeTab() {
+	public static QuantumCreativeTab getCreativeTab() {
 		return creativeTab;
 	}
 
