@@ -1,17 +1,30 @@
 # Quantum Language Properties
 
-// Creative tab
+// Creative tab.
 itemGroup.tabQuantum=Quantum
 
-// Blocks
+// Blocks.
 
-// Items
+// Items.
+
+// Cells.
 item.cellEmpty.0.name=Empty Cell
 item.antimatter.0.name=Antimatter
 item.antimatter.0.tooltip=125 Milligrams
 item.antimatter.1.name=Antimatter
 item.antimatter.1.tooltip=1 Gram
 
+// Uranium
+item.uranium.0.name=Uranium-235
+item.uranium.0.tooltip=Enriched Uranium
+item.uranium.1.name=Uranium-238
+item.uranium.1.tooltip=Breeding Uranium
+
+// Hazmat
+item.hazmatMask.name=Hazmat Mask
+item.hazmatBody.name=Hazmat Body
+item.hazmatLeggings.name=Hazmat Leggings
+item.hazmatBoots.name=Hazmat Boots
 
 // Gui
 gui.measured=Measured
