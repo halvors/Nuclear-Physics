@@ -11,10 +11,11 @@ import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.MinecraftForge;
@@ -30,8 +31,8 @@ import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.QuantumCreativeTab;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.IUpdatableMod;
-import org.halvors.quantum.common.block.Block;
 import org.halvors.quantum.common.block.BlockMachine;
+import org.halvors.quantum.common.block.BlockRadioactive;
 import org.halvors.quantum.common.block.BlockToxicWaste;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.item.*;
@@ -88,59 +89,52 @@ public class Quantum implements IUpdatableMod {
 	// Blocks
 	public static final Block blockMachine = new BlockMachine();
 
-	/*
-	blockRadioactive = contentRegistry.createBlock(BlockRadioactive.class).func_71864_b("resonantinduction:radioactive").func_111022_d("resonantinduction:radioactive").func_71849_a(TabRI.DEFAULT);
-	blockUraniumOre = contentRegistry.createBlock(BlockUraniumOre.class);
-	blockElectricTurbine = contentRegistry.createTile(BlockElectricTurbine.class, TileElectricTurbine.class);
-	blockCentrifuge = contentRegistry.createTile(BlockCentrifuge.class, TileCentrifuge.class);
-	blockReactorCell = contentRegistry.newBlock(TileReactorCell.class);
-	blockNuclearBoiler = contentRegistry.createTile(BlockNuclearBoiler.class, TileNuclearBoiler.class);
-	blockChemicalExtractor = contentRegistry.createTile(BlockChemicalExtractor.class, TileChemicalExtractor.class);
-	blockFusionCore = contentRegistry.createTile(BlockPlasmaHeater.class, TilePlasmaHeater.class);
-	blockControlRod = contentRegistry.newBlock(TileControlRod.class);
-	blockThermometer = contentRegistry.newBlock(TileThermometer.class);
-	*/
-
-	//public static final Block blockPlasma = new TilePlasma();
-
-	/*
-	blockPlasma = contentRegistry.newBlock(TilePlasma.class);
-	blockElectromagnet = contentRegistry.newBlock(TileElectromagnet.class);
-	blockSiren = contentRegistry.newBlock(TileSiren.class);
-	blockSteamFunnel = contentRegistry.newBlock(TileFunnel.class);
-	blockAccelerator = contentRegistry.createTile(BlockAccelerator.class, TileAccelerator.class);
-	blockFulmination = contentRegistry.newBlock(TileFulmination.class);
-	blockQuantumAssembler = contentRegistry.newBlock(TileQuantumAssembler.class);
-
-	*/
-
+	public static Block blockRadioactive;
 	public static BlockFluidClassic blockToxicWaste;
+
+	//blockUraniumOre = contentRegistry.createBlock(BlockUraniumOre.class);
+	//blockElectricTurbine = contentRegistry.createTile(BlockElectricTurbine.class, TileElectricTurbine.class);
+	//blockCentrifuge = contentRegistry.createTile(BlockCentrifuge.class, TileCentrifuge.class);
+	//blockReactorCell = contentRegistry.newBlock(TileReactorCell.class);
+	//blockNuclearBoiler = contentRegistry.createTile(BlockNuclearBoiler.class, TileNuclearBoiler.class);
+	//blockChemicalExtractor = contentRegistry.createTile(BlockChemicalExtractor.class, TileChemicalExtractor.class);
+	//blockFusionCore = contentRegistry.createTile(BlockPlasmaHeater.class, TilePlasmaHeater.class);
+	//blockControlRod = contentRegistry.newBlock(TileControlRod.class);
+	//blockThermometer = contentRegistry.newBlock(TileThermometer.class);
+	//public static final Block blockPlasma = new TilePlasma();
+	//blockPlasma = contentRegistry.newBlock(TilePlasma.class);
+	//blockElectromagnet = contentRegistry.newBlock(TileElectromagnet.class);
+	//blockSiren = contentRegistry.newBlock(TileSiren.class);
+	//blockSteamFunnel = contentRegistry.newBlock(TileFunnel.class);
+	//blockAccelerator = contentRegistry.createTile(BlockAccelerator.class, TileAccelerator.class);
+	//blockFulmination = contentRegistry.newBlock(TileFulmination.class);
+	//blockQuantumAssembler = contentRegistry.newBlock(TileQuantumAssembler.class);
 
 	// Items
 	//public static final ItemQuantum itemMultimeter = new ItemMultimeter();
 
 	// Cells
-	public static final Item itemAntimatter = new ItemAntimatter();
-	public static final Item itemBreedingRod = new ItemBreederFuel();
-	public static final Item itemCell = new ItemCell("cellEmpty");
-	public static final Item itemDarkMatter = new ItemCell("darkMatter");
-	public static final Item itemDeuteriumCell = new ItemCell("cellDeuterium");
-	public static final Item itemFissileFuel = new ItemFissileFuel();
-	public static final Item itemTritiumCell = new ItemCell("cellTritium");
-	public static final Item itemWaterCell = new ItemCell("cellWater");
+	public static Item itemAntimatter;
+	public static Item itemBreedingRod;
+	public static Item itemCell;
+	public static Item itemDarkMatter;
+	public static Item itemDeuteriumCell;
+	public static Item itemFissileFuel;
+	public static Item itemTritiumCell;
+	public static Item itemWaterCell;
 
 	// Buckets
 	public static Item itemBucketToxicWaste;
 
 	// Uranium
-	public static final Item itemUranium = new ItemUranium();
-	public static final Item itemYellowCake = new ItemRadioactive("yellowcake");
+	public static Item itemUranium;
+	public static Item itemYellowCake;
 
 	// Hazmat
-	public static final Item itemHazmatMask = new ItemArmorHazmat("hazmatMask", 0);
-	public static final Item itemHazmatBody = new ItemArmorHazmat("hazmatBody", 1);
-	public static final Item itemHazmatLeggings = new ItemArmorHazmat("hazmatLeggings", 2);
-	public static final Item itemHazmatBoots = new ItemArmorHazmat("hazmatBoots", 3);
+	public static ItemArmor itemHazmatMask;
+	public static ItemArmor itemHazmatBody;
+	public static ItemArmor itemHazmatLeggings;
+	public static ItemArmor itemHazmatBoots;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -200,14 +194,25 @@ public class Quantum implements IUpdatableMod {
 		// Register blocks.
 		GameRegistry.registerBlock(blockMachine, ItemBlockMachine.class, "blockMachine");
 
+		blockRadioactive = new BlockRadioactive();
 		blockToxicWaste = new BlockToxicWaste();
 
+		GameRegistry.registerBlock(blockRadioactive, "blockRadioactive");
 		GameRegistry.registerBlock(blockToxicWaste, "blockToxicWaste");
 	}
 
 	private void registerItems() {
 		// Register items.
 		// Cells
+		itemAntimatter = new ItemAntimatter();
+		itemBreedingRod = new ItemBreederFuel();
+		itemCell = new ItemCell("cellEmpty");
+		itemDarkMatter = new ItemCell("darkMatter");
+		itemDeuteriumCell = new ItemCell("cellDeuterium");
+		itemFissileFuel = new ItemFissileFuel();
+		itemTritiumCell = new ItemCell("cellTritium");
+		itemWaterCell = new ItemCell("cellWater");
+
 		GameRegistry.registerItem(itemAntimatter, "antimatter");
 		GameRegistry.registerItem(itemBreedingRod, "rodBreedingFuel");
 		GameRegistry.registerItem(itemCell, "cellEmpty");
@@ -223,10 +228,18 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerItem(itemBucketToxicWaste, "bucketToxicWaste");
 
 		// Uranium
+		itemUranium = new ItemUranium();
+		itemYellowCake = new ItemRadioactive("yellowcake");
+
 		GameRegistry.registerItem(itemUranium, "uranium");
 		GameRegistry.registerItem(itemYellowCake, "yellowcake");
 
 		// Hazmat
+		itemHazmatMask = new ItemArmorHazmat("hazmatMask", 0);
+		itemHazmatBody = new ItemArmorHazmat("hazmatBody", 1);
+		itemHazmatLeggings = new ItemArmorHazmat("hazmatLeggings", 2);
+		itemHazmatBoots = new ItemArmorHazmat("hazmatBoots", 3);
+
 		GameRegistry.registerItem(itemHazmatMask, "itemHazmatMask");
 		GameRegistry.registerItem(itemHazmatBody, "itemHazmatBody");
 		GameRegistry.registerItem(itemHazmatLeggings, "itemHazmatLeggings");
