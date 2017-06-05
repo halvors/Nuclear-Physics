@@ -28,7 +28,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
         TileReactorCell tileReactorCell = (TileReactorCell) tileEntity;
 
         GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5D, y + 0.5D, z + 0.5D);
+        GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 
         int meta = 2;
 

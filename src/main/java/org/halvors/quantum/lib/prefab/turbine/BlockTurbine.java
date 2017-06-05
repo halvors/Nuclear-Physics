@@ -10,6 +10,7 @@ import org.halvors.quantum.lib.prefab.block.BlockRotatable;
 public class BlockTurbine extends BlockRotatable {
     public BlockTurbine(Material material) {
         super(material);
+
         this.rotationMask = Byte.parseByte("000001", 2);
     }
 

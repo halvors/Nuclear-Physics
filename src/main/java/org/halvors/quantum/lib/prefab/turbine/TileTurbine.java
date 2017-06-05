@@ -50,8 +50,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     /** MutliBlock methods. */
     private TurbineMultiBlockHandler multiBlock;
 
-    public TileTurbine()
-    {
+    public TileTurbine() {
         /** We're going to use the EnergyStorageHandler to store power. */
         setEnergyHandler(new EnergyStorageHandler(maxPower * 20));
     }

@@ -42,6 +42,7 @@ import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
 import org.halvors.quantum.common.block.reactor.BlockControlRod;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
+import org.halvors.quantum.common.tile.reactor.TilePlasma;
 import org.halvors.quantum.common.tile.reactor.TileReactorCell;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
@@ -97,6 +98,7 @@ public class Quantum implements IUpdatableMod {
 
 	public static Block blockControlRod;
 	public static Block blockElectromagnet;
+	public static TileBlock blockPlasma;
 	public static Block blockRadioactive;
 	public static TileBlock blockReactorCell;
 	public static BlockFluidClassic blockToxicWaste;
@@ -109,7 +111,6 @@ public class Quantum implements IUpdatableMod {
 	//blockFusionCore = contentRegistry.createTile(BlockPlasmaHeater.class, TilePlasmaHeater.class);
 	//blockThermometer = contentRegistry.newBlock(TileThermometer.class);
 	//public static final Block blockPlasma = new TilePlasma();
-	//blockPlasma = contentRegistry.newBlock(TilePlasma.class);
 	//blockSiren = contentRegistry.newBlock(TileSiren.class);
 	//blockSteamFunnel = contentRegistry.newBlock(TileFunnel.class);
 	//blockAccelerator = contentRegistry.createTile(BlockAccelerator.class, TileAccelerator.class);
@@ -202,18 +203,23 @@ public class Quantum implements IUpdatableMod {
 
 		blockControlRod = new BlockControlRod();
 		blockElectromagnet = new BlockElectromagnet().setCreativeTab(Quantum.getCreativeTab());
+
+		blockPlasma = new TilePlasma();
+		blockPlasma.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockPlasma);
+
 		blockRadioactive = new BlockRadioactive();
 
 		blockReactorCell = new TileReactorCell();
-		blockReactorCell.block = new BlockDummy(Reference.PREFIX, Quantum.getCreativeTab(), blockReactorCell);
+		blockReactorCell.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockReactorCell);
 
 		blockToxicWaste = new BlockToxicWaste();
 		blockElectricTurbine = new BlockElectricTurbine();
 
 		GameRegistry.registerBlock(blockControlRod, "blockControlRod");
 		GameRegistry.registerBlock(blockElectromagnet, "blockElectromagnet");
+		GameRegistry.registerBlock(blockPlasma.getBlockType(), "blockPlasma");
 		GameRegistry.registerBlock(blockRadioactive, "blockRadioactive");
-		GameRegistry.registerBlock(blockReactorCell.block, "blockReactorCell");
+		GameRegistry.registerBlock(blockReactorCell.getBlockType(), "blockReactorCell");
 		GameRegistry.registerBlock(blockToxicWaste, "blockToxicWaste");
 		GameRegistry.registerBlock(blockElectricTurbine, "blockElectricTurbine");
 	}

@@ -25,7 +25,7 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
 
         if (tileTurbine.getMultiBlock().isPrimary()) {
             GL11.glPushMatrix();
-            GL11.glTranslated(x + 0.5D, y + 0.5D, z + 0.5D);
+            GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 
             if (tileTurbine.getMultiBlock().isConstructed()) {
                 bindTexture(textureLarge);
@@ -78,12 +78,12 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
                 String[] renderB = ArrayUtils.addAll(bladesB, sheildsB);
 
                 GL11.glPushMatrix();
-                GL11.glRotated(Math.toDegrees(tileTurbine.rotation), 0.0D, 0.0D, 0.0D);
+                GL11.glRotated(Math.toDegrees(tileTurbine.rotation), 0.0D, 1.0D, 0.0D);
                 modelSmall.renderOnly(renderA);
                 GL11.glPopMatrix();
 
                 GL11.glPushMatrix();
-                GL11.glRotated(-Math.toDegrees(tileTurbine.rotation), 0.0D, 0.0D, 0.0D);
+                GL11.glRotated(-Math.toDegrees(tileTurbine.rotation), 0.0D, 1.0D, 0.0D);
                 modelSmall.renderOnly(renderB);
                 GL11.glPopMatrix();
 
