@@ -4,6 +4,8 @@
 itemGroup.tabQuantum=Quantum
 
 // Blocks.
+tile.controlRod.name=Control Rod
+tile.controlRod.tooltip=Suppresses fission reaction in adjacent reactor cells.
 tile.radioactive.name=Radioactive Waste
 tile.radioactive.tooltip=Generates harmful radiation and spreads around the world, mutating organisms.
 tile.toxicWaste.name=Toxic Waste
@@ -33,8 +35,6 @@ tile.toxicWaste.tooltip=Toxic, nuclear waste that pollutes the world.
 //block.chemicalExtractor.tooltip=Extracts uranium ores to yellowcake, water to deuterium and deuterium to tritium.
 //block.siren.name=Siren
 //block.siren.tooltip=Creates an alarm with customizable pitch and volume with a Redstone signal.
-//block.controlRod.name=Control Rod
-//block.controlRod.tooltip=Suppresses fission reaction in adjacent reactor cells.
 //block.plasma.name=Plasma
 //block.plasma.tooltip=Generates extreme heat for boiling water.
 //block.funnel.name=Gas Funnel
