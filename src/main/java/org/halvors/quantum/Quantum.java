@@ -13,15 +13,18 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -42,6 +45,7 @@ import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
+import org.halvors.quantum.lib.prefab.turbine.TileTurbine;
 
 /**
  * This is the Quantum class, which is the main class of this mod.
@@ -250,6 +254,9 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerItem(itemHazmatBody, "itemHazmatBody");
 		GameRegistry.registerItem(itemHazmatLeggings, "itemHazmatLeggings");
 		GameRegistry.registerItem(itemHazmatBoots, "itemHazmatBoots");
+
+		// Debug
+		GameRegistry.registerItem(new ItemScrewdriver(), "itemScrewdriver");
 	}
 
 	private void registerFluidContainers() {

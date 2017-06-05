@@ -9,6 +9,7 @@ public class TurbineMultiBlockHandler extends MultiBlockHandler<TileTurbine> {
         super(wrapper);
     }
 
+    @Override
     public TileTurbine getWrapperAt(Vector3 position) {
         TileEntity tileEntity = position.getTileEntity(self.getWorld());
 

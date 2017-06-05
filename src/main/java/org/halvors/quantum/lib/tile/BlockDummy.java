@@ -132,16 +132,14 @@ public class BlockDummy extends Block implements ITileEntityProvider {
         eject();
     }
 
-    // TODO: Fix this.
-    /*
-    public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
+    @Override
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
         inject(world, x, y, z);
-        getTile(world, x, y, z).onRemove(par5, par6);
+        getTile(world, x, y, z).onRemove(block, metadata);
         eject();
 
-        super.breakBlock(world, x, y, z, par5, par6);
+        super.breakBlock(world, x, y, z, block, metadata);
     }
-    */
 
     @Override
     public int quantityDropped(int meta, int fortune, Random random) {

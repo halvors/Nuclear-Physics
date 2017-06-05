@@ -20,10 +20,11 @@ public abstract class BlockTile extends BlockAdvanced implements ITileEntityProv
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int par6) {
-        dropEntireInventory(world, x, y, z, block, par6);
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
+        dropEntireInventory(world, x, y, z, block, metadata);
 
-        super.breakBlock(world, x, y, z, block, par6);
+        super.breakBlock(world, x, y, z, block, metadata);
+
         world.removeTileEntity(x, y, z);
     }
 

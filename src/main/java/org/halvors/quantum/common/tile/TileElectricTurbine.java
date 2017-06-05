@@ -23,19 +23,22 @@ public class TileElectricTurbine extends TileTurbine implements IBoilHandler {
         super.updateEntity();
     }
 
+    @Override
     public void onProduce() {
         energy.receiveEnergy((long) (power * ConfigurationManager.General.turbineOutputMultiplier), true);
         produce();
     }
 
+    @Override
     public void playSound() {
         if (worldObj.getWorldTime() % 26.0F == 0.0F) {
-            double maxVelocity = getMaxPower() / this.torque * 4L;
-            float percentage = this.angularVelocity * 4.0F / (float)maxVelocity;
+            double maxVelocity = getMaxPower() / torque * 4L;
+            float percentage = this.angularVelocity * 4.0F / (float) maxVelocity;
             worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "turbine", percentage, 1.0F);
         }
     }
 
+    @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
         return from == ForgeDirection.DOWN && super.canFill(from, fluid);
     }

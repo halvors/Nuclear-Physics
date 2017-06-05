@@ -30,6 +30,4 @@ public class BlockElectricTurbine extends BlockTurbine {
     public int getRenderType() {
         return BlockRenderingHandler.ID;
     }
-
-
 }

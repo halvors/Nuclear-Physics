@@ -24,6 +24,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
     public MultiBlockHandler(W wrapper) {
         this.self = wrapper;
+
         wrapperClass = (Class<? extends W>) wrapper.getClass();
     }
 
@@ -45,10 +46,8 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     /** Try to construct the structure, otherwise, deconstruct it.
      *
      * @return True if operation is successful. */
-    public boolean toggleConstruct()
-    {
-        if (!construct())
-        {
+    public boolean toggleConstruct() {
+        if (!construct()) {
             return deconstruct();
         }
 
@@ -69,6 +68,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
                 structure.add(checkWrapper);
             } else {
                 structure.clear();
+
                 return null;
             }
         }
@@ -92,13 +92,12 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
                 }
 
                 prim = new WeakReference(self);
-                for (W structure : structures)
-                {
+
+                for (W structure : structures) {
                     structure.getMultiBlock().prim = prim;
                 }
 
-                for (W structure : structures)
-                {
+                for (W structure : structures) {
                     structure.onMultiBlockChanged();
                 }
 
@@ -132,6 +131,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
         return false;
     }
+
 
     public W getWrapperAt(Vector3 position) {
         TileEntity tile = position.getTileEntity(self.getWorld());

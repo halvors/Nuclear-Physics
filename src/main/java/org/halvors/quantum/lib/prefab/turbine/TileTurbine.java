@@ -64,6 +64,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     @Override
     public void initiate() {
         super.initiate();
+
         setEnergyHandler(new EnergyStorageHandler(maxPower * 20));
     }
 
@@ -73,46 +74,37 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
 
         getMultiBlock().update();
 
-        if (getMultiBlock().isPrimary())
-        {
-            if (!worldObj.isRemote)
-            {
+        if (getMultiBlock().isPrimary()) {
+            if (!worldObj.isRemote) {
                 /** Increase spin rate and consume steam. */
-                if (tank.getFluidAmount() > 0 && power < maxPower)
-                {
+                if (tank.getFluidAmount() > 0 && power < maxPower) {
                     power += tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true).amount * energyPerSteam;
                 }
 
                 /** Set angular velocity based on power and torque. */
                 angularVelocity = (float) ((double) (power * 4) / torque);
 
-                if (!worldObj.isRemote && ticks % 3 == 0 && prevAngularVelocity != angularVelocity)
-                {
+                if (!worldObj.isRemote && ticks % 3 == 0 && prevAngularVelocity != angularVelocity) {
                     sendPowerUpdate();
                     prevAngularVelocity = angularVelocity;
                 }
 
-                if (power > 0)
-                {
+                if (power > 0) {
                     onProduce();
                 }
             }
 
-            if (angularVelocity != 0)
-            {
+            if (angularVelocity != 0) {
                 playSound();
 
                 /** Update rotation. */
                 rotation = (float) ((rotation + angularVelocity / 20) % (Math.PI * 2));
             }
-        }
-        else if (tank.getFluidAmount() > 0)
-        {
+        } else if (tank.getFluidAmount() > 0) {
             getMultiBlock().get().tank.fill(tank.drain(getMultiBlock().get().tank.fill(tank.getFluid(), false), true), true);
         }
 
-        if (!worldObj.isRemote)
-        {
+        if (!worldObj.isRemote) {
             power = 0;
         }
     }
@@ -130,13 +122,11 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
         return (int) (((multiBlockRadius + 0.5) * 2) * ((multiBlockRadius + 0.5) * 2));
     }
 
-    public void onProduce()
-    {
+    public void onProduce() {
 
     }
 
-    public void playSound()
-    {
+    public void playSound() {
 
     }
 
@@ -146,8 +136,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
         return null; //References.PACKET_ANNOTATION.getPacket(this);
     }
 
-    public void sendPowerUpdate()
-    {
+    public void sendPowerUpdate() {
         if (!world().isRemote)
         {
             //References.PACKET_ANNOTATION.sync(this, 1);
@@ -155,17 +144,16 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     }
 
     @Override
-    public boolean canConnect(ForgeDirection direction, Object obj)
-    {
+    public boolean canConnect(ForgeDirection direction, Object obj) {
         return this.getMultiBlock().isPrimary() && direction == ForgeDirection.UP;
     }
 
     /** Reads a tile entity from NBT. */
     @Override
     //@SyncedInput
-    public void readFromNBT(NBTTagCompound nbt)
-    {
+    public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
+
         tank.readFromNBT(nbt);
         multiBlockRadius = nbt.getInteger("multiBlockRadius");
         getMultiBlock().load(nbt);
@@ -174,9 +162,9 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     /** Writes a tile entity to NBT. */
     @Override
     //@SyncedOutput
-    public void writeToNBT(NBTTagCompound nbt)
-    {
+    public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
+
         tank.writeToNBT(nbt);
         nbt.setInteger("multiBlockRadius", multiBlockRadius);
         getMultiBlock().save(nbt);
@@ -184,12 +172,11 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
 
     /** Tank Methods */
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
-    {
-        if (resource != null && canFill(from, resource.getFluid()))
-        {
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        if (resource != null && canFill(from, resource.getFluid())) {
             return getMultiBlock().get().tank.fill(resource, doFill);
         }
+
         return 0;
     }
 
@@ -206,8 +193,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid)
-    {
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
         return fluid != null && fluid.getName().equals("steam");
     }
 
@@ -242,19 +228,16 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
 
     @Override
     public Vector3[] getMultiBlockVectors() {
-        Set<Vector3> vectors = new HashSet<Vector3>();
+        Set<Vector3> vectors = new HashSet<>();
 
         ForgeDirection dir = getDirection();
         int xMulti = dir.offsetX != 0 ? 0 : 1;
         int yMulti = dir.offsetY != 0 ? 0 : 1;
         int zMulti = dir.offsetZ != 0 ? 0 : 1;
 
-        for (int x = -multiBlockRadius; x <= multiBlockRadius; x++)
-        {
-            for (int y = -multiBlockRadius; y <= multiBlockRadius; y++)
-            {
-                for (int z = -multiBlockRadius; z <= multiBlockRadius; z++)
-                {
+        for (int x = -multiBlockRadius; x <= multiBlockRadius; x++) {
+            for (int y = -multiBlockRadius; y <= multiBlockRadius; y++) {
+                for (int z = -multiBlockRadius; z <= multiBlockRadius; z++) {
                     vectors.add(new Vector3(x * xMulti, y * yMulti, z * zMulti));
                 }
             }

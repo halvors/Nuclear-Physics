@@ -13,12 +13,16 @@ public class BlockTurbine extends BlockRotatable {
         this.rotationMask = Byte.parseByte("000001", 2);
     }
 
+    @Override
     public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if (tileEntity instanceof TileTurbine) {
+            TileTurbine tileTurbine = (TileTurbine) tileEntity;
+
+            // TODO: Need to sync this between client and server in order for clients to be updated as well.
             if (!world.isRemote) {
-                return ((TileTurbine) tileEntity).getMultiBlock().toggleConstruct();
+                return tileTurbine.getMultiBlock().toggleConstruct();
             }
 
             return true;
@@ -27,14 +31,16 @@ public class BlockTurbine extends BlockRotatable {
         return false;
     }
 
-    public void breakBlock(World world, int x, int y, int z, Block block, int par6) {
+    @Override
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
 
-        if ((tileEntity instanceof TileTurbine)) {
-            ((TileTurbine)tileEntity).getMultiBlock().deconstruct();
+        if (tileEntity instanceof TileTurbine) {
+            TileTurbine tileTurbine = (TileTurbine) tileEntity;
+            tileTurbine.getMultiBlock().deconstruct();
         }
 
-        super.breakBlock(world, x, y, z, block, par6);
+        super.breakBlock(world, x, y, z, block, metadata);
     }
 
     @Override

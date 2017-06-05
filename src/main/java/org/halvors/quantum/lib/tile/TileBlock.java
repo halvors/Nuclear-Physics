@@ -140,7 +140,7 @@ public abstract class TileBlock extends TileEntity {
     @Override
     public Block getBlockType() {
         if (access() != null) {
-            Block accessBlock = access.getBlock(xCoord, yCoord, zCoord);
+            Block accessBlock = access().getBlock(xCoord, yCoord, zCoord);
 
             if (accessBlock == null) {
                 return block;
@@ -456,7 +456,7 @@ public abstract class TileBlock extends TileEntity {
         this.setDirection(determineOrientation(entityLiving));
     }
 
-    public void onRemove(int par5, int par6) {
+    public void onRemove(Block block, int metadata) {
         onWorldSeparate();
     }
 
@@ -500,7 +500,7 @@ public abstract class TileBlock extends TileEntity {
         List<Cuboid> boxes = new ArrayList<>();
 
         for (Cuboid cuboid : getCollisionBoxes()) {
-            if ((intersect != null) && (cuboid.intersects(intersect))) {
+            if (intersect != null && cuboid.intersects(intersect)) {
                 boxes.add(cuboid);
             }
         }
@@ -535,13 +535,12 @@ public abstract class TileBlock extends TileEntity {
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(IBlockAccess access, int side)
-    {
+    public IIcon getIcon(IBlockAccess access, int side) {
         return getIcon(side, access.getBlockMetadata(x(), y(), z()));
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta)
+    public IIcon getIcon(int side, int metadata)
     {
         return getIcon();
     }

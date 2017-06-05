@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.render;
+package org.halvors.quantum.lib.utility;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.block.Block;
@@ -14,14 +14,12 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.utility.WorldUtility;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
 import java.util.Set;
 
-public class RenderUtility
-{
+public class RenderUtility {
     public static final ResourceLocation PARTICLE_RESOURCE = new ResourceLocation("textures/particle/particles.png");
     public static final HashMap<String, ResourceLocation> resourceCahce = new HashMap<>();
     public static final HashMap<String, IIcon> loadedIconMap = new HashMap<>();

@@ -18,6 +18,7 @@ public abstract class BlockAdvanced extends Block {
         setHardness(0.6F);
     }
 
+    @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
         int metadata = world.getBlockMetadata(x, y, z);
 
@@ -42,6 +43,7 @@ public abstract class BlockAdvanced extends Block {
 
         return onMachineActivated(world, x, y, z, entityPlayer, side, hitX, hitY, hitZ);
     }
+
 
     public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
         return false;

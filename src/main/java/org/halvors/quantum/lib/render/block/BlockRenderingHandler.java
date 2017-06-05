@@ -1,17 +1,24 @@
 package org.halvors.quantum.lib.render.block;
 
 import com.google.common.collect.Maps;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import java.util.Map;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fluids.FluidRegistry;
+import org.halvors.quantum.client.render.RenderElectricTurbine;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.render.RenderUtility;
+import org.halvors.quantum.lib.item.ISimpleItemRenderer;
+import org.halvors.quantum.lib.utility.RenderUtility;
 import org.halvors.quantum.lib.tile.BlockDummy;
 import org.halvors.quantum.lib.tile.TileBlock;
 import org.lwjgl.opengl.GL11;
@@ -33,7 +40,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
     }
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         if ((block instanceof BlockDummy)) {
             TileBlock tile = ((BlockDummy) block).dummyTile;
 
@@ -84,9 +91,9 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
             GL11.glPushMatrix();
             GL11.glTranslated(-0.5D, -0.5D, -0.5D);
 
-            // TODO: Fix this.
-            /*
-            TileEntitySpecialRenderer tesr = Minecraft.getMinecraft().re TileEntityRenderer.instance.getSpecialRendererForEntity(renderTile);
+
+            //TileEntitySpecialRenderer tesr = Minecraft.getMinecraft().re TileEntityRenderer.instance.getSpecialRendererForEntity(renderTile);
+            TileEntitySpecialRenderer tesr = new RenderElectricTurbine();
 
             try {
                 if (tesr instanceof ISimpleItemRenderer) {
@@ -97,7 +104,6 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            */
 
             GL11.glPopMatrix();
             GL11.glPopAttrib();
