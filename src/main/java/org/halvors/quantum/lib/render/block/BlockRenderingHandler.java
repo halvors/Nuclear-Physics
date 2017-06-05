@@ -1,12 +1,10 @@
 package org.halvors.quantum.lib.render.block;
 
 import com.google.common.collect.Maps;
-import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import java.util.Map;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -14,8 +12,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.fluids.FluidRegistry;
-import org.halvors.quantum.client.render.RenderElectricTurbine;
+import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.item.ISimpleItemRenderer;
 import org.halvors.quantum.lib.utility.RenderUtility;

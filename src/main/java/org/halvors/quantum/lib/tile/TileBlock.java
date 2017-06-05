@@ -25,6 +25,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.transform.vector.Cuboid;
 import org.halvors.quantum.common.transform.vector.Vector2;
 import org.halvors.quantum.common.transform.vector.Vector3;

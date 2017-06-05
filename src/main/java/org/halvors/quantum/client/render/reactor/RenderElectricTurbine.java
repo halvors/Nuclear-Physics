@@ -1,4 +1,4 @@
-package org.halvors.quantum.client.render;
+package org.halvors.quantum.client.render.reactor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -14,10 +14,10 @@ import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderElectricTurbine extends TileEntitySpecialRenderer {
-    private static final IModelCustom modelSmall = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.DOMAIN, "models/turbineSmall.obj"));
-    private static final IModelCustom modelLarge = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.DOMAIN, "models/turbineLarge.obj"));
-    private static final ResourceLocation textureSmall = new ResourceLocation(Reference.DOMAIN, "models/turbineSmall.png");
-    private static final ResourceLocation textureLarge = new ResourceLocation(Reference.DOMAIN, "models/turbineLarge.png");
+    private static final IModelCustom modelSmall = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/turbineSmall.obj"));
+    private static final IModelCustom modelLarge = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/turbineLarge.obj"));
+    private static final ResourceLocation textureSmall = new ResourceLocation(Reference.PREFIX + "textures/models/turbineSmall.png");
+    private static final ResourceLocation textureLarge = new ResourceLocation(Reference.PREFIX + "textures/models/turbineLarge.png");
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
@@ -78,12 +78,12 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
                 String[] renderB = ArrayUtils.addAll(bladesB, sheildsB);
 
                 GL11.glPushMatrix();
-                GL11.glRotated(Math.toDegrees(tileTurbine.rotation), 0.0D, 1.0D, 0.0D);
+                GL11.glRotated(Math.toDegrees(tileTurbine.rotation), 0.0D, 0.0D, 0.0D);
                 modelSmall.renderOnly(renderA);
                 GL11.glPopMatrix();
 
                 GL11.glPushMatrix();
-                GL11.glRotated(-Math.toDegrees(tileTurbine.rotation), 0.0D, 1.0D, 0.0D);
+                GL11.glRotated(-Math.toDegrees(tileTurbine.rotation), 0.0D, 0.0D, 0.0D);
                 modelSmall.renderOnly(renderB);
                 GL11.glPopMatrix();
 
