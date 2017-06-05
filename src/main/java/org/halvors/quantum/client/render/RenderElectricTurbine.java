@@ -1,0 +1,97 @@
+package org.halvors.quantum.client.render;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
+import org.apache.commons.lang3.ArrayUtils;
+import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.lib.prefab.turbine.TileTurbine;
+import org.halvors.quantum.lib.render.RenderUtility;
+import org.lwjgl.opengl.GL11;
+
+@SideOnly(Side.CLIENT)
+public class RenderElectricTurbine extends TileEntitySpecialRenderer {
+    public static final IModelCustom MODEL_SMALL = AdvancedModelLoader.loadModel(RenderUtility.getResource(Reference.DOMAIN, "models/turbineSmall.tcn"));
+    public static final IModelCustom MODEL_LARGE = AdvancedModelLoader.loadModel(RenderUtility.getResource(Reference.DOMAIN, "models/turbineLarge.tcn"));
+    public static final ResourceLocation SMALL_TEXTURE = new ResourceLocation(Reference.DOMAIN, "models/turbineSmall.png");
+    public static final ResourceLocation LARGE_TEXTURE = new ResourceLocation(Reference.DOMAIN, "models/turbineLarge.png");
+
+    @Override
+    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
+        TileTurbine tileTurbine = (TileTurbine) tileEntity;
+
+        if (tileTurbine.getMultiBlock().isPrimary()) {
+            GL11.glPushMatrix();
+            GL11.glTranslated(x + 0.5D, y + 0.5D, z + 0.5D);
+
+            if (tileTurbine.getMultiBlock().isConstructed()) {
+                bindTexture(LARGE_TEXTURE);
+
+                String[] blades = { "Blade1", "Blade2", "Blade3", "Blade4", "Blade5", "Blade6" };
+                String[] mediumBlades = { "MediumBlade1", "MediumBlade2", "MediumBlade3", "MediumBlade4", "MediumBlade5", "MediumBlade6" };
+                String[] largeBlades = { "LargeBlade1", "LargeBlade2", "LargeBlade3", "LargeBlade4", "LargeBlade5", "LargeBlade6" };
+
+                GL11.glPushMatrix();
+                GL11.glRotated(Math.toDegrees(tileTurbine.rotation), 0.0D, 1.0D, 0.0D);
+                MODEL_LARGE.renderOnly(blades);
+                MODEL_LARGE.renderOnly(largeBlades);
+                GL11.glPopMatrix();
+
+                GL11.glPushMatrix();
+                GL11.glRotated(-Math.toDegrees(tileTurbine.rotation), 0.0D, 1.0D, 0.0D);
+                MODEL_LARGE.renderOnly(mediumBlades);
+                GL11.glPopMatrix();
+
+                MODEL_LARGE.renderAllExcept(ArrayUtils.addAll(ArrayUtils.addAll(blades, mediumBlades), largeBlades));
+            } else {
+                GL11.glScalef(1.0F, 1.1F, 1.0F);
+                bindTexture(SMALL_TEXTURE);
+
+                String[] bladesA = new String[3];
+
+                for (int i = 0; i < bladesA.length; i++) {
+                    bladesA[i] = ("BLADE A" + (i + 1) + " SPINS");
+                }
+
+                String[] sheildsA = new String[6];
+
+                for (int i = 0; i < sheildsA.length; i++) {
+                    sheildsA[i] = ("SHIELD A" + (i + 1) + " SPINS");
+                }
+
+                String[] bladesB = new String[3];
+
+                for (int i = 0; i < bladesB.length; i++) {
+                    bladesB[i] = ("BLADE B" + (i + 1) + " SPINS");
+                }
+
+                String[] sheildsB = new String[6];
+
+                for (int i = 0; i < sheildsB.length; i++) {
+                    sheildsB[i] = ("SHIELD B" + (i + 1) + " SPINS");
+                }
+
+                String[] renderA = ArrayUtils.addAll(bladesA, sheildsA);
+                String[] renderB = ArrayUtils.addAll(bladesB, sheildsB);
+
+                GL11.glPushMatrix();
+                GL11.glRotated(Math.toDegrees(tileTurbine.rotation), 0.0D, 1.0D, 0.0D);
+                MODEL_SMALL.renderOnly(renderA);
+                GL11.glPopMatrix();
+
+                GL11.glPushMatrix();
+                GL11.glRotated(-Math.toDegrees(tileTurbine.rotation), 0.0D, 1.0D, 0.0D);
+                MODEL_SMALL.renderOnly(renderB);
+                GL11.glPopMatrix();
+
+                MODEL_SMALL.renderAllExcept(ArrayUtils.addAll(renderA, renderB));
+            }
+
+            GL11.glPopMatrix();
+        }
+    }
+}

@@ -1,5 +1,6 @@
 package org.halvors.quantum;
 
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -25,18 +26,18 @@ import net.minecraftforge.fluids.*;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.halvors.quantum.client.render.RenderElectricTurbine;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.QuantumCreativeTab;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.IUpdatableMod;
-import org.halvors.quantum.common.block.BlockMachine;
-import org.halvors.quantum.common.block.BlockRadioactive;
-import org.halvors.quantum.common.block.BlockToxicWaste;
+import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.item.*;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
+import org.halvors.quantum.common.tile.TileElectricTurbine;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
@@ -89,11 +90,13 @@ public class Quantum implements IUpdatableMod {
 	// Blocks
 	public static final Block blockMachine = new BlockMachine();
 
+	public static Block blockElectromagnet;
 	public static Block blockRadioactive;
 	public static BlockFluidClassic blockToxicWaste;
+	public static Block blockElectricTurbine;
 
 	//blockUraniumOre = contentRegistry.createBlock(BlockUraniumOre.class);
-	//blockElectricTurbine = contentRegistry.createTile(BlockElectricTurbine.class, TileElectricTurbine.class);
+
 	//blockCentrifuge = contentRegistry.createTile(BlockCentrifuge.class, TileCentrifuge.class);
 	//blockReactorCell = contentRegistry.newBlock(TileReactorCell.class);
 	//blockNuclearBoiler = contentRegistry.createTile(BlockNuclearBoiler.class, TileNuclearBoiler.class);
@@ -103,7 +106,6 @@ public class Quantum implements IUpdatableMod {
 	//blockThermometer = contentRegistry.newBlock(TileThermometer.class);
 	//public static final Block blockPlasma = new TilePlasma();
 	//blockPlasma = contentRegistry.newBlock(TilePlasma.class);
-	//blockElectromagnet = contentRegistry.newBlock(TileElectromagnet.class);
 	//blockSiren = contentRegistry.newBlock(TileSiren.class);
 	//blockSteamFunnel = contentRegistry.newBlock(TileFunnel.class);
 	//blockAccelerator = contentRegistry.createTile(BlockAccelerator.class, TileAccelerator.class);
@@ -194,11 +196,15 @@ public class Quantum implements IUpdatableMod {
 		// Register blocks.
 		GameRegistry.registerBlock(blockMachine, ItemBlockMachine.class, "blockMachine");
 
+		blockElectromagnet = new BlockElectromagnet().setCreativeTab(Quantum.getCreativeTab());
 		blockRadioactive = new BlockRadioactive();
 		blockToxicWaste = new BlockToxicWaste();
+		blockElectricTurbine = new BlockElectricTurbine();
 
+		GameRegistry.registerBlock(blockElectromagnet, "blockElectromagnet");
 		GameRegistry.registerBlock(blockRadioactive, "blockRadioactive");
 		GameRegistry.registerBlock(blockToxicWaste, "blockToxicWaste");
+		GameRegistry.registerBlock(blockElectricTurbine, "blockElectricTurbine");
 	}
 
 	private void registerItems() {
@@ -258,6 +264,8 @@ public class Quantum implements IUpdatableMod {
 	private void registerTileEntities() {
 		// Register tile entities.
 		GameRegistry.registerTileEntity(TileEntityElectricityMeter.class, "tileElectricityMeter");
+		GameRegistry.registerTileEntity(TileElectricTurbine.class, "tileElectricTurbine");
+		ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
 	}
 
 	private void registerRecipes() {

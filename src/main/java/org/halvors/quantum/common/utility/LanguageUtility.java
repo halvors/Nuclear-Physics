@@ -32,4 +32,12 @@ public class LanguageUtility {
 
 		return lines;
 	}
+
+	public static String capitalizeFirst(String text) {
+		return text.substring(0, 1).toUpperCase() + text.substring(1);
+	}
+
+	public static String decapitalizeFirst(String text) {
+		return text.substring(0, 1).toLowerCase() + text.substring(1);
+	}
 }

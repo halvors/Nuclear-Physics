@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Random;
 
 public class BlockRadioactive extends net.minecraft.block.Block {
-    public static final boolean canSpread = true;
-    public static final float radius = 5;
+    private static final boolean canSpread = true;
+    private static final float radius = 5;
     private static final int amplifier = 2;
     private static final boolean canWalkPoison = true;
     private static final boolean isRandomlyRadioactive = true;
@@ -96,7 +96,7 @@ public class BlockRadioactive extends net.minecraft.block.Block {
                 List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
                 for (EntityLivingBase entity : entitiesNearby) {
-                    PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), entity, 4);
+                    PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), entity, amplifier);
                 }
             }
 
