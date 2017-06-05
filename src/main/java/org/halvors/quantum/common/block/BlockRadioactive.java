@@ -22,12 +22,12 @@ import java.util.List;
 import java.util.Random;
 
 public class BlockRadioactive extends net.minecraft.block.Block {
-    private static final boolean canSpread = true;
-    private static final float radius = 5;
-    private static final int amplifier = 2;
-    private static final boolean canWalkPoison = true;
-    private static final boolean isRandomlyRadioactive = true;
-    private static final boolean spawnParticle = true;
+    protected static boolean canSpread = true;
+    protected static float radius = 5;
+    protected static int amplifier = 2;
+    protected static boolean canWalkPoison = true;
+    protected static boolean isRandomlyRadioactive = true;
+    protected static boolean spawnParticle = true;
 
     private IIcon iconTop;
     private IIcon iconBottom;

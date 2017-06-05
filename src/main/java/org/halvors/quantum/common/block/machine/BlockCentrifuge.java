@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.block.process;
+package org.halvors.quantum.common.block.machine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -7,14 +7,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.tile.process.TileCentrifuge;
+import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.lib.prefab.block.BlockRotatable;
 import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
 
 public class BlockCentrifuge extends BlockRotatable {
     public BlockCentrifuge() {
         super(Material.iron);
-        
+
+        setUnlocalizedName("centrifuge");
         setCreativeTab(Quantum.getCreativeTab());
     }
 

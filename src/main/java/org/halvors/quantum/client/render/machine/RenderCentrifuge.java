@@ -1,4 +1,4 @@
-package org.halvors.quantum.client.render.process;
+package org.halvors.quantum.client.render.machine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.process.TileCentrifuge;
+import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.lib.utility.RenderUtility;
 import org.lwjgl.opengl.GL11;
 

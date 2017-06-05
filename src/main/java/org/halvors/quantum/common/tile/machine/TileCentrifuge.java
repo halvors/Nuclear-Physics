@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.tile.process;
+package org.halvors.quantum.common.tile.machine;
 
 import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
