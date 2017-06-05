@@ -39,7 +39,7 @@ import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.item.*;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
 import org.halvors.quantum.common.block.reactor.BlockControlRod;
-import org.halvors.quantum.common.tile.TileElectricTurbine;
+import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;

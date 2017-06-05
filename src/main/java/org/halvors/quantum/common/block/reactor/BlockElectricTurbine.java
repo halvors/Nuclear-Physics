@@ -7,7 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.TileElectricTurbine;
+import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.lib.prefab.turbine.BlockTurbine;
 import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
 
