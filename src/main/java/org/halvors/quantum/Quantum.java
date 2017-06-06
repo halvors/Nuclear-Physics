@@ -43,6 +43,8 @@ import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.item.*;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
+import org.halvors.quantum.common.schematic.SchematicAccelerator;
+import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
 import org.halvors.quantum.common.schematic.SchematicFissionReactor;
 import org.halvors.quantum.common.schematic.SchematicFusionReactor;
 import org.halvors.quantum.common.tile.machine.TileCentrifuge;
@@ -186,8 +188,8 @@ public class Quantum implements IUpdatableMod {
 		registerTileEntities();
 		registerRecipes();
 
-		//BlockCreativeBuilder.registerSchematic(new SchematicAccelerator());
-		//BlockCreativeBuilder.registerSchematic(new SchematicBreedingReactor());
+		BlockCreativeBuilder.registerSchematic(new SchematicAccelerator());
+		BlockCreativeBuilder.registerSchematic(new SchematicBreedingReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFissionReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFusionReactor());
 	}
