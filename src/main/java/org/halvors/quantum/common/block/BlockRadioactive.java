@@ -22,48 +22,20 @@ import java.util.List;
 import java.util.Random;
 
 public class BlockRadioactive extends net.minecraft.block.Block {
-    protected static boolean canSpread = true;
-    protected static float radius = 5;
-    protected static int amplifier = 2;
-    protected static boolean canWalkPoison = true;
-    protected static boolean isRandomlyRadioactive = true;
-    protected static boolean spawnParticle = true;
+    protected static boolean canSpread;
+    protected static float radius;
+    protected static int amplifier;
+    protected static boolean canWalkPoison;
+    protected static boolean isRandomlyRadioactive;
+    protected static boolean spawnParticle;
 
-    private IIcon iconTop;
-    private IIcon iconBottom;
-
-    public BlockRadioactive() {
+    public BlockRadioactive(String name) {
         super(Material.rock);
 
-        setUnlocalizedName("radioactive");
-        setTextureName(Reference.PREFIX + "radioactive");
+        setUnlocalizedName(name);
+        setTextureName(Reference.PREFIX + name);
         setCreativeTab(Quantum.getCreativeTab());
         setTickRandomly(true);
-        setHardness(0.2F);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        super.registerIcons(iconRegister);
-
-        iconTop = iconRegister.registerIcon(Reference.PREFIX + getUnlocalizedName().replace("tile.", "") + "_top");
-        iconBottom = iconRegister.registerIcon(Reference.PREFIX + getUnlocalizedName().replace("tile.", "") + "_bottom");
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata) {
-        switch (side) {
-            case 0:
-                return iconBottom;
-
-            case 1:
-                return iconTop;
-
-            default:
-                return blockIcon;
-        }
     }
 
     @Override
@@ -127,10 +99,5 @@ public class BlockRadioactive extends net.minecraft.block.Block {
         if (entity instanceof EntityLiving && canWalkPoison) {
             PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), (EntityLiving) entity);
         }
-    }
-
-    @Override
-    public int quantityDropped(Random random) {
-        return 0;
     }
 }

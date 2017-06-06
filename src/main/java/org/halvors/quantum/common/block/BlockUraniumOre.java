@@ -11,10 +11,8 @@ import java.util.Random;
 
 public class BlockUraniumOre extends BlockRadioactive {
     public BlockUraniumOre() {
-        super();
+        super("oreUranium");
 
-        setUnlocalizedName("oreUranium");
-        setTextureName(Reference.PREFIX + "oreUranium");
         //setStepSound(soundStoneFootstep);
         setHardness(2.0F);
         

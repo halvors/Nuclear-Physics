@@ -34,7 +34,7 @@ public class ReactorExplosion extends Explosion {
 
             // TODO: Check opaqueCubeLookup. Correct replacement !block.isOpaqueCube()?
             if (block == Blocks.air && !blockUnder.isOpaqueCube() && explosionRAND.nextInt(3) == 0) {
-                world.setBlock(x, y, z, Quantum.blockRadioactive);
+                world.setBlock(x, y, z, Quantum.blockRadioactiveGrass);
             }
         }
     }

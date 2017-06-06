@@ -104,7 +104,7 @@ public class Quantum implements IUpdatableMod {
 	public static Block blockElectromagnet;
 	public static Block blockUraniumOre;
 	public static TileBlock blockPlasma;
-	public static Block blockRadioactive;
+	public static Block blockRadioactiveGrass;
 	public static TileBlock blockReactorCell;
 	public static BlockFluidClassic blockToxicWaste;
 	public static Block blockElectricTurbine;
@@ -212,7 +212,7 @@ public class Quantum implements IUpdatableMod {
 		blockPlasma = new TilePlasma();
 		blockPlasma.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockPlasma);
 
-		blockRadioactive = new BlockRadioactive();
+		blockRadioactiveGrass = new BlockRadioactiveGrass();
 
 		blockReactorCell = new TileReactorCell();
 		blockReactorCell.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockReactorCell);
@@ -225,7 +225,7 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockElectromagnet, "blockElectromagnet");
 		GameRegistry.registerBlock(blockUraniumOre, "blockUraniumOre");
 		GameRegistry.registerBlock(blockPlasma.getBlockType(), "blockPlasma");
-		GameRegistry.registerBlock(blockRadioactive, "blockRadioactive");
+		GameRegistry.registerBlock(blockRadioactiveGrass, "blockRadioactiveGrass");
 		GameRegistry.registerBlock(blockReactorCell.getBlockType(), "blockReactorCell");
 		GameRegistry.registerBlock(blockToxicWaste, "blockToxicWaste");
 		GameRegistry.registerBlock(blockElectricTurbine, "blockElectricTurbine");

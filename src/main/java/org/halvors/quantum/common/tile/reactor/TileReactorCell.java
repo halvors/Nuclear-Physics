@@ -233,7 +233,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
                     Block block = leakPos.getBlock();
 
                     if (block == Blocks.grass) {
-                        leakPos.setBlock(worldObj, Quantum.blockRadioactive);
+                        leakPos.setBlock(worldObj, Quantum.blockRadioactiveGrass);
                         tank.drain(1000, true);
                     } else if (block == Blocks.air || block.isReplaceable(worldObj, leakPos.intX(), leakPos.intY(), leakPos.intZ())) {
                         if (tank.getFluid() != null) {
