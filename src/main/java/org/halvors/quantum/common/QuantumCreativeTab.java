@@ -2,8 +2,9 @@ package org.halvors.quantum.common;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import org.halvors.quantum.common.base.MachineType;
+import org.halvors.quantum.Quantum;
 
 /**
  * This is a custom creative tab used only by this mod.
@@ -17,11 +18,11 @@ public class QuantumCreativeTab extends CreativeTabs {
 
 	@Override
 	public ItemStack getIconItemStack() {
-		return MachineType.BASIC_ELECTRICITY_METER.getItemStack();
+		return new ItemStack(Quantum.blockRadioactiveGrass);
 	}
 
 	@Override
 	public Item getTabIconItem() {
-		return MachineType.BASIC_ELECTRICITY_METER.getItem();
+		return new ItemBlock(Quantum.blockRadioactiveGrass);
 	}
 }
