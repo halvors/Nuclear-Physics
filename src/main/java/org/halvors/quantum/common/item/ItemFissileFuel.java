@@ -11,6 +11,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
+import org.halvors.quantum.common.reactor.IReactor;
+import org.halvors.quantum.common.reactor.IReactorComponent;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.List;

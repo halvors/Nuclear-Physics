@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.tile.reactor;
+package org.halvors.quantum.common.reactor;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;

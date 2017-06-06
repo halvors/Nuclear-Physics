@@ -1,10 +1,10 @@
-package org.halvors.quantum.common.item;
+package org.halvors.quantum.common.reactor;
 
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidHandler;
 
 public interface IReactor extends IFluidHandler {
-    void heat(long paramLong);
+    void heat(long energy);
 
     float getTemperature();
 

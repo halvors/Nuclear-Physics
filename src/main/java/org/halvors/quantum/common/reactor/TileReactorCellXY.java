@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.tile.reactor;
+package org.halvors.quantum.common.reactor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -19,8 +19,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.item.IReactor;
-import org.halvors.quantum.common.item.IReactorComponent;
 import org.halvors.quantum.common.poison.PoisonRadiation;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
@@ -36,7 +34,7 @@ import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileReactorCell extends TileInventory implements IMultiBlockStructure<TileReactorCell>, IInventory, IReactor, IFluidHandler, ISidedInventory {
+public class TileReactorCellXY extends TileInventory implements IMultiBlockStructure<TileReactorCellXY>, IInventory, IReactor, IFluidHandler, ISidedInventory {
     public static final int RADIUS = 2;
     public static final int MELTING_POINT = 2000;
     private final int specificHeatCapacity = 1000;
@@ -49,14 +47,14 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
     private long internalEnergy = 0L;
     private int meltdownCounter = 0;
     private int meltdownCounterMaximum = 1000;
-    private MultiBlockHandler<TileReactorCell> multiBlock;
+    private MultiBlockHandler<TileReactorCellXY> multiBlock;
 
-    public TileReactorCell() {
+    public TileReactorCellXY() {
         super("reactorCell", Material.iron);
 
-        this.textureName = "machine";
-        this.isOpaqueCube = false;
-        this.normalRender = false;
+        //this.textureName = "machine";
+        //this.isOpaqueCube = false;
+        //this.normalRender = false;
         this.customItemRender = true;
     }
 
@@ -80,15 +78,15 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
     @Override
     protected boolean use(EntityPlayer player, int side, Vector3 hit) {
-        if (!world().isRemote) {
-            TileReactorCell tileEntity = getMultiBlock().get();
+        if (!getWorld().isRemote) {
+            Quantum.getLogger().info("Called!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+            TileReactorCellXY tileEntity = getMultiBlock().get();
 
             if (!player.isSneaking()) {
                 if (tileEntity.getStackInSlot(0) != null) {
                     InventoryUtility.dropItemStack(world(), new Vector3(player), tileEntity.getStackInSlot(0), 0);
                     tileEntity.setInventorySlotContents(0, null);
-
-                    return true;
                 }
 
                 if (player.inventory.getCurrentItem() != null) {
@@ -97,16 +95,16 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
                         itemStack.stackSize = 1;
                         tileEntity.setInventorySlotContents(0, itemStack);
                         player.inventory.decrStackSize(player.inventory.currentItem, 1);
-
-                        return true;
                     }
                 }
             }
 
-            player.openGui(Quantum.getInstance(), 0, world(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
+            player.openGui(Quantum.getInstance(), -1, getWorld(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
+
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     @Override
@@ -263,12 +261,12 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
     }
 
     public void updatePositionStatus() {
-        TileReactorCell mainTile = getLowest();
+        TileReactorCellXY mainTile = getLowest();
         mainTile.getMultiBlock().deconstruct();
         mainTile.getMultiBlock().construct();
 
-        boolean top = new Vector3(this).add(new Vector3(0.0D, 1.0D, 0.0D)).getTileEntity(worldObj) instanceof TileReactorCell;
-        boolean bottom = new Vector3(this).add(new Vector3(0.0D, -1.0D, 0.0D)).getTileEntity(worldObj) instanceof TileReactorCell;
+        boolean top = new Vector3(this).add(new Vector3(0.0D, 1.0D, 0.0D)).getTileEntity(worldObj) instanceof TileReactorCellXY;
+        boolean bottom = new Vector3(this).add(new Vector3(0.0D, -1.0D, 0.0D)).getTileEntity(worldObj) instanceof TileReactorCellXY;
 
         if (top && bottom) {
             worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 3);
@@ -292,7 +290,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         for (;;) {
             TileEntity tileEntity = checkPosition.getTileEntity(worldObj);
 
-            if (!(tileEntity instanceof TileReactorCell)) {
+            if (!(tileEntity instanceof TileReactorCellXY)) {
                 break;
             }
 
@@ -304,18 +302,18 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         return vectors.toArray(new Vector3[0]);
     }
 
-    public TileReactorCell getLowest() {
-        TileReactorCell lowest = this;
+    public TileReactorCellXY getLowest() {
+        TileReactorCellXY lowest = this;
         Vector3 checkPosition = new Vector3(this);
 
         for (;;) {
             TileEntity tileEntity = checkPosition.getTileEntity(worldObj);
 
-            if (!(tileEntity instanceof TileReactorCell)) {
+            if (!(tileEntity instanceof TileReactorCellXY)) {
                 break;
             }
 
-            lowest = (TileReactorCell) tileEntity;
+            lowest = (TileReactorCellXY) tileEntity;
             checkPosition.y -= 1.0D;
         }
 
@@ -333,7 +331,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
     }
 
     @Override
-    public MultiBlockHandler<TileReactorCell> getMultiBlock() {
+    public MultiBlockHandler<TileReactorCellXY> getMultiBlock() {
         if (multiBlock == null) {
             multiBlock = new MultiBlockHandler(this);
         }
@@ -346,7 +344,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         Vector3 checkPosition = new Vector3(this);
         TileEntity tileEntity = this;
 
-        while (tileEntity instanceof TileReactorCell) {
+        while (tileEntity instanceof TileReactorCellXY) {
             height++;
             checkPosition.y += 1.0D;
             tileEntity = checkPosition.getTileEntity(worldObj);

@@ -1,6 +1,8 @@
 package org.halvors.quantum.common.item;
 
 import net.minecraft.item.ItemStack;
+import org.halvors.quantum.common.reactor.IReactor;
+import org.halvors.quantum.common.reactor.IReactorComponent;
 
 public class ItemBreederFuel extends ItemRadioactive implements IReactorComponent {
     public ItemBreederFuel() {

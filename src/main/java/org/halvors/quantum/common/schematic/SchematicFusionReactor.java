@@ -51,14 +51,14 @@ public class SchematicFusionReactor implements ISchematic {
 
         // Fusion Core
         for (int y = 0; y < size; y++) {
-            map.put(new Vector3(0, y, 0), new Pair<Block, Integer>(Quantum.blockReactorCell.block, 0));
+            map.put(new Vector3(0, y, 0), new Pair<>(Quantum.blockReactorCell, 0));
             map.put(new Vector3(1, y, 0), new Pair<>(Quantum.blockElectromagnet, 0));
             map.put(new Vector3(0, y, 1), new Pair<>(Quantum.blockElectromagnet, 0));
             map.put(new Vector3(0, y, -1), new Pair<>(Quantum.blockElectromagnet, 0));
             map.put(new Vector3(-1, y, 0), new Pair<>(Quantum.blockElectromagnet, 0));
         }
 
-        map.put(new Vector3(0, 0, 0), new Pair<Block, Integer>(Quantum.blockReactorCell.block, 0));
+        map.put(new Vector3(0, 0, 0), new Pair<>(Quantum.blockReactorCell, 0));
 
         return map;
     }

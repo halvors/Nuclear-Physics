@@ -7,11 +7,14 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.gui.machine.GuiElectricityMeter;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.base.MachineType;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.debug.gui.GuiCreativeBuilder;
+import org.halvors.quantum.common.reactor.GuiReactorCell;
+import org.halvors.quantum.common.reactor.TileReactorCell;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
 import org.halvors.quantum.common.tile.machine.TileEntityMachine;
 import org.halvors.quantum.common.transform.vector.Vector3;
@@ -33,9 +36,16 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		Block block = world.getBlock(x, y, z);
 
+		Quantum.getLogger().info("Called gui!!!!!!!!!!!!!!!!!!");
 
 		if (block instanceof BlockCreativeBuilder) {
 			return new GuiCreativeBuilder(new Vector3(x, y, z));
+		}
+
+		if (tileEntity instanceof TileReactorCell) {
+			Quantum.getLogger().info("Called gui tilereactorcell!!!!!!!!!!!!!!!!!!");
+
+			return new GuiReactorCell(player, (TileReactorCell) tileEntity);
 		}
 
 		if (tileEntity instanceof TileEntityMachine) {

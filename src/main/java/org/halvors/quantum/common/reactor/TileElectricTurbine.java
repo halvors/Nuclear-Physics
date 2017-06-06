@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.tile.reactor;
+package org.halvors.quantum.common.reactor;
 
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;

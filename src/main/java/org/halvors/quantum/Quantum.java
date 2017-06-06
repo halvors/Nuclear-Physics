@@ -27,8 +27,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.client.render.machine.RenderCentrifuge;
-import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
-import org.halvors.quantum.client.render.reactor.RenderReactorCell;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
@@ -37,21 +35,17 @@ import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.IUpdatableMod;
 import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.machine.BlockCentrifuge;
-import org.halvors.quantum.common.block.reactor.BlockControlRod;
-import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.item.*;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
+import org.halvors.quantum.common.reactor.*;
 import org.halvors.quantum.common.schematic.SchematicAccelerator;
 import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
 import org.halvors.quantum.common.schematic.SchematicFissionReactor;
 import org.halvors.quantum.common.schematic.SchematicFusionReactor;
 import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
-import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
-import org.halvors.quantum.common.tile.reactor.TilePlasma;
-import org.halvors.quantum.common.tile.reactor.TileReactorCell;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
 import org.halvors.quantum.lib.tile.BlockDummy;
@@ -110,7 +104,7 @@ public class Quantum implements IUpdatableMod {
 	public static Block blockUraniumOre;
 	public static TileBlock blockPlasma;
 	public static Block blockRadioactiveGrass;
-	public static TileBlock blockReactorCell;
+	public static Block blockReactorCell;
 	public static BlockFluidClassic blockToxicWaste;
 	public static Block blockElectricTurbine;
 
@@ -225,10 +219,7 @@ public class Quantum implements IUpdatableMod {
 		blockPlasma.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockPlasma);
 
 		blockRadioactiveGrass = new BlockRadioactiveGrass();
-
-		blockReactorCell = new TileReactorCell();
-		blockReactorCell.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockReactorCell);
-
+		blockReactorCell = new BlockReactorCell();
 		blockToxicWaste = new BlockToxicWaste();
 		blockElectricTurbine = new BlockElectricTurbine();
 
@@ -238,7 +229,7 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockUraniumOre, "blockUraniumOre");
 		GameRegistry.registerBlock(blockPlasma.getBlockType(), "blockPlasma");
 		GameRegistry.registerBlock(blockRadioactiveGrass, "blockRadioactiveGrass");
-		GameRegistry.registerBlock(blockReactorCell.getBlockType(), "blockReactorCell");
+		GameRegistry.registerBlock(blockReactorCell, "blockReactorCell");
 		GameRegistry.registerBlock(blockToxicWaste, "blockToxicWaste");
 		GameRegistry.registerBlock(blockElectricTurbine, "blockElectricTurbine");
 

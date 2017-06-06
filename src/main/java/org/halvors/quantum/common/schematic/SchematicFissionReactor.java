@@ -47,7 +47,7 @@ public class SchematicFissionReactor implements ISchematic {
 
             //map.put(new Vector3(0, -3, 0), new Pair<>(ElectricalContent.blockSiren, 0))
             map.put(new Vector3(0, -2, 0), new Pair<Block, Integer>(Blocks.redstone_wire, 0));
-            map.put(new Vector3(), new Pair<Block, Integer>(Quantum.blockReactorCell.block, 0));
+            map.put(new Vector3(), new Pair<>(Quantum.blockReactorCell, 0));
         } else {
             for (int y = 0; y < size; y++) {
                 for (int x = -radius; x <= radius; x++) {
@@ -73,7 +73,7 @@ public class SchematicFissionReactor implements ISchematic {
                             } else if (x == -radius || x == radius || z == -radius || z == radius) {
                                 map.put(targetPosition, new Pair<>(Blocks.glass, 0));
                             } else if (x == 0 && z == 0) {
-                                map.put(targetPosition, new Pair<Block, Integer>(Quantum.blockReactorCell.block, 0));
+                                map.put(targetPosition, new Pair<>(Quantum.blockReactorCell, 0));
                             } else {
                                 map.put(targetPosition, new Pair<>(Blocks.water, 0));
                             }

@@ -136,8 +136,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     }
 
     public void sendPowerUpdate() {
-        if (!world().isRemote)
-        {
+        if (!world().isRemote) {
             //References.PACKET_ANNOTATION.sync(this, 1);
         }
     }

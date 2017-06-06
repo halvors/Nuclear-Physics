@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
+import org.halvors.quantum.common.reactor.RenderElectricTurbine;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.item.ISimpleItemRenderer;
 import org.halvors.quantum.lib.utility.RenderUtility;
