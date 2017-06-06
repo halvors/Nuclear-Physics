@@ -4,9 +4,9 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.network.NetworkHandler;
-import org.halvors.quantum.common.tile.TileEntity;
 import org.halvors.quantum.common.utility.location.Location;
 
 import java.util.ArrayList;
@@ -52,13 +52,14 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 	public static class PacketTileEntityMessage implements IMessageHandler<PacketTileEntity, IMessage> {
 		@Override
 		public IMessage onMessage(PacketTileEntity message, MessageContext messageContext) {
+			Location location = message.getLocation();
 			TileEntity tileEntity = message.getLocation().getTileEntity(NetworkHandler.getWorld(messageContext));
 
 			if (tileEntity != null && tileEntity instanceof ITileNetworkable) {
 				ITileNetworkable tileNetworkable = (ITileNetworkable) tileEntity;
 
 				try {
-					tileNetworkable.handlePacketData(message.storedBuffer);
+					tileNetworkable.handlePacketData(location, message.storedBuffer);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

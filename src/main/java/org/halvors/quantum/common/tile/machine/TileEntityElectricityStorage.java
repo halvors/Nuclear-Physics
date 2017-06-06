@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import org.halvors.quantum.common.base.MachineType;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.utility.location.Location;
 
 import java.util.List;
 
@@ -49,8 +50,8 @@ public class TileEntityElectricityStorage extends TileEntityMachine implements I
 	}
 
 	@Override
-	public void handlePacketData(ByteBuf dataStream) throws Exception {
-		super.handlePacketData(dataStream);
+	public void handlePacketData(Location location, ByteBuf dataStream) throws Exception {
+		super.handlePacketData(location, dataStream);
 
 		storage.setEnergyStored(dataStream.readInt());
 	}

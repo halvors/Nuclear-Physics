@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.base.tile;
 
 import io.netty.buffer.ByteBuf;
+import org.halvors.quantum.common.utility.location.Location;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface ITileNetworkable {
 	 * Receive and manage a packet's data.
 	 * @param dataStream the dataStream to read data from.
 	 */
-	void handlePacketData(ByteBuf dataStream) throws Exception;
+	void handlePacketData(Location location, ByteBuf dataStream) throws Exception;
 
 	/**
 	 * Gets a list of data this tile entity keeps synchronized with the client.

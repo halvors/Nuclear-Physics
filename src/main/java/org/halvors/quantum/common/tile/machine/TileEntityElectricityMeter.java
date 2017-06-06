@@ -17,6 +17,7 @@ import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.MachineUtils;
 import org.halvors.quantum.common.utility.PlayerUtils;
+import org.halvors.quantum.common.utility.location.Location;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -94,8 +95,8 @@ public class TileEntityElectricityMeter extends TileEntityElectricityProvider im
 	}
 
 	@Override
-	public void handlePacketData(ByteBuf dataStream) throws Exception {
-		super.handlePacketData(dataStream);
+	public void handlePacketData(Location location, ByteBuf dataStream) throws Exception {
+		super.handlePacketData(location, dataStream);
 
 		isActive = dataStream.readBoolean();
 

@@ -5,7 +5,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
-import org.halvors.quantum.common.tile.TileEntity;
+import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.utility.location.Location;
 
 /**
@@ -13,22 +13,22 @@ import org.halvors.quantum.common.utility.location.Location;
  *
  * @author halvors
  */
-class PacketLocation implements IMessage {
+public class PacketLocation implements IMessage {
 	private Location location;
 
 	public PacketLocation() {
 
 	}
 
-	PacketLocation(Location location) {
+	public PacketLocation(Location location) {
 		this.location = location;
 	}
 
-	PacketLocation(Entity entity) {
+	public PacketLocation(Entity entity) {
 		this(new Location(entity));
 	}
 
-	PacketLocation(TileEntity tileEntity) {
+	public PacketLocation(TileEntity tileEntity) {
 		this(new Location(tileEntity));
 	}
 

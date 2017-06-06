@@ -8,6 +8,7 @@ import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.utility.location.Location;
 
 import java.util.List;
 
@@ -59,8 +60,8 @@ public class TileEntityElectricMachine extends TileEntityElectricityReceiver imp
 	}
 
 	@Override
-	public void handlePacketData(ByteBuf dataStream) throws Exception {
-		super.handlePacketData(dataStream);
+	public void handlePacketData(Location location, ByteBuf dataStream) throws Exception {
+		super.handlePacketData(location, dataStream);
 
 		redstoneControlType = RedstoneControlType.values()[dataStream.readInt()];
 	}

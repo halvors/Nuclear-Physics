@@ -2,8 +2,8 @@ package org.halvors.quantum.common.utility.location;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import org.halvors.quantum.common.tile.TileEntity;
 
 public class Location {
 	private final int dimensionId;
@@ -53,7 +53,7 @@ public class Location {
 	}
 
 	public TileEntity getTileEntity(IBlockAccess world) {
-		return TileEntity.getTileEntity(world, x, y, z);
+		return world.getTileEntity(x, y, z);
 	}
 
     @Override
