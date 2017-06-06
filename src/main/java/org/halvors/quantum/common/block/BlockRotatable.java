@@ -5,11 +5,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.base.tile.ITileRotatable;
-import org.halvors.quantum.common.tile.TileEntity;
 import org.halvors.quantum.common.utility.MachineUtils;
 
 public abstract class BlockRotatable extends BlockTextured {
@@ -19,7 +19,7 @@ public abstract class BlockRotatable extends BlockTextured {
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
-		TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
 
 		// If this TileEntity implements ITileRotatable, we do our rotations.
 		if (tileEntity instanceof ITileRotatable) {
@@ -61,7 +61,7 @@ public abstract class BlockRotatable extends BlockTextured {
 	// TODO: Figure out this, seems to work just fine without this code.
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
-		TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
 
 		if (MachineUtils.hasUsableWrench(player, x, y, z)) {
 			if (!world.isRemote && !player.isSneaking()) {
@@ -81,7 +81,7 @@ public abstract class BlockRotatable extends BlockTextured {
 
 	@Override
 	public ForgeDirection[] getValidRotations(World world, int x, int y, int z) {
-		TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		ForgeDirection[] valid = new ForgeDirection[6];
 
 		// If this TileEntity implements ITileRotatable, we do our rotations.
@@ -100,7 +100,7 @@ public abstract class BlockRotatable extends BlockTextured {
 
 	@Override
 	public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
-		TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
 
 		// If this TileEntity implements ITileRotatable, we do our rotations.
 		if (tileEntity instanceof ITileRotatable) {

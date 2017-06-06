@@ -4,13 +4,13 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import org.halvors.quantum.client.render.DefaultIcon;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.tile.ITileActiveState;
 import org.halvors.quantum.common.base.tile.ITileRotatable;
-import org.halvors.quantum.common.tile.TileEntity;
 import org.halvors.quantum.common.utility.render.Orientation;
 
 public abstract class BlockTextured extends BlockMetadata {
@@ -32,7 +32,7 @@ public abstract class BlockTextured extends BlockMetadata {
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
         int metadata = tileEntity.getBlockMetadata();
         boolean isActive = false;
 

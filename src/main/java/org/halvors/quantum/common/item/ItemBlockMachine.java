@@ -7,11 +7,11 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.client.key.Key;
 import org.halvors.quantum.client.key.KeyHandler;
 import org.halvors.quantum.common.base.*;
-import org.halvors.quantum.common.tile.TileEntity;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityStorage;
 import org.halvors.quantum.common.utility.LanguageUtility;
@@ -69,7 +69,7 @@ public class ItemBlockMachine extends ItemBlockMetadata {
 		boolean placed = super.placeBlockAt(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ, metadata);
 
 		if (placed) {
-			TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+			TileEntity tileEntity = world.getTileEntity(x, y, z);
 
 			if (tileEntity instanceof ITier) {
 				ITier tiered = (ITier) tileEntity;

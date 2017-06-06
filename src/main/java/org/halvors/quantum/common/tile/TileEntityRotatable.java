@@ -3,6 +3,7 @@ package org.halvors.quantum.common.tile;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.base.tile.ITileRotatable;
 import org.halvors.quantum.common.network.NetworkHandler;
@@ -15,8 +16,8 @@ public class TileEntityRotatable extends TileEntity implements ITileNetworkable,
 	// The direction this TileEntity's block is facing.
 	protected int facing;
 
-	protected TileEntityRotatable(String inventoryName) {
-		super(inventoryName);
+	protected TileEntityRotatable() {
+
 	}
 
 	@Override

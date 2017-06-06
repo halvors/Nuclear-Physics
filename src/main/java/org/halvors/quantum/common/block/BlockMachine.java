@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
@@ -26,7 +27,6 @@ import org.halvors.quantum.common.base.Tier;
 import org.halvors.quantum.common.base.tile.ITileOwnable;
 import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
 import org.halvors.quantum.common.item.ItemBlockMachine;
-import org.halvors.quantum.common.tile.TileEntity;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricMachine;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityStorage;
@@ -112,7 +112,7 @@ public class BlockMachine extends BlockRotatable {
 	@Override
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player) {
 		if (!world.isRemote) {
-			TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+			TileEntity tileEntity = world.getTileEntity(x, y, z);
 			MachineType machineType = MachineType.getType(this, world.getBlockMetadata(x, y, z));
 
 			// Display a message the the player clicking this block if not the owner.
@@ -128,7 +128,7 @@ public class BlockMachine extends BlockRotatable {
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
-        TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if (!MachineUtils.hasUsableWrench(player, x, y, z)) {
             if (!player.isSneaking()) {
@@ -159,7 +159,7 @@ public class BlockMachine extends BlockRotatable {
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
-		TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
 
 		// If this TileEntity implements ITileRedstoneControl, check if it's getting powered.
 		if (tileEntity instanceof ITileRedstoneControl) {
@@ -184,7 +184,7 @@ public class BlockMachine extends BlockRotatable {
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
 		if (!world.isRemote) {
-			TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+			TileEntity tileEntity = world.getTileEntity(x, y, z);
 
 			if (tileEntity instanceof TileEntityElectricMachine) {
 				TileEntityElectricMachine tileEntityElectricMachine = (TileEntityElectricMachine) tileEntity;
@@ -204,7 +204,7 @@ public class BlockMachine extends BlockRotatable {
 
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
-		TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		MachineType machineType = MachineType.getType(this, tileEntity.getBlockMetadata());
 		ItemStack itemStack = machineType.getItemStack();
 		ItemBlockMachine itemBlockMachine = (ItemBlockMachine) itemStack.getItem();
@@ -246,7 +246,7 @@ public class BlockMachine extends BlockRotatable {
 	@Override
 	public float getBlockHardness(World world, int x, int y, int z) {
 		if (world.isRemote) {
-			TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+			TileEntity tileEntity = world.getTileEntity(x, y, z);
 
 			// If this TileEntity implements ITileOwnable, we check if there is a owner.
 			if (tileEntity instanceof ITileOwnable) {
@@ -262,7 +262,7 @@ public class BlockMachine extends BlockRotatable {
 	@Override
 	public float getExplosionResistance(Entity entity, World world, int x, int y, int z, double explosionX, double explosionY, double explosionZ) {
 		if (world.isRemote) {
-			TileEntity tileEntity = TileEntity.getTileEntity(world, x, y, z);
+			TileEntity tileEntity = world.getTileEntity(x, y, z);
 
 			if (tileEntity instanceof ITileOwnable) {
 				ITileOwnable tileOwnable = (ITileOwnable) tileEntity;

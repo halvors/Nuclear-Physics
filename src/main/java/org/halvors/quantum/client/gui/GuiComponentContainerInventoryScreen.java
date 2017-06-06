@@ -7,13 +7,13 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.halvors.quantum.client.gui.component.IGuiComponent;
 import org.halvors.quantum.common.base.ResourceType;
 import org.halvors.quantum.common.component.IComponent;
 import org.halvors.quantum.common.component.IComponentContainer;
-import org.halvors.quantum.common.tile.TileEntity;
 import org.halvors.quantum.common.utility.ResourceUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -80,7 +80,7 @@ public class GuiComponentContainerInventoryScreen extends GuiContainer implement
 		int guiWidth = (width - xSize) / 2;
 		int guiHeight = (height - ySize) / 2;
 
-		drawString(tileEntity.getInventoryName(), (xSize / 2) - (fontRendererObj.getStringWidth(tileEntity.getInventoryName()) / 2), guiHeight + 6);
+		drawString(tileEntity.getBlockType().getLocalizedName(), (xSize / 2) - (fontRendererObj.getStringWidth(tileEntity.getBlockType().getLocalizedName()) / 2), guiHeight + 6);
 		drawString("Inventory", 8, (ySize - 96) + 2);
 
 		int xAxis = mouseX - guiWidth;

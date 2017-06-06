@@ -3,7 +3,7 @@ package org.halvors.quantum.common.utility.location;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import org.halvors.quantum.common.tile.TileEntity;
+import net.minecraft.tileentity.TileEntity;
 
 public class Range {
 	private int dimensionId;

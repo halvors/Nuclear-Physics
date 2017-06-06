@@ -22,6 +22,7 @@ import universalelectricity.api.energy.UnitDisplay;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 public class GuiContainerBase extends GuiContainer {
     public static final ResourceLocation GUI_EMPTY_FILE = new ResourceLocation(Reference.PREFIX + "textures/gui/gui_empty.png");
@@ -81,24 +82,20 @@ public class GuiContainerBase extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         Iterator<Map.Entry<Rectangle, String>> it = this.tooltips.entrySet().iterator();
 
-        while (it.hasNext())
-        {
+        while (it.hasNext()) {
             Map.Entry<Rectangle, String> entry = it.next();
 
-            if (entry.getKey().isIn(new Vector2(mouseX - this.guiLeft, mouseY - this.guiTop)))
-            {
+            if (entry.getKey().isIn(new Vector2(mouseX - this.guiLeft, mouseY - this.guiTop))) {
                 this.tooltip = entry.getValue();
                 break;
             }
         }
 
-        if (this.tooltip != null && this.tooltip != "")
-        {
+        if (this.tooltip != null && !tooltip.equals("")) {
             this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop, LanguageUtility.splitStringPerWord(this.tooltip, 5).toArray(new String[] {}));
         }
 
         this.tooltip = "";
-
     }
 
     @Override

@@ -1,9 +1,9 @@
 package org.halvors.quantum.common.utility.location;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.tile.TileEntity;
 
 /**
  * Chunk - an integer-based way to keep track of and perform operations on chunks in a Minecraft-based environment. This also takes

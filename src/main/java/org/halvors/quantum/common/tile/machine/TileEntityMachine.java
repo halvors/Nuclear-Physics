@@ -10,8 +10,6 @@ public class TileEntityMachine extends TileEntityRotatable {
 	private final MachineType machineType;
 
 	protected TileEntityMachine(MachineType machineType) {
-		super(machineType.getLocalizedName());
-
 		this.machineType = machineType;
 	}
 

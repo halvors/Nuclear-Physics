@@ -5,13 +5,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.halvors.quantum.client.gui.component.IGuiComponent;
 import org.halvors.quantum.common.base.ResourceType;
 import org.halvors.quantum.common.component.IComponent;
 import org.halvors.quantum.common.component.IComponentContainer;
-import org.halvors.quantum.common.tile.TileEntity;
 import org.halvors.quantum.common.utility.ResourceUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -117,7 +117,7 @@ public abstract class GuiComponentContainerScreen extends GuiScreen implements I
 		int guiWidth = (width - xSize) / 2;
 		int guiHeight = (height - ySize) / 2;
 
-		drawString(tileEntity.getInventoryName(), (xSize / 2) - (fontRendererObj.getStringWidth(tileEntity.getInventoryName()) / 2), 6);
+		drawString(tileEntity.getBlockType().getLocalizedName(), (xSize / 2) - (fontRendererObj.getStringWidth(tileEntity.getBlockType().getLocalizedName()) / 2), 6);
 
 		int xAxis = mouseX - guiWidth;
 		int yAxis = mouseY - guiHeight;

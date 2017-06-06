@@ -5,9 +5,9 @@ import mekanism.api.IMekWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
-import org.halvors.quantum.common.tile.TileEntity;
 
 public class MachineUtils {
 	/**

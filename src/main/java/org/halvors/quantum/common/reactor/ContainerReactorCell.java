@@ -20,7 +20,7 @@ public class ContainerReactorCell extends ContainerBase {
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1) {
         ItemStack var2 = null;
-        Slot slot = (Slot) this.inventorySlots.get(par1);
+        Slot slot = (Slot) inventorySlots.get(par1);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();

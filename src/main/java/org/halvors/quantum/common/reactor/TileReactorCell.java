@@ -19,6 +19,7 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.poison.PoisonRadiation;
+import org.halvors.quantum.common.tile.TileEntityRotatable;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.lib.event.PlasmaEvent;
@@ -34,7 +35,7 @@ import org.halvors.quantum.lib.utility.inventory.ExternalInventory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileReactorCell extends TileEntity implements IMultiBlockStructure<TileReactorCell>, IReactor, IExternalInventory, ISidedInventory {
+public class TileReactorCell extends TileEntityRotatable implements IMultiBlockStructure<TileReactorCell>, IReactor, IExternalInventory, ISidedInventory {
     public static final int MELTING_POINT = 2000;
 
     private final IExternalInventoryBox inventory = new ExternalInventory(this, 1);
@@ -51,7 +52,7 @@ public class TileReactorCell extends TileEntity implements IMultiBlockStructure<
 
 
     public TileReactorCell() {
-
+        super();
     }
 
     @Override
