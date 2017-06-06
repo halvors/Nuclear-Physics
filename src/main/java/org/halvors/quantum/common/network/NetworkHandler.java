@@ -19,6 +19,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.debug.packet.PacketCreativeBuilder;
 import org.halvors.quantum.common.network.packet.*;
 import org.halvors.quantum.common.tile.TileEntity;
 import org.halvors.quantum.common.utility.PlayerUtils;
@@ -44,6 +45,9 @@ public class NetworkHandler {
 		networkWrapper.registerMessage(PacketTileEntityElectricityMeter.PacketTileEntityElectricityMeterMessage.class, PacketTileEntityElectricityMeter.class, 3, Side.CLIENT);
 		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 4, Side.SERVER);
 		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 4, Side.CLIENT);
+
+		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 10, Side.CLIENT);
+		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 10, Side.SERVER);
 	}
 
 	public static SimpleNetworkWrapper getNetworkWrapper() {

@@ -37,14 +37,16 @@ import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.IUpdatableMod;
 import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.machine.BlockCentrifuge;
+import org.halvors.quantum.common.block.reactor.BlockControlRod;
 import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
+import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.item.*;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
-import org.halvors.quantum.common.block.reactor.BlockControlRod;
+import org.halvors.quantum.common.schematic.SchematicFissionReactor;
 import org.halvors.quantum.common.tile.machine.TileCentrifuge;
-import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
+import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.TilePlasma;
 import org.halvors.quantum.common.tile.reactor.TileReactorCell;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
@@ -108,6 +110,8 @@ public class Quantum implements IUpdatableMod {
 	public static TileBlock blockReactorCell;
 	public static BlockFluidClassic blockToxicWaste;
 	public static Block blockElectricTurbine;
+
+	public static Block blockCreativeBuilder;
 
 	//blockNuclearBoiler = contentRegistry.createTile(BlockNuclearBoiler.class, TileNuclearBoiler.class);
 	//blockChemicalExtractor = contentRegistry.createTile(BlockChemicalExtractor.class, TileChemicalExtractor.class);
@@ -180,6 +184,11 @@ public class Quantum implements IUpdatableMod {
 		registerFluidContainers();
 		registerTileEntities();
 		registerRecipes();
+
+		//BlockCreativeBuilder.registerSchematic(new SchematicAccelerator());
+		//BlockCreativeBuilder.registerSchematic(new SchematicBreedingReactor());
+		BlockCreativeBuilder.registerSchematic(new SchematicFissionReactor());
+		//BlockCreativeBuilder.registerSchematic(new SchematicFusionReactor());
 	}
 
 	private void registerFluids() {
@@ -229,6 +238,9 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockReactorCell.getBlockType(), "blockReactorCell");
 		GameRegistry.registerBlock(blockToxicWaste, "blockToxicWaste");
 		GameRegistry.registerBlock(blockElectricTurbine, "blockElectricTurbine");
+
+		blockCreativeBuilder = new BlockCreativeBuilder();
+		GameRegistry.registerBlock(blockCreativeBuilder, "blockCreativeBuilder");
 	}
 
 	private void registerItems() {
