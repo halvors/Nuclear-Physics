@@ -107,8 +107,6 @@ public class Quantum implements IUpdatableMod {
 	public static FluidStack fluidStackWater;
 
 	// Blocks
-	public static final Block blockMachine = new BlockMachine();
-
 	public static Block blockChemicalExtractor;
 	public static Block blockCentrifuge;
 	public static Block blockControlRod;
@@ -185,6 +183,9 @@ public class Quantum implements IUpdatableMod {
 		// Register event bus.
 		MinecraftForge.EVENT_BUS.register(this);
 
+		// Register block handler.
+		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
+
 		// Call functions for adding blocks, items, etc.
 		registerFluids();
 		registerBlocks();
@@ -197,8 +198,6 @@ public class Quantum implements IUpdatableMod {
 		BlockCreativeBuilder.registerSchematic(new SchematicBreedingReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFissionReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFusionReactor());
-
-		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
 	}
 
 	private void registerFluids() {
@@ -221,8 +220,6 @@ public class Quantum implements IUpdatableMod {
 
 	private void registerBlocks() {
 		// Register blocks.
-		GameRegistry.registerBlock(blockMachine, ItemBlockMachine.class, "blockMachine");
-
 		blockChemicalExtractor = new BlockChemicalExtractor();
 		blockCentrifuge = new BlockCentrifuge();
 		blockControlRod = new BlockControlRod();
@@ -318,8 +315,6 @@ public class Quantum implements IUpdatableMod {
 
 	private void registerTileEntities() {
 		// Register tile entities.
-		GameRegistry.registerTileEntity(TileEntityElectricityMeter.class, "tileElectricityMeter");
-
 		GameRegistry.registerTileEntity(TileChemicalExtractor.class, "tileChemicalExtractor");
 		GameRegistry.registerTileEntity(TileCentrifuge.class, "tileCentrifuge");
 		GameRegistry.registerTileEntity(TileElectricTurbine.class, "tileElectricTurbine");

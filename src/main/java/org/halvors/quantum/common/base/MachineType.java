@@ -85,7 +85,7 @@ public enum MachineType {
 	}
 
 	public ItemStack getItemStack() {
-		return new ItemStack(Quantum.blockMachine, 1, metadata);
+		return null; //new ItemStack(Quantum.blockMachine, 1, metadata);
 	}
 
 	public Item getItem() {

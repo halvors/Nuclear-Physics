@@ -17,9 +17,9 @@ import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 
 public class BlockReactorCell extends BlockRotatable {
     public BlockReactorCell() {
-        super("reactor", Material.iron);
+        super("reactorCell", Material.iron);
 
-        setUnlocalizedName("reactor");
+        setUnlocalizedName("reactorCell");
         setTextureName(Reference.PREFIX + "machine");
         setCreativeTab(Quantum.getCreativeTab());
         setHardness(1.0F);
