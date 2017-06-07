@@ -12,6 +12,7 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
 import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 
 public class BlockReactorCell extends BlockRotatable {
@@ -27,6 +28,12 @@ public class BlockReactorCell extends BlockRotatable {
 
     @Override
     @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube(){
+        return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
     public boolean renderAsNormalBlock(){
         return false;
     }
@@ -34,14 +41,9 @@ public class BlockReactorCell extends BlockRotatable {
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderType(){
-        return -1;
+        return BlockRenderingHandler.ID;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(){
-        return false;
-    }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {

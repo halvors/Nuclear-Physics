@@ -13,13 +13,48 @@ import org.halvors.quantum.common.base.tile.ITileRotatable;
 import org.halvors.quantum.common.utility.MachineUtils;
 
 public abstract class BlockRotatable extends BlockTextured {
+	protected byte rotationMask = Byte.parseByte("111100", 2);
+	protected boolean isFlipPlacement = false;
+
 	protected BlockRotatable(String name, Material material) {
 		super(name, material);
 	}
 
+	public int determineOrientation(World world, int x, int y, int z, EntityLivingBase entityLiving) {
+		if ((MathHelper.abs((float)entityLiving.posX - x) < 2.0F) && (MathHelper.abs((float)entityLiving.posZ - z) < 2.0F)) {
+			double d0 = entityLiving.posY + 1.82D - entityLiving.yOffset;
+
+			if ((canRotate(1)) && (d0 - y > 2.0D)) {
+				return 1;
+			}
+
+			if ((canRotate(0)) && (y - d0 > 0.0D)) {
+				return 0;
+			}
+		}
+
+		int playerSide = MathHelper.floor_double(entityLiving.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
+		int returnSide = (playerSide == 3) && (canRotate(4)) ? 4 : (playerSide == 2) && (canRotate(3)) ? 3 : (playerSide == 1) && (canRotate(5)) ? 5 : (playerSide == 0) && (canRotate(2)) ? 2 : 0;
+
+		if (this.isFlipPlacement) {
+			return ForgeDirection.getOrientation(returnSide).getOpposite().ordinal();
+		}
+
+		return returnSide;
+	}
+
+	public boolean canRotate(int ord) {
+		return (this.rotationMask & 1 << ord) != 0;
+	}
+
+
+
+
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
 		TileEntity tileEntity = world.getTileEntity(x, y, z);
+
+		world.setBlockMetadataWithNotify(x, y, z, determineOrientation(world, x, y, z, entity), 3);
 
 		// If this TileEntity implements ITileRotatable, we do our rotations.
 		if (tileEntity instanceof ITileRotatable) {

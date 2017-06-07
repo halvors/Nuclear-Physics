@@ -2,6 +2,7 @@ package org.halvors.quantum.client.render.machine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -30,7 +31,7 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer {
                 RenderUtility.rotateBlockBasedOnDirection(tileNuclearBoiler.getDirection());
             }
 
-            bindTexture(texture);
+            Minecraft.getMinecraft().renderEngine.bindTexture(texture);
             model.renderOnly("FUEL BAR SUPPORT 1 ROTATES", "FUEL BAR 1 ROTATES");
             model.renderOnly("FUEL BAR SUPPORT 2 ROTATES", "FUEL BAR 2 ROTATES");
             //model.renderOnlyAroundPivot(Math.toDegrees(tileNuclearBoiler.rotation), 0, 1, 0, "FUEL BAR SUPPORT 1 ROTATES", "FUEL BAR 1 ROTATES");

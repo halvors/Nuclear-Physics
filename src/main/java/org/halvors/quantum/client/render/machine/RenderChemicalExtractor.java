@@ -2,6 +2,7 @@ package org.halvors.quantum.client.render.machine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -30,7 +31,7 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer {
                 RenderUtility.rotateBlockBasedOnDirection(tileChemicalExtractor.getDirection());
             }
 
-            bindTexture(texture);
+            Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 
             GL11.glPushMatrix();
 

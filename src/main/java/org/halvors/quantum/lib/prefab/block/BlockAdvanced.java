@@ -29,6 +29,7 @@ public abstract class BlockAdvanced extends Block {
                     return true;
                 }
             }
+
             if (onUseWrench(world, x, y, z, entityPlayer, side, hitX, hitY, hitZ)) {
                 return true;
             }

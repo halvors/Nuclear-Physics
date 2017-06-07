@@ -2,6 +2,7 @@ package org.halvors.quantum.common.reactor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -28,7 +29,7 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
             GL11.glTranslated(x + 0.5D, y, z + 0.5D);
 
             if (tileTurbine.getMultiBlock().isConstructed()) {
-                bindTexture(textureLarge);
+                Minecraft.getMinecraft().renderEngine.bindTexture(textureLarge);
 
                 String[] blades = { "Blade1", "Blade2", "Blade3", "Blade4", "Blade5", "Blade6" };
                 String[] mediumBlades = { "MediumBlade1", "MediumBlade2", "MediumBlade3", "MediumBlade4", "MediumBlade5", "MediumBlade6" };
@@ -48,7 +49,7 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
                 modelLarge.renderAllExcept(ArrayUtils.addAll(ArrayUtils.addAll(blades, mediumBlades), largeBlades));
             } else {
                 GL11.glScalef(1.0F, 1.1F, 1.0F);
-                bindTexture(textureSmall);
+                Minecraft.getMinecraft().renderEngine.bindTexture(textureSmall);
 
                 String[] bladesA = new String[3];
 
