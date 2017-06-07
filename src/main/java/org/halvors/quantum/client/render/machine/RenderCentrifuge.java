@@ -29,12 +29,12 @@ public class RenderCentrifuge extends TileEntitySpecialRenderer {
                 RenderUtility.rotateBlockBasedOnDirection(tileCentrifuge.getDirection());
             }
 
-            bindTexture(RenderCentrifuge.texture);
+            bindTexture(texture);
             GL11.glPushMatrix();
             GL11.glRotated(Math.toDegrees(tileCentrifuge.rotation), 0, 1, 0);
-            RenderCentrifuge.model.renderOnly("C", "JROT", "KROT", "LROT", "MROT");
+            model.renderOnly("C", "JROT", "KROT", "LROT", "MROT");
             GL11.glPopMatrix();
-            RenderCentrifuge.model.renderAllExcept("C", "JROT", "KROT", "LROT", "MROT");
+            model.renderAllExcept("C", "JROT", "KROT", "LROT", "MROT");
             GL11.glPopMatrix();
         }
     }

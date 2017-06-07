@@ -27,6 +27,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.client.render.machine.RenderCentrifuge;
+import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
@@ -35,6 +36,7 @@ import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.IUpdatableMod;
 import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.machine.BlockCentrifuge;
+import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.item.*;
@@ -45,6 +47,7 @@ import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
 import org.halvors.quantum.common.schematic.SchematicFissionReactor;
 import org.halvors.quantum.common.schematic.SchematicFusionReactor;
 import org.halvors.quantum.common.tile.machine.TileCentrifuge;
+import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
@@ -98,6 +101,7 @@ public class Quantum implements IUpdatableMod {
 	// Blocks
 	public static final Block blockMachine = new BlockMachine();
 
+	public static Block blockChemicalExtractor;
 	public static Block blockCentrifuge;
 	public static Block blockControlRod;
 	public static Block blockElectromagnet;
@@ -111,7 +115,7 @@ public class Quantum implements IUpdatableMod {
 	public static Block blockCreativeBuilder;
 
 	//blockNuclearBoiler = contentRegistry.createTile(BlockNuclearBoiler.class, TileNuclearBoiler.class);
-	//blockChemicalExtractor = contentRegistry.createTile(BlockChemicalExtractor.class, TileChemicalExtractor.class);
+	//
 	//blockFusionCore = contentRegistry.createTile(BlockPlasmaHeater.class, TilePlasmaHeater.class);
 	//blockThermometer = contentRegistry.newBlock(TileThermometer.class);
 	//public static final Block blockPlasma = new TilePlasma();
@@ -210,6 +214,7 @@ public class Quantum implements IUpdatableMod {
 		// Register blocks.
 		GameRegistry.registerBlock(blockMachine, ItemBlockMachine.class, "blockMachine");
 
+		blockChemicalExtractor = new BlockChemicalExtractor();
 		blockCentrifuge = new BlockCentrifuge();
 		blockControlRod = new BlockControlRod();
 		blockElectromagnet = new BlockElectromagnet().setCreativeTab(Quantum.getCreativeTab());
@@ -223,6 +228,7 @@ public class Quantum implements IUpdatableMod {
 		blockToxicWaste = new BlockToxicWaste();
 		blockElectricTurbine = new BlockElectricTurbine();
 
+		GameRegistry.registerBlock(blockChemicalExtractor, "blockChemicalExtractor");
 		GameRegistry.registerBlock(blockCentrifuge, "blockCentrifuge");
 		GameRegistry.registerBlock(blockControlRod, "blockControlRod");
 		GameRegistry.registerBlock(blockElectromagnet, "blockElectromagnet");
@@ -297,11 +303,13 @@ public class Quantum implements IUpdatableMod {
 	private void registerTileEntities() {
 		// Register tile entities.
 		GameRegistry.registerTileEntity(TileEntityElectricityMeter.class, "tileElectricityMeter");
+		GameRegistry.registerTileEntity(TileChemicalExtractor.class, "tileChemicalExtractor");
 		GameRegistry.registerTileEntity(TileCentrifuge.class, "tileCentrifuge");
 		GameRegistry.registerTileEntity(TileElectricTurbine.class, "tileElectricTurbine");
 		GameRegistry.registerTileEntity(TileReactorCell.class, "tileReactorCell");
 
 		// Register special renderers.
+		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCentrifuge.class, new RenderCentrifuge());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
