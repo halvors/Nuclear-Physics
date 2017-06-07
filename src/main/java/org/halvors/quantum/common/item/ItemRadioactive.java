@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.poison.PoisonRadiation;
+import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 public class ItemRadioactive extends ItemTextured {

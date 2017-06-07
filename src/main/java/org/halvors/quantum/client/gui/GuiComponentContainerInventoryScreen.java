@@ -12,8 +12,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.halvors.quantum.client.gui.component.IGuiComponent;
 import org.halvors.quantum.common.base.ResourceType;
-import org.halvors.quantum.common.component.IComponent;
-import org.halvors.quantum.common.component.IComponentContainer;
+import org.halvors.quantum.common.tile.component.IComponent;
+import org.halvors.quantum.common.tile.component.IComponentContainer;
 import org.halvors.quantum.common.utility.ResourceUtils;
 import org.lwjgl.opengl.GL11;
 

@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.poison.PoisonRadiation;
+import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.Random;

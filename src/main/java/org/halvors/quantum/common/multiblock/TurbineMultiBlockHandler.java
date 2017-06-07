@@ -1,6 +1,7 @@
-package org.halvors.quantum.lib.prefab.turbine;
+package org.halvors.quantum.common.multiblock;
 
 import net.minecraft.tileentity.TileEntity;
+import org.halvors.quantum.common.tile.reactor.TileTurbine;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.multiblock.MultiBlockHandler;
 

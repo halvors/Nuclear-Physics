@@ -44,10 +44,6 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer {
             model.renderAllExcept("Main ChamberRotates", "Magnet1Rotates", "Magnet2Rotates");
 
             GL11.glPopMatrix();
-
-            if (count > 1000) {
-                count++;
-            }
         }
     }
 }

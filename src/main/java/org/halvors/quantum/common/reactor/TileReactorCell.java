@@ -18,7 +18,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.poison.PoisonRadiation;
+import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.tile.TileEntityRotatable;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;

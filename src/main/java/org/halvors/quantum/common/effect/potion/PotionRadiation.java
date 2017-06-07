@@ -1,8 +1,8 @@
-package org.halvors.quantum.common.potion;
+package org.halvors.quantum.common.effect.potion;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import org.halvors.quantum.common.poison.PoisonRadiation;
+import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 
 public class PotionRadiation extends CustomPotion {
     public static final PotionRadiation INSTANCE = new PotionRadiation(21, true, 5149489, "radiation");

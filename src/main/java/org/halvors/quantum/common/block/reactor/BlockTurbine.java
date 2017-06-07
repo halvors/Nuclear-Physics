@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.prefab.turbine;
+package org.halvors.quantum.common.block.reactor;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.lib.prefab.block.BlockRotatable;
+import org.halvors.quantum.common.tile.reactor.TileTurbine;
 
 public class BlockTurbine extends BlockRotatable {
     public BlockTurbine(Material material) {
@@ -55,7 +56,7 @@ public class BlockTurbine extends BlockRotatable {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createNewTileEntity(World worldIn, int metadata) {
         return null;
     }
 }

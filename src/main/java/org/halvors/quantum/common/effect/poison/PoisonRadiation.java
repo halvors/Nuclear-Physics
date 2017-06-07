@@ -1,9 +1,9 @@
-package org.halvors.quantum.common.poison;
+package org.halvors.quantum.common.effect.poison;
 
 import net.minecraft.entity.EntityLivingBase;
-import org.halvors.quantum.common.damage.CustomDamageSource;
-import org.halvors.quantum.common.potion.CustomPotionEffect;
-import org.halvors.quantum.common.potion.PotionRadiation;
+import org.halvors.quantum.common.effect.damage.CustomDamageSource;
+import org.halvors.quantum.common.effect.potion.CustomPotionEffect;
+import org.halvors.quantum.common.effect.potion.PotionRadiation;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 public class PoisonRadiation extends Poison {

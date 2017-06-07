@@ -28,6 +28,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.client.render.machine.RenderCentrifuge;
 import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
+import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
@@ -37,6 +38,7 @@ import org.halvors.quantum.common.base.IUpdatableMod;
 import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.machine.BlockCentrifuge;
 import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
+import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.item.*;
@@ -49,6 +51,8 @@ import org.halvors.quantum.common.schematic.SchematicFusionReactor;
 import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
+import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
+import org.halvors.quantum.common.tile.sensor.TileSiren;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
 import org.halvors.quantum.lib.tile.BlockDummy;
@@ -105,6 +109,8 @@ public class Quantum implements IUpdatableMod {
 	public static Block blockCentrifuge;
 	public static Block blockControlRod;
 	public static Block blockElectromagnet;
+	public static Block blockNuclearBoiler;
+	public static TileBlock blockSiren;
 	public static Block blockUraniumOre;
 	public static TileBlock blockPlasma;
 	public static Block blockRadioactiveGrass;
@@ -114,12 +120,9 @@ public class Quantum implements IUpdatableMod {
 
 	public static Block blockCreativeBuilder;
 
-	//blockNuclearBoiler = contentRegistry.createTile(BlockNuclearBoiler.class, TileNuclearBoiler.class);
-	//
 	//blockFusionCore = contentRegistry.createTile(BlockPlasmaHeater.class, TilePlasmaHeater.class);
 	//blockThermometer = contentRegistry.newBlock(TileThermometer.class);
 	//public static final Block blockPlasma = new TilePlasma();
-	//blockSiren = contentRegistry.newBlock(TileSiren.class);
 	//blockSteamFunnel = contentRegistry.newBlock(TileFunnel.class);
 	//blockAccelerator = contentRegistry.createTile(BlockAccelerator.class, TileAccelerator.class);
 	//blockFulmination = contentRegistry.newBlock(TileFulmination.class);
@@ -218,6 +221,11 @@ public class Quantum implements IUpdatableMod {
 		blockCentrifuge = new BlockCentrifuge();
 		blockControlRod = new BlockControlRod();
 		blockElectromagnet = new BlockElectromagnet().setCreativeTab(Quantum.getCreativeTab());
+		blockNuclearBoiler = new BlockNuclearBoiler();
+
+		blockSiren = new TileSiren();
+		blockSiren.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockSiren);
+
 		blockUraniumOre = new BlockUraniumOre();
 
 		blockPlasma = new TilePlasma();
@@ -232,6 +240,8 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockCentrifuge, "blockCentrifuge");
 		GameRegistry.registerBlock(blockControlRod, "blockControlRod");
 		GameRegistry.registerBlock(blockElectromagnet, "blockElectromagnet");
+		GameRegistry.registerBlock(blockNuclearBoiler, "blockNuclearBoiler");
+		GameRegistry.registerBlock(blockSiren.block, "blockSiren");
 		GameRegistry.registerBlock(blockUraniumOre, "blockUraniumOre");
 		GameRegistry.registerBlock(blockPlasma.getBlockType(), "blockPlasma");
 		GameRegistry.registerBlock(blockRadioactiveGrass, "blockRadioactiveGrass");
@@ -303,15 +313,18 @@ public class Quantum implements IUpdatableMod {
 	private void registerTileEntities() {
 		// Register tile entities.
 		GameRegistry.registerTileEntity(TileEntityElectricityMeter.class, "tileElectricityMeter");
+
 		GameRegistry.registerTileEntity(TileChemicalExtractor.class, "tileChemicalExtractor");
 		GameRegistry.registerTileEntity(TileCentrifuge.class, "tileCentrifuge");
 		GameRegistry.registerTileEntity(TileElectricTurbine.class, "tileElectricTurbine");
+		GameRegistry.registerTileEntity(TileNuclearBoiler.class, "tileNuclearBoiler");
 		GameRegistry.registerTileEntity(TileReactorCell.class, "tileReactorCell");
 
 		// Register special renderers.
 		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCentrifuge.class, new RenderCentrifuge());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
 	}
 

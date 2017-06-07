@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.potion;
+package org.halvors.quantum.common.effect.potion;
 
 import net.minecraft.potion.Potion;
 

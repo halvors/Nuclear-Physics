@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.component;
+package org.halvors.quantum.common.tile.component;
 
 import java.util.HashSet;
 import java.util.Set;

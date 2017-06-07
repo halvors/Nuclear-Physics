@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.damage;
+package org.halvors.quantum.common.effect.damage;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

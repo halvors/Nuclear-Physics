@@ -2,7 +2,7 @@ package org.halvors.quantum.client.gui.component;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.component.IComponent;
+import org.halvors.quantum.common.tile.component.IComponent;
 
 @SideOnly(Side.CLIENT)
 public interface IGuiComponent extends IComponent {

@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.poison;
+package org.halvors.quantum.common.effect.poison;
 
 import java.util.EnumSet;
 import java.util.HashMap;

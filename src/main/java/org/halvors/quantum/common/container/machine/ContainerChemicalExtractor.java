@@ -1,8 +1,9 @@
-package org.halvors.quantum.common.tile.machine;
+package org.halvors.quantum.common.container.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
+import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.lib.gui.ContainerBase;
 import org.halvors.quantum.lib.gui.slot.SlotEnergyItem;
 

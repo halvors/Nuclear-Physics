@@ -5,7 +5,7 @@ import net.minecraftforge.fluids.Fluid;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.lib.IBoilHandler;
-import org.halvors.quantum.lib.prefab.turbine.TileTurbine;
+import org.halvors.quantum.common.tile.reactor.TileTurbine;
 
 public class TileElectricTurbine extends TileTurbine implements IBoilHandler {
     public TileElectricTurbine() {

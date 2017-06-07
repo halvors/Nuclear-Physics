@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.prefab.turbine;
+package org.halvors.quantum.common.tile.reactor;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -18,6 +18,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.lib.prefab.tile.TileElectrical;
+import org.halvors.quantum.common.multiblock.TurbineMultiBlockHandler;
 import universalelectricity.api.energy.EnergyStorageHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -29,25 +30,30 @@ import cpw.mods.fml.relauncher.SideOnly;
  * The front of the turbine is where the output is. */
 
 public abstract class TileTurbine extends TileElectrical implements IMultiBlockStructure<TileTurbine>, IFluidHandler {
-    /** Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600 */
+    /// Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
     protected final long energyPerSteam = 2647600 / 1000;
     protected final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 100);
     protected final long defaultTorque = 5000;
     protected long torque = defaultTorque;
-    /** Radius of large turbine? */
+
+    // Radius of large turbine?
     public int multiBlockRadius = 1;
-    /** The power of the turbine this tick. In joules/tick */
+
+    // The power of the turbine this tick. In joules/tick
     public long power = 0;
-    /** Current rotation of the turbine in radians. */
+
+    // Current rotation of the turbine in radians.
     public float rotation = 0;
+
     //@Synced
     public int tier = 0;
-    /** Max power in watts. */
+
+    // Max power in watts.
     protected long maxPower;
     protected float prevAngularVelocity = 0;
-    //@Synced(1)
     protected float angularVelocity = 0;
-    /** MutliBlock methods. */
+
+    // MutliBlock methods.
     private TurbineMultiBlockHandler multiBlock;
 
     public TileTurbine() {
