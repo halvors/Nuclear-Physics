@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.accelerator;
+package org.halvors.quantum.common.container.accelerator;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -6,9 +6,9 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.tile.accelerator.TileAccelerator;
 import org.halvors.quantum.lib.gui.ContainerBase;
 
-/** Accelerator container */
 public class ContainerAccelerator extends ContainerBase {
     private TileAccelerator tileEntity;
 
@@ -28,39 +28,39 @@ public class ContainerAccelerator extends ContainerBase {
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
-        ItemStack var2 = null;
-        Slot var3 = (Slot) this.inventorySlots.get(slot);
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {
+        ItemStack copyStack = null;
+        Slot slot = (Slot) inventorySlots.get(slotId);
 
-        if (var3 != null && var3.getHasStack()) {
-            ItemStack itemStack = var3.getStack();
-            var2 = itemStack.copy();
+        if (slot != null && slot.getHasStack()) {
+            ItemStack itemStack = slot.getStack();
+            copyStack = itemStack.copy();
 
-            if (slot > 2) {
+            if (slotId > 2) {
                 if (itemStack.getItem() == Quantum.itemCell) {
-                    if (!this.mergeItemStack(itemStack, 1, 2, false)) {
+                    if (!mergeItemStack(itemStack, 1, 2, false)) {
                         return null;
                     }
-                } else if (!this.mergeItemStack(itemStack, 0, 1, false)) {
+                } else if (!mergeItemStack(itemStack, 0, 1, false)) {
                     return null;
                 }
-            } else if (!this.mergeItemStack(itemStack, 3, 36 + 3, false)) {
+            } else if (!mergeItemStack(itemStack, 3, 36 + 3, false)) {
                 return null;
             }
 
             if (itemStack.stackSize == 0) {
-                var3.putStack(null);
+                slot.putStack(null);
             } else {
-                var3.onSlotChanged();
+                slot.onSlotChanged();
             }
 
-            if (itemStack.stackSize == var2.stackSize) {
+            if (itemStack.stackSize == copyStack.stackSize) {
                 return null;
             }
 
-            var3.onPickupFromSlot(player, itemStack);
+            slot.onPickupFromSlot(player, itemStack);
         }
 
-        return var2;
+        return copyStack;
     }
 }

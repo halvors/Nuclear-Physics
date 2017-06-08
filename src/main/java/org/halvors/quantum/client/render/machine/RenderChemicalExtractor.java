@@ -17,7 +17,6 @@ import org.lwjgl.opengl.GL11;
 public class RenderChemicalExtractor extends TileEntitySpecialRenderer {
     public static final IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/chemicalExtractor.obj"));
     public static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/models/chemicalExtractor.png");
-    private static int count = 0;
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {

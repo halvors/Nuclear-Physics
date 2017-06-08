@@ -1,6 +1,9 @@
-package org.halvors.quantum.common.accelerator;
+package org.halvors.quantum.client.gui.accelerator;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import org.halvors.quantum.common.entity.accelerator.EntityParticle;
+import org.halvors.quantum.common.tile.accelerator.TileAccelerator;
+import org.halvors.quantum.common.container.accelerator.ContainerAccelerator;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.gui.GuiContainerBase;
 import universalelectricity.api.energy.UnitDisplay;
@@ -13,6 +16,7 @@ public class GuiAccelerator extends GuiContainerBase {
 
     public GuiAccelerator(InventoryPlayer par1InventoryPlayer, TileAccelerator tileEntity) {
         super(new ContainerAccelerator(par1InventoryPlayer, tileEntity));
+
         this.tileEntity = tileEntity;
     }
 
@@ -21,7 +25,7 @@ public class GuiAccelerator extends GuiContainerBase {
     public void drawGuiContainerForegroundLayer(int x, int y) {
         fontRendererObj.drawString(tileEntity.getInventoryName(), 40, 10, 4210752);
 
-        String status = null;
+        String status;
         Vector3 position = new Vector3(tileEntity);
         position.translate(tileEntity.getDirection().getOpposite());
 
@@ -33,27 +37,27 @@ public class GuiAccelerator extends GuiContainerBase {
             status = "\u00a72Idle";
         }
 
-        fontRendererObj.drawString("Velocity: " + Math.round((this.tileEntity.velocity / TileAccelerator.clientParticleVelocity) * 100) + "%", 8, 27, 4210752);
+        fontRendererObj.drawString("Velocity: " + Math.round((tileEntity.velocity / TileAccelerator.clientParticleVelocity) * 100) + "%", 8, 27, 4210752);
         fontRendererObj.drawString("Energy Used:", 8, 38, 4210752);
-        fontRendererObj.drawString(UnitDisplay.getDisplay(this.tileEntity.totalEnergyConsumed, UnitDisplay.Unit.JOULES), 8, 49, 4210752);
+        fontRendererObj.drawString(UnitDisplay.getDisplay(tileEntity.totalEnergyConsumed, UnitDisplay.Unit.JOULES), 8, 49, 4210752);
         fontRendererObj.drawString(UnitDisplay.getDisplay(TileAccelerator.energyPerTick * 20, UnitDisplay.Unit.WATT), 8, 60, 4210752);
-        fontRendererObj.drawString(UnitDisplay.getDisplay(this.tileEntity.getVoltageInput(null), UnitDisplay.Unit.VOLTAGE), 8, 70, 4210752);
-        fontRendererObj.drawString("Antimatter: " + this.tileEntity.antimatter + " mg", 8, 80, 4210752);
+        fontRendererObj.drawString(UnitDisplay.getDisplay(tileEntity.getVoltageInput(null), UnitDisplay.Unit.VOLTAGE), 8, 70, 4210752);
+        fontRendererObj.drawString("Antimatter: " + tileEntity.antimatter + " mg", 8, 80, 4210752);
         fontRendererObj.drawString("Status:", 8, 90, 4210752);
         fontRendererObj.drawString(status, 8, 100, 4210752);
         fontRendererObj.drawString("Buffer: " + UnitDisplay.getDisplayShort(this.tileEntity.getEnergyHandler().getEnergy(), UnitDisplay.Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(tileEntity.getEnergyHandler().getEnergyCapacity(), UnitDisplay.Unit.JOULES), 8, 110,
                 4210752);
-        fontRendererObj.drawString("Facing: " + this.tileEntity.getDirection().getOpposite(), 100, 123, 4210752);
+        fontRendererObj.drawString("Facing: " + tileEntity.getDirection().getOpposite(), 100, 123, 4210752);
     }
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */
     @Override
-    protected void drawGuiContainerBackgroundLayer(float par1, int x, int y) {
-        super.drawGuiContainerBackgroundLayer(par1, x, y);
+    protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY) {
+        super.drawGuiContainerBackgroundLayer(partialTick, mouseX, mouseY);
 
-        this.drawSlot(131, 25);
-        this.drawSlot(131, 50);
-        this.drawSlot(131, 74);
-        this.drawSlot(105, 74);
+        drawSlot(131, 25);
+        drawSlot(131, 50);
+        drawSlot(131, 74);
+        drawSlot(105, 74);
     }
 }

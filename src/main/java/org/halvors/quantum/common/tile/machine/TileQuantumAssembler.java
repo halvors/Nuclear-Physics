@@ -12,7 +12,6 @@ import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
-import scala.Int;
 import universalelectricity.api.electricity.IVoltageInput;
 import universalelectricity.api.energy.EnergyStorageHandler;
 

@@ -21,22 +21,17 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer {
     public static final IModelCustom MODEL = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/quantumAssembler.obj"));
     public static final ResourceLocation TEXTURE = new ResourceLocation(Reference.PREFIX + "textures/models/quantumAssembler.png");
 
-    private final RenderBlocks renderBlocks = new RenderBlocks();
-
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
         if (tileEntity instanceof TileQuantumAssembler) {
             TileQuantumAssembler tileQuantumAssembler = (TileQuantumAssembler) tileEntity;
 
             GL11.glPushMatrix();
-            GL11.glTranslated(x + 0.5, y + 0.5, z + 0.5);
+            GL11.glTranslated(x + 0.5, y, z + 0.5);
 
-            final String[] hands = new String[]
-                    {"Back Arm Upper", "Back Arm Lower", "Right Arm Upper", "Right Arm Lower", "Front Arm Upper", "Front Arm Lower", "Left Arm Upper", "Left Arm Lower"};
-            final String[] arms = new String[]
-                    {"Middle Rotor Focus Lazer", "Middle Rotor Uppper Arm", "Middle Rotor Lower Arm", "Middle Rotor Arm Base", "Middle Rotor"};
-            final String[] largeArms = new String[]
-                    {"Bottom Rotor Upper Arm", "Bottom Rotor Lower Arm", "Bottom Rotor Arm Base", "Bottom Rotor", "Bottom Rotor Resonator Arm"};
+            String[] hands = new String[] {"Back Arm Upper", "Back Arm Lower", "Right Arm Upper", "Right Arm Lower", "Front Arm Upper", "Front Arm Lower", "Left Arm Upper", "Left Arm Lower"};
+            String[] arms = new String[] {"Middle Rotor Focus Lazer", "Middle Rotor Uppper Arm", "Middle Rotor Lower Arm", "Middle Rotor Arm Base", "Middle Rotor"};
+            String[] largeArms = new String[] {"Bottom Rotor Upper Arm", "Bottom Rotor Lower Arm", "Bottom Rotor Arm Base", "Bottom Rotor", "Bottom Rotor Resonator Arm"};
 
             bindTexture(TEXTURE);
 

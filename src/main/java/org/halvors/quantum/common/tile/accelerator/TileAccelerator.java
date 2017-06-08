@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.accelerator;
+package org.halvors.quantum.common.tile.accelerator;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +11,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.entity.accelerator.EntityParticle;
 import org.halvors.quantum.common.block.IElectromagnet;
 import org.halvors.quantum.common.item.ItemAntimatter;
 import org.halvors.quantum.common.item.ItemDarkmatter;
@@ -87,34 +88,34 @@ public class TileAccelerator extends TileElectricalInventory implements IElectro
                 velocity = (float) entityParticle.getParticleVelocity();
             }
 
-            // Check if item inside of empty cell slot is indeed an empty slot.
-            if (Quantum.itemCell == getStackInSlot(1).getItem()) {
-                // Check if there are any empty cells we can store anti-matter in.
-                if (getStackInSlot(1).stackSize > 0) {
-                    // Craft anti-matter item if there is enough anti-matter to actually do so.
-                    if (antimatter >= 125) {
-                        if (getStackInSlot(2) != null) {
-                            // Increase the existing amount of anti-matter if stack already exists.
-                            if (Quantum.itemAntimatter == getStackInSlot(2).getItem()) {
-                                ItemStack newStack = getStackInSlot(2).copy();
+            if (getStackInSlot(1) != null) {
+                // Check if item inside of empty cell slot is indeed an empty slot.
+                if (getStackInSlot(1).getItem() == Quantum.itemCell) {
+                    // Check if there are any empty cells we can store anti-matter in.
+                    if (getStackInSlot(1).stackSize > 0) {
+                        // Craft anti-matter item if there is enough anti-matter to actually do so.
+                        if (antimatter >= 125) {
+                            if (getStackInSlot(2) != null) {
+                                // Increase the existing amount of anti-matter if stack already exists.
+                                if (getStackInSlot(2).getItem() == Quantum.itemAntimatter) {
+                                    ItemStack newStack = getStackInSlot(2).copy();
 
-                                if (newStack.stackSize < newStack.getMaxStackSize()) {
-                                    // Remove an empty cell which we will put the anti-matter into.
-                                    decrStackSize(1, 1);
+                                    if (newStack.stackSize < newStack.getMaxStackSize()) {
+                                        // Remove an empty cell which we will put the anti-matter into.
+                                        decrStackSize(1, 1);
 
-                                    // Remove anti-matter from internal reserve and increase stack count.
-                                    antimatter -= 125;
-                                    newStack.stackSize++;
-                                    setInventorySlotContents(2, newStack);
+                                        // Remove anti-matter from internal reserve and increase stack count.
+                                        antimatter -= 125;
+                                        newStack.stackSize++;
+                                        setInventorySlotContents(2, newStack);
+                                    }
                                 }
+                            } else {
+                                // Remove some of the internal reserves of anti-matter and use it to craft an individual item.
+                                antimatter -= 125;
+                                decrStackSize(1, 1);
+                                setInventorySlotContents(2, new ItemStack(Quantum.itemAntimatter));
                             }
-                        }
-                        else
-                        {
-                            // Remove some of the internal reserves of anti-matter and use it to craft an individual item.
-                            antimatter -= 125;
-                            decrStackSize(1, 1);
-                            setInventorySlotContents(2, new ItemStack(Quantum.itemAntimatter));
                         }
                     }
                 }

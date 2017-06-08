@@ -14,9 +14,6 @@ public class GuiQuantumAssembler extends GuiContainerBase {
 
     private TileQuantumAssembler tileEntity;
 
-    private int containerWidth;
-    private int containerHeight;
-
     public GuiQuantumAssembler(InventoryPlayer par1InventoryPlayer, TileQuantumAssembler tileEntity) {
         super(new ContainerQuantumAssembler(par1InventoryPlayer, tileEntity));
 
@@ -50,8 +47,8 @@ public class GuiQuantumAssembler extends GuiContainerBase {
         mc.renderEngine.bindTexture(texture);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        containerWidth = (width - xSize) / 2;
-        containerHeight = (height - ySize) / 2;
+        int containerWidth = (width - xSize) / 2;
+        int containerHeight = (height - ySize) / 2;
 
         drawTexturedModalRect(containerWidth, containerHeight, 0, 0, xSize, ySize);
     }
