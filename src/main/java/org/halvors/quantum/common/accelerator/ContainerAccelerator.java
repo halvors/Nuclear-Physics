@@ -16,6 +16,7 @@ public class ContainerAccelerator extends ContainerBase {
         super(tileEntity);
 
         this.tileEntity = tileEntity;
+
         // Inputs
         addSlotToContainer(new Slot(tileEntity, 0, 132, 26));
         addSlotToContainer(new Slot(tileEntity, 1, 132, 51));
@@ -27,7 +28,7 @@ public class ContainerAccelerator extends ContainerBase {
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slot) {
+    public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
         ItemStack var2 = null;
         Slot var3 = (Slot) this.inventorySlots.get(slot);
 
@@ -57,7 +58,7 @@ public class ContainerAccelerator extends ContainerBase {
                 return null;
             }
 
-            var3.onPickupFromSlot(par1EntityPlayer, itemStack);
+            var3.onPickupFromSlot(player, itemStack);
         }
 
         return var2;

@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.reactor;
+package org.halvors.quantum.common.reactor.fission;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

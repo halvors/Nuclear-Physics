@@ -11,12 +11,11 @@ public class BlockAccelerator extends BlockRotatable {
     public BlockAccelerator() {
         super(Material.iron);
 
+        setCreativeTab(Quantum.getCreativeTab());
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-        int metadata = world.getBlockMetadata(x, y, z);
-
         if (!world.isRemote) {
             player.openGui(Quantum.getInstance(), 0, world, x, y, z);
         }

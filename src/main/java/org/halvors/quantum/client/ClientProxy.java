@@ -7,16 +7,11 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
-import org.halvors.quantum.client.gui.machine.GuiElectricityMeter;
 import org.halvors.quantum.common.CommonProxy;
-import org.halvors.quantum.common.base.MachineType;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.debug.gui.GuiCreativeBuilder;
-import org.halvors.quantum.common.reactor.GuiReactorCell;
-import org.halvors.quantum.common.reactor.TileReactorCell;
-import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
-import org.halvors.quantum.common.tile.machine.TileEntityMachine;
+import org.halvors.quantum.common.reactor.fission.GuiReactorCell;
+import org.halvors.quantum.common.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 /**
