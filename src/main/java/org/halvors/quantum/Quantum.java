@@ -19,7 +19,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
@@ -47,14 +49,14 @@ import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemBucketToxicWaste;
 import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
-import org.halvors.quantum.common.reactor.*;
+import org.halvors.quantum.common.reactor.BlockElectricTurbine;
+import org.halvors.quantum.common.reactor.RenderElectricTurbine;
+import org.halvors.quantum.common.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.reactor.fission.BlockControlRod;
 import org.halvors.quantum.common.reactor.fission.BlockReactorCell;
 import org.halvors.quantum.common.reactor.fission.RenderReactorCell;
 import org.halvors.quantum.common.reactor.fission.TileReactorCell;
-import org.halvors.quantum.common.reactor.fusion.BlockPlasmaHeater;
-import org.halvors.quantum.common.reactor.fusion.RenderPlasmaHeater;
-import org.halvors.quantum.common.reactor.fusion.TilePlasmaHeater;
+import org.halvors.quantum.common.reactor.fusion.*;
 import org.halvors.quantum.common.schematic.SchematicAccelerator;
 import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
 import org.halvors.quantum.common.schematic.SchematicFissionReactor;
@@ -63,8 +65,10 @@ import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.sensor.TileSiren;
+import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
+import org.halvors.quantum.lib.event.PlasmaEvent;
 import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
 import org.halvors.quantum.lib.tile.BlockDummy;
 import org.halvors.quantum.lib.tile.TileBlock;
@@ -122,7 +126,7 @@ public class Quantum implements IUpdatableMod {
 	public static Block blockNuclearBoiler;
 	public static TileBlock blockSiren;
 	public static Block blockUraniumOre;
-	public static TileBlock blockPlasma;
+	public static Block blockPlasma;
 	public static Block blockRadioactiveGrass;
 	public static Block blockReactorCell;
 	public static BlockFluidClassic blockToxicWaste;
@@ -195,9 +199,10 @@ public class Quantum implements IUpdatableMod {
 		// Call functions for adding blocks, items, etc.
 		registerFluids();
 		registerBlocks();
+		registerTileEntities();
+		registerTileEntitySpecialRenders();
 		registerItems();
 		registerFluidContainers();
-		registerTileEntities();
 		registerRecipes();
 
 		BlockCreativeBuilder.registerSchematic(new SchematicAccelerator());
@@ -237,10 +242,8 @@ public class Quantum implements IUpdatableMod {
 		blockSiren.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockSiren);
 
 		blockUraniumOre = new BlockUraniumOre();
-
-		blockPlasma = new TilePlasma();
-		blockPlasma.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockPlasma);
-
+		blockPlasma = new BlockPlasma();
+		fluidPlasma.setBlock(blockPlasma);
 		blockRadioactiveGrass = new BlockRadioactiveGrass();
 		blockReactorCell = new BlockReactorCell();
 		blockToxicWaste = new BlockToxicWaste();
@@ -254,7 +257,7 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockNuclearBoiler, "blockNuclearBoiler");
 		GameRegistry.registerBlock(blockSiren.block, "blockSiren");
 		GameRegistry.registerBlock(blockUraniumOre, "blockUraniumOre");
-		GameRegistry.registerBlock(blockPlasma.getBlockType(), "blockPlasma");
+		GameRegistry.registerBlock(blockPlasma, "blockPlasma");
 		GameRegistry.registerBlock(blockRadioactiveGrass, "blockRadioactiveGrass");
 		GameRegistry.registerBlock(blockReactorCell, "blockReactorCell");
 		GameRegistry.registerBlock(blockToxicWaste, "blockToxicWaste");
@@ -262,6 +265,27 @@ public class Quantum implements IUpdatableMod {
 
 		blockCreativeBuilder = new BlockCreativeBuilder();
 		GameRegistry.registerBlock(blockCreativeBuilder, "blockCreativeBuilder");
+	}
+
+	private void registerTileEntities() {
+		// Register tile entities.
+		GameRegistry.registerTileEntity(TileChemicalExtractor.class, "tileChemicalExtractor");
+		GameRegistry.registerTileEntity(TileCentrifuge.class, "tileCentrifuge");
+		GameRegistry.registerTileEntity(TileElectricTurbine.class, "tileElectricTurbine");
+		GameRegistry.registerTileEntity(TileNuclearBoiler.class, "tileNuclearBoiler");
+		GameRegistry.registerTileEntity(TilePlasma.class, "tilePlasma");
+		GameRegistry.registerTileEntity(TilePlasmaHeater.class, "tileFusionCore");
+		GameRegistry.registerTileEntity(TileReactorCell.class, "tileReactorCell");
+	}
+
+	private void registerTileEntitySpecialRenders() {
+		// Register special renderers.
+		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileCentrifuge.class, new RenderCentrifuge());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
+		ClientRegistry.bindTileEntitySpecialRenderer(TilePlasmaHeater.class, new RenderPlasmaHeater());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
 	}
 
 	private void registerItems() {
@@ -314,29 +338,10 @@ public class Quantum implements IUpdatableMod {
 
 	private void registerFluidContainers() {
 		// Register fluid containers.
-		//fluidPlasma.setBlock(blockPlasma);
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("deuterium"), 200), new ItemStack(itemDeuteriumCell), new ItemStack(itemCell));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("tritium"), 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluid("toxicwaste"), new ItemStack(itemBucketToxicWaste), new ItemStack(Items.bucket));
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.WATER, new ItemStack(itemWaterCell), new ItemStack(itemCell));
-	}
-
-	private void registerTileEntities() {
-		// Register tile entities.
-		GameRegistry.registerTileEntity(TileChemicalExtractor.class, "tileChemicalExtractor");
-		GameRegistry.registerTileEntity(TileCentrifuge.class, "tileCentrifuge");
-		GameRegistry.registerTileEntity(TileElectricTurbine.class, "tileElectricTurbine");
-		GameRegistry.registerTileEntity(TileNuclearBoiler.class, "tileNuclearBoiler");
-		GameRegistry.registerTileEntity(TilePlasmaHeater.class, "tileFusionCore");
-		GameRegistry.registerTileEntity(TileReactorCell.class, "tileReactorCell");
-
-		// Register special renderers.
-		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileCentrifuge.class, new RenderCentrifuge());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
-		ClientRegistry.bindTileEntitySpecialRenderer(TilePlasmaHeater.class, new RenderPlasmaHeater());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
 	}
 
 	private void registerRecipes() {
@@ -354,6 +359,38 @@ public class Quantum implements IUpdatableMod {
 				event.result = new ItemStack(itemBucketToxicWaste);
 				event.setResult(Event.Result.ALLOW);
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public void plasmaEvent(PlasmaEvent.SpawnPlasmaEvent event) {
+		Vector3 position = new Vector3(event.x, event.y, event.z);
+		Block block = position.getBlock(event.world);
+
+		if (block != null) {
+			TileEntity tile = position.getTileEntity(event.world);
+
+			if (block == Blocks.bedrock || block == Blocks.iron_block) {
+				return;
+			}
+
+			if (tile instanceof TilePlasma) {
+				((TilePlasma) tile).setTemperature(event.temperature);
+
+				return;
+			}
+
+			if (tile instanceof IElectromagnet) {
+				return;
+			}
+		}
+
+		position.setBlock(event.world, blockPlasma);
+
+		TileEntity tile = position.getTileEntity(event.world);
+
+		if (tile instanceof TilePlasma) {
+			((TilePlasma) tile).setTemperature(event.temperature);
 		}
 	}
 
