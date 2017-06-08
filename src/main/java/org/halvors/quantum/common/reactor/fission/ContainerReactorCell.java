@@ -3,8 +3,8 @@ package org.halvors.quantum.common.reactor.fission;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import org.halvors.quantum.common.item.ItemBreederFuel;
-import org.halvors.quantum.common.item.ItemFissileFuel;
+import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
+import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.quantum.lib.gui.ContainerBase;
 import org.halvors.quantum.lib.gui.slot.SlotSpecific;
 
