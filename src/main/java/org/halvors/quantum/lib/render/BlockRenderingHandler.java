@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.item.ISimpleItemRenderer;
 import org.halvors.quantum.lib.tile.BlockDummy;
@@ -93,8 +92,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
 
             try {
                 if (tesr instanceof ISimpleItemRenderer) {
-                    ISimpleItemRenderer simpleItemRenderer = (ISimpleItemRenderer) tesr;
-                    simpleItemRenderer.renderInventoryItem(new ItemStack(block, 1, metadata));
+                    ((ISimpleItemRenderer) tesr).renderInventoryItem(new ItemStack(block, 1, metadata));
                 } else {
                     tesr.renderTileEntityAt(renderTile, 0, 0, 0, 0);
                 }
@@ -109,8 +107,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
 
     @Override
     public boolean renderWorldBlock(IBlockAccess access, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-        /*
-        if (block instanceof BlockDummy) {
+        if ((block instanceof BlockDummy)) {
             BlockDummy dummy = (BlockDummy) block;
             dummy.inject(access, x, y, z);
             TileBlock tileBlock = dummy.getTile(access, x, y, z);
@@ -123,33 +120,6 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
                         renderer.renderStandardBlock(block, x, y, z);
                     }
                 } else if (tileBlock.normalRender || tileBlock.forceStandardRender) {
-                    renderer.renderStandardBlock(block, x, y, z);
-                }
-            }
-
-            return true;
-        }
-        */
-
-        TileEntity tileEntity = null;
-
-        Quantum.getLogger().info("Called 1");
-
-        if (block.hasTileEntity(access.getBlockMetadata(x, y, z))) {
-            tileEntity = getTileEntityForBlock(block);
-
-            Quantum.getLogger().info("Called 2");
-        }
-
-        if (tileEntity instanceof IRender) {
-            IRender render = (IRender) tileEntity;
-
-            Quantum.getLogger().info("Called 3");
-
-            if (render != null) {
-                Quantum.getLogger().info("Called 4");
-
-                if (!render.renderStatic(renderer, new Vector3(x, y, z))) {
                     renderer.renderStandardBlock(block, x, y, z);
                 }
             }

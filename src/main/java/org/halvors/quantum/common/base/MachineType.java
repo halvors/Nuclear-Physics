@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.block.BlockMachine;
-import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
-import org.halvors.quantum.common.tile.machine.TileEntityMachine;
+import org.halvors.quantum.common.tile.machine.old.TileEntityElectricityMeter;
+import org.halvors.quantum.common.tile.machine.old.TileEntityMachine;
 import org.halvors.quantum.common.utility.LanguageUtility;
 
 public enum MachineType {

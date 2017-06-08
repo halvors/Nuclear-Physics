@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.network.NetworkHandler;
-import org.halvors.quantum.common.tile.machine.TileEntityElectricityMeter;
+import org.halvors.quantum.common.tile.machine.old.TileEntityElectricityMeter;
 
 import java.util.ArrayList;
 import java.util.List;

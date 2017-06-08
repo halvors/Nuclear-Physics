@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.debug.gui.GuiCreativeBuilder;
-import org.halvors.quantum.common.reactor.fission.GuiReactorCell;
-import org.halvors.quantum.common.reactor.fission.TileReactorCell;
+import org.halvors.quantum.client.gui.reactor.fission.GuiReactorCell;
+import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 /**
