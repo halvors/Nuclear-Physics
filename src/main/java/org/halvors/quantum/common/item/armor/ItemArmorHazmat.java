@@ -19,7 +19,7 @@ public class ItemArmorHazmat extends ItemQuantumArmor implements IAntiPoisonArmo
 
     @Override
     public String getArmorTexture(ItemStack itemStack, Entity entity, int slot, String type) {
-        return Reference.PREFIX + "models/hazmat.png";
+        return Reference.PREFIX + "textures/models/hazmat.png";
     }
 
     @Override
