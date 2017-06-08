@@ -36,29 +36,12 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		TileEntity tileEntity = world.getTileEntity(x, y, z);
 		Block block = world.getBlock(x, y, z);
 
-		Quantum.getLogger().info("Called gui!!!!!!!!!!!!!!!!!!");
-
 		if (block instanceof BlockCreativeBuilder) {
 			return new GuiCreativeBuilder(new Vector3(x, y, z));
 		}
 
 		if (tileEntity instanceof TileReactorCell) {
-			Quantum.getLogger().info("Called gui tilereactorcell!!!!!!!!!!!!!!!!!!");
-
 			return new GuiReactorCell(player, (TileReactorCell) tileEntity);
-		}
-
-		if (tileEntity instanceof TileEntityMachine) {
-			TileEntityMachine tileEntityMachine = (TileEntityMachine) tileEntity;
-			MachineType machineType = tileEntityMachine.getMachineType();
-
-			switch (machineType) {
-				case BASIC_ELECTRICITY_METER:
-				case ADVANCED_ELECTRICITY_METER:
-				case ELITE_ELECTRICITY_METER:
-				case ULTIMATE_ELECTRICITY_METER:
-					return new GuiElectricityMeter((TileEntityElectricityMeter) tileEntity);
-			}
 		}
 
 		return null;

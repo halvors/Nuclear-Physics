@@ -48,31 +48,26 @@ public class BlockReactorCell extends BlockRotatable {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
         if (world.isRemote) {
-            TileReactorCell tileEntity = (TileReactorCell) world.getTileEntity(x, y, z);
+            TileReactorCell tile = (TileReactorCell) world.getTileEntity(x, y, z);
 
-            if (!player.isSneaking()) {
-                if (tileEntity.getStackInSlot(0) != null) {
-                    InventoryUtility.dropItemStack(world, new Vector3(player), tileEntity.getStackInSlot(0), 0);
-                    tileEntity.setInventorySlotContents(0, null);
-
-                    return true;
-                }
-
-                if (player.inventory.getCurrentItem() != null) {
+            if (player.inventory.getCurrentItem() != null) {
+                if (tile.getStackInSlot(0) == null) {
                     if (player.inventory.getCurrentItem().getItem() instanceof IReactorComponent) {
                         ItemStack itemStack = player.inventory.getCurrentItem().copy();
                         itemStack.stackSize = 1;
-                        tileEntity.setInventorySlotContents(0, itemStack);
+                        tile.setInventorySlotContents(0, itemStack);
                         player.inventory.decrStackSize(player.inventory.currentItem, 1);
+
+                        return true;
                     }
-
-                    return true;
                 }
-
-
-                player.openGui(Quantum.getInstance(), 0, world, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
+            } else if (player.isSneaking() && tile.getStackInSlot(0) != null) {
+                InventoryUtility.dropItemStack(world, new Vector3(player), tile.getStackInSlot(0), 0);
+                tile.setInventorySlotContents(0, null);
 
                 return true;
+            } else {
+                player.openGui(Quantum.getInstance(), 0, world, tile.xCoord, tile.yCoord, tile.zCoord);
             }
         }
 

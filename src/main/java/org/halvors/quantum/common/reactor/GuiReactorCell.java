@@ -26,7 +26,7 @@ public class GuiReactorCell extends GuiContainerBase {
         if (tileEntity.getStackInSlot(0) != null) {
             // Test field for actual heat inside of reactor cell.
             fontRendererObj.drawString(LanguageUtility.localize("tooltip.temperature"), 9, 45, 4210752);
-            fontRendererObj.drawString(String.valueOf((int) tileEntity.getTemperature()) + "/" + String.valueOf(TileReactorCell.MELTING_POINT) + " K", 9, 58, 4210752);
+            fontRendererObj.drawString(String.valueOf((int) tileEntity.getTemperature()) + "/" + String.valueOf(TileReactorCell.meltingPoint) + " K", 9, 58, 4210752);
 
             // Text field for total number of ticks remaining.
             int secondsLeft = (tileEntity.getStackInSlot(0).getMaxDurability() - tileEntity.getStackInSlot(0).getMetadata());
@@ -57,14 +57,14 @@ public class GuiReactorCell extends GuiContainerBase {
         super.drawGuiContainerBackgroundLayer(par1, x, y);
 
         drawSlot(78, 16);
-        drawMeter(80, 36, (float) tileEntity.tank.getFluidAmount() / (float) tileEntity.tank.getCapacity(), tileEntity.tank.getFluid());
+        drawMeter(80, 36, tileEntity.tank.getFluidAmount() / tileEntity.tank.getCapacity(), tileEntity.tank.getFluid());
 
         if (tileEntity.getStackInSlot(0) != null) {
             // Progress bar of temperature inside of reactor.
             GL11.glPushMatrix();
             GL11.glTranslatef(32 * 2, 0, 0);
             GL11.glScalef(0.5f, 1, 1);
-            drawForce(20, 70, (tileEntity.getTemperature()) / (TileReactorCell.MELTING_POINT));
+            drawForce(20, 70, (tileEntity.getTemperature()) / (TileReactorCell.meltingPoint));
             GL11.glPopMatrix();
 
             // Progress bar of remaining burn time on reactor cell.

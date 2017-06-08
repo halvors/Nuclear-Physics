@@ -18,7 +18,7 @@ public class ContainerReactorCell extends ContainerBase {
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1) {
+    public ItemStack transferStackInSlot(EntityPlayer player, int par1) {
         ItemStack var2 = null;
         Slot slot = (Slot) inventorySlots.get(par1);
 
@@ -52,7 +52,7 @@ public class ContainerReactorCell extends ContainerBase {
                 return null;
             }
 
-            slot.onPickupFromSlot(par1EntityPlayer, itemStack);
+            slot.onPickupFromSlot(player, itemStack);
         }
 
         return var2;
