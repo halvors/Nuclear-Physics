@@ -69,6 +69,7 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
 import org.halvors.quantum.lib.event.PlasmaEvent;
+import org.halvors.quantum.lib.event.ThermalEvent;
 import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
 import org.halvors.quantum.lib.tile.BlockDummy;
 import org.halvors.quantum.lib.tile.TileBlock;
@@ -391,6 +392,16 @@ public class Quantum implements IUpdatableMod {
 
 		if (tile instanceof TilePlasma) {
 			((TilePlasma) tile).setTemperature(event.temperature);
+		}
+	}
+
+	@SubscribeEvent
+	public void thermalEventHandler(ThermalEvent.ThermalEventUpdate event) {
+		VectorWorld position = event.position;
+		Block block = position.getBlock();
+
+		if (block == blockElectromagnet) {
+			event.heatLoss = event.deltaTemperature * 0.6F;
 		}
 	}
 
