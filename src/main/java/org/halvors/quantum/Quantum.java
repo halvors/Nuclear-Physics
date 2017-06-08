@@ -13,6 +13,8 @@ import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -21,7 +23,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.world.World;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
@@ -32,6 +34,7 @@ import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.client.render.machine.RenderCentrifuge;
 import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
 import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
+import org.halvors.quantum.client.render.reactor.fusion.RenderFusionReactor;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
@@ -42,6 +45,8 @@ import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.machine.BlockCentrifuge;
 import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
 import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
+import org.halvors.quantum.common.block.reactor.fusion.BlockFusionReactor;
+import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.item.*;
@@ -49,14 +54,14 @@ import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemBucketToxicWaste;
 import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
-import org.halvors.quantum.common.reactor.BlockElectricTurbine;
-import org.halvors.quantum.common.reactor.RenderElectricTurbine;
-import org.halvors.quantum.common.reactor.TileElectricTurbine;
-import org.halvors.quantum.common.reactor.fission.BlockControlRod;
-import org.halvors.quantum.common.reactor.fission.BlockReactorCell;
-import org.halvors.quantum.common.reactor.fission.RenderReactorCell;
-import org.halvors.quantum.common.reactor.fission.TileReactorCell;
-import org.halvors.quantum.common.reactor.fusion.*;
+import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
+import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
+import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
+import org.halvors.quantum.common.block.reactor.fission.BlockControlRod;
+import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
+import org.halvors.quantum.client.render.reactor.fission.RenderReactorCell;
+import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
+import org.halvors.quantum.common.block.TileElectromagnet;
 import org.halvors.quantum.common.schematic.SchematicAccelerator;
 import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
 import org.halvors.quantum.common.schematic.SchematicFissionReactor;
@@ -64,15 +69,18 @@ import org.halvors.quantum.common.schematic.SchematicFusionReactor;
 import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
+import org.halvors.quantum.common.tile.reactor.fusion.TileFusionReactor;
+import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.tile.sensor.TileSiren;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
 import org.halvors.quantum.lib.event.PlasmaEvent;
 import org.halvors.quantum.lib.event.ThermalEvent;
-import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
+import org.halvors.quantum.lib.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.tile.BlockDummy;
 import org.halvors.quantum.lib.tile.TileBlock;
+import org.halvors.quantum.lib.utility.RenderUtility;
 
 /**
  * This is the Quantum class, which is the main class of this mod.
@@ -122,7 +130,7 @@ public class Quantum implements IUpdatableMod {
 	public static Block blockChemicalExtractor;
 	public static Block blockCentrifuge;
 	public static Block blockControlRod;
-	public static Block blockElectromagnet;
+	public static TileBlock blockElectromagnet;
 	public static Block blockFusionCore;
 	public static Block blockNuclearBoiler;
 	public static TileBlock blockSiren;
@@ -235,8 +243,11 @@ public class Quantum implements IUpdatableMod {
 		blockChemicalExtractor = new BlockChemicalExtractor();
 		blockCentrifuge = new BlockCentrifuge();
 		blockControlRod = new BlockControlRod();
-		blockElectromagnet = new BlockElectromagnet().setCreativeTab(Quantum.getCreativeTab());
-		blockFusionCore = new BlockPlasmaHeater();
+
+		blockElectromagnet = new TileElectromagnet();
+		blockElectromagnet.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockElectromagnet);
+
+		blockFusionCore = new BlockFusionReactor();
 		blockNuclearBoiler = new BlockNuclearBoiler();
 
 		blockSiren = new TileSiren();
@@ -253,7 +264,7 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockChemicalExtractor, "blockChemicalExtractor");
 		GameRegistry.registerBlock(blockCentrifuge, "blockCentrifuge");
 		GameRegistry.registerBlock(blockControlRod, "blockControlRod");
-		GameRegistry.registerBlock(blockElectromagnet, "blockElectromagnet");
+		GameRegistry.registerBlock(blockElectromagnet.block, "blockElectromagnet");
 		GameRegistry.registerBlock(blockFusionCore, "blockFusionCore");
 		GameRegistry.registerBlock(blockNuclearBoiler, "blockNuclearBoiler");
 		GameRegistry.registerBlock(blockSiren.block, "blockSiren");
@@ -273,9 +284,10 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerTileEntity(TileChemicalExtractor.class, "tileChemicalExtractor");
 		GameRegistry.registerTileEntity(TileCentrifuge.class, "tileCentrifuge");
 		GameRegistry.registerTileEntity(TileElectricTurbine.class, "tileElectricTurbine");
+		GameRegistry.registerTileEntity(TileElectromagnet.class, "tileElectromagnet");
 		GameRegistry.registerTileEntity(TileNuclearBoiler.class, "tileNuclearBoiler");
 		GameRegistry.registerTileEntity(TilePlasma.class, "tilePlasma");
-		GameRegistry.registerTileEntity(TilePlasmaHeater.class, "tileFusionCore");
+		GameRegistry.registerTileEntity(TileFusionReactor.class, "tileFusionCore");
 		GameRegistry.registerTileEntity(TileReactorCell.class, "tileReactorCell");
 	}
 
@@ -285,7 +297,7 @@ public class Quantum implements IUpdatableMod {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCentrifuge.class, new RenderCentrifuge());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
-		ClientRegistry.bindTileEntitySpecialRenderer(TilePlasmaHeater.class, new RenderPlasmaHeater());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileFusionReactor.class, new RenderFusionReactor());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
 	}
 
@@ -400,8 +412,16 @@ public class Quantum implements IUpdatableMod {
 		VectorWorld position = event.position;
 		Block block = position.getBlock();
 
-		if (block == blockElectromagnet) {
+		if (block == blockElectromagnet.block) {
 			event.heatLoss = event.deltaTemperature * 0.6F;
+		}
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void preTextureHook(TextureStitchEvent.Pre event) {
+		if (event.map.getTextureType() == 0) {
+			RenderUtility.registerIcon(Reference.PREFIX + "atomic_edge", event.map);
 		}
 	}
 

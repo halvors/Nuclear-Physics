@@ -42,13 +42,13 @@ public class ContainerNuclearBoiler extends ContainerBase {
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotId) {
-        ItemStack var2 = null;
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {
+        ItemStack copyStack = null;
         Slot slot = (Slot) inventorySlots.get(slotId);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();
-            var2 = itemStack.copy();
+            copyStack = itemStack.copy();
 
             if (slotId >= slotCount) {
                 if (this.getSlot(0).isItemValid(itemStack)) {
@@ -84,13 +84,13 @@ public class ContainerNuclearBoiler extends ContainerBase {
                 slot.onSlotChanged();
             }
 
-            if (itemStack.stackSize == var2.stackSize) {
+            if (itemStack.stackSize == copyStack.stackSize) {
                 return null;
             }
 
-            slot.onPickupFromSlot(par1EntityPlayer, itemStack);
+            slot.onPickupFromSlot(player, itemStack);
         }
 
-        return var2;
+        return copyStack;
     }
 }

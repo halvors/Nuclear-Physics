@@ -49,28 +49,28 @@ public class ContainerCentrifuge extends ContainerBase {
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
     @Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotId) {
-        ItemStack var2 = null;
-        Slot var3 = (Slot) this.inventorySlots.get(slotId);
+        ItemStack copyStack = null;
+        Slot slot = (Slot) inventorySlots.get(slotId);
 
-        if (var3 != null && var3.getHasStack()) {
-            ItemStack itemStack = var3.getStack();
-            var2 = itemStack.copy();
+        if (slot != null && slot.getHasStack()) {
+            ItemStack itemStack = slot.getStack();
+            copyStack = itemStack.copy();
 
             if (slotId >= slotCount) {
-                if (this.getSlot(0).isItemValid(itemStack)) {
-                    if (!this.mergeItemStack(itemStack, 0, 1, false)) {
+                if (getSlot(0).isItemValid(itemStack)) {
+                    if (!mergeItemStack(itemStack, 0, 1, false)) {
                         return null;
                     }
                 } else if (itemStack == new ItemStack(Quantum.blockUraniumOre)) {
-                    if (!this.mergeItemStack(itemStack, 1, 2, false)) {
+                    if (!mergeItemStack(itemStack, 1, 2, false)) {
                         return null;
                     }
                 } else if (itemStack.getItem() == Quantum.itemCell) {
-                    if (!this.mergeItemStack(itemStack, 3, 4, false)) {
+                    if (!mergeItemStack(itemStack, 3, 4, false)) {
                         return null;
                     }
                 } else if (slotId < 27 + slotCount) {
-                    if (!this.mergeItemStack(itemStack, 27 + slotCount, 36 + slotCount, false)) {
+                    if (!mergeItemStack(itemStack, 27 + slotCount, 36 + slotCount, false)) {
                         return null;
                     }
                 } else if (slotId >= 27 + slotCount && slotId < 36 + slotCount && !mergeItemStack(itemStack, 4, 30, false)) {
@@ -81,18 +81,18 @@ public class ContainerCentrifuge extends ContainerBase {
             }
 
             if (itemStack.stackSize == 0) {
-                var3.putStack(null);
+                slot.putStack(null);
             } else {
-                var3.onSlotChanged();
+                slot.onSlotChanged();
             }
 
-            if (itemStack.stackSize == var2.stackSize) {
+            if (itemStack.stackSize == copyStack.stackSize) {
                 return null;
             }
 
-            var3.onPickupFromSlot(par1EntityPlayer, itemStack);
+            slot.onPickupFromSlot(par1EntityPlayer, itemStack);
         }
 
-        return var2;
+        return copyStack;
     }
 }

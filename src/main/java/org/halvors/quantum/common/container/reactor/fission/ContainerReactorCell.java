@@ -19,24 +19,24 @@ public class ContainerReactorCell extends ContainerBase {
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer player, int par1) {
-        ItemStack var2 = null;
-        Slot slot = (Slot) inventorySlots.get(par1);
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {
+        ItemStack copyStack = null;
+        Slot slot = (Slot) inventorySlots.get(slotId);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();
-            var2 = itemStack.copy();
+            copyStack = itemStack.copy();
 
-            if (par1 >= slotCount) {
+            if (slotId >= slotCount) {
                 if (getSlot(0).isItemValid(itemStack)) {
                     if (!mergeItemStack(itemStack, 0, 1, false)) {
                         return null;
                     }
-                } else if (par1 < 27 + slotCount) {
+                } else if (slotId < 27 + slotCount) {
                     if (!mergeItemStack(itemStack, 27 + slotCount, 36 + slotCount, false)) {
                         return null;
                     }
-                } else if (par1 >= 27 + slotCount && par1 < 36 + slotCount && !mergeItemStack(itemStack, 4, 30, false)) {
+                } else if (slotId >= 27 + slotCount && slotId < 36 + slotCount && !mergeItemStack(itemStack, 4, 30, false)) {
                     return null;
                 }
             } else if (!mergeItemStack(itemStack, slotCount, 36 + slotCount, false)) {
@@ -49,13 +49,13 @@ public class ContainerReactorCell extends ContainerBase {
                 slot.onSlotChanged();
             }
 
-            if (itemStack.stackSize == var2.stackSize) {
+            if (itemStack.stackSize == copyStack.stackSize) {
                 return null;
             }
 
             slot.onPickupFromSlot(player, itemStack);
         }
 
-        return var2;
+        return copyStack;
     }
 }
