@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.item;
+package org.halvors.quantum.common.item.reactor.fission;
 
 
 import net.minecraft.init.Items;

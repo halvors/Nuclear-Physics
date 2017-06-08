@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.reactor;
+package org.halvors.quantum.common.reactor.fission;
 
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidHandler;

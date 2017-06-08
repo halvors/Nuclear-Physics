@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.item;
+package org.halvors.quantum.common.item.reactor.fission;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -11,8 +11,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.reactor.IReactor;
-import org.halvors.quantum.common.reactor.IReactorComponent;
+import org.halvors.quantum.common.item.ItemRadioactive;
+import org.halvors.quantum.common.reactor.fission.IReactor;
+import org.halvors.quantum.common.reactor.fission.IReactorComponent;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.List;
