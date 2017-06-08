@@ -8,9 +8,7 @@ import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.reactor.BlockTurbine;
-import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
-import org.halvors.quantum.lib.tile.TileBlock;
-import org.halvors.quantum.lib.tile.TileRender;
+import org.halvors.quantum.lib.render.BlockRenderingHandler;
 
 public class BlockElectricTurbine extends BlockTurbine {
     public BlockElectricTurbine() {

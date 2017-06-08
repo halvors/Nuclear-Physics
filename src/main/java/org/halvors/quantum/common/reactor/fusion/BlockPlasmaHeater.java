@@ -8,7 +8,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.lib.prefab.block.BlockTile;
-import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
+import org.halvors.quantum.lib.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.utility.FluidUtility;
 
 public class BlockPlasmaHeater extends BlockTile {

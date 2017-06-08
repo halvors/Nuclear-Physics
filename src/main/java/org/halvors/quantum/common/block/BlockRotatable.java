@@ -47,9 +47,6 @@ public abstract class BlockRotatable extends BlockTextured {
 		return (this.rotationMask & 1 << ord) != 0;
 	}
 
-
-
-
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
 		TileEntity tileEntity = world.getTileEntity(x, y, z);

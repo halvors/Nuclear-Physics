@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.lib.prefab.block.BlockRotatable;
-import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
+import org.halvors.quantum.lib.render.BlockRenderingHandler;
 
 public class BlockNuclearBoiler extends BlockRotatable {
     public BlockNuclearBoiler() {

@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.lib.prefab.block.BlockRotatable;
-import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
+import org.halvors.quantum.lib.render.BlockRenderingHandler;
 
 public class BlockCentrifuge extends BlockRotatable {
     public BlockCentrifuge() {

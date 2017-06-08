@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.render.block;
+package org.halvors.quantum.lib.render;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

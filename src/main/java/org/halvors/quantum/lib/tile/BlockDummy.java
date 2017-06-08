@@ -22,7 +22,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.transform.vector.Cuboid;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
+import org.halvors.quantum.lib.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 
 public class BlockDummy extends Block implements ITileEntityProvider {
@@ -34,7 +34,7 @@ public class BlockDummy extends Block implements ITileEntityProvider {
         this.dummyTile = dummyTile;
         dummyTile.domain = modPrefix;
 
-        setUnlocalizedName(modPrefix + dummyTile.name);
+        setUnlocalizedName(dummyTile.name);
         setTextureName(modPrefix + dummyTile.textureName);
 
         if (dummyTile.creativeTab != null) {

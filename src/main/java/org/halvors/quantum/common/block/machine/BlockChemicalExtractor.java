@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.lib.prefab.block.BlockRotatable;
-import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
+import org.halvors.quantum.lib.render.BlockRenderingHandler;
 
 public class BlockChemicalExtractor extends BlockRotatable {
     public BlockChemicalExtractor() {

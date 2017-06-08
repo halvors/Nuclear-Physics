@@ -12,7 +12,7 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
+import org.halvors.quantum.lib.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 
 public class BlockReactorCell extends BlockRotatable {

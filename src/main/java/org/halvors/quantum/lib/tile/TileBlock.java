@@ -558,7 +558,7 @@ public abstract class TileBlock extends TileEntity {
 
     @SideOnly(Side.CLIENT)
     protected String getTextureName() {
-        return block.dummyTile.domain + textureName;
+        return block.dummyTile.domain + ":" + textureName;
     }
 
     public boolean shouldSideBeRendered(IBlockAccess access, int x, int y, int z, int side) {
