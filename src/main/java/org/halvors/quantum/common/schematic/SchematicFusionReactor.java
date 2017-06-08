@@ -39,10 +39,10 @@ public class SchematicFusionReactor implements ISchematic {
                                 double yDeviation = (y == 0 ? size / 3 : -size / 3) + (y == 0 ? -1 : 1) * Math.sin(magnitude / radius * Math.PI) * size / 2;
                                 Vector3 newPos = position.clone().translate(0, yDeviation, 0);
 
-                                map.put(newPos.round(), new Pair<Block, Integer>(Quantum.blockElectromagnet, 1));
+                                map.put(newPos.round(), new Pair<Block, Integer>(Quantum.blockElectromagnet.block, 1));
                             }
                         } else if (magnitude > radius - 1) {
-                            map.put(position, new Pair<Block, Integer>(Quantum.blockElectromagnet, 0));
+                            map.put(position, new Pair<Block, Integer>(Quantum.blockElectromagnet.block, 0));
                         }
                     }
                 }
@@ -52,10 +52,10 @@ public class SchematicFusionReactor implements ISchematic {
         // Fusion Core
         for (int y = 0; y < size; y++) {
             map.put(new Vector3(0, y, 0), new Pair<>(Quantum.blockReactorCell, 0));
-            map.put(new Vector3(1, y, 0), new Pair<Block, Integer>(Quantum.blockElectromagnet, 0));
-            map.put(new Vector3(0, y, 1), new Pair<Block, Integer>(Quantum.blockElectromagnet, 0));
-            map.put(new Vector3(0, y, -1), new Pair<Block, Integer>(Quantum.blockElectromagnet, 0));
-            map.put(new Vector3(-1, y, 0), new Pair<Block, Integer>(Quantum.blockElectromagnet, 0));
+            map.put(new Vector3(1, y, 0), new Pair<Block, Integer>(Quantum.blockElectromagnet.block, 0));
+            map.put(new Vector3(0, y, 1), new Pair<Block, Integer>(Quantum.blockElectromagnet.block, 0));
+            map.put(new Vector3(0, y, -1), new Pair<Block, Integer>(Quantum.blockElectromagnet.block, 0));
+            map.put(new Vector3(-1, y, 0), new Pair<Block, Integer>(Quantum.blockElectromagnet.block, 0));
         }
 
         map.put(new Vector3(0, 0, 0), new Pair<>(Quantum.blockReactorCell, 0));

@@ -37,8 +37,7 @@ public class BlockPlasmaHeater extends BlockTile {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return BlockRenderingHandler.ID;
     }
 
