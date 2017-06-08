@@ -34,22 +34,27 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
 
             int metadata = 2;
 
-            if (tileEntity.getWorld() != null) {
+            if (tileReactorCell.getWorld() != null) {
                 metadata = tileEntity.getBlockMetadata();
             }
 
-            boolean hasBelow = (tileEntity.getWorld() != null && tileEntity.getWorld().getTileEntity(tileEntity.xCoord, tileEntity.yCoord - 1, tileEntity.zCoord) instanceof TileReactorCell);
+            boolean hasBelow = (tileReactorCell.getWorld() != null && tileReactorCell.getWorld().getTileEntity(tileEntity.xCoord, tileEntity.yCoord - 1, tileEntity.zCoord) instanceof TileReactorCell);
 
             switch (metadata) {
                 case 0:
                     Minecraft.getMinecraft().renderEngine.bindTexture(textureBottom);
+
+                    GL11.glTranslatef(0.0F, 0.035F, 0.0F); // Verified
+                    GL11.glScalef(1.0F, 1F, 1.0F); // Verified
+
                     modelBottom.renderAll();
                     break;
 
                 case 1:
                     Minecraft.getMinecraft().renderEngine.bindTexture(textureMiddle);
-                    GL11.glTranslatef(0.0F, 0.075F, 0.0F);
-                    GL11.glScalef(1.0F, 1.15F, 1.0F);
+
+                    GL11.glTranslatef(0.0F, 0.036F, 0.0F); // Verified
+                    GL11.glScalef(1.0F, 1.0F, 1.0F); // Verified
                     modelMiddle.renderAll();
                     break;
 
@@ -57,10 +62,11 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
                     Minecraft.getMinecraft().renderEngine.bindTexture(textureTop);
 
                     if (hasBelow) {
-                        GL11.glScalef(1.0F, 1.32F, 1.0F);
+                        GL11.glTranslatef(0.0F, -0.9F, 0.0F); // Verified
+                        GL11.glScalef(1.0F, 1.42F, 1.0F); // Verified
                     } else {
-                        GL11.glTranslatef(0.0F, 0.1F, 0.0F);
-                        GL11.glScalef(1.0F, 1.2F, 1.0F);
+                        GL11.glTranslatef(0.0F, 0.04F, 0.0F); // Verified
+                        GL11.glScalef(1.0F, 1.2F, 1.0F); // Verified
                     }
 
                     if (hasBelow) {
@@ -68,29 +74,26 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
                     } else {
                         modelTop.renderAll();
                     }
-
                     break;
             }
 
             GL11.glPopMatrix();
 
             // Render fissile fuel inside reactor.
-            //ItemStack itemStackFuel = tileReactorCell.getStackInSlot(0);
+            ItemStack itemStackFuel = tileReactorCell.getStackInSlot(0);
 
-            /*
             if (itemStackFuel != null) {
                 float height = tileReactorCell.getHeight() * ((itemStackFuel.getMaxDurability() - itemStackFuel.getMetadata()) / itemStackFuel.getMaxDurability());
 
                 GL11.glPushMatrix();
                 GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F * height, (float) z + 0.5F);
                 GL11.glScalef(0.4F, 0.9F * height, 0.4F);
-                bindTexture(textureFissile);
+                Minecraft.getMinecraft().renderEngine.bindTexture(textureFissile);
                 RenderUtility.disableLighting();
                 ModelCube.INSTNACE.render();
                 RenderUtility.enableLighting();
                 GL11.glPopMatrix();
             }
-            */
         }
     }
 }
