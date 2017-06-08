@@ -1,5 +1,7 @@
 package org.halvors.quantum.common.block.reactor;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,12 +9,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.lib.prefab.block.BlockRotatable;
 import org.halvors.quantum.common.tile.reactor.TileTurbine;
+import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
 
 public class BlockTurbine extends BlockRotatable {
     public BlockTurbine(Material material) {
         super(material);
 
-        this.rotationMask = Byte.parseByte("000001", 2);
+        rotationMask = Byte.parseByte("000001", 2);
     }
 
     @Override
@@ -46,13 +49,21 @@ public class BlockTurbine extends BlockRotatable {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
     public boolean renderAsNormalBlock() {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
-        return false;
+    @SideOnly(Side.CLIENT)
+    public int getRenderType() {
+        return BlockRenderingHandler.ID;
     }
 
     @Override
