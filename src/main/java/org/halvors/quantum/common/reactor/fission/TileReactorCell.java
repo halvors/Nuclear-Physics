@@ -20,7 +20,7 @@ import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.reactor.TilePlasma;
+import org.halvors.quantum.common.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.tile.TileEntityRotatable;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;

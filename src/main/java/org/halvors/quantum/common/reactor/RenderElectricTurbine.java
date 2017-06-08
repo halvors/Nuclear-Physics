@@ -10,7 +10,6 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.apache.commons.lang3.ArrayUtils;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.reactor.TileTurbine;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)

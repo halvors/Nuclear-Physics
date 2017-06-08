@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.tile.reactor;
+package org.halvors.quantum.common.reactor;
 
 import java.util.EnumSet;
 import java.util.HashSet;

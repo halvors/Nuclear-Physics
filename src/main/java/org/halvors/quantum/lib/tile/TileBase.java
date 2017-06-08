@@ -37,7 +37,7 @@ public abstract class TileBase extends TileBlock implements IPlayerUsing {
             ticks = 1L;
         }
 
-        ticks += 1L;
+        ticks ++;
     }
 
     @Override

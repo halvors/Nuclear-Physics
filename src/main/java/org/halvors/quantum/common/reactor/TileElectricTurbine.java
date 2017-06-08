@@ -5,19 +5,18 @@ import net.minecraftforge.fluids.Fluid;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.lib.IBoilHandler;
-import org.halvors.quantum.common.tile.reactor.TileTurbine;
 
 public class TileElectricTurbine extends TileTurbine implements IBoilHandler {
     public TileElectricTurbine() {
-        this.maxPower = 5000000L;
+        maxPower = 5000000;
     }
 
     @Override
     public void updateEntity() {
         if (getMultiBlock().isConstructed()) {
-            torque = (2500000L * getArea());
+            torque = (2500000 * getArea());
         } else {
-            torque = 2500000L;
+            torque = 2500000;
         }
 
         super.updateEntity();

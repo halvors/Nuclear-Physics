@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.lib.prefab.block.BlockRotatable;
-import org.halvors.quantum.common.tile.reactor.TileTurbine;
+import org.halvors.quantum.common.reactor.TileTurbine;
 import org.halvors.quantum.lib.render.block.BlockRenderingHandler;
 
 public class BlockTurbine extends BlockRotatable {
