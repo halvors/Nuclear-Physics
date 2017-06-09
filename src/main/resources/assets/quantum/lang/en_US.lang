@@ -5,6 +5,8 @@ itemGroup.tabQuantum=Quantum
 
 // Blocks.
 
+tile.accelerator.name=Particle Accelerator
+tile.accelerator.tooltip=Accelerates particles and creates antimatter and dark matter.
 tile.centrifuge.name=Centrifuge
 tile.centrifuge.tooltip=Refines Uranium Hexafluoride gas into usable uranium.
 tile.chemicalExtractor.name=Chemical Extractor
@@ -13,16 +15,24 @@ tile.controlRod.name=Control Rod
 tile.controlRod.tooltip=Suppresses fission reaction in adjacent reactor cells.
 tile.creativeBuilder.name=Creative Builder
 tile.creativeBuilder.tooltip=
-tile.electromagnet.name=Electromagnet
-tile.electromagnet.0.name=Electromagnet
-tile.electromagnet.1.name=Electromagnet Glass
+//tile.electromagnet.name=Electromagnet
+//tile.electromagnet.0.name=Electromagnet
+//tile.electromagnet.1.name=Electromagnet Glass
 tile.electromagnet.electromagnet.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
 tile.electricTurbine.name=Electric Turbine
 tile.electricTurbine.tooltip=Transform the kinetic energy from moving steam into electrical energy.
+tile.fulmination.name=Fulmination Generator
+tile.fulmination.tooltip=Transforms the kinetic energy from explosions into electrical energy.
+tile.fusionReactor.name=Fusion Reactor
+tile.fusionReactor.tooltip=A fusion reactor is used to heat deuterium and tritium to plasma state for fusion power. Plasma must be moved into the reactor cell.
 tile.nuclearBoiler.name=Nuclear Boiler
 tile.nuclearBoiler.tooltip=Boils yellowcake into uranium hexaflouride gas.
 tile.oreUranium.name=Uranium Ore
 tile.oreUraniumOre.tooltip=A precious and useful ore used for fission reactions.
+tile.plasma.name=Plasma
+tile.plasma.tooltip=Generates extreme heat for boiling water.
+tile.quantumAssembler.name=Quantum Assembler
+tile.quantumAssembler.tooltip=Reassembles Dark Matter atoms into usable materials.
 tile.radioactiveGrass.name=Radioactive Waste
 tile.radioactiveGrass.tooltip=Generates harmful radiation and spreads around the world, mutating organisms.
 tile.reactorCell.name=Reactor Cell
@@ -34,20 +44,10 @@ tile.toxicWaste.tooltip=Toxic, nuclear waste that pollutes the world.
 
 //block.reactorDrain.name=Reactor Drain
 //block.reactorDrain.tooltip=Extracts fluids out of the reactor, such as toxic waste.
-//block.plasmaHeater.name=Plasma Heater
-//block.plasmaHeater.tooltip=A plasma heater is used to heat deuterium and tritium to plasma state for fusion power. Plasma must be moved into the reactor cell.
 //block.thermometer.name=Thermometer
 //block.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-right click to lock the reading to a specific coordinate.
-//block.plasma.name=Plasma
-//block.plasma.tooltip=Generates extreme heat for boiling water.
 //block.funnel.name=Gas Funnel
 //block.funnel.tooltip=Captures gas to allow it to be transported with piping.
-//block.accelerator.name=Particle Accelerator
-//block.accelerator.tooltip=Accelerates particles and creates antimatter and dark matter.
-//block.fulmination.name=Fulmination Generator
-//block.fulmination.tooltip=Transforms the kinetic energy from explosions into electrical energy.
-//block.quantumAssembler.name=Quantum Assembler
-//block.quantumAssembler.tooltip=Reassembles Dark Matter atoms into usable materials.
 
 // Items.
 // Cells.

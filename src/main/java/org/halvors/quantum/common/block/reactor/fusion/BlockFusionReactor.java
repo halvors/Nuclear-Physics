@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.reactor.fusion.TileFusionReactor;
 import org.halvors.quantum.lib.prefab.block.BlockTile;
 import org.halvors.quantum.lib.render.BlockRenderingHandler;
@@ -16,6 +17,8 @@ public class BlockFusionReactor extends BlockTile {
     public BlockFusionReactor() {
         super(Material.iron);
 
+        setUnlocalizedName("fusionReactor");
+        setTextureName(Reference.PREFIX + "fusionReactor");
         setCreativeTab(Quantum.getCreativeTab());
     }
 
