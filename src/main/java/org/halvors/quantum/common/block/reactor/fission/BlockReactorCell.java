@@ -1,5 +1,6 @@
 package org.halvors.quantum.common.block.reactor.fission;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -46,10 +47,9 @@ public class BlockReactorCell extends BlockRotatable {
         return BlockRenderingHandler.getId();
     }
 
-
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
-        if (world.isRemote) {
+        if (!world.isRemote) {
             TileReactorCell tile = (TileReactorCell) world.getTileEntity(x, y, z);
 
             if (player.inventory.getCurrentItem() != null) {
