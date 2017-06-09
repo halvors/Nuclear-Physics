@@ -1,5 +1,7 @@
 package org.halvors.quantum.lib.prefab.tile;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,8 +13,10 @@ import universalelectricity.api.energy.EnergyStorageHandler;
 import universalelectricity.api.energy.IEnergyContainer;
 import universalelectricity.api.energy.IEnergyInterface;
 
-public class TileElectrical extends TileIO implements IEnergyInterface, IEnergyContainer {
-    protected EnergyStorageHandler energy;
+public class TileElectrical extends TileIO implements IEnergyHandler { //IEnergyInterface, IEnergyContainer {
+    protected EnergyStorage energyStorage;
+
+    //protected EnergyStorageHandler energy;
 
     public TileElectrical() {
         super(null);
@@ -41,27 +45,10 @@ public class TileElectrical extends TileIO implements IEnergyInterface, IEnergyC
     }
 
     @Override
-    public boolean canConnect(ForgeDirection direction, Object obj) {
-        // TODO: Fix this.
-
-        /*
-        if (CompatibilityModule.isHandler(obj)) {
-            if (direction == null || direction.equals(ForgeDirection.UNKNOWN)) {
-                return false;
-            }
-
-            return this.getInputDirections().contains(direction) || this.getOutputDirections().contains(direction);
-        }
-        */
-
-        return false;
-    }
-
-    @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        if (this.getEnergyHandler() != null)
-        {
+
+        if (this.getEnergyHandler() != null) {
             this.getEnergyHandler().readFromNBT(nbt);
         }
     }
@@ -69,55 +56,9 @@ public class TileElectrical extends TileIO implements IEnergyInterface, IEnergyC
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
-        if (this.getEnergyHandler() != null)
-        {
+
+        if (this.getEnergyHandler() != null) {
             this.getEnergyHandler().writeToNBT(nbt);
-        }
-    }
-
-    @Override
-    public long getEnergy(ForgeDirection from) {
-        if (this.getEnergyHandler() != null)
-        {
-            return this.getEnergyHandler().getEnergy();
-        }
-        else
-        {
-            return -1;
-        }
-    }
-
-    @Override
-    public long getEnergyCapacity(ForgeDirection from) {
-        if (this.getEnergyHandler() != null) {
-            return this.getEnergyHandler().getEnergyCapacity();
-        } else {
-            return -1;
-        }
-    }
-
-    @Override
-    public long onReceiveEnergy(ForgeDirection from, long receive, boolean doReceive) {
-        if (this.getEnergyHandler() != null && (from == ForgeDirection.UNKNOWN || this.getInputDirections().contains(from))) {
-            return this.getEnergyHandler().receiveEnergy(receive, doReceive);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract) {
-        if (this.getEnergyHandler() != null && (from == ForgeDirection.UNKNOWN || this.getOutputDirections().contains(from))) {
-            return this.getEnergyHandler().extractEnergy(extract, doExtract);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public void setEnergy(ForgeDirection from, long energy) {
-        if (this.getEnergyHandler() != null) {
-            this.getEnergyHandler().setEnergy(energy);
         }
     }
 
@@ -142,7 +83,7 @@ public class TileElectrical extends TileIO implements IEnergyInterface, IEnergyC
         long totalUsed = 0;
 
         for (ForgeDirection direction : this.getOutputDirections()) {
-            if (this.getEnergyHandler().getEnergy() > 0) {
+            if (this.getEnergyHandler().getEnergyStored() > 0) {
                 TileEntity tileEntity = new Vector3(this).translate(direction).getTileEntity(this.worldObj);
 
                 if (tileEntity != null) {
@@ -156,13 +97,68 @@ public class TileElectrical extends TileIO implements IEnergyInterface, IEnergyC
         return totalUsed;
     }
 
-    public EnergyStorageHandler getEnergyHandler()
+    public EnergyStorage getEnergyHandler()
     {
-        return energy;
+        return energyStorage;
     }
 
-    public void setEnergyHandler(EnergyStorageHandler energy)
+    public void setEnergyHandler(EnergyStorage energyStorage)
     {
-        this.energy = energy;
+        this.energyStorage = energyStorage;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean canConnectEnergy(ForgeDirection from) {
+        //if (CompatibilityModule.isHandler(obj)) {
+        if (from != null || !from.equals(ForgeDirection.UNKNOWN)) {
+            return getInputDirections().contains(from) || getOutputDirections().contains(from);
+        }
+        //}
+
+        return false;
+    }
+
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        if (getEnergyHandler() != null && (from == ForgeDirection.UNKNOWN || getInputDirections().contains(from))) {
+            return getEnergyHandler().receiveEnergy(maxReceive, simulate);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        if (getEnergyHandler() != null && (from == ForgeDirection.UNKNOWN || getOutputDirections().contains(from))) {
+            return getEnergyHandler().extractEnergy(maxExtract, simulate);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int getEnergyStored(ForgeDirection from) {
+        if (getEnergyHandler() != null) {
+            return getEnergyHandler().getEnergyStored();
+        }
+
+        return 0;
+    }
+
+    public void setEnergy(ForgeDirection from, int energy) {
+        if (getEnergyHandler() != null) {
+            getEnergyHandler().setEnergyStored(energy);
+        }
+    }
+
+    @Override
+    public int getMaxEnergyStored(ForgeDirection from) {
+        if (getEnergyHandler() != null) {
+            return getEnergyHandler().getMaxEnergyStored();
+        }
+
+        return 0;
     }
 }

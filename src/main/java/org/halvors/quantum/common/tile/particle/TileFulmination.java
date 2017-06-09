@@ -1,5 +1,7 @@
 package org.halvors.quantum.common.tile.particle;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyReceiver;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -14,13 +16,13 @@ import universalelectricity.api.energy.EnergyStorageHandler;
 
 import java.util.EnumSet;
 
-public class TileFulmination extends TileElectrical implements IVoltageOutput {
+public class TileFulmination extends TileElectrical implements IEnergyReceiver { // IVoltageOutput
     private static final long energyCapacity = 10000000000000L;
 
     public TileFulmination() {
         super(Material.iron);
 
-        energy = new EnergyStorageHandler(energyCapacity);
+        energyStorage = new EnergyStorage((int) energyCapacity);
         blockHardness = 10;
         blockResistance = 25000;
     }
@@ -46,13 +48,7 @@ public class TileFulmination extends TileElectrical implements IVoltageOutput {
         produce();
 
         // Slowly lose energy.
-        energy.extractEnergy(1, true);
-    }
-
-    @Override
-    public long onReceiveEnergy(ForgeDirection from, long receive, boolean doReceive)
-    {
-        return 0;
+        energyStorage.extractEnergy(1, false);
     }
 
     @Override
@@ -66,12 +62,6 @@ public class TileFulmination extends TileElectrical implements IVoltageOutput {
     }
 
     @Override
-    public long getVoltageOutput(ForgeDirection side)
-    {
-        return 10000000000L;
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess access, int x, int y, int z, int side) {
         return true;
@@ -82,4 +72,17 @@ public class TileFulmination extends TileElectrical implements IVoltageOutput {
     protected TileRender newRenderer() {
         return new ConnectedTextureRenderer(this, Reference.PREFIX + "atomic_edge");
     }
+
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        return 0;
+    }
+
+    /*
+    @Override
+    public long getVoltageOutput(ForgeDirection side)
+    {
+        return 10000000000L;
+    }
+    */
 }

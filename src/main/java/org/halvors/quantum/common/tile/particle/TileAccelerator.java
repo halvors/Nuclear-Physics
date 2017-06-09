@@ -1,29 +1,34 @@
 package org.halvors.quantum.common.tile.particle;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyReceiver;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.Packet;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.entity.particle.EntityParticle;
+import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.block.IElectromagnet;
+import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.item.particle.ItemAntimatter;
 import org.halvors.quantum.common.item.particle.ItemDarkmatter;
+import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.IRotatable;
 import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
-import universalelectricity.api.electricity.IVoltageInput;
-import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.energy.IEnergyInterface;
+
+import java.util.List;
 
 /** Accelerator TileEntity */
-public class TileAccelerator extends TileElectricalInventory implements IElectromagnet, IRotatable, IInventory, ISidedInventory, IVoltageInput {
+public class TileAccelerator extends TileElectricalInventory implements ITileNetworkable, IElectromagnet, IRotatable, IInventory, ISidedInventory, IEnergyReceiver {
     /** Joules required per ticks. */
     public static final int energyPerTick = 4800000;
 
@@ -52,27 +57,9 @@ public class TileAccelerator extends TileElectricalInventory implements IElectro
     private static final int DENSITY_MULTIPLYER_DEFAULT = 1;
 
     public TileAccelerator() {
-        energy = new EnergyStorageHandler(energyPerTick * 2, energyPerTick / 20);
+        energyStorage = new EnergyStorage(energyPerTick * 2, energyPerTick / 20);
         maxSlots = 4;
         antiMatterDensityMultiplyer = DENSITY_MULTIPLYER_DEFAULT;
-    }
-
-    @Override
-    public boolean canConnect(ForgeDirection direction, Object object) {
-        return object instanceof IEnergyInterface;
-    }
-
-    @Override
-    public long onReceiveEnergy(ForgeDirection from, long receive, boolean doReceive) {
-        if (doReceive) {
-            totalEnergyConsumed += receive;
-        }
-
-        if (getStackInSlot(0) != null && (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) || worldObj.getBlockPowerInput(xCoord, yCoord, zCoord) > 0)) {
-            return super.onReceiveEnergy(from, receive, doReceive);
-        }
-
-        return 0;
     }
 
     @Override
@@ -80,7 +67,7 @@ public class TileAccelerator extends TileElectricalInventory implements IElectro
         super.updateEntity();
 
         if (!worldObj.isRemote) {
-            clientEnergy = energy.getEnergy();
+            clientEnergy = energyStorage.getEnergyStored();
             velocity = 0;
 
             // Calculate accelerated particle velocity if it is spawned.
@@ -123,7 +110,7 @@ public class TileAccelerator extends TileElectricalInventory implements IElectro
 
             // Check if redstone signal is currently being applied.
             if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-                if (energy.checkExtract()) {
+                if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
                         if (getStackInSlot(0) != null && lastSpawnTick >= 40) {
@@ -139,7 +126,7 @@ public class TileAccelerator extends TileElectricalInventory implements IElectro
                                 worldObj.spawnEntityInWorld(entityParticle);
 
                                 // Grabs input block hardness if available, otherwise defaults are used.
-                                CalculateParticleDensity();
+                                calculateParticleDensity();
 
                                 // Decrease particle we want to collide.
                                 decrStackSize(0, 1);
@@ -177,7 +164,7 @@ public class TileAccelerator extends TileElectricalInventory implements IElectro
                         }
                     }
 
-                    energy.extractEnergy();
+                    energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
                 } else {
                     if (entityParticle != null) {
                         entityParticle.setDead();
@@ -195,8 +182,7 @@ public class TileAccelerator extends TileElectricalInventory implements IElectro
 
             if (ticks % 5 == 0) {
                 for (EntityPlayer player : getPlayersUsing()) {
-                    // TODO: Send packet here.
-                    //PacketDispatcher.sendPacketToPlayer(getDescriptionPacket(), player);
+                    NetworkHandler.sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
                 }
             }
 
@@ -204,7 +190,7 @@ public class TileAccelerator extends TileElectricalInventory implements IElectro
         }
     }
 
-    private void CalculateParticleDensity() {
+    private void calculateParticleDensity() {
         ItemStack itemToAccelerate = this.getStackInSlot(0);
 
         if (itemToAccelerate != null) {
@@ -233,13 +219,6 @@ public class TileAccelerator extends TileElectricalInventory implements IElectro
         }
     }
 
-    @Override
-    public Packet getDescriptionPacket() {
-        // TODO: Fix this.
-        //return ResonantInduction.PACKET_ANNOTATION.getPacket(this);
-        return null;
-    }
-
     /** Reads a tile entity from NBT. */
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
@@ -259,9 +238,48 @@ public class TileAccelerator extends TileElectricalInventory implements IElectro
     }
 
     @Override
-    public long getVoltageInput(ForgeDirection direction)
-    {
-        return 1000;
+    public void handlePacketData(ByteBuf dataStream) throws Exception {
+        totalEnergyConsumed = dataStream.readFloat();
+        antimatter = dataStream.readInt();
+        velocity = dataStream.readFloat();
+        clientEnergy = dataStream.readLong();
+
+        Quantum.getLogger().info("Handled incoming packet!");
+    }
+
+    @Override
+    public List<Object> getPacketData(List<Object> objects) {
+        objects.add(totalEnergyConsumed);
+        objects.add(antimatter);
+        objects.add(velocity);
+        objects.add(clientEnergy);
+
+        Quantum.getLogger().info("Sending out packet!");
+
+        return objects;
+    }
+
+    @Override
+    public boolean canConnectEnergy(ForgeDirection from) {
+        return true;
+    }
+
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        if (!simulate) {
+            totalEnergyConsumed += maxReceive;
+        }
+
+        if (getStackInSlot(0) != null && (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) || worldObj.getBlockPowerInput(xCoord, yCoord, zCoord) > 0)) {
+            return super.receiveEnergy(from, maxReceive, simulate);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        return 0;
     }
 
     @Override
@@ -294,16 +312,6 @@ public class TileAccelerator extends TileElectricalInventory implements IElectro
         }
 
         return false;
-    }
-
-    @Override
-    public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract) {
-        return 0;
-    }
-
-    @Override
-    public void onWrongVoltage(ForgeDirection direction, long voltage) {
-
     }
 
     @Override

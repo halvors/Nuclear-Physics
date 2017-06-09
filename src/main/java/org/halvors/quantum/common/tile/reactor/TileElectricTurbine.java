@@ -25,7 +25,7 @@ public class TileElectricTurbine extends TileTurbine implements IBoilHandler {
 
     @Override
     public void onProduce() {
-        energy.receiveEnergy((long) (power * ConfigurationManager.General.turbineOutputMultiplier), true);
+        energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
         produce();
     }
 

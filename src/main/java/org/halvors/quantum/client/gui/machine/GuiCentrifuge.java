@@ -35,7 +35,7 @@ public class GuiCentrifuge extends GuiContainerBase {
         fontRendererObj.drawString("Status: " + displayText, 70, 50, 4210752);
 
         renderUniversalDisplay(8, 112, TileNuclearBoiler.DIAN * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
-        renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
+        //renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
         fontRendererObj.drawString("The centrifuge spins", 8, 75, 4210752);
         fontRendererObj.drawString("uranium hexafluoride gas into", 8, 85, 4210752);

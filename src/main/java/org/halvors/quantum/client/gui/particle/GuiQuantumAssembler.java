@@ -37,7 +37,7 @@ public class GuiQuantumAssembler extends GuiContainerBase {
         }
 
         fontRendererObj.drawString(displayText, 9, ySize - 106, 4210752);
-        renderUniversalDisplay(100, ySize - 94, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
+        //renderUniversalDisplay(100, ySize - 94, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
         renderUniversalDisplay(8, ySize - 95, tile.maxTime, mouseX, mouseY, UnitDisplay.Unit.WATT);
     }
 

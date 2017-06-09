@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
+import cofh.api.energy.EnergyStorage;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.util.AxisAlignedBB;
@@ -58,7 +59,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
 
     public TileTurbine() {
         /** We're going to use the EnergyStorageHandler to store power. */
-        setEnergyHandler(new EnergyStorageHandler(maxPower * 20));
+        setEnergyHandler(new EnergyStorage((int) maxPower * 20));
     }
 
     @Override
@@ -70,7 +71,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     public void initiate() {
         super.initiate();
 
-        setEnergyHandler(new EnergyStorageHandler(maxPower * 20));
+        setEnergyHandler(new EnergyStorage((int) maxPower * 20));
     }
 
     @Override
@@ -145,11 +146,6 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
         if (!world().isRemote) {
             //References.PACKET_ANNOTATION.sync(this, 1);
         }
-    }
-
-    @Override
-    public boolean canConnect(ForgeDirection direction, Object obj) {
-        return this.getMultiBlock().isPrimary() && direction == ForgeDirection.UP;
     }
 
     /** Reads a tile entity from NBT. */
@@ -276,4 +272,8 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
         return worldObj;
     }
 
+    @Override
+    public boolean canConnectEnergy(ForgeDirection from) {
+        return getMultiBlock().isPrimary() && from == ForgeDirection.UP;
+    }
 }

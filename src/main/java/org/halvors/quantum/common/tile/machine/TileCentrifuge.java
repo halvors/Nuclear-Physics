@@ -1,5 +1,7 @@
 package org.halvors.quantum.common.tile.machine;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyReceiver;
 import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import ibxm.Player;
@@ -22,7 +24,7 @@ import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
 import universalelectricity.api.electricity.IVoltageInput;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileCentrifuge extends TileElectricalInventory implements ISidedInventory, IFluidHandler, IRotatable, IVoltageInput { //, IPacketReceiver
+public class TileCentrifuge extends TileElectricalInventory implements ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
     public static final int SHI_JIAN = 1200;
     public static final long DIAN = 500000L;
     public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), 5000);
@@ -30,8 +32,8 @@ public class TileCentrifuge extends TileElectricalInventory implements ISidedInv
     public float rotation = 0.0F;
 
     public TileCentrifuge() {
-        this.energy = new EnergyStorageHandler(1000000L);
-        this.maxSlots = 4;
+        energyStorage = new EnergyStorage((int) 1000000L);
+        maxSlots = 4;
     }
 
     @Override
@@ -69,7 +71,7 @@ public class TileCentrifuge extends TileElectricalInventory implements ISidedInv
             if (nengYong()) {
                 discharge(getStackInSlot(0));
 
-                if (energy.extractEnergy(500000L, false) >= 500000L) {
+                if (energyStorage.extractEnergy((int) 500000L, true) >= 500000L) {
                     if (timer == 0) {
                         timer = 1200;
                     }
@@ -85,7 +87,7 @@ public class TileCentrifuge extends TileElectricalInventory implements ISidedInv
                         timer = 0;
                     }
 
-                    energy.extractEnergy(500000L, true);
+                    energyStorage.extractEnergy((int) 500000L, false);
                 }
             } else {
                 timer = 0;
@@ -245,26 +247,16 @@ public class TileCentrifuge extends TileElectricalInventory implements ISidedInv
     }
 
     @Override
-    public long getVoltageInput(ForgeDirection direction) {
-        return 1000L;
-    }
-
-    @Override
-    public void onWrongVoltage(ForgeDirection direction, long paramLong) {
-
-    }
-
-    @Override
-    public long onReceiveEnergy(ForgeDirection from, long receive, boolean doReceive) {
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
         if (nengYong()) {
-            return super.onReceiveEnergy(from, receive, doReceive);
+            return super.receiveEnergy(from, maxReceive, simulate);
         }
 
-        return 0L;
+        return 0;
     }
 
     @Override
-    public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract) {
-        return 0L;
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        return 0;
     }
 }

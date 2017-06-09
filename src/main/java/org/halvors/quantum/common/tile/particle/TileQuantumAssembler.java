@@ -1,5 +1,7 @@
 package org.halvors.quantum.common.tile.particle;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +17,7 @@ import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
 import universalelectricity.api.electricity.IVoltageInput;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileQuantumAssembler extends TileElectricalInventory implements IVoltageInput { // IPacketReceiver
+public class TileQuantumAssembler extends TileElectricalInventory implements IEnergyReceiver { // IPacketReceiver IVoltageInput
     private long energyCapacity = 10000000000000L;
     public int maxTime = 20 * 120;
     public int time = 0;
@@ -31,7 +33,7 @@ public class TileQuantumAssembler extends TileElectricalInventory implements IVo
     public TileQuantumAssembler() {
         super(Material.iron);
 
-        energy = new EnergyStorageHandler(energyCapacity);
+        energyStorage = new EnergyStorage((int) energyCapacity);
         maxSlots = 6 + 1;
         isOpaqueCube = false;
         normalRender = false;
@@ -57,9 +59,9 @@ public class TileQuantumAssembler extends TileElectricalInventory implements IVo
     public void updateEntity() {
         super.updateEntity();
 
-        if (!this.worldObj.isRemote) {
-            if (this.canProcess()) {
-                if (energy.checkExtract()) {
+        if (!worldObj.isRemote) {
+            if (canProcess()) {
+                if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (time == 0) {
                         time = maxTime;
                     }
@@ -75,7 +77,7 @@ public class TileQuantumAssembler extends TileElectricalInventory implements IVo
                         this.time = 0;
                     }
 
-                    energy.extractEnergy(energyCapacity, true);
+                    energyStorage.extractEnergy((int) energyCapacity, false);
                 }
             } else {
                 time = 0;
@@ -113,15 +115,6 @@ public class TileQuantumAssembler extends TileElectricalInventory implements IVo
                 entityItem = null;
             }
         }
-    }
-
-    @Override
-    public long onReceiveEnergy(ForgeDirection from, long receive, boolean doReceive) {
-        if (canProcess()) {
-            return super.onReceiveEnergy(from, receive, doReceive);
-        }
-
-        return 0;
     }
 
 
@@ -234,11 +227,17 @@ public class TileQuantumAssembler extends TileElectricalInventory implements IVo
         return itemStack.getItem() == Quantum.itemDarkMatter;
     }
 
-    public long getVoltageInput(ForgeDirection from) {
-        return 1000;
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        if (canProcess()) {
+            return super.receiveEnergy(from, maxReceive, simulate);
+        }
+
+        return 0;
     }
 
-    public void onWrongVoltage(ForgeDirection direction, long voltage) {
-
+    @Override
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        return 0;
     }
 }

@@ -22,7 +22,7 @@ public class GuiNuclearBoiler extends GuiContainerBase {
         fontRendererObj.drawString(tile.getInventoryName(), 52, 6, 4210752);
 
         renderUniversalDisplay(8, 112, TileNuclearBoiler.DIAN * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
-        renderUniversalDisplay(110, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
+        //renderUniversalDisplay(110, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
         fontRendererObj.drawString("The nuclear boiler can boil", 8, 75, 4210752);
         fontRendererObj.drawString("yellow cake into uranium", 8, 85, 4210752);

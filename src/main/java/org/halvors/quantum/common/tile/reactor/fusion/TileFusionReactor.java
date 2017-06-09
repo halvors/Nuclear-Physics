@@ -1,5 +1,7 @@
 package org.halvors.quantum.common.tile.reactor.fusion;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
@@ -9,7 +11,7 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.lib.prefab.tile.TileElectrical;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileFusionReactor extends TileElectrical implements IFluidHandler { //IPacketReceiver, ITagRender,
+public class TileFusionReactor extends TileElectrical implements IFluidHandler, IEnergyReceiver { //IPacketReceiver, ITagRender,
     public static long power = 10000000000L;
     public static int plasmaHeatAmount = 100; //@Config
 
@@ -20,22 +22,23 @@ public class TileFusionReactor extends TileElectrical implements IFluidHandler {
     public float rotation = 0;
 
     public TileFusionReactor() {
-        energy = new EnergyStorageHandler(power, power / 20);
+        energyStorage = new EnergyStorage((int) power, (int) power / 20);
     }
 
     @Override
     public void updateEntity() {
         super.updateEntity();
 
-        rotation += energy.getEnergy() / 10000f;
+        rotation += energyStorage.getEnergyStored() / 10000F;
 
         if (!worldObj.isRemote) {
-            if (energy.checkExtract()) {
+            if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                 if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= plasmaHeatAmount) {
                     tankInputDeuterium.drain(plasmaHeatAmount, true);
                     tankInputTritium.drain(plasmaHeatAmount, true);
                     tankOutput.fill(new FluidStack(Quantum.fluidPlasma, plasmaHeatAmount), true);
-                    energy.extractEnergy();
+
+                    energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
                 }
             }
         }
@@ -129,20 +132,6 @@ public class TileFusionReactor extends TileElectrical implements IFluidHandler {
     */
 
     @Override
-    public long onReceiveEnergy(ForgeDirection from, long receive, boolean doReceive) {
-        if (tankInputDeuterium.getFluidAmount() > 0 && tankInputTritium.getFluidAmount() > 0) {
-            return super.onReceiveEnergy(from, receive, doReceive);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract) {
-        return 0;
-    }
-
-    @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
         if (resource.isFluidEqual(Quantum.fluidStackDeuterium)) {
             return tankInputDeuterium.fill(resource, doFill);
@@ -180,4 +169,17 @@ public class TileFusionReactor extends TileElectrical implements IFluidHandler {
         return new FluidTankInfo[] { tankInputDeuterium.getInfo(), tankInputTritium.getInfo(), tankOutput.getInfo() };
     }
 
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        if (tankInputDeuterium.getFluidAmount() > 0 && tankInputTritium.getFluidAmount() > 0) {
+            return super.receiveEnergy(from, maxReceive, simulate);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        return 0;
+    }
 }

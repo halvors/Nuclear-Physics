@@ -1,5 +1,7 @@
 package org.halvors.quantum.common.tile.machine;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
@@ -7,21 +9,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.lib.IRotatable;
-import universalelectricity.api.electricity.IVoltageInput;
-import universalelectricity.api.energy.EnergyStorageHandler;
 
 /** Chemical extractor TileEntity */
-public class TileChemicalExtractor extends TileProcess implements ISidedInventory, IFluidHandler, IRotatable, IVoltageInput {
+public class TileChemicalExtractor extends TileProcess implements ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IVoltageInput
     public static final int TICK_TIME = 20 * 14;
     public static final int EXTRACT_SPEED = 100;
     public static final long ENERGY = 5000;
@@ -34,7 +28,7 @@ public class TileChemicalExtractor extends TileProcess implements ISidedInventor
     public float rotation = 0;
 
     public TileChemicalExtractor() {
-        energy = new EnergyStorageHandler(ENERGY * 2);
+        energyStorage = new EnergyStorage((int) ENERGY * 2);
         maxSlots = 7;
         inputSlot = 1;
         outputSlot = 2;
@@ -56,7 +50,7 @@ public class TileChemicalExtractor extends TileProcess implements ISidedInventor
             if (canUse()) {
                 discharge(getStackInSlot(0));
 
-                if (energy.checkExtract(ENERGY)) {
+                if (energyStorage.extractEnergy((int) ENERGY, true) >= ENERGY) {
                     if (time == 0) {
                         time = TICK_TIME;
                     }
@@ -78,7 +72,7 @@ public class TileChemicalExtractor extends TileProcess implements ISidedInventor
                     }
                 }
 
-                energy.extractEnergy(ENERGY, true);
+                energyStorage.extractEnergy((int) ENERGY, false);
             } else {
                 time = 0;
             }
@@ -281,30 +275,6 @@ public class TileChemicalExtractor extends TileProcess implements ISidedInventor
     }
 
     @Override
-    public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract) {
-        return 0;
-    }
-
-    @Override
-    public long onReceiveEnergy(ForgeDirection from, long receive, boolean doReceive) {
-        if (canUse()) {
-            return super.onReceiveEnergy(from, receive, doReceive);
-        } else {
-            return 0;
-        }
-    }
-
-    @Override
-    public long getVoltageInput(ForgeDirection from) {
-        return 1000;
-    }
-
-    @Override
-    public void onWrongVoltage(ForgeDirection direction, long voltage) {
-
-    }
-
-    @Override
     public FluidTank getInputTank() {
         return inputTank;
     }
@@ -312,5 +282,19 @@ public class TileChemicalExtractor extends TileProcess implements ISidedInventor
     @Override
     public FluidTank getOutputTank() {
         return outputTank;
+    }
+
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        if (canUse()) {
+            return super.receiveEnergy(from, maxReceive, simulate);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        return 0;
     }
 }

@@ -1,5 +1,7 @@
 package org.halvors.quantum.common.tile.machine;
 
+import cofh.api.energy.EnergyStorage;
+import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
@@ -12,10 +14,8 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.lib.IRotatable;
 import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
-import universalelectricity.api.electricity.IVoltageInput;
-import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileNuclearBoiler extends TileElectricalInventory implements ISidedInventory, IFluidHandler, IRotatable, IVoltageInput { // IPacketReceiver
+public class TileNuclearBoiler extends TileElectricalInventory implements ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
     public final static long DIAN = 50000;
     public final int SHI_JIAN = 20 * 15;
     //@Synced
@@ -28,17 +28,8 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ISided
     public float rotation = 0;
 
     public TileNuclearBoiler() {
-        energy = new EnergyStorageHandler(DIAN * 2);
+        energyStorage = new EnergyStorage((int) DIAN * 2);
         maxSlots = 4;
-    }
-
-    @Override
-    public long onReceiveEnergy(ForgeDirection from, long receive, boolean doReceive) {
-        if (nengYong()) {
-            return super.onReceiveEnergy(from, receive, doReceive);
-        }
-
-        return 0;
     }
 
     @Override
@@ -74,7 +65,7 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ISided
             if (nengYong()) {
                 discharge(getStackInSlot(0));
 
-                if (energy.extractEnergy(DIAN, false) >= TileNuclearBoiler.DIAN) {
+                if (energyStorage.extractEnergy((int) DIAN, false) >= DIAN) {
                     if (timer == 0) {
                         timer = SHI_JIAN;
                     }
@@ -90,7 +81,7 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ISided
                         timer = 0;
                     }
 
-                    energy.extractEnergy(DIAN, true);
+                    energyStorage.extractEnergy((int) DIAN, true);
                 }
             } else {
                 timer = 0;
@@ -260,17 +251,16 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ISided
     }
 
     @Override
-    public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract) {
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        if (nengYong()) {
+            return super.receiveEnergy(from, maxReceive, simulate);
+        }
+
         return 0;
     }
 
     @Override
-    public long getVoltageInput(ForgeDirection from) {
-        return 1000;
-    }
-
-    @Override
-    public void onWrongVoltage(ForgeDirection direction, long voltage) {
-
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        return 0;
     }
 }

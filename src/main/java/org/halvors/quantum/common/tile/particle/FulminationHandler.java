@@ -57,7 +57,8 @@ public class FulminationHandler {
                     double juLi = new Vector3(tileEntity).distance(new Vector3(event.x, event.y, event.z));
                     long energy = (long) Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (juLi / event.iExplosion.getRadius()));
                     energy = (long) Math.max((1 - density) * energy, 0);
-                    tileEntity.getEnergyHandler().receiveEnergy(energy, true);
+
+                    tileEntity.getEnergyHandler().receiveEnergy((int) energy, false);
                 }
             }
         }
