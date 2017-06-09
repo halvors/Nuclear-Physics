@@ -45,7 +45,7 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
     private final float mass = ThermalPhysics.getMass(1000, 7);
     public final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 15);
 
-    public float temperature = 295;
+    public float temperature = 295; // Synced
     private float previousTemperature = 295;
     private boolean shouldUpdate = false;
     private long previousInternalEnergy = 0;
@@ -222,11 +222,7 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
 
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
 
-                // TODO: Is this working?
                 NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
-
-                // TODO: Send packet to clients.
-                //PacketHandler.sendPacketToClients(getDescriptionPacket(), worldObj, new Vector3(this), 50.0D);
             }
         } else if (worldObj.rand.nextInt(5) == 0 && getTemperature() >= 373) {
             worldObj.spawnParticle("cloud", xCoord + worldObj.rand.nextInt(2), yCoord + 1.0F, zCoord + worldObj.rand.nextInt(2), 0.0D, 0.1D, 0.0D);
@@ -259,8 +255,6 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
         super.handlePacketData(dataStream);
 
         temperature = dataStream.readFloat();
-
-        Quantum.getLogger().info("Temperature is: " + temperature);
     }
 
     @Override
