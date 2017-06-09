@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.entity.accelerator;
+package org.halvors.quantum.common.entity.particle;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
@@ -16,7 +16,7 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.IElectromagnet;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
-import org.halvors.quantum.common.tile.accelerator.TileAccelerator;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorHelper;
 

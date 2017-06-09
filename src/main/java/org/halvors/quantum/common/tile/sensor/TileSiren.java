@@ -25,26 +25,24 @@ public class TileSiren extends TileBlock {
 
     @Override
     public void updateEntity() {
-        if (worldObj == null) {
-            return;
-        }
+        if (worldObj != null) {
+            int metadata = worldObj.getBlockMetadata(x(), y(), z());
 
-        int metadata = worldObj.getBlockMetadata(x(), y(), z());
+            if (worldObj.getBlockPowerInput(x(), y(), z()) > 0) {
+                float volume = 0.5f;
 
-        if (worldObj.getBlockPowerInput(x(), y(), z()) > 0) {
-            float volume = 0.5f;
+                for (int i = 0; i < 6; i++) {
+                    Vector3 check = position().translate(ForgeDirection.getOrientation(i));
+                    Block block = check.getBlock(worldObj);
 
-            for (int i = 0; i < 6; i++) {
-                Vector3 check = position().translate(ForgeDirection.getOrientation(i));
-                Block block = check.getBlock(worldObj);
-
-                if (block == getBlockType()) {
-                    volume *= 1.5f;
+                    if (block == getBlockType()) {
+                        volume *= 1.5f;
+                    }
                 }
-            }
 
-            worldObj.playSoundEffect(x(), y(), z(), Reference.PREFIX + "alarm", volume, 1f - 0.18f * (metadata / 15f));
-            scheduelTick(30);
+                worldObj.playSoundEffect(x(), y(), z(), Reference.PREFIX + "alarm", volume, 1f - 0.18f * (metadata / 15f));
+                scheduelTick(30);
+            }
         }
     }
 

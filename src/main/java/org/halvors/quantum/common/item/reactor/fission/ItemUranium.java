@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.item;
+package org.halvors.quantum.common.item.reactor.fission;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -6,6 +6,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.utility.LanguageUtility;
 
 import java.util.List;

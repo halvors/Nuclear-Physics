@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.tile.machine;
+package org.halvors.quantum.common.tile.particle;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;

@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.container.accelerator;
+package org.halvors.quantum.common.container.particle;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -6,7 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.tile.accelerator.TileAccelerator;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.lib.gui.ContainerBase;
 
 public class ContainerAccelerator extends ContainerBase {

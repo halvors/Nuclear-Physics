@@ -1,4 +1,4 @@
-package org.halvors.quantum.client.render.accelerator;
+package org.halvors.quantum.client.render.particle;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

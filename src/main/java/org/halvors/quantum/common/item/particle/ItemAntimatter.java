@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.item;
+package org.halvors.quantum.common.item.particle;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,6 +17,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
+import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.LanguageUtility;
 

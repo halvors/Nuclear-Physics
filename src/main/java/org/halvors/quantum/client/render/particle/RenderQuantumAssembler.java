@@ -1,8 +1,7 @@
-package org.halvors.quantum.client.render.machine;
+package org.halvors.quantum.client.render.particle;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -13,7 +12,7 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.apache.commons.lang3.ArrayUtils;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
+import org.halvors.quantum.common.tile.particle.TileQuantumAssembler;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)

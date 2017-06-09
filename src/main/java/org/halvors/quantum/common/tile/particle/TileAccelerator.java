@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.tile.accelerator;
+package org.halvors.quantum.common.tile.particle;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,10 +11,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.entity.accelerator.EntityParticle;
+import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.block.IElectromagnet;
-import org.halvors.quantum.common.item.ItemAntimatter;
-import org.halvors.quantum.common.item.ItemDarkmatter;
+import org.halvors.quantum.common.item.particle.ItemAntimatter;
+import org.halvors.quantum.common.item.particle.ItemDarkmatter;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.IRotatable;
 import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;

@@ -1,9 +1,9 @@
-package org.halvors.quantum.client.gui.accelerator;
+package org.halvors.quantum.client.gui.particle;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import org.halvors.quantum.common.entity.accelerator.EntityParticle;
-import org.halvors.quantum.common.tile.accelerator.TileAccelerator;
-import org.halvors.quantum.common.container.accelerator.ContainerAccelerator;
+import org.halvors.quantum.common.entity.particle.EntityParticle;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
+import org.halvors.quantum.common.container.particle.ContainerAccelerator;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.gui.GuiContainerBase;
 import universalelectricity.api.energy.UnitDisplay;
