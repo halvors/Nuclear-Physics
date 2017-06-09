@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.gui.machine.GuiCentrifuge;
 import org.halvors.quantum.client.gui.machine.GuiChemicalExtractor;
 import org.halvors.quantum.client.gui.machine.GuiNuclearBoiler;
@@ -31,11 +32,6 @@ import org.halvors.quantum.common.transform.vector.Vector3;
  */
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy implements IGuiHandler {
-	@Override
-	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
-	}
-
 	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tile = world.getTileEntity(x, y, z);

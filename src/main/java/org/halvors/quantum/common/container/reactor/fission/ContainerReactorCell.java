@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.container.reactor.fission;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
@@ -10,11 +11,11 @@ import org.halvors.quantum.lib.gui.ContainerBase;
 import org.halvors.quantum.lib.gui.slot.SlotSpecific;
 
 public class ContainerReactorCell extends ContainerBase {
-    public ContainerReactorCell(EntityPlayer player, TileReactorCell tileEntity) {
+    public ContainerReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tileEntity) {
         super(tileEntity);
 
         addSlotToContainer(new SlotSpecific(tileEntity, 0, 79, 17, ItemFissileFuel.class, ItemBreederFuel.class));
-        addPlayerInventory(player);
+        addPlayerInventory(inventoryPlayer.player);
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */

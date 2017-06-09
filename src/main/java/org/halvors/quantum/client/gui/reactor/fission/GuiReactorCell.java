@@ -1,6 +1,5 @@
 package org.halvors.quantum.client.gui.reactor.fission;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
@@ -16,7 +15,7 @@ public class GuiReactorCell extends GuiContainerBase {
     private TileReactorCell tile;
 
     public GuiReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {
-        super(new ContainerReactorCell(inventoryPlayer.player, tile));
+        super(new ContainerReactorCell(inventoryPlayer, tile));
 
         this.tile = tile;
     }

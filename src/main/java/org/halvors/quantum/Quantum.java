@@ -103,11 +103,11 @@ import org.halvors.quantum.lib.utility.RenderUtility;
 public class Quantum implements IUpdatableMod {
 	// The instance of your mod that Forge uses.
 	@Instance(value = Reference.ID)
-	public static Quantum instance;
+	private static Quantum instance;
 
 	// Says where the client and server 'proxy' code is loaded.
 	@SidedProxy(clientSide = "org.halvors." + Reference.ID + ".client.ClientProxy", serverSide = "org.halvors." + Reference.ID + ".common.CommonProxy")
-	public static CommonProxy proxy;
+	private static CommonProxy proxy;
 
 	// Logger
 	private static final Logger logger = LogManager.getLogger(Reference.ID);
@@ -206,7 +206,6 @@ public class Quantum implements IUpdatableMod {
 
 		// Register event bus.
 		MinecraftForge.EVENT_BUS.register(this);
-		MinecraftForge.EVENT_BUS.register(FulminationHandler.INSTANCE);
 
 		// Register block handler.
 		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
@@ -221,12 +220,14 @@ public class Quantum implements IUpdatableMod {
 		registerRecipes();
 
 		MinecraftForge.EVENT_BUS.register(itemAntimatter);
+		MinecraftForge.EVENT_BUS.register(FulminationHandler.INSTANCE);
 
 		BlockCreativeBuilder.registerSchematic(new SchematicAccelerator());
 		BlockCreativeBuilder.registerSchematic(new SchematicBreedingReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFissionReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFusionReactor());
 
+		// Register entities.
 		EntityRegistry.registerGlobalEntityID(EntityParticle.class, "Particle", EntityRegistry.findGlobalUniqueEntityId());
 		EntityRegistry.registerModEntity(EntityParticle.class, "Particle", 49, this, 80, 3, true);
 	}
