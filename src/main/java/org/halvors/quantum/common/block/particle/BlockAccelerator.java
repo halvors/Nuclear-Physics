@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.block.accelerator;
+package org.halvors.quantum.common.block.particle;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;

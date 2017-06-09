@@ -12,6 +12,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,13 +44,14 @@ import org.halvors.quantum.common.QuantumCreativeTab;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.IUpdatableMod;
 import org.halvors.quantum.common.block.*;
-import org.halvors.quantum.common.block.accelerator.BlockAccelerator;
+import org.halvors.quantum.common.block.particle.BlockAccelerator;
 import org.halvors.quantum.common.block.machine.BlockCentrifuge;
 import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
 import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
 import org.halvors.quantum.common.block.reactor.fusion.BlockFusionReactor;
 import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
+import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.item.*;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
@@ -224,6 +226,9 @@ public class Quantum implements IUpdatableMod {
 		BlockCreativeBuilder.registerSchematic(new SchematicBreedingReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFissionReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFusionReactor());
+
+		EntityRegistry.registerGlobalEntityID(EntityParticle.class, "Particle", EntityRegistry.findGlobalUniqueEntityId());
+		EntityRegistry.registerModEntity(EntityParticle.class, "Particle", 49, this, 80, 3, true);
 	}
 
 	private void registerFluids() {
