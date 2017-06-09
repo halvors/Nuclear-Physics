@@ -12,33 +12,33 @@ import universalelectricity.api.energy.UnitDisplay;
 public class GuiQuantumAssembler extends GuiContainerBase {
     public static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/gui/gui_atomic_assembler.png");
 
-    private TileQuantumAssembler tileEntity;
+    private TileQuantumAssembler tile;
 
-    public GuiQuantumAssembler(InventoryPlayer par1InventoryPlayer, TileQuantumAssembler tileEntity) {
-        super(new ContainerQuantumAssembler(par1InventoryPlayer, tileEntity));
+    public GuiQuantumAssembler(InventoryPlayer inventoryPlayer, TileQuantumAssembler tile) {
+        super(new ContainerQuantumAssembler(inventoryPlayer, tile));
 
-        this.tileEntity = tileEntity;
+        this.tile = tile;
         ySize = 230;
     }
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString(tileEntity.getInventoryName(), 65 - tileEntity.getInventoryName().length(), 6, 4210752);
+        fontRendererObj.drawString(tile.getInventoryName(), 65 - tile.getInventoryName().length(), 6, 4210752);
 
         String displayText;
 
-        if (tileEntity.time > 0) {
-            displayText = "Process: " + (int) (100 - ((float) tileEntity.time / (float) tileEntity.maxTime) * 100) + "%";
-        } else if (tileEntity.canProcess()) {
+        if (tile.time > 0) {
+            displayText = "Process: " + (int) (100 - ((float) tile.time / (float) tile.maxTime) * 100) + "%";
+        } else if (tile.canProcess()) {
             displayText = "Ready";
         } else {
             displayText = "Idle";
         }
 
         fontRendererObj.drawString(displayText, 9, ySize - 106, 4210752);
-        renderUniversalDisplay(100, ySize - 94, tileEntity.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
-        renderUniversalDisplay(8, ySize - 95, tileEntity.maxTime, mouseX, mouseY, UnitDisplay.Unit.WATT);
+        renderUniversalDisplay(100, ySize - 94, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
+        renderUniversalDisplay(8, ySize - 95, tile.maxTime, mouseX, mouseY, UnitDisplay.Unit.WATT);
     }
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */

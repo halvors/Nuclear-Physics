@@ -8,21 +8,21 @@ import org.halvors.quantum.lib.gui.GuiContainerBase;
 import universalelectricity.api.energy.UnitDisplay;
 
 public class GuiNuclearBoiler extends GuiContainerBase {
-    private TileNuclearBoiler tileEntity;
+    private TileNuclearBoiler tile;
 
-    public GuiNuclearBoiler(InventoryPlayer inventoryPlayer, TileNuclearBoiler tileEntity) {
-        super(new ContainerNuclearBoiler(inventoryPlayer, tileEntity));
+    public GuiNuclearBoiler(InventoryPlayer inventoryPlayer, TileNuclearBoiler tile) {
+        super(new ContainerNuclearBoiler(inventoryPlayer, tile));
 
-        this.tileEntity = tileEntity;
+        this.tile = tile;
     }
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString(tileEntity.getInventoryName(), 52, 6, 4210752);
+        fontRendererObj.drawString(tile.getInventoryName(), 52, 6, 4210752);
 
         renderUniversalDisplay(8, 112, TileNuclearBoiler.DIAN * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
-        renderUniversalDisplay(110, 112, this.tileEntity.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
+        renderUniversalDisplay(110, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
         fontRendererObj.drawString("The nuclear boiler can boil", 8, 75, 4210752);
         fontRendererObj.drawString("yellow cake into uranium", 8, 85, 4210752);
@@ -30,10 +30,10 @@ public class GuiNuclearBoiler extends GuiContainerBase {
 
         fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 
-        if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tileEntity.waterTank.getFluid() != null) {
-            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tileEntity.waterTank.getFluid().getFluid().getLocalizedName(), tileEntity.waterTank.getFluid().amount + " L");
-        } else if (isPointInRegion(155, 18, meterWidth, meterHeight, mouseX, mouseY) && tileEntity.gasTank.getFluid() != null) {
-            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tileEntity.gasTank.getFluid().getFluid().getLocalizedName(), tileEntity.gasTank.getFluid().amount + " L");
+        if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.waterTank.getFluid() != null) {
+            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.waterTank.getFluid().getFluid().getLocalizedName(), tile.waterTank.getFluid().amount + " L");
+        } else if (isPointInRegion(155, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.gasTank.getFluid() != null) {
+            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.gasTank.getFluid().getFluid().getLocalizedName(), tile.gasTank.getFluid().amount + " L");
         }
     }
 
@@ -45,14 +45,14 @@ public class GuiNuclearBoiler extends GuiContainerBase {
         drawSlot(55, 25, SlotType.BATTERY);
         drawSlot(80, 25);
 
-        drawBar(110, 26, (float) tileEntity.timer / (float) tileEntity.SHI_JIAN);
+        drawBar(110, 26, (float) tile.timer / (float) tile.SHI_JIAN);
 
         // Water
-        drawMeter(8, 18, (float) tileEntity.waterTank.getFluidAmount() / (float) tileEntity.waterTank.getCapacity(), tileEntity.waterTank.getFluid());
+        drawMeter(8, 18, (float) tile.waterTank.getFluidAmount() / (float) tile.waterTank.getCapacity(), tile.waterTank.getFluid());
         drawSlot(24, 49, SlotType.LIQUID);
 
         // Uranium Gas
-        drawMeter(155, 18, (float) tileEntity.gasTank.getFluidAmount() / (float) tileEntity.gasTank.getCapacity(), tileEntity.gasTank.getFluid());
+        drawMeter(155, 18, (float) tile.gasTank.getFluidAmount() / (float) tile.gasTank.getCapacity(), tile.gasTank.getFluid());
         drawSlot(135, 49, SlotType.GAS);
     }
 }

@@ -1,6 +1,7 @@
 package org.halvors.quantum.client.gui.reactor.fission;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.LanguageUtility;
@@ -12,26 +13,26 @@ import universalelectricity.api.energy.UnitDisplay.Unit;
 import java.util.List;
 
 public class GuiReactorCell extends GuiContainerBase {
-    private TileReactorCell tileEntity;
+    private TileReactorCell tile;
 
-    public GuiReactorCell(EntityPlayer player, TileReactorCell tileEntity) {
-        super(new ContainerReactorCell(player, tileEntity));
+    public GuiReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {
+        super(new ContainerReactorCell(inventoryPlayer.player, tile));
 
-        this.tileEntity = tileEntity;
+        this.tile = tile;
     }
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        fontRendererObj.drawString(tileEntity.getInventoryName(), xSize / 2 - fontRendererObj.getStringWidth(tileEntity.getInventoryName()) / 2, 6, 4210752);
+        fontRendererObj.drawString(tile.getInventoryName(), xSize / 2 - fontRendererObj.getStringWidth(tile.getInventoryName()) / 2, 6, 4210752);
 
-        if (tileEntity.getStackInSlot(0) != null) {
+        if (tile.getStackInSlot(0) != null) {
             // Test field for actual heat inside of reactor cell.
             fontRendererObj.drawString(LanguageUtility.localize("tooltip.temperature"), 9, 45, 4210752);
-            fontRendererObj.drawString(String.valueOf((int) tileEntity.getTemperature()) + "/" + String.valueOf(TileReactorCell.meltingPoint) + " K", 9, 58, 4210752);
+            fontRendererObj.drawString(String.valueOf((int) tile.getTemperature()) + "/" + String.valueOf(TileReactorCell.meltingPoint) + " K", 9, 58, 4210752);
 
             // Text field for total number of ticks remaining.
-            int secondsLeft = (tileEntity.getStackInSlot(0).getMaxDurability() - tileEntity.getStackInSlot(0).getMetadata());
+            int secondsLeft = (tile.getStackInSlot(0).getMaxDurability() - tile.getStackInSlot(0).getMetadata());
             fontRendererObj.drawString(LanguageUtility.localize("tooltip.remainingTime"), 100, 45, 4210752);
             fontRendererObj.drawString(secondsLeft + " seconds", 100, 58, 4210752);
         }
@@ -39,8 +40,8 @@ public class GuiReactorCell extends GuiContainerBase {
         fontRendererObj.drawString(LanguageUtility.localize("tooltip.remainingTime"), 100, 45, 4210752);
 
         if (isPointInRegion(80, 40, meterWidth, meterHeight, x, y)) {
-            if (tileEntity.tank.getFluid() != null) {
-                drawTooltip(x - guiLeft, y - guiTop + 10, tileEntity.tank.getFluid().getFluid().getLocalizedName(), UnitDisplay.getDisplay(tileEntity.tank.getFluidAmount(), Unit.LITER));
+            if (tile.tank.getFluid() != null) {
+                drawTooltip(x - guiLeft, y - guiTop + 10, tile.tank.getFluid().getFluid().getLocalizedName(), UnitDisplay.getDisplay(tile.tank.getFluidAmount(), Unit.LITER));
             } else {
                 drawTooltip(x - guiLeft, y - guiTop + 10, "No Fluid");
             }
@@ -59,22 +60,22 @@ public class GuiReactorCell extends GuiContainerBase {
         super.drawGuiContainerBackgroundLayer(par1, x, y);
 
         drawSlot(78, 16);
-        drawMeter(80, 36, tileEntity.tank.getFluidAmount() / tileEntity.tank.getCapacity(), tileEntity.tank.getFluid());
+        drawMeter(80, 36, tile.tank.getFluidAmount() / tile.tank.getCapacity(), tile.tank.getFluid());
 
-        if (tileEntity.getStackInSlot(0) != null) {
+        if (tile.getStackInSlot(0) != null) {
             // Progress bar of temperature inside of reactor.
             GL11.glPushMatrix();
             GL11.glTranslatef(32 * 2, 0, 0);
             GL11.glScalef(0.5f, 1, 1);
-            drawForce(20, 70, (tileEntity.getTemperature()) / (TileReactorCell.meltingPoint));
+            drawForce(20, 70, (tile.getTemperature()) / (TileReactorCell.meltingPoint));
             GL11.glPopMatrix();
 
             // Progress bar of remaining burn time on reactor cell.
             GL11.glPushMatrix();
             GL11.glTranslatef(68 * 2, 0, 0);
             GL11.glScalef(0.5f, 1, 1);
-            float ticksLeft = (tileEntity.getStackInSlot(0).getMaxDurability() - tileEntity.getStackInSlot(0).getMetadata());
-            drawElectricity(70, 70, ticksLeft / tileEntity.getStackInSlot(0).getMaxDurability());
+            float ticksLeft = (tile.getStackInSlot(0).getMaxDurability() - tile.getStackInSlot(0).getMetadata());
+            drawElectricity(70, 70, ticksLeft / tile.getStackInSlot(0).getMaxDurability());
             GL11.glPopMatrix();
         }
     }

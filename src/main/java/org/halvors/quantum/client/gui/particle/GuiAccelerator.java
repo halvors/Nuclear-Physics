@@ -9,45 +9,41 @@ import org.halvors.quantum.lib.gui.GuiContainerBase;
 import universalelectricity.api.energy.UnitDisplay;
 
 public class GuiAccelerator extends GuiContainerBase {
-    private TileAccelerator tileEntity;
+    private TileAccelerator tile;
 
-    private int containerWidth;
-    private int containerHeight;
+    public GuiAccelerator(InventoryPlayer inventoryPlayer, TileAccelerator tile) {
+        super(new ContainerAccelerator(inventoryPlayer, tile));
 
-    public GuiAccelerator(InventoryPlayer par1InventoryPlayer, TileAccelerator tileEntity) {
-        super(new ContainerAccelerator(par1InventoryPlayer, tileEntity));
-
-        this.tileEntity = tileEntity;
+        this.tile = tile;
     }
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        fontRendererObj.drawString(tileEntity.getInventoryName(), 40, 10, 4210752);
+        fontRendererObj.drawString(tile.getInventoryName(), 40, 10, 4210752);
 
         String status;
-        Vector3 position = new Vector3(tileEntity);
-        position.translate(tileEntity.getDirection().getOpposite());
+        Vector3 position = new Vector3(tile);
+        position.translate(tile.getDirection().getOpposite());
 
-        if (!EntityParticle.canRenderAcceleratedParticle(tileEntity.getWorld(), position)) {
+        if (!EntityParticle.canRenderAcceleratedParticle(tile.getWorld(), position)) {
             status = "\u00a74Fail to emit; try rotating.";
-        } else if (tileEntity.entityParticle != null && tileEntity.velocity > 0) {
+        } else if (tile.entityParticle != null && tile.velocity > 0) {
             status = "\u00a76Accelerating";
         } else {
             status = "\u00a72Idle";
         }
 
-        fontRendererObj.drawString("Velocity: " + Math.round((tileEntity.velocity / TileAccelerator.clientParticleVelocity) * 100) + "%", 8, 27, 4210752);
+        fontRendererObj.drawString("Velocity: " + Math.round((tile.velocity / TileAccelerator.clientParticleVelocity) * 100) + "%", 8, 27, 4210752);
         fontRendererObj.drawString("Energy Used:", 8, 38, 4210752);
-        fontRendererObj.drawString(UnitDisplay.getDisplay(tileEntity.totalEnergyConsumed, UnitDisplay.Unit.JOULES), 8, 49, 4210752);
+        fontRendererObj.drawString(UnitDisplay.getDisplay(tile.totalEnergyConsumed, UnitDisplay.Unit.JOULES), 8, 49, 4210752);
         fontRendererObj.drawString(UnitDisplay.getDisplay(TileAccelerator.energyPerTick * 20, UnitDisplay.Unit.WATT), 8, 60, 4210752);
-        fontRendererObj.drawString(UnitDisplay.getDisplay(tileEntity.getVoltageInput(null), UnitDisplay.Unit.VOLTAGE), 8, 70, 4210752);
-        fontRendererObj.drawString("Antimatter: " + tileEntity.antimatter + " mg", 8, 80, 4210752);
+        fontRendererObj.drawString(UnitDisplay.getDisplay(tile.getVoltageInput(null), UnitDisplay.Unit.VOLTAGE), 8, 70, 4210752);
+        fontRendererObj.drawString("Antimatter: " + tile.antimatter + " mg", 8, 80, 4210752);
         fontRendererObj.drawString("Status:", 8, 90, 4210752);
         fontRendererObj.drawString(status, 8, 100, 4210752);
-        fontRendererObj.drawString("Buffer: " + UnitDisplay.getDisplayShort(this.tileEntity.getEnergyHandler().getEnergy(), UnitDisplay.Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(tileEntity.getEnergyHandler().getEnergyCapacity(), UnitDisplay.Unit.JOULES), 8, 110,
-                4210752);
-        fontRendererObj.drawString("Facing: " + tileEntity.getDirection().getOpposite(), 100, 123, 4210752);
+        fontRendererObj.drawString("Buffer: " + UnitDisplay.getDisplayShort(this.tile.getEnergyHandler().getEnergy(), UnitDisplay.Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(tile.getEnergyHandler().getEnergyCapacity(), UnitDisplay.Unit.JOULES), 8, 110, 4210752);
+        fontRendererObj.drawString("Facing: " + tile.getDirection().getOpposite(), 100, 123, 4210752);
     }
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */
