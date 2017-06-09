@@ -47,7 +47,7 @@ public class BlockDummy extends Block implements ITileEntityProvider {
 
         // TODO: Fix this.
         //opaqueCubeLookup = isOpaqueCube();
-        lightOpacity = (isOpaqueCube() ? '�' : 0);
+        lightOpacity = (isOpaqueCube() ? 255 : 0);
 
         setHardness(dummyTile.blockHardness);
         setResistance(dummyTile.blockResistance);
