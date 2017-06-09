@@ -41,6 +41,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     public EntityParticle(World world, Vector3 pos, Vector3 movementVec, ForgeDirection dir) {
         this(world);
+
         setPosition(pos.x, pos.y, pos.z);
         movementVector = movementVec;
         movementDirection = dir;

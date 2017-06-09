@@ -24,7 +24,9 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
@@ -88,6 +90,8 @@ import org.halvors.quantum.lib.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.tile.BlockDummy;
 import org.halvors.quantum.lib.tile.TileBlock;
 import org.halvors.quantum.lib.utility.RenderUtility;
+
+import java.util.List;
 
 /**
  * This is the Quantum class, which is the main class of this mod.
@@ -229,7 +233,22 @@ public class Quantum implements IUpdatableMod {
 
 		// Register entities.
 		EntityRegistry.registerGlobalEntityID(EntityParticle.class, "Particle", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityParticle.class, "Particle", 49, this, 80, 3, true);
+		EntityRegistry.registerModEntity(EntityParticle.class, "Particle", 1, this, 80, 3, true);
+
+		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ForgeChunkManager.LoadingCallback() {
+			@Override
+			public void ticketsLoaded(List<ForgeChunkManager.Ticket> tickets, World world) {
+				for (ForgeChunkManager.Ticket ticket : tickets) {
+					if (ticket.getType() == ForgeChunkManager.Type.ENTITY) {
+						if (ticket.getEntity() != null) {
+							if (ticket.getEntity() instanceof EntityParticle) {
+								((EntityParticle) ticket.getEntity()).updateTicket = ticket;
+							}
+						}
+					}
+				}
+			}
+		});
 	}
 
 	private void registerFluids() {
