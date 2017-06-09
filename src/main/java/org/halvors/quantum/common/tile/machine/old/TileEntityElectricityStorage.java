@@ -50,8 +50,8 @@ public class TileEntityElectricityStorage extends TileEntityMachine implements I
 	}
 
 	@Override
-	public void handlePacketData(Location location, ByteBuf dataStream) throws Exception {
-		super.handlePacketData(location, dataStream);
+	public void handlePacketData(ByteBuf dataStream) throws Exception {
+		super.handlePacketData(dataStream);
 
 		storage.setEnergyStored(dataStream.readInt());
 	}

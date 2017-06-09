@@ -49,7 +49,7 @@ public class PacketLocation implements IMessage {
 		return location;
 	}
 
-	public static class PacketBlockLocationMessage implements IMessageHandler<PacketLocation, IMessage> {
+	public static class PacketLocationMessage implements IMessageHandler<PacketLocation, IMessage> {
 		@Override
 		public IMessage onMessage(PacketLocation message, MessageContext messageContext) {
 			return null;

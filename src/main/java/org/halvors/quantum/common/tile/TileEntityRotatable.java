@@ -40,7 +40,7 @@ public class TileEntityRotatable extends TileEntity implements ITileNetworkable,
 	}
 
 	@Override
-	public void handlePacketData(Location location, ByteBuf dataStream) throws Exception {
+	public void handlePacketData(ByteBuf dataStream) throws Exception {
 		facing = dataStream.readInt();
 
 		// Re-render the block.

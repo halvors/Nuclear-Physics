@@ -95,8 +95,8 @@ public class TileEntityElectricityMeter extends TileEntityElectricityProvider im
 	}
 
 	@Override
-	public void handlePacketData(Location location, ByteBuf dataStream) throws Exception {
-		super.handlePacketData(location, dataStream);
+	public void handlePacketData(ByteBuf dataStream) throws Exception {
+		super.handlePacketData(dataStream);
 
 		isActive = dataStream.readBoolean();
 

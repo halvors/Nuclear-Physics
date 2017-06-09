@@ -52,14 +52,13 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 	public static class PacketTileEntityMessage implements IMessageHandler<PacketTileEntity, IMessage> {
 		@Override
 		public IMessage onMessage(PacketTileEntity message, MessageContext messageContext) {
-			Location location = message.getLocation();
 			TileEntity tileEntity = message.getLocation().getTileEntity(NetworkHandler.getWorld(messageContext));
 
 			if (tileEntity != null && tileEntity instanceof ITileNetworkable) {
 				ITileNetworkable tileNetworkable = (ITileNetworkable) tileEntity;
 
 				try {
-					tileNetworkable.handlePacketData(location, message.storedBuffer);
+					tileNetworkable.handlePacketData(message.storedBuffer);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

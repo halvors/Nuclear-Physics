@@ -255,8 +255,8 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
     }
 
     @Override
-    public void handlePacketData(Location location, ByteBuf dataStream) throws Exception {
-        super.handlePacketData(location, dataStream);
+    public void handlePacketData(ByteBuf dataStream) throws Exception {
+        super.handlePacketData(dataStream);
 
         temperature = dataStream.readFloat();
 
