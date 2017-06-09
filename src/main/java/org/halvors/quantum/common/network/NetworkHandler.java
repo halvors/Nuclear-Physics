@@ -11,7 +11,10 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
@@ -140,11 +143,11 @@ public class NetworkHandler {
             } else if (object instanceof Long) {
                 dataStream.writeLong((Long) object);
             } else if (object instanceof String) {
-                ByteBufUtils.writeUTF8String(dataStream, (String) object);
+                writeString(dataStream, (String) object);
             } else if (object instanceof ItemStack) {
-                ByteBufUtils.writeItemStack(dataStream, (ItemStack) object);
+                writeItemStack(dataStream, (ItemStack) object);
             } else if (object instanceof NBTTagCompound) {
-                ByteBufUtils.writeTag(dataStream, (NBTTagCompound) object);
+                writeNBTTag(dataStream, (NBTTagCompound) object);
             }
         } catch (Exception e) {
             Quantum.getLogger().error("An error occurred when sending packet data.");
@@ -157,4 +160,69 @@ public class NetworkHandler {
             writeObject(object, dataStream);
         }
     }
+
+	public static void writeString(ByteBuf dataStream, String s) {
+		dataStream.writeInt(s.getBytes().length);
+		dataStream.writeBytes(s.getBytes());
+	}
+
+	public static String readString(ByteBuf dataStream) {
+		return new String(dataStream.readBytes(dataStream.readInt()).array());
+	}
+
+	public static void writeItemStack(ByteBuf dataStream, ItemStack stack) {
+		dataStream.writeInt(stack != null ? Item.getIdFromItem(stack.getItem()) : -1);
+
+		if (stack != null) {
+			dataStream.writeInt(stack.stackSize);
+			dataStream.writeInt(stack.getMetadata());
+
+			if(stack.getTagCompound() != null && stack.getItem().getShareTag()) {
+				dataStream.writeBoolean(true);
+				writeNBTTag(dataStream, stack.getTagCompound());
+			} else {
+				dataStream.writeBoolean(false);
+			}
+		}
+	}
+
+	public static ItemStack readNBTTagStack(ByteBuf dataStream) {
+		int id = dataStream.readInt();
+
+		if (id >= 0) {
+			ItemStack stack = new ItemStack(Item.getItemById(id), dataStream.readInt(), dataStream.readInt());
+
+			if (dataStream.readBoolean()) {
+				stack.setTagCompound(readNBTTag(dataStream));
+			}
+
+			return stack;
+		}
+
+		return null;
+	}
+
+	public static void writeNBTTag(ByteBuf dataStream, NBTTagCompound tagCompound) {
+		try {
+			byte[] buffer = CompressedStreamTools.compress(tagCompound);
+
+			dataStream.writeInt(buffer.length);
+			dataStream.writeBytes(buffer);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static NBTTagCompound readNBTTag(ByteBuf dataStream) {
+		try {
+			byte[] buffer = new byte[dataStream.readInt()];
+			dataStream.readBytes(buffer);
+
+			return CompressedStreamTools.decompress(buffer, new NBTSizeTracker(2097152L));
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
 }
