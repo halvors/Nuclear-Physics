@@ -110,7 +110,8 @@ public class TileAccelerator extends TileElectricalInventory implements ITileNet
 
             // Check if redstone signal is currently being applied.
             if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-                if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
+                //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
+                if (true) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
                         if (getStackInSlot(0) != null && lastSpawnTick >= 40) {
@@ -164,7 +165,7 @@ public class TileAccelerator extends TileElectricalInventory implements ITileNet
                         }
                     }
 
-                    energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
+                    //energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
                 } else {
                     if (entityParticle != null) {
                         entityParticle.setDead();
@@ -243,8 +244,6 @@ public class TileAccelerator extends TileElectricalInventory implements ITileNet
         antimatter = dataStream.readInt();
         velocity = dataStream.readFloat();
         clientEnergy = dataStream.readLong();
-
-        Quantum.getLogger().info("Handled incoming packet!");
     }
 
     @Override
@@ -253,8 +252,6 @@ public class TileAccelerator extends TileElectricalInventory implements ITileNet
         objects.add(antimatter);
         objects.add(velocity);
         objects.add(clientEnergy);
-
-        Quantum.getLogger().info("Sending out packet!");
 
         return objects;
     }

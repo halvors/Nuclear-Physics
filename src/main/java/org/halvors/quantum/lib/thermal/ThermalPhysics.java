@@ -11,15 +11,20 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.science.ChemicalElement;
 
 public class ThermalPhysics {
-    public static final ThermalPhysics INSTNACE = new ThermalPhysics();
-    public static final int ROOM_TEMPERATURE = 295;
+    public static final ThermalPhysics instance = new ThermalPhysics();
+    public static final int roomTemperature = 295;
 
+    /** Temperature: 0.5f = 22C
+     *
+     * @return The temperature of the coordinate in the world in kelvin.
+     */
     public static float getTemperatureForCoordinate(World world, int x, int z) {
         // TODO: Check if this is correct.
         //int averageTemperature = 273 + (int) ((world.getBiomeGenForCoords(x, z).getFloatTemperature() - 0.4D) * 50.0D);
-        int averageTemperature = 273 + (int) ((world.getBiomeGenForCoords(x, z).temperature - 0.4D) * 50.0D);
-        double dayNightVariance = averageTemperature * 0.05D;
-        return (float)(averageTemperature + (world.isDaytime() ? dayNightVariance : -dayNightVariance));
+        int averageTemperature = 273 + (int) ((world.getBiomeGenForCoords(x, z).getFloatTemperature(x, 0, z) - 0.4) * 50);
+        double dayNightVariance = averageTemperature * 0.05;
+
+        return (float) (averageTemperature + (world.isDaytime() ? dayNightVariance : -dayNightVariance));
     }
 
     public static double getEnergyForTemperatureChange(float mass, double specificHeatCapacity, float temperature) {
@@ -27,7 +32,7 @@ public class ThermalPhysics {
     }
 
     public static float getTemperatureForEnergy(float mass, long specificHeatCapacity, long energy) {
-        return (float)energy / (mass * (float)specificHeatCapacity);
+        return energy / (mass * specificHeatCapacity);
     }
 
     public static double getRequiredBoilWaterEnergy(World world, int x, int z) {
@@ -35,9 +40,10 @@ public class ThermalPhysics {
     }
 
     public static double getRequiredBoilWaterEnergy(World world, int x, int z, int volume) {
-        float temperatureChange = 373.0F - getTemperatureForCoordinate(world, x, z);
-        float mass = getMass(volume, 1.0F);
-        return getEnergyForTemperatureChange(mass, 4200.0D, temperatureChange) + getEnergyForStateChange(mass, 2257000.0D);
+        float temperatureChange = 373 - getTemperatureForCoordinate(world, x, z);
+        float mass = getMass(volume, 1);
+
+        return getEnergyForTemperatureChange(mass, 4200, temperatureChange) + getEnergyForStateChange(mass, 2257000);
     }
 
     public static double getEnergyForStateChange(float mass, double latentHeatCapacity) {
@@ -45,20 +51,21 @@ public class ThermalPhysics {
     }
 
     public static float getMass(float volume, float density) {
-        return volume / 1000.0F * density;
+        return (volume / 1000 * density);
     }
 
     public static int getMass(FluidStack fluidStack) {
-        return fluidStack.amount / 1000 * fluidStack.getFluid().getDensity(fluidStack);
+        return (fluidStack.amount / 1000) * fluidStack.getFluid().getDensity(fluidStack);
     }
 
+    // A map of the temperature of the blocks.
     public final HashMap<Vector3, Integer> thermalMap = new HashMap<>();
 
     public void update() {
         Iterator<Map.Entry<Vector3, Integer>> it = this.thermalMap.entrySet().iterator();
 
         while (it.hasNext()) {
-            Map.Entry<Vector3, Integer> entry = (Map.Entry)it.next();
+            Map.Entry<Vector3, Integer> entry = it.next();
 
             for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
                 Vector3 checkPos = entry.getKey().clone().translate(dir);
@@ -70,11 +77,11 @@ public class ThermalPhysics {
     }
 
     public int addEnergyToFluid(FluidStack fluidStack, int specificHeatCapacity, long energy) {
-        int mass = fluidStack.amount / 1000 * fluidStack.getFluid().getDensity(fluidStack);
+        int mass = (fluidStack.amount / 1000) * fluidStack.getFluid().getDensity(fluidStack);
 
-        int changeInTemperature = (int)(energy / (mass * specificHeatCapacity));
+        int changeInTemperature = (int) (energy / (mass * specificHeatCapacity));
 
-        if ((fluidStack.getFluid() instanceof FluidThermal)) {
+        if (fluidStack.getFluid() instanceof FluidThermal) {
             ((FluidThermal) fluidStack.getFluid()).setTemperature(fluidStack, fluidStack.getFluid().getTemperature(fluidStack) + changeInTemperature);
         }
 
@@ -82,7 +89,7 @@ public class ThermalPhysics {
     }
 
     public void addEnergy(Vector3 position, ChemicalElement element, long energy) {
-        int mass = (int) (1.0F * element.density);
+        int mass = (int) (1 * element.density);
         int changeInTemperature = (int) (energy / (mass * element.heatData.specificHeat));
 
         setTemperature(position, getTemperature(position) + changeInTemperature);
@@ -97,6 +104,6 @@ public class ThermalPhysics {
             return thermalMap.get(position);
         }
 
-        return 295;
+        return roomTemperature;
     }
 }

@@ -45,9 +45,11 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
     private final float mass = ThermalPhysics.getMass(1000, 7);
     public final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 15);
 
-    public float temperature = 295; // Synced
+    private float temperature = 295; // Synced
     private float previousTemperature = 295;
+
     private boolean shouldUpdate = false;
+
     private long previousInternalEnergy = 0;
     private long internalEnergy = 0;
     private int meltdownCounter = 0;
@@ -57,7 +59,7 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
     private MultiBlockHandler<TileReactorCell> multiBlock;
 
     public TileReactorCell() {
-        super();
+
     }
 
     @Override
@@ -119,6 +121,7 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
                         IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
                         reactorComponent.onReact(fuelRod, this);
 
+                        // TODO: Check for server here redundant?
                         if (!worldObj.isRemote) {
                             if (fuelRod.getMetadata() >= fuelRod.getMaxDurability()) {
                                 getMultiBlock().get().setInventorySlotContents(0, null);
@@ -142,7 +145,7 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
                 temperature = ThermalGrid.getTemperature(new VectorWorld(this));
 
                 // Only a small percentage of the internal energy is used for temperature.
-                if (internalEnergy - previousInternalEnergy > 0) {
+                if ((internalEnergy - previousInternalEnergy) > 0) {
                     float deltaT = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
 
                     // Check control rods.
@@ -162,18 +165,18 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
 
                     // Sound of lava flowing randomly plays when above temperature to boil water.
                     if (worldObj.rand.nextInt(80) == 0 && getTemperature() >= 373) {
-                        worldObj.playSoundEffect(xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F, "Fluid.lava", 0.5F, 2.1F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.85F);
+                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "Fluid.lava", 0.5F, 2.1F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.85F);
                     }
 
                     // Sounds of lava popping randomly plays when above temperature to boil water.
                     if (worldObj.rand.nextInt(40) == 0 && getTemperature() >= 373) {
-                        worldObj.playSoundEffect(xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F, "Fluid.lavapop", 0.5F, 2.6F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.8F);
+                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "Fluid.lavapop", 0.5F, 2.6F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.8F);
                     }
 
                     // Reactor cell plays random idle noises while operating and above temperature to boil water.
                     if (worldObj.getWorldTime() % 100 == 0 && getTemperature() >= 373) {
                         float percentage = Math.min(getTemperature() / 2000.0F, 1.0F);
-                        worldObj.playSoundEffect(xCoord + 0.5F, yCoord + 0.5F, zCoord + 0.5F, "reactorcell", percentage, 1.0F);
+                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "reactorcell", percentage, 1.0F);
                     }
 
                     if (previousTemperature != temperature && !shouldUpdate) {
@@ -183,17 +186,17 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
 
                     if (previousTemperature >= meltingPoint && meltdownCounter < meltdownCounterMaximum) {
                         shouldUpdate = true;
-                        meltdownCounter += 1;
-                    } else if (previousTemperature >= meltingPoint && meltdownCounter >= meltdownCounterMaximum) {
+                        meltdownCounter ++;
+                    }
+
+                    if (previousTemperature >= meltingPoint && meltdownCounter >= meltdownCounterMaximum) {
                         meltdownCounter = 0;
                         meltDown();
 
                         return;
-                    }
-
-                    // Reset meltdown ticker to give the reactor more of a 'goldilocks zone'.
-                    if (previousTemperature < meltingPoint && meltdownCounter < meltdownCounterMaximum && meltdownCounter > 0) {
-                        meltdownCounter--;
+                    } else {
+                        // Reset meltdown ticker to give the reactor more of a 'goldilocks zone'.
+                        meltdownCounter = 0;
                     }
                 }
 
@@ -224,9 +227,12 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
 
                 NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
             }
-        } else if (worldObj.rand.nextInt(5) == 0 && getTemperature() >= 373) {
-            worldObj.spawnParticle("cloud", xCoord + worldObj.rand.nextInt(2), yCoord + 1.0F, zCoord + worldObj.rand.nextInt(2), 0.0D, 0.1D, 0.0D);
-            worldObj.spawnParticle("bubble", xCoord + worldObj.rand.nextInt(5), yCoord, zCoord + worldObj.rand.nextInt(5), 0.0D, 0.0D, 0.0D);
+        } else {
+            // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
+            if (worldObj.rand.nextInt(5) == 0 && getTemperature() >= 373) {
+                worldObj.spawnParticle("cloud", xCoord + worldObj.rand.nextInt(2), yCoord + 1.0F, zCoord + worldObj.rand.nextInt(2), 0.0D, 0.1D, 0.0D);
+                worldObj.spawnParticle("bubble", xCoord + worldObj.rand.nextInt(5), yCoord, zCoord + worldObj.rand.nextInt(5), 0.0D, 0.0D, 0.0D);
+            }
         }
     }
 
@@ -254,7 +260,9 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
     public void handlePacketData(ByteBuf dataStream) throws Exception {
         super.handlePacketData(dataStream);
 
-        temperature = dataStream.readFloat();
+        if (!worldObj.isRemote) {
+            temperature = dataStream.readFloat();
+        }
     }
 
     @Override
