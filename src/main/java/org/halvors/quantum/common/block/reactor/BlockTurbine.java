@@ -63,7 +63,7 @@ public class BlockTurbine extends BlockRotatable {
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return BlockRenderingHandler.ID;
+        return BlockRenderingHandler.getId();
     }
 
     @Override

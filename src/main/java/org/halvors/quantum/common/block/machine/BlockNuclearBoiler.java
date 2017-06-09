@@ -34,7 +34,7 @@ public class BlockNuclearBoiler extends BlockRotatable {
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return BlockRenderingHandler.ID;
+        return BlockRenderingHandler.getId();
     }
 
     @Override

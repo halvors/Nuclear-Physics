@@ -74,7 +74,7 @@ public class BlockElectromagnet extends BlockContainer {
 
     @Override
     public int getRenderType() {
-        return BlockRenderingHandler.ID;
+        return BlockRenderingHandler.getId();
     }
 
     /*

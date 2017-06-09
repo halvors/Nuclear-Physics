@@ -8,13 +8,13 @@ public abstract class PlasmaEvent extends WorldEvent {
         super(world);
     }
 
-    public static class SpawnPlasmaEvent extends PlasmaEvent {
+    public static class PlasmaSpawnEvent extends PlasmaEvent {
         public final int x;
         public final int y;
         public final int z;
         public final int temperature;
 
-        public SpawnPlasmaEvent(World world, int x, int y, int z, int temperature) {
+        public PlasmaSpawnEvent(World world, int x, int y, int z, int temperature) {
             super(world);
 
             this.x = x;

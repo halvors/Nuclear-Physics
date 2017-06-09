@@ -38,7 +38,7 @@ public class TilePlasma extends TileEntity {
                         TileEntity tileEntity = position.getTileEntity(worldObj);
 
                         if (!(tileEntity instanceof TilePlasma)) {
-                            MinecraftForge.EVENT_BUS.post(new PlasmaEvent.SpawnPlasmaEvent(worldObj, position.intX(), position.intY(), position.intZ(), (int) temperature));
+                            MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(worldObj, position.intX(), position.intY(), position.intZ(), (int) temperature));
                         }
                     }
                 }

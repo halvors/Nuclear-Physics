@@ -28,6 +28,6 @@ public class BlockElectricTurbine extends BlockTurbine {
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return BlockRenderingHandler.ID;
+        return BlockRenderingHandler.getId();
     }
 }

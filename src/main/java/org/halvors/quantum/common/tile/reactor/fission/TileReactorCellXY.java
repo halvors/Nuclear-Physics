@@ -141,7 +141,7 @@ public class TileReactorCellXY extends TileInventory implements IMultiBlockStruc
                     spawnPos.translate(0.0D, Math.max(worldObj.rand.nextInt(getHeight()) - 1, 0), 0.0D);
 
                     if (worldObj.isAirBlock(spawnPos.intX(), spawnPos.intY(), spawnPos.intZ())) {
-                        MinecraftForge.EVENT_BUS.post(new PlasmaEvent.SpawnPlasmaEvent(worldObj, spawnPos.intX(), spawnPos.intY(), spawnPos.intZ(), TilePlasma.plasmaMaxTemperature));
+                        MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(worldObj, spawnPos.intX(), spawnPos.intY(), spawnPos.intZ(), TilePlasma.plasmaMaxTemperature));
                         tank.drain(1000, true);
                     }
                 }

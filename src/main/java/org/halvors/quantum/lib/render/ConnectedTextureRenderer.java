@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.lib.tile.TileBlock;
 import org.halvors.quantum.lib.tile.TileRender;
 import org.halvors.quantum.lib.utility.RenderUtility;
 import org.halvors.quantum.lib.utility.WorldUtility;
@@ -13,10 +14,10 @@ import org.halvors.quantum.lib.utility.RenderBlockUtility;
 import org.lwjgl.opengl.GL11;
 
 public class ConnectedTextureRenderer extends TileRender {
-    private TileEntity tile;
+    private TileBlock tile;
     private String edgeTexture;
 
-    public ConnectedTextureRenderer(TileEntity tile, String edgeTexture) {
+    public ConnectedTextureRenderer(TileBlock tile, String edgeTexture) {
         this.tile = tile;
         this.edgeTexture = edgeTexture;
     }
@@ -25,7 +26,7 @@ public class ConnectedTextureRenderer extends TileRender {
     public boolean renderItem(ItemStack itemStack) {
         GL11.glPushMatrix();
         GL11.glTranslated(0.5, 0.5, 0.5);
-        RenderBlockUtility.tessellateBlockWithConnectedTextures(itemStack.getMetadata(), tile.getBlockType(), null, RenderUtility.getIcon(edgeTexture));
+        RenderBlockUtility.tessellateBlockWithConnectedTextures(itemStack.getMetadata(), tile.block, null, RenderUtility.getIcon(edgeTexture));
         GL11.glPopMatrix();
 
         return true;
@@ -48,7 +49,7 @@ public class ConnectedTextureRenderer extends TileRender {
             }
         }
 
-        RenderBlockUtility.tessellateBlockWithConnectedTextures(sideMap, world, x, y, z, tile.getBlockType(), null, RenderUtility.getIcon(edgeTexture));
+        RenderBlockUtility.tessellateBlockWithConnectedTextures(sideMap, world, x, y, z, tile.block, null, RenderUtility.getIcon(edgeTexture));
 
         return true;
     }

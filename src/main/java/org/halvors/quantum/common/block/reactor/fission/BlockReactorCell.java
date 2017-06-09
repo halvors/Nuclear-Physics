@@ -43,7 +43,7 @@ public class BlockReactorCell extends BlockRotatable {
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderType(){
-        return BlockRenderingHandler.ID;
+        return BlockRenderingHandler.getId();
     }
 
 

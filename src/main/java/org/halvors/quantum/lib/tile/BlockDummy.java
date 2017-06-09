@@ -259,7 +259,7 @@ public class BlockDummy extends Block implements ITileEntityProvider {
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return BlockRenderingHandler.ID;
+        return BlockRenderingHandler.getId();
     }
 
 

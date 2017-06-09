@@ -10,10 +10,10 @@ import org.halvors.quantum.common.utility.ResourceUtils;
 
 @SideOnly(Side.CLIENT)
 public class SoundHandler {
-	private static final Minecraft mc = Minecraft.getMinecraft();
+	private static final Minecraft game = Minecraft.getMinecraft();
 
 	public static void playSound(ISound sound) {
-		mc.getSoundHandler().playSound(sound);
+		game.getSoundHandler().playSound(sound);
 	}
 
 	public static void playSound(String sound) {

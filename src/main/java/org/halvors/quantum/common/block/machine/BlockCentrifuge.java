@@ -31,7 +31,7 @@ public class BlockCentrifuge extends BlockRotatable {
 
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return BlockRenderingHandler.ID;
+        return BlockRenderingHandler.getId();
     }
 
     @Override

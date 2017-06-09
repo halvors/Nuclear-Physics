@@ -17,13 +17,14 @@ import org.halvors.quantum.lib.tile.BlockDummy;
 import org.halvors.quantum.lib.tile.TileBlock;
 import org.halvors.quantum.lib.utility.RenderUtility;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import java.util.Map;
 
 public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
-    public static final BlockRenderingHandler INSTANCE = new BlockRenderingHandler();
-    public static final int ID = RenderingRegistry.getNextAvailableRenderId();
-    public static final Map<Block, TileEntity> inventoryTileEntities = Maps.newIdentityHashMap();
+    private static final BlockRenderingHandler instance = new BlockRenderingHandler();
+    private static final int id = RenderingRegistry.getNextAvailableRenderId();
+    private static final Map<Block, TileEntity> inventoryTileEntities = Maps.newIdentityHashMap();
 
     public TileEntity getTileEntityForBlock(Block block) {
         TileEntity tileEntity = inventoryTileEntities.get(block);
@@ -43,16 +44,16 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
 
             if (tile != null) {
                 boolean didRender = true;
-                GL11.glEnable(32826);
-                GL11.glPushAttrib(262144);
+                GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+                GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
                 GL11.glPushMatrix();
-                GL11.glTranslated(-0.5D, -0.5D, -0.5D);
+                GL11.glTranslated(-0.5, -0.5, -0.5);
 
                 if (tile.getRenderer() != null) {
                     if (!tile.getRenderer().renderItem(new ItemStack(block, 1, metadata))) {
-                        if (!tile.getRenderer().renderDynamic(new Vector3(), true, 0.0F)) {
+                        if (!tile.getRenderer().renderDynamic(new Vector3(), true, 0)) {
                             if (!tile.customItemRender) {
-                                GL11.glTranslated(0.5D, 0.5D, 0.5D);
+                                GL11.glTranslated(0.5, 0.5, 0.5);
                                 RenderUtility.renderNormalBlockAsItem(block, metadata, renderer);
                             } else {
                                 didRender = false;
@@ -60,7 +61,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
                         }
                     }
                 } else if (!tile.customItemRender) {
-                    GL11.glTranslated(0.5D, 0.5D, 0.5D);
+                    GL11.glTranslated(0.5, 0.5, 0.5);
                     RenderUtility.renderNormalBlockAsItem(block, metadata, renderer);
                 } else {
                     didRender = false;
@@ -81,12 +82,12 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
             renderTile = getTileEntityForBlock(block);
         }
 
-        GL11.glEnable(32826);
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
 
         if (renderTile != null) {
-            GL11.glPushAttrib(262144);
+            GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
             GL11.glPushMatrix();
-            GL11.glTranslated(-0.5D, -0.5D, -0.5D);
+            GL11.glTranslated(-0.5, -0.5, -0.5);
 
             TileEntitySpecialRenderer tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(renderTile);
 
@@ -137,6 +138,14 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
 
     @Override
     public int getRenderId() {
-        return ID;
+        return id;
+    }
+
+    public static int getId() {
+        return id;
+    }
+
+    public static BlockRenderingHandler getInstance() {
+        return instance;
     }
 }

@@ -24,7 +24,6 @@ public class TileElectromagnet extends TileBase implements IElectromagnet {
         super("electromagnet", Material.iron);
 
         blockResistance = 20;
-        normalRender = false;
         isOpaqueCube = false;
         itemBlock = ItemBlockMetadata.class;
     }

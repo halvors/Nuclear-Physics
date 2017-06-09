@@ -39,7 +39,7 @@ public class BlockFusionReactor extends BlockTile {
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return BlockRenderingHandler.ID;
+        return BlockRenderingHandler.getId();
     }
 
     @Override
