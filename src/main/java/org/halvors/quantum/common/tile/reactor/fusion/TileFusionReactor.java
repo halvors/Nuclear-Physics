@@ -2,16 +2,23 @@ package org.halvors.quantum.common.tile.reactor.fusion;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.lib.prefab.tile.TileElectrical;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileFusionReactor extends TileElectrical implements IFluidHandler, IEnergyReceiver { //IPacketReceiver, ITagRender,
+import java.util.List;
+
+public class TileFusionReactor extends TileElectrical implements ITileNetworkable, IFluidHandler, IEnergyReceiver { //IPacketReceiver, ITagRender,
     public static long power = 10000000000L;
     public static int plasmaHeatAmount = 100; //@Config
 
@@ -46,8 +53,7 @@ public class TileFusionReactor extends TileElectrical implements IFluidHandler, 
         if (ticks % 80 == 0) {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
-            // TODO: Update clients.
-            //PacketHandler.sendPacketToClients(getDescriptionPacket(), worldObj, new Vector3(this), 25);
+            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
         }
     }
 
@@ -88,6 +94,58 @@ public class TileFusionReactor extends TileElectrical implements IFluidHandler, 
         }
     }
 
+    @Override
+    public void handlePacketData(ByteBuf dataStream) throws Exception {
+        if (worldObj.isRemote) {
+            if (dataStream.readBoolean()) {
+                tankInputDeuterium.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+            }
+
+            if (dataStream.readBoolean()) {
+                tankInputTritium.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+            }
+
+            if (dataStream.readBoolean()) {
+                tankOutput.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+            }
+        }
+    }
+
+    @Override
+    public List<Object> getPacketData(List<Object> objects) {
+        if (tankInputDeuterium.getFluid() != null) {
+            objects.add(true);
+
+            NBTTagCompound compoundDeuterium = new NBTTagCompound();
+            tankInputDeuterium.getFluid().writeToNBT(compoundDeuterium);
+            objects.add(compoundDeuterium);
+        } else {
+            objects.add(false);
+        }
+
+        if (tankInputTritium.getFluid() != null) {
+            objects.add(true);
+
+            NBTTagCompound compoundTritium = new NBTTagCompound();
+            tankInputTritium.getFluid().writeToNBT(compoundTritium);
+            objects.add(compoundTritium);
+        } else {
+            objects.add(false);
+        }
+
+        if (tankOutput.getFluid() != null) {
+            objects.add(true);
+
+            NBTTagCompound compoundOutput = new NBTTagCompound();
+            tankOutput.getFluid().writeToNBT(compoundOutput);
+            objects.add(compoundOutput);
+        } else {
+            objects.add(false);
+        }
+
+        return objects;
+    }
+
     /*
     @Override
     public void read(ByteBuf data, EntityPlayer player, PacketType) {
@@ -97,7 +155,6 @@ public class TileFusionReactor extends TileElectrical implements IFluidHandler, 
             e.printStackTrace();
         }
     }
-    */
 
     @Override
     public Packet getDescriptionPacket() {
@@ -108,7 +165,6 @@ public class TileFusionReactor extends TileElectrical implements IFluidHandler, 
         return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, tagCompound);
     }
 
-    /*
     @Override
     public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
         if (energy != null) {
