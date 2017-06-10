@@ -8,7 +8,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.apache.commons.lang3.ArrayUtils;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.reactor.TileTurbine;
 import org.halvors.quantum.lib.utility.RenderUtility;
@@ -27,7 +26,7 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
 
         if (tileTurbine.getMultiBlock().isPrimary()) {
             GL11.glPushMatrix();
-            GL11.glTranslated(x + 0.5D, y, z + 0.5D);
+            GL11.glTranslated(x + 0.5F, y, z + 0.5F);
 
             if (tileTurbine.getMultiBlock().isConstructed()) {
                 RenderUtility.bind(textureLarge);
@@ -37,13 +36,13 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
                 String[] largeBlades = { "LargeBlade1", "LargeBlade2", "LargeBlade3", "LargeBlade4", "LargeBlade5", "LargeBlade6" };
 
                 GL11.glPushMatrix();
-                GL11.glRotated(Math.toDegrees(tileTurbine.rotation), 0.0D, 1.0D, 0.0D);
+                GL11.glRotated(Math.toDegrees(tileTurbine.rotation), 0, 1, 0);
                 modelLarge.renderOnly(blades);
                 modelLarge.renderOnly(largeBlades);
                 GL11.glPopMatrix();
 
                 GL11.glPushMatrix();
-                GL11.glRotated(-Math.toDegrees(tileTurbine.rotation), 0.0D, 1.0D, 0.0D);
+                GL11.glRotated(-Math.toDegrees(tileTurbine.rotation), 0, 1, 0);
                 modelLarge.renderOnly(mediumBlades);
                 GL11.glPopMatrix();
 
@@ -71,7 +70,7 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
 
                 modelSmall.renderAllExcept(ArrayUtils.addAll(ArrayUtils.addAll(blades, shields), ArrayUtils.addAll(mediumShields, mediumBlades)));
             }
-            
+
             GL11.glPopMatrix();
         }
     }

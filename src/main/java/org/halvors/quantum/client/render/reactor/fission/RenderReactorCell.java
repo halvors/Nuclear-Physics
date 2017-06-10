@@ -31,7 +31,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
             TileReactorCell tileReactorCell = (TileReactorCell) tileEntity;
 
             GL11.glPushMatrix();
-            GL11.glTranslated(x + 0.5D, y, z + 0.5D);
+            GL11.glTranslated(x + 0.5F, y, z + 0.5F);
 
             int metadata = 2;
 
@@ -43,31 +43,31 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
 
             switch (metadata) {
                 case 0:
-                    Minecraft.getMinecraft().renderEngine.bindTexture(textureBottom);
+                    RenderUtility.bind(textureBottom);
 
-                    GL11.glTranslatef(0.0F, 0.035F, 0.0F); // Verified
-                    GL11.glScalef(1.0F, 1F, 1.0F); // Verified
+                    GL11.glTranslatef(0.0F, 0.035F, 0.0F);
+                    GL11.glScalef(1.0F, 1.0F, 1.0F);
 
                     modelBottom.renderAll();
                     break;
 
                 case 1:
-                    Minecraft.getMinecraft().renderEngine.bindTexture(textureMiddle);
+                    RenderUtility.bind(textureMiddle);
 
-                    GL11.glTranslatef(0.0F, 0.036F, 0.0F); // Verified
-                    GL11.glScalef(1.0F, 1.0F, 1.0F); // Verified
+                    GL11.glTranslatef(0.0F, 0.036F, 0.0F);
+                    GL11.glScalef(1.0F, 1.0F, 1.0F);
                     modelMiddle.renderAll();
                     break;
 
                 case 2:
-                    Minecraft.getMinecraft().renderEngine.bindTexture(textureTop);
+                    RenderUtility.bind(textureTop);
 
                     if (hasBelow) {
-                        GL11.glTranslatef(0.0F, -0.9F, 0.0F); // Verified
-                        GL11.glScalef(1.0F, 1.42F, 1.0F); // Verified
+                        GL11.glTranslatef(0.0F, -0.9F, 0.0F);
+                        GL11.glScalef(1.0F, 1.42F, 1.0F);
                     } else {
-                        GL11.glTranslatef(0.0F, 0.04F, 0.0F); // Verified
-                        GL11.glScalef(1.0F, 1.2F, 1.0F); // Verified
+                        GL11.glTranslatef(0.0F, 0.04F, 0.0F);
+                        GL11.glScalef(1.0F, 1.2F, 1.0F);
                     }
 
                     if (hasBelow) {

@@ -19,8 +19,8 @@ public abstract class ThermalEvent extends Event {
         this.isReactor = isReactor;
     }
 
-    public static class ThermalEventUpdate extends ThermalEvent {
-        public ThermalEventUpdate(VectorWorld position, float temperature, float deltaTemperature, float deltaTime, boolean isReactor) {
+    public static class ThermalUpdateEvent extends ThermalEvent {
+        public ThermalUpdateEvent(VectorWorld position, float temperature, float deltaTemperature, float deltaTime, boolean isReactor) {
             super(position, temperature, deltaTemperature, deltaTime, isReactor);
         }
     }

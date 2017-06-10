@@ -9,14 +9,14 @@ public class FluidThermal extends Fluid {
     }
 
     public int getTemperature(FluidStack stack) {
-        if (stack.tag.hasKey("Temperature")) {
-            return stack.tag.getInteger("Temperature");
+        if (stack.tag.hasKey("temperature")) {
+            return stack.tag.getInteger("temperature");
         }
 
         return getTemperature();
     }
 
     public void setTemperature(FluidStack stack, int temperature) {
-        stack.tag.setInteger("Temperature", temperature);
+        stack.tag.setInteger("temperature", temperature);
     }
 }

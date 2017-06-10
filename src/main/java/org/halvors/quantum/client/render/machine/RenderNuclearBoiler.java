@@ -3,6 +3,7 @@ package org.halvors.quantum.client.render.machine;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -24,14 +25,15 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer {
             TileNuclearBoiler tileNuclearBoiler = (TileNuclearBoiler) tileEntity;
 
             GL11.glPushMatrix();
-            GL11.glTranslated(x + 0.5, y, z + 0.5);
+            GL11.glTranslated(x + 0.5F, y, z + 0.5F);
             GL11.glRotatef(90, 0, 1, 0);
 
             if (tileNuclearBoiler.getWorld() != null) {
                 RenderUtility.rotateBlockBasedOnDirection(tileNuclearBoiler.getDirection());
             }
 
-            Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+            RenderUtility.bind(texture);
+
             model.renderOnly("FUEL BAR SUPPORT 1 ROTATES", "FUEL BAR 1 ROTATES");
             model.renderOnly("FUEL BAR SUPPORT 2 ROTATES", "FUEL BAR 2 ROTATES");
             //model.renderOnlyAroundPivot(Math.toDegrees(tileNuclearBoiler.rotation), 0, 1, 0, "FUEL BAR SUPPORT 1 ROTATES", "FUEL BAR 1 ROTATES");

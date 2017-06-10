@@ -7,9 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.lib.utility.inventory.ExternalInventory;
 
-/** Prefab for tiles that need a basic inventory
- *
- * @author Darkguardsman */
+/*
+ *Prefab for tiles that need a basic inventory
+ */
 public class TileInventory extends TileBase implements IExternalInventory, ISidedInventory {
     public TileInventory(String name, Material material) {
         super(name, material);

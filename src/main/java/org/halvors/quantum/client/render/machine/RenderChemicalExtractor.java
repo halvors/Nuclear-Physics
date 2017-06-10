@@ -24,13 +24,13 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer {
             TileChemicalExtractor tileChemicalExtractor = (TileChemicalExtractor) tileEntity;
 
             GL11.glPushMatrix();
-            GL11.glTranslated(x + 0.5, y, z + 0.5);
+            GL11.glTranslated(x + 0.5F, y, z + 0.5F);
 
             if (tileChemicalExtractor.getWorld() != null) {
                 RenderUtility.rotateBlockBasedOnDirection(tileChemicalExtractor.getDirection());
             }
 
-            Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+            RenderUtility.bind(texture);
 
             GL11.glPushMatrix();
 

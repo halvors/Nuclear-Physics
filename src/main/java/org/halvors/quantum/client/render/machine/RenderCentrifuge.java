@@ -1,9 +1,7 @@
 package org.halvors.quantum.client.render.machine;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -25,17 +23,19 @@ public class RenderCentrifuge extends TileEntitySpecialRenderer {
             TileCentrifuge tileCentrifuge = (TileCentrifuge) tileEntity;
 
             GL11.glPushMatrix();
-            GL11.glTranslated(x + 0.5, y, z + 0.5);
+            GL11.glTranslated(x + 0.5F, y, z + 0.5F);
 
             if (tileCentrifuge.getWorld() != null) {
                 RenderUtility.rotateBlockBasedOnDirection(tileCentrifuge.getDirection());
             }
 
-            Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+            RenderUtility.bind(texture);
+
             GL11.glPushMatrix();
             GL11.glRotated(Math.toDegrees(tileCentrifuge.rotation), 0, 1, 0);
             model.renderOnly("C", "JROT", "KROT", "LROT", "MROT");
             GL11.glPopMatrix();
+
             model.renderAllExcept("C", "JROT", "KROT", "LROT", "MROT");
             GL11.glPopMatrix();
         }
