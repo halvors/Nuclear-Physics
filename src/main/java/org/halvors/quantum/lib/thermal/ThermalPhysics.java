@@ -1,14 +1,14 @@
 package org.halvors.quantum.lib.thermal;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.science.ChemicalElement;
+import org.halvors.quantum.lib.science.ChemElement;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ThermalPhysics {
     public static final ThermalPhysics instance = new ThermalPhysics();
@@ -88,7 +88,7 @@ public class ThermalPhysics {
         return changeInTemperature;
     }
 
-    public void addEnergy(Vector3 position, ChemicalElement element, long energy) {
+    public void addEnergy(Vector3 position, ChemElement element, long energy) {
         int mass = (int) (1 * element.density);
         int changeInTemperature = (int) (energy / (mass * element.heatData.specificHeat));
 
