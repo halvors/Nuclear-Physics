@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
@@ -267,6 +268,11 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         }
 
         return vectors.toArray(new Vector3[0]);
+    }
+
+    @Override
+    public World getWorldObject() {
+        return worldObj;
     }
 
     @Override

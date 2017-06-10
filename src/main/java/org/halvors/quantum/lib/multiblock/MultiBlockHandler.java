@@ -29,7 +29,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     }
 
     public void update() {
-        if (self.getWorld() != null && newPrimary != null) {
+        if (self.getWorldObject() != null && newPrimary != null) {
             W checkWrapper = getWrapperAt(newPrimary.clone().translate(self.getPosition()));
 
             if (checkWrapper != null) {
@@ -134,7 +134,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
 
     public W getWrapperAt(Vector3 position) {
-        TileEntity tile = position.getTileEntity(self.getWorld());
+        TileEntity tile = position.getTileEntity(self.getWorldObject());
 
         if (tile != null && wrapperClass.isAssignableFrom(tile.getClass())) {
             return (W) tile;

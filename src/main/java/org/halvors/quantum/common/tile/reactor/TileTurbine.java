@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
@@ -155,6 +156,11 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
         }
 
         return vectors.toArray(new Vector3[0]);
+    }
+
+    @Override
+    public World getWorldObject() {
+        return worldObj;
     }
 
     @Override
