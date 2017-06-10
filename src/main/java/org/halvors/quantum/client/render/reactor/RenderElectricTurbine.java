@@ -9,7 +9,7 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.apache.commons.lang3.ArrayUtils;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.reactor.TileTurbine;
+import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.lib.utility.RenderUtility;
 import org.lwjgl.opengl.GL11;
 
@@ -22,7 +22,7 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
 
     @Override
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
-        TileTurbine tileTurbine = (TileTurbine) tileEntity;
+        TileElectricTurbine tileTurbine = (TileElectricTurbine) tileEntity;
 
         if (tileTurbine.getMultiBlock().isPrimary()) {
             GL11.glPushMatrix();
