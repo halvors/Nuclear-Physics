@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * A ticker to update all grids. This is multithreaded.
  */
 public class UpdateTicker extends Thread {
-    public static final UpdateTicker INSTANCE = new UpdateTicker();
+    private static final UpdateTicker instance = new UpdateTicker();
 
     // For updaters to be ticked.
     private final Set<IUpdate> updaters = Collections.newSetFromMap(new WeakHashMap<IUpdate, Boolean>());
@@ -20,7 +20,7 @@ public class UpdateTicker extends Thread {
     // For queuing Forge events to be invoked the next tick.
     private final Queue<Event> queuedEvents = new ConcurrentLinkedQueue<>();
 
-    public boolean pause = false;
+    private boolean pause = false;
 
     // The time in milliseconds between successive updates.
     private long deltaTime;
@@ -30,78 +30,71 @@ public class UpdateTicker extends Thread {
         setPriority(MIN_PRIORITY);
     }
 
+    public static UpdateTicker getInstance() {
+        return instance;
+    }
+
     public static void addNetwork(IUpdate updater) {
-        synchronized (INSTANCE.updaters) {
-            INSTANCE.updaters.add(updater);
+        synchronized (instance.updaters) {
+            instance.updaters.add(updater);
         }
     }
 
     public static synchronized void queueEvent(Event event) {
-        synchronized (INSTANCE.queuedEvents) {
-            INSTANCE.queuedEvents.add(event);
+        synchronized (instance.queuedEvents) {
+            instance.queuedEvents.add(event);
         }
-    }
-
-    public long getDeltaTime() {
-        return deltaTime;
-    }
-
-    public int getUpdaterCount() {
-        return updaters.size();
     }
 
     @Override
     public void run() {
-        try {
-            long last = System.currentTimeMillis();
+        long last = System.currentTimeMillis();
 
-            while (true) {
-                if (!pause) {
-                    // theProfiler.profilingEnabled = true;
-                    long current = System.currentTimeMillis();
-                    deltaTime = current - last;
+        while (!pause) {
+            // theProfiler.profilingEnabled = true;
+            long current = System.currentTimeMillis();
+            deltaTime = current - last;
 
-                    // Tick all updaters.
-                    synchronized (updaters) {
-                        Set<IUpdate> removeUpdaters = Collections.newSetFromMap(new WeakHashMap<IUpdate, Boolean>());
+            // Tick all updaters.
+            synchronized (updaters) {
+                Set<IUpdate> removeUpdaters = Collections.newSetFromMap(new WeakHashMap<IUpdate, Boolean>());
+                Iterator<IUpdate> updaterIt = new HashSet<>(updaters).iterator();
 
-                        Iterator<IUpdate> updaterIt = new HashSet<>(updaters).iterator();
+                try {
+                    while (updaterIt.hasNext()) {
+                        IUpdate updater = updaterIt.next();
 
-                        try {
-                            while (updaterIt.hasNext()) {
-                                IUpdate updater = updaterIt.next();
+                        if (updater.canUpdate()) {
+                            updater.update();
+                        }
 
-                                if (updater.canUpdate()) {
-                                    updater.update();
-                                }
-
-                                if (!updater.continueUpdate()) {
-                                    removeUpdaters.add(updater);
-                                }
-                            }
-
-                            updaters.removeAll(removeUpdaters);
-                        } catch (Exception e) {
-                            System.out.println("Threaded Ticker: Failed while tcking updater. This is a bug! Clearing all tickers for self repair.");
-                            updaters.clear();
-                            e.printStackTrace();
+                        if (!updater.continueUpdate()) {
+                            removeUpdaters.add(updater);
                         }
                     }
 
-                    // Perform all queued events.
-                    synchronized (queuedEvents) {
-                        while (!queuedEvents.isEmpty()) {
-                            MinecraftForge.EVENT_BUS.post(queuedEvents.poll());
-                        }
-                    }
-
-                    last = current;
+                    updaters.removeAll(removeUpdaters);
+                } catch (Exception e) {
+                    System.out.println("Threaded Ticker: Failed while tcking updater. This is a bug! Clearing all tickers for self repair.");
+                    updaters.clear();
+                    e.printStackTrace();
                 }
-
-                Thread.sleep(50L);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            // Perform all queued events.
+            synchronized (queuedEvents) {
+                while (!queuedEvents.isEmpty()) {
+                    MinecraftForge.EVENT_BUS.post(queuedEvents.poll());
+                }
+            }
+
+            last = current;
+
+            try {
+                Thread.sleep(50L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

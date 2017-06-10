@@ -18,7 +18,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -57,6 +56,7 @@ import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.PlayerEventHandler;
+import org.halvors.quantum.common.event.ThermalEventHandler;
 import org.halvors.quantum.common.item.*;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
 import org.halvors.quantum.common.item.particle.ItemAntimatter;
@@ -209,17 +209,16 @@ public class Quantum implements IUpdatableMod {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		// Register the our EventHandler.
+		// Register event handlers.
+		MinecraftForge.EVENT_BUS.register(this);
 		FMLCommonHandler.instance().bus().register(new PlayerEventHandler());
+		MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
 
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
-		// Register event bus.
-		MinecraftForge.EVENT_BUS.register(this);
-
-		// Register block handler.
-		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
+		// Register block rendering handler.
+		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler()); // TODO: Only register client side?
 
 		// Call functions for adding blocks, items, etc.
 		registerFluids();
@@ -230,7 +229,7 @@ public class Quantum implements IUpdatableMod {
 		registerFluidContainers();
 		registerRecipes();
 
-		// Register event buses.
+		// Register event buses. TODO: Move this to a custom event handler?
 		MinecraftForge.EVENT_BUS.register(itemAntimatter);
 		MinecraftForge.EVENT_BUS.register(FulminationHandler.INSTANCE);
 
@@ -261,8 +260,8 @@ public class Quantum implements IUpdatableMod {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		if (!UpdateTicker.INSTANCE.isAlive()) {
-			UpdateTicker.INSTANCE.start();
+		if (!UpdateTicker.getInstance().isAlive()) {
+			UpdateTicker.getInstance().start();
 		}
 
 		// Register grids.
@@ -317,7 +316,6 @@ public class Quantum implements IUpdatableMod {
 		blockRadioactiveGrass = new BlockRadioactiveGrass();
 		blockReactorCell = new BlockReactorCell();
 		blockToxicWaste = new BlockToxicWaste();
-
 
 		GameRegistry.registerBlock(blockAccelerator, "blockAccelerator;");
 		GameRegistry.registerBlock(blockChemicalExtractor, "blockChemicalExtractor");
@@ -470,16 +468,6 @@ public class Quantum implements IUpdatableMod {
 
 		if (tile instanceof TilePlasma) {
 			((TilePlasma) tile).setTemperature(event.temperature);
-		}
-	}
-
-	@SubscribeEvent
-	public void onThermalUpdateEvent(ThermalEvent.ThermalUpdateEvent event) {
-		VectorWorld position = event.position;
-		Block block = position.getBlock();
-
-		if (block == blockElectromagnet.block) {
-			event.heatLoss = event.deltaTemperature * 0.6F;
 		}
 	}
 

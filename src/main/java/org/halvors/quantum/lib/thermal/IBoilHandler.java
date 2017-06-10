@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib;
+package org.halvors.quantum.lib.thermal;
 
 import net.minecraftforge.fluids.IFluidHandler;
 
