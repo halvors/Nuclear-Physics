@@ -1,28 +1,24 @@
 package org.halvors.quantum.common.tile.reactor;
 
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
-
 import cofh.api.energy.EnergyStorage;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.*;
+import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.multiblock.TurbineMultiBlockHandler;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.lib.prefab.tile.TileElectrical;
-import org.halvors.quantum.common.multiblock.TurbineMultiBlockHandler;
-import universalelectricity.api.energy.EnergyStorageHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /** Turbine TileEntity
  * <p/>
@@ -30,7 +26,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * <p/>
  * The front of the turbine is where the output is. */
 
-public abstract class TileTurbine extends TileElectrical implements IMultiBlockStructure<TileTurbine>, IFluidHandler {
+public abstract class TileTurbine extends TileElectrical implements IMultiBlockStructure<TileTurbine>, ITileNetworkable, IFluidHandler {
     /// Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
     protected final long energyPerSteam = 2647600 / 1000;
     protected final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 100);
@@ -46,19 +42,18 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     // Current rotation of the turbine in radians.
     public float rotation = 0;
 
-    //@Synced
-    public int tier = 0;
+    public int tier = 0; // Synced
 
     // Max power in watts.
     protected long maxPower;
     protected float prevAngularVelocity = 0;
-    protected float angularVelocity = 0;
+    protected float angularVelocity = 0; // Synced
 
     // MutliBlock methods.
     private TurbineMultiBlockHandler multiBlock;
 
     public TileTurbine() {
-        /** We're going to use the EnergyStorageHandler to store power. */
+        // We're going to use the EnergyStorageHandler to store power.
         setEnergyHandler(new EnergyStorage((int) maxPower * 20));
     }
 
@@ -82,12 +77,12 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
 
         if (getMultiBlock().isPrimary()) {
             if (!worldObj.isRemote) {
-                /** Increase spin rate and consume steam. */
+                // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
                     power += tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true).amount * energyPerSteam;
                 }
 
-                /** Set angular velocity based on power and torque. */
+                // Set angular velocity based on power and torque.
                 angularVelocity = (float) ((double) (power * 4) / torque);
 
                 if (!worldObj.isRemote && ticks % 3 == 0 && prevAngularVelocity != angularVelocity) {
@@ -103,7 +98,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
             if (angularVelocity != 0) {
                 playSound();
 
-                /** Update rotation. */
+                // Update rotation.
                 rotation = (float) ((rotation + angularVelocity / 20) % (Math.PI * 2));
             }
         } else if (tank.getFluidAmount() > 0) {
@@ -115,42 +110,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
         }
     }
 
-    protected long getMaxPower() {
-        if (getMultiBlock().isConstructed()) {
-            return maxPower * getArea();
-        }
-
-        return maxPower;
-    }
-
-    public int getArea()
-    {
-        return (int) (((multiBlockRadius + 0.5) * 2) * ((multiBlockRadius + 0.5) * 2));
-    }
-
-    public void onProduce() {
-
-    }
-
-    public void playSound() {
-
-    }
-
     @Override
-    public Packet getDescriptionPacket()
-    {
-        return null; //References.PACKET_ANNOTATION.getPacket(this);
-    }
-
-    public void sendPowerUpdate() {
-        if (!world().isRemote) {
-            //References.PACKET_ANNOTATION.sync(this, 1);
-        }
-    }
-
-    /** Reads a tile entity from NBT. */
-    @Override
-    //@SyncedInput
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
 
@@ -159,9 +119,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
         getMultiBlock().load(nbt);
     }
 
-    /** Writes a tile entity to NBT. */
     @Override
-    //@SyncedOutput
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
 
@@ -170,7 +128,69 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
         getMultiBlock().save(nbt);
     }
 
-    /** Tank Methods */
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public Vector3[] getMultiBlockVectors() {
+        Set<Vector3> vectors = new HashSet<>();
+
+        ForgeDirection dir = getDirection();
+        int xMulti = dir.offsetX != 0 ? 0 : 1;
+        int yMulti = dir.offsetY != 0 ? 0 : 1;
+        int zMulti = dir.offsetZ != 0 ? 0 : 1;
+
+        for (int x = -multiBlockRadius; x <= multiBlockRadius; x++) {
+            for (int y = -multiBlockRadius; y <= multiBlockRadius; y++) {
+                for (int z = -multiBlockRadius; z <= multiBlockRadius; z++) {
+                    vectors.add(new Vector3(x * xMulti, y * yMulti, z * zMulti));
+                }
+            }
+        }
+
+        return vectors.toArray(new Vector3[0]);
+    }
+
+    @Override
+    public void onMultiBlockChanged() {
+        worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType(), 0);
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+    @Override
+    public Vector3 getPosition()
+    {
+        return new Vector3(this);
+    }
+
+    @Override
+    public TurbineMultiBlockHandler getMultiBlock() {
+        if (multiBlock == null) {
+            multiBlock = new TurbineMultiBlockHandler(this);
+        }
+
+        return multiBlock;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void handlePacketData(ByteBuf dataStream) throws Exception {
+        if (!worldObj.isRemote) {
+            tier = dataStream.readInt();
+            angularVelocity = dataStream.readFloat();
+        }
+    }
+
+    @Override
+    public List<Object> getPacketData(List<Object> objects) {
+        objects.add(tier);
+        objects.add(angularVelocity);
+
+        return objects;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
         if (resource != null && canFill(from, resource.getFluid())) {
@@ -209,6 +229,35 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
         return new FluidTankInfo[] { this.tank.getInfo() };
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    protected long getMaxPower() {
+        if (getMultiBlock().isConstructed()) {
+            return maxPower * getArea();
+        }
+
+        return maxPower;
+    }
+
+    public int getArea()
+    {
+        return (int) (((multiBlockRadius + 0.5) * 2) * ((multiBlockRadius + 0.5) * 2));
+    }
+
+    public void onProduce() {
+
+    }
+
+    public void playSound() {
+
+    }
+
+    public void sendPowerUpdate() {
+        if (!world().isRemote) {
+            //References.PACKET_ANNOTATION.sync(this, 1);
+        }
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {
@@ -224,47 +273,6 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     public EnumSet<ForgeDirection> getOutputDirections()
     {
         return EnumSet.of(ForgeDirection.UP);
-    }
-
-    @Override
-    public Vector3[] getMultiBlockVectors() {
-        Set<Vector3> vectors = new HashSet<>();
-
-        ForgeDirection dir = getDirection();
-        int xMulti = dir.offsetX != 0 ? 0 : 1;
-        int yMulti = dir.offsetY != 0 ? 0 : 1;
-        int zMulti = dir.offsetZ != 0 ? 0 : 1;
-
-        for (int x = -multiBlockRadius; x <= multiBlockRadius; x++) {
-            for (int y = -multiBlockRadius; y <= multiBlockRadius; y++) {
-                for (int z = -multiBlockRadius; z <= multiBlockRadius; z++) {
-                    vectors.add(new Vector3(x * xMulti, y * yMulti, z * zMulti));
-                }
-            }
-        }
-
-        return vectors.toArray(new Vector3[0]);
-    }
-
-    @Override
-    public Vector3 getPosition()
-    {
-        return new Vector3(this);
-    }
-
-    @Override
-    public TurbineMultiBlockHandler getMultiBlock() {
-        if (multiBlock == null) {
-            multiBlock = new TurbineMultiBlockHandler(this);
-        }
-
-        return multiBlock;
-    }
-
-    @Override
-    public void onMultiBlockChanged() {
-        worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType(), 0);
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override
