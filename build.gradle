@@ -29,9 +29,9 @@ configFile.withReader {
 
 version = config.minecraft_version + "-" + config.mod_version
 group = "org.halvors.quantum"
-archivesBaseName = "Quantum"
-sourceCompatibility = "7"
-targetCompatibility = "7"
+archivesBaseName = "quantum"
+sourceCompatibility = "8"
+targetCompatibility = "8"
 
 minecraft {
 	version = config.minecraft_version + "-" + config.forge_version
@@ -46,13 +46,6 @@ dependencies {
 
 }
 
-// Fix for resources not loading when running from IntelliJ
-idea {
-    module {
-        inheritOutputDirs = true
-    }
-}
-
 processResources {
     // This will ensure that this task is redone when this versions change.
     inputs.property "mod_version", config.mod_version
@@ -61,15 +54,15 @@ processResources {
 
     // Replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include "*.info"
+        include 'mcmod.info'
 
         // Replace version and minecraft_version
         expand "version" : config.mod_version,
                "minecraft_version" : config.minecraft_version
     }
 
-    // Copy everything else
+    // Copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        include "assets/**/*.*"
+        exclude 'mcmod.info'
     }
 }
