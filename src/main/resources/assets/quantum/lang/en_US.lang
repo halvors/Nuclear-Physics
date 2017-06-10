@@ -3,8 +3,17 @@
 // Creative tab.
 itemGroup.tabQuantum=Quantum
 
-// Blocks.
+// Fluids.
+fluid.toxicwaste=Toxic Waste
 
+//fluid.uraniumhexafluoride=Uranium Hexafluoride
+//fluid.deuterium=Deuterium
+//fluid.tritium=Tritium
+//fluid.plasma=Plasma
+//fluid.steam=Steam
+//fluid.block.water=Water
+
+// Blocks.
 tile.accelerator.name=Particle Accelerator
 tile.accelerator.tooltip=Accelerates particles and creates antimatter and dark matter.
 tile.centrifuge.name=Centrifuge

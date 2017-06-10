@@ -9,8 +9,11 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
+import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.multiblock.TurbineMultiBlockHandler;
+import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.lib.prefab.tile.TileElectrical;
@@ -27,7 +30,7 @@ import java.util.Set;
  * The front of the turbine is where the output is. */
 
 public abstract class TileTurbine extends TileElectrical implements IMultiBlockStructure<TileTurbine>, ITileNetworkable, IFluidHandler {
-    /// Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
+    // Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
     protected final long energyPerSteam = 2647600 / 1000;
     protected final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 100);
     protected final long defaultTorque = 5000;
@@ -58,6 +61,12 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getRenderBoundingBox() {
+        return AxisAlignedBB.getBoundingBox(this.xCoord - multiBlockRadius, this.yCoord - multiBlockRadius, this.zCoord - multiBlockRadius, this.xCoord + 1 + multiBlockRadius, this.yCoord + 1 + multiBlockRadius, this.zCoord + 1 + multiBlockRadius);
+    }
+
+    @Override
     public ForgeDirection getDirection() {
         return ForgeDirection.getOrientation(getBlockMetadata());
     }
@@ -83,7 +92,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
                 }
 
                 // Set angular velocity based on power and torque.
-                angularVelocity = (float) ((double) (power * 4) / torque);
+                angularVelocity = (power * 4) / torque;
 
                 if (!worldObj.isRemote && ticks % 3 == 0 && prevAngularVelocity != angularVelocity) {
                     sendPowerUpdate();
@@ -104,6 +113,9 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
         } else if (tank.getFluidAmount() > 0) {
             getMultiBlock().get().tank.fill(tank.drain(getMultiBlock().get().tank.fill(tank.getFluid(), false), true), true);
         }
+
+        Quantum.getLogger().info("Power amount:" + power);
+        Quantum.getLogger().info("Fluid in tank:" + tank.getFluidAmount());
 
         if (!worldObj.isRemote) {
             power = 0;
@@ -175,7 +187,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
 
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
-        if (!worldObj.isRemote) {
+        if (worldObj.isRemote) {
             tier = dataStream.readInt();
             angularVelocity = dataStream.readFloat();
         }
@@ -226,7 +238,7 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from)
     {
-        return new FluidTankInfo[] { this.tank.getInfo() };
+        return new FluidTankInfo[] { tank.getInfo() };
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -255,13 +267,9 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     public void sendPowerUpdate() {
         if (!world().isRemote) {
             //References.PACKET_ANNOTATION.sync(this, 1);
-        }
-    }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox() {
-        return AxisAlignedBB.getBoundingBox(this.xCoord - multiBlockRadius, this.yCoord - multiBlockRadius, this.zCoord - multiBlockRadius, this.xCoord + 1 + multiBlockRadius, this.yCoord + 1 + multiBlockRadius, this.zCoord + 1 + multiBlockRadius);
+            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+        }
     }
 
     @Override
@@ -273,11 +281,6 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
     public EnumSet<ForgeDirection> getOutputDirections()
     {
         return EnumSet.of(ForgeDirection.UP);
-    }
-
-    @Override
-    public World getWorld() {
-        return worldObj;
     }
 
     @Override

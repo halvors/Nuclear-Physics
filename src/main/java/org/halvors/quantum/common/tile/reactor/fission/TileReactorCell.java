@@ -45,8 +45,8 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
     private final float mass = ThermalPhysics.getMass(1000, 7);
     public final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 15);
 
-    private float temperature = 295; // Synced
-    private float previousTemperature = 295;
+    private float temperature = ThermalPhysics.roomTemperature; // Synced
+    private float previousTemperature = temperature;
 
     private boolean shouldUpdate = false;
 
@@ -55,7 +55,6 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
     private int meltdownCounter = 0;
     private int meltdownCounterMaximum = 1000;
 
-    private final IExternalInventoryBox inventory = new ExternalInventory(this, 1);
     private MultiBlockHandler<TileReactorCell> multiBlock;
 
     public TileReactorCell() {
@@ -172,7 +171,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
                         float percentage = Math.min(getTemperature() / 2000.0F, 1.0F);
                         worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "reactorcell", percentage, 1.0F);
                     }
-                    
+
                     if (previousTemperature != temperature && !shouldUpdate) {
                         shouldUpdate = true;
                         previousTemperature = temperature;
@@ -180,7 +179,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
                     if (previousTemperature >= meltingPoint && meltdownCounter < meltdownCounterMaximum) {
                         shouldUpdate = true;
-                        meltdownCounter ++;
+                        meltdownCounter++;
                     }
 
                     if (previousTemperature >= meltingPoint && meltdownCounter >= meltdownCounterMaximum) {
