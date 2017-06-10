@@ -83,7 +83,7 @@ public class ThermalGrid implements IUpdate {
                     isReactor = false;
                 }
 
-                ThermalEvent.ThermalEventUpdate event = new ThermalEvent.ThermalEventUpdate(pos, currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
+                ThermalEvent.ThermalUpdateEvent event = new ThermalEvent.ThermalUpdateEvent(pos, currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
                 MinecraftForge.EVENT_BUS.post(event);
 
                 float loss = event.heatLoss;

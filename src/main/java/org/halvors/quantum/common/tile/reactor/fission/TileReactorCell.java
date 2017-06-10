@@ -38,9 +38,9 @@ import org.halvors.quantum.lib.utility.inventory.ExternalInventory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileReactorCell extends TileEntityRotatable implements IMultiBlockStructure<TileReactorCell>, IReactor, IExternalInventory, ISidedInventory, ITileNetworkable {
+public class TileReactorCell extends TileInventory implements IMultiBlockStructure<TileReactorCell>, ITileNetworkable, IFluidHandler, IReactor {
     public static final int radius = 2;
-    public static final int meltingPoint = 2000; // Change to 3000?
+    public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;
     private final float mass = ThermalPhysics.getMass(1000, 7);
     public final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 15);
@@ -121,11 +121,8 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
                         IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
                         reactorComponent.onReact(fuelRod, this);
 
-                        // TODO: Check for server here redundant?
-                        if (!worldObj.isRemote) {
-                            if (fuelRod.getMetadata() >= fuelRod.getMaxDurability()) {
-                                getMultiBlock().get().setInventorySlotContents(0, null);
-                            }
+                        if (fuelRod.getMetadata() >= fuelRod.getMaxDurability()) {
+                            getMultiBlock().get().setInventorySlotContents(0, null);
                         }
 
                         // Emit radiation.
@@ -149,14 +146,11 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
                     float deltaT = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
 
                     // Check control rods.
-                    int rods = 0;
-
                     for (int i = 2; i < 6; i++) {
                         Vector3 checkAdjacent = new Vector3(this).translate(ForgeDirection.getOrientation(i));
 
                         if (checkAdjacent.getBlock(worldObj) == Quantum.blockControlRod) {
                             deltaT /= 1.1;
-                            rods++;
                         }
                     }
 
@@ -178,7 +172,7 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
                         float percentage = Math.min(getTemperature() / 2000.0F, 1.0F);
                         worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "reactorcell", percentage, 1.0F);
                     }
-
+                    
                     if (previousTemperature != temperature && !shouldUpdate) {
                         shouldUpdate = true;
                         previousTemperature = temperature;
@@ -242,7 +236,6 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
 
         temperature = nbt.getFloat("temperature");
         tank.readFromNBT(nbt);
-        inventory.load(nbt);
         getMultiBlock().load(nbt);
     }
 
@@ -252,27 +245,10 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
 
         nbt.setFloat("temperature", temperature);
         tank.writeToNBT(nbt);
-        inventory.save(nbt);
         getMultiBlock().save(nbt);
     }
 
-    @Override
-    public void handlePacketData(ByteBuf dataStream) throws Exception {
-        super.handlePacketData(dataStream);
-
-        if (!worldObj.isRemote) {
-            temperature = dataStream.readFloat();
-        }
-    }
-
-    @Override
-    public List<Object> getPacketData(List<Object> objects) {
-        super.getPacketData(objects);
-
-        objects.add(temperature);
-
-        return objects;
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public Vector3[] getMultiBlockVectors() {
@@ -307,7 +283,7 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
     @Override
     public MultiBlockHandler<TileReactorCell> getMultiBlock() {
         if (multiBlock == null) {
-            multiBlock = new MultiBlockHandler(this);
+            multiBlock = new MultiBlockHandler<>(this);
         }
 
         return multiBlock;
@@ -316,18 +292,31 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void heat(long energy) {
-        internalEnergy = Math.max(internalEnergy + energy, 0);
+    public void handlePacketData(ByteBuf dataStream) throws Exception {
+        if (worldObj.isRemote) {
+            temperature = dataStream.readFloat();
+
+            if (dataStream.readBoolean()) {
+                tank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+            }
+        }
     }
 
     @Override
-    public float getTemperature() {
-        return temperature;
-    }
+    public List<Object> getPacketData(List<Object> objects) {
+        objects.add(temperature);
 
-    @Override
-    public boolean isOverToxic() {
-        return tank.getFluid() != null && tank.getFluid() == Quantum.fluidStackToxicWaste && tank.getFluid().amount >= tank.getCapacity();
+        if (tank.getFluid() != null) {
+            objects.add(true);
+
+            NBTTagCompound compoundTank = new NBTTagCompound();
+            tank.getFluid().writeToNBT(compoundTank);
+            objects.add(compoundTank);
+        } else {
+            objects.add(false);
+        }
+
+        return objects;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -369,48 +358,25 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int getSizeInventory() {
-        return inventory.getSizeInventory();
+    public void heat(long energy) {
+        internalEnergy = Math.max(internalEnergy + energy, 0);
     }
 
     @Override
-    public ItemStack getStackInSlot(int slotIn) {
-        return inventory.getStackInSlot(slotIn);
+    public float getTemperature() {
+        return temperature;
     }
 
     @Override
-    public ItemStack decrStackSize(int index, int count) {
-        return inventory.decrStackSize(index, count);
+    public boolean isOverToxic() {
+        return tank.getFluid() != null && tank.getFluid() == Quantum.fluidStackToxicWaste && tank.getFluid().amount >= tank.getCapacity();
     }
 
-    public void incrStackSize(int slot, ItemStack itemStack) {
-        if (getStackInSlot(slot) == null) {
-            setInventorySlotContents(slot, itemStack.copy());
-        } else if (getStackInSlot(slot).isItemEqual(itemStack)) {
-            getStackInSlot(slot).stackSize += itemStack.stackSize;
-        }
-
-        markDirty();
-    }
-
-    @Override
-    public ItemStack getStackInSlotOnClosing(int index) {
-        return inventory.getStackInSlotOnClosing(index);
-    }
-
-    @Override
-    public void setInventorySlotContents(int index, ItemStack itemStack) {
-        inventory.setInventorySlotContents(index, itemStack);
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public String getInventoryName() {
         return getBlockType().getLocalizedName();
-    }
-
-    @Override
-    public boolean isCustomInventoryName() {
-        return true;
     }
 
     @Override
@@ -420,17 +386,8 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this;
-    }
+        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) <= 64;
 
-    @Override
-    public void openChest() {
-        inventory.openChest();
-    }
-
-    @Override
-    public void closeChest() {
-        inventory.closeChest();
     }
 
     @Override
@@ -443,39 +400,8 @@ public class TileReactorCell extends TileEntityRotatable implements IMultiBlockS
     }
 
     @Override
-    public IExternalInventoryBox getInventory() {
-        return inventory;
-    }
-
-    @Override
-    public boolean canStore(ItemStack stack, int slot, ForgeDirection side) {
-        return false;
-    }
-
-    @Override
-    public boolean canRemove(ItemStack stack, int slot, ForgeDirection side) {
-        if (slot >= getSizeInventory()) {
-            return false;
-        }
-
-        return true;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public int[] getSlotsForFace(int face) {
-        return inventory.getSlotsForFace(face);
-    }
-
-    @Override
     public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
-        return inventory.canInsertItem(slot, itemStack, side);
-    }
-
-    @Override
-    public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
-        return inventory.canExtractItem(slot, itemStack, side);
+        return isItemValidForSlot(slot, itemStack);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
