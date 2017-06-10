@@ -36,7 +36,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
                 newPrimary = null;
 
                 if (checkWrapper != getPrimary()) {
-                    prim = new WeakReference(checkWrapper);
+                    prim = new WeakReference<>(checkWrapper);
                     self.onMultiBlockChanged();
                 }
             }
@@ -91,7 +91,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
                     }
                 }
 
-                prim = new WeakReference(self);
+                prim = new WeakReference<>(self);
 
                 for (W structure : structures) {
                     structure.getMultiBlock().prim = prim;
