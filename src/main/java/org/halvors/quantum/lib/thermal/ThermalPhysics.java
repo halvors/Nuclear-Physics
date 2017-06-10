@@ -19,8 +19,6 @@ public class ThermalPhysics {
      * @return The temperature of the coordinate in the world in kelvin.
      */
     public static float getTemperatureForCoordinate(World world, int x, int z) {
-        // TODO: Check if this is correct.
-        //int averageTemperature = 273 + (int) ((world.getBiomeGenForCoords(x, z).getFloatTemperature() - 0.4D) * 50.0D);
         int averageTemperature = 273 + (int) ((world.getBiomeGenForCoords(x, z).getFloatTemperature(x, 0, z) - 0.4) * 50);
         double dayNightVariance = averageTemperature * 0.05;
 

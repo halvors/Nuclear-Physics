@@ -6,10 +6,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.multiblock.TurbineMultiBlockHandler;
 import org.halvors.quantum.common.network.NetworkHandler;
@@ -113,9 +111,6 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
         } else if (tank.getFluidAmount() > 0) {
             getMultiBlock().get().tank.fill(tank.drain(getMultiBlock().get().tank.fill(tank.getFluid(), false), true), true);
         }
-
-        Quantum.getLogger().info("Power amount:" + power);
-        Quantum.getLogger().info("Fluid in tank:" + tank.getFluidAmount());
 
         if (!worldObj.isRemote) {
             power = 0;
@@ -266,8 +261,6 @@ public abstract class TileTurbine extends TileElectrical implements IMultiBlockS
 
     public void sendPowerUpdate() {
         if (!world().isRemote) {
-            //References.PACKET_ANNOTATION.sync(this, 1);
-
             NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
         }
     }
