@@ -15,6 +15,15 @@ buildscript {
     }
 }
 
+apply plugin: 'idea'
+
+idea {
+    module {
+        // For some reason this is necessary for IDEA 2014 workspaces to recognize assets
+        inheritOutputDirs = true
+    }
+}
+
 apply plugin: "forge"
 
 // Define properties file
@@ -24,14 +33,14 @@ configFile.withReader {
     // Load config. It shall from now be referenced as simply config or project.config
     def prop = new Properties()
     prop.load(it)
-    ext.config = new ConfigSlurper().parse prop
+    project.ext.config = new ConfigSlurper().parse prop
 }
 
 version = config.minecraft_version + "-" + config.mod_version
 group = "org.halvors.quantum"
 archivesBaseName = "quantum"
-sourceCompatibility = "8"
-targetCompatibility = "8"
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
 
 minecraft {
 	version = config.minecraft_version + "-" + config.forge_version
@@ -54,15 +63,15 @@ processResources {
 
     // Replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
+        include "mcmod.info"
 
         // Replace version and minecraft_version
         expand "version" : config.mod_version,
                "minecraft_version" : config.minecraft_version
     }
 
-    // Copy everything else, thats not the mcmod.info
+    // Copy everything else
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+		exclude "mcmod.info"
     }
 }
