@@ -21,26 +21,20 @@ import java.util.List;
 public class ItemFissileFuel extends ItemRadioactive implements IReactorComponent {
     public static final int decay = 2500;
 
-    /*
-     * Temperature at which the fuel rod will begin to re-enrich itself.
-     */
-    public static final int breedingTemp = 1100;
+    // Temperature at which the fuel rod will begin to re-enrich itself.
+    public static final int breedingTemp = 1200;
 
-    /*
-     * The energy in one KG of uranium is: 72PJ, 100TJ in one cell of uranium.
-     */
+    // The energy in one KG of uranium is: 72PJ, 100TJ in one cell of uranium.
     public static final long energyDensity = 100000000000L;
 
-    /*
-     * Approximately 20,000,000J per tick. 400 MW.
-     */
-    public static final long energyPerTick = (energyDensity / 100000) / decay;
+    // Approximately 20,000,000J per tick. 400 MW.
+    public static final long energyPerTick = energyDensity / 50000;
 
     public ItemFissileFuel() {
         super("rodFissileFuel");
 
-        setMaxDurability(ItemFissileFuel.decay);
         setMaxStackSize(1);
+        setMaxDurability(decay);
         setNoRepair();
     }
 
@@ -54,33 +48,35 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
             Vector3 checkPos = new Vector3(tileEntity).translate(ForgeDirection.getOrientation(i));
             TileEntity tile = checkPos.getTileEntity(world);
 
-            if (tile instanceof IReactor && ((IReactor) tile).getTemperature() > 1200.0F) {
+            // Check that the other reactors not only exist but also are running.
+            if (tile instanceof IReactor && ((IReactor) tile).getTemperature() > breedingTemp) {
                 reactors++;
             }
         }
 
-        if (reactors >= 2) {
-            /*
-             * Do fuel breeding
-             */
-            if (world.rand.nextInt(1000) <= 100 && reactor.getTemperature() > 1200.0F) {
+        // Only three reactor cells are required to begin the uranium breeding process instead of four.
+        if (reactors >= 3) {
+            // Breeding - Begin the process of re-enriching the uranium rod but not consistently.
+            if (world.rand.nextInt(1000) <= 100 && reactor.getTemperature() > breedingTemp) {
+                // Cells can regain a random amount of health per tick.
                 int healAmt = world.rand.nextInt(5);
 
                 itemStack.setMetadata(Math.max(itemStack.getMetadata() - healAmt, 0));
             }
         } else {
-            /*
-             * Do fission
-             */
+            // Fission - Begin the process of heating.
             reactor.heat(energyPerTick);
 
+            // Consume fuel.
             if (reactor.getWorld().getWorldTime() % 20 == 0) {
                 itemStack.setMetadata(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDurability()));
             }
 
-            if (ConfigurationManager.General.allowToxicWaste && (world.rand.nextFloat() > 0.5D)) {
+            // Create toxic waste.
+            if (ConfigurationManager.General.allowToxicWaste && world.rand.nextFloat() > 0.5) {
                 FluidStack fluid = Quantum.fluidStackToxicWaste.copy();
                 fluid.amount = 1;
+
                 reactor.fill(ForgeDirection.UNKNOWN, fluid, true);
             }
         }

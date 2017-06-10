@@ -8,6 +8,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -87,7 +88,9 @@ import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
 import org.halvors.quantum.lib.event.PlasmaEvent;
 import org.halvors.quantum.lib.event.ThermalEvent;
+import org.halvors.quantum.lib.grid.UpdateTicker;
 import org.halvors.quantum.lib.render.BlockRenderingHandler;
+import org.halvors.quantum.lib.thermal.ThermalGrid;
 import org.halvors.quantum.lib.tile.BlockDummy;
 import org.halvors.quantum.lib.tile.TileBlock;
 import org.halvors.quantum.lib.utility.RenderUtility;
@@ -119,6 +122,9 @@ public class Quantum implements IUpdatableMod {
 
 	// ConfigurationManager
 	private static Configuration configuration;
+
+	// Grids
+	public static ThermalGrid thermalGrid = new ThermalGrid();
 
 	// Creative Tab
 	private static final QuantumCreativeTab creativeTab = new QuantumCreativeTab();
@@ -224,6 +230,7 @@ public class Quantum implements IUpdatableMod {
 		registerFluidContainers();
 		registerRecipes();
 
+		// Register event buses.
 		MinecraftForge.EVENT_BUS.register(itemAntimatter);
 		MinecraftForge.EVENT_BUS.register(FulminationHandler.INSTANCE);
 
@@ -250,6 +257,16 @@ public class Quantum implements IUpdatableMod {
 				}
 			}
 		});
+	}
+
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
+		if (!UpdateTicker.INSTANCE.isAlive()) {
+			UpdateTicker.INSTANCE.start();
+		}
+
+		// Register grids.
+		UpdateTicker.addNetwork(thermalGrid);
 	}
 
 	private void registerFluids() {
