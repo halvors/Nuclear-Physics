@@ -18,6 +18,7 @@ import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.lib.render.BlockRenderingHandler;
 
 import java.util.List;
+import java.util.Random;
 
 public class BlockElectromagnet extends BlockContainer {
     private static IIcon iconTop, iconGlass;
@@ -77,18 +78,21 @@ public class BlockElectromagnet extends BlockContainer {
         return BlockRenderingHandler.getId();
     }
 
-    /*
     @Override
-    public int metadataDropped(int metadata, int fortune) {
+    public int damageDropped(int metadata) {
         return metadata;
     }
-    */
 
     @Override
     public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
         super.getSubBlocks(item, creativeTabs, list);
 
         list.add(new ItemStack(item, 1, 1));
+    }
+
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int metadata) {
+        return new TileElectromagnet();
     }
 
     /*
@@ -98,9 +102,4 @@ public class BlockElectromagnet extends BlockContainer {
         return new ConnectedTextureRenderer(this, Reference.PREFIX + "atomic_edge");
     }
     */
-
-    @Override
-    public TileEntity createNewTileEntity(World worldIn, int metadata) {
-        return new TileElectromagnet();
-    }
 }

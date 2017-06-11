@@ -14,7 +14,7 @@ import java.util.Random;
 @SideOnly(Side.CLIENT)
 public class RenderParticle extends Render {
     @Override
-    public void doRender(Entity entity, double x, double y, double z, float var8, float var9) {
+    public void doRender(Entity entity, double x, double y, double z, float f1, float f2) {
         Tessellator tessellator = Tessellator.instance;
 
         /** Enderdragon Light */
