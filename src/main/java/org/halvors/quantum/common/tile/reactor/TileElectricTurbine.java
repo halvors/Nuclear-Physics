@@ -49,6 +49,7 @@ public class TileElectricTurbine extends TileElectrical implements IMultiBlockSt
     public int tier = 0; // Synced
 
     // Max power in watts.
+    protected long maxPower = 5000000; // 13 RF average?
     protected float prevAngularVelocity = 0;
     protected float angularVelocity = 0; // Synced
 
@@ -87,8 +88,8 @@ public class TileElectricTurbine extends TileElectrical implements IMultiBlockSt
                 // Set angular velocity based on power and torque.
                 angularVelocity = (power * 4) / torque;
 
-                if (!worldObj.isRemote && worldObj.getWorldTime() % 3 == 0 && prevAngularVelocity != angularVelocity) {
-                    sendPowerUpdate();
+                if (worldObj.getWorldTime() % 3 == 0 && prevAngularVelocity != angularVelocity) {
+                    NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
                     prevAngularVelocity = angularVelocity;
                 }
 
@@ -285,12 +286,6 @@ public class TileElectricTurbine extends TileElectrical implements IMultiBlockSt
             float percentage = angularVelocity * 4 / (float) maxVelocity;
 
             worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "turbine", percentage, 1);
-        }
-    }
-
-    public void sendPowerUpdate() {
-        if (!worldObj.isRemote) {
-            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
         }
     }
 }
