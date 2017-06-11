@@ -24,10 +24,12 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
         TileElectricTurbine tileTurbine = (TileElectricTurbine) tileEntity;
 
-        if (tileTurbine.getMultiBlock().isPrimary()) {
+
+        //if (tileTurbine.getMultiBlock().isPrimary()) {
             GL11.glPushMatrix();
             GL11.glTranslated(x + 0.5F, y, z + 0.5F);
 
+            /*
             if (tileTurbine.getMultiBlock().isConstructed()) {
                 RenderUtility.bind(textureLarge);
 
@@ -48,6 +50,7 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
 
                 modelLarge.renderAllExcept(ArrayUtils.addAll(ArrayUtils.addAll(blades, mediumBlades), largeBlades));
             } else {
+            */
                 GL11.glScalef(1.0F, 1.1F, 1.0F);
                 RenderUtility.bind(textureSmall);
 
@@ -57,21 +60,21 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
                 String[] mediumShields = { "MediumShield1", "MediumShield2", "MediumShield3", "MediumShield4", "MediumShield5", "MediumShield6" };
 
                 GL11.glPushMatrix();
-                GL11.glRotated(Math.toDegrees(tileTurbine.rotation), 0, 1, 0);
+                //GL11.glRotated(Math.toDegrees(tileTurbine.rotation), 0, 1, 0);
                 modelSmall.renderOnly(blades);
                 modelSmall.renderOnly(shields);
                 GL11.glPopMatrix();
 
                 GL11.glPushMatrix();
-                GL11.glRotated(-Math.toDegrees(tileTurbine.rotation), 0, 1, 0);
+                //GL11.glRotated(-Math.toDegrees(tileTurbine.rotation), 0, 1, 0);
                 modelSmall.renderOnly(mediumBlades);
                 modelSmall.renderOnly(mediumShields);
                 GL11.glPopMatrix();
 
                 modelSmall.renderAllExcept(ArrayUtils.addAll(ArrayUtils.addAll(blades, shields), ArrayUtils.addAll(mediumShields, mediumBlades)));
-            }
+            //}
 
             GL11.glPopMatrix();
-        }
+        //}
     }
 }
