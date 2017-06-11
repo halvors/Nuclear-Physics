@@ -230,6 +230,7 @@ public class Quantum implements IUpdatableMod {
 		registerTileEntitySpecialRenders();
 		registerItems();
 		registerFluidContainers();
+		registerEntities();
 		registerRecipes();
 
 		// Register event buses. TODO: Move this to a custom event handler?
@@ -240,10 +241,6 @@ public class Quantum implements IUpdatableMod {
 		BlockCreativeBuilder.registerSchematic(new SchematicBreedingReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFissionReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFusionReactor());
-
-		// Register entities.
-		EntityRegistry.registerGlobalEntityID(EntityParticle.class, "Particle", EntityRegistry.findGlobalUniqueEntityId());
-		EntityRegistry.registerModEntity(EntityParticle.class, "Particle", 1, this, 80, 3, true);
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ForgeChunkManager.LoadingCallback() {
 			@Override
@@ -422,6 +419,11 @@ public class Quantum implements IUpdatableMod {
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("tritium"), 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluid("toxicwaste"), new ItemStack(itemBucketToxicWaste), new ItemStack(Items.bucket));
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.WATER, new ItemStack(itemWaterCell), new ItemStack(itemCell));
+	}
+
+	private void registerEntities() {
+		// Register entities.
+		EntityRegistry.registerModEntity(EntityParticle.class, "Particle", 0, this, 80, 3, true);
 	}
 
 	private void registerRecipes() {
