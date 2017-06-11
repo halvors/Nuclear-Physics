@@ -18,7 +18,6 @@ import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.lib.render.BlockRenderingHandler;
 
 import java.util.List;
-import java.util.Random;
 
 public class BlockElectromagnet extends BlockContainer {
     private static IIcon iconTop, iconGlass;
