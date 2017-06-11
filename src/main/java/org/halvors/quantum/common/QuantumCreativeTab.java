@@ -18,11 +18,11 @@ public class QuantumCreativeTab extends CreativeTabs {
 
 	@Override
 	public ItemStack getIconItemStack() {
-		return new ItemStack(Quantum.blockRadioactiveGrass);
+		return new ItemStack(Quantum.blockReactorCell);
 	}
 
 	@Override
 	public Item getTabIconItem() {
-		return new ItemBlock(Quantum.blockRadioactiveGrass);
+		return new ItemBlock(Quantum.blockReactorCell);
 	}
 }

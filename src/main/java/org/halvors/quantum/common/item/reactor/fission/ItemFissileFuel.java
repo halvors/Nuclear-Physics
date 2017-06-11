@@ -68,7 +68,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
             reactor.heat(energyPerTick);
 
             // Consume fuel.
-            if (reactor.getWorld().getWorldTime() % 20 == 0) {
+            if (reactor.getWorldObject().getWorldTime() % 20 == 0) {
                 itemStack.setMetadata(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDurability()));
             }
 

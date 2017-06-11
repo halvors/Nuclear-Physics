@@ -8,9 +8,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.quantum.lib.utility.RenderUtility;
-import org.halvors.quantum.lib.utility.RotationUtility;
-import org.halvors.quantum.lib.utility.WorldUtility;
 import org.lwjgl.opengl.GL11;
 
 public class RenderBlockUtility {

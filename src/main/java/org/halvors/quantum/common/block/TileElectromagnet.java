@@ -11,9 +11,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.item.ItemBlockMetadata;
+import org.halvors.quantum.lib.render.ConnectedTextureRenderer;
 import org.halvors.quantum.lib.tile.TileBase;
 import org.halvors.quantum.lib.tile.TileRender;
-import org.halvors.quantum.lib.render.ConnectedTextureRenderer;
 
 import java.util.List;
 

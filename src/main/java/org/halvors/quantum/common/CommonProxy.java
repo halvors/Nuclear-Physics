@@ -1,31 +1,21 @@
 package org.halvors.quantum.common;
 
 import cpw.mods.fml.common.network.IGuiHandler;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.client.gui.machine.GuiCentrifuge;
-import org.halvors.quantum.client.gui.machine.GuiChemicalExtractor;
-import org.halvors.quantum.client.gui.machine.GuiNuclearBoiler;
-import org.halvors.quantum.client.gui.particle.GuiAccelerator;
-import org.halvors.quantum.client.gui.particle.GuiQuantumAssembler;
-import org.halvors.quantum.client.gui.reactor.fission.GuiReactorCell;
 import org.halvors.quantum.common.container.machine.ContainerCentrifuge;
 import org.halvors.quantum.common.container.machine.ContainerChemicalExtractor;
 import org.halvors.quantum.common.container.machine.ContainerNuclearBoiler;
 import org.halvors.quantum.common.container.particle.ContainerAccelerator;
 import org.halvors.quantum.common.container.particle.ContainerQuantumAssembler;
 import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell;
-import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
-import org.halvors.quantum.common.debug.gui.GuiCreativeBuilder;
 import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.particle.TileQuantumAssembler;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
-import org.halvors.quantum.common.transform.vector.Vector3;
 
 /**
  * This is the common proxy used by both the client and the server.

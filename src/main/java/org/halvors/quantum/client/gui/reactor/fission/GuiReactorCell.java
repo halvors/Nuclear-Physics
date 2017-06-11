@@ -36,8 +36,6 @@ public class GuiReactorCell extends GuiContainerBase {
             fontRendererObj.drawString(secondsLeft + " seconds", 100, 58, 4210752);
         }
 
-        fontRendererObj.drawString(LanguageUtility.localize("tooltip.remainingTime"), 100, 45, 4210752);
-
         if (isPointInRegion(80, 40, meterWidth, meterHeight, x, y)) {
             if (tile.tank.getFluid() != null) {
                 drawTooltip(x - guiLeft, y - guiTop + 10, tile.tank.getFluid().getFluid().getLocalizedName(), UnitDisplay.getDisplay(tile.tank.getFluidAmount(), Unit.LITER));

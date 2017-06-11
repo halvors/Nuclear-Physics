@@ -2,9 +2,6 @@ package org.halvors.quantum.lib.tile;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -24,6 +21,10 @@ import org.halvors.quantum.common.transform.vector.Cuboid;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class BlockDummy extends Block implements ITileEntityProvider {
     public final TileBlock dummyTile;

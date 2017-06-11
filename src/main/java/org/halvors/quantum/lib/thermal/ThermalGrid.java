@@ -1,7 +1,6 @@
 package org.halvors.quantum.lib.thermal;
 
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;

@@ -5,7 +5,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.Reference;
 
 import java.util.Random;
 

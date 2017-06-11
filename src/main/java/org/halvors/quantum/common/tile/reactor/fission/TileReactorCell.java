@@ -7,11 +7,11 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
@@ -21,19 +21,14 @@ import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.quantum.common.tile.TileEntityRotatable;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.common.utility.location.Location;
 import org.halvors.quantum.lib.event.PlasmaEvent;
 import org.halvors.quantum.lib.explosion.ReactorExplosion;
 import org.halvors.quantum.lib.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.lib.multiblock.MultiBlockHandler;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
 import org.halvors.quantum.lib.thermal.ThermalPhysics;
-import org.halvors.quantum.lib.tile.IExternalInventory;
-import org.halvors.quantum.lib.tile.IExternalInventoryBox;
-import org.halvors.quantum.lib.utility.inventory.ExternalInventory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -267,6 +262,11 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         }
 
         return vectors.toArray(new Vector3[0]);
+    }
+
+    @Override
+    public World getWorldObject() {
+        return worldObj;
     }
 
     @Override

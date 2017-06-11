@@ -1,6 +1,5 @@
 package org.halvors.quantum.lib.prefab.block;
 
-import java.lang.reflect.Method;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,6 +9,8 @@ import net.minecraft.world.World;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.utility.WrenchUtility;
 import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
+
+import java.lang.reflect.Method;
 
 public abstract class BlockAdvanced extends Block {
     public BlockAdvanced(Material material) {

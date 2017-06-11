@@ -9,9 +9,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.tile.TileIO;
-import universalelectricity.api.energy.EnergyStorageHandler;
-import universalelectricity.api.energy.IEnergyContainer;
-import universalelectricity.api.energy.IEnergyInterface;
 
 public class TileElectrical extends TileIO implements IEnergyHandler { //IEnergyInterface, IEnergyContainer {
     protected EnergyStorage energyStorage;

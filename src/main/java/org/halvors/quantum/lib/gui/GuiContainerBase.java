@@ -22,7 +22,6 @@ import universalelectricity.api.energy.UnitDisplay;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 
 public class GuiContainerBase extends GuiContainer {
     public static final ResourceLocation GUI_EMPTY_FILE = new ResourceLocation(Reference.PREFIX + "textures/gui/gui_empty.png");

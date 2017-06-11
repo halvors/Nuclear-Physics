@@ -2,9 +2,7 @@ package org.halvors.quantum.common.tile.machine;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
-import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import ibxm.Player;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ISidedInventory;
@@ -21,8 +19,6 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorHelper;
 import org.halvors.quantum.lib.IRotatable;
 import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
-import universalelectricity.api.electricity.IVoltageInput;
-import universalelectricity.api.energy.EnergyStorageHandler;
 
 public class TileCentrifuge extends TileElectricalInventory implements ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
     public static final int SHI_JIAN = 1200;

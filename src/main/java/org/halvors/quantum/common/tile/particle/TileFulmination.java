@@ -11,8 +11,6 @@ import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.lib.prefab.tile.TileElectrical;
 import org.halvors.quantum.lib.render.ConnectedTextureRenderer;
 import org.halvors.quantum.lib.tile.TileRender;
-import universalelectricity.api.electricity.IVoltageOutput;
-import universalelectricity.api.energy.EnergyStorageHandler;
 
 import java.util.EnumSet;
 

@@ -17,7 +17,6 @@ import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.MachineUtils;
 import org.halvors.quantum.common.utility.PlayerUtils;
-import org.halvors.quantum.common.utility.location.Location;
 
 import java.util.EnumSet;
 import java.util.List;

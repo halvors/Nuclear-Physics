@@ -1,8 +1,6 @@
 package org.halvors.quantum.common.transform.vector;
 
 import com.google.common.io.ByteArrayDataInput;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,6 +14,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.transform.rotation.EulerAngle;
 import org.halvors.quantum.common.transform.rotation.Quaternion;
+
+import java.util.List;
 
 public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
     public double x;

@@ -10,5 +10,5 @@ public interface IReactor extends IFluidHandler {
 
     boolean isOverToxic();
 
-    World getWorld();
+    World getWorldObject();
 }

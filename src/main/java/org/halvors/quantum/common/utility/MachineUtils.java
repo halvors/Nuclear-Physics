@@ -1,6 +1,5 @@
 package org.halvors.quantum.common.utility;
 
-import cofh.api.item.IToolHammer;
 import mekanism.api.IMekWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -26,11 +25,13 @@ public class MachineUtils {
 
 			if (Integration.isCoFHCoreEnabled) {
 				// Check if item is a CoFH wrench.
+				/*
 				if (item instanceof IToolHammer) {
 					IToolHammer wrench = (IToolHammer) item;
 
 					return wrench.isUsable(itemStack, player, x, y, z);
 				}
+				*/
 			}
 
 			if (Integration.isMekanismEnabled) {
