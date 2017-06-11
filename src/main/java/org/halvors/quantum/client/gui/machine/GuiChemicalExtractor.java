@@ -33,13 +33,13 @@ public class GuiChemicalExtractor extends GuiContainerBase {
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.inputTank.getFluid() != null) {
             if (tile.inputTank.getFluid() != null) {
-                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.inputTank.getFluid().getFluid().getLocalizedName(), tile.inputTank.getFluid().amount + " L");
+                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.inputTank.getFluid().getLocalizedName(), tile.inputTank.getFluid().amount + " L");
             }
         }
 
         if (isPointInRegion(154, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.outputTank.getFluid() != null) {
             if (tile.outputTank.getFluid() != null) {
-                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.outputTank.getFluid().getFluid().getLocalizedName(), tile.outputTank.getFluid().amount + " L");
+                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.outputTank.getFluid().getLocalizedName(), tile.outputTank.getFluid().amount + " L");
             }
         }
 

@@ -44,7 +44,7 @@ public class GuiCentrifuge extends GuiContainerBase {
         fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.gasTank.getFluid() != null) {
-            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.gasTank.getFluid().getFluid().getLocalizedName(), tile.gasTank.getFluid().amount + " L");
+            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.gasTank.getFluid().getLocalizedName(), tile.gasTank.getFluid().amount + " L");
         }
     }
 

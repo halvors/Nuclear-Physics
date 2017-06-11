@@ -31,9 +31,9 @@ public class GuiNuclearBoiler extends GuiContainerBase {
         fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.waterTank.getFluid() != null) {
-            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.waterTank.getFluid().getFluid().getLocalizedName(), tile.waterTank.getFluid().amount + " L");
+            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.waterTank.getFluid().getLocalizedName(), tile.waterTank.getFluid().amount + " L");
         } else if (isPointInRegion(155, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.gasTank.getFluid() != null) {
-            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.gasTank.getFluid().getFluid().getLocalizedName(), tile.gasTank.getFluid().amount + " L");
+            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.gasTank.getFluid().getLocalizedName(), tile.gasTank.getFluid().amount + " L");
         }
     }
 
