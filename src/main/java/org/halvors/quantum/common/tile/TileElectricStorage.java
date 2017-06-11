@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.tile.reactor;
+package org.halvors.quantum.common.tile;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
@@ -10,10 +10,10 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.EnumSet;
 
-public class TileElectrical extends TileEntity implements IEnergyHandler { // IEnergyInterface, IEnergyContainer
+public class TileElectricStorage extends TileEntity implements IEnergyHandler { // IEnergyInterface, IEnergyContainer
     protected EnergyStorage energyStorage;
 
-    public TileElectrical() {
+    public TileElectricStorage() {
 
     }
 

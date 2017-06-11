@@ -11,11 +11,11 @@ import org.halvors.quantum.common.network.packet.PacketTileEntity;
 
 import java.util.List;
 
-public class TileEntityRotatable extends TileEntity implements ITileNetworkable, ITileRotatable {
+public class TileRotatable extends TileEntity implements ITileNetworkable, ITileRotatable {
 	// The direction this TileEntity's block is facing.
 	protected int facing;
 
-	protected TileEntityRotatable() {
+	protected TileRotatable() {
 
 	}
 

@@ -3,6 +3,7 @@ package org.halvors.quantum.common.tile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.lib.tile.IExternalInventory;
@@ -12,6 +13,24 @@ import org.halvors.quantum.lib.utility.inventory.ExternalInventory;
 public class TileInventory extends TileEntity implements IExternalInventory, ISidedInventory {
     protected IExternalInventoryBox inventory;
     protected int maxSlots = 1;
+
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
+
+        if (getInventory() != null) {
+            getInventory().load(tagCompound);
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
+
+        if (getInventory() != null) {
+            getInventory().save(tagCompound);
+        }
+    }
 
     @Override
     public IExternalInventoryBox getInventory() {
@@ -88,7 +107,7 @@ public class TileInventory extends TileEntity implements IExternalInventory, ISi
 
     @Override
     public String getInventoryName() {
-        return null; // TODO: Implement this.
+        return getBlockType().getLocalizedName();
     }
 
     @Override

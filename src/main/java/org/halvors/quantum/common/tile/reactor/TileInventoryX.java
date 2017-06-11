@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.tile.reactor.fission;
+package org.halvors.quantum.common.tile.reactor;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -17,9 +17,21 @@ import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 /*
  * Prefab for tiles that need a basic inventory
  */
-public class TileInventory extends TileEntity implements IExternalInventory, ISidedInventory {
-    public TileInventory() {
+public class TileInventoryX extends TileEntity implements IExternalInventory, ISidedInventory {
+    public TileInventoryX() {
 
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound nbt) {
+        super.readFromNBT(nbt);
+        getInventory().load(nbt);
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbt){
+        super.writeToNBT(nbt);
+        getInventory().save(nbt);
     }
 
     protected IExternalInventoryBox inventory;
@@ -231,17 +243,5 @@ public class TileInventory extends TileEntity implements IExternalInventory, ISi
                 }
             }
         }
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
-        getInventory().load(nbt);
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound nbt){
-        super.writeToNBT(nbt);
-        getInventory().save(nbt);
     }
 }

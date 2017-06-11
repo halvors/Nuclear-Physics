@@ -3,10 +3,10 @@ package org.halvors.quantum.common.tile.machine.old;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager.General;
 import org.halvors.quantum.common.base.MachineType;
-import org.halvors.quantum.common.tile.TileEntityRotatable;
+import org.halvors.quantum.common.tile.TileRotatable;
 import org.halvors.quantum.common.utility.location.Location;
 
-public class TileEntityMachine extends TileEntityRotatable {
+public class TileEntityMachine extends TileRotatable {
 	private final MachineType machineType;
 
 	protected TileEntityMachine(MachineType machineType) {
