@@ -2,12 +2,6 @@ package org.halvors.quantum.lib.tile;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.WeakHashMap;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -25,7 +19,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.transform.vector.Cuboid;
 import org.halvors.quantum.common.transform.vector.Vector2;
 import org.halvors.quantum.common.transform.vector.Vector3;
@@ -34,6 +27,9 @@ import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.lib.IRotatable;
 import org.halvors.quantum.lib.prefab.item.ItemBlockTooltip;
 import org.halvors.quantum.lib.utility.WrenchUtility;
+
+import java.lang.reflect.Method;
+import java.util.*;
 
 public abstract class TileBlock extends TileEntity {
     public final String name;

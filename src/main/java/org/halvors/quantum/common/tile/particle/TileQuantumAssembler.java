@@ -14,8 +14,6 @@ import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
-import universalelectricity.api.electricity.IVoltageInput;
-import universalelectricity.api.energy.EnergyStorageHandler;
 
 public class TileQuantumAssembler extends TileElectricalInventory implements IEnergyReceiver { // IPacketReceiver IVoltageInput
     private long energyCapacity = 10000000000000L;

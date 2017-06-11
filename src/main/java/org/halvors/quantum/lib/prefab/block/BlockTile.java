@@ -1,7 +1,5 @@
 package org.halvors.quantum.lib.prefab.block;
 
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -11,6 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public abstract class BlockTile extends BlockAdvanced implements ITileEntityProvider {
     public BlockTile(Material material) {

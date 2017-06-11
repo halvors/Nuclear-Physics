@@ -5,7 +5,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import org.halvors.quantum.common.base.MachineType;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.utility.location.Location;
 
 import java.util.List;
 

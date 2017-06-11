@@ -2,10 +2,10 @@ package org.halvors.quantum.common.tile.reactor;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.EnumSet;
@@ -15,13 +15,6 @@ public class TileElectrical extends TileEntity implements IEnergyHandler { // IE
 
     public TileElectrical() {
 
-    }
-
-    @Override
-    public void updateEntity() {
-        if (worldObj.getWorldTime() % 60 == 0) {
-            Quantum.getLogger().info("Energy in storage is: " + energyStorage.getEnergyStored() + "/" + energyStorage.getMaxEnergyStored());
-        }
     }
 
     @Override
@@ -46,20 +39,12 @@ public class TileElectrical extends TileEntity implements IEnergyHandler { // IE
 
     @Override
     public boolean canConnectEnergy(ForgeDirection from) {
-        //if (CompatibilityModule.isHandler(obj)) {
-            if (from == null || from.equals(ForgeDirection.UNKNOWN)) {
-                return false;
-            }
-
-            return getReceivingDirections().contains(from) || getExtractingDirections().contains(from);
-        //}
-
-        //return false;
+        return getReceivingDirections().contains(from) || getExtractingDirections().contains(from);
     }
 
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        if (energyStorage != null && (from == ForgeDirection.UNKNOWN || getReceivingDirections().contains(from))) {
+        if (energyStorage != null && getReceivingDirections().contains(from)) {
             return energyStorage.receiveEnergy(maxReceive, simulate);
         }
 
@@ -68,7 +53,7 @@ public class TileElectrical extends TileEntity implements IEnergyHandler { // IE
 
     @Override
     public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-        if (energyStorage != null && (from == ForgeDirection.UNKNOWN || getExtractingDirections().contains(from))) {
+        if (energyStorage != null && getExtractingDirections().contains(from)) {
             return energyStorage.extractEnergy(maxExtract, simulate);
         }
 
@@ -114,66 +99,22 @@ public class TileElectrical extends TileEntity implements IEnergyHandler { // IE
         return EnumSet.noneOf(ForgeDirection.class);
     }
 
-    protected int produce(int outputEnergy) {
-        int usedEnergy = 0;
-
-        for (ForgeDirection direction : getExtractingDirections()) {
-            if (outputEnergy > 0) {
-                TileEntity tileEntity = new Vector3(this).translate(direction).getTileEntity(worldObj);
-
-                if (tileEntity != null) {
-                    // TODO: Check this, should be correct.
-                    // usedEnergy += CompatibilityModule.receiveEnergy(tileEntity, direction.getOpposite(), outputEnergy, true);
-                    usedEnergy += receiveEnergy(direction.getOpposite(), outputEnergy, false);
-                }
-            }
-        }
-
-        return usedEnergy;
-    }
-
     protected int produce() {
         int totalUsed = 0;
 
+        // Send energy to available receivers.
         for (ForgeDirection direction : getExtractingDirections()) {
             if (energyStorage.getEnergyStored() > 0) {
-                TileEntity tileEntity = new Vector3(this).translate(direction).getTileEntity(this.worldObj);
+                TileEntity tileEntity = new Vector3(this).translate(direction).getTileEntity(worldObj);
 
-                if (tileEntity != null) {
-                    // TODO: Check this, should be correct.
-                    //long used = CompatibilityModule.receiveEnergy(tileEntity, direction.getOpposite(), energyStorage.extractEnergy(energyStorage.getEnergy(), true), false);
-                    int used = receiveEnergy(direction.getOpposite(), energyStorage.extractEnergy(energyStorage.getEnergyStored(), true), false);
-                    totalUsed += energyStorage.extractEnergy(used, true);
+                if (tileEntity != null && tileEntity instanceof IEnergyReceiver) {
+                    IEnergyReceiver tileReceiver = (IEnergyReceiver) tileEntity;
+                    int used = extractEnergy(direction, tileReceiver.receiveEnergy(direction.getOpposite(), energyStorage.extractEnergy(energyStorage.getMaxExtract(), true), false), false);
+                    totalUsed += energyStorage.extractEnergy(used, false);
                 }
             }
         }
 
-        Quantum.getLogger().info("Total produced: " + totalUsed);
-
         return totalUsed;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /*
-    // Recharges electric item.
-    public void recharge(ItemStack itemStack) {
-        if (this.getEnergyHandler() != null) {
-            this.getEnergyHandler().extractEnergy(CompatibilityModule.chargeItem(itemStack, this.getEnergyHandler().getEnergy(), true), true);
-        }
-    }
-
-    // Discharges electric item.
-    public void discharge(ItemStack itemStack) {
-        if (this.getEnergyHandler() != null) {
-            this.getEnergyHandler().receiveEnergy(CompatibilityModule.dischargeItem(itemStack, this.getEnergyHandler().getEmptySpace(), true), true);
-        }
-    }
-
-    @Override
-    public void setEnergy(ForgeDirection from, long energy) {
-        if (energyStorage != null)
-            energyStorage.setEnergy(energy);
-    }
-    */
 }

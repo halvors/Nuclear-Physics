@@ -2,7 +2,9 @@ package org.halvors.quantum.common.block.reactor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
@@ -22,12 +24,11 @@ public class BlockElectricTurbine extends BlockRotatable {
         setCreativeTab(Quantum.getCreativeTab());
     }
 
-    /*
     @Override
     public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
 
-        if (tileEntity instanceof TileElectricTurbineX) {
+        if (tileEntity instanceof TileElectricTurbine) {
             TileElectricTurbine tileTurbine = (TileElectricTurbine) tileEntity;
 
             // TODO: Need to sync this between client and server in order for clients to be updated as well.
@@ -52,7 +53,6 @@ public class BlockElectricTurbine extends BlockRotatable {
 
         super.breakBlock(world, x, y, z, block, metadata);
     }
-    */
 
     @Override
     @SideOnly(Side.CLIENT)

@@ -1,11 +1,12 @@
 package org.halvors.quantum.lib.tile;
 
-import java.util.HashSet;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.Packet;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.lib.IPlayerUsing;
+
+import java.util.HashSet;
 
 public abstract class TileBase extends TileBlock implements IPlayerUsing {
     private final HashSet<EntityPlayer> playersUsing = new HashSet<>();

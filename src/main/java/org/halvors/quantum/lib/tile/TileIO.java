@@ -1,10 +1,11 @@
 package org.halvors.quantum.lib.tile;
 
-import java.util.EnumSet;
 import net.minecraft.block.material.Material;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.lib.IIO;
+
+import java.util.EnumSet;
 
 public abstract class TileIO extends TileBase implements IIO {
     protected short ioMap = 364;

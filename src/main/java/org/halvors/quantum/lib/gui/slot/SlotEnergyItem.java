@@ -1,7 +1,7 @@
 package org.halvors.quantum.lib.gui.slot;
 
-import net.minecraft.inventory.IInventory;
 import cofh.api.energy.IEnergyContainerItem;
+import net.minecraft.inventory.IInventory;
 import universalelectricity.api.item.IEnergyItem;
 
 public class SlotEnergyItem extends SlotSpecific {

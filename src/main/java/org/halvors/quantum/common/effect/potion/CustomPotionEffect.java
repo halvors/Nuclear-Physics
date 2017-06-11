@@ -1,10 +1,11 @@
 package org.halvors.quantum.common.effect.potion;
 
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomPotionEffect extends PotionEffect {
     public CustomPotionEffect(int potionID, int duration, int amplifier)

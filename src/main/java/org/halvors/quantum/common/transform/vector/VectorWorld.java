@@ -1,7 +1,5 @@
 package org.halvors.quantum.common.transform.vector;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,6 +7,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
+
+import java.util.List;
 
 public class VectorWorld extends Vector3 implements IVectorWorld {
     public World world;

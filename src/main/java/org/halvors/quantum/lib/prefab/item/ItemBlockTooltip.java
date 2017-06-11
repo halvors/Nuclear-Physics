@@ -1,7 +1,5 @@
 package org.halvors.quantum.lib.prefab.item;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -9,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.render.Color;
 import org.lwjgl.input.Keyboard;
+
+import java.util.List;
 
 public class ItemBlockTooltip extends ItemBlock {
     public ItemBlockTooltip(Block block) {

@@ -1,10 +1,11 @@
 package org.halvors.quantum.lib.utility;
 
 import buildcraft.api.tools.IToolWrench;
-import java.lang.reflect.Method;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.item.ItemScrewdriver;
+
+import java.lang.reflect.Method;
 //import resonant.core.content.ItemScrewdriver;
 
 public class WrenchUtility {
