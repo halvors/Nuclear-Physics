@@ -49,7 +49,6 @@ public class TileElectricTurbine extends TileElectrical implements IMultiBlockSt
     public int tier = 0; // Synced
 
     // Max power in watts.
-    protected long maxPower = 5000000;
     protected float prevAngularVelocity = 0;
     protected float angularVelocity = 0; // Synced
 
