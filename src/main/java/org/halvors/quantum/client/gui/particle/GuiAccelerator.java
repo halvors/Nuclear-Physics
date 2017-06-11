@@ -42,7 +42,7 @@ public class GuiAccelerator extends GuiContainerBase {
         fontRendererObj.drawString("Antimatter: " + tile.antimatter + " mg", 8, 80, 4210752);
         fontRendererObj.drawString("Status:", 8, 90, 4210752);
         fontRendererObj.drawString(status, 8, 100, 4210752);
-        fontRendererObj.drawString("Buffer: " + UnitDisplay.getDisplayShort(tile.getEnergyHandler().getEnergyStored(), UnitDisplay.Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(tile.getEnergyHandler().getMaxEnergyStored(), UnitDisplay.Unit.JOULES), 8, 110, 4210752);
+        fontRendererObj.drawString("Buffer: " + UnitDisplay.getDisplayShort(tile.getEnergyStorage().getEnergyStored(), UnitDisplay.Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(tile.getEnergyStorage().getMaxEnergyStored(), UnitDisplay.Unit.JOULES), 8, 110, 4210752);
         fontRendererObj.drawString("Facing: " + tile.getDirection().getOpposite(), 100, 123, 4210752);
     }
 

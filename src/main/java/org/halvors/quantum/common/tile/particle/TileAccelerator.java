@@ -1,13 +1,8 @@
 package org.halvors.quantum.common.tile.particle;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyReceiver;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -21,34 +16,30 @@ import org.halvors.quantum.common.item.particle.ItemAntimatter;
 import org.halvors.quantum.common.item.particle.ItemDarkmatter;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.IRotatable;
-import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
 
 import java.util.List;
 
 /** Accelerator TileEntity */
-public class TileAccelerator extends TileElectricalInventory implements ITileNetworkable, IElectromagnet, IRotatable, IInventory, ISidedInventory, IEnergyReceiver {
+public class TileAccelerator extends TileElectricInventory implements ITileNetworkable, IElectromagnet, IRotatable {
     /** Joules required per ticks. */
-    public static final int energyPerTick = 4800000;
+    public static final int energyPerTick = 4800; // TODO: Get the correct value here, 4800000 (UniversalElectricity) units.
 
     /** User client side to determine the velocity of the particle. */
     public static final float clientParticleVelocity = 0.9f;
 
     /** The total amount of energy consumed by this particle. In Joules. */
-    //@Synced
-    public float totalEnergyConsumed = 0;
+    public float totalEnergyConsumed = 0; // Synced
 
     /** The amount of anti-matter stored within the accelerator. Measured in milligrams. */
-    //@Synced
-    public int antimatter;
+    public int antimatter; // Synced
     public EntityParticle entityParticle;
 
-    //@Synced
-    public float velocity;
+    public float velocity; // Synced
 
-    //@Synced
-    private long clientEnergy = 0;
+    private long clientEnergy = 0; // Synced
 
     private int lastSpawnTick = 0;
 
@@ -109,9 +100,8 @@ public class TileAccelerator extends TileElectricalInventory implements ITileNet
             }
 
             // Check if redstone signal is currently being applied.
-            if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-                //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
-                if (true) {
+            //if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+                if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
                         if (getStackInSlot(0) != null && lastSpawnTick >= 40) {
@@ -146,7 +136,7 @@ public class TileAccelerator extends TileElectricalInventory implements ITileNet
                             entityParticle = null;
                         } else if (velocity > clientParticleVelocity) {
                             // Play sound of anti-matter being created.
-                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "antimatter", 2f, 1f - worldObj.rand.nextFloat() * 0.3f);
+                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "antimatter", 2F, 1F - worldObj.rand.nextFloat() * 0.3F);
 
                             // Create anti-matter in the internal reserve.
                             int generatedAntimatter = 5 + worldObj.rand.nextInt(antiMatterDensityMultiplyer);
@@ -161,11 +151,11 @@ public class TileAccelerator extends TileElectricalInventory implements ITileNet
 
                         // Plays sound of particle accelerating past the speed based on total velocity at the time of anti-matter creation.
                         if (entityParticle != null) {
-                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "accelerator", 1.5f, (float) (0.6f + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
+                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "accelerator", 1.5F, (float) (0.6F + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
                         }
                     }
 
-                    //energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
+                    energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
                 } else {
                     if (entityParticle != null) {
                         entityParticle.setDead();
@@ -173,6 +163,7 @@ public class TileAccelerator extends TileElectricalInventory implements ITileNet
 
                     entityParticle = null;
                 }
+            /*
             } else {
                 if (entityParticle != null) {
                     entityParticle.setDead();
@@ -180,16 +171,66 @@ public class TileAccelerator extends TileElectricalInventory implements ITileNet
 
                 entityParticle = null;
             }
+            */
 
-            if (ticks % 5 == 0) {
+            if (worldObj.getWorldTime() % 5 == 0) {
+                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+
+                /*
                 for (EntityPlayer player : getPlayersUsing()) {
                     NetworkHandler.sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
                 }
+                */
             }
 
             lastSpawnTick++;
         }
     }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
+
+        totalEnergyConsumed = tagCompound.getFloat("totalEnergyConsumed");
+        antimatter = tagCompound.getInteger("antimatter");
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
+
+        tagCompound.setFloat("totalEnergyConsumed", totalEnergyConsumed);
+        tagCompound.setInteger("antimatter", antimatter);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void handlePacketData(ByteBuf dataStream) throws Exception {
+        totalEnergyConsumed = dataStream.readFloat();
+        antimatter = dataStream.readInt();
+        velocity = dataStream.readFloat();
+        clientEnergy = dataStream.readLong();
+    }
+
+    @Override
+    public List<Object> getPacketData(List<Object> objects) {
+        objects.add(totalEnergyConsumed);
+        objects.add(antimatter);
+        objects.add(velocity);
+        objects.add(clientEnergy);
+
+        return objects;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean isRunning() {
+        return true;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void calculateParticleDensity() {
         ItemStack itemToAccelerate = this.getStackInSlot(0);
@@ -220,79 +261,20 @@ public class TileAccelerator extends TileElectricalInventory implements ITileNet
         }
     }
 
-    /** Reads a tile entity from NBT. */
-    @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
-
-        totalEnergyConsumed = tagCompound.getFloat("totalEnergyConsumed");
-        antimatter = tagCompound.getInteger("antimatter");
-    }
-
-    /** Writes a tile entity to NBT. */
-    @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
-
-        tagCompound.setFloat("totalEnergyConsumed", totalEnergyConsumed);
-        tagCompound.setInteger("antimatter", antimatter);
-    }
-
-    @Override
-    public void handlePacketData(ByteBuf dataStream) throws Exception {
-        totalEnergyConsumed = dataStream.readFloat();
-        antimatter = dataStream.readInt();
-        velocity = dataStream.readFloat();
-        clientEnergy = dataStream.readLong();
-    }
-
-    @Override
-    public List<Object> getPacketData(List<Object> objects) {
-        objects.add(totalEnergyConsumed);
-        objects.add(antimatter);
-        objects.add(velocity);
-        objects.add(clientEnergy);
-
-        return objects;
-    }
-
-    @Override
-    public boolean canConnectEnergy(ForgeDirection from) {
-        return true;
-    }
-
-    @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        if (!simulate) {
-            totalEnergyConsumed += maxReceive;
-        }
-
-        if (getStackInSlot(0) != null && (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) || worldObj.getBlockPowerInput(xCoord, yCoord, zCoord) > 0)) {
-            return super.receiveEnergy(from, maxReceive, simulate);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-        return 0;
-    }
-
     @Override
     public int[] getSlotsForFace(int side) {
         return new int[] { 0, 1, 2, 3 };
     }
 
     @Override
-    public boolean canInsertItem(int slotID, ItemStack itemStack, int j) {
-        return isItemValidForSlot(slotID, itemStack) && slotID != 2 && slotID != 3;
+    public boolean canInsertItem(int slot, ItemStack itemStack, int j) {
+        return isItemValidForSlot(slot, itemStack) && slot != 2 && slot != 3;
     }
 
     @Override
-    public boolean canExtractItem(int slotID, ItemStack itemstack, int j)
+    public boolean canExtractItem(int slot, ItemStack itemstack, int j)
     {
-        return slotID == 2 || slotID == 3;
+        return slot == 2 || slot == 3;
     }
 
     @Override
@@ -311,8 +293,36 @@ public class TileAccelerator extends TileElectricalInventory implements ITileNet
         return false;
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
-    public boolean isRunning() {
-        return true;
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        if (!simulate) {
+            totalEnergyConsumed += maxReceive;
+        }
+
+        if (getStackInSlot(0) != null) {//&&(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) || worldObj.getBlockPowerInput(xCoord, yCoord, zCoord) > 0)) {
+            return super.receiveEnergy(from, maxReceive, simulate);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        return 0;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public ForgeDirection getDirection() {
+        return ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+    }
+
+    @Override
+    public void setDirection(ForgeDirection direction) {
+        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
 }

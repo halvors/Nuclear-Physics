@@ -4,15 +4,18 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.lib.tile.IExternalInventory;
 import org.halvors.quantum.lib.tile.IExternalInventoryBox;
 import org.halvors.quantum.lib.utility.inventory.ExternalInventory;
 
-public class TileInventory extends TileEntity implements IExternalInventory, ISidedInventory {
+public class TileElectricInventory extends TileElectricStorage implements IExternalInventory, ISidedInventory {
     protected IExternalInventoryBox inventory;
     protected int maxSlots = 1;
+
+    public TileElectricInventory() {
+
+    }
 
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
