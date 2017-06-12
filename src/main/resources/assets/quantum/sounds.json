@@ -1,9 +1,45 @@
 {
+  "tile.accelerator": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "accelerator",
+        "stream": false
+      }
+    ]
+  },
+  "tile.antimatter": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "antimatter",
+        "stream": false
+      }
+    ]
+  },
+  "tile.assembler": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "assembler",
+        "stream": false
+      }
+    ]
+  },
   "tile.electricTurbine": {
     "category": "block",
     "sounds": [
       {
         "name": "electricTurbine",
+        "stream": false
+      }
+    ]
+  },
+  "tile.reactorCell": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "reactorCell",
         "stream": false
       }
     ]
