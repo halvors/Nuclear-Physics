@@ -1,8 +1,20 @@
 {
-  "siren": {
-    "category": "ambient",
+  "tile.electricTurbine": {
+    "category": "block",
     "sounds": [
-      "siren"
+      {
+        "name": "electricTurbine",
+        "stream": false
+      }
+    ]
+  },
+  "tile.siren": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "siren",
+        "stream": false
+      }
     ]
   }
 }

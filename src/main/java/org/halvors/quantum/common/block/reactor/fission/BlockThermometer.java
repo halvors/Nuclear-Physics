@@ -25,7 +25,7 @@ public class BlockThermometer extends BlockRotatable {
         super(Material.piston);
 
         setUnlocalizedName("thermometer");
-        setTextureName(Reference.PREFIX + "machine");
+        setTextureName(Reference.PREFIX + "thermometer");
         setCreativeTab(Quantum.getCreativeTab());
     }
 
@@ -62,18 +62,20 @@ public class BlockThermometer extends BlockRotatable {
         return true;
         */
 
-        TileEntity tile = world.getTileEntity(x, y, z);
+        if (!player.isSneaking()) {
+            TileEntity tile = world.getTileEntity(x, y, z);
 
-        if (tile instanceof TileThermometer) {
-            TileThermometer tileThermometer = (TileThermometer) tile;
+            if (tile instanceof TileThermometer) {
+                TileThermometer tileThermometer = (TileThermometer) tile;
 
-            if (player.isSneaking()) {
-                tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
-            } else {
-                tileThermometer.setThreshold(tileThermometer.getThershold() - 100);
+                if (player.isSneaking()) {
+                    tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
+                } else {
+                    tileThermometer.setThreshold(tileThermometer.getThershold() - 100);
+                }
+
+                return true;
             }
-
-            return true;
         }
 
         return false;

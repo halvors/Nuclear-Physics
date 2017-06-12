@@ -8,7 +8,6 @@ import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.utility.render.Color;
 import org.halvors.quantum.lib.utility.RenderUtility;
 import org.lwjgl.opengl.GL11;
-import scala.Int;
 
 @SideOnly(Side.CLIENT)
 public class RenderThermometer extends TileEntitySpecialRenderer {

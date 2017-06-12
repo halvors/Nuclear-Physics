@@ -286,7 +286,7 @@ public class TileElectricTurbine extends TileElectricStorage implements IMultiBl
             double maxVelocity = (getMaxPower() / torque) * 4;
             float percentage = angularVelocity * 4 / (float) maxVelocity;
 
-            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "turbine", percentage, 1);
+            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "electricTurbine", percentage, 1);
         }
     }
 }
