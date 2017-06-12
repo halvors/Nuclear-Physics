@@ -14,7 +14,7 @@ import org.halvors.quantum.lib.tile.TileRender;
 
 import java.util.EnumSet;
 
-public class TileFulmination extends TileElectrical implements IEnergyReceiver { // IVoltageOutput
+public class TileFulmination extends TileElectrical implements IEnergyReceiver {
     private static final long energyCapacity = 10000000000000L;
 
     public TileFulmination() {
@@ -75,12 +75,4 @@ public class TileFulmination extends TileElectrical implements IEnergyReceiver {
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
         return 0;
     }
-
-    /*
-    @Override
-    public long getVoltageOutput(ForgeDirection side)
-    {
-        return 10000000000L;
-    }
-    */
 }

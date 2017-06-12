@@ -2,6 +2,7 @@ package org.halvors.quantum.common.tile.machine;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
@@ -12,19 +13,23 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
+import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.lib.IRotatable;
 import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
 
-public class TileNuclearBoiler extends TileElectricalInventory implements ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
+import java.util.List;
+
+public class TileNuclearBoiler extends TileElectricalInventory implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
     public final static long DIAN = 50000;
     public final int SHI_JIAN = 20 * 15;
-    //@Synced
-    public final FluidTank waterTank = new FluidTank(Quantum.fluidStackWater.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5);
-    //@Synced
-    public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5);
+
+    public final FluidTank waterTank = new FluidTank(Quantum.fluidStackWater.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
+    public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
+
     // How many ticks has this item been extracting for?
-    //@Synced
-    public int timer = 0;
+    public int timer = 0; // Synced
     public float rotation = 0;
 
     public TileNuclearBoiler() {
@@ -37,17 +42,17 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ISided
         super.updateEntity();
 
         if (timer > 0) {
-            rotation += 0.1f;
+            rotation += 0.1F;
         }
 
-        if (!this.worldObj.isRemote) {
+        if (!worldObj.isRemote) {
             // Put water as liquid
             if (getStackInSlot(1) != null) {
                 if (FluidContainerRegistry.isFilledContainer(getStackInSlot(1))) {
                     FluidStack liquid = FluidContainerRegistry.getFluidForFilledItem(getStackInSlot(1));
 
                     if (liquid.isFluidEqual(Quantum.fluidStackWater)) {
-                        if (this.fill(ForgeDirection.UNKNOWN, liquid, false) > 0) {
+                        if (fill(ForgeDirection.UNKNOWN, liquid, false) > 0) {
                             ItemStack resultingContainer = getStackInSlot(1).getItem().getContainerItem(getStackInSlot(1));
 
                             if (resultingContainer == null && getStackInSlot(1).stackSize > 1) {
@@ -88,73 +93,17 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ISided
             }
 
             if (ticks % 10 == 0) {
-                sendDescPack();
-            }
-        }
-    }
-
-    /*
-    @Override
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra) {
-        try {
-            this.timer = data.readInt();
-            this.waterTank.setFluid(new FluidStack(Quantum.fluidStackWater, data.readInt()));
-            this.gasTank.setFluid(new FluidStack((Quantum.fluidStackUraniumHexaflouride, data.readInt()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    */
-
-    @Override
-    public Packet getDescriptionPacket() {
-        // TODO: Fix this.
-        //return ResonantInduction.PACKET_TILE.getPacket(this, this.timer, Atomic.getFluidAmount(this.waterTank.getFluid()), Atomic.getFluidAmount(this.gasTank.getFluid()));
-        return null;
-    }
-
-    public void sendDescPack() {
-        if (!this.worldObj.isRemote) {
-            for (EntityPlayer player : this.getPlayersUsing()) {
-                // TODO: Fix this.
-                //PacketDispatcher.sendPacketToPlayer(getDescriptionPacket(), player);
-            }
-        }
-    }
-
-    // Check all conditions and see if we can start smelting
-    public boolean nengYong() {
-        if (this.waterTank.getFluid() != null) {
-            if (this.waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME) {
-                if (getStackInSlot(3) != null) {
-                    if (Quantum.itemYellowCake == getStackInSlot(3).getItem() || new ItemBlock(Quantum.blockUraniumOre) == getStackInSlot(3).getItem()) {
-                        // TODO: Fix this.
-                        //if (Atomic.getFluidAmount(gasTank.getFluid()) < gasTank.getCapacity()) {
-                        //    return true;
-                        //}
-                    }
+                if (!worldObj.isRemote) {
+                    NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
         }
-
-        return false;
     }
 
-    /** Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack. */
-    public void yong() {
-        if (this.nengYong()) {
-            this.waterTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-            FluidStack liquid = Quantum.fluidStackUraniumHexaflouride.copy();
-            liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
-            this.gasTank.fill(liquid, true);
-            this.decrStackSize(3, 1);
-        }
-    }
-
-    /** Reads a tile entity from NBT. */
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
+
         timer = nbt.getInteger("shiJian");
 
         NBTTagCompound waterCompound = nbt.getCompoundTag("water");
@@ -164,7 +113,6 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ISided
         gasTank.setFluid(FluidStack.loadFluidStackFromNBT(gasCompound));
     }
 
-    /** Writes a tile entity to NBT. */
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
@@ -184,7 +132,50 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ISided
         }
     }
 
-    /** Tank Methods */
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void handlePacketData(ByteBuf dataStream) throws Exception {
+        if (dataStream.readBoolean()) {
+            waterTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+        }
+
+        if (dataStream.readBoolean()) {
+            gasTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+        }
+
+        timer = dataStream.readInt();
+    }
+
+    @Override
+    public List<Object> getPacketData(List<Object> objects) {
+        if (waterTank.getFluid() != null) {
+            objects.add(true);
+
+            NBTTagCompound compoundWaterTank = new NBTTagCompound();
+            waterTank.getFluid().writeToNBT(compoundWaterTank);
+            objects.add(compoundWaterTank);
+        } else {
+            objects.add(false);
+        }
+
+        if (gasTank.getFluid() != null) {
+            objects.add(true);
+
+            NBTTagCompound compoundGasTank = new NBTTagCompound();
+            gasTank.getFluid().writeToNBT(compoundGasTank);
+            objects.add(compoundGasTank);
+        } else {
+            objects.add(false);
+        }
+
+        objects.add(timer);
+
+        return null;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
         if (Quantum.fluidStackWater == resource) {
@@ -262,5 +253,34 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ISided
     @Override
     public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
         return 0;
+    }
+
+    // Check all conditions and see if we can start smelting
+    public boolean nengYong() {
+        if (this.waterTank.getFluid() != null) {
+            if (this.waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME) {
+                if (getStackInSlot(3) != null) {
+                    if (Quantum.itemYellowCake == getStackInSlot(3).getItem() || new ItemBlock(Quantum.blockUraniumOre) == getStackInSlot(3).getItem()) {
+                        // TODO: Fix this.
+                        //if (Atomic.getFluidAmount(gasTank.getFluid()) < gasTank.getCapacity()) {
+                        //    return true;
+                        //}
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /** Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack. */
+    public void yong() {
+        if (this.nengYong()) {
+            this.waterTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+            FluidStack liquid = Quantum.fluidStackUraniumHexaflouride.copy();
+            liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
+            this.gasTank.fill(liquid, true);
+            this.decrStackSize(3, 1);
+        }
     }
 }

@@ -2,6 +2,7 @@ package org.halvors.quantum.common.tile.particle;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,10 +13,15 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
 
-public class TileQuantumAssembler extends TileElectricalInventory implements IEnergyReceiver { // IPacketReceiver IVoltageInput
+import java.util.List;
+
+public class TileQuantumAssembler extends TileElectricalInventory implements ITileNetworkable, IEnergyReceiver { // IPacketReceiver IVoltageInput
     private long energyCapacity = 10000000000000L;
     public int maxTime = 20 * 120;
     public int time = 0;
@@ -82,14 +88,17 @@ public class TileQuantumAssembler extends TileElectricalInventory implements IEn
             }
 
             if (ticks % 10 == 0) {
+                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+
+                /*
                 for (EntityPlayer player : getPlayersUsing()) {
-                    // TODO: Fix this.
                     //PacketDispatcher.sendPacketToPlayer(getDescriptionPacket(), player);
                 }
+                */
             }
         } else if (time > 0) {
             if (ticks % 600 == 0) {
-                worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "assembler", 0.7F, 1F);
+                worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.assembler", 0.7F, 1F);
             }
 
             rotationYaw1 += 3;
@@ -116,36 +125,61 @@ public class TileQuantumAssembler extends TileElectricalInventory implements IEn
     }
 
 
-    /*
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, extra: AnyRef*) {
-        try {
-            time = data.readInt();
-            int itemId = data.readInt();
-            int itemAmount = data.readInt();
-            int itemMeta = data.readInt();
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
 
-            if (itemId != -1 && itemAmount != -1 && itemMeta != -1) {
-                setInventorySlotContents(6, new ItemStack(Item.itemsList(itemId), itemAmount, itemMeta))
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        time = tagCompound.getInteger("smeltingTicks");
     }
-    */
 
     @Override
-    public Packet getDescriptionPacket() {
-        // TODO: Fix this.
-        /*
-        if (this.getStackInSlot(6) != null) {
-            return ResonantInduction.PACKET_TILE.getPacket(this, Int.box(time), Int.box(getStackInSlot(6).itemID), Int.box(getStackInSlot(6).stackSize), Int.box(getStackInSlot(6).getItemDamage));
+    public void writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
+
+        tagCompound.setInteger("smeltingTicks", time);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void handlePacketData(ByteBuf dataStream) throws Exception {
+        // TODO: Check if there should be any kind of item sync here.
+
+        time = dataStream.readInt();
+    }
+
+    @Override
+    public List<Object> getPacketData(List<Object> objects) {
+        // TODO: Check if there should be any kind of item sync here.
+
+        objects.add(time);
+
+        return objects;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean isItemValidForSlot(int slotId, ItemStack itemStack) {
+        if (slotId == 6) {
+            return true;
         }
 
-        return ResonantInduction.PACKET_TILE.getPacket(this, Int.box(time), Int.box(-1), Int.box(-1), Int.box(-1));
-        */
+        return itemStack.getItem() == Quantum.itemDarkMatter;
+    }
 
-        return null;
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        if (canProcess()) {
+            return super.receiveEnergy(from, maxReceive, simulate);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        return 0;
     }
 
     @Override
@@ -194,48 +228,5 @@ public class TileQuantumAssembler extends TileElectricalInventory implements IEn
                 getStackInSlot(6).stackSize++;
             }
         }
-    }
-
-    /**
-     * Reads a tile entity from NBT.
-     */
-    @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
-
-        time = tagCompound.getInteger("smeltingTicks");
-    }
-
-    /**
-     * Writes a tile entity to NBT.
-     */
-    @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
-
-        tagCompound.setInteger("smeltingTicks", time);
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int slotId, ItemStack itemStack) {
-        if (slotId == 6) {
-            return true;
-        }
-
-        return itemStack.getItem() == Quantum.itemDarkMatter;
-    }
-
-    @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        if (canProcess()) {
-            return super.receiveEnergy(from, maxReceive, simulate);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-        return 0;
     }
 }

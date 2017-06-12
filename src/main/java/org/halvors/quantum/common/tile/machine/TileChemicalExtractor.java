@@ -2,6 +2,7 @@ package org.halvors.quantum.common.tile.machine;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
@@ -12,23 +13,28 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
+import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.lib.IRotatable;
 
-/** Chemical extractor TileEntity */
-public class TileChemicalExtractor extends TileProcess implements ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IVoltageInput
-    public static final int TICK_TIME = 20 * 14;
-    public static final int EXTRACT_SPEED = 100;
-    public static final long ENERGY = 5000;
+import java.util.List;
 
-    public final FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10);
-    public final FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10);
+/** Chemical extractor TileEntity */
+public class TileChemicalExtractor extends TileProcess implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IVoltageInput
+    public static final int tickTime = 20 * 14;
+    public static final int extractSpeed = 100;
+    public static final long energy = 5000;
+
+    public final FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10); // Synced
+    public final FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10); // Synced
 
     // How many ticks has this item been extracting for?
-    public int time = 0;
+    public int time = 0; // Synced
     public float rotation = 0;
 
     public TileChemicalExtractor() {
-        energyStorage = new EnergyStorage((int) ENERGY * 2);
+        energyStorage = new EnergyStorage((int) energy * 2);
         maxSlots = 7;
         inputSlot = 1;
         outputSlot = 2;
@@ -50,9 +56,9 @@ public class TileChemicalExtractor extends TileProcess implements ISidedInventor
             if (canUse()) {
                 discharge(getStackInSlot(0));
 
-                if (energyStorage.extractEnergy((int) ENERGY, true) >= ENERGY) {
+                if (energyStorage.extractEnergy((int) energy, true) >= energy) {
                     if (time == 0) {
-                        time = TICK_TIME;
+                        time = tickTime;
                     }
 
                     if (time > 0) {
@@ -72,119 +78,38 @@ public class TileChemicalExtractor extends TileProcess implements ISidedInventor
                     }
                 }
 
-                energyStorage.extractEnergy((int) ENERGY, false);
+                energyStorage.extractEnergy((int) energy, false);
             } else {
                 time = 0;
             }
 
             if (ticks % 10 == 0) {
+                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+
+                /*
                 for (EntityPlayer player : getPlayersUsing()) {
-                    // TODO: Fix this.
                     //PacketDispatcher.sendPacketToPlayer(getDescriptionPacket(), (EntityPlayer) player);
                 }
+                */
             }
         }
     }
 
-    @Override
-    public Packet getDescriptionPacket() {
-        // TODO: Fox this.
-        //return ResonantInduction.PACKET_ANNOTATION.getPacket(this);
-
-        return null;
-    }
-
-    public boolean canUse() {
-        if (inputTank.getFluid() != null) {
-            if (inputTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME && getStackInSlot(inputSlot).getItem() == new ItemBlock(Quantum.blockUraniumOre)) {
-                if (isItemValidForSlot(outputSlot, new ItemStack(Quantum.itemYellowCake))) {
-                    return true;
-                }
-            }
-
-            if (outputTank.getFluidAmount() < outputTank.getCapacity()) {
-                if (inputTank.getFluid().getFluid() == Quantum.fluidDeuterium && inputTank.getFluid().amount >= ConfigurationManager.General.deutermiumPerTritium * EXTRACT_SPEED) {
-                    if (outputTank.getFluid() == null || Quantum.fluidStackTritium.equals(outputTank.getFluid())) {
-                        return true;
-                    }
-                }
-
-                if (inputTank.getFluid().getFluid().getID() == FluidRegistry.WATER.getID() && inputTank.getFluid().amount >= ConfigurationManager.General.waterPerDeutermium * EXTRACT_SPEED) {
-                    if (outputTank.getFluid() == null || Quantum.fluidDeuterium.equals(outputTank.getFluid())) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /** Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack. */
-    public boolean refineUranium() {
-        if (canUse()) {
-            if (getStackInSlot(inputSlot).getItem() == new ItemBlock(Quantum.blockUraniumOre)) {
-                inputTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                incrStackSize(outputSlot, new ItemStack(Quantum.itemYellowCake, 3));
-                decrStackSize(inputSlot, 1);
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public boolean extractDeuterium() {
-        if (canUse()) {
-            FluidStack drain = inputTank.drain(ConfigurationManager.General.waterPerDeutermium * EXTRACT_SPEED, false);
-
-            if (drain != null && drain.amount >= 1 && drain.getFluid().getID() == FluidRegistry.WATER.getID()) {
-                if (outputTank.fill(new FluidStack(Quantum.fluidStackDeuterium, EXTRACT_SPEED), true) >= EXTRACT_SPEED) {
-                    inputTank.drain(ConfigurationManager.General.waterPerDeutermium * EXTRACT_SPEED, true);
-
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public boolean extractTritium() {
-        if (canUse()) {
-            int waterUsage = ConfigurationManager.General.deutermiumPerTritium;
-
-            FluidStack drain = inputTank.drain(ConfigurationManager.General.deutermiumPerTritium * EXTRACT_SPEED, false);
-
-            if (drain != null && drain.amount >= 1 && drain.getFluid() == Quantum.fluidStackDeuterium.getFluid()) {
-                if (outputTank.fill(new FluidStack(Quantum.fluidStackTritium, EXTRACT_SPEED), true) >= EXTRACT_SPEED) {
-                    inputTank.drain(ConfigurationManager.General.deutermiumPerTritium * EXTRACT_SPEED, true);
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /** Reads a tile entity from NBT. */
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
 
-        time = nbt.getInteger("time");
         NBTTagCompound water = nbt.getCompoundTag("inputTank");
         inputTank.setFluid(FluidStack.loadFluidStackFromNBT(water));
         NBTTagCompound deuterium = nbt.getCompoundTag("outputTank");
         outputTank.setFluid(FluidStack.loadFluidStackFromNBT(deuterium));
+
+        time = nbt.getInteger("time");
     }
 
-    /** Writes a tile entity to NBT. */
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
-        nbt.setInteger("time", time);
 
         if (inputTank.getFluid() != null) {
             NBTTagCompound compound = new NBTTagCompound();
@@ -197,7 +122,53 @@ public class TileChemicalExtractor extends TileProcess implements ISidedInventor
             outputTank.getFluid().writeToNBT(compound);
             nbt.setTag("outputTank", compound);
         }
+
+        nbt.setInteger("time", time);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void handlePacketData(ByteBuf dataStream) throws Exception {
+        if (dataStream.readBoolean()) {
+            inputTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+        }
+
+        if (dataStream.readBoolean()) {
+            outputTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+        }
+
+        time = dataStream.readInt();
+    }
+
+    @Override
+    public List<Object> getPacketData(List<Object> objects) {
+        if (inputTank.getFluid() != null) {
+            objects.add(true);
+
+            NBTTagCompound compoundInputTank = new NBTTagCompound();
+            inputTank.getFluid().writeToNBT(compoundInputTank);
+            objects.add(compoundInputTank);
+        } else {
+            objects.add(false);
+        }
+
+        if (outputTank.getFluid() != null) {
+            objects.add(true);
+
+            NBTTagCompound compoundOutputTank = new NBTTagCompound();
+            outputTank.getFluid().writeToNBT(compoundOutputTank);
+            objects.add(compoundOutputTank);
+        } else {
+            objects.add(false);
+        }
+
+        objects.add(time);
+
+        return objects;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /** Tank Methods */
     @Override
@@ -296,5 +267,81 @@ public class TileChemicalExtractor extends TileProcess implements ISidedInventor
     @Override
     public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
         return 0;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public boolean canUse() {
+        if (inputTank.getFluid() != null) {
+            if (inputTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME && getStackInSlot(inputSlot).getItem() == new ItemBlock(Quantum.blockUraniumOre)) {
+                if (isItemValidForSlot(outputSlot, new ItemStack(Quantum.itemYellowCake))) {
+                    return true;
+                }
+            }
+
+            if (outputTank.getFluidAmount() < outputTank.getCapacity()) {
+                if (inputTank.getFluid().getFluid() == Quantum.fluidDeuterium && inputTank.getFluid().amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
+                    if (outputTank.getFluid() == null || Quantum.fluidStackTritium.equals(outputTank.getFluid())) {
+                        return true;
+                    }
+                }
+
+                if (inputTank.getFluid().getFluid().getID() == FluidRegistry.WATER.getID() && inputTank.getFluid().amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
+                    if (outputTank.getFluid() == null || Quantum.fluidDeuterium.equals(outputTank.getFluid())) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /** Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack. */
+    public boolean refineUranium() {
+        if (canUse()) {
+            if (getStackInSlot(inputSlot).getItem() == new ItemBlock(Quantum.blockUraniumOre)) {
+                inputTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+                incrStackSize(outputSlot, new ItemStack(Quantum.itemYellowCake, 3));
+                decrStackSize(inputSlot, 1);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean extractDeuterium() {
+        if (canUse()) {
+            FluidStack drain = inputTank.drain(ConfigurationManager.General.waterPerDeutermium * extractSpeed, false);
+
+            if (drain != null && drain.amount >= 1 && drain.getFluid().getID() == FluidRegistry.WATER.getID()) {
+                if (outputTank.fill(new FluidStack(Quantum.fluidStackDeuterium, extractSpeed), true) >= extractSpeed) {
+                    inputTank.drain(ConfigurationManager.General.waterPerDeutermium * extractSpeed, true);
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean extractTritium() {
+        if (canUse()) {
+            int waterUsage = ConfigurationManager.General.deutermiumPerTritium;
+
+            FluidStack drain = inputTank.drain(ConfigurationManager.General.deutermiumPerTritium * extractSpeed, false);
+
+            if (drain != null && drain.amount >= 1 && drain.getFluid() == Quantum.fluidStackDeuterium.getFluid()) {
+                if (outputTank.fill(new FluidStack(Quantum.fluidStackTritium, extractSpeed), true) >= extractSpeed) {
+                    inputTank.drain(ConfigurationManager.General.deutermiumPerTritium * extractSpeed, true);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -22,7 +22,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRendererObj.drawString(tile.getInventoryName(), 45, 6, 4210752);
 
-        renderUniversalDisplay(8, 112, TileChemicalExtractor.ENERGY * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
+        renderUniversalDisplay(8, 112, TileChemicalExtractor.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
         fontRendererObj.drawString("The extractor can extract", 8, 75, 4210752);
@@ -64,7 +64,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
         drawSlot(79, 49, SlotType.BATTERY);
         drawSlot(52, 24);
         drawSlot(106, 24);
-        drawBar(75, 24, (float) tile.time / (float) TileChemicalExtractor.TICK_TIME);
+        drawBar(75, 24, (float) tile.time / (float) TileChemicalExtractor.tickTime);
         drawMeter(8, 18, (float) tile.inputTank.getFluidAmount() / (float) tile.inputTank.getCapacity(), tile.inputTank.getFluid());
         drawSlot(24, 18, SlotType.LIQUID);
         drawSlot(24, 49, SlotType.LIQUID);

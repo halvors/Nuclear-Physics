@@ -136,7 +136,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                             entityParticle = null;
                         } else if (velocity > clientParticleVelocity) {
                             // Play sound of anti-matter being created.
-                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "antimatter", 2F, 1F - worldObj.rand.nextFloat() * 0.3F);
+                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.antimatter", 2F, 1F - worldObj.rand.nextFloat() * 0.3F);
 
                             // Create anti-matter in the internal reserve.
                             int generatedAntimatter = 5 + worldObj.rand.nextInt(antiMatterDensityMultiplyer);
@@ -151,7 +151,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
                         // Plays sound of particle accelerating past the speed based on total velocity at the time of anti-matter creation.
                         if (entityParticle != null) {
-                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "accelerator", 1.5F, (float) (0.6F + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
+                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.accelerator", 1.5F, (float) (0.6F + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
                         }
                     }
 
