@@ -97,10 +97,10 @@ import org.halvors.quantum.common.updater.UpdateManager;
 import org.halvors.quantum.lib.event.PlasmaEvent;
 import org.halvors.quantum.lib.grid.UpdateTicker;
 import org.halvors.quantum.lib.render.BlockRenderingHandler;
+import org.halvors.quantum.lib.render.RenderUtility;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
 import org.halvors.quantum.lib.tile.BlockDummy;
 import org.halvors.quantum.lib.tile.TileBlock;
-import org.halvors.quantum.lib.utility.RenderUtility;
 
 import java.util.List;
 

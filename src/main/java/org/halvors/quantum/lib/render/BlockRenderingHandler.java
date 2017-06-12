@@ -15,7 +15,6 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.item.ISimpleItemRenderer;
 import org.halvors.quantum.lib.tile.BlockDummy;
 import org.halvors.quantum.lib.tile.TileBlock;
-import org.halvors.quantum.lib.utility.RenderUtility;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 

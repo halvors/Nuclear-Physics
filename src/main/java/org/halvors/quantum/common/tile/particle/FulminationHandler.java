@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-/** Atomic Science Event Handling. */
 public class FulminationHandler {
     public static final FulminationHandler INSTANCE = new FulminationHandler();
     public static final List<TileFulmination> list = new ArrayList<>();
