@@ -285,7 +285,7 @@ public class BlockDummy extends Block implements ITileEntityProvider {
     }
 
     @Override
-    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z) {
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) {
         inject(world, x, y, z);
         ItemStack value = getTile(world, x, y, z).getPickBlock(target);
         eject();

@@ -38,7 +38,7 @@ public class GuiReactorCell extends GuiContainerBase {
 
         if (isPointInRegion(80, 40, meterWidth, meterHeight, x, y)) {
             if (tile.tank.getFluid() != null) {
-                drawTooltip(x - guiLeft, y - guiTop + 10, tile.tank.getFluid().getFluid().getLocalizedName(), UnitDisplay.getDisplay(tile.tank.getFluidAmount(), Unit.LITER));
+                drawTooltip(x - guiLeft, y - guiTop + 10, tile.tank.getFluid().getLocalizedName(), UnitDisplay.getDisplay(tile.tank.getFluidAmount(), Unit.LITER));
             } else {
                 drawTooltip(x - guiLeft, y - guiTop + 10, "No Fluid");
             }
