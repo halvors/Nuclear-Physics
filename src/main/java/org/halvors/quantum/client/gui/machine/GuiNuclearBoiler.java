@@ -21,7 +21,7 @@ public class GuiNuclearBoiler extends GuiContainerBase {
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRendererObj.drawString(tile.getInventoryName(), 52, 6, 4210752);
 
-        renderUniversalDisplay(8, 112, TileNuclearBoiler.DIAN * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
+        renderUniversalDisplay(8, 112, TileNuclearBoiler.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(110, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
         fontRendererObj.drawString("The nuclear boiler can boil", 8, 75, 4210752);
@@ -45,7 +45,7 @@ public class GuiNuclearBoiler extends GuiContainerBase {
         drawSlot(55, 25, SlotType.BATTERY);
         drawSlot(80, 25);
 
-        drawBar(110, 26, (float) tile.timer / (float) tile.SHI_JIAN);
+        drawBar(110, 26, (float) tile.timer / (float) tile.tickTime);
 
         // Water
         drawMeter(8, 18, (float) tile.waterTank.getFluidAmount() / (float) tile.waterTank.getCapacity(), tile.waterTank.getFluid());

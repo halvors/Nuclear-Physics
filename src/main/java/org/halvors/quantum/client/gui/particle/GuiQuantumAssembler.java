@@ -29,7 +29,7 @@ public class GuiQuantumAssembler extends GuiContainerBase {
         String displayText;
 
         if (tile.time > 0) {
-            displayText = "Process: " + (int) (100 - ((float) tile.time / (float) tile.maxTime) * 100) + "%";
+            displayText = "Process: " + (int) (100 - ((float) tile.time / (float) tile.tickTime) * 100) + "%";
         } else if (tile.canProcess()) {
             displayText = "Ready";
         } else {
@@ -38,7 +38,7 @@ public class GuiQuantumAssembler extends GuiContainerBase {
 
         fontRendererObj.drawString(displayText, 9, ySize - 106, 4210752);
         //renderUniversalDisplay(100, ySize - 94, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
-        renderUniversalDisplay(8, ySize - 95, tile.maxTime, mouseX, mouseY, UnitDisplay.Unit.WATT);
+        renderUniversalDisplay(8, ySize - 95, tile.tickTime, mouseX, mouseY, UnitDisplay.Unit.WATT);
     }
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */

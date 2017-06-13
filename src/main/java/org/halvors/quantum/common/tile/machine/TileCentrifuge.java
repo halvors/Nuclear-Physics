@@ -26,14 +26,14 @@ import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
 import java.util.List;
 
 public class TileCentrifuge extends TileElectricalInventory implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
-    public static final int SHI_JIAN = 1200;
-    public static final long DIAN = 500000L;
+    public static final int tickTime = 20 * 60;
+    public static final long energy = 500000L;
     public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), 5000);
     public int timer = 0;
     public float rotation = 0.0F;
 
     public TileCentrifuge() {
-        energyStorage = new EnergyStorage((int) 1000000L);
+        energyStorage = new EnergyStorage((int) energy * 2);
         maxSlots = 4;
     }
 
@@ -69,7 +69,7 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
                 }
             }
 
-            if (nengYong()) {
+            if (canUse()) {
                 discharge(getStackInSlot(0));
 
                 if (energyStorage.extractEnergy((int) 500000L, true) >= 500000L) {
@@ -265,7 +265,7 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
 
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        if (nengYong()) {
+        if (canUse()) {
             return super.receiveEnergy(from, maxReceive, simulate);
         }
 
@@ -277,8 +277,20 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
         return 0;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public boolean canUse() {
+        if (gasTank.getFluid() != null) {
+            if (gasTank.getFluid().amount >= ConfigurationManager.General.uraniumHexaflourideRatio) {
+                return isItemValidForSlot(2, new ItemStack(Quantum.itemUranium)) && isItemValidForSlot(3, new ItemStack(Quantum.itemUranium, 1, 1));
+            }
+        }
+
+        return false;
+    }
+
     public void yong() {
-        if (nengYong()) {
+        if (canUse()) {
             gasTank.drain(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 
             if (worldObj.rand.nextFloat() > 0.6D) {
@@ -289,13 +301,5 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
         }
     }
 
-    public boolean nengYong() {
-        if (gasTank.getFluid() != null) {
-            if (gasTank.getFluid().amount >= ConfigurationManager.General.uraniumHexaflourideRatio) {
-                return isItemValidForSlot(2, new ItemStack(Quantum.itemUranium)) && isItemValidForSlot(3, new ItemStack(Quantum.itemUranium, 1, 1));
-            }
-        }
 
-        return false;
-    }
 }

@@ -19,8 +19,8 @@ import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
 import java.util.List;
 
 public class TileQuantumAssembler extends TileElectricalInventory implements ITileNetworkable, IEnergyReceiver {
-    private long energyCapacity = 10000000000000L;
-    public int maxTime = 20 * 120;
+    private long energy = 10000000000000L;
+    public int tickTime = 20 * 120;
     public int time = 0;
 
     // Used for rendering.
@@ -32,7 +32,7 @@ public class TileQuantumAssembler extends TileElectricalInventory implements ITi
     public EntityItem entityItem = null;
 
     public TileQuantumAssembler() {
-        energyStorage = new EnergyStorage((int) energyCapacity);
+        energyStorage = new EnergyStorage((int) energy);
         maxSlots = 6 + 1;
     }
 
@@ -44,7 +44,7 @@ public class TileQuantumAssembler extends TileElectricalInventory implements ITi
             if (canProcess()) {
                 if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (time == 0) {
-                        time = maxTime;
+                        time = tickTime;
                     }
 
                     if (time > 0) {
@@ -58,7 +58,7 @@ public class TileQuantumAssembler extends TileElectricalInventory implements ITi
                         this.time = 0;
                     }
 
-                    energyStorage.extractEnergy((int) energyCapacity, false);
+                    energyStorage.extractEnergy((int) energy, false);
                 }
             } else {
                 time = 0;

@@ -20,8 +20,8 @@ import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
 import java.util.List;
 
 public class TileNuclearBoiler extends TileElectricalInventory implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
-    public final static long DIAN = 50000;
-    public final int SHI_JIAN = 20 * 15;
+    public final int tickTime = 20 * 15;
+    public final static long energy = 50000;
 
     public final FluidTank waterTank = new FluidTank(Quantum.fluidStackWater.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
     public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
@@ -31,7 +31,7 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
     public float rotation = 0;
 
     public TileNuclearBoiler() {
-        energyStorage = new EnergyStorage((int) DIAN * 2);
+        energyStorage = new EnergyStorage((int) energy * 2);
         maxSlots = 4;
     }
 
@@ -68,9 +68,9 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
             if (nengYong()) {
                 discharge(getStackInSlot(0));
 
-                if (energyStorage.extractEnergy((int) DIAN, false) >= DIAN) {
+                if (energyStorage.extractEnergy((int) energy, false) >= energy) {
                     if (timer == 0) {
-                        timer = SHI_JIAN;
+                        timer = tickTime;
                     }
 
                     if (timer > 0) {
@@ -84,7 +84,7 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
                         timer = 0;
                     }
 
-                    energyStorage.extractEnergy((int) DIAN, true);
+                    energyStorage.extractEnergy((int) energy, true);
                 }
             } else {
                 timer = 0;
@@ -102,7 +102,7 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
 
-        timer = nbt.getInteger("shiJian");
+        timer = nbt.getInteger("timer");
 
         NBTTagCompound waterCompound = nbt.getCompoundTag("water");
         waterTank.setFluid(FluidStack.loadFluidStackFromNBT(waterCompound));
@@ -115,7 +115,7 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
 
-        nbt.setInteger("shiJian", this.timer);
+        nbt.setInteger("timer", timer);
 
         if (waterTank.getFluid() != null) {
             NBTTagCompound compound = new NBTTagCompound();

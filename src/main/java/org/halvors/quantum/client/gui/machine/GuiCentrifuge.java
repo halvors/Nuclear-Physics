@@ -26,7 +26,7 @@ public class GuiCentrifuge extends GuiContainerBase {
 
         if (tile.timer > 0) {
             displayText = "Processing";
-        } else if (tile.nengYong()) {
+        } else if (tile.canUse()) {
             displayText = "Ready";
         } else {
             displayText = "Idle";
@@ -34,7 +34,7 @@ public class GuiCentrifuge extends GuiContainerBase {
 
         fontRendererObj.drawString("Status: " + displayText, 70, 50, 4210752);
 
-        renderUniversalDisplay(8, 112, TileNuclearBoiler.DIAN * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
+        renderUniversalDisplay(8, 112, TileNuclearBoiler.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
         fontRendererObj.drawString("The centrifuge spins", 8, 75, 4210752);
@@ -57,7 +57,7 @@ public class GuiCentrifuge extends GuiContainerBase {
         drawSlot(100, 25);
         drawSlot(130, 25, SlotType.BATTERY);
 
-        drawBar(40, 26, (float) tile.timer / (float) TileCentrifuge.SHI_JIAN);
+        drawBar(40, 26, (float) tile.timer / (float) TileCentrifuge.tickTime);
 
         // Uranium Gas
         drawMeter(8, 18, (float) tile.gasTank.getFluidAmount() / (float) tile.gasTank.getCapacity(), tile.gasTank.getFluid());

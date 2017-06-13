@@ -285,7 +285,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
                 }
 
                 if (inputTank.getFluid().getFluid().getID() == FluidRegistry.WATER.getID() && inputTank.getFluid().amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
-                    if (outputTank.getFluid() == null || Quantum.fluidDeuterium.equals(outputTank.getFluid())) {
+                    if (outputTank.getFluid() == null || Quantum.fluidStackDeuterium.equals(outputTank.getFluid())) {
                         return true;
                     }
                 }
