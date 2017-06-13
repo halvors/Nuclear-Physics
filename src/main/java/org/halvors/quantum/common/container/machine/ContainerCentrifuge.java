@@ -37,8 +37,6 @@ public class ContainerCentrifuge extends ContainerBase {
     @Override
     public void onContainerClosed(EntityPlayer entityplayer) {
         super.onContainerClosed(entityplayer);
-
-        tileEntity.getPlayersUsing().remove(entityplayer);
     }
 
     @Override

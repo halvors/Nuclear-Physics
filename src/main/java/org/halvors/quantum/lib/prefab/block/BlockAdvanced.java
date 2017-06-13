@@ -87,8 +87,8 @@ public abstract class BlockAdvanced extends Block {
                         if (stackInInventory == null) {
                             inventory.setInventorySlotContents(slotID, current.splitStack(1));
                         } else {
-                            stackInInventory.stackSize += 1;
-                            current.stackSize -= 1;
+                            stackInInventory.stackSize++;
+                            current.stackSize--;
                         }
                     } else {
                         if (stackInInventory == null) {

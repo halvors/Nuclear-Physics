@@ -58,70 +58,63 @@ public class GuiContainerBase extends GuiContainer {
     protected int containerHeight;
     private float lastChangeFrameTime;
 
-    public GuiContainerBase(Container container)
-    {
+    public GuiContainerBase(Container container) {
         super(container);
         this.ySize = 217;
         this.baseTexture = GUI_BASE;
     }
 
-    public GuiContainerBase()
-    {
+    public GuiContainerBase() {
         this(new ContainerDummy());
-        this.baseTexture = GUI_EMPTY_FILE;
+
+        baseTexture = GUI_EMPTY_FILE;
     }
 
     @Override
     public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
+
         super.onGuiClosed();
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        Iterator<Map.Entry<Rectangle, String>> it = this.tooltips.entrySet().iterator();
 
-        while (it.hasNext()) {
-            Map.Entry<Rectangle, String> entry = it.next();
-
-            if (entry.getKey().isIn(new Vector2(mouseX - this.guiLeft, mouseY - this.guiTop))) {
-                this.tooltip = entry.getValue();
+        for (Map.Entry<Rectangle, String> entry : tooltips.entrySet()) {
+            if (entry.getKey().isIn(new Vector2(mouseX - guiLeft, mouseY - guiTop))) {
+                tooltip = entry.getValue();
                 break;
             }
         }
 
-        if (this.tooltip != null && !tooltip.equals("")) {
-            this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop, LanguageUtility.splitStringPerWord(this.tooltip, 5).toArray(new String[] {}));
+        if (tooltip != null && !tooltip.equals("")) {
+            drawTooltip(mouseX - guiLeft, mouseY - guiTop, LanguageUtility.splitStringPerWord(tooltip, 5).toArray(new String[] {}));
         }
 
-        this.tooltip = "";
+        tooltip = null;
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY)
     {
-        this.containerWidth = (this.width - this.xSize) / 2;
-        this.containerHeight = (this.height - this.ySize) / 2;
+        this.containerWidth = (width - xSize) / 2;
+        this.containerHeight = (height - ySize) / 2;
 
-        this.mc.renderEngine.bindTexture(this.baseTexture);
+        this.mc.renderEngine.bindTexture(baseTexture);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        this.drawTexturedModalRect(this.containerWidth, this.containerHeight, 0, 0, this.xSize, this.ySize);
+        this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, xSize, ySize);
     }
 
-    protected void drawBulb(int x, int y, boolean isOn)
-    {
+    protected void drawBulb(int x, int y, boolean isOn) {
         this.mc.renderEngine.bindTexture(this.baseTexture);
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        if (isOn)
-        {
-            this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 161, 0, 6, 6);
+        if (isOn) {
+            this.drawTexturedModalRect(containerWidth + x, containerHeight + y, 161, 0, 6, 6);
 
-        }
-        else
-        {
-            this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 161, 4, 6, 6);
+        } else {
+            this.drawTexturedModalRect(containerWidth + x, containerHeight + y, 161, 4, 6, 6);
         }
     }
 
@@ -136,8 +129,8 @@ public class GuiContainerBase extends GuiContainer {
     }
 
     protected void drawItemStack(ItemStack itemStack, int x, int y) {
-        x += 1;
-        y += 1;
+        x ++;
+        y ++;
         GL11.glTranslatef(0.0F, 0.0F, 32.0F);
 
         // drawTexturedModelRectFromIcon

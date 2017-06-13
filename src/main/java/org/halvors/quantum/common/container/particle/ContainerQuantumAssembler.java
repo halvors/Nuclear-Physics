@@ -32,20 +32,17 @@ public class ContainerQuantumAssembler extends Container {
             addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 206));
         }
 
-        tileEntity.getPlayersUsing().add(inventoryPlayer.player);
         tileEntity.openChest();
     }
 
     @Override
     public void onContainerClosed(EntityPlayer player) {
         super.onContainerClosed(player);
-
-        tileEntity.getPlayersUsing().remove(player);
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
-        return tileEntity.isUseableByPlayer(par1EntityPlayer);
+    public boolean canInteractWith(EntityPlayer player) {
+        return tileEntity.isUseableByPlayer(player);
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */

@@ -26,7 +26,7 @@ public class GuiCentrifuge extends GuiContainerBase {
 
         if (tile.timer > 0) {
             displayText = "Processing";
-        } else if (tile.canUse()) {
+        } else if (tile.canProcess()) {
             displayText = "Ready";
         } else {
             displayText = "Idle";

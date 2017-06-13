@@ -1,6 +1,5 @@
 package org.halvors.quantum.lib.utility;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -8,22 +7,25 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
-import org.halvors.quantum.lib.type.Pair;
 import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /** Fluid interactions.
  *
  * @author DarkCow, Calclavia */
 public class FluidUtility {
+    public static int getAmount(FluidStack fluid) {
+        if (fluid != null) {
+            return fluid.amount;
+        }
+
+        return 0;
+    }
+
+    /*
     public static List<Pair<Integer, Integer>> replacableBlockMeta = new ArrayList<>();
     public static List<Block> replacableBlocks = new ArrayList<>();
     public static List<Block> nonBlockDropList = new ArrayList<>();
 
-
-    /*
     static
     {
 

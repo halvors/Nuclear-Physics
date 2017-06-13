@@ -2,14 +2,10 @@ package org.halvors.quantum.common.tile.machine;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
@@ -18,19 +14,19 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorHelper;
 import org.halvors.quantum.lib.IRotatable;
-import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
 
 import java.util.List;
 
-public class TileCentrifuge extends TileElectricalInventory implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
+public class TileCentrifuge extends TileElectricInventory implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
     public static final int tickTime = 20 * 60;
-    public static final long energy = 500000L;
+    public static final long energy = 500000;
     public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), 5000);
     public int timer = 0;
-    public float rotation = 0.0F;
+    public float rotation = 0;
 
     public TileCentrifuge() {
         energyStorage = new EnergyStorage((int) energy * 2);
@@ -42,11 +38,11 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
         super.updateEntity();
 
         if (timer > 0) {
-            rotation += 0.45F;
+            rotation += 0.45;
         }
 
         if (!worldObj.isRemote) {
-            if (ticks % 20L == 0L) {
+            if (worldObj.getWorldTime() % 20 == 0) {
                 for (int i = 0; i < 6; i++) {
                     ForgeDirection direction = ForgeDirection.getOrientation(i);
                     TileEntity tileEntity = VectorHelper.getTileEntityFromSide(worldObj, new Vector3(this), direction);
@@ -69,10 +65,11 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
                 }
             }
 
-            if (canUse()) {
-                discharge(getStackInSlot(0));
+            if (canProcess()) {
+                // TODO: Implement this.
+                //discharge(getStackInSlot(0));
 
-                if (energyStorage.extractEnergy((int) 500000L, true) >= 500000L) {
+                if (energyStorage.extractEnergy((int) energy, true) >= energy) {
                     if (timer == 0) {
                         timer = 1200;
                     }
@@ -81,27 +78,21 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
                         timer -= 1;
 
                         if (this.timer < 1) {
-                            yong();
+                            process();
                             timer = 0;
                         }
                     } else {
                         timer = 0;
                     }
 
-                    energyStorage.extractEnergy((int) 500000L, false);
+                    energyStorage.extractEnergy((int) energy, false);
                 }
             } else {
                 timer = 0;
             }
 
-            if (ticks % 10L == 0L) {
+            if (worldObj.getWorldTime() % 10 == 0) {
                 NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
-
-                /*
-                for (EntityPlayer player : getPlayersUsing()) {
-                    NetworkHandler.sendTo((IMessage) getDescriptionPacket(), (EntityPlayerMP) player);
-                }
-                */
             }
         }
     }
@@ -122,7 +113,7 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
 
-        nbt.setInteger("smeltingTicks", this.timer);
+        nbt.setInteger("smeltingTicks", timer);
 
         if (gasTank.getFluid() != null) {
             NBTTagCompound compound = new NBTTagCompound();
@@ -164,24 +155,6 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public Packet getDescriptionPacket() {
-        //TODO: Fix this.
-        //return ResonantInduction.PACKET_TILE.getPacket(this, new Object[] { timer, Atomic.getFluidAmount(this.gasTank.getFluid()) });
-        return null;
-    }
-
-    /* TODO: Fix this.
-    public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra) {
-        try {
-            this.timer = data.readInt();
-            this.gasTank.setFluid(new FluidStack(Atomic.FLUIDSTACK_URANIUM_HEXAFLOURIDE.fluidID, data.readInt()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    */
-
-    @Override
     public boolean isItemValidForSlot(int index, ItemStack itemStack) {
         switch (index) {
             case 0:
@@ -200,9 +173,7 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
     @Override
     public void openChest() {
         if (!worldObj.isRemote) {
-            for (EntityPlayer player : getPlayersUsing()) {
-                NetworkHandler.sendTo((IMessage) getDescriptionPacket(), (EntityPlayerMP) player);
-            }
+            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
         }
     }
 
@@ -219,15 +190,14 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
     }
 
     @Override
-    public boolean canInsertItem(int slotID, ItemStack itemStack, int side) {
-        return (slotID == 1) && (isItemValidForSlot(slotID, itemStack));
+    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+        return slot == 1 && isItemValidForSlot(slot, itemStack);
     }
 
     @Override
-    public boolean canExtractItem(int slotID, ItemStack itemstack, int j) {
-        return (slotID == 2) || (slotID == 3);
+    public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
+        return slot == 2 || slot == 3;
     }
-
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
@@ -265,7 +235,7 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
 
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        if (canUse()) {
+        if (canProcess()) {
             return super.receiveEnergy(from, maxReceive, simulate);
         }
 
@@ -279,7 +249,7 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public boolean canUse() {
+    public boolean canProcess() {
         if (gasTank.getFluid() != null) {
             if (gasTank.getFluid().amount >= ConfigurationManager.General.uraniumHexaflourideRatio) {
                 return isItemValidForSlot(2, new ItemStack(Quantum.itemUranium)) && isItemValidForSlot(3, new ItemStack(Quantum.itemUranium, 1, 1));
@@ -289,11 +259,11 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
         return false;
     }
 
-    public void yong() {
-        if (canUse()) {
+    public void process() {
+        if (canProcess()) {
             gasTank.drain(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 
-            if (worldObj.rand.nextFloat() > 0.6D) {
+            if (worldObj.rand.nextFloat() > 0.6) {
                 incrStackSize(2, new ItemStack(Quantum.itemUranium));
             } else {
                 incrStackSize(3, new ItemStack(Quantum.itemUranium, 1, 1));
@@ -302,4 +272,13 @@ public class TileCentrifuge extends TileElectricalInventory implements ITileNetw
     }
 
 
+    @Override
+    public ForgeDirection getDirection() {
+        return ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+    }
+
+    @Override
+    public void setDirection(ForgeDirection direction) {
+        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
+    }
 }

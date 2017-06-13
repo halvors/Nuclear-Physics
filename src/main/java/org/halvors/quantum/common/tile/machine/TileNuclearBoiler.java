@@ -14,12 +14,12 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.lib.IRotatable;
-import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
 
 import java.util.List;
 
-public class TileNuclearBoiler extends TileElectricalInventory implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
+public class TileNuclearBoiler extends TileElectricInventory implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
     public final int tickTime = 20 * 15;
     public final static long energy = 50000;
 
@@ -65,8 +65,9 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
                 }
             }
 
-            if (nengYong()) {
-                discharge(getStackInSlot(0));
+            if (canProcess()) {
+                // TODO: Implement this.
+                //discharge(getStackInSlot(0));
 
                 if (energyStorage.extractEnergy((int) energy, false) >= energy) {
                     if (timer == 0) {
@@ -77,7 +78,7 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
                         timer--;
 
                         if (timer < 1) {
-                            yong();
+                            process();
                             timer = 0;
                         }
                     } else {
@@ -90,7 +91,7 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
                 timer = 0;
             }
 
-            if (ticks % 10 == 0) {
+            if (worldObj.getWorldTime() % 10 == 0) {
                 if (!worldObj.isRemote) {
                     NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
                 }
@@ -214,24 +215,26 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
 
     /** Inventory */
     @Override
-    public boolean isItemValidForSlot(int slotID, ItemStack itemStack) {
-        if (slotID == 1) {
-            return Quantum.itemWaterCell == itemStack.getItem();
-        } else if (slotID == 3) {
-            return Quantum.itemYellowCake == itemStack.getItem();
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        switch (slot) {
+            case 1:
+                return Quantum.itemWaterCell == itemStack.getItem();
+
+            case 3:
+                return Quantum.itemYellowCake == itemStack.getItem();
         }
 
         return false;
     }
 
     @Override
-    public int[] getSlotsForFace(int slotIn) {
-        return slotIn == 0 ? new int[] { 2 } : new int[] { 1, 3 };
+    public int[] getSlotsForFace(int slot) {
+        return slot == 0 ? new int[] { 2 } : new int[] { 1, 3 };
     }
 
     @Override
-    public boolean canInsertItem(int slotID, ItemStack itemStack, int side) {
-        return isItemValidForSlot(slotID, itemStack);
+    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+        return isItemValidForSlot(slot, itemStack);
     }
 
     @Override
@@ -241,7 +244,7 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
 
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        if (nengYong()) {
+        if (canProcess()) {
             return super.receiveEnergy(from, maxReceive, simulate);
         }
 
@@ -254,9 +257,9 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
     }
 
     // Check all conditions and see if we can start smelting
-    public boolean nengYong() {
-        if (this.waterTank.getFluid() != null) {
-            if (this.waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME) {
+    public boolean canProcess() {
+        if (waterTank.getFluid() != null) {
+            if (waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME) {
                 if (getStackInSlot(3) != null) {
                     if (Quantum.itemYellowCake == getStackInSlot(3).getItem() || new ItemBlock(Quantum.blockUraniumOre) == getStackInSlot(3).getItem()) {
                         // TODO: Fix this.
@@ -272,13 +275,23 @@ public class TileNuclearBoiler extends TileElectricalInventory implements ITileN
     }
 
     /** Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack. */
-    public void yong() {
-        if (this.nengYong()) {
-            this.waterTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+    public void process() {
+        if (canProcess()) {
+            waterTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
             FluidStack liquid = Quantum.fluidStackUraniumHexaflouride.copy();
             liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
-            this.gasTank.fill(liquid, true);
-            this.decrStackSize(3, 1);
+            gasTank.fill(liquid, true);
+            decrStackSize(3, 1);
         }
+    }
+
+    @Override
+    public ForgeDirection getDirection() {
+        return ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+    }
+
+    @Override
+    public void setDirection(ForgeDirection direction) {
+        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
 }

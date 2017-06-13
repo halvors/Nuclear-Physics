@@ -4,7 +4,6 @@ import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -14,11 +13,11 @@ import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
+import org.halvors.quantum.common.tile.TileElectricInventory;
 
 import java.util.List;
 
-public class TileQuantumAssembler extends TileElectricalInventory implements ITileNetworkable, IEnergyReceiver {
+public class TileQuantumAssembler extends TileElectricInventory implements ITileNetworkable, IEnergyReceiver {
     private long energy = 10000000000000L;
     public int tickTime = 20 * 120;
     public int time = 0;
@@ -64,17 +63,11 @@ public class TileQuantumAssembler extends TileElectricalInventory implements ITi
                 time = 0;
             }
 
-            if (ticks % 10 == 0) {
+            if (worldObj.getWorldTime() % 10 == 0) {
                 NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
-
-                /*
-                for (EntityPlayer player : getPlayersUsing()) {
-                    //PacketDispatcher.sendPacketToPlayer(getDescriptionPacket(), player);
-                }
-                */
             }
         } else if (time > 0) {
-            if (ticks % 600 == 0) {
+            if (worldObj.getWorldTime() % 600 == 0) {
                 worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.assembler", 0.7F, 1F);
             }
 
@@ -164,10 +157,7 @@ public class TileQuantumAssembler extends TileElectricalInventory implements ITi
     @Override
     public void openChest() {
         if (!worldObj.isRemote) {
-            for (EntityPlayer player : getPlayersUsing()) {
-                // TODO: Fix this.
-                //PacketDispatcher.sendPacketToPlayer(getDescriptionPacket(), player)
-            }
+            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
         }
     }
 
