@@ -218,7 +218,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
 
         // Uranium to be extracted into yellowcake.
         if (slot == 3) {
-            return itemStack.getItem() == Quantum.itemCell || itemStack.getItem() == new ItemBlock(Quantum.blockUraniumOre) || itemStack.getItem() == Quantum.itemDeuteriumCell;
+            return itemStack.getItem() == Quantum.itemCell || OreDictionaryUtility.isItemStackUraniumOre(itemStack) || itemStack.getItem() == Quantum.itemDeuteriumCell;
         }
 
         return false;
@@ -313,7 +313,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
             int waterUsage = ConfigurationManager.General.waterPerDeutermium;
             FluidStack drain = inputTank.drain(waterUsage * extractSpeed, false);
 
-            if (drain != null && drain.amount >= 1 && drain.getFluid() == FluidRegistry.WATER) {
+            if (drain != null && drain.amount >= 1 && drain.getFluid().getID() == FluidRegistry.WATER.getID()) {
                 if (outputTank.fill(new FluidStack(Quantum.fluidStackDeuterium, extractSpeed), true) >= extractSpeed) {
                     inputTank.drain(waterUsage * extractSpeed, true);
 
@@ -330,7 +330,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
             int deutermiumUsage = ConfigurationManager.General.deutermiumPerTritium;
             FluidStack drain = inputTank.drain(deutermiumUsage * extractSpeed, false);
 
-            if (drain != null && drain.amount >= 1 && drain.getFluid() == Quantum.fluidStackDeuterium.getFluid()) {
+            if (drain != null && drain.amount >= 1 && drain.getFluid().getID() == Quantum.fluidStackDeuterium.getFluid().getID()) {
                 if (outputTank.fill(new FluidStack(Quantum.fluidStackTritium, extractSpeed), true) >= extractSpeed) {
                     inputTank.drain(deutermiumUsage * extractSpeed, true);
 

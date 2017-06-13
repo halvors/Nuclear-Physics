@@ -3,17 +3,14 @@ package org.halvors.quantum.lib.utility;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
-/**
- * Created by halvors on 13.06.2017.
- */
 public class OreDictionaryUtility {
     public static boolean isItemStackOreDictionaryCompatible(ItemStack itemStack, String... names) {
         if (itemStack != null && names != null && names.length > 0) {
-            String name = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
-
-            for (String compareName : names) {
-                if (name.equals(compareName)) {
-                    return true;
+            for (String oreName : OreDictionary.getOreNames()) {
+                for (String compareOreName : names) {
+                    if (oreName.equals(compareOreName)) {
+                        return true;
+                    }
                 }
             }
         }

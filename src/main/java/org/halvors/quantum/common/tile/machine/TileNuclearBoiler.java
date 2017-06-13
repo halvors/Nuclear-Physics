@@ -16,10 +16,12 @@ import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.lib.IRotatable;
+import org.halvors.quantum.lib.utility.FluidUtility;
+import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
 import java.util.List;
 
-public class TileNuclearBoiler extends TileElectricInventory implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
+public class TileNuclearBoiler extends TileElectricInventory implements ITileNetworkable, IRotatable, IEnergyReceiver, IFluidHandler, ISidedInventory {
     public final int tickTime = 20 * 15;
     public final static long energy = 50000;
 
@@ -40,7 +42,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
         super.updateEntity();
 
         if (timer > 0) {
-            rotation += 0.1F;
+            rotation += 0.1;
         }
 
         if (!worldObj.isRemote) {
@@ -170,14 +172,30 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
 
         objects.add(timer);
 
-        return null;
+        return objects;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        if (canProcess()) {
+            return super.receiveEnergy(from, maxReceive, simulate);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+        return 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        if (Quantum.fluidStackWater == resource) {
+        if (resource.isFluidEqual(Quantum.fluidStackWater)) {
             return waterTank.fill(resource, doFill);
         }
 
@@ -186,7 +204,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
 
     @Override
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        if (Quantum.fluidStackUraniumHexaflouride == resource) {
+        if (resource.isFluidEqual(Quantum.fluidStackUraniumHexaflouride)) {
             return gasTank.drain(resource.amount, doDrain);
         }
 
@@ -200,28 +218,29 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return Quantum.fluidStackWater.getFluid() == fluid;
+        return fluid.getID() == Quantum.fluidStackWater.getFluid().getID();
     }
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return Quantum.fluidUraniumHexaflouride == fluid;
+        return fluid.getID() == Quantum.fluidUraniumHexaflouride.getID();
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-        return new FluidTankInfo[] { this.waterTank.getInfo(), this.gasTank.getInfo() };
+        return new FluidTankInfo[] { waterTank.getInfo(), gasTank.getInfo() };
     }
 
-    /** Inventory */
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
         switch (slot) {
             case 1:
-                return Quantum.itemWaterCell == itemStack.getItem();
+                return itemStack.getItem() == Quantum.itemWaterCell;
 
             case 3:
-                return Quantum.itemYellowCake == itemStack.getItem();
+                return itemStack.getItem() == Quantum.itemYellowCake;
         }
 
         return false;
@@ -238,34 +257,21 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack itemstack, int j) {
+    public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
         return slot == 2;
     }
 
-    @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-        if (canProcess()) {
-            return super.receiveEnergy(from, maxReceive, simulate);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-        return 0;
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Check all conditions and see if we can start smelting
     public boolean canProcess() {
         if (waterTank.getFluid() != null) {
             if (waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME) {
                 if (getStackInSlot(3) != null) {
-                    if (Quantum.itemYellowCake == getStackInSlot(3).getItem() || new ItemBlock(Quantum.blockUraniumOre) == getStackInSlot(3).getItem()) {
-                        // TODO: Fix this.
-                        //if (Atomic.getFluidAmount(gasTank.getFluid()) < gasTank.getCapacity()) {
-                        //    return true;
-                        //}
+                    if (Quantum.itemYellowCake == getStackInSlot(3).getItem() || OreDictionaryUtility.isItemStackUraniumOre(getStackInSlot(3))) {
+                        if (FluidUtility.getAmount(gasTank.getFluid()) < gasTank.getCapacity()) {
+                            return true;
+                        }
                     }
                 }
             }

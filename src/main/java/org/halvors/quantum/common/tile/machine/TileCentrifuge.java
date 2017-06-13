@@ -24,7 +24,7 @@ import java.util.List;
 public class TileCentrifuge extends TileElectricInventory implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
     public static final int tickTime = 20 * 60;
     public static final long energy = 500000;
-    public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), 5000);
+    public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5);
     public int timer = 0;
     public float rotation = 0;
 
@@ -184,9 +184,7 @@ public class TileCentrifuge extends TileElectricInventory implements ITileNetwor
 
     @Override
     public int[] getSlotsForFace(int slotIn) {
-        // TODO: Fix this.
-        //return new int[] { 2, (slotIn == 1 ? new int[] { 0, 1 } : 3) };
-        return new int[] {};
+        return slotIn == 1 ? new int[] { 0, 1 } : new int[] { 2, 3 };
     }
 
     @Override
@@ -201,7 +199,7 @@ public class TileCentrifuge extends TileElectricInventory implements ITileNetwor
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        if (Quantum.fluidStackUraniumHexaflouride.isFluidEqual(resource)) {
+        if (resource.isFluidEqual(Quantum.fluidStackUraniumHexaflouride)) {
             return gasTank.fill(resource, doFill);
         }
 
@@ -220,7 +218,7 @@ public class TileCentrifuge extends TileElectricInventory implements ITileNetwor
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return Quantum.fluidUraniumHexaflouride == fluid;
+        return fluid.getID() == Quantum.fluidUraniumHexaflouride.getID();
     }
 
     @Override

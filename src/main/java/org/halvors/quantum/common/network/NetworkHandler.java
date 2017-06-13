@@ -122,7 +122,6 @@ public class NetworkHandler {
 
     public static void writeObject(Object object, ByteBuf dataStream) {
         try {
-            // Language types.
             if (object instanceof Boolean) {
                 dataStream.writeBoolean((Boolean) object);
             } else if (object instanceof Byte) {
