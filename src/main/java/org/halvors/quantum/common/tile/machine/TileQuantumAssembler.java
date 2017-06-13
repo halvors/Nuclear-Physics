@@ -1,9 +1,8 @@
-package org.halvors.quantum.common.tile.particle;
+package org.halvors.quantum.common.tile.machine;
 
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,12 +14,11 @@ import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.prefab.tile.TileElectricalInventory;
 
 import java.util.List;
 
-public class TileQuantumAssembler extends TileElectricalInventory implements ITileNetworkable, IEnergyReceiver { // IPacketReceiver IVoltageInput
+public class TileQuantumAssembler extends TileElectricalInventory implements ITileNetworkable, IEnergyReceiver {
     private long energyCapacity = 10000000000000L;
     public int maxTime = 20 * 120;
     public int time = 0;
@@ -34,28 +32,8 @@ public class TileQuantumAssembler extends TileElectricalInventory implements ITi
     public EntityItem entityItem = null;
 
     public TileQuantumAssembler() {
-        super(Material.iron);
-
         energyStorage = new EnergyStorage((int) energyCapacity);
         maxSlots = 6 + 1;
-        isOpaqueCube = false;
-        normalRender = false;
-        customItemRender = true;
-        textureName = "machine";
-    }
-
-    /**
-     * Called when the block is right clicked by the player
-     */
-    @Override
-    public boolean use(EntityPlayer player, int side, Vector3 hit) {
-        if (!world().isRemote) {
-            player.openGui(Quantum.getInstance(), 0, getWorld(), xCoord, yCoord, zCoord);
-
-            return true;
-        }
-
-        return true;
     }
 
     @Override
@@ -159,15 +137,6 @@ public class TileQuantumAssembler extends TileElectricalInventory implements ITi
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean isItemValidForSlot(int slotId, ItemStack itemStack) {
-        if (slotId == 6) {
-            return true;
-        }
-
-        return itemStack.getItem() == Quantum.itemDarkMatter;
-    }
-
-    @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
         if (canProcess()) {
             return super.receiveEnergy(from, maxReceive, simulate);
@@ -179,6 +148,17 @@ public class TileQuantumAssembler extends TileElectricalInventory implements ITi
     @Override
     public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
         return 0;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean isItemValidForSlot(int slotId, ItemStack itemStack) {
+        if (slotId == 6) {
+            return true;
+        }
+
+        return itemStack.getItem() == Quantum.itemDarkMatter;
     }
 
     @Override

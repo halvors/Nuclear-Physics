@@ -6,7 +6,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.tile.particle.TileQuantumAssembler;
+import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 
 public class ContainerQuantumAssembler extends Container {
     private TileQuantumAssembler tileEntity;

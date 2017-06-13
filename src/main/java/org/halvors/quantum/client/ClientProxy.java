@@ -20,7 +20,7 @@ import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
-import org.halvors.quantum.common.tile.particle.TileQuantumAssembler;
+import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.transform.vector.Vector3;
 

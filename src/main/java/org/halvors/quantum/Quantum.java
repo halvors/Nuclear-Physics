@@ -53,6 +53,7 @@ import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.machine.BlockCentrifuge;
 import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
 import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
+import org.halvors.quantum.common.block.machine.BlockQuantumAssembler;
 import org.halvors.quantum.common.block.particle.BlockAccelerator;
 import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
 import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
@@ -85,7 +86,7 @@ import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.particle.FulminationHandler;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
-import org.halvors.quantum.common.tile.particle.TileQuantumAssembler;
+import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
@@ -167,7 +168,7 @@ public class Quantum implements IUpdatableMod {
 	public static Block blockThermometer;
 	public static Block blockUraniumOre;
 	public static Block blockPlasma;
-	public static TileBlock blockQuantumAssembler;
+	public static Block blockQuantumAssembler;
 	public static Block blockRadioactiveGrass;
 	public static Block blockReactorCell;
 	public static BlockFluidClassic blockToxicWaste;
@@ -313,10 +314,7 @@ public class Quantum implements IUpdatableMod {
 		blockUraniumOre = new BlockUraniumOre();
 		blockPlasma = new BlockPlasma();
 		fluidPlasma.setBlock(blockPlasma);
-
-		blockQuantumAssembler = new TileQuantumAssembler();
-		blockQuantumAssembler.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockQuantumAssembler);
-
+		blockQuantumAssembler = new BlockQuantumAssembler();
 		blockRadioactiveGrass = new BlockRadioactiveGrass();
 		blockReactorCell = new BlockReactorCell();
 		blockToxicWaste = new BlockToxicWaste();
@@ -337,7 +335,7 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockThermometer, "blockThermometer");
 		GameRegistry.registerBlock(blockUraniumOre, "blockUraniumOre");
 		GameRegistry.registerBlock(blockPlasma, "blockPlasma");
-		GameRegistry.registerBlock(blockQuantumAssembler.block, "blockQuantumAssembler");
+		GameRegistry.registerBlock(blockQuantumAssembler, "blockQuantumAssembler");
 		GameRegistry.registerBlock(blockRadioactiveGrass, "blockRadioactiveGrass");
 		GameRegistry.registerBlock(blockReactorCell, "blockReactorCell");
 		GameRegistry.registerBlock(blockToxicWaste, "blockToxicWaste");
