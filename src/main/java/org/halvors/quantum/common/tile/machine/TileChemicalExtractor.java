@@ -205,6 +205,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
         if (slot == 0) {
             // TODO: Fix this.
             //return CompatibilityModule.isHandler(itemStack.getItem());
+            return true;
         }
 
         if (slot == 1) {

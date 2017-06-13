@@ -32,6 +32,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.*;
+import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -83,10 +84,10 @@ import org.halvors.quantum.common.schematic.SchematicFusionReactor;
 import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
+import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.tile.particle.FulminationHandler;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
-import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
@@ -243,10 +244,29 @@ public class Quantum implements IUpdatableMod {
 		MinecraftForge.EVENT_BUS.register(itemAntimatter);
 		MinecraftForge.EVENT_BUS.register(FulminationHandler.INSTANCE);
 
+		// Adde schematics to the creative builder.
 		BlockCreativeBuilder.registerSchematic(new SchematicAccelerator());
 		BlockCreativeBuilder.registerSchematic(new SchematicBreedingReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFissionReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFusionReactor());
+
+		/** Cell registry. */
+		if (ConfigurationManager.General.allowOreDictionaryCompatibility) {
+			OreDictionary.registerOre("ingotUranium", itemUranium);
+			OreDictionary.registerOre("dustUranium", itemYellowCake);
+		}
+
+		OreDictionary.registerOre("oreUranium", new ItemStack(blockUraniumOre));
+		OreDictionary.registerOre("breederUranium", new ItemStack(itemUranium, 1, 1));
+		OreDictionary.registerOre("blockRadioactiveGrass", blockRadioactiveGrass);
+		OreDictionary.registerOre("cellEmpty", itemCell);
+		OreDictionary.registerOre("cellUranium", itemFissileFuel);
+		OreDictionary.registerOre("cellTritium", itemTritiumCell);
+		OreDictionary.registerOre("cellDeuterium", itemDeuteriumCell);
+		OreDictionary.registerOre("cellWater", itemWaterCell);
+		OreDictionary.registerOre("darkmatter", itemDarkMatter);
+		OreDictionary.registerOre("antimatterMilligram", new ItemStack(itemAntimatter, 1, 0));
+		OreDictionary.registerOre("antimatterGram", new ItemStack(itemAntimatter, 1, 1));
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ForgeChunkManager.LoadingCallback() {
 			@Override
