@@ -10,19 +10,20 @@ import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.lib.gui.ContainerBase;
 
 public class ContainerAccelerator extends ContainerBase {
-    private TileAccelerator tileEntity;
+    private TileAccelerator tile;
 
-    public ContainerAccelerator(InventoryPlayer inventoryPlayer, TileAccelerator tileEntity) {
-        super(tileEntity);
+    public ContainerAccelerator(InventoryPlayer inventoryPlayer, TileAccelerator tile) {
+        super(tile);
 
-        this.tileEntity = tileEntity;
+        this.tile = tile;
 
         // Inputs
-        addSlotToContainer(new Slot(tileEntity, 0, 132, 26));
-        addSlotToContainer(new Slot(tileEntity, 1, 132, 51));
+        addSlotToContainer(new Slot(tile, 0, 132, 26));
+        addSlotToContainer(new Slot(tile, 1, 132, 51));
+
         // Output
-        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tileEntity, 2, 132, 75));
-        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tileEntity, 3, 106, 75));
+        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 2, 132, 75));
+        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 3, 106, 75));
         addPlayerInventory(inventoryPlayer.player);
     }
 

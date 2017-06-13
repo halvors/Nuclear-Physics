@@ -9,44 +9,40 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.lib.gui.ContainerBase;
 import org.halvors.quantum.lib.gui.slot.SlotEnergyItem;
+import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
 public class ContainerCentrifuge extends ContainerBase {
     private static final int slotCount = 4;
-    private TileCentrifuge tileEntity;
+    private TileCentrifuge tile;
 
-    public ContainerCentrifuge(InventoryPlayer inventoryPlayer, TileCentrifuge tileEntity) {
-        super(tileEntity);
+    public ContainerCentrifuge(InventoryPlayer inventoryPlayer, TileCentrifuge tile) {
+        super(tile);
 
-        this.tileEntity = tileEntity;
+        this.tile = tile;
 
         // Electric Item
-        addSlotToContainer(new SlotEnergyItem(tileEntity, 0, 131, 26));
+        addSlotToContainer(new SlotEnergyItem(tile, 0, 131, 26));
 
         // Uranium Gas Tank
-        addSlotToContainer(new Slot(tileEntity, 1, 25, 50));
+        addSlotToContainer(new Slot(tile, 1, 25, 50));
 
         // Output Uranium 235
-        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tileEntity, 2, 81, 26));
+        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 2, 81, 26));
 
         // Output Uranium 238
-        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tileEntity, 3, 101, 26));
+        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 3, 101, 26));
         addPlayerInventory(inventoryPlayer.player);
-        tileEntity.openChest();
+        tile.openChest();
     }
-
-    @Override
-    public void onContainerClosed(EntityPlayer entityplayer) {
-        super.onContainerClosed(entityplayer);
-    }
-
+    
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return tileEntity.isUseableByPlayer(player);
+        return tile.isUseableByPlayer(player);
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int slotId) {
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {
         ItemStack copyStack = null;
         Slot slot = (Slot) inventorySlots.get(slotId);
 
@@ -59,7 +55,7 @@ public class ContainerCentrifuge extends ContainerBase {
                     if (!mergeItemStack(itemStack, 0, 1, false)) {
                         return null;
                     }
-                } else if (itemStack == new ItemStack(Quantum.blockUraniumOre)) {
+                } else if (OreDictionaryUtility.isItemStackUraniumOre(itemStack)) {
                     if (!mergeItemStack(itemStack, 1, 2, false)) {
                         return null;
                     }
@@ -88,7 +84,7 @@ public class ContainerCentrifuge extends ContainerBase {
                 return null;
             }
 
-            slot.onPickupFromSlot(par1EntityPlayer, itemStack);
+            slot.onPickupFromSlot(player, itemStack);
         }
 
         return copyStack;

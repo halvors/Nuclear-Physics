@@ -1,6 +1,7 @@
 package org.halvors.quantum.client.gui.machine;
 
-
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
 import org.halvors.quantum.common.container.machine.ContainerChemicalExtractor;
@@ -8,6 +9,7 @@ import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.lib.gui.GuiContainerBase;
 import universalelectricity.api.energy.UnitDisplay;
 
+@SideOnly(Side.CLIENT)
 public class GuiChemicalExtractor extends GuiContainerBase {
     private TileChemicalExtractor tile;
 

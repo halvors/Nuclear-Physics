@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.container.particle;
+package org.halvors.quantum.common.container.machine;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -9,18 +9,18 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 
 public class ContainerQuantumAssembler extends Container {
-    private TileQuantumAssembler tileEntity;
+    private TileQuantumAssembler tile;
 
-    public ContainerQuantumAssembler(InventoryPlayer inventoryPlayer, TileQuantumAssembler tileEntity) {
-        this.tileEntity = tileEntity;
+    public ContainerQuantumAssembler(InventoryPlayer inventoryPlayer, TileQuantumAssembler tile) {
+        this.tile = tile;
 
-        addSlotToContainer(new Slot(tileEntity, 0, 80, 40));
-        addSlotToContainer(new Slot(tileEntity, 1, 53, 56));
-        addSlotToContainer(new Slot(tileEntity, 2, 107, 56));
-        addSlotToContainer(new Slot(tileEntity, 3, 53, 88));
-        addSlotToContainer(new Slot(tileEntity, 4, 107, 88));
-        addSlotToContainer(new Slot(tileEntity, 5, 80, 103));
-        addSlotToContainer(new Slot(tileEntity, 6, 80, 72));
+        addSlotToContainer(new Slot(tile, 0, 80, 40));
+        addSlotToContainer(new Slot(tile, 1, 53, 56));
+        addSlotToContainer(new Slot(tile, 2, 107, 56));
+        addSlotToContainer(new Slot(tile, 3, 53, 88));
+        addSlotToContainer(new Slot(tile, 4, 107, 88));
+        addSlotToContainer(new Slot(tile, 5, 80, 103));
+        addSlotToContainer(new Slot(tile, 6, 80, 72));
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
@@ -32,17 +32,12 @@ public class ContainerQuantumAssembler extends Container {
             addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 206));
         }
 
-        tileEntity.openChest();
-    }
-
-    @Override
-    public void onContainerClosed(EntityPlayer player) {
-        super.onContainerClosed(player);
+        tile.openChest();
     }
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return tileEntity.isUseableByPlayer(player);
+        return tile.isUseableByPlayer(player);
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */

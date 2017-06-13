@@ -11,10 +11,10 @@ import org.halvors.quantum.lib.gui.ContainerBase;
 import org.halvors.quantum.lib.gui.slot.SlotSpecific;
 
 public class ContainerReactorCell extends ContainerBase {
-    public ContainerReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tileEntity) {
-        super(tileEntity);
+    public ContainerReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {
+        super(tile);
 
-        addSlotToContainer(new SlotSpecific(tileEntity, 0, 79, 17, ItemFissileFuel.class, ItemBreederFuel.class));
+        addSlotToContainer(new SlotSpecific(tile, 0, 79, 17, ItemFissileFuel.class, ItemBreederFuel.class));
         addPlayerInventory(inventoryPlayer.player);
     }
 

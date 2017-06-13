@@ -11,7 +11,7 @@ import org.halvors.quantum.client.gui.machine.GuiCentrifuge;
 import org.halvors.quantum.client.gui.machine.GuiChemicalExtractor;
 import org.halvors.quantum.client.gui.machine.GuiNuclearBoiler;
 import org.halvors.quantum.client.gui.particle.GuiAccelerator;
-import org.halvors.quantum.client.gui.particle.GuiQuantumAssembler;
+import org.halvors.quantum.client.gui.machine.GuiQuantumAssembler;
 import org.halvors.quantum.client.gui.reactor.fission.GuiReactorCell;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;

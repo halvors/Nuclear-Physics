@@ -38,7 +38,7 @@ import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.client.render.machine.RenderCentrifuge;
 import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
 import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
-import org.halvors.quantum.client.render.particle.RenderQuantumAssembler;
+import org.halvors.quantum.client.render.machine.RenderQuantumAssembler;
 import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
 import org.halvors.quantum.client.render.reactor.fission.RenderReactorCell;
 import org.halvors.quantum.client.render.reactor.fission.RenderThermometer;
