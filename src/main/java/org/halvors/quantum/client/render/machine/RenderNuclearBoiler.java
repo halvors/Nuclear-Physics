@@ -24,19 +24,29 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer {
 
             GL11.glPushMatrix();
             GL11.glTranslated(x + 0.5F, y, z + 0.5F);
-            GL11.glRotatef(90, 0, 1, 0);
+            GL11.glRotated(90, 0, 1, 0);
 
             if (tileNuclearBoiler.getWorld() != null) {
                 RenderUtility.rotateBlockBasedOnDirection(tileNuclearBoiler.getDirection());
             }
 
             RenderUtility.bind(texture);
+            
+            GL11.glPushMatrix();
+            GL11.glTranslated(-0.187042F, 0, 0.312958F);
+            GL11.glRotated(Math.toDegrees(tileNuclearBoiler.rotation), 0, 1, 0);
+            GL11.glTranslated(0.187042F, 0, -0.312958F);
+            model.renderOnly("FuelBarSupport1Rotates", "FuelBar1Rotates");
+            GL11.glPopMatrix();
 
-            model.renderOnly("FUEL BAR SUPPORT 1 ROTATES", "FUEL BAR 1 ROTATES");
-            model.renderOnly("FUEL BAR SUPPORT 2 ROTATES", "FUEL BAR 2 ROTATES");
-            //model.renderOnlyAroundPivot(Math.toDegrees(tileNuclearBoiler.rotation), 0, 1, 0, "FUEL BAR SUPPORT 1 ROTATES", "FUEL BAR 1 ROTATES");
-            //model.renderOnlyAroundPivot(-Math.toDegrees(tileNuclearBoiler.rotation), 0, 1, 0, "FUEL BAR SUPPORT 2 ROTATES", "FUEL BAR 2 ROTATES");
-            model.renderAllExcept("FUEL BAR SUPPORT 1 ROTATES", "FUEL BAR SUPPORT 2 ROTATES", "FUEL BAR 1 ROTATES", "FUEL BAR 2 ROTATES");
+            GL11.glPushMatrix();
+            GL11.glTranslated(0.187042F, 0, 0.312958F);
+            GL11.glRotated(-Math.toDegrees(tileNuclearBoiler.rotation), 0, 1, 0);
+            GL11.glTranslated(-0.187042F, 0, -0.312958F);
+            model.renderOnly("FuelBarSupport2Rotates", "FuelBar2Rotates");
+            GL11.glPopMatrix();
+
+            model.renderAllExcept("FuelBarSupport1Rotates", "FuelBarSupport2Rotates", "FuelBar1Rotates", "FuelBar2Rotates");
             GL11.glPopMatrix();
         }
     }

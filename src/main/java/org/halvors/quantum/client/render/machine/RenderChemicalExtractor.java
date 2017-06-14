@@ -33,9 +33,9 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer {
             RenderUtility.bind(texture);
 
             GL11.glPushMatrix();
-            GL11.glTranslatef(-0.1875F, 0.4375F, 0);
+            GL11.glTranslated(-0.1875F, 0.4375F, 0);
             GL11.glRotated(Math.toDegrees(tileChemicalExtractor.rotation), 0, 0, 1);
-            GL11.glTranslatef(0.1875F, -0.4375F, 0);
+            GL11.glTranslated(0.1875F, -0.4375F, 0);
             model.renderOnly("MainChamberRotates", "Magnet1Rotates", "Magnet2Rotates");
             GL11.glPopMatrix();
 
