@@ -2,6 +2,7 @@ package org.halvors.quantum.client.render.machine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -32,16 +33,13 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer {
             RenderUtility.bind(texture);
 
             GL11.glPushMatrix();
-
-            // TODO: Rotate chambers.
-            //GL11.glRotatef((float) Math.toDegrees(count), 0, 0, 0);
-            //model.renderOnlyAroundPivot(Math.toDegrees(tileChemicalExtractor.rotation), 0, 0, 1, "MAIN CHAMBER-ROTATES", "MAGNET 1-ROTATES", "MAGNET 2-ROTATES");
-            model.renderOnly("Main ChamberRotates", "Magnet1Rotates", "Magnet2Rotates");
-
+            GL11.glTranslatef(-0.1875F, 0.4375F, 0);
+            GL11.glRotated(Math.toDegrees(tileChemicalExtractor.rotation), 0, 0, 1);
+            GL11.glTranslatef(0.1875F, -0.4375F, 0);
+            model.renderOnly("MainChamberRotates", "Magnet1Rotates", "Magnet2Rotates");
             GL11.glPopMatrix();
 
-            model.renderAllExcept("Main ChamberRotates", "Magnet1Rotates", "Magnet2Rotates");
-
+            model.renderAllExcept("MainChamberRotates", "Magnet1Rotates", "Magnet2Rotates");
             GL11.glPopMatrix();
         }
     }
