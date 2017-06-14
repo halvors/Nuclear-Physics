@@ -18,9 +18,9 @@ public class RenderFusionReactor extends TileEntitySpecialRenderer {
     private final ResourceLocation texture =new ResourceLocation(Reference.PREFIX + "textures/models/fusionReactor.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
-        if (tileEntity instanceof TileFusionReactor) {
-            TileFusionReactor tilePlasmaHeater = (TileFusionReactor) tileEntity;
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+        if (tile instanceof TileFusionReactor) {
+            TileFusionReactor tilePlasmaHeater = (TileFusionReactor) tile;
 
             GL11.glPushMatrix();
             GL11.glTranslated(x + 0.5, y, z + 0.5);

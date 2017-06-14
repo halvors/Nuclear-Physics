@@ -5,8 +5,8 @@ itemGroup.tabQuantum=Quantum
 
 // Fluids.
 fluid.toxicwaste=Toxic Waste
+fluid.uraniumhexafluoride=Uranium Hexafluoride
 
-//fluid.uraniumhexafluoride=Uranium Hexafluoride
 //fluid.deuterium=Deuterium
 //fluid.tritium=Tritium
 //fluid.plasma=Plasma
@@ -34,6 +34,8 @@ tile.fulmination.name=Fulmination Generator
 tile.fulmination.tooltip=Transforms the kinetic energy from explosions into electrical energy.
 tile.fusionReactor.name=Fusion Reactor
 tile.fusionReactor.tooltip=A fusion reactor is used to heat deuterium and tritium to plasma state for fusion power. Plasma must be moved into the reactor cell.
+tile.gasFunnel.name=Gas Funnel
+tile.gasFunnel.tooltip=Captures gas to allow it to be transported with piping.
 tile.nuclearBoiler.name=Nuclear Boiler
 tile.nuclearBoiler.tooltip=Boils yellowcake into uranium hexaflouride gas.
 tile.oreUranium.name=Uranium Ore
@@ -48,15 +50,13 @@ tile.reactorCell.name=Reactor Cell
 tile.reactorCell.tooltip=The primary components for all types of reactors. Fuel rods or plasma may be injected into the cell.
 tile.siren.name=Siren
 tile.siren.tooltip=Creates an alarm with customizable pitch and volume with a Redstone signal.
+tile.thermometer.name=Thermometer
+tile.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-right click to lock the reading to a specific coordinate.
 tile.toxicWaste.name=Toxic Waste
 tile.toxicWaste.tooltip=Toxic, nuclear waste that pollutes the world.
 
 //block.reactorDrain.name=Reactor Drain
 //block.reactorDrain.tooltip=Extracts fluids out of the reactor, such as toxic waste.
-//block.thermometer.name=Thermometer
-//block.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-right click to lock the reading to a specific coordinate.
-//block.funnel.name=Gas Funnel
-//block.funnel.tooltip=Captures gas to allow it to be transported with piping.
 
 // Items.
 // Cells.

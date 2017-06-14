@@ -22,9 +22,9 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer {
     public static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/models/quantumAssembler.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
-        if (tileEntity instanceof TileQuantumAssembler) {
-            TileQuantumAssembler tileQuantumAssembler = (TileQuantumAssembler) tileEntity;
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+        if (tile instanceof TileQuantumAssembler) {
+            TileQuantumAssembler tileQuantumAssembler = (TileQuantumAssembler) tile;
 
             GL11.glPushMatrix();
             GL11.glTranslated(x + 0.5F, y, z + 0.5F);

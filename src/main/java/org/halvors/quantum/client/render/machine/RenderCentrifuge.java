@@ -18,9 +18,9 @@ public class RenderCentrifuge extends TileEntitySpecialRenderer {
     private static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/models/centrifuge.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
-        if (tileEntity instanceof TileCentrifuge) {
-            TileCentrifuge tileCentrifuge = (TileCentrifuge) tileEntity;
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+        if (tile instanceof TileCentrifuge) {
+            TileCentrifuge tileCentrifuge = (TileCentrifuge) tile;
 
             GL11.glPushMatrix();
             GL11.glTranslated(x + 0.5F, y, z + 0.5F);

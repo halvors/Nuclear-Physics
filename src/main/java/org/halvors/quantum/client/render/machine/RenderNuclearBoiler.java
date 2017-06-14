@@ -18,9 +18,9 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer {
     private static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/models/nuclearBoiler.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
-        if (tileEntity instanceof TileNuclearBoiler) {
-            TileNuclearBoiler tileNuclearBoiler = (TileNuclearBoiler) tileEntity;
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+        if (tile instanceof TileNuclearBoiler) {
+            TileNuclearBoiler tileNuclearBoiler = (TileNuclearBoiler) tile;
 
             GL11.glPushMatrix();
             GL11.glTranslated(x + 0.5F, y, z + 0.5F);
@@ -31,7 +31,7 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer {
             }
 
             RenderUtility.bind(texture);
-            
+
             GL11.glPushMatrix();
             GL11.glTranslated(-0.187042F, 0, 0.312958F);
             GL11.glRotated(Math.toDegrees(tileNuclearBoiler.rotation), 0, 1, 0);
