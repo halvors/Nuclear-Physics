@@ -21,7 +21,7 @@ import java.util.List;
 
 public class TileChemicalExtractor extends TileProcess implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver {
     public static final int tickTime = 20 * 14;
-    public static final int extractSpeed = 100;
+    private static final int extractSpeed = 100;
     public static final int energy = 20000;
 
     public final FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10); // Synced

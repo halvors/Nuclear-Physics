@@ -18,9 +18,10 @@ import org.halvors.quantum.common.tile.TileElectricInventory;
 import java.util.List;
 
 public class TileQuantumAssembler extends TileElectricInventory implements ITileNetworkable, IEnergyReceiver {
-    private long energy = 10000000000000L;
-    public int tickTime = 20 * 120;
-    public int time = 0;
+    public static final int tickTime = 20 * 120;
+    private static final int energy = 10000000; // Fix this.
+
+    public int time = 0; // Synced
 
     // Used for rendering.
     public float rotationYaw1 = 0;
@@ -31,7 +32,7 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
     public EntityItem entityItem = null;
 
     public TileQuantumAssembler() {
-        energyStorage = new EnergyStorage((int) energy);
+        energyStorage = new EnergyStorage(energy);
         maxSlots = 6 + 1;
     }
 
@@ -50,14 +51,14 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
                         time--;
 
                         if (time < 1) {
-                            process();
+                            doProcess();
                             time = 0;
                         }
                     } else {
-                        this.time = 0;
+                        time = 0;
                     }
 
-                    energyStorage.extractEnergy((int) energy, false);
+                    energyStorage.extractEnergy(energy, false);
                 }
             } else {
                 time = 0;
@@ -181,11 +182,8 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
         return false;
     }
 
-    /**
-     * Turn one item from the furnace source stack into the appropriate smelted item in the furnace
-     * result stack
-     */
-    public void process() {
+    // Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack.
+    public void doProcess() {
         if (canProcess()) {
             for (int i = 0; i < 6; i++) {
                 if (getStackInSlot(i) != null) {

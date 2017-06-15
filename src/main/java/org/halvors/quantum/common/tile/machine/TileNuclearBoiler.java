@@ -80,7 +80,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
                         timer--;
 
                         if (timer < 1) {
-                            process();
+                            doProcess();
                             timer = 0;
                         }
                     } else {
@@ -280,8 +280,8 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
         return false;
     }
 
-    /** Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack. */
-    public void process() {
+    // Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack.
+    public void doProcess() {
         if (canProcess()) {
             waterTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
             FluidStack liquid = Quantum.fluidStackUraniumHexaflouride.copy();

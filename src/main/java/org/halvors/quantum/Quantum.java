@@ -303,12 +303,11 @@ public class Quantum implements IUpdatableMod {
 		FluidRegistry.registerFluid(fluidTritium);
 		FluidRegistry.registerFluid(fluidToxicWaste);
 
-		fluidStackDeuterium = new FluidStack(FluidRegistry.getFluid("deuterium"), 0);
+		fluidStackDeuterium = new FluidStack(fluidDeuterium, 0);
 		fluidStackUraniumHexaflouride = new FluidStack(fluidUraniumHexaflouride, 0);
-		fluidStackSteam = new FluidStack(FluidRegistry.getFluid("steam"), 0);
-		fluidStackTritium = new FluidStack(FluidRegistry.getFluid("tritium"), 0);
-		fluidStackToxicWaste = new FluidStack(FluidRegistry.getFluid("toxicwaste"), 0);
-		fluidStackWater = new FluidStack(FluidRegistry.WATER, 0);
+		fluidStackSteam = new FluidStack(fluidSteam, 0);
+		fluidStackTritium = new FluidStack(fluidTritium, 0);
+		fluidStackToxicWaste = new FluidStack(fluidToxicWaste, 0);
 		fluidStackWater = new FluidStack(FluidRegistry.WATER, 0);
 	}
 
