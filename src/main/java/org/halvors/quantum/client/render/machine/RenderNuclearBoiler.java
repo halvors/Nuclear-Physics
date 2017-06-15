@@ -24,7 +24,6 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer {
 
             GL11.glPushMatrix();
             GL11.glTranslated(x + 0.5F, y, z + 0.5F);
-            GL11.glRotated(90, 0, 1, 0);
 
             if (tileNuclearBoiler.getWorld() != null) {
                 RenderUtility.rotateBlockBasedOnDirection(tileNuclearBoiler.getDirection());
