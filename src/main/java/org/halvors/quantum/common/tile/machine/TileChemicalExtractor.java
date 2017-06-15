@@ -19,11 +19,10 @@ import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
 import java.util.List;
 
-/** Chemical extractor TileEntity */
-public class TileChemicalExtractor extends TileProcess implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IVoltageInput
+public class TileChemicalExtractor extends TileProcess implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver {
     public static final int tickTime = 20 * 14;
     public static final int extractSpeed = 100;
-    public static final long energy = 5000;
+    public static final int energy = 20000;
 
     public final FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10); // Synced
     public final FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10); // Synced
@@ -33,7 +32,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
     public float rotation = 0;
 
     public TileChemicalExtractor() {
-        energyStorage = new EnergyStorage((int) energy * 2);
+        energyStorage = new EnergyStorage(energy * 2);
         maxSlots = 7;
         inputSlot = 1;
         outputSlot = 2;
@@ -56,7 +55,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
                 // TODO: Implement this.
                 //discharge(getStackInSlot(0));
 
-                if (energyStorage.extractEnergy((int) energy, true) >= energy) {
+                if (energyStorage.extractEnergy(energy, true) >= energy) {
                     if (time == 0) {
                         time = tickTime;
                     }
@@ -76,9 +75,9 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
                     } else {
                         time = 0;
                     }
-                }
 
-                energyStorage.extractEnergy((int) energy, false);
+                    energyStorage.extractEnergy(energy, false);
+                }
             } else {
                 time = 0;
             }
