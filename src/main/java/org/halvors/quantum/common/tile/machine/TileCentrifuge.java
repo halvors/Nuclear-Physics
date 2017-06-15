@@ -21,15 +21,17 @@ import org.halvors.quantum.lib.IRotatable;
 
 import java.util.List;
 
-public class TileCentrifuge extends TileElectricInventory implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver { // IPacketReceiver IVoltageInput
+public class TileCentrifuge extends TileElectricInventory implements ITileNetworkable, IFluidHandler, ISidedInventory, IRotatable, IEnergyReceiver {
     public static final int tickTime = 20 * 60;
-    public static final long energy = 500000;
-    public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5);
-    public int timer = 0;
+    private static final int energy = 20000;
+
+    public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
+
+    public int timer = 0; // Synced
     public float rotation = 0;
 
     public TileCentrifuge() {
-        energyStorage = new EnergyStorage((int) energy * 2);
+        energyStorage = new EnergyStorage(energy * 2);
         maxSlots = 4;
     }
 
@@ -69,23 +71,23 @@ public class TileCentrifuge extends TileElectricInventory implements ITileNetwor
                 // TODO: Implement this.
                 //discharge(getStackInSlot(0));
 
-                if (energyStorage.extractEnergy((int) energy, true) >= energy) {
+                if (energyStorage.extractEnergy(energy, true) >= energy) {
                     if (timer == 0) {
-                        timer = 1200;
+                        timer = tickTime;
                     }
 
                     if (timer > 0) {
-                        timer -= 1;
+                        timer--;
 
-                        if (this.timer < 1) {
-                            process();
+                        if (timer < 1) {
+                            doProcess();
                             timer = 0;
                         }
                     } else {
                         timer = 0;
                     }
 
-                    energyStorage.extractEnergy((int) energy, false);
+                    energyStorage.extractEnergy(energy, false);
                 }
             } else {
                 timer = 0;
@@ -160,6 +162,7 @@ public class TileCentrifuge extends TileElectricInventory implements ITileNetwor
             case 0:
                 // TODO: Implement this.
                 //return CompatibilityModule.isHandler(itemStack.getItem());
+                return true;
             case 1:
                 return true;
             case 2:
@@ -257,7 +260,7 @@ public class TileCentrifuge extends TileElectricInventory implements ITileNetwor
         return false;
     }
 
-    public void process() {
+    public void doProcess() {
         if (canProcess()) {
             gasTank.drain(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 
@@ -268,7 +271,6 @@ public class TileCentrifuge extends TileElectricInventory implements ITileNetwor
             }
         }
     }
-
 
     @Override
     public ForgeDirection getDirection() {

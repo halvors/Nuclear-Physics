@@ -1,1 +1,21 @@
 Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
+
+New features to add:
+    - Make nuclear boiler eject steam.
+
+Known bugs:
+    - Shift clicking item into Nuclear Boiler causes crash. (Obfuscated)
+    - Quantum Assembler render incorrectly. (Deobfuscated).
+
+Networking:
+    - Only send PacketTileEntity from server to client?
+
+Implement energy systems:
+    Centrifuge:
+        128 MJ ~= 20000 = 2 Refined/Breading Uranium
+
+    Chemical Extractor: (Done)
+        128 MJ ~= 20000 RF = 27 Yellowcake
+
+    Nuclear Boiler:
+        128 MJ ~= 21000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride
