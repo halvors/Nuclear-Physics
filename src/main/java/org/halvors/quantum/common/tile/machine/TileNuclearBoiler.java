@@ -22,8 +22,8 @@ import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 import java.util.List;
 
 public class TileNuclearBoiler extends TileElectricInventory implements ITileNetworkable, IRotatable, IEnergyReceiver, IFluidHandler, ISidedInventory {
-    public final int tickTime = 20 * 15;
-    public final static long energy = 50000;
+    public static final int tickTime = 20 * 15;
+    public static final int energy = 21000;
 
     public final FluidTank waterTank = new FluidTank(Quantum.fluidStackWater.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
     public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
@@ -33,7 +33,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
     public float rotation = 0;
 
     public TileNuclearBoiler() {
-        energyStorage = new EnergyStorage((int) energy * 2);
+        energyStorage = new EnergyStorage(energy * 2);
         maxSlots = 4;
     }
 
@@ -71,7 +71,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
                 // TODO: Implement this.
                 //discharge(getStackInSlot(0));
 
-                if (energyStorage.extractEnergy((int) energy, false) >= energy) {
+                if (energyStorage.extractEnergy(energy, true) >= energy) {
                     if (timer == 0) {
                         timer = tickTime;
                     }
@@ -87,7 +87,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
                         timer = 0;
                     }
 
-                    energyStorage.extractEnergy((int) energy, true);
+                    energyStorage.extractEnergy(energy, false);
                 }
             } else {
                 timer = 0;
@@ -268,7 +268,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
         if (waterTank.getFluid() != null) {
             if (waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME) {
                 if (getStackInSlot(3) != null) {
-                    if (Quantum.itemYellowCake == getStackInSlot(3).getItem() || OreDictionaryUtility.isItemStackUraniumOre(getStackInSlot(3))) {
+                    if (getStackInSlot(3).getItem() == Quantum.itemYellowCake || OreDictionaryUtility.isItemStackUraniumOre(getStackInSlot(3))) {
                         if (FluidUtility.getAmount(gasTank.getFluid()) < gasTank.getCapacity()) {
                             return true;
                         }
