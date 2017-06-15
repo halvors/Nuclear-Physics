@@ -51,11 +51,11 @@ public class ContainerNuclearBoiler extends ContainerBase {
             copyStack = itemStack.copy();
 
             if (slotId >= slotCount) {
-                if (this.getSlot(0).isItemValid(itemStack)) {
+                if (getSlot(0).isItemValid(itemStack)) {
                     if (!mergeItemStack(itemStack, 0, 1, false)) {
                         return null;
                     }
-                } else if (FluidContainerRegistry.getFluidForFilledItem(itemStack).isFluidEqual(Quantum.fluidStackWater)) {
+                } else if (Quantum.fluidStackWater.isFluidEqual(FluidContainerRegistry.getFluidForFilledItem(itemStack))) {
                     if (!mergeItemStack(itemStack, 1, 2, false)) {
                         return null;
                     }
