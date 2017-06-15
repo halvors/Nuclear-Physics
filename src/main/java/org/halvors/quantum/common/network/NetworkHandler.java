@@ -40,16 +40,11 @@ public class NetworkHandler {
 	static {
 		// Register packets.
 		networkWrapper.registerMessage(PacketConfiguration.PacketConfigurationMessage.class, PacketConfiguration.class, 0, Side.CLIENT);
-		networkWrapper.registerMessage(PacketRequestData.PacketRequestDataMessage.class, PacketRequestData.class, 1, Side.SERVER);
-		networkWrapper.registerMessage(PacketTileEntity.PacketTileEntityMessage.class, PacketTileEntity.class, 2, Side.SERVER);
-		networkWrapper.registerMessage(PacketTileEntity.PacketTileEntityMessage.class, PacketTileEntity.class, 2, Side.CLIENT);
-		networkWrapper.registerMessage(PacketTileEntityElectricityMeter.PacketTileEntityElectricityMeterMessage.class, PacketTileEntityElectricityMeter.class, 3, Side.SERVER);
-		networkWrapper.registerMessage(PacketTileEntityElectricityMeter.PacketTileEntityElectricityMeterMessage.class, PacketTileEntityElectricityMeter.class, 3, Side.CLIENT);
-		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 4, Side.SERVER);
-		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 4, Side.CLIENT);
-
-		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 10, Side.CLIENT);
-		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 10, Side.SERVER);
+		networkWrapper.registerMessage(PacketTileEntity.PacketTileEntityMessage.class, PacketTileEntity.class, 1, Side.CLIENT);
+		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 2, Side.CLIENT);
+		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 2, Side.SERVER);
+		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 3, Side.SERVER);
+		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 3, Side.CLIENT);
 	}
 
 	public static SimpleNetworkWrapper getNetworkWrapper() {
@@ -184,7 +179,7 @@ public class NetworkHandler {
 		}
 	}
 
-	public static ItemStack readNBTTagStack(ByteBuf dataStream) {
+	public static ItemStack readItemStack(ByteBuf dataStream) {
 		int id = dataStream.readInt();
 
 		if (id >= 0) {
