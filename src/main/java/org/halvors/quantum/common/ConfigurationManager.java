@@ -100,7 +100,6 @@ public class ConfigurationManager {
         // Client.
         Client.energyUnit = EnergyUnit.getUnitFromSymbol(configuration.get(CATEGORY_CLIENT, "EnergyUnitType", EnergyUnit.REDSTONE_FLUX.getSymbol(), "The default energy system to display. " + EnergyUnit.getSymbols(), EnergyUnit.getSymbols().toArray(new String[EnergyUnit.getSymbols().size()])).getString());
 
-
         configuration.save();
     }
 
