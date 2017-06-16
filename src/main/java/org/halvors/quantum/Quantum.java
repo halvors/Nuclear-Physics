@@ -25,6 +25,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -508,7 +509,24 @@ public class Quantum implements IUpdatableMod {
 	public void preTextureHook(TextureStitchEvent.Pre event) {
 		if (event.map.getTextureType() == 0) {
 			RenderUtility.registerIcon(Reference.PREFIX + "atomic_edge", event.map);
+			RenderUtility.registerIcon(Reference.PREFIX + "funnel_edge", event.map);
+
+			RenderUtility.registerIcon(Reference.PREFIX + "deuterium", event.map);
+			RenderUtility.registerIcon(Reference.PREFIX + "steam", event.map);
+			RenderUtility.registerIcon(Reference.PREFIX + "tritium", event.map);
+			RenderUtility.registerIcon(Reference.PREFIX + "uraniumHexafluoride", event.map);
 		}
+	}
+
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void postTextureHook(TextureStitchEvent.Post event) {
+		fluidToxicWaste.setIcons(blockToxicWaste.getIcon(0, 0));
+		fluidPlasma.setIcons(blockPlasma.getIcon(0, 0));
+		fluidDeuterium.setIcons(RenderUtility.loadedIconMap.get(Reference.PREFIX + "deuterium"));
+		fluidSteam.setIcons(RenderUtility.loadedIconMap.get(Reference.PREFIX + "steam"));
+		fluidTritium.setIcons(RenderUtility.loadedIconMap.get(Reference.PREFIX + "tritium"));
+		fluidUraniumHexaflouride.setIcons(RenderUtility.loadedIconMap.get(Reference.PREFIX + "uraniumHexafluoride"));
 	}
 
 	public static Quantum getInstance() {
