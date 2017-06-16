@@ -39,5 +39,4 @@ public class ContainerDummy extends Container {
         return !(tile instanceof IInventory) || ((IInventory) tile).isUseableByPlayer(par1EntityPlayer);
 
     }
-
 }

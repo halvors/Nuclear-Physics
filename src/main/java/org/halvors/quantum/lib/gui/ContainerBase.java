@@ -78,7 +78,6 @@ public class ContainerBase extends Container {
             for (int x = 0; x < 9; x++) {
                 addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, xInventoryDisplacement + x * 18, yInventoryDisplacement + y * 18));
             }
-
         }
 
         for (int x = 0; x < 9; x++) {

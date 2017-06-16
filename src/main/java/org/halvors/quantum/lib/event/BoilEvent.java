@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.thermal;
+package org.halvors.quantum.lib.event;
 
 import cpw.mods.fml.common.eventhandler.Event.HasResult;
 import net.minecraft.world.World;

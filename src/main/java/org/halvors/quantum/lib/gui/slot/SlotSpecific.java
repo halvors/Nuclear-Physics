@@ -18,17 +18,17 @@ public class SlotSpecific extends Slot {
     public SlotSpecific(IInventory inventory, int par3, int par4, int par5, ItemStack... itemStacks) {
         super(inventory, par3, par4, par5);
 
-        this.setItemStacks(itemStacks);
+        setItemStacks(itemStacks);
     }
 
     public SlotSpecific(IInventory inventory, int par3, int par4, int par5, Class... validClasses) {
         super(inventory, par3, par4, par5);
 
-        this.setClasses(validClasses);
+        setClasses(validClasses);
     }
 
     public SlotSpecific setMetadataSensitive() {
-        this.isMetadataSensitive = true;
+        isMetadataSensitive = true;
 
         return this;
     }
@@ -46,18 +46,18 @@ public class SlotSpecific extends Slot {
     }
 
     public SlotSpecific toggleInverted() {
-        this.isInverted = !this.isInverted;
+        isInverted = !isInverted;
 
         return this;
     }
 
-    /** Check if the stack is a valid item for this slot. Always true beside for the armor slots. */
+    // Check if the stack is a valid item for this slot. Always true beside for the armor slots.
     @Override
     public boolean isItemValid(ItemStack compareStack) {
         boolean returnValue = false;
 
-        for (ItemStack itemStack : this.validItemStacks) {
-            if (compareStack.isItemEqual(itemStack) || (!this.isMetadataSensitive && compareStack == itemStack)) {
+        for (ItemStack itemStack : validItemStacks) {
+            if (compareStack.isItemEqual(itemStack) || (!isMetadataSensitive && compareStack == itemStack)) {
                 returnValue = true;
                 break;
             }

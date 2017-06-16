@@ -14,8 +14,9 @@ public class ReactorExplosion extends Explosion {
     private Random explosionRAND = new Random();
     private World world;
 
-    public ReactorExplosion(World world, Entity par2Entity, double x, double y, double z, float par9) {
-        super(world, par2Entity, x, y, z, par9);
+    public ReactorExplosion(World world, Entity entity, double x, double y, double z, float f) {
+        super(world, entity, x, y, z, f);
+
         this.world = world;
         this.isFlaming = true;
     }
