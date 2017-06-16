@@ -4,14 +4,12 @@
 itemGroup.tabQuantum=Quantum
 
 // Fluids.
-fluid.toxicwaste=Toxic Waste
-fluid.uraniumhexafluoride=Uranium Hexafluoride
-
-//fluid.deuterium=Deuterium
-//fluid.tritium=Tritium
-//fluid.plasma=Plasma
-//fluid.steam=Steam
-//fluid.block.water=Water
+fluid.deuterium=Deuterium
+fluid.plasma=Plasma
+fluid.steam=Steam
+fluid.toxicWaste=Toxic Waste
+fluid.tritium=Tritium
+fluid.uraniumHexafluoride=Uranium Hexafluoride
 
 // Blocks.
 tile.accelerator.name=Particle Accelerator
