@@ -142,11 +142,11 @@ public class Quantum implements IUpdatableMod {
 
 	// Fluids
 	public static final Fluid fluidDeuterium = new Fluid("deuterium").setGaseous(true);
-	public static final Fluid fluidUraniumHexaflouride = new Fluid("uraniumhexafluoride").setGaseous(true);
+	public static final Fluid fluidUraniumHexaflouride = new Fluid("uraniumHexafluoride").setGaseous(true);
 	public static final Fluid fluidPlasma = new Fluid("plasma").setGaseous(true);
 	public static final Fluid fluidSteam = new Fluid("steam").setGaseous(true);
 	public static final Fluid fluidTritium = new Fluid("tritium").setGaseous(true);
-	public static final Fluid fluidToxicWaste = new Fluid("toxicwaste");
+	public static final Fluid fluidToxicWaste = new Fluid("toxicWaste");
 
 	public static FluidStack fluidStackDeuterium;
 	public static FluidStack fluidStackUraniumHexaflouride;
@@ -442,9 +442,9 @@ public class Quantum implements IUpdatableMod {
 
 	private void registerFluidContainers() {
 		// Register fluid containers.
-		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("deuterium"), 200), new ItemStack(itemDeuteriumCell), new ItemStack(itemCell));
-		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("tritium"), 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
-		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluid("toxicwaste"), new ItemStack(itemBucketToxicWaste), new ItemStack(Items.bucket));
+		FluidContainerRegistry.registerFluidContainer(new FluidStack(fluidDeuterium, 200), new ItemStack(itemDeuteriumCell), new ItemStack(itemCell));
+		FluidContainerRegistry.registerFluidContainer(new FluidStack(fluidTritium, 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
+		FluidContainerRegistry.registerFluidContainer(fluidToxicWaste, new ItemStack(itemBucketToxicWaste), new ItemStack(Items.bucket));
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.WATER, new ItemStack(itemWaterCell), new ItemStack(itemCell));
 	}
 

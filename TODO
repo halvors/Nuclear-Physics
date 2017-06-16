@@ -5,7 +5,8 @@ New features to add:
 
 Known bugs:
     - Shift clicking item into Nuclear Boiler causes crash. (Obfuscated)
-    - Quantum Assembler render incorrectly. (Deobfuscated).
+    - Quantum Assembler render incorrectly. (Deobfuscated)
+    - Block rotation on placement is messed up when player is facing east on block placement. (Deobfuscated)
 
 Networking:
     - Only send PacketTileEntity from server to client?
