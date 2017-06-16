@@ -23,7 +23,9 @@ import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.debug.packet.PacketCreativeBuilder;
-import org.halvors.quantum.common.network.packet.*;
+import org.halvors.quantum.common.network.packet.PacketConfiguration;
+import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.network.packet.PacketTileRedstoneControl;
 import org.halvors.quantum.common.utility.PlayerUtils;
 import org.halvors.quantum.common.utility.location.Range;
 

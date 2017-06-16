@@ -20,7 +20,6 @@ import org.lwjgl.opengl.GL12;
 import universalelectricity.api.energy.UnitDisplay;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class GuiContainerBase extends GuiContainer {

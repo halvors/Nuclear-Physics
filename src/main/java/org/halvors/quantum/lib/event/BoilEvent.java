@@ -8,8 +8,8 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 
 @HasResult
 public class BoilEvent extends WorldEvent {
-    private final FluidStack fluid;
     private final Vector3 position;
+    private final FluidStack fluid;
     private final int maxSpread;
     private final boolean reactor;
 
@@ -17,7 +17,7 @@ public class BoilEvent extends WorldEvent {
      * @param position - The position in which the boiling happens.
      * @param result - The fluid being boiled.
      * @param maxSpread - The maximum distance the evaporated fluid can spread.
-     * @param isReactor - Determined if heat source if from power generation or a weapon. */
+     * @param reactor - Determined if heat source if from power generation or a weapon. */
     public BoilEvent(World world, Vector3 position, FluidStack source, FluidStack result, int maxSpread, boolean reactor) {
         super(world);
 

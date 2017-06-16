@@ -7,14 +7,14 @@ import net.minecraft.world.World;
 import org.halvors.quantum.common.container.machine.ContainerCentrifuge;
 import org.halvors.quantum.common.container.machine.ContainerChemicalExtractor;
 import org.halvors.quantum.common.container.machine.ContainerNuclearBoiler;
-import org.halvors.quantum.common.container.particle.ContainerAccelerator;
 import org.halvors.quantum.common.container.machine.ContainerQuantumAssembler;
+import org.halvors.quantum.common.container.particle.ContainerAccelerator;
 import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell;
 import org.halvors.quantum.common.tile.machine.TileCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
-import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 
 /**
