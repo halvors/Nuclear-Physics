@@ -34,9 +34,9 @@ import java.util.Set;
 public class TileElectricTurbine extends TileElectricStorage implements IMultiBlockStructure<TileElectricTurbine>, ITileNetworkable, IBoilHandler {
     // Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
     protected final long energyPerSteam = 2647600 / 1000;
-    protected final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 100);
     protected final long defaultTorque = 5000;
     protected long torque = defaultTorque;
+    protected final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 100);
 
     // Radius of large turbine?
     public int multiBlockRadius = 1;

@@ -5,8 +5,9 @@ New features to add:
 
 Known bugs:
     - Shift clicking item into Nuclear Boiler causes crash. (Obfuscated)
-    - Quantum Assembler render incorrectly. (Deobfuscated)
-    - Block rotation on placement is messed up when player is facing east on block placement. (Deobfuscated)
+    - Quantum Assembler render incorrectly. (De-obfuscated)
+    - Block rotation on placement is messed up when player is facing east on block placement. (De-obfuscated)
+    - Items is not stored in inventory probably using NBT somehow.
 
 Networking:
     - Only send PacketTileEntity from server to client?
@@ -20,3 +21,7 @@ Implement energy systems:
 
     Nuclear Boiler:
         128 MJ ~= 21000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride
+
+    Turbine
+        Fission Reactor with 4 Control Rods:
+           (128 MJ * 20) + 90 MJ = 2650 MJ

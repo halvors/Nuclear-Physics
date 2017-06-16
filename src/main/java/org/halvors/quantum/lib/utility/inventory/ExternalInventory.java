@@ -26,16 +26,16 @@ public class ExternalInventory implements IExternalInventoryBox {
     /**
      * Host tileEntity as external inv
      */
-    protected IExternalInventory inv;
+    protected IExternalInventory inventory;
     /**
      * Default slot max count
      */
     protected final int slots;
 
-    public ExternalInventory(TileEntity chest, IExternalInventory inv, int slots) {
+    public ExternalInventory(TileEntity chest, IExternalInventory inventory, int slots) {
         this.hostTile = chest;
+        this.inventory = inventory;
         this.slots = slots;
-        this.inv = inv;
     }
 
     public ExternalInventory(TileEntity chest, int slots) {
@@ -44,7 +44,7 @@ public class ExternalInventory implements IExternalInventoryBox {
 
     public ExternalInventory(Entity entity, int i) {
         this.slots = i;
-        this.inv = (IExternalInventory) entity;
+        this.inventory = (IExternalInventory) entity;
     }
 
     @Override
@@ -77,12 +77,12 @@ public class ExternalInventory implements IExternalInventoryBox {
 
     @Override
     public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-        return isItemValidForSlot(i, itemstack) && inv.canStore(itemstack, i, ForgeDirection.getOrientation(j));
+        return isItemValidForSlot(i, itemstack) && inventory.canStore(itemstack, i, ForgeDirection.getOrientation(j));
     }
 
     @Override
     public boolean canExtractItem(int i, ItemStack itemstack, int j) {
-        return inv.canRemove(itemstack, i, ForgeDirection.getOrientation(j));
+        return inventory.canRemove(itemstack, i, ForgeDirection.getOrientation(j));
     }
 
     @Override
@@ -177,11 +177,8 @@ public class ExternalInventory implements IExternalInventoryBox {
 
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
-        if (hostTile != null) {
-            return hostTile.getWorld().getTileEntity(this.hostTile.xCoord, this.hostTile.yCoord, this.hostTile.zCoord) != this.hostTile ? false : player.getDistanceSq(this.hostTile.xCoord + 0.5D, this.hostTile.yCoord + 0.5D, this.hostTile.zCoord + 0.5D) <= 64.0D;
-        }
+        return hostTile == null || (hostTile.getWorld().getTileEntity(this.hostTile.xCoord, this.hostTile.yCoord, this.hostTile.zCoord) == this.hostTile && player.getDistanceSq(this.hostTile.xCoord + 0.5D, this.hostTile.yCoord + 0.5D, this.hostTile.zCoord + 0.5D) <= 64.0D);
 
-        return true;
     }
 
     @Override
@@ -196,45 +193,38 @@ public class ExternalInventory implements IExternalInventoryBox {
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
-        if (index >= getSizeInventory()) {
-            return false;
-        }
-
-        return true;
+        return index < getSizeInventory();
     }
 
     @Override
     public void save(NBTTagCompound nbtTagCompound) {
-        NBTTagList nbtList = new NBTTagList();
+        NBTTagList list = new NBTTagList();
 
-        for (int i = 0; i < this.getSizeInventory(); ++i) {
+        for (int i = 0; i < getSizeInventory(); ++i) {
             if (getStackInSlot(i) != null) {
-                NBTTagCompound var4 = new NBTTagCompound();
-                var4.setByte("Slot", (byte) i);
-                getStackInSlot(i).writeToNBT(var4);
-                nbtList.appendTag(var4);
+                NBTTagCompound stackTagCompound = new NBTTagCompound();
+                stackTagCompound.setByte("Slot", (byte) i);
+                getStackInSlot(i).writeToNBT(stackTagCompound);
+                list.appendTag(stackTagCompound);
             }
         }
 
-        nbtTagCompound.setTag("Items", nbtList);
+        nbtTagCompound.setTag("Items", list);
     }
 
     @Override
-    public void load(NBTTagCompound nbtTagCompound) {
+    public void load(NBTTagCompound tagCompound) {
         clear();
 
-        NBTTagList nbtList = nbtTagCompound.getTagList("Items", 0);
+        NBTTagList list = tagCompound.getTagList("Items", 0);
 
-        for (int i = 0; i < nbtList.tagCount(); ++i) {
-            NBTTagCompound stackTag = nbtList.getCompoundTagAt(i);
-            byte id = stackTag.getByte("Slot");
-
-            if (id >= 0 && id < getSizeInventory()) {
-                setInventorySlotContents(id, ItemStack.loadItemStackFromNBT(stackTag));
-            }
+        for (int i = 0; i < list.tagCount(); ++i) {
+            NBTTagCompound stackTagCompound = list.getCompoundTagAt(i);
+            int slot = stackTagCompound.getByte("Slot") & 255;
+            setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(stackTagCompound));
         }
 
-        nbtTagCompound.setTag("Items", nbtList);
+        tagCompound.setTag("Items", list);
     }
 }
 

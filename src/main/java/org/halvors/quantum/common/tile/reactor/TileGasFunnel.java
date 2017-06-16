@@ -57,8 +57,10 @@ public class TileGasFunnel extends TileBase implements IBoilHandler {
 
     @Override
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        if (resource != null || resource.isFluidEqual(tank.getFluid())) {
-            return tank.drain(resource.amount, doDrain);
+        if (resource != null) {
+            if (resource.isFluidEqual(tank.getFluid())){
+                return tank.drain(resource.amount, doDrain);
+            }
         }
 
         return null;
