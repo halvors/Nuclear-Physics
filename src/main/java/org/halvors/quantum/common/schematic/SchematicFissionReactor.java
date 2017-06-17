@@ -44,7 +44,7 @@ public class SchematicFissionReactor implements ISchematic {
                 }
             }
 
-            //map.put(new Vector3(0, -3, 0), new Pair<>(ElectricalContent.blockSiren, 0))
+            map.put(new Vector3(0, -3, 0), new Pair<>(Quantum.blockSiren, 0));
             map.put(new Vector3(0, -2, 0), new Pair<Block, Integer>(Blocks.redstone_wire, 0));
             map.put(new Vector3(), new Pair<>(Quantum.blockReactorCell, 0));
         } else {
