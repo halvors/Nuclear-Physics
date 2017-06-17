@@ -24,7 +24,7 @@ public class SchematicAccelerator implements ISchematic {
             for (int z = -radius; z < radius; z++) {
                 for (int y = -1; y <= 1; y++) {
                     if (x == -radius || x == radius - 1 || z == -radius || z == radius - 1) {
-                        map.put(new Vector3(x, y, z), new Pair<Block, Integer>(Quantum.blockElectromagnet.block, 0));
+                        map.put(new Vector3(x, y, z), new Pair<>(Quantum.blockElectromagnet, 0));
                     }
                 }
             }
@@ -40,7 +40,7 @@ public class SchematicAccelerator implements ISchematic {
                 {
                     if (x == -radius || x == radius - 1 || z == -radius || z == radius - 1)
                     {
-                        map.put(new Vector3(x, y, z), new Pair<Block, Integer>(Quantum.blockElectromagnet.block, 0));
+                        map.put(new Vector3(x, y, z), new Pair<>(Quantum.blockElectromagnet, 0));
                     }
                 }
             }
@@ -53,7 +53,7 @@ public class SchematicAccelerator implements ISchematic {
                 for (int y = -1; y <= 1; y++) {
                     if (x == -radius || x == radius - 1 || z == -radius || z == radius - 1) {
                         if (y == -1 || y == 1) {
-                            map.put(new Vector3(x, y, z), new Pair<Block, Integer>(Quantum.blockElectromagnet.block, 1));
+                            map.put(new Vector3(x, y, z), new Pair<>(Quantum.blockElectromagnet, 1));
                         } else if (y == 0) {
                             map.put(new Vector3(x, y, z), new Pair<>(Blocks.air, 0));
                         }

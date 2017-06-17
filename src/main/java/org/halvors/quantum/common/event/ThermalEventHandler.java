@@ -57,7 +57,7 @@ public class ThermalEventHandler {
         final World world = position.getWorld();
         Block block = position.getBlock();
 
-        if (block == Quantum.blockElectromagnet.block) {
+        if (block == Quantum.blockElectromagnet) {
             event.heatLoss = event.deltaTemperature * 0.6F;
         }
 

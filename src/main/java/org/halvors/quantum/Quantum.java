@@ -56,12 +56,14 @@ import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
 import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
 import org.halvors.quantum.common.block.machine.BlockQuantumAssembler;
 import org.halvors.quantum.common.block.particle.BlockAccelerator;
+import org.halvors.quantum.common.block.particle.BlockFulmination;
 import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
 import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
 import org.halvors.quantum.common.block.reactor.fission.BlockControlRod;
 import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
 import org.halvors.quantum.common.block.reactor.fission.BlockSiren;
 import org.halvors.quantum.common.block.reactor.fission.BlockThermometer;
+import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.quantum.common.block.reactor.fusion.BlockFusionReactor;
 import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
@@ -160,8 +162,8 @@ public class Quantum implements IUpdatableMod {
 	public static Block blockChemicalExtractor;
 	public static Block blockCentrifuge;
 	public static Block blockControlRod;
-	public static TileBlock blockElectromagnet;
-	public static TileBlock blockFulmination;
+	public static Block blockElectromagnet;
+	public static Block blockFulmination;
 	public static Block blockFusionReactor;
 	public static Block blockGasFunnel;
 	public static Block blockNuclearBoiler;
@@ -318,13 +320,8 @@ public class Quantum implements IUpdatableMod {
 		blockCentrifuge = new BlockCentrifuge();
 		blockControlRod = new BlockControlRod();
 		blockElectricTurbine = new BlockElectricTurbine();
-
-		blockElectromagnet = new TileElectromagnet();
-		blockElectromagnet.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockElectromagnet);
-
-		blockFulmination = new TileFulmination();
-		blockFulmination.block = new BlockDummy(Reference.DOMAIN, Quantum.getCreativeTab(), blockFulmination);
-
+		blockElectromagnet = new BlockElectromagnet();
+		blockFulmination = new BlockFulmination();
 		blockFusionReactor = new BlockFusionReactor();
 		blockGasFunnel = new BlockGasFunnel();
 		blockNuclearBoiler = new BlockNuclearBoiler();
@@ -345,8 +342,8 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockCentrifuge, "blockCentrifuge");
 		GameRegistry.registerBlock(blockControlRod, "blockControlRod");
 		GameRegistry.registerBlock(blockElectricTurbine, "blockElectricTurbine");
-		GameRegistry.registerBlock(blockElectromagnet.block, "blockElectromagnet");
-		GameRegistry.registerBlock(blockFulmination.block, "blockFulmination");
+		GameRegistry.registerBlock(blockElectromagnet, "blockElectromagnet");
+		GameRegistry.registerBlock(blockFulmination, "blockFulmination");
 		GameRegistry.registerBlock(blockFusionReactor, "blockFusionReactor");
 		GameRegistry.registerBlock(blockGasFunnel, "blockGasFunnel");
 		GameRegistry.registerBlock(blockNuclearBoiler, "blockNuclearBoiler");
