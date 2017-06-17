@@ -32,16 +32,16 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer {
             RenderUtility.bind(texture);
 
             GL11.glPushMatrix();
-            GL11.glTranslated(-0.187042F, 0, 0.312958F);
+            GL11.glTranslated(0.312958F, 0, 0.187042F);
             GL11.glRotated(Math.toDegrees(tileNuclearBoiler.rotation), 0, 1, 0);
-            GL11.glTranslated(0.187042F, 0, -0.312958F);
+            GL11.glTranslated(-0.312958F, 0, -0.187042F);
             model.renderOnly("FuelBarSupport1Rotates", "FuelBar1Rotates");
             GL11.glPopMatrix();
 
             GL11.glPushMatrix();
-            GL11.glTranslated(0.187042F, 0, 0.312958F);
+            GL11.glTranslated(0.312958F, 0, -0.187042F);
             GL11.glRotated(-Math.toDegrees(tileNuclearBoiler.rotation), 0, 1, 0);
-            GL11.glTranslated(-0.187042F, 0, -0.312958F);
+            GL11.glTranslated(-0.312958F, 0, 0.187042F);
             model.renderOnly("FuelBarSupport2Rotates", "FuelBar2Rotates");
             GL11.glPopMatrix();
 
