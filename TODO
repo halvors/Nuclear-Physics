@@ -1,27 +1,33 @@
 Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
 
-New features to add:
-    - Make nuclear boiler eject steam.
-
 Known bugs:
     - Shift clicking item into Nuclear Boiler causes crash. (Obfuscated)
     - Quantum Assembler render incorrectly. (De-obfuscated)
     - Block rotation on placement is messed up when player is facing east on block placement. (De-obfuscated)
     - Items is not stored in inventory probably using NBT somehow.
+    - Reactor Cell rendering is messed up.
 
-Networking:
-    - Only send PacketTileEntity from server to client?
+New features to add:
+    Rendering:
+        - Make the whole multiblock reactor cell share GUI.
+        - Make nuclear boiler eject steam.
+        - Make turbines eject smoke particles?
 
-Implement energy systems:
-    Centrifuge:
-        128 MJ ~= 20000 = 2 Refined/Breading Uranium
+    Networking:
+        - Only send PacketTileEntity from server to client? (Done) (Not tested)
 
-    Chemical Extractor: (Done)
-        128 MJ ~= 20000 RF = 27 Yellowcake
+    Energy:
+        Centrifuge:
+            128 MJ ~= 20000 = 2 Refined/Breading Uranium
 
-    Nuclear Boiler:
-        128 MJ ~= 21000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride
+        Chemical Extractor: (Done)
+            128 MJ ~= 20000 RF = 27 Yellowcake
 
-    Turbine
-        Fission Reactor with 4 Control Rods:
-           (128 MJ * 20) + 90 MJ = 2650 MJ
+        Nuclear Boiler:
+            128 MJ ~= 21000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride
+
+        Turbine
+            Fission Reactor with 4 Control Rods: (Generated from one Turbine)
+               (128 MJ * 20) + 90 MJ = 2650 MJ
+
+               60 seconds run = 64 MJ

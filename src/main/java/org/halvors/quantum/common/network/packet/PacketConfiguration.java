@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 import org.halvors.quantum.common.ConfigurationManager;
 
 /**
- * This is a packet that synchronizes the configuration from the server to the clients.
+ * This is a packet that synchronizes the configuration from the server to the client.
  *
  * @author halvors
  */
