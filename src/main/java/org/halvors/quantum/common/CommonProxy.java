@@ -52,14 +52,4 @@ public class CommonProxy implements IGuiHandler {
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		return null;
 	}
-
-	/**
-	 * Gets the armor index number from ClientProxy.
-	 * @param string - armor indicator
-	 * @return armor index number
-	 */
-	public int getArmorIndex(String string)
-	{
-		return 0;
-	}
 }
