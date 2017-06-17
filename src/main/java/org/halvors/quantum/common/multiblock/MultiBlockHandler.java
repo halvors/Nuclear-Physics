@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.multiblock;
+package org.halvors.quantum.common.multiblock;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

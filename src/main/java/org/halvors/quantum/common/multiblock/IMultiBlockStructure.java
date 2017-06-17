@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.multiblock;
+package org.halvors.quantum.common.multiblock;
 
 import net.minecraft.world.World;
 import org.halvors.quantum.common.transform.vector.Vector3;

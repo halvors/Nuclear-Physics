@@ -98,7 +98,7 @@ import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
-import org.halvors.quantum.lib.event.PlasmaEvent;
+import org.halvors.quantum.common.event.PlasmaEvent;
 import org.halvors.quantum.lib.grid.UpdateTicker;
 import org.halvors.quantum.lib.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.render.RenderUtility;

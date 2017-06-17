@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.event;
+package org.halvors.quantum.common.event;
 
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;

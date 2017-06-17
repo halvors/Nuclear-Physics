@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.lib.prefab.block.BlockRotatable;
-import org.halvors.quantum.lib.schematic.ISchematic;
+import org.halvors.quantum.common.schematic.ISchematic;
 
 import java.util.ArrayList;
 import java.util.List;

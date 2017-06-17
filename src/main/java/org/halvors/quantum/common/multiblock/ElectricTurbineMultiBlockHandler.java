@@ -3,10 +3,9 @@ package org.halvors.quantum.common.multiblock;
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.multiblock.MultiBlockHandler;
 
-public class TurbineMultiBlockHandler extends MultiBlockHandler<TileElectricTurbine> {
-    public TurbineMultiBlockHandler(TileElectricTurbine wrapper) {
+public class ElectricTurbineMultiBlockHandler extends MultiBlockHandler<TileElectricTurbine> {
+    public ElectricTurbineMultiBlockHandler(TileElectricTurbine wrapper) {
         super(wrapper);
     }
 

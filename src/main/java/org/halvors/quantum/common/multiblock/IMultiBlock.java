@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.multiblock;
+package org.halvors.quantum.common.multiblock;
 
 import org.halvors.quantum.common.transform.vector.Vector3;
 

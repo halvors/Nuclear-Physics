@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.event;
+package org.halvors.quantum.common.event;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import org.halvors.quantum.common.transform.vector.VectorWorld;

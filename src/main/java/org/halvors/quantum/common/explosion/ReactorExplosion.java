@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.explosion;
+package org.halvors.quantum.common.explosion;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.schematic;
+package org.halvors.quantum.common.schematic;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.common.util.ForgeDirection;
