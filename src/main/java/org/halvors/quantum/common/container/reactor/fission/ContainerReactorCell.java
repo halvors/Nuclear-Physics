@@ -15,6 +15,7 @@ public class ContainerReactorCell extends ContainerBase {
         super(tile);
 
         addSlotToContainer(new SlotSpecific(tile, 0, 79, 17, ItemFissileFuel.class, ItemBreederFuel.class));
+
         addPlayerInventory(inventoryPlayer.player);
     }
 

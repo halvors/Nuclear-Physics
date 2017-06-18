@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.debug.block;
+package org.halvors.quantum.common.block.debug;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,18 +46,8 @@ public class BlockCreativeBuilder extends BlockRotatable {
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
         if (schematicRegistry.size() > 0) {
-            player.openGui(Quantum.getInstance(), -1, world, x, y, z);
+            player.openGui(Quantum.getInstance(), 0, world, x, y, z);
 
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
-        if (schematicRegistry.size() > 0) {
-            player.openGui(Quantum.getInstance(), -1, world, x, y, z);
             return true;
         }
 

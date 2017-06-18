@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.debug.packet;
+package org.halvors.quantum.common.network.packet;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -7,9 +7,8 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
+import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.network.NetworkHandler;
-import org.halvors.quantum.common.network.packet.PacketLocation;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.location.Location;
 import org.halvors.quantum.lib.type.Pair;

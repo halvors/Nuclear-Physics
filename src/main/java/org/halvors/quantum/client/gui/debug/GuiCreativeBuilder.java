@@ -1,12 +1,12 @@
-package org.halvors.quantum.common.debug.gui;
+package org.halvors.quantum.client.gui.debug;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.ResourceLocation;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
-import org.halvors.quantum.common.debug.packet.PacketCreativeBuilder;
+import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
+import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.LanguageUtility;
