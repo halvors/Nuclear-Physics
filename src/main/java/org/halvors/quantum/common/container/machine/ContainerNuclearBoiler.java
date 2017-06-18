@@ -3,14 +3,13 @@ package org.halvors.quantum.common.container.machine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
-import org.halvors.quantum.lib.gui.ContainerBase;
-import org.halvors.quantum.lib.gui.slot.SlotEnergyItem;
-import org.halvors.quantum.lib.gui.slot.SlotSpecific;
+import org.halvors.quantum.lib.container.ContainerBase;
+import org.halvors.quantum.lib.container.slot.SlotEnergyItem;
+import org.halvors.quantum.lib.container.slot.SlotSpecific;
 
 public class ContainerNuclearBoiler extends ContainerBase {
     private static final int slotCount = 4;

@@ -6,11 +6,11 @@ Known bugs:
     - Reactor Cell rendering is messed up.
     - Machine animation continues even if the process is stalled, i.e when there is no more power available.
     - Fluid levels in machines is not always synced properly to the client.
-    - Fluid output is not transferred to neighbor machine accepting it as input.
 
 New features to add:
     Convenience:
         - Make slots in machines only accept valid items.
+        - Fluid output is not transferred to neighbor machine accepting it as input.
 
     Rendering:
         - Make the whole multiblock reactor cell share GUI.

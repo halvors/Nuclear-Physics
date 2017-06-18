@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.gui.slot;
+package org.halvors.quantum.lib.container.slot;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -9,46 +9,40 @@ import net.minecraft.item.ItemStack;
  * this.getSlot(i).isItemValid to justify the player's shift clicking actions to match the slot.
  */
 public class SlotSpecific extends Slot {
-    public ItemStack[] validItemStacks = new ItemStack[0];
-    public Class[] validClasses = new Class[0];
+    private ItemStack[] validItemStacks = new ItemStack[0];
+    private Class[] validClasses = new Class[0];
 
-    public boolean isInverted = false;
-    public boolean isMetadataSensitive = false;
+    private boolean isInverted = false;
+    private boolean isMetadataSensitive = false;
 
-    public SlotSpecific(IInventory inventory, int par3, int par4, int par5, ItemStack... itemStacks) {
-        super(inventory, par3, par4, par5);
+    public SlotSpecific(IInventory inventory, int index, int x, int y, ItemStack... itemStacks) {
+        super(inventory, index, x, y);
 
         setItemStacks(itemStacks);
     }
 
-    public SlotSpecific(IInventory inventory, int par3, int par4, int par5, Class... validClasses) {
-        super(inventory, par3, par4, par5);
+    public SlotSpecific(IInventory inventory, int index, int x, int y, Class... validClasses) {
+        super(inventory, index, x, y);
 
         setClasses(validClasses);
     }
 
-    public SlotSpecific setMetadataSensitive() {
-        isMetadataSensitive = true;
-
-        return this;
-    }
-
-    public SlotSpecific setItemStacks(ItemStack... validItemStacks) {
+    public void setItemStacks(ItemStack... validItemStacks) {
         this.validItemStacks = validItemStacks;
 
-        return this;
     }
 
-    public SlotSpecific setClasses(Class... validClasses) {
+    public void setClasses(Class... validClasses) {
         this.validClasses = validClasses;
 
-        return this;
     }
 
-    public SlotSpecific toggleInverted() {
-        isInverted = !isInverted;
+    public void setMetadataSensitive() {
+        isMetadataSensitive = true;
+    }
 
-        return this;
+    public void toggleInverted() {
+        isInverted = !isInverted;
     }
 
     // Check if the stack is a valid item for this slot. Always true beside for the armor slots.

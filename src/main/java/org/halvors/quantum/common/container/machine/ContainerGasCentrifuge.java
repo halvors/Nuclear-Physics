@@ -7,8 +7,8 @@ import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
-import org.halvors.quantum.lib.gui.ContainerBase;
-import org.halvors.quantum.lib.gui.slot.SlotEnergyItem;
+import org.halvors.quantum.lib.container.ContainerBase;
+import org.halvors.quantum.lib.container.slot.SlotEnergyItem;
 import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
 public class ContainerGasCentrifuge extends ContainerBase {
