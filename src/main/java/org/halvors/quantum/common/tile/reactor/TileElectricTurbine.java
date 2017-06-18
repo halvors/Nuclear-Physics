@@ -12,12 +12,12 @@ import net.minecraftforge.fluids.*;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.multiblock.TurbineMultiBlockHandler;
+import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricStorage;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.multiblock.IMultiBlockStructure;
+import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.lib.thermal.IBoilHandler;
 
 import java.util.EnumSet;
@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** TileElectricTurbineX
+/** TileElectricTurbine
  *
  * 1 cubic meter of steam = 338260 J of energy
  *
@@ -33,16 +33,17 @@ import java.util.Set;
  */
 public class TileElectricTurbine extends TileElectricStorage implements IMultiBlockStructure<TileElectricTurbine>, ITileNetworkable, IBoilHandler {
     // Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
-    protected final long energyPerSteam = 2647600 / 1000;
-    protected final long defaultTorque = 5000;
-    protected long torque = defaultTorque;
+    //protected final int energyPerSteam = 2647600 / 1000;
+    protected final int energyPerSteam = 52000;
+    protected final int defaultTorque = 5000;
+    protected int torque = defaultTorque;
     protected final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 100);
 
     // Radius of large turbine?
     public int multiBlockRadius = 1;
 
     // The power of the turbine this tick. In joules/tick
-    public long power = 0;
+    public int power = 0;
 
     // Current rotation of the turbine in radians.
     public float rotation = 0;
@@ -50,15 +51,15 @@ public class TileElectricTurbine extends TileElectricStorage implements IMultiBl
     public int tier = 0; // Synced
 
     // Max power in watts.
-    protected long maxPower = 5000000; // 13 RF average?
-    protected float prevAngularVelocity = 0;
+    protected int maxPower = 5000000;
     protected float angularVelocity = 0; // Synced
+    protected float previousAngularVelocity = 0;
 
     // MutliBlock methods.
-    private TurbineMultiBlockHandler multiBlock;
+    private ElectricTurbineMultiBlockHandler multiBlock;
 
     public TileElectricTurbine() {
-        setEnergyStorage(new EnergyStorage((int) maxPower * 20));
+        setEnergyStorage(new EnergyStorage(maxPower * 20));
     }
 
     @Override
@@ -89,18 +90,24 @@ public class TileElectricTurbine extends TileElectricStorage implements IMultiBl
                 // Set angular velocity based on power and torque.
                 angularVelocity = (power * 4) / torque;
 
-                if (worldObj.getWorldTime() % 3 == 0 && prevAngularVelocity != angularVelocity) {
+                if (worldObj.getWorldTime() % 3 == 0 && previousAngularVelocity != angularVelocity) {
                     NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
-                    prevAngularVelocity = angularVelocity;
+                    previousAngularVelocity = angularVelocity;
                 }
 
                 if (power > 0) {
-                    generateEnergy();
+                    energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
+                    produce();
                 }
             }
 
             if (angularVelocity != 0) {
-                playSound();
+                if (worldObj.getWorldTime() % 26 == 0) {
+                    double maxVelocity = (getMaxPower() / torque) * 4;
+                    float percentage = angularVelocity * 4 / (float) maxVelocity;
+
+                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "electricTurbine", percentage, 1);
+                }
 
                 // Update rotation.
                 rotation = (float) ((rotation + angularVelocity / 20) % (Math.PI * 2));
@@ -188,9 +195,9 @@ public class TileElectricTurbine extends TileElectricStorage implements IMultiBl
     }
 
     @Override
-    public TurbineMultiBlockHandler getMultiBlock() {
+    public ElectricTurbineMultiBlockHandler getMultiBlock() {
         if (multiBlock == null) {
-            multiBlock = new TurbineMultiBlockHandler(this);
+            multiBlock = new ElectricTurbineMultiBlockHandler(this);
         }
 
         return multiBlock;
@@ -260,7 +267,7 @@ public class TileElectricTurbine extends TileElectricStorage implements IMultiBl
         return ForgeDirection.getOrientation(getBlockMetadata());
     }
 
-    protected long getMaxPower() {
+    private int getMaxPower() {
         if (getMultiBlock().isConstructed()) {
             return maxPower * getArea();
         }
@@ -268,25 +275,7 @@ public class TileElectricTurbine extends TileElectricStorage implements IMultiBl
         return maxPower;
     }
 
-    public int getArea()
-    {
+    private int getArea() {
         return (int) (((multiBlockRadius + 0.5) * 2) * ((multiBlockRadius + 0.5) * 2));
-    }
-
-
-    public void generateEnergy() {
-        if (power > 0) {
-            energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
-            produce();
-        }
-    }
-
-    public void playSound() {
-        if (worldObj.getWorldTime() % 26 == 0) {
-            double maxVelocity = (getMaxPower() / torque) * 4;
-            float percentage = angularVelocity * 4 / (float) maxVelocity;
-
-            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "electricTurbine", percentage, 1);
-        }
     }
 }
