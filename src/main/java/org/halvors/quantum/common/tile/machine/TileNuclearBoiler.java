@@ -236,7 +236,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
         switch (slot) {
             case 1:
-                return itemStack.getItem() == Quantum.itemWaterCell;
+                return OreDictionaryUtility.isWaterCell(itemStack);
 
             case 3:
                 return itemStack.getItem() == Quantum.itemYellowCake;
@@ -267,7 +267,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
         if (waterTank.getFluid() != null) {
             if (waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME) {
                 if (getStackInSlot(3) != null) {
-                    if (getStackInSlot(3).getItem() == Quantum.itemYellowCake || OreDictionaryUtility.isItemStackUraniumOre(getStackInSlot(3))) {
+                    if (getStackInSlot(3).getItem() == Quantum.itemYellowCake || OreDictionaryUtility.isUraniumOre(getStackInSlot(3))) {
                         if (FluidUtility.getAmount(gasTank.getFluid()) < gasTank.getCapacity()) {
                             return true;
                         }

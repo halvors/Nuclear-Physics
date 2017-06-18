@@ -6,11 +6,11 @@ import net.minecraftforge.oredict.OreDictionary;
 public class OreDictionaryUtility {
     public static boolean isItemStackOreDictionaryCompatible(ItemStack itemStack, String... names) {
         if (itemStack != null && names != null && names.length > 0) {
-            for (String oreName : OreDictionary.getOreNames()) {
-                for (String compareOreName : names) {
-                    if (oreName.equals(compareOreName)) {
-                        return true;
-                    }
+            String name = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
+
+            for (String compareName : names) {
+                if (name.equals(compareName)) {
+                    return true;
                 }
             }
         }
@@ -18,19 +18,23 @@ public class OreDictionaryUtility {
         return false;
     }
 
-    public static boolean  isItemStackWaterCell(ItemStack itemStack) {
+    public static boolean isEmptyCell(ItemStack itemStack) {
+        return isItemStackOreDictionaryCompatible(itemStack, "cellEmpty");
+    }
+
+    public static boolean isWaterCell(ItemStack itemStack) {
         return isItemStackOreDictionaryCompatible(itemStack, "cellWater");
     }
 
-    public static boolean  isItemStackUraniumOre(ItemStack itemStack) {
+    public static boolean isUraniumOre(ItemStack itemStack) {
         return isItemStackOreDictionaryCompatible(itemStack, "dropUranium", "oreUranium");
     }
 
-    public static boolean  isItemStackDeuteriumCell(ItemStack itemStack) {
+    public static boolean isDeuteriumCell(ItemStack itemStack) {
         return isItemStackOreDictionaryCompatible(itemStack, "molecule_1d", "molecule_1h2", "cellDeuterium");
     }
 
-    public static boolean  isItemStackTritiumCell(ItemStack itemStack) {
+    public static boolean isTritiumCell(ItemStack itemStack) {
         return isItemStackOreDictionaryCompatible(itemStack, "molecule_h3", "cellTritium");
     }
 }

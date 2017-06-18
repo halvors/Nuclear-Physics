@@ -184,12 +184,12 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return fluid == FluidRegistry.WATER || fluid == Quantum.fluidDeuterium;
+        return fluid.getID() == FluidRegistry.WATER.getID() || fluid.getID() == Quantum.fluidDeuterium.getID();
     }
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return outputTank.getFluid() != null && fluid == outputTank.getFluid().getFluid();
+        return outputTank.getFluid() != null && fluid.getID() == outputTank.getFluid().getFluidID();
     }
 
     @Override
@@ -199,25 +199,20 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        // Water input for machine.
-        if (slot == 0) {
-            // TODO: Fix this.
-            //return CompatibilityModule.isHandler(itemStack.getItem());
-            return true;
-        }
+        switch (slot) {
+            case 0: // Water input for machine.
+                // TODO: Fix this.
+                //return CompatibilityModule.isHandler(itemStack.getItem());
+                return true;
 
-        if (slot == 1) {
-            return itemStack.getItem() == Quantum.itemWaterCell;
-        }
+            case 1:
+                return OreDictionaryUtility.isWaterCell(itemStack);
 
-        // Empty cell to be filled with deuterium or tritium.
-        if (slot == 2) {
-            return itemStack.getItem() == Quantum.itemDeuteriumCell || itemStack.getItem() == Quantum.itemTritiumCell;
-        }
+            case 2: // Empty cell to be filled with deuterium or tritium.
+                return OreDictionaryUtility.isDeuteriumCell(itemStack) || OreDictionaryUtility.isTritiumCell(itemStack);
 
-        // Uranium to be extracted into yellowcake.
-        if (slot == 3) {
-            return itemStack.getItem() == Quantum.itemCell || OreDictionaryUtility.isItemStackUraniumOre(itemStack) || itemStack.getItem() == Quantum.itemDeuteriumCell;
+            case 3: // Uranium to be extracted into yellowcake.
+                return OreDictionaryUtility.isEmptyCell(itemStack) || OreDictionaryUtility.isUraniumOre(itemStack) || OreDictionaryUtility.isDeuteriumCell(itemStack);
         }
 
         return false;
@@ -266,7 +261,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
 
     public boolean canProcess() {
         if (inputTank.getFluid() != null) {
-            if (inputTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME && OreDictionaryUtility.isItemStackUraniumOre(getStackInSlot(inputSlot))) {
+            if (inputTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME && OreDictionaryUtility.isUraniumOre(getStackInSlot(inputSlot))) {
                 if (isItemValidForSlot(outputSlot, new ItemStack(Quantum.itemYellowCake))) {
                     return true;
                 }
@@ -295,7 +290,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
      */
     public boolean refineUranium() {
         if (canProcess()) {
-            if (OreDictionaryUtility.isItemStackUraniumOre(getStackInSlot(inputSlot))) {
+            if (OreDictionaryUtility.isUraniumOre(getStackInSlot(inputSlot))) {
                 inputTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                 incrStackSize(outputSlot, new ItemStack(Quantum.itemYellowCake, 3));
                 decrStackSize(inputSlot, 1);
