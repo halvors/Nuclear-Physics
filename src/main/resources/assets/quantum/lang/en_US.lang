@@ -14,8 +14,6 @@ fluid.uraniumHexafluoride=Uranium Hexafluoride
 // Blocks.
 tile.accelerator.name=Particle Accelerator
 tile.accelerator.tooltip=Accelerates particles and creates antimatter and dark matter.
-tile.centrifuge.name=Centrifuge
-tile.centrifuge.tooltip=Refines Uranium Hexafluoride gas into usable uranium.
 tile.chemicalExtractor.name=Chemical Extractor
 tile.chemicalExtractor.tooltip=Extracts uranium ores to yellowcake, water to deuterium and deuterium to tritium.
 tile.controlRod.name=Control Rod
@@ -32,6 +30,8 @@ tile.fulmination.name=Fulmination Generator
 tile.fulmination.tooltip=Transforms the kinetic energy from explosions into electrical energy.
 tile.fusionReactor.name=Fusion Reactor
 tile.fusionReactor.tooltip=A fusion reactor is used to heat deuterium and tritium to plasma state for fusion power. Plasma must be moved into the reactor cell.
+tile.gasCentrifuge.name=Gas Centrifuge
+tile.gasCentrifuge.tooltip=Refines Uranium Hexafluoride gas into usable uranium.
 tile.gasFunnel.name=Gas Funnel
 tile.gasFunnel.tooltip=Captures gas to allow it to be transported with piping.
 tile.nuclearBoiler.name=Nuclear Boiler
