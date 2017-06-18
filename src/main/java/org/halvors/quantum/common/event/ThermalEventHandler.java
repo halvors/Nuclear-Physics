@@ -13,6 +13,8 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.block.IElectromagnet;
+import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
@@ -49,6 +51,38 @@ public class ThermalEventHandler {
         */
 
         event.setResult(Event.Result.DENY);
+    }
+
+    @SubscribeEvent
+    public void onPlasmaSpawnEvent(PlasmaEvent.PlasmaSpawnEvent event) {
+        Vector3 position = new Vector3(event.x, event.y, event.z);
+        Block block = position.getBlock(event.world);
+
+        if (block != null) {
+            TileEntity tile = position.getTileEntity(event.world);
+
+            if (block == Blocks.bedrock || block == Blocks.iron_block) {
+                return;
+            }
+
+            if (tile instanceof TilePlasma) {
+                ((TilePlasma) tile).setTemperature(event.temperature);
+
+                return;
+            }
+
+            if (tile instanceof IElectromagnet) {
+                return;
+            }
+        }
+
+        position.setBlock(event.world, Quantum.blockPlasma);
+
+        TileEntity tile = position.getTileEntity(event.world);
+
+        if (tile instanceof TilePlasma) {
+            ((TilePlasma) tile).setTemperature(event.temperature);
+        }
     }
 
     @SubscribeEvent
