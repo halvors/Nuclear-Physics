@@ -38,4 +38,8 @@ New features to add:
                60 seconds run = 64 MJ
 
     Useful resources:
-        - How a fusion reactor works: https://www.youtube.com/watch?v=Vwgy6w8ExHE
+        How a fusion reactor works: https://www.youtube.com/watch?v=Vwgy6w8ExHE
+
+        Minecraft 1.6.4 to 1.7.10 porting:
+            - https://github.com/Spoutcraft/Spoutcraft/blob/master/conf/methods.csv https://github.com/Spoutcraft/Spoutcraft/blob/master/conf/fields.csv
+            - https://github.com/ntzrmtthihu777/CreepyPastaCraft/blob/master/gradle/methods.csv https://github.com/ntzrmtthihu777/CreepyPastaCraft/blob/master/gradle/fields.csv
