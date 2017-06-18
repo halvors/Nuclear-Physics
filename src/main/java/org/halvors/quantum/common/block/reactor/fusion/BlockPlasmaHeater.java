@@ -8,13 +8,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.reactor.fusion.TileFusionReactor;
+import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.lib.prefab.block.BlockTile;
 import org.halvors.quantum.lib.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.utility.FluidUtility;
 
-public class BlockFusionReactor extends BlockTile {
-    public BlockFusionReactor() {
+public class BlockPlasmaHeater extends BlockTile {
+    public BlockPlasmaHeater() {
         super(Material.iron);
 
         setUnlocalizedName("fusionReactor");
@@ -47,7 +47,7 @@ public class BlockFusionReactor extends BlockTile {
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
-        return new TileFusionReactor();
+        return new TilePlasmaHeater();
     }
 }
 

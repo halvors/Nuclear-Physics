@@ -11,6 +11,7 @@ New features to add:
     Convenience:
         - Make slots in machines only accept valid items.
         - Fluid output is not transferred to neighbor machine accepting it as input.
+        - Add electromagnetic cell, a cell capable of holding antimatter.
 
     Rendering:
         - Make the whole multiblock reactor cell share GUI.

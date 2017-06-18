@@ -42,7 +42,7 @@ public class BlockCreativeBuilder extends BlockRotatable {
         setCreativeTab(Quantum.getCreativeTab());
     }
 
-    /** Called when the block is right clicked by the player */
+    // Called when the block is right clicked by the player.
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
         if (schematicRegistry.size() > 0) {

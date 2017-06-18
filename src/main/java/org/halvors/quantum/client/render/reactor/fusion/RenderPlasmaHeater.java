@@ -8,19 +8,19 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.reactor.fusion.TileFusionReactor;
+import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.lib.render.RenderUtility;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class RenderFusionReactor extends TileEntitySpecialRenderer {
+public class RenderPlasmaHeater extends TileEntitySpecialRenderer {
     private final IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/fusionReactor.obj"));
     private final ResourceLocation texture =new ResourceLocation(Reference.PREFIX + "textures/models/fusionReactor.png");
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
-        if (tile instanceof TileFusionReactor) {
-            TileFusionReactor tilePlasmaHeater = (TileFusionReactor) tile;
+        if (tile instanceof TilePlasmaHeater) {
+            TilePlasmaHeater tilePlasmaHeater = (TilePlasmaHeater) tile;
 
             GL11.glPushMatrix();
             GL11.glTranslated(x + 0.5, y, z + 0.5);

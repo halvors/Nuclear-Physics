@@ -10,11 +10,12 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.lib.prefab.tile.TileElectrical;
 
 import java.util.List;
 
-public class TileFusionReactor extends TileElectrical implements ITileNetworkable, IFluidHandler, IEnergyReceiver { //IPacketReceiver, ITagRender,
+public class TilePlasmaHeater extends TileElectricInventory implements ITileNetworkable, IFluidHandler, IEnergyReceiver { //IPacketReceiver, ITagRender,
     public static long power = 10000000000L;
     public static int plasmaHeatAmount = 100; //@Config
 
@@ -24,7 +25,7 @@ public class TileFusionReactor extends TileElectrical implements ITileNetworkabl
 
     public float rotation = 0;
 
-    public TileFusionReactor() {
+    public TilePlasmaHeater() {
         energyStorage = new EnergyStorage((int) power, (int) power / 20);
     }
 
@@ -46,7 +47,7 @@ public class TileFusionReactor extends TileElectrical implements ITileNetworkabl
             }
         }
 
-        if (ticks % 80 == 0) {
+        if (worldObj.getWorldTime() % 80 == 0) {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
             NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
@@ -208,18 +209,20 @@ public class TileFusionReactor extends TileElectrical implements ITileNetworkabl
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return fluid == Quantum.fluidDeuterium || fluid == Quantum.fluidTritium;
+        return fluid.getID() == Quantum.fluidDeuterium.getID() || fluid.getID() == Quantum.fluidTritium.getID();
     }
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return fluid == Quantum.fluidPlasma;
+        return fluid.getID() == Quantum.fluidPlasma.getID();
     }
 
     @Override
     public FluidTankInfo[] getTankInfo(ForgeDirection from) {
         return new FluidTankInfo[] { tankInputDeuterium.getInfo(), tankInputTritium.getInfo(), tankOutput.getInfo() };
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
