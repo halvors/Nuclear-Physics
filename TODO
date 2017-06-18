@@ -4,9 +4,12 @@ Known bugs:
     - Quantum Assembler render incorrectly.
     - Items is not stored in inventory probably using NBT somehow.
     - Reactor Cell rendering is messed up.
-    - Chemical Extractor is not validating input item (Yellowcake makes Yellowcake)?
+    - Machine animation continues even if the process is stalled, i.e when there is no more power available.
 
 New features to add:
+    Convenience:
+        - Make slots in machines only accept valid items.
+
     Rendering:
         - Make the whole multiblock reactor cell share GUI.
         - Make nuclear boiler eject steam.
