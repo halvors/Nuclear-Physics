@@ -3,7 +3,6 @@ package org.halvors.quantum.lib.utility;
 import buildcraft.api.tools.IToolWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import org.halvors.quantum.common.item.ItemScrewdriver;
 
 import java.lang.reflect.Method;
 //import resonant.core.content.ItemScrewdriver;
@@ -19,9 +18,11 @@ public class WrenchUtility {
                 return true;
             }
 
+            /*
             if (itemStack.getItem() instanceof ItemScrewdriver) {
                 return true;
             }
+            */
 
             try {
                 Class wrenchClass = itemStack.getItem().getClass();
@@ -47,9 +48,11 @@ public class WrenchUtility {
                 return ((IToolWrench) itemStack.getItem()).canWrench(player, x, y, z);
             }
 
+            /*
             if (itemStack.getItem() instanceof ItemScrewdriver) {
                 return true;
             }
+            */
 
             try {
                 Class wrenchClass = itemStack.getItem().getClass();

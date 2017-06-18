@@ -5,6 +5,7 @@ Known bugs:
     - Quantum Assembler render incorrectly.
     - Items is not stored in inventory probably using NBT somehow.
     - Reactor Cell rendering is messed up.
+    - Chemical Extractor is not validating input item (Yellowcake makes Yellowcake)?
 
 New features to add:
     Rendering:

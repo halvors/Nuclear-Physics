@@ -25,10 +25,10 @@ import org.halvors.quantum.common.tile.TileInventory;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.lib.event.PlasmaEvent;
-import org.halvors.quantum.lib.explosion.ReactorExplosion;
-import org.halvors.quantum.lib.multiblock.IMultiBlockStructure;
-import org.halvors.quantum.lib.multiblock.MultiBlockHandler;
+import org.halvors.quantum.common.event.PlasmaEvent;
+import org.halvors.quantum.common.explosion.ReactorExplosion;
+import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
+import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
 import org.halvors.quantum.lib.thermal.ThermalPhysics;
 
@@ -47,8 +47,8 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
     private boolean shouldUpdate = false;
 
-    private long previousInternalEnergy = 0;
     private long internalEnergy = 0;
+    private long previousInternalEnergy = 0;
     private int meltdownCounter = 0;
     private int meltdownCounterMaximum = 1000;
 
@@ -197,7 +197,6 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
                 if (isOverToxic()) {
                     // Randomly leak toxic waste when it is too toxic.
                     VectorWorld leakPos = new VectorWorld(this).translate(worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10);
-
                     Block block = leakPos.getBlock();
 
                     if (block == Blocks.grass) {
