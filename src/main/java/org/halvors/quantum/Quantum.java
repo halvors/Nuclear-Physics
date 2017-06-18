@@ -23,7 +23,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.TextureStitchEvent;
@@ -68,11 +67,11 @@ import org.halvors.quantum.common.block.reactor.fusion.BlockFusionReactor;
 import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
+import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.event.ThermalEventHandler;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemRadioactive;
-import org.halvors.quantum.common.item.ItemScrewdriver;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
 import org.halvors.quantum.common.item.particle.ItemAntimatter;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
@@ -97,16 +96,12 @@ import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.tile.reactor.fusion.TileFusionReactor;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
-import org.halvors.quantum.common.event.PlasmaEvent;
 import org.halvors.quantum.lib.grid.UpdateTicker;
 import org.halvors.quantum.lib.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.render.RenderUtility;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
-import org.halvors.quantum.lib.tile.BlockDummy;
-import org.halvors.quantum.lib.tile.TileBlock;
 
 import java.util.List;
 
@@ -224,6 +219,7 @@ public class Quantum implements IUpdatableMod {
 		// Register event handlers.
 		MinecraftForge.EVENT_BUS.register(this);
 		FMLCommonHandler.instance().bus().register(new PlayerEventHandler());
+		MinecraftForge.EVENT_BUS.register(new ExplosionEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
 
 		// Register the proxy as our GuiHandler to NetworkRegistry.
@@ -243,7 +239,6 @@ public class Quantum implements IUpdatableMod {
 		registerRecipes();
 
 		// Register event buses. TODO: Move this to a custom event handler?
-		MinecraftForge.EVENT_BUS.register(itemAntimatter);
 		MinecraftForge.EVENT_BUS.register(FulminationHandler.INSTANCE);
 
 		// Adde schematics to the creative builder.
@@ -252,7 +247,6 @@ public class Quantum implements IUpdatableMod {
 		BlockCreativeBuilder.registerSchematic(new SchematicFissionReactor());
 		BlockCreativeBuilder.registerSchematic(new SchematicFusionReactor());
 
-		/** Cell registry. */
 		if (ConfigurationManager.General.allowOreDictionaryCompatibility) {
 			OreDictionary.registerOre("ingotUranium", itemUranium);
 			OreDictionary.registerOre("dustUranium", itemYellowCake);
@@ -401,26 +395,12 @@ public class Quantum implements IUpdatableMod {
 		itemTritiumCell = new ItemCell("cellTritium");
 		itemWaterCell = new ItemCell("cellWater");
 
-		GameRegistry.registerItem(itemAntimatter, "antimatter");
-		GameRegistry.registerItem(itemBreedingRod, "rodBreedingFuel");
-		GameRegistry.registerItem(itemCell, "cellEmpty");
-		GameRegistry.registerItem(itemDarkMatter, "darkMatter");
-		GameRegistry.registerItem(itemDeuteriumCell, "cellDeuterium");
-		GameRegistry.registerItem(itemFissileFuel, "rodFissileFuel");
-		GameRegistry.registerItem(itemTritiumCell, "cellTritium");
-		GameRegistry.registerItem(itemWaterCell, "cellWater");
-
 		// Buckets
 		itemBucketToxicWaste = new ItemBucketToxicWaste();
 
-		GameRegistry.registerItem(itemBucketToxicWaste, "bucketToxicWaste");
-
 		// Uranium
 		itemUranium = new ItemUranium();
-		itemYellowCake = new ItemRadioactive("yellowcake");
-
-		GameRegistry.registerItem(itemUranium, "uranium");
-		GameRegistry.registerItem(itemYellowCake, "yellowcake");
+		itemYellowCake = new ItemRadioactive("yellowCake");
 
 		// Hazmat
 		itemHazmatMask = new ItemArmorHazmat("hazmatMask", 0);
@@ -428,20 +408,31 @@ public class Quantum implements IUpdatableMod {
 		itemHazmatLeggings = new ItemArmorHazmat("hazmatLeggings", 2);
 		itemHazmatBoots = new ItemArmorHazmat("hazmatBoots", 3);
 
+		GameRegistry.registerItem(itemAntimatter, "itemAntimatter");
+		GameRegistry.registerItem(itemBreedingRod, "itemRodBreedingFuel");
+		GameRegistry.registerItem(itemCell, "itemCellEmpty");
+		GameRegistry.registerItem(itemDarkMatter, "itemDarkMatter");
+		GameRegistry.registerItem(itemDeuteriumCell, "itemCellDeuterium");
+		GameRegistry.registerItem(itemFissileFuel, "itemRodFissileFuel");
+		GameRegistry.registerItem(itemTritiumCell, "itemCellTritium");
+		GameRegistry.registerItem(itemWaterCell, "itemCellWater");
+
+		GameRegistry.registerItem(itemBucketToxicWaste, "itemBucketToxicWaste");
+
+		GameRegistry.registerItem(itemUranium, "itemUranium");
+		GameRegistry.registerItem(itemYellowCake, "itemYellowCake");
+
 		GameRegistry.registerItem(itemHazmatMask, "itemHazmatMask");
 		GameRegistry.registerItem(itemHazmatBody, "itemHazmatBody");
 		GameRegistry.registerItem(itemHazmatLeggings, "itemHazmatLeggings");
 		GameRegistry.registerItem(itemHazmatBoots, "itemHazmatBoots");
-
-		// Debug
-		GameRegistry.registerItem(new ItemScrewdriver(), "itemScrewdriver");
 	}
 
 	private void registerFluidContainers() {
 		// Register fluid containers.
-		FluidContainerRegistry.registerFluidContainer(new FluidStack(fluidDeuterium, 200), new ItemStack(itemDeuteriumCell), new ItemStack(itemCell));
-		FluidContainerRegistry.registerFluidContainer(new FluidStack(fluidTritium, 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
-		FluidContainerRegistry.registerFluidContainer(fluidToxicWaste, new ItemStack(itemBucketToxicWaste), new ItemStack(Items.bucket));
+		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("fluidDeuterium"), 200), new ItemStack(itemDeuteriumCell), new ItemStack(itemCell));
+		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("fluidTritium"), 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
+		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluid("fluidToxicWaste"), new ItemStack(itemBucketToxicWaste), new ItemStack(Items.bucket));
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.WATER, new ItemStack(itemWaterCell), new ItemStack(itemCell));
 	}
 
@@ -455,7 +446,7 @@ public class Quantum implements IUpdatableMod {
 	}
 
 	@SubscribeEvent
-	public void fillBucketEvent(FillBucketEvent event) {
+	public void onFillBucketEvent(FillBucketEvent event) {
 		if (!event.world.isRemote && event.target != null && event.target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
 			VectorWorld pos = new VectorWorld(event.world, event.target);
 
@@ -465,38 +456,6 @@ public class Quantum implements IUpdatableMod {
 				event.result = new ItemStack(itemBucketToxicWaste);
 				event.setResult(Event.Result.ALLOW);
 			}
-		}
-	}
-
-	@SubscribeEvent
-	public void onPlasmaSpawnEvent(PlasmaEvent.PlasmaSpawnEvent event) {
-		Vector3 position = new Vector3(event.x, event.y, event.z);
-		Block block = position.getBlock(event.world);
-
-		if (block != null) {
-			TileEntity tile = position.getTileEntity(event.world);
-
-			if (block == Blocks.bedrock || block == Blocks.iron_block) {
-				return;
-			}
-
-			if (tile instanceof TilePlasma) {
-				((TilePlasma) tile).setTemperature(event.temperature);
-
-				return;
-			}
-
-			if (tile instanceof IElectromagnet) {
-				return;
-			}
-		}
-
-		position.setBlock(event.world, blockPlasma);
-
-		TileEntity tile = position.getTileEntity(event.world);
-
-		if (tile instanceof TilePlasma) {
-			((TilePlasma) tile).setTemperature(event.temperature);
 		}
 	}
 
