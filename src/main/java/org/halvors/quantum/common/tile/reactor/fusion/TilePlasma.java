@@ -4,9 +4,9 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.quantum.common.event.PlasmaEvent;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.common.event.PlasmaEvent;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
 
 public class TilePlasma extends TileEntity {

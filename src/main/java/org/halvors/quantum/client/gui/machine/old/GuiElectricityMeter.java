@@ -6,7 +6,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import org.halvors.quantum.client.gui.component.GuiPowerBar;
 import org.halvors.quantum.common.base.tile.ITileOwnable;
-import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.tile.machine.old.TileEntityElectricityMeter;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.PlayerUtils;

@@ -13,11 +13,11 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
+import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricStorage;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.lib.thermal.IBoilHandler;
 
 import java.util.EnumSet;

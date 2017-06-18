@@ -11,7 +11,7 @@ import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.location.Location;
-import org.halvors.quantum.lib.gui.ContainerDummy;
+import org.halvors.quantum.lib.container.ContainerDummy;
 import org.lwjgl.opengl.GL11;
 
 public class GuiCreativeBuilder extends GuiContainer {

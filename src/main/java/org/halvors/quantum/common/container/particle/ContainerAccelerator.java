@@ -7,7 +7,7 @@ import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
-import org.halvors.quantum.lib.gui.ContainerBase;
+import org.halvors.quantum.lib.container.ContainerBase;
 
 public class ContainerAccelerator extends ContainerBase {
     private TileAccelerator tile;
