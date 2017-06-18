@@ -1,7 +1,5 @@
 package org.halvors.quantum;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -35,14 +33,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.halvors.quantum.client.render.machine.RenderCentrifuge;
-import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
-import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
-import org.halvors.quantum.client.render.machine.RenderQuantumAssembler;
-import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
-import org.halvors.quantum.client.render.reactor.fission.RenderReactorCell;
-import org.halvors.quantum.client.render.reactor.fission.RenderThermometer;
-import org.halvors.quantum.client.render.reactor.fusion.RenderFusionReactor;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
@@ -53,6 +43,7 @@ import org.halvors.quantum.common.block.BlockRadioactiveGrass;
 import org.halvors.quantum.common.block.BlockToxicWaste;
 import org.halvors.quantum.common.block.BlockUraniumOre;
 import org.halvors.quantum.common.block.TileElectromagnet;
+import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
 import org.halvors.quantum.common.block.machine.BlockGasCentrifuge;
 import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
@@ -66,9 +57,8 @@ import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
 import org.halvors.quantum.common.block.reactor.fission.BlockSiren;
 import org.halvors.quantum.common.block.reactor.fission.BlockThermometer;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
-import org.halvors.quantum.common.block.reactor.fusion.BlockFusionReactor;
 import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
-import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
+import org.halvors.quantum.common.block.reactor.fusion.BlockPlasmaHeater;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
@@ -97,12 +87,11 @@ import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
-import org.halvors.quantum.common.tile.reactor.fusion.TileFusionReactor;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
+import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.updater.UpdateManager;
 import org.halvors.quantum.lib.grid.UpdateTicker;
-import org.halvors.quantum.lib.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.render.RenderUtility;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
 
@@ -161,7 +150,6 @@ public class Quantum implements IUpdatableMod {
 	public static Block blockControlRod;
 	public static Block blockElectromagnet;
 	public static Block blockFulmination;
-	public static Block blockFusionReactor;
 	public static Block blockGasCentrifuge;
 	public static Block blockGasFunnel;
 	public static Block blockNuclearBoiler;
@@ -169,6 +157,7 @@ public class Quantum implements IUpdatableMod {
 	public static Block blockThermometer;
 	public static Block blockUraniumOre;
 	public static Block blockPlasma;
+    public static Block blockPlasmaHeater;
 	public static Block blockQuantumAssembler;
 	public static Block blockRadioactiveGrass;
 	public static Block blockReactorCell;
@@ -210,11 +199,14 @@ public class Quantum implements IUpdatableMod {
 		ConfigurationManager.loadConfiguration(configuration);
 
 		// Check for updates.
-		FMLCommonHandler.instance().bus().register(new UpdateManager(this, Reference.RELEASE_URL, Reference.DOWNLOAD_URL));
+		//FMLCommonHandler.instance().bus().register(new UpdateManager(this, Reference.RELEASE_URL, Reference.DOWNLOAD_URL));
 
 		// Mod integration.
 		logger.log(Level.INFO, "CoFHCore integration is " + (Integration.isCoFHCoreEnabled ? "enabled" : "disabled") + ".");
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
+
+		// Calling proxy handler.
+		proxy.preInit();
 	}
 
 	@EventHandler
@@ -228,14 +220,10 @@ public class Quantum implements IUpdatableMod {
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
-		// Register block rendering handler.
-		RenderingRegistry.registerBlockHandler(new BlockRenderingHandler()); // TODO: Only register client side?
-
 		// Call functions for adding blocks, items, etc.
 		registerFluids();
 		registerBlocks();
 		registerTileEntities();
-		registerTileEntitySpecialRenders();
 		registerItems();
 		registerFluidContainers();
 		registerEntities();
@@ -270,17 +258,20 @@ public class Quantum implements IUpdatableMod {
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ForgeChunkManager.LoadingCallback() {
 			@Override
 			public void ticketsLoaded(List<ForgeChunkManager.Ticket> tickets, World world) {
-				for (ForgeChunkManager.Ticket ticket : tickets) {
-					if (ticket.getType() == ForgeChunkManager.Type.ENTITY) {
-						if (ticket.getEntity() != null) {
-							if (ticket.getEntity() instanceof EntityParticle) {
-								((EntityParticle) ticket.getEntity()).updateTicket = ticket;
-							}
+			for (ForgeChunkManager.Ticket ticket : tickets) {
+				if (ticket.getType() == ForgeChunkManager.Type.ENTITY) {
+					if (ticket.getEntity() != null) {
+						if (ticket.getEntity() instanceof EntityParticle) {
+							((EntityParticle) ticket.getEntity()).updateTicket = ticket;
 						}
 					}
 				}
 			}
+			}
 		});
+
+		// Calling proxy handler.
+		proxy.init();
 	}
 
 	@EventHandler
@@ -291,6 +282,9 @@ public class Quantum implements IUpdatableMod {
 
 		// Register grids.
 		UpdateTicker.addNetwork(thermalGrid);
+
+		// Calling proxy handler.
+		proxy.postInit();
 	}
 
 	private void registerFluids() {
@@ -318,7 +312,6 @@ public class Quantum implements IUpdatableMod {
 		blockElectricTurbine = new BlockElectricTurbine();
 		blockElectromagnet = new BlockElectromagnet();
 		blockFulmination = new BlockFulmination();
-		blockFusionReactor = new BlockFusionReactor();
 		blockGasCentrifuge = new BlockGasCentrifuge();
 		blockGasFunnel = new BlockGasFunnel();
 		blockNuclearBoiler = new BlockNuclearBoiler();
@@ -327,6 +320,7 @@ public class Quantum implements IUpdatableMod {
 		blockUraniumOre = new BlockUraniumOre();
 		blockPlasma = new BlockPlasma();
 		fluidPlasma.setBlock(blockPlasma);
+        blockPlasmaHeater = new BlockPlasmaHeater();
 		blockQuantumAssembler = new BlockQuantumAssembler();
 		blockRadioactiveGrass = new BlockRadioactiveGrass();
 		blockReactorCell = new BlockReactorCell();
@@ -340,7 +334,6 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockElectricTurbine, "blockElectricTurbine");
 		GameRegistry.registerBlock(blockElectromagnet, "blockElectromagnet");
 		GameRegistry.registerBlock(blockFulmination, "blockFulmination");
-		GameRegistry.registerBlock(blockFusionReactor, "blockFusionReactor");
 		GameRegistry.registerBlock(blockGasCentrifuge, "blockGasCentrifuge");
 		GameRegistry.registerBlock(blockGasFunnel, "blockGasFunnel");
 		GameRegistry.registerBlock(blockNuclearBoiler, "blockNuclearBoiler");
@@ -348,6 +341,7 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockThermometer, "blockThermometer");
 		GameRegistry.registerBlock(blockUraniumOre, "blockUraniumOre");
 		GameRegistry.registerBlock(blockPlasma, "blockPlasma");
+        GameRegistry.registerBlock(blockPlasmaHeater, "blockPlasmaHeater");
 		GameRegistry.registerBlock(blockQuantumAssembler, "blockQuantumAssembler");
 		GameRegistry.registerBlock(blockRadioactiveGrass, "blockRadioactiveGrass");
 		GameRegistry.registerBlock(blockReactorCell, "blockReactorCell");
@@ -369,21 +363,9 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerTileEntity(TileSiren.class, "tileSiren");
 		GameRegistry.registerTileEntity(TileThermometer.class, "tileThermometer");
 		GameRegistry.registerTileEntity(TilePlasma.class, "tilePlasma");
+        GameRegistry.registerTileEntity(TilePlasmaHeater.class, "tilePlasmaHeater");
 		GameRegistry.registerTileEntity(TileQuantumAssembler.class, "tileQuantumAssembler");
-		GameRegistry.registerTileEntity(TileFusionReactor.class, "tileFusionCore");
 		GameRegistry.registerTileEntity(TileReactorCell.class, "tileReactorCell");
-	}
-
-	private void registerTileEntitySpecialRenders() {
-		// Register special renderers.
-		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderCentrifuge());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileFusionReactor.class, new RenderFusionReactor());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
 	}
 
 	private void registerItems() {

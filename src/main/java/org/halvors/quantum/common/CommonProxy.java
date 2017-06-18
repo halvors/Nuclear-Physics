@@ -23,6 +23,21 @@ import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
  * @author halvors
  */
 public class CommonProxy implements IGuiHandler {
+	public void preInit()
+	{
+
+	}
+
+	public void init()
+	{
+
+	}
+
+	public void postInit()
+	{
+
+	}
+
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tile = world.getTileEntity(x, y, z);
