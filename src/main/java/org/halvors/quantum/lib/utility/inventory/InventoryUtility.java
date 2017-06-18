@@ -340,10 +340,10 @@ public class InventoryUtility {
     public static void consumeHeldItem(EntityPlayer player) {
         ItemStack stack = player.inventory.getCurrentItem();
 
-        if ((player != null) && (stack != null)) {
+        if (stack != null) {
             stack = stack.copy();
 
-            if (stack.getItem().hasContainerItem()) {
+            if (stack.getItem().hasContainerItem(stack)) {
                 if (stack.stackSize == 1) {
                     stack = stack.getItem().getContainerItem(stack);
                 } else {

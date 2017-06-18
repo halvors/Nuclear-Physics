@@ -1,16 +1,14 @@
 [
 	{
-  		"modid": "electrometrics",
-  		"name": "Electrometrics",
-  		"description": "Electrometrics is a Minecraft mod that adds electrical components for measuring energy and monitor your grid.",
+  		"modid": "quantum",
+  		"name": "Quantum",
+  		"description": "Quantum is a mod that brings in realistic, world-based technological advancement experience into Minecraft.",
   		"version": "${version}",
   		"mcversion": "${minecraft_version}",
-  		"url": "https://github.com/halvors/Electrometrics/",
+  		"url": "https://github.com/halvors/quantum/",
   		"updateUrl": "",
-  		"authorList": [
-  			"halvors"
-  		],
-  		"credits": "halvors",
+  		"authorList": [ "halvors" ],
+  		"credits": "Calclavia, CyanideX, Archadia, Darkguardsman, Tgame14 and Maxwolf Goodliffe",
   		"logoFile": "logo.png",
 		"screenshots": [],
 		"dependencies": []

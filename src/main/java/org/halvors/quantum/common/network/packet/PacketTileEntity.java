@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is a packet that provides common information for all TileEntity packets, and is meant to be extended.
+ * This packet i used by tile tile entities to send custom information from server to client.
  *
  * @author halvors
  */

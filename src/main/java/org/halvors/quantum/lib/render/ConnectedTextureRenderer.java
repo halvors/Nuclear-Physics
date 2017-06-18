@@ -9,7 +9,6 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.tile.TileBlock;
 import org.halvors.quantum.lib.tile.TileRender;
 import org.halvors.quantum.lib.utility.RenderBlockUtility;
-import org.halvors.quantum.lib.utility.RenderUtility;
 import org.halvors.quantum.lib.utility.WorldUtility;
 import org.lwjgl.opengl.GL11;
 

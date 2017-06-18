@@ -6,7 +6,6 @@ import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.schematic.ISchematic;
 import org.halvors.quantum.lib.type.Pair;
 
 import java.util.HashMap;
@@ -45,7 +44,7 @@ public class SchematicFissionReactor implements ISchematic {
                 }
             }
 
-            //map.put(new Vector3(0, -3, 0), new Pair<>(ElectricalContent.blockSiren, 0))
+            map.put(new Vector3(0, -3, 0), new Pair<>(Quantum.blockSiren, 0));
             map.put(new Vector3(0, -2, 0), new Pair<Block, Integer>(Blocks.redstone_wire, 0));
             map.put(new Vector3(), new Pair<>(Quantum.blockReactorCell, 0));
         } else {

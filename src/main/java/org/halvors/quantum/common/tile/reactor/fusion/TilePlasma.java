@@ -4,14 +4,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.quantum.common.event.PlasmaEvent;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.lib.event.PlasmaEvent;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
 
 public class TilePlasma extends TileEntity {
     public static int plasmaMaxTemperature = 1000000;
-    private float temperature = plasmaMaxTemperature;
+    private int temperature = plasmaMaxTemperature;
 
     @Override
     public void updateEntity() {
@@ -38,7 +38,7 @@ public class TilePlasma extends TileEntity {
                         TileEntity tileEntity = position.getTileEntity(worldObj);
 
                         if (!(tileEntity instanceof TilePlasma)) {
-                            MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(worldObj, position.intX(), position.intY(), position.intZ(), (int) temperature));
+                            MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(worldObj, position.intX(), position.intY(), position.intZ(), temperature));
                         }
                     }
                 }

@@ -1,1 +1,41 @@
 Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
+
+Known bugs:
+    - Quantum Assembler render incorrectly.
+    - Items is not stored in inventory probably using NBT somehow.
+    - Reactor Cell rendering is messed up.
+    - Machine animation continues even if the process is stalled, i.e when there is no more power available.
+    - Fluid levels in machines is not always synced properly to the client.
+
+New features to add:
+    Convenience:
+        - Make slots in machines only accept valid items.
+        - Fluid output is not transferred to neighbor machine accepting it as input.
+        - Add electromagnetic cell, a cell capable of holding antimatter.
+
+    Rendering:
+        - Make the whole multiblock reactor cell share GUI.
+        - Make nuclear boiler eject steam.
+        - Make turbines eject smoke particles?
+
+    Networking:
+        - Only send PacketTileEntity from server to client? (Done) (Not tested)
+
+    Energy:
+        Centrifuge:
+            128 MJ ~= 20000 = 2 Refined/Breading Uranium
+
+        Chemical Extractor: (Done)
+            128 MJ ~= 20000 RF = 27 Yellowcake
+
+        Nuclear Boiler:
+            128 MJ ~= 21000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride
+
+        Turbine
+            Fission Reactor with 4 Control Rods: (Generated from one Turbine)
+               (128 MJ * 20) + 90 MJ = 2650 MJ
+
+               60 seconds run = 64 MJ
+
+    Useful resources:
+        - How a fusion reactor works: https://www.youtube.com/watch?v=Vwgy6w8ExHE

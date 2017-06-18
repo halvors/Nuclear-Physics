@@ -22,8 +22,10 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.debug.packet.PacketCreativeBuilder;
-import org.halvors.quantum.common.network.packet.*;
+import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;
+import org.halvors.quantum.common.network.packet.PacketConfiguration;
+import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.network.packet.PacketTileRedstoneControl;
 import org.halvors.quantum.common.utility.PlayerUtils;
 import org.halvors.quantum.common.utility.location.Range;
 
@@ -40,16 +42,11 @@ public class NetworkHandler {
 	static {
 		// Register packets.
 		networkWrapper.registerMessage(PacketConfiguration.PacketConfigurationMessage.class, PacketConfiguration.class, 0, Side.CLIENT);
-		networkWrapper.registerMessage(PacketRequestData.PacketRequestDataMessage.class, PacketRequestData.class, 1, Side.SERVER);
-		networkWrapper.registerMessage(PacketTileEntity.PacketTileEntityMessage.class, PacketTileEntity.class, 2, Side.SERVER);
-		networkWrapper.registerMessage(PacketTileEntity.PacketTileEntityMessage.class, PacketTileEntity.class, 2, Side.CLIENT);
-		networkWrapper.registerMessage(PacketTileEntityElectricityMeter.PacketTileEntityElectricityMeterMessage.class, PacketTileEntityElectricityMeter.class, 3, Side.SERVER);
-		networkWrapper.registerMessage(PacketTileEntityElectricityMeter.PacketTileEntityElectricityMeterMessage.class, PacketTileEntityElectricityMeter.class, 3, Side.CLIENT);
-		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 4, Side.SERVER);
-		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 4, Side.CLIENT);
-
-		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 10, Side.CLIENT);
-		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 10, Side.SERVER);
+		networkWrapper.registerMessage(PacketTileEntity.PacketTileEntityMessage.class, PacketTileEntity.class, 1, Side.CLIENT);
+		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 2, Side.CLIENT);
+		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 2, Side.SERVER);
+		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 3, Side.SERVER);
+		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 3, Side.CLIENT);
 	}
 
 	public static SimpleNetworkWrapper getNetworkWrapper() {
@@ -122,7 +119,6 @@ public class NetworkHandler {
 
     public static void writeObject(Object object, ByteBuf dataStream) {
         try {
-            // Language types.
             if (object instanceof Boolean) {
                 dataStream.writeBoolean((Boolean) object);
             } else if (object instanceof Byte) {
@@ -185,7 +181,7 @@ public class NetworkHandler {
 		}
 	}
 
-	public static ItemStack readNBTTagStack(ByteBuf dataStream) {
+	public static ItemStack readItemStack(ByteBuf dataStream) {
 		int id = dataStream.readInt();
 
 		if (id >= 0) {

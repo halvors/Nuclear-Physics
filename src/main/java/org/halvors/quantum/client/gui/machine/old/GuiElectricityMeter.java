@@ -6,8 +6,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import org.halvors.quantum.client.gui.component.GuiPowerBar;
 import org.halvors.quantum.common.base.tile.ITileOwnable;
-import org.halvors.quantum.common.network.NetworkHandler;
-import org.halvors.quantum.common.network.packet.PacketTileEntityElectricityMeter;
 import org.halvors.quantum.common.tile.machine.old.TileEntityElectricityMeter;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.PlayerUtils;
@@ -61,7 +59,7 @@ public class GuiElectricityMeter extends GuiElectricMachine {
 		switch (guiButton.id) {
 			case 0:
 				// Update the server-side TileEntity.
-				NetworkHandler.sendToServer(new PacketTileEntityElectricityMeter(tileEntityElectricityMeter, PacketTileEntityElectricityMeter.PacketType.RESET));
+				//NetworkHandler.sendToServer(new PacketTileEntityElectricityMeter(tileEntityElectricityMeter, PacketTileEntityElectricityMeter.PacketType.RESET));
 				break;
 		}
 	}
@@ -86,7 +84,7 @@ public class GuiElectricityMeter extends GuiElectricMachine {
 			ticker = 5;
 
 			// Request the latest data from the server-side TileEntity.
-			NetworkHandler.sendToServer(new PacketTileEntityElectricityMeter(tileEntityElectricityMeter, PacketTileEntityElectricityMeter.PacketType.REQUEST));
+			//NetworkHandler.sendToServer(new PacketTileEntityElectricityMeter(tileEntityElectricityMeter, PacketTileEntityElectricityMeter.PacketType.REQUEST));
 		}
 
 		super.drawGuiScreenForegroundLayer(mouseX, mouseY);

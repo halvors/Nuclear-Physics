@@ -16,17 +16,19 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
+import org.halvors.quantum.common.event.PlasmaEvent;
+import org.halvors.quantum.common.explosion.ReactorExplosion;
+import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
+import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.tile.TileInventory;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.lib.event.PlasmaEvent;
-import org.halvors.quantum.lib.explosion.ReactorExplosion;
-import org.halvors.quantum.lib.multiblock.IMultiBlockStructure;
-import org.halvors.quantum.lib.multiblock.MultiBlockHandler;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
 import org.halvors.quantum.lib.thermal.ThermalPhysics;
 
@@ -45,8 +47,8 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
     private boolean shouldUpdate = false;
 
-    private long previousInternalEnergy = 0;
     private long internalEnergy = 0;
+    private long previousInternalEnergy = 0;
     private int meltdownCounter = 0;
     private int meltdownCounterMaximum = 1000;
 
@@ -153,18 +155,20 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
                     // Sound of lava flowing randomly plays when above temperature to boil water.
                     if (worldObj.rand.nextInt(80) == 0 && getTemperature() >= 373) {
-                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "Fluid.lava", 0.5F, 2.1F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.85F);
+                        // TODO: Only do this is there is a water block nearby.
+                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lava", 0.5F, 2.1F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.85F);
                     }
 
                     // Sounds of lava popping randomly plays when above temperature to boil water.
                     if (worldObj.rand.nextInt(40) == 0 && getTemperature() >= 373) {
-                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "Fluid.lavapop", 0.5F, 2.6F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.8F);
+                        // TODO: Only do this is there is a water block nearby.
+                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lavapop", 0.5F, 2.6F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.8F);
                     }
 
                     // Reactor cell plays random idle noises while operating and above temperature to boil water.
                     if (worldObj.getWorldTime() % 100 == 0 && getTemperature() >= 373) {
                         float percentage = Math.min(getTemperature() / 2000.0F, 1.0F);
-                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "reactorcell", percentage, 1.0F);
+                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, Reference.PREFIX + "tile.reactorCell", percentage, 1.0F);
                     }
 
                     if (previousTemperature != temperature && !shouldUpdate) {
@@ -193,7 +197,6 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
                 if (isOverToxic()) {
                     // Randomly leak toxic waste when it is too toxic.
                     VectorWorld leakPos = new VectorWorld(this).translate(worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10);
-
                     Block block = leakPos.getBlock();
 
                     if (block == Blocks.grass) {

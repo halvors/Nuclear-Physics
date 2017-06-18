@@ -13,11 +13,12 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.block.IElectromagnet;
+import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
+import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.lib.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.quantum.lib.grid.UpdateTicker;
-import org.halvors.quantum.lib.thermal.BoilEvent;
 import org.halvors.quantum.lib.thermal.IBoilHandler;
 import universalelectricity.api.net.IUpdate;
 
@@ -53,12 +54,44 @@ public class ThermalEventHandler {
     }
 
     @SubscribeEvent
+    public void onPlasmaSpawnEvent(PlasmaEvent.PlasmaSpawnEvent event) {
+        Vector3 position = new Vector3(event.x, event.y, event.z);
+        Block block = position.getBlock(event.world);
+
+        if (block != null) {
+            TileEntity tile = position.getTileEntity(event.world);
+
+            if (block == Blocks.bedrock || block == Blocks.iron_block) {
+                return;
+            }
+
+            if (tile instanceof TilePlasma) {
+                ((TilePlasma) tile).setTemperature(event.temperature);
+
+                return;
+            }
+
+            if (tile instanceof IElectromagnet) {
+                return;
+            }
+        }
+
+        position.setBlock(event.world, Quantum.blockPlasma);
+
+        TileEntity tile = position.getTileEntity(event.world);
+
+        if (tile instanceof TilePlasma) {
+            ((TilePlasma) tile).setTemperature(event.temperature);
+        }
+    }
+
+    @SubscribeEvent
     public void onThermalUpdateEvent(ThermalUpdateEvent event) {
         final VectorWorld position = event.position;
         final World world = position.getWorld();
         Block block = position.getBlock();
 
-        if (block == Quantum.blockElectromagnet.block) {
+        if (block == Quantum.blockElectromagnet) {
             event.heatLoss = event.deltaTemperature * 0.6F;
         }
 

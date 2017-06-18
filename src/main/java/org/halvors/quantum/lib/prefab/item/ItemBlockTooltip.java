@@ -1,5 +1,7 @@
 package org.halvors.quantum.lib.prefab.item;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
@@ -15,8 +17,10 @@ public class ItemBlockTooltip extends ItemBlock {
         super(block);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List list, boolean par4) {
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List list, boolean flag) {
         String tooltip = LanguageUtility.localize(getUnlocalizedName(itemStack) + ".tooltip");
 
         if ((tooltip != null) && (tooltip.length() > 0)) {

@@ -12,7 +12,7 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.lib.render.ModelCube;
-import org.halvors.quantum.lib.utility.RenderUtility;
+import org.halvors.quantum.lib.render.RenderUtility;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)

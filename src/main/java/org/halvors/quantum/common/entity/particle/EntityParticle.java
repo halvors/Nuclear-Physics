@@ -22,29 +22,29 @@ import org.halvors.quantum.common.transform.vector.VectorHelper;
 
 import java.util.List;
 
-/** The particle entity used to determine the particle acceleration. */
 public class EntityParticle extends Entity implements IEntityAdditionalSpawnData {
     private static final int MOVE_TICK_RATE = 20;
+    private int lastTurn = 60;
+    private Vector3 movementPosition = new Vector3();
+    private ForgeDirection movementDirection = ForgeDirection.NORTH;
     public ForgeChunkManager.Ticket updateTicket;
     public boolean didParticleCollide = false;
-    private int lastTurn = 60;
-    private Vector3 movementVector = new Vector3();
-    private ForgeDirection movementDirection = ForgeDirection.NORTH;
 
     public EntityParticle(World world) {
         super(world);
 
-        setSize(0.3f, 0.3f);
-        renderDistanceWeight = 4f;
+        setSize(0.3F, 0.3F);
+        renderDistanceWeight = 4F;
         ignoreFrustumCheck = true;
     }
 
-    public EntityParticle(World world, Vector3 pos, Vector3 movementVec, ForgeDirection dir) {
+    public EntityParticle(World world, Vector3 position, Vector3 movementPosition, ForgeDirection movementDirection) {
         this(world);
 
-        setPosition(pos.x, pos.y, pos.z);
-        movementVector = movementVec;
-        movementDirection = dir;
+        this.movementPosition = movementPosition;
+        this.movementDirection = movementDirection;
+
+        setPosition(position.x, position.y, position.z);
     }
 
     public static boolean canRenderAcceleratedParticle(World world, Vector3 pos) {
@@ -68,22 +68,21 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         TileEntity tile = checkPos.getTileEntity(world);
 
         return tile instanceof IElectromagnet && ((IElectromagnet) tile).isRunning();
-
     }
 
     @Override
     public void writeSpawnData(ByteBuf buffer) {
-        buffer.writeInt(movementVector.intX());
-        buffer.writeInt(movementVector.intY());
-        buffer.writeInt(movementVector.intZ());
+        buffer.writeInt(movementPosition.intX());
+        buffer.writeInt(movementPosition.intY());
+        buffer.writeInt(movementPosition.intZ());
         buffer.writeInt(movementDirection.ordinal());
     }
 
     @Override
     public void readSpawnData(ByteBuf additionalData) {
-        movementVector.x = additionalData.readInt();
-        movementVector.y = additionalData.readInt();
-        movementVector.z = additionalData.readInt();
+        movementPosition.x = additionalData.readInt();
+        movementPosition.y = additionalData.readInt();
+        movementPosition.z = additionalData.readInt();
         movementDirection = ForgeDirection.getOrientation(additionalData.readInt());
     }
 
@@ -99,26 +98,25 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public void onUpdate()
-    {
+    public void onUpdate() {
         /** Play sound fxs. */
         if (ticksExisted % 10 == 0) {
             worldObj.playSoundAtEntity(this, Reference.PREFIX + "accelerator", 1f, (float) (0.6f + (0.4 * (getParticleVelocity() / TileAccelerator.clientParticleVelocity))));
         }
 
         /** Check if the accelerator tile entity exists. */
-        TileEntity t = worldObj.getTileEntity(movementVector.intX(), movementVector.intY(), movementVector.intZ());
+        TileEntity tile = worldObj.getTileEntity(movementPosition.intX(), movementPosition.intY(), movementPosition.intZ());
 
-        if (!(t instanceof TileAccelerator)) {
+        if (!(tile instanceof TileAccelerator)) {
             setDead();
             
             return;
         }
 
-        TileAccelerator tileEntity = (TileAccelerator) t;
+        TileAccelerator tileAccelerator = (TileAccelerator) tile;
 
-        if (tileEntity.entityParticle == null) {
-            tileEntity.entityParticle = this;
+        if (tileAccelerator.entityParticle == null) {
+            tileAccelerator.entityParticle = this;
         }
 
         for (int x = -1; x < 1; x++) {
@@ -137,9 +135,9 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             e.printStackTrace();
         }
 
-        double acceleration = 0.0006f;
+        double acceleration = 0.0006F;
 
-        if ((!isElectromagnet(worldObj, new Vector3(this), movementDirection.getRotation(ForgeDirection.UP)) || !isElectromagnet(worldObj, new Vector3(this), movementDirection.getRotation(ForgeDirection.DOWN))) && lastTurn <= 0) {
+        if (!isElectromagnet(worldObj, new Vector3(this), movementDirection.getRotation(ForgeDirection.UP)) || !isElectromagnet(worldObj, new Vector3(this), movementDirection.getRotation(ForgeDirection.DOWN)) && lastTurn <= 0) {
             acceleration = turn();
             motionX = 0;
             motionY = 0;
@@ -171,23 +169,20 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         moveEntity(motionX, motionY, motionZ);
         setPosition(posX, posY, posZ);
 
-        if (lastTickPosX == posX && lastTickPosY == posY && lastTickPosZ == posZ && getParticleVelocity() <= 0 && lastTurn <= 0)
-        {
+        if (lastTickPosX == posX && lastTickPosY == posY && lastTickPosZ == posZ && getParticleVelocity() <= 0 && lastTurn <= 0) {
             setDead();
         }
 
         worldObj.spawnParticle("portal", posX, posY, posZ, 0, 0, 0);
         worldObj.spawnParticle("largesmoke", posX, posY, posZ, 0, 0, 0);
 
-        float radius = 0.5f;
+        float radius = 0.5F;
 
         AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius);
         List<Entity> entitiesNearby = worldObj.getEntitiesWithinAABB(Entity.class, bounds);
 
         if (entitiesNearby.size() > 1) {
             explode();
-
-            return;
         }
     }
 
@@ -225,7 +220,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         if (!worldObj.isRemote) {
             if (getParticleVelocity() > TileAccelerator.clientParticleVelocity / 2) {
                 /* Check for nearby particles and if colliding with another one, drop strange matter. */
-                float radius = 1f;
+                float radius = 1F;
 
                 AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius);
                 List<EntityParticle> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityParticle.class, bounds);
@@ -272,13 +267,13 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     @Override
     protected void readEntityFromNBT(NBTTagCompound nbt) {
-        movementVector = new Vector3(nbt.getCompoundTag("jiqi"));
-        ForgeDirection.getOrientation(nbt.getByte("fangXiang"));
+        movementPosition = new Vector3(nbt.getCompoundTag("position"));
+        ForgeDirection.getOrientation(nbt.getByte("direction"));
     }
 
     @Override
     protected void writeEntityToNBT(NBTTagCompound nbt) {
-        nbt.setTag("jiqi", movementVector.writeToNBT(new NBTTagCompound()));
-        nbt.setByte("fangXiang", (byte) movementDirection.ordinal());
+        nbt.setTag("position", movementPosition.writeToNBT(new NBTTagCompound()));
+        nbt.setByte("direction", (byte) movementDirection.ordinal());
     }
 }

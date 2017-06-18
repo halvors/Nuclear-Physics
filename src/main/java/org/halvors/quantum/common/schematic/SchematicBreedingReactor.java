@@ -5,7 +5,6 @@ import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.schematic.ISchematic;
 import org.halvors.quantum.lib.type.Pair;
 
 import java.util.HashMap;
@@ -37,8 +36,8 @@ public class SchematicBreedingReactor implements ISchematic {
                 if (position.getMagnitude() <= 2) {
                     if (!((x == -radius || x == radius) && (z == -radius || z == radius))) {
                         map.put(new Vector3(x, 0, z), new Pair<>(Quantum.blockReactorCell, 0));
-                        //map.put(new Vector3(x, -1, z), new Pair<>(Quantum.blockThermometer, 0));
-                        //map.put(new Vector3(x, -3, z), new Pair<>(Quantum.blockSiren, 0));
+                        map.put(new Vector3(x, -1, z), new Pair<>(Quantum.blockThermometer, 0));
+                        map.put(new Vector3(x, -3, z), new Pair<>(Quantum.blockSiren, 0));
                         map.put(new Vector3(x, -2, z), new Pair<Block, Integer>(Blocks.redstone_wire, 0));
                     } else {
                         map.put(new Vector3(x, -1, z), new Pair<>(Quantum.blockControlRod, 0));

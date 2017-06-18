@@ -3,37 +3,35 @@ package org.halvors.quantum.common.container.machine;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
+import net.minecraft.item.ItemStack;
+import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
-import org.halvors.quantum.lib.gui.ContainerBase;
-import org.halvors.quantum.lib.gui.slot.SlotEnergyItem;
+import org.halvors.quantum.lib.container.ContainerBase;
+import org.halvors.quantum.lib.container.slot.SlotEnergyItem;
+import org.halvors.quantum.lib.container.slot.SlotSpecific;
 
-/** Chemical extractor container */
 public class ContainerChemicalExtractor extends ContainerBase {
-    private static final int slotCount = 5;
-
-    public ContainerChemicalExtractor(InventoryPlayer inventoryPlayer, TileChemicalExtractor tileEntity) {
-        super(tileEntity);
+    public ContainerChemicalExtractor(InventoryPlayer inventoryPlayer, TileChemicalExtractor tile) {
+        super(tile);
 
         // Battery
-        addSlotToContainer(new SlotEnergyItem(tileEntity, 0, 80, 50));
+        addSlotToContainer(new SlotEnergyItem(tile, 0, 80, 50));
 
-        // Process Input (Cell or Uranium)
-        addSlotToContainer(new Slot(tileEntity, 1, 53, 25));
+        // Process Input (Uranium)
+        addSlotToContainer(new SlotSpecific(tile, 1, 53, 25, new ItemStack(Quantum.blockUraniumOre)));
 
         // Process Output
-        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tileEntity, 2, 107, 25));
+        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 2, 107, 25));
 
         // Fluid input fill
-        addSlotToContainer(new Slot(tileEntity, 3, 25, 19));
+        addSlotToContainer(new Slot(tile, 3, 25, 19));
 
         // Fluid input drain
-        addSlotToContainer(new Slot(tileEntity, 4, 25, 50));
-
-        // Fluid output fill
-        addSlotToContainer(new Slot(tileEntity, 5, 135, 19));
+        addSlotToContainer(new Slot(tile, 4, 25, 50));
 
         // Fluid output drain
-        addSlotToContainer(new Slot(tileEntity, 6, 135, 50));
+        addSlotToContainer(new Slot(tile, 5, 135, 19));
+
         addPlayerInventory(inventoryPlayer.player);
     }
 }

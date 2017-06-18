@@ -73,7 +73,7 @@ public class BlockElectricTurbine extends BlockRotatable {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int metadata) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileElectricTurbine();
     }
 }

@@ -10,20 +10,20 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.apache.commons.lang3.ArrayUtils;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
-import org.halvors.quantum.lib.utility.RenderUtility;
+import org.halvors.quantum.lib.render.RenderUtility;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderElectricTurbine extends TileEntitySpecialRenderer {
-    private static final IModelCustom modelSmall = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/turbineSmall.obj"));
-    private static final IModelCustom modelLarge = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/turbineLarge.obj"));
-    private static final ResourceLocation textureSmall = new ResourceLocation(Reference.PREFIX + "textures/models/turbineSmall.png");
-    private static final ResourceLocation textureLarge = new ResourceLocation(Reference.PREFIX + "textures/models/turbineLarge.png");
+    private static final IModelCustom modelSmall = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/electricTurbineSmall.obj"));
+    private static final IModelCustom modelLarge = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/electricTurbineLarge.obj"));
+    private static final ResourceLocation textureSmall = new ResourceLocation(Reference.PREFIX + "textures/models/electricTurbineSmall.png");
+    private static final ResourceLocation textureLarge = new ResourceLocation(Reference.PREFIX + "textures/models/electricTurbineLarge.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
-        if (tileEntity instanceof TileElectricTurbine) {
-            TileElectricTurbine tileTurbine = (TileElectricTurbine) tileEntity;
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+        if (tile instanceof TileElectricTurbine) {
+            TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
 
             if (tileTurbine.getMultiBlock().isPrimary()) {
                 GL11.glPushMatrix();

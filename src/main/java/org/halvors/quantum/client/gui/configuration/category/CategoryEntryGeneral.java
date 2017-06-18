@@ -4,6 +4,8 @@ import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.GuiConfigEntries;
 import cpw.mods.fml.client.config.GuiConfigEntries.CategoryEntry;
 import cpw.mods.fml.client.config.IConfigElement;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
@@ -11,6 +13,7 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.utility.LanguageUtility;
 
+@SideOnly(Side.CLIENT)
 public class CategoryEntryGeneral extends CategoryEntry {
     public CategoryEntryGeneral(GuiConfig guiConfig, GuiConfigEntries guiConfigEntries, IConfigElement configElement) {
         super(guiConfig, guiConfigEntries, configElement);

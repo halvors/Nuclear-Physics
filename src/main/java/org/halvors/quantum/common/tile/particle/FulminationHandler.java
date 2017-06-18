@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-/** Atomic Science Event Handling. */
 public class FulminationHandler {
     public static final FulminationHandler INSTANCE = new FulminationHandler();
     public static final List<TileFulmination> list = new ArrayList<>();
@@ -26,7 +25,7 @@ public class FulminationHandler {
     }
 
     @SubscribeEvent
-    public void BaoZha(ExplosionEvent.DoExplosionEvent event) {
+    public void onDoExplosionEvent(ExplosionEvent.DoExplosionEvent event) {
         if (event.iExplosion != null) {
             if (event.iExplosion.getRadius() > 0 && event.iExplosion.getEnergy() > 0) {
                 HashSet<TileFulmination> avaliableGenerators = new HashSet<>();
@@ -39,7 +38,7 @@ public class FulminationHandler {
                             double juLi = tileDiDian.distance(new Vector3(event.x, event.y, event.z));
 
                             if (juLi <= event.iExplosion.getRadius() && juLi > 0) {
-                                float miDu = event.world.getBlockDensity(Vec3.createVectorHelper(event.x, event.y, event.z), Quantum.blockFulmination.getBlockType().getCollisionBoundingBoxFromPool(event.world, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
+                                float miDu = event.world.getBlockDensity(Vec3.createVectorHelper(event.x, event.y, event.z), Quantum.blockFulmination.getCollisionBoundingBoxFromPool(event.world, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
 
                                 if (miDu < 1) {
                                     avaliableGenerators.add(tileEntity);
@@ -53,12 +52,12 @@ public class FulminationHandler {
                 final float maxEnergyPerGenerator = totalEnergy / avaliableGenerators.size();
 
                 for (TileFulmination tileEntity : avaliableGenerators) {
-                    float density = event.world.getBlockDensity(Vec3.createVectorHelper(event.x, event.y, event.z), Quantum.blockFulmination.getBlockType().getCollisionBoundingBoxFromPool(event.world, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
+                    float density = event.world.getBlockDensity(Vec3.createVectorHelper(event.x, event.y, event.z), Quantum.blockFulmination.getCollisionBoundingBoxFromPool(event.world, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
                     double juLi = new Vector3(tileEntity).distance(new Vector3(event.x, event.y, event.z));
                     long energy = (long) Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (juLi / event.iExplosion.getRadius()));
                     energy = (long) Math.max((1 - density) * energy, 0);
 
-                    tileEntity.getEnergyHandler().receiveEnergy((int) energy, false);
+                    tileEntity.getEnergyStorage().receiveEnergy((int) energy, false);
                 }
             }
         }
