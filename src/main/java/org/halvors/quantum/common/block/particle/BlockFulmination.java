@@ -38,7 +38,7 @@ public class BlockFulmination extends BlockContainer {
     */
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileFulmination();
     }
 }

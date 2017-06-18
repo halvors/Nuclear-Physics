@@ -64,7 +64,7 @@ public class BlockPlasma extends BlockContainer {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int metadata) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TilePlasma();
     }
 }

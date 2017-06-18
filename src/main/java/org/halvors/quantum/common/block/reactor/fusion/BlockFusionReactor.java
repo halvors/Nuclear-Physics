@@ -46,7 +46,7 @@ public class BlockFusionReactor extends BlockTile {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileFusionReactor();
     }
 }

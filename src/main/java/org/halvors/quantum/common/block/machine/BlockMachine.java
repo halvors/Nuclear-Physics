@@ -47,7 +47,7 @@ public class BlockMachine extends BlockRotatable {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return null;
     }
 }

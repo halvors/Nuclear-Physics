@@ -4,18 +4,18 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
-import org.halvors.quantum.common.container.machine.ContainerCentrifuge;
-import org.halvors.quantum.common.tile.machine.TileCentrifuge;
+import org.halvors.quantum.common.container.machine.ContainerGasCentrifuge;
+import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.lib.gui.GuiContainerBase;
 import universalelectricity.api.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
-public class GuiCentrifuge extends GuiContainerBase {
-    private TileCentrifuge tile;
+public class GuiGasCentrifuge extends GuiContainerBase {
+    private TileGasCentrifuge tile;
 
-    public GuiCentrifuge(InventoryPlayer inventoryPlayer, TileCentrifuge tile) {
-        super(new ContainerCentrifuge(inventoryPlayer, tile));
+    public GuiGasCentrifuge(InventoryPlayer inventoryPlayer, TileGasCentrifuge tile) {
+        super(new ContainerGasCentrifuge(inventoryPlayer, tile));
         
         this.tile = tile;
     }
@@ -60,7 +60,7 @@ public class GuiCentrifuge extends GuiContainerBase {
         drawSlot(100, 25);
         drawSlot(130, 25, SlotType.BATTERY);
 
-        drawBar(40, 26, (float) tile.timer / (float) TileCentrifuge.tickTime);
+        drawBar(40, 26, (float) tile.timer / (float) TileGasCentrifuge.tickTime);
 
         // Uranium Gas
         drawMeter(8, 18, (float) tile.gasTank.getFluidAmount() / (float) tile.gasTank.getCapacity(), tile.gasTank.getFluid());

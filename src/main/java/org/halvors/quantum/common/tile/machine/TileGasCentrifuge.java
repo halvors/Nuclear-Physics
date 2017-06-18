@@ -18,10 +18,11 @@ import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorHelper;
 import org.halvors.quantum.lib.IRotatable;
+import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
 import java.util.List;
 
-public class TileCentrifuge extends TileElectricInventory implements ITileNetworkable, IFluidHandler, ISidedInventory, IRotatable, IEnergyReceiver {
+public class TileGasCentrifuge extends TileElectricInventory implements ITileNetworkable, IFluidHandler, ISidedInventory, IRotatable, IEnergyReceiver {
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 
@@ -30,7 +31,7 @@ public class TileCentrifuge extends TileElectricInventory implements ITileNetwor
     public int timer = 0; // Synced
     public float rotation = 0;
 
-    public TileCentrifuge() {
+    public TileGasCentrifuge() {
         energyStorage = new EnergyStorage(energy * 2);
         maxSlots = 4;
     }
@@ -157,8 +158,8 @@ public class TileCentrifuge extends TileElectricInventory implements ITileNetwor
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean isItemValidForSlot(int index, ItemStack itemStack) {
-        switch (index) {
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        switch (slot) {
             case 0:
                 // TODO: Implement this.
                 //return CompatibilityModule.isHandler(itemStack.getItem());

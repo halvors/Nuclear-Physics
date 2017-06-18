@@ -1,7 +1,6 @@
 Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
 
 Known bugs:
-    - Shift clicking item into Nuclear Boiler causes crash.
     - Quantum Assembler render incorrectly.
     - Items is not stored in inventory probably using NBT somehow.
     - Reactor Cell rendering is messed up.

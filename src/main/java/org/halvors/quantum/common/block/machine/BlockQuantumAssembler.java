@@ -10,7 +10,7 @@ public class BlockQuantumAssembler extends BlockMachine {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int metadata) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileQuantumAssembler();
     }
 }

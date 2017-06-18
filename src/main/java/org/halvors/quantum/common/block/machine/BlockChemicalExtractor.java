@@ -10,7 +10,7 @@ public class BlockChemicalExtractor extends BlockMachine {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int metadata) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileChemicalExtractor();
     }
 }

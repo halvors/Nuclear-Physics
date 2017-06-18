@@ -2,15 +2,15 @@ package org.halvors.quantum.common.block.machine;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
+import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 
-public class BlockNuclearBoiler extends BlockMachine {
-    public BlockNuclearBoiler() {
-        super("nuclearBoiler");
+public class BlockGasCentrifuge extends BlockMachine {
+    public BlockGasCentrifuge() {
+        super("gasCentrifuge");
     }
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
-        return new TileNuclearBoiler();
+        return new TileGasCentrifuge();
     }
 }

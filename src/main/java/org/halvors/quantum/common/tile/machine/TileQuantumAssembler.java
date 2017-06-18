@@ -14,6 +14,7 @@ import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
+import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
 import java.util.List;
 
@@ -147,8 +148,8 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean isItemValidForSlot(int slotId, ItemStack itemStack) {
-        if (slotId == 6) {
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        if (slot == 6) {
             return true;
         }
 

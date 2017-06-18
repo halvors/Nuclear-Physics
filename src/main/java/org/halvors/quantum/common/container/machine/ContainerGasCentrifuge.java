@@ -6,16 +6,16 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.tile.machine.TileCentrifuge;
+import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.lib.gui.ContainerBase;
 import org.halvors.quantum.lib.gui.slot.SlotEnergyItem;
 import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
-public class ContainerCentrifuge extends ContainerBase {
+public class ContainerGasCentrifuge extends ContainerBase {
     private static final int slotCount = 4;
-    private TileCentrifuge tile;
+    private TileGasCentrifuge tile;
 
-    public ContainerCentrifuge(InventoryPlayer inventoryPlayer, TileCentrifuge tile) {
+    public ContainerGasCentrifuge(InventoryPlayer inventoryPlayer, TileGasCentrifuge tile) {
         super(tile);
 
         this.tile = tile;
@@ -55,7 +55,7 @@ public class ContainerCentrifuge extends ContainerBase {
                     if (!mergeItemStack(itemStack, 0, 1, false)) {
                         return null;
                     }
-                } else if (OreDictionaryUtility.isItemStackUraniumOre(itemStack)) {
+                } else if (OreDictionaryUtility.isUraniumOre(itemStack)) {
                     if (!mergeItemStack(itemStack, 1, 2, false)) {
                         return null;
                     }

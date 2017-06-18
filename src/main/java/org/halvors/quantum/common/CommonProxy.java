@@ -4,13 +4,13 @@ import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.container.machine.ContainerCentrifuge;
+import org.halvors.quantum.common.container.machine.ContainerGasCentrifuge;
 import org.halvors.quantum.common.container.machine.ContainerChemicalExtractor;
 import org.halvors.quantum.common.container.machine.ContainerNuclearBoiler;
 import org.halvors.quantum.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.quantum.common.container.particle.ContainerAccelerator;
 import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell;
-import org.halvors.quantum.common.tile.machine.TileCentrifuge;
+import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
@@ -33,8 +33,8 @@ public class CommonProxy implements IGuiHandler {
 
 		if (tile instanceof TileAccelerator) {
 			return new ContainerAccelerator(player.inventory, (TileAccelerator) tile);
-		} else if (tile instanceof TileCentrifuge) {
-			return new ContainerCentrifuge(player.inventory, (TileCentrifuge) tile);
+		} else if (tile instanceof TileGasCentrifuge) {
+			return new ContainerGasCentrifuge(player.inventory, (TileGasCentrifuge) tile);
 		} else if (tile instanceof TileChemicalExtractor) {
 			return new ContainerChemicalExtractor(player.inventory, (TileChemicalExtractor) tile);
 		} else if (tile instanceof TileNuclearBoiler) {

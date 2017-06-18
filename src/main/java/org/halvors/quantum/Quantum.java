@@ -50,7 +50,7 @@ import org.halvors.quantum.common.QuantumCreativeTab;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.IUpdatableMod;
 import org.halvors.quantum.common.block.*;
-import org.halvors.quantum.common.block.machine.BlockCentrifuge;
+import org.halvors.quantum.common.block.machine.BlockGasCentrifuge;
 import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
 import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
 import org.halvors.quantum.common.block.machine.BlockQuantumAssembler;
@@ -82,7 +82,7 @@ import org.halvors.quantum.common.schematic.SchematicAccelerator;
 import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
 import org.halvors.quantum.common.schematic.SchematicFissionReactor;
 import org.halvors.quantum.common.schematic.SchematicFusionReactor;
-import org.halvors.quantum.common.tile.machine.TileCentrifuge;
+import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
@@ -155,7 +155,7 @@ public class Quantum implements IUpdatableMod {
 	// Blocks
 	public static Block blockAccelerator;
 	public static Block blockChemicalExtractor;
-	public static Block blockCentrifuge;
+	public static Block blockGasCentrifuge;
 	public static Block blockControlRod;
 	public static Block blockElectromagnet;
 	public static Block blockFulmination;
@@ -311,7 +311,7 @@ public class Quantum implements IUpdatableMod {
 		// Register blocks.
 		blockAccelerator = new BlockAccelerator();
 		blockChemicalExtractor = new BlockChemicalExtractor();
-		blockCentrifuge = new BlockCentrifuge();
+		blockGasCentrifuge = new BlockGasCentrifuge();
 		blockControlRod = new BlockControlRod();
 		blockElectricTurbine = new BlockElectricTurbine();
 		blockElectromagnet = new BlockElectromagnet();
@@ -333,7 +333,7 @@ public class Quantum implements IUpdatableMod {
 
 		GameRegistry.registerBlock(blockAccelerator, "blockAccelerator;");
 		GameRegistry.registerBlock(blockChemicalExtractor, "blockChemicalExtractor");
-		GameRegistry.registerBlock(blockCentrifuge, "blockCentrifuge");
+		GameRegistry.registerBlock(blockGasCentrifuge, "blockGasCentrifuge");
 		GameRegistry.registerBlock(blockControlRod, "blockControlRod");
 		GameRegistry.registerBlock(blockElectricTurbine, "blockElectricTurbine");
 		GameRegistry.registerBlock(blockElectromagnet, "blockElectromagnet");
@@ -357,7 +357,7 @@ public class Quantum implements IUpdatableMod {
 		// Register tile entities.
 		GameRegistry.registerTileEntity(TileAccelerator.class, "tileAccelerator");
 		GameRegistry.registerTileEntity(TileChemicalExtractor.class, "tileChemicalExtractor");
-		GameRegistry.registerTileEntity(TileCentrifuge.class, "tileCentrifuge");
+		GameRegistry.registerTileEntity(TileGasCentrifuge.class, "tileGasCentrifuge");
 		GameRegistry.registerTileEntity(TileElectricTurbine.class, "tileElectricTurbine");
 		GameRegistry.registerTileEntity(TileElectromagnet.class, "tileElectromagnet");
 		GameRegistry.registerTileEntity(TileFulmination.class, "tileFulmination");
@@ -374,7 +374,7 @@ public class Quantum implements IUpdatableMod {
 	private void registerTileEntitySpecialRenders() {
 		// Register special renderers.
 		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileCentrifuge.class, new RenderCentrifuge());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderCentrifuge());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
@@ -400,7 +400,7 @@ public class Quantum implements IUpdatableMod {
 
 		// Uranium
 		itemUranium = new ItemUranium();
-		itemYellowCake = new ItemRadioactive("yellowCake");
+		itemYellowCake = new ItemRadioactive("yellowcake");
 
 		// Hazmat
 		itemHazmatMask = new ItemArmorHazmat("hazmatMask", 0);
@@ -420,7 +420,7 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerItem(itemBucketToxicWaste, "itemBucketToxicWaste");
 
 		GameRegistry.registerItem(itemUranium, "itemUranium");
-		GameRegistry.registerItem(itemYellowCake, "itemYellowCake");
+		GameRegistry.registerItem(itemYellowCake, "itemYellowcake");
 
 		GameRegistry.registerItem(itemHazmatMask, "itemHazmatMask");
 		GameRegistry.registerItem(itemHazmatBody, "itemHazmatBody");
@@ -430,9 +430,9 @@ public class Quantum implements IUpdatableMod {
 
 	private void registerFluidContainers() {
 		// Register fluid containers.
-		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("fluidDeuterium"), 200), new ItemStack(itemDeuteriumCell), new ItemStack(itemCell));
-		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("fluidTritium"), 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
-		FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluid("fluidToxicWaste"), new ItemStack(itemBucketToxicWaste), new ItemStack(Items.bucket));
+		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("deuterium"), 200), new ItemStack(itemDeuteriumCell), new ItemStack(itemCell));
+		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("tritium"), 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
+		FluidContainerRegistry.registerFluidContainer(fluidToxicWaste, new ItemStack(itemBucketToxicWaste), new ItemStack(Items.bucket));
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.WATER, new ItemStack(itemWaterCell), new ItemStack(itemCell));
 	}
 

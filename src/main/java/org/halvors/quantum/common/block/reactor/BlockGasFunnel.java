@@ -38,7 +38,7 @@ public class BlockGasFunnel extends BlockContainer {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int metadata) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileGasFunnel();
     }
 

@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.client.gui.machine.GuiCentrifuge;
+import org.halvors.quantum.client.gui.machine.GuiGasCentrifuge;
 import org.halvors.quantum.client.gui.machine.GuiChemicalExtractor;
 import org.halvors.quantum.client.gui.machine.GuiNuclearBoiler;
 import org.halvors.quantum.client.gui.machine.GuiQuantumAssembler;
@@ -16,7 +16,7 @@ import org.halvors.quantum.client.gui.reactor.fission.GuiReactorCell;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.debug.block.BlockCreativeBuilder;
 import org.halvors.quantum.common.debug.gui.GuiCreativeBuilder;
-import org.halvors.quantum.common.tile.machine.TileCentrifuge;
+import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
@@ -42,8 +42,8 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
 		if (tile instanceof TileAccelerator) {
 			return new GuiAccelerator(player.inventory, (TileAccelerator) tile);
-		} else if (tile instanceof TileCentrifuge) {
-			return new GuiCentrifuge(player.inventory, (TileCentrifuge) tile);
+		} else if (tile instanceof TileGasCentrifuge) {
+			return new GuiGasCentrifuge(player.inventory, (TileGasCentrifuge) tile);
 		} else if (tile instanceof TileChemicalExtractor) {
 			return new GuiChemicalExtractor(player.inventory, (TileChemicalExtractor) tile);
 		} else if (tile instanceof TileNuclearBoiler) {

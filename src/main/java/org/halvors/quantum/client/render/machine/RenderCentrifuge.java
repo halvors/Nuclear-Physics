@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.machine.TileCentrifuge;
+import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.lib.render.RenderUtility;
 import org.lwjgl.opengl.GL11;
 
@@ -19,20 +19,20 @@ public class RenderCentrifuge extends TileEntitySpecialRenderer {
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
-        if (tile instanceof TileCentrifuge) {
-            TileCentrifuge tileCentrifuge = (TileCentrifuge) tile;
+        if (tile instanceof TileGasCentrifuge) {
+            TileGasCentrifuge tileGasCentrifuge = (TileGasCentrifuge) tile;
 
             GL11.glPushMatrix();
             GL11.glTranslated(x + 0.5F, y, z + 0.5F);
 
-            if (tileCentrifuge.getWorld() != null) {
-                RenderUtility.rotateBlockBasedOnDirection(tileCentrifuge.getDirection());
+            if (tileGasCentrifuge.getWorld() != null) {
+                RenderUtility.rotateBlockBasedOnDirection(tileGasCentrifuge.getDirection());
             }
 
             RenderUtility.bind(texture);
 
             GL11.glPushMatrix();
-            GL11.glRotated(Math.toDegrees(tileCentrifuge.rotation), 0, 1, 0);
+            GL11.glRotated(Math.toDegrees(tileGasCentrifuge.rotation), 0, 1, 0);
             model.renderOnly("C", "JROT", "KROT", "LROT", "MROT");
             GL11.glPopMatrix();
 
