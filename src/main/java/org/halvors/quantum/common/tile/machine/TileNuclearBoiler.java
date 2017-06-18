@@ -15,7 +15,6 @@ import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.lib.IRotatable;
-import org.halvors.quantum.lib.utility.FluidUtility;
 import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
 import java.util.List;
@@ -268,7 +267,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
             if (waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME) {
                 if (getStackInSlot(3) != null) {
                     if (getStackInSlot(3).getItem() == Quantum.itemYellowCake || OreDictionaryUtility.isUraniumOre(getStackInSlot(3))) {
-                        if (FluidUtility.getAmount(gasTank.getFluid()) < gasTank.getCapacity()) {
+                        if (gasTank.getFluid().amount < gasTank.getCapacity()) {
                             return true;
                         }
                     }

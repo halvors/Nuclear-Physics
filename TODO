@@ -5,6 +5,8 @@ Known bugs:
     - Items is not stored in inventory probably using NBT somehow.
     - Reactor Cell rendering is messed up.
     - Machine animation continues even if the process is stalled, i.e when there is no more power available.
+    - Fluid levels in machines is not always synced properly to the client.
+    - Fluid output is not transferred to neighbor machine accepting it as input.
 
 New features to add:
     Convenience:
