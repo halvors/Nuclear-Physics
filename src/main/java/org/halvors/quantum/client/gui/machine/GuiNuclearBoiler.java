@@ -48,14 +48,15 @@ public class GuiNuclearBoiler extends GuiContainerBase {
         drawSlot(55, 25, SlotType.BATTERY);
         drawSlot(80, 25);
 
-        drawBar(110, 26, (float) tile.timer / (float) tile.tickTime);
+        drawBar(110, 26, (float) tile.timer / (float) TileNuclearBoiler.tickTime);
 
         // Water
         drawMeter(8, 18, (float) tile.waterTank.getFluidAmount() / (float) tile.waterTank.getCapacity(), tile.waterTank.getFluid());
+        drawSlot(24, 18, SlotType.LIQUID);
         drawSlot(24, 49, SlotType.LIQUID);
 
         // Uranium Gas
         drawMeter(155, 18, (float) tile.gasTank.getFluidAmount() / (float) tile.gasTank.getCapacity(), tile.gasTank.getFluid());
-        drawSlot(135, 49, SlotType.GAS);
+        drawSlot(134, 49, SlotType.GAS);
     }
 }

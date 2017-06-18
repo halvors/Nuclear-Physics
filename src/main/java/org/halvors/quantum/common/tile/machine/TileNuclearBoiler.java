@@ -19,7 +19,7 @@ import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
 import java.util.List;
 
-public class TileNuclearBoiler extends TileElectricInventory implements ITileNetworkable, IRotatable, IEnergyReceiver, IFluidHandler, ISidedInventory {
+public class TileNuclearBoiler extends TileProcess implements ITileNetworkable, IRotatable, IEnergyReceiver, IFluidHandler, ISidedInventory {
     public static final int tickTime = 20 * 15;
     public static final int energy = 21000;
 
@@ -32,7 +32,13 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
 
     public TileNuclearBoiler() {
         energyStorage = new EnergyStorage(energy * 2);
-        maxSlots = 4;
+        maxSlots = 5;
+
+        outputSlot = 1;
+
+        tankInputFillSlot = 2;
+        tankInputDrainSlot = 3;
+        tankOutputDrainSlot = 4;
     }
 
     @Override
@@ -45,6 +51,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
 
         if (!worldObj.isRemote) {
             // Put water as liquid
+            /*
             if (getStackInSlot(1) != null) {
                 if (FluidContainerRegistry.isFilledContainer(getStackInSlot(1))) {
                     FluidStack liquid = FluidContainerRegistry.getFluidForFilledItem(getStackInSlot(1));
@@ -64,6 +71,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
                     }
                 }
             }
+            */
 
             if (canProcess()) {
                 // TODO: Implement this.
@@ -193,7 +201,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        if (resource.isFluidEqual(Quantum.fluidStackWater)) {
+        if (resource != null && canFill(from, resource.getFluid())) {
             return waterTank.fill(resource, doFill);
         }
 
@@ -202,11 +210,11 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
 
     @Override
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        if (resource.isFluidEqual(Quantum.fluidStackUraniumHexaflouride)) {
-            return gasTank.drain(resource.amount, doDrain);
-        }
+        //if (resource.isFluidEqual(Quantum.fluidStackUraniumHexaflouride)) {
+        //    return gasTank.drain(resource.amount, doDrain);
+        //}
 
-        return null;
+        return gasTank.drain(resource.amount, doDrain);
     }
 
     @Override
@@ -216,12 +224,14 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return fluid.getID() == Quantum.fluidStackWater.getFluid().getID();
+        return fluid.getID() == FluidRegistry.WATER.getID();
     }
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return fluid.getID() == Quantum.fluidUraniumHexaflouride.getID();
+        //return fluid.getID() == Quantum.fluidUraniumHexaflouride.getID();
+
+        return gasTank.getFluid() != null && fluid.getID() == gasTank.getFluid().getFluidID();
     }
 
     @Override
@@ -229,8 +239,19 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
         return new FluidTankInfo[] { waterTank.getInfo(), gasTank.getInfo() };
     }
 
+    @Override
+    public FluidTank getInputTank() {
+        return waterTank;
+    }
+
+    @Override
+    public FluidTank getOutputTank() {
+        return gasTank;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /*
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
         switch (slot) {
@@ -242,6 +263,32 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
         }
 
         return false;
+    }
+    */
+
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        return true;
+
+        /*
+        switch (slot) {
+            case 0: // Water input for machine.
+                // TODO: Fix this.
+                //return CompatibilityModule.isHandler(itemStack.getItem());
+                return true;
+
+            case 1:
+                return OreDictionaryUtility.isWaterCell(itemStack);
+
+            case 2: // Empty cell to be filled with deuterium or tritium.
+                return OreDictionaryUtility.isDeuteriumCell(itemStack) || OreDictionaryUtility.isTritiumCell(itemStack);
+
+            case 3: // Uranium to be extracted into yellowcake.
+                return OreDictionaryUtility.isEmptyCell(itemStack) || OreDictionaryUtility.isUraniumOre(itemStack) || OreDictionaryUtility.isDeuteriumCell(itemStack);
+        }
+
+        return false;
+        */
     }
 
     @Override
@@ -265,8 +312,8 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
     public boolean canProcess() {
         if (waterTank.getFluid() != null) {
             if (waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME) {
-                if (getStackInSlot(3) != null) {
-                    if (getStackInSlot(3).getItem() == Quantum.itemYellowCake || OreDictionaryUtility.isUraniumOre(getStackInSlot(3))) {
+                if (getStackInSlot(1) != null) {
+                    if (getStackInSlot(1).getItem() == Quantum.itemYellowCake || OreDictionaryUtility.isUraniumOre(getStackInSlot(1))) {
                         if (gasTank.getFluid().amount < gasTank.getCapacity()) {
                             return true;
                         }
@@ -285,7 +332,7 @@ public class TileNuclearBoiler extends TileElectricInventory implements ITileNet
             FluidStack liquid = Quantum.fluidStackUraniumHexaflouride.copy();
             liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
             gasTank.fill(liquid, true);
-            decrStackSize(3, 1);
+            decrStackSize(1, 1);
         }
     }
 

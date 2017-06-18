@@ -33,8 +33,10 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
     public TileChemicalExtractor() {
         energyStorage = new EnergyStorage(energy * 2);
         maxSlots = 7;
+
         inputSlot = 1;
         outputSlot = 2;
+
         tankInputFillSlot = 3;
         tankInputDrainSlot = 4;
         tankOutputFillSlot = 5;

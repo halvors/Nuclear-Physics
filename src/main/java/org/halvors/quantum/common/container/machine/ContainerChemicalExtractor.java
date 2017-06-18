@@ -26,11 +26,9 @@ public class ContainerChemicalExtractor extends ContainerBase {
         // Fluid input drain
         addSlotToContainer(new Slot(tile, 4, 25, 50));
 
-        // Fluid output fill
+        // Fluid output drain
         addSlotToContainer(new Slot(tile, 5, 135, 19));
 
-        // Fluid output drain
-        addSlotToContainer(new Slot(tile, 6, 135, 50));
         addPlayerInventory(inventoryPlayer.player);
     }
 }

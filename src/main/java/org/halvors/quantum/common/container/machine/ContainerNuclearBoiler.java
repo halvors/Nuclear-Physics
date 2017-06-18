@@ -3,6 +3,7 @@ package org.halvors.quantum.common.container.machine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.halvors.quantum.Quantum;
@@ -23,16 +24,19 @@ public class ContainerNuclearBoiler extends ContainerBase {
         // Battery
         addSlotToContainer(new SlotEnergyItem(tile, 0, 56, 26));
 
-        // Water Input
-        addSlotToContainer(new Slot(tile, 1, 25, 50));
-
-        // Gas Output
-        addSlotToContainer(new Slot(tile, 2, 136, 50));
-
         // Yellowcake Input
-        addSlotToContainer(new SlotSpecific(tile, 3, 81, 26, new ItemStack(Quantum.itemYellowCake), new ItemStack(Quantum.blockUraniumOre)));
+        addSlotToContainer(new SlotSpecific(tile, 1, 81, 26, new ItemStack(Quantum.itemYellowCake), new ItemStack(Quantum.blockUraniumOre)));
+
+        // Fluid input fill
+        addSlotToContainer(new Slot(tile, 2, 25, 19));
+
+        // Fluid input drain
+        addSlotToContainer(new Slot(tile, 3, 25, 50));
+
+        // Fluid output drain
+        addSlotToContainer(new Slot(tile, 4, 135, 50));
+
         addPlayerInventory(inventoryPlayer.player);
-        tile.openChest();
     }
 
     @Override
