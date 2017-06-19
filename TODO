@@ -7,6 +7,9 @@ Known bugs:
     - Machine animation continues even if the process is stalled, i.e when there is no more power available.
     - Fluid levels in machines is not always synced properly to the client.
 
+Known features not implemented:
+    - Render Electromagnet and Fulmination with connected textures.
+
 New features to add:
     Convenience:
         - Make slots in machines only accept valid items.
@@ -15,6 +18,7 @@ New features to add:
 
     Enhancement:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
+        - Make more stuff only server side, if not needed on the client.
 
     Rendering:
         - Make the whole multiblock reactor cell share GUI.

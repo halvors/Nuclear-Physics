@@ -107,28 +107,26 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         } else {
             previousInternalEnergy = internalEnergy;
 
-            if (!worldObj.isRemote) {
-                // Handle cell rod interactions.
-                ItemStack fuelRod = getMultiBlock().get().getStackInSlot(0);
+            // Handle cell rod interactions.
+            ItemStack fuelRod = getMultiBlock().get().getStackInSlot(0);
 
-                if (fuelRod != null) {
-                    if (fuelRod.getItem() instanceof IReactorComponent) {
-                        // Activate rods.
-                        IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
-                        reactorComponent.onReact(fuelRod, this);
+            if (fuelRod != null) {
+                if (fuelRod.getItem() instanceof IReactorComponent) {
+                    // Activate rods.
+                    IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
+                    reactorComponent.onReact(fuelRod, this);
 
-                        if (fuelRod.getMetadata() >= fuelRod.getMaxDurability()) {
-                            getMultiBlock().get().setInventorySlotContents(0, null);
-                        }
+                    if (fuelRod.getMetadata() >= fuelRod.getMaxDurability()) {
+                        getMultiBlock().get().setInventorySlotContents(0, null);
+                    }
 
-                        // Emit radiation.
-                        if (worldObj.getTotalWorldTime() % 20 == 0) {
-                            if (worldObj.rand.nextFloat() > 0.65) {
-                                List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord - radius * 2, yCoord - radius * 2, zCoord - radius * 2, xCoord + radius * 2, yCoord + radius * 2, zCoord + radius * 2));
+                    // Emit radiation.
+                    if (worldObj.getTotalWorldTime() % 20 == 0) {
+                        if (worldObj.rand.nextFloat() > 0.65) {
+                            List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord - radius * 2, yCoord - radius * 2, zCoord - radius * 2, xCoord + radius * 2, yCoord + radius * 2, zCoord + radius * 2));
 
-                                for (EntityLiving entity : entities) {
-                                    PoisonRadiation.INSTANCE.poisonEntity(new Vector3(this), entity);
-                                }
+                            for (EntityLiving entity : entities) {
+                                PoisonRadiation.INSTANCE.poisonEntity(new Vector3(this), entity);
                             }
                         }
                     }
@@ -140,7 +138,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
             // Only a small percentage of the internal energy is used for temperature.
             if ((internalEnergy - previousInternalEnergy) > 0) {
-                float deltaT = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (int) ((internalEnergy - previousInternalEnergy) * 0.15));
+                float deltaT = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
 
                 // Check control rods.
                 for (int side = 2; side < 6; side++) {
@@ -168,7 +166,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
                 // Reactor cell plays random idle noises while operating and above temperature to boil water.
                 if (worldObj.getWorldTime() % 100 == 0 && getTemperature() >= 373) {
-                    float percentage = Math.min(getTemperature() / 2000.0F, 1.0F);
+                    float percentage = Math.min(getTemperature() / meltingPoint, 1.0F);
                     worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, Reference.PREFIX + "tile.reactorCell", percentage, 1.0F);
                 }
 
@@ -213,19 +211,20 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
                     }
                 }
             }
-        }
 
-        if (worldObj.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
-            shouldUpdate = false;
-            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
-            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
-        }
 
-        if (worldObj.isRemote) {
-            // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
-            if (worldObj.rand.nextInt(5) == 0 && getTemperature() >= 373) {
-                worldObj.spawnParticle("cloud", xCoord + worldObj.rand.nextInt(2), yCoord + 1.0F, zCoord + worldObj.rand.nextInt(2), 0.0D, 0.1D, 0.0D);
-                worldObj.spawnParticle("bubble", xCoord + worldObj.rand.nextInt(5), yCoord, zCoord + worldObj.rand.nextInt(5), 0.0D, 0.0D, 0.0D);
+            if (worldObj.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
+                shouldUpdate = false;
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
+                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+            }
+
+            if (worldObj.isRemote) {
+                // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
+                if (worldObj.rand.nextInt(5) == 0 && getTemperature() >= 373) {
+                    worldObj.spawnParticle("cloud", xCoord + worldObj.rand.nextInt(2), yCoord + 1.0F, zCoord + worldObj.rand.nextInt(2), 0.0D, 0.1D, 0.0D);
+                    worldObj.spawnParticle("bubble", xCoord + worldObj.rand.nextInt(5), yCoord, zCoord + worldObj.rand.nextInt(5), 0.0D, 0.0D, 0.0D);
+                }
             }
         }
     }
