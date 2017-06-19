@@ -449,7 +449,7 @@ public class Quantum implements IUpdatableMod {
 	public void preTextureHook(TextureStitchEvent.Pre event) {
 		if (event.map.getTextureType() == 0) {
 			RenderUtility.registerIcon(Reference.PREFIX + "atomic_edge", event.map);
-			RenderUtility.registerIcon(Reference.PREFIX + "funnel_edge", event.map);
+			RenderUtility.registerIcon(Reference.PREFIX + "gasFunnel_edge", event.map);
 
 			RenderUtility.registerIcon(Reference.PREFIX + "deuterium", event.map);
 			RenderUtility.registerIcon(Reference.PREFIX + "steam", event.map);

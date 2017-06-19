@@ -10,6 +10,7 @@ Known bugs:
 Known features not implemented:
     - Render Electromagnet and Fulmination with connected textures.
     - Display tooltip to all items.
+    - More dynamic custom rendering, a interface and a getRenderer() maybe? ConnectedTextureRenderer a candidate?
 
 New features to add:
     Convenience:
