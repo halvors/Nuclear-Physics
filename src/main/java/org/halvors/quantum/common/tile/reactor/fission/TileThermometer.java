@@ -121,8 +121,8 @@ public class TileThermometer extends TileEntity implements ITileNetworkable {
         return threshold;
     }
 
-    public void setThreshold(int newThreshold) {
-        threshold = newThreshold % maxThreshold;
+    public void setThreshold(int threshold) {
+        this.threshold = threshold % maxThreshold;
 
         if (threshold <= 0) {
             threshold = maxThreshold;
