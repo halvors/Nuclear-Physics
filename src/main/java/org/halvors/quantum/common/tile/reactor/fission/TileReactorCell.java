@@ -76,8 +76,6 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
             updatePositionStatus();
         }
 
-        meltDown();
-
         // Move fuel rod down into the primary cell block if possible.
         if (!getMultiBlock().isPrimary()) {
             if (getStackInSlot(0) != null) {
@@ -92,24 +90,24 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
             }
         }
 
-        if (!worldObj.isRemote) {
-            if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().getFluidID() == Quantum.fluidPlasma.getID()) {
-                // Spawn plasma.
-                FluidStack drain = tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false);
+        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().getFluidID() == Quantum.fluidPlasma.getID()) {
+            // Spawn plasma.
+            FluidStack drain = tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false);
 
-                if (drain != null && drain.amount >= FluidContainerRegistry.BUCKET_VOLUME) {
-                    ForgeDirection spawnDir = ForgeDirection.getOrientation(worldObj.rand.nextInt(3) + 2);
-                    Vector3 spawnPos = new Vector3(this).translate(spawnDir, 2);
-                    spawnPos.translate(0, Math.max(worldObj.rand.nextInt(getHeight()) - 1, 0), 0);
+            if (drain != null && drain.amount >= FluidContainerRegistry.BUCKET_VOLUME) {
+                ForgeDirection spawnDir = ForgeDirection.getOrientation(worldObj.rand.nextInt(3) + 2);
+                Vector3 spawnPos = new Vector3(this).translate(spawnDir, 2);
+                spawnPos.translate(0, Math.max(worldObj.rand.nextInt(getHeight()) - 1, 0), 0);
 
-                    if (worldObj.isAirBlock(spawnPos.intX(), spawnPos.intY(), spawnPos.intZ())) {
-                        MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(worldObj, spawnPos.intX(), spawnPos.intY(), spawnPos.intZ(), TilePlasma.plasmaMaxTemperature));
-                        tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                    }
+                if (worldObj.isAirBlock(spawnPos.intX(), spawnPos.intY(), spawnPos.intZ())) {
+                    MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(worldObj, spawnPos.intX(), spawnPos.intY(), spawnPos.intZ(), TilePlasma.plasmaMaxTemperature));
+                    tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                 }
-            } else {
-                previousInternalEnergy = internalEnergy;
+            }
+        } else {
+            previousInternalEnergy = internalEnergy;
 
+            if (!worldObj.isRemote) {
                 // Handle cell rod interactions.
                 ItemStack fuelRod = getMultiBlock().get().getStackInSlot(0);
 
@@ -135,92 +133,95 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
                         }
                     }
                 }
+            }
 
-                // Update the temperature from the thermal grid.
-                temperature = ThermalGrid.getTemperature(new VectorWorld(this));
+            // Update the temperature from the thermal grid.
+            temperature = ThermalGrid.getTemperature(new VectorWorld(this));
 
-                // Only a small percentage of the internal energy is used for temperature.
-                if ((internalEnergy - previousInternalEnergy) > 0) {
-                    float deltaT = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
+            // Only a small percentage of the internal energy is used for temperature.
+            if ((internalEnergy - previousInternalEnergy) > 0) {
+                float deltaT = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (int) ((internalEnergy - previousInternalEnergy) * 0.15));
 
-                    // Check control rods.
-                    for (int side = 2; side < 6; side++) {
-                        Vector3 checkAdjacent = new Vector3(this).translate(ForgeDirection.getOrientation(side));
+                // Check control rods.
+                for (int side = 2; side < 6; side++) {
+                    Vector3 checkAdjacent = new Vector3(this).translate(ForgeDirection.getOrientation(side));
 
-                        if (checkAdjacent.getBlock(worldObj) == Quantum.blockControlRod) {
-                            deltaT /= 1.1;
-                        }
+                    if (checkAdjacent.getBlock(worldObj) == Quantum.blockControlRod) {
+                        deltaT /= 1.1;
                     }
+                }
 
-                    // Add heat to surrounding blocks in the thermal grid.
-                    ThermalGrid.addTemperature(new VectorWorld(this), deltaT);
+                // Add heat to surrounding blocks in the thermal grid.
+                ThermalGrid.addTemperature(new VectorWorld(this), deltaT);
 
-                    // Sound of lava flowing randomly plays when above temperature to boil water.
-                    if (worldObj.rand.nextInt(80) == 0 && getTemperature() >= 373) {
-                        // TODO: Only do this is there is a water block nearby.
-                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lava", 0.5F, 2.1F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.85F);
-                    }
+                // Sound of lava flowing randomly plays when above temperature to boil water.
+                if (worldObj.rand.nextInt(80) == 0 && getTemperature() >= 373) {
+                    // TODO: Only do this is there is a water block nearby.
+                    worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lava", 0.5F, 2.1F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.85F);
+                }
 
-                    // Sounds of lava popping randomly plays when above temperature to boil water.
-                    if (worldObj.rand.nextInt(40) == 0 && getTemperature() >= 373) {
-                        // TODO: Only do this is there is a water block nearby.
-                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lavapop", 0.5F, 2.6F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.8F);
-                    }
+                // Sounds of lava popping randomly plays when above temperature to boil water.
+                if (worldObj.rand.nextInt(40) == 0 && getTemperature() >= 373) {
+                    // TODO: Only do this is there is a water block nearby.
+                    worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lavapop", 0.5F, 2.6F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.8F);
+                }
 
-                    // Reactor cell plays random idle noises while operating and above temperature to boil water.
-                    if (worldObj.getWorldTime() % 100 == 0 && getTemperature() >= 373) {
-                        float percentage = Math.min(getTemperature() / 2000.0F, 1.0F);
-                        worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, Reference.PREFIX + "tile.reactorCell", percentage, 1.0F);
-                    }
+                // Reactor cell plays random idle noises while operating and above temperature to boil water.
+                if (worldObj.getWorldTime() % 100 == 0 && getTemperature() >= 373) {
+                    float percentage = Math.min(getTemperature() / 2000.0F, 1.0F);
+                    worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, Reference.PREFIX + "tile.reactorCell", percentage, 1.0F);
+                }
 
-                    if (previousTemperature != temperature && !shouldUpdate) {
-                        shouldUpdate = true;
-                        previousTemperature = temperature;
-                    }
+                if (previousTemperature != temperature && !shouldUpdate) {
+                    shouldUpdate = true;
+                    previousTemperature = temperature;
+                }
 
-                    if (previousTemperature >= meltingPoint && meltdownCounter < meltdownCounterMaximum) {
+                // If temperature is over the melting point of the reactor, either increase counter or melt down.
+                if (previousTemperature >= meltingPoint) {
+                    if (meltdownCounter < meltdownCounterMaximum) {
                         shouldUpdate = true;
                         meltdownCounter++;
-                    }
-
-                    if (previousTemperature >= meltingPoint && meltdownCounter >= meltdownCounterMaximum) {
+                    } else if (meltdownCounter >= meltdownCounterMaximum) {
                         meltdownCounter = 0;
                         meltDown();
 
                         return;
-                    } else {
-                        // Reset meltdown ticker to give the reactor more of a 'goldilocks zone'.
-                        meltdownCounter = 0;
                     }
                 }
 
-                internalEnergy = 0;
+                // If reactor temperature is below meltingPoint and meltdownCounter is over 0, decrease it.
+                if (previousTemperature < meltingPoint && meltdownCounter > 0) {
+                    meltdownCounter--;
+                }
+            }
 
-                if (isOverToxic()) {
-                    // Randomly leak toxic waste when it is too toxic.
-                    VectorWorld leakPos = new VectorWorld(this).translate(worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10);
-                    Block block = leakPos.getBlock();
+            internalEnergy = 0;
 
-                    if (block == Blocks.grass) {
-                        leakPos.setBlock(worldObj, Quantum.blockRadioactiveGrass);
+            if (isOverToxic()) {
+                // Randomly leak toxic waste when it is too toxic.
+                VectorWorld leakPos = new VectorWorld(this).translate(worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10);
+                Block block = leakPos.getBlock();
+
+                if (block == Blocks.grass) {
+                    leakPos.setBlock(worldObj, Quantum.blockRadioactiveGrass);
+                    tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+                } else if (block == Blocks.air || block.isReplaceable(worldObj, leakPos.intX(), leakPos.intY(), leakPos.intZ())) {
+                    if (tank.getFluid() != null) {
+                        leakPos.setBlock(worldObj, tank.getFluid().getFluid().getBlock());
                         tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                    } else if (block == Blocks.air || block.isReplaceable(worldObj, leakPos.intX(), leakPos.intY(), leakPos.intZ())) {
-                        if (tank.getFluid() != null) {
-                            leakPos.setBlock(worldObj, tank.getFluid().getFluid().getBlock());
-                            tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                        }
                     }
                 }
             }
+        }
 
-            if (worldObj.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
-                shouldUpdate = false;
+        if (worldObj.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
+            shouldUpdate = false;
+            worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
+            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+        }
 
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
-
-                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
-            }
-        } else {
+        if (worldObj.isRemote) {
             // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
             if (worldObj.rand.nextInt(5) == 0 && getTemperature() >= 373) {
                 worldObj.spawnParticle("cloud", xCoord + worldObj.rand.nextInt(2), yCoord + 1.0F, zCoord + worldObj.rand.nextInt(2), 0.0D, 0.1D, 0.0D);
