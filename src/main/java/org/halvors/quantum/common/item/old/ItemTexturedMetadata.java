@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.item;
+package org.halvors.quantum.common.item.old;
 
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.utility.LanguageUtility;

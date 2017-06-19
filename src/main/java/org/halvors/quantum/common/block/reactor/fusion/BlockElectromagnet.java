@@ -15,7 +15,6 @@ import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
-import org.halvors.quantum.lib.render.BlockRenderingHandler;
 
 import java.util.List;
 
@@ -29,14 +28,6 @@ public class BlockElectromagnet extends BlockContainer {
         setTextureName(Reference.PREFIX + "electromagnet");
         setCreativeTab(Quantum.getCreativeTab());
         setResistance(20);
-
-        //itemBlock = ItemBlockMetadata.class;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube() {
-        return false;
     }
 
     @Override
@@ -63,18 +54,14 @@ public class BlockElectromagnet extends BlockContainer {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
     public boolean shouldSideBeRendered(IBlockAccess access, int x, int y, int z, int side) {
         return true;
-    }
-
-    @Override
-    public int getRenderBlockPass() {
-        return 0;
-    }
-
-    @Override
-    public int getRenderType() {
-        return BlockRenderingHandler.getId();
     }
 
     @Override
@@ -93,12 +80,4 @@ public class BlockElectromagnet extends BlockContainer {
     public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileElectromagnet();
     }
-
-    /*
-    @Override
-    @SideOnly(Side.CLIENT)
-    protected TileRender newRenderer() {
-        return new ConnectedTextureRenderer(this, Reference.PREFIX + "atomic_edge");
-    }
-    */
 }

@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.item;
+package org.halvors.quantum.common.item.old;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import org.halvors.quantum.client.key.Key;
 import org.halvors.quantum.client.key.KeyHandler;
 import org.halvors.quantum.common.base.*;
+import org.halvors.quantum.common.item.ItemBlockMetadata;
 import org.halvors.quantum.common.tile.machine.old.TileEntityElectricityMeter;
 import org.halvors.quantum.common.tile.machine.old.TileEntityElectricityStorage;
 import org.halvors.quantum.common.utility.LanguageUtility;

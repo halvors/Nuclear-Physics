@@ -26,7 +26,7 @@ import org.halvors.quantum.common.base.MachineType;
 import org.halvors.quantum.common.base.Tier;
 import org.halvors.quantum.common.base.tile.ITileOwnable;
 import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
-import org.halvors.quantum.common.item.ItemBlockMachine;
+import org.halvors.quantum.common.item.old.ItemBlockMachine;
 import org.halvors.quantum.common.tile.machine.old.TileEntityElectricMachine;
 import org.halvors.quantum.common.tile.machine.old.TileEntityElectricityMeter;
 import org.halvors.quantum.common.tile.machine.old.TileEntityElectricityStorage;

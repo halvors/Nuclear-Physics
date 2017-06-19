@@ -9,6 +9,7 @@ Known bugs:
 
 Known features not implemented:
     - Render Electromagnet and Fulmination with connected textures.
+    - Display tooltip to all items.
 
 New features to add:
     Convenience:

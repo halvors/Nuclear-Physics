@@ -42,7 +42,6 @@ import org.halvors.quantum.common.base.IUpdatableMod;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
 import org.halvors.quantum.common.block.BlockToxicWaste;
 import org.halvors.quantum.common.block.BlockUraniumOre;
-import org.halvors.quantum.common.block.TileElectromagnet;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
 import org.halvors.quantum.common.block.machine.BlockGasCentrifuge;
@@ -63,6 +62,7 @@ import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.event.ThermalEventHandler;
+import org.halvors.quantum.common.item.ItemBlockMetadata;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
@@ -87,10 +87,10 @@ import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
+import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.common.updater.UpdateManager;
 import org.halvors.quantum.lib.grid.UpdateTicker;
 import org.halvors.quantum.lib.render.RenderUtility;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
@@ -124,7 +124,7 @@ public class Quantum implements IUpdatableMod {
 	private static Configuration configuration;
 
 	// Grids
-	public static ThermalGrid thermalGrid = new ThermalGrid();
+	public static final ThermalGrid thermalGrid = new ThermalGrid();
 
 	// Creative Tab
 	private static final QuantumCreativeTab creativeTab = new QuantumCreativeTab();
@@ -332,7 +332,7 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockChemicalExtractor, "blockChemicalExtractor");
 		GameRegistry.registerBlock(blockControlRod, "blockControlRod");
 		GameRegistry.registerBlock(blockElectricTurbine, "blockElectricTurbine");
-		GameRegistry.registerBlock(blockElectromagnet, "blockElectromagnet");
+		GameRegistry.registerBlock(blockElectromagnet, ItemBlockMetadata.class, "blockElectromagnet");
 		GameRegistry.registerBlock(blockFulmination, "blockFulmination");
 		GameRegistry.registerBlock(blockGasCentrifuge, "blockGasCentrifuge");
 		GameRegistry.registerBlock(blockGasFunnel, "blockGasFunnel");

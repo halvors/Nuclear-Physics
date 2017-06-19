@@ -1,9 +1,10 @@
-package org.halvors.quantum.common.item;
+package org.halvors.quantum.common.item.old;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.item.ItemQuantum;
 
 public abstract class ItemTextured extends ItemQuantum {
 	public ItemTextured(String name) {
