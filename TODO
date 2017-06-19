@@ -13,6 +13,9 @@ New features to add:
         - Fluid output is not transferred to neighbor machine accepting it as input.
         - Add electromagnetic cell, a cell capable of holding antimatter.
 
+    Enhancement:
+        - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
+
     Rendering:
         - Make the whole multiblock reactor cell share GUI.
         - Make nuclear boiler eject steam.

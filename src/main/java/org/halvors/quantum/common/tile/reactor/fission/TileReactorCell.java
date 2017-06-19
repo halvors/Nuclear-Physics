@@ -76,6 +76,8 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
             updatePositionStatus();
         }
 
+        meltDown();
+
         // Move fuel rod down into the primary cell block if possible.
         if (!getMultiBlock().isPrimary()) {
             if (getStackInSlot(0) != null) {
@@ -91,7 +93,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         }
 
         if (!worldObj.isRemote) {
-            if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().getFluid() == Quantum.fluidPlasma) {
+            if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().getFluidID() == Quantum.fluidPlasma.getID()) {
                 // Spawn plasma.
                 FluidStack drain = tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false);
 
@@ -142,8 +144,8 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
                     float deltaT = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
 
                     // Check control rods.
-                    for (int i = 2; i < 6; i++) {
-                        Vector3 checkAdjacent = new Vector3(this).translate(ForgeDirection.getOrientation(i));
+                    for (int side = 2; side < 6; side++) {
+                        Vector3 checkAdjacent = new Vector3(this).translate(ForgeDirection.getOrientation(side));
 
                         if (checkAdjacent.getBlock(worldObj) == Quantum.blockControlRod) {
                             deltaT /= 1.1;
@@ -330,11 +332,13 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
     @Override
     public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        if (resource == null || !resource.isFluidEqual(tank.getFluid())) {
-            return null;
+        if (resource != null) {
+            if (resource.isFluidEqual(tank.getFluid())) {
+                tank.drain(resource.amount, doDrain);
+            }
         }
 
-        return tank.drain(resource.amount, doDrain);
+        return null;
     }
 
     @Override
@@ -344,12 +348,12 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return fluid == Quantum.fluidPlasma;
+        return fluid.getID() == Quantum.fluidPlasma.getID();
     }
 
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return fluid == Quantum.fluidToxicWaste;
+        return fluid.getID() == Quantum.fluidToxicWaste.getID();
     }
 
     @Override
@@ -371,7 +375,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
     @Override
     public boolean isOverToxic() {
-        return tank.getFluid() != null && tank.getFluid() == Quantum.fluidStackToxicWaste && tank.getFluid().amount >= tank.getCapacity();
+        return tank.getFluid() != null && tank.getFluid().getFluidID() == Quantum.fluidToxicWaste.getID() && tank.getFluid().amount >= tank.getCapacity();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -389,7 +393,6 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
     @Override
     public boolean isUseableByPlayer(EntityPlayer player) {
         return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) <= 64;
-
     }
 
     @Override
@@ -459,12 +462,11 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
     }
 
     private void meltDown() {
-        if (!worldObj.isRemote) {
-            worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.lava, 0, 3);
+        // Make sure the reactor block is destroyed.
+        worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.air);
 
-            ReactorExplosion reactorExplosion = new ReactorExplosion(worldObj, null, xCoord, yCoord, zCoord, 9.0F);
-            reactorExplosion.doExplosionA();
-            reactorExplosion.doExplosionB(true);
-        }
+        // No need to destroy reactor cell since explosion will do that for us.
+        ReactorExplosion reactorExplosion = new ReactorExplosion(worldObj, null, xCoord, yCoord, zCoord, 9.0F);
+        reactorExplosion.explode();
     }
 }

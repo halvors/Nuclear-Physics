@@ -21,9 +21,14 @@ public class ReactorExplosion extends Explosion {
         this.isFlaming = true;
     }
 
+    public void explode() {
+        doExplosionA();
+        doExplosionB(true);
+    }
+
     @Override
-    public void doExplosionB(boolean par1) {
-        super.doExplosionB(par1);
+    public void doExplosionB(boolean flag) {
+        super.doExplosionB(flag);
 
         for (Object affectedBlockPosition : affectedBlockPositions) {
             ChunkPosition chunkPosition = (ChunkPosition) affectedBlockPosition;
@@ -33,8 +38,7 @@ public class ReactorExplosion extends Explosion {
             Block block = world.getBlock(x, y, z);
             Block blockUnder = world.getBlock(x, y - 1, z);
 
-            // TODO: Check opaqueCubeLookup. Correct replacement !block.isOpaqueCube()?
-            if (block == Blocks.air && !blockUnder.isOpaqueCube() && explosionRAND.nextInt(3) == 0) {
+            if (block == Blocks.air && blockUnder.isOpaqueCube() && explosionRAND.nextInt(3) == 0) {
                 world.setBlock(x, y, z, Quantum.blockRadioactiveGrass);
             }
         }
