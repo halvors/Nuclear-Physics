@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.lib.prefab.block.BlockRotatable;
-import org.halvors.quantum.lib.render.BlockRenderingHandler;
+import org.halvors.quantum.client.render.BlockRenderingHandler;
 
 public class BlockMachine extends BlockRotatable {
     public BlockMachine(String name) {

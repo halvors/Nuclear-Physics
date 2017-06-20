@@ -19,7 +19,7 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 import java.util.List;
 import java.util.Random;
 
-public class BlockRadioactive extends net.minecraft.block.Block {
+public class BlockRadioactive extends BlockQuantum {
     protected static boolean canSpread;
     protected static float radius;
     protected static int amplifier;
@@ -28,11 +28,8 @@ public class BlockRadioactive extends net.minecraft.block.Block {
     protected static boolean spawnParticle;
 
     public BlockRadioactive(String name) {
-        super(Material.rock);
+        super(name, Material.rock);
 
-        setUnlocalizedName(name);
-        setTextureName(Reference.PREFIX + name);
-        setCreativeTab(Quantum.getCreativeTab());
         setTickRandomly(true);
     }
 

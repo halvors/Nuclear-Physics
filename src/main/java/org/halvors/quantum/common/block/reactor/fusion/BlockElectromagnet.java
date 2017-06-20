@@ -8,7 +8,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -19,13 +18,14 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.lib.render.BlockRenderingHandler;
+import org.halvors.quantum.client.render.BlockRenderingHandler;
+import org.halvors.quantum.client.render.ConnectedTextureRenderer;
+import org.halvors.quantum.client.render.IBlockCustomRender;
+import org.halvors.quantum.client.render.IBlockRenderer;
 
-import javax.lang.model.element.QualifiedNameable;
 import java.util.List;
 
-public class BlockElectromagnet extends BlockContainer {
+public class BlockElectromagnet extends BlockContainer implements IBlockCustomRender {
     private static IIcon iconTop, iconGlass;
 
     public BlockElectromagnet() {
@@ -115,5 +115,10 @@ public class BlockElectromagnet extends BlockContainer {
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileElectromagnet();
+    }
+
+    @Override
+    public IBlockRenderer getRenderer() {
+        return new ConnectedTextureRenderer(this, Reference.PREFIX + "atomic_edge");
     }
 }

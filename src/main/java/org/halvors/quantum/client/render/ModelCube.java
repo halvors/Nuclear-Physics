@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.render;
+package org.halvors.quantum.client.render;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -7,7 +7,7 @@ import net.minecraft.client.model.ModelRenderer;
 
 @SideOnly(Side.CLIENT)
 public class ModelCube extends ModelBase {
-    public static final ModelCube INSTNACE = new ModelCube();
+    public static final ModelCube instance = new ModelCube();
     private ModelRenderer cube;
 
     public ModelCube() {

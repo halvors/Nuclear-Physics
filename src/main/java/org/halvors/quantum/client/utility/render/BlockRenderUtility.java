@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.render;
+package org.halvors.quantum.client.utility.render;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;

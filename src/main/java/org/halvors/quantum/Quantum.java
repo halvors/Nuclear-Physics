@@ -92,7 +92,7 @@ import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.lib.grid.UpdateTicker;
-import org.halvors.quantum.lib.render.RenderUtility;
+import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
 
 import java.util.List;

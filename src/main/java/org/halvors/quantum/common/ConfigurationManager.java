@@ -3,7 +3,6 @@ package org.halvors.quantum.common;
 import cpw.mods.fml.common.Loader;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.common.config.Configuration;
-import org.halvors.quantum.common.base.MachineType;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.utility.energy.EnergyUnit;
 
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ConfigurationManager {
-    public static final String CATEGORY_MACHINE = "machine";
     public static final String CATEGORY_INTEGRATION = "integration";
     public static final String CATEGORY_CLIENT = "client";
 
@@ -38,18 +36,6 @@ public class ConfigurationManager {
         public static int deutermiumPerTritium = 4;
         //public static int[] quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the Quantum Assembler. Separate by commas, no space.
         public static double darkMatterSpawnChance = 0.2D;
-    }
-
-    public static class Machine {
-        private static final Map<MachineType, Boolean> machines = new HashMap<>();
-
-        public static boolean isEnabled(MachineType machineType) {
-            return machines.get(machineType) != null && machines.get(machineType);
-        }
-
-        public static void setEntry(MachineType machineType, boolean isEnabled) {
-            machines.put(machineType, isEnabled);
-        }
     }
 
     public static class Integration {
@@ -86,11 +72,6 @@ public class ConfigurationManager {
         General.deutermiumPerTritium = configuration.get(Configuration.CATEGORY_GENERAL, "deutermiumPerTritium", 4).getInt();
         //General.quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the Quantum Assembler. Separate by commas, no space.
         General.darkMatterSpawnChance = configuration.get(Configuration.CATEGORY_GENERAL, "darkMatterSpawnChance", 0.2D).getDouble();
-
-        // Machine.
-        for (MachineType machineType : MachineType.values()) {
-            Machine.setEntry(machineType, configuration.get(CATEGORY_MACHINE, machineType.getUnlocalizedName() + "Enabled", true).getBoolean());
-        }
 
         // Integration.
         Integration.isVersionCheckerEnabled = configuration.get(CATEGORY_INTEGRATION, "VersionChecker", Loader.isModLoaded("VersionChecker")).getBoolean();
@@ -130,11 +111,6 @@ public class ConfigurationManager {
         //General.quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the Quantum Assembler. Separate by commas, no space.
         General.darkMatterSpawnChance = dataStream.readDouble();
 
-        // Machine.
-        for (MachineType machineType : MachineType.values()) {
-            Machine.setEntry(machineType, dataStream.readBoolean());
-        }
-
         // Integration.
         Integration.isVersionCheckerEnabled = dataStream.readBoolean();
         Integration.isCoFHCoreEnabled = dataStream.readBoolean();
@@ -168,11 +144,6 @@ public class ConfigurationManager {
         objects.add(General.deutermiumPerTritium);
         //General.quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the Quantum Assembler. Separate by commas, no space.
         objects.add(General.darkMatterSpawnChance);
-
-        // Machine.
-        for (MachineType machineType : MachineType.values()) {
-            objects.add(Machine.isEnabled(machineType));
-        }
 
         // Integration.
         objects.add(Integration.isVersionCheckerEnabled);

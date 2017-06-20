@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.utility.render.Color;
-import org.halvors.quantum.lib.render.RenderUtility;
+import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)

@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.item.old;
+package org.halvors.quantum.common.item;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

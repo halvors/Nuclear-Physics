@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.render;
+package org.halvors.quantum.client.utility.render;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.block.Block;

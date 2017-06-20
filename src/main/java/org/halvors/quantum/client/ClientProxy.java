@@ -36,7 +36,7 @@ import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.render.BlockRenderingHandler;
+import org.halvors.quantum.client.render.BlockRenderingHandler;
 
 /**
  * This is the client proxy used only by the client.
