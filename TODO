@@ -17,9 +17,11 @@ New features to add:
         - Fluid output is not transferred to neighbor machine accepting it as input.
         - Add electromagnetic cell, a cell capable of holding antimatter.
 
+
     Enhancement:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
         - Make more stuff only server side, if not needed on the client.
+        - Geiger counter.
 
     Rendering:
         - Make the whole multiblock reactor cell share GUI.
@@ -47,6 +49,8 @@ New features to add:
 
     Useful resources:
         How a fusion reactor works: https://www.youtube.com/watch?v=Vwgy6w8ExHE
+
+        https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 
         Minecraft 1.6.4 to 1.7.10 porting:
             - https://github.com/Spoutcraft/Spoutcraft/blob/master/conf/methods.csv https://github.com/Spoutcraft/Spoutcraft/blob/master/conf/fields.csv
