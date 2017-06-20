@@ -17,8 +17,8 @@ public class BlockPlasmaHeater extends BlockTile {
     public BlockPlasmaHeater() {
         super(Material.iron);
 
-        setUnlocalizedName("fusionReactor");
-        setTextureName(Reference.PREFIX + "fusionReactor");
+        setUnlocalizedName("plasmaHeater");
+        setTextureName(Reference.PREFIX + "plasmaHeater");
         setCreativeTab(Quantum.getCreativeTab());
     }
 

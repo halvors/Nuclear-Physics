@@ -15,7 +15,7 @@ import org.halvors.quantum.lib.prefab.tile.TileElectrical;
 
 import java.util.List;
 
-public class TilePlasmaHeater extends TileElectricInventory implements ITileNetworkable, IFluidHandler, IEnergyReceiver { //IPacketReceiver, ITagRender,
+public class TilePlasmaHeater extends TileElectricInventory implements ITileNetworkable, IFluidHandler, IEnergyReceiver {
     public static long power = 10000000000L;
     public static int plasmaHeatAmount = 100; //@Config
 

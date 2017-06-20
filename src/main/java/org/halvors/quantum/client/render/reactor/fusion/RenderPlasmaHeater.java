@@ -14,8 +14,8 @@ import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderPlasmaHeater extends TileEntitySpecialRenderer {
-    private final IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/fusionReactor.obj"));
-    private final ResourceLocation texture =new ResourceLocation(Reference.PREFIX + "textures/models/fusionReactor.png");
+    private final IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/plasmaHeater.obj"));
+    private final ResourceLocation texture =new ResourceLocation(Reference.PREFIX + "textures/models/plasmaHeater.png");
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
