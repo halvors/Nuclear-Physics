@@ -6,6 +6,7 @@ Known bugs:
     - Reactor Cell rendering is messed up.
     - Machine animation continues even if the process is stalled, i.e when there is no more power available.
     - Fluid levels in machines is not always synced properly to the client.
+    - When plasma is released into the world and causes block damage, block change is not propetly synced to the client.
 
 Known features not implemented:
     - Render Electromagnet and Fulmination with connected textures.

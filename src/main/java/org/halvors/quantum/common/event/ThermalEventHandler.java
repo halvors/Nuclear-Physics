@@ -111,7 +111,7 @@ public class ThermalEventHandler {
                         MinecraftForge.EVENT_BUS.post(new BoilEvent(position.world, position, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(FluidRegistry.getFluid("steam"), volume), 2, event.isReactor));
                     }
 
-                    event.heatLoss = 0.2f;
+                    event.heatLoss = 0.2F;
                 }
             }
 
