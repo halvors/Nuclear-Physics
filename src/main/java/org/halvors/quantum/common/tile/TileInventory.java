@@ -4,16 +4,177 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.lib.tile.IExternalInventory;
 import org.halvors.quantum.lib.tile.IExternalInventoryBox;
 import org.halvors.quantum.lib.utility.inventory.ExternalInventory;
 
-public class TileInventory extends TileEntity implements IExternalInventory, ISidedInventory {
-    protected IExternalInventoryBox inventory;
+public class TileInventory extends TileEntity implements ISidedInventory {
+    // The inventory slot itemstacks used by this block.
+    private ItemStack[] inventory;
+    protected int[] openSlots;
     protected int maxSlots = 1;
 
+    public TileInventory() {
+        inventory = new ItemStack[maxSlots];
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
+
+        NBTTagList tagList = tagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
+
+        for (int tagCount = 0; tagCount < tagList.tagCount(); tagCount++) {
+            NBTTagCompound slotTagCompound = tagList.getCompoundTagAt(tagCount);
+            byte slotID = tagCompound.getByte("Slot");
+
+            if (slotID >= 0 && slotID < getSizeInventory()) {
+                setInventorySlotContents(slotID, ItemStack.loadItemStackFromNBT(slotTagCompound));
+            }
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
+
+        NBTTagList tagList = new NBTTagList();
+
+        for (int slotCount = 0; slotCount < getSizeInventory(); slotCount++) {
+            if (getStackInSlot(slotCount) != null) {
+                NBTTagCompound slotTagCompound = new NBTTagCompound();
+                slotTagCompound.setByte("Slot", (byte) slotCount);
+                getStackInSlot(slotCount).writeToNBT(slotTagCompound);
+                tagList.appendTag(slotTagCompound);
+            }
+        }
+
+        tagCompound.setTag("Items", tagList);
+    }
+
+    @Override
+    public int[] getSlotsForFace(int side) {
+        if (openSlots == null || openSlots.length != getSizeInventory()) {
+            openSlots = new int[getSizeInventory()];
+
+            for (int i = 0; i < openSlots.length; i++) {
+                openSlots[i] = i;
+            }
+        }
+
+        return openSlots;
+    }
+
+    @Override
+    public boolean canInsertItem(int index, ItemStack itemstack, int side) {
+        return isItemValidForSlot(index, itemstack);
+    }
+
+    @Override
+    public boolean canExtractItem(int index, ItemStack itemstack, int side) {
+        return true;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public int getSizeInventory() {
+        return inventory.length;
+    }
+
+    @Override
+    public ItemStack getStackInSlot(int slot) {
+        return inventory != null ? inventory[slot] : null;
+    }
+
+    @Override
+    public ItemStack decrStackSize(int index, int count) {
+        if (getStackInSlot(index) != null) {
+            ItemStack tempStack;
+
+            if (getStackInSlot(index).stackSize <= count) {
+                tempStack = getStackInSlot(index);
+                setInventorySlotContents(index, null);
+                return tempStack;
+            } else {
+                tempStack = getStackInSlot(index).splitStack(count);
+
+                if(getStackInSlot(index).stackSize == 0) {
+                    setInventorySlotContents(index, null);
+                }
+
+                return tempStack;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public ItemStack getStackInSlotOnClosing(int index) {
+        if (getStackInSlot(index) != null) {
+            ItemStack tempStack = getStackInSlot(index);
+            setInventorySlotContents(index, null);
+
+            return tempStack;
+        }
+
+        return null;
+    }
+
+    @Override
+    public void setInventorySlotContents(int index, ItemStack itemStack) {
+        inventory[index] = itemStack;
+
+        if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
+            itemStack.stackSize = getInventoryStackLimit();
+        }
+
+        markDirty();
+    }
+
+    @Override
+    public String getInventoryName() {
+        return getBlockType().getLocalizedName();
+    }
+
+    @Override
+    public boolean isCustomInventoryName() {
+        return true;
+    }
+
+    @Override
+    public int getInventoryStackLimit() {
+        return 64;
+    }
+
+    @Override
+    public boolean isUseableByPlayer(EntityPlayer player) {
+        return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
+    }
+
+    @Override
+    public void openChest() {
+
+    }
+
+    @Override
+    public void closeChest() {
+
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int index, ItemStack stack) {
+        return index < getSizeInventory();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
         super.readFromNBT(tagCompound);
@@ -135,4 +296,5 @@ public class TileInventory extends TileEntity implements IExternalInventory, ISi
     public boolean isItemValidForSlot(int index, ItemStack itemStack) {
         return getInventory().isItemValidForSlot(index, itemStack);
     }
+    */
 }
