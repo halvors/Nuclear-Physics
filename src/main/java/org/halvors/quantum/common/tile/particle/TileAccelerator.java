@@ -4,6 +4,7 @@ import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -177,7 +178,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                 for (EntityPlayer player : playersUsing) {
                     Quantum.getLogger().info("Sending packet to: " + player.getDisplayName());
 
-                    NetworkHandler.sendToReceivers(new PacketTileEntity(this), player);
+                    NetworkHandler.sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
                 }
 
                 //NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
