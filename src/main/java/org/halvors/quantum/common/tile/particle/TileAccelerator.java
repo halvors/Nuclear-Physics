@@ -175,6 +175,8 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
             if (worldObj.getWorldTime() % 5 == 0) {
                 for (EntityPlayer player : playersUsing) {
+                    Quantum.getLogger().info("Sending packet to: " + player.getDisplayName());
+
                     NetworkHandler.sendToReceivers(new PacketTileEntity(this), player);
                 }
 
@@ -206,6 +208,8 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
         if (worldObj.isRemote) {
+            Quantum.getLogger().info("Received packet from TileAccelerator.");
+
             totalEnergyConsumed = dataStream.readFloat();
             antimatter = dataStream.readInt();
             velocity = dataStream.readFloat();
