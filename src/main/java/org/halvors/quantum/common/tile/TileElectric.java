@@ -5,17 +5,14 @@ import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityNote;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.EnumSet;
 
-public class TileElectricStorage extends TileEntity implements IEnergyHandler { // IEnergyInterface, IEnergyContainer
+public class TileElectric extends TileEntity implements IEnergyHandler {
     protected EnergyStorage energyStorage;
-
-    public TileElectricStorage() {
-
-    }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt) {

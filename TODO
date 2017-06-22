@@ -1,8 +1,8 @@
 Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
 
 Known bugs:
-    - Quantum Assembler render incorrectly.
     - Items is not stored in inventory probably using NBT somehow.
+    - Quantum Assembler render incorrectly.
     - Reactor Cell rendering is messed up.
     - Machine animation continues even if the process is stalled, i.e when there is no more power available.
     - Fluid levels in machines is not always synced properly to the client.
@@ -24,6 +24,7 @@ New features to add:
         - Add a Geiger counter to measure radiation.
         - Add radiation resistance block which implements IAntiPoisonBlock.
         - Make reactor make glass if sand is next to it, and make it melt snow.
+        - Make accelerator GUi show energy usage per 5 mg antimatter, as a measure of efficiency.
 
     Rendering:
         - Make the whole multiblock reactor cell share GUI.

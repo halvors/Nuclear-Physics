@@ -7,19 +7,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.quantum.lib.tile.IExternalInventory;
-import org.halvors.quantum.lib.tile.IExternalInventoryBox;
-import org.halvors.quantum.lib.utility.inventory.ExternalInventory;
 
 public class TileInventory extends TileEntity implements ISidedInventory {
-    // The inventory slot itemstacks used by this block.
     private ItemStack[] inventory;
-    protected int[] openSlots;
-    protected int maxSlots = 1;
+    private int[] openSlots;
+
+    public TileInventory(int maxSlots) {
+        inventory = new ItemStack[maxSlots];
+    }
 
     public TileInventory() {
-        inventory = new ItemStack[maxSlots];
+        this(1);
     }
 
     @Override
@@ -174,74 +172,6 @@ public class TileInventory extends TileEntity implements ISidedInventory {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /*
-    @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
-
-        if (getInventory() != null) {
-            getInventory().load(tagCompound);
-        }
-    }
-
-    @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
-
-        if (getInventory() != null) {
-            getInventory().save(tagCompound);
-        }
-    }
-
-    @Override
-    public IExternalInventoryBox getInventory() {
-        if (inventory == null) {
-            inventory = new ExternalInventory(this, maxSlots);
-        }
-
-        return inventory;
-    }
-
-    @Override
-    public boolean canStore(ItemStack stack, int slot, ForgeDirection side) {
-        return false;
-    }
-
-    @Override
-    public boolean canRemove(ItemStack stack, int slot, ForgeDirection side) {
-        return slot < getSizeInventory();
-    }
-
-    @Override
-    public int[] getSlotsForFace(int face) {
-        return getInventory().getSlotsForFace(face);
-    }
-
-    @Override
-    public boolean canInsertItem(int i, ItemStack itemStack, int j) {
-        return getInventory().canInsertItem(i, itemStack, j);
-    }
-
-    @Override
-    public boolean canExtractItem(int i, ItemStack itemStack, int j) {
-        return getInventory().canExtractItem(i, itemStack, j);
-    }
-
-    @Override
-    public int getSizeInventory() {
-        return getInventory().getSizeInventory();
-    }
-
-    @Override
-    public ItemStack getStackInSlot(int slotIn) {
-        return getInventory().getStackInSlot(slotIn);
-    }
-
-    @Override
-    public ItemStack decrStackSize(int index, int count) {
-        return getInventory().decrStackSize(index, count);
-    }
-
     public void incrStackSize(int slot, ItemStack itemStack) {
         if (getStackInSlot(slot) == null) {
             setInventorySlotContents(slot, itemStack.copy());
@@ -251,50 +181,4 @@ public class TileInventory extends TileEntity implements ISidedInventory {
 
         markDirty();
     }
-
-    @Override
-    public ItemStack getStackInSlotOnClosing(int index) {
-        return getInventory().getStackInSlotOnClosing(index);
-    }
-
-    @Override
-    public void setInventorySlotContents(int index, ItemStack stack) {
-        getInventory().setInventorySlotContents(index, stack);
-    }
-
-    @Override
-    public String getInventoryName() {
-        return getBlockType().getLocalizedName();
-    }
-
-    @Override
-    public boolean isCustomInventoryName() {
-        return true;
-    }
-
-    @Override
-    public int getInventoryStackLimit() {
-        return getInventory().getInventoryStackLimit();
-    }
-
-    @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
-        return getInventory().isUseableByPlayer(player);
-    }
-
-    @Override
-    public void openChest() {
-        getInventory().openChest();
-    }
-
-    @Override
-    public void closeChest() {
-        getInventory().openChest();
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int index, ItemStack itemStack) {
-        return getInventory().isItemValidForSlot(index, itemStack);
-    }
-    */
 }

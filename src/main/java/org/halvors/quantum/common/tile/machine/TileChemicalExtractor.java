@@ -31,8 +31,9 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
     public float rotation = 0;
 
     public TileChemicalExtractor() {
+        super(7);
+
         energyStorage = new EnergyStorage(energy * 2);
-        maxSlots = 7;
 
         inputSlot = 1;
         outputSlot = 2;

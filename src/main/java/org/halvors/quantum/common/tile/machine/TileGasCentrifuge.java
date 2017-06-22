@@ -31,8 +31,9 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
     public float rotation = 0;
 
     public TileGasCentrifuge() {
+        super(4);
+
         energyStorage = new EnergyStorage(energy * 2);
-        maxSlots = 4;
     }
 
     @Override

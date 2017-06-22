@@ -32,7 +32,7 @@ import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
-import org.halvors.quantum.common.tile.particle.TileAccelerator;
+import org.halvors.quantum.common.tile.particle.TileAcceleratorX;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
@@ -77,8 +77,8 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 			return new GuiCreativeBuilder(new Vector3(x, y, z));
 		}
 
-		if (tile instanceof TileAccelerator) {
-			return new GuiAccelerator(player.inventory, (TileAccelerator) tile);
+		if (tile instanceof TileAcceleratorX) {
+			return new GuiAccelerator(player.inventory, (TileAcceleratorX) tile);
 		} else if (tile instanceof TileGasCentrifuge) {
 			return new GuiGasCentrifuge(player.inventory, (TileGasCentrifuge) tile);
 		} else if (tile instanceof TileChemicalExtractor) {

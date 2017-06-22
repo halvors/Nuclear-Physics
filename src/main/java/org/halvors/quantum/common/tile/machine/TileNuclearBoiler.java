@@ -30,8 +30,9 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetworkable, 
     public float rotation = 0;
 
     public TileNuclearBoiler() {
+        super(5);
+
         energyStorage = new EnergyStorage(energy * 2);
-        maxSlots = 5;
 
         outputSlot = 1;
 

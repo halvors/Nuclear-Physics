@@ -17,7 +17,7 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.reactor.fusion.IElectromagnet;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
-import org.halvors.quantum.common.tile.particle.TileAccelerator;
+import org.halvors.quantum.common.tile.particle.TileAcceleratorX;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.List;
@@ -111,18 +111,18 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     public void onUpdate() {
         TileEntity tile = worldObj.getTileEntity(movementVector.intX(), movementVector.intY(), movementVector.intZ());
 
-        if (tile != null && tile instanceof TileAccelerator) {
-            TileAccelerator tileAccelerator = (TileAccelerator) tile;
+        if (tile != null && tile instanceof TileAcceleratorX) {
+            TileAcceleratorX tileAcceleratorX = (TileAcceleratorX) tile;
             double acceleration = 0.0009;
 
             // Play sound effects.
             if (ticksExisted % 10 == 0) {
-                worldObj.playSoundAtEntity(this, Reference.PREFIX + "tile.accelerator", 1, (float) (0.6 + (0.4 * (getParticleVelocity() / TileAccelerator.clientParticleVelocity))));
+                worldObj.playSoundAtEntity(this, Reference.PREFIX + "tile.accelerator", 1, (float) (0.6 + (0.4 * (getParticleVelocity() / TileAcceleratorX.clientParticleVelocity))));
             }
 
             // Sanity check
-            if (tileAccelerator.entityParticle == null) {
-                tileAccelerator.entityParticle = this;
+            if (tileAcceleratorX.entityParticle == null) {
+                tileAcceleratorX.entityParticle = this;
             }
 
             //Force load chunks.

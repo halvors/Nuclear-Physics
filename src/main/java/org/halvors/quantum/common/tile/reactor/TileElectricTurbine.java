@@ -16,7 +16,7 @@ import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.tile.TileElectricStorage;
+import org.halvors.quantum.common.tile.TileElectric;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.thermal.IBoilHandler;
 
@@ -31,7 +31,7 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
-public class TileElectricTurbine extends TileElectricStorage implements IMultiBlockStructure<TileElectricTurbine>, ITileNetworkable, IBoilHandler {
+public class TileElectricTurbine extends TileElectric implements IMultiBlockStructure<TileElectricTurbine>, ITileNetworkable, IBoilHandler {
     // Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
     //protected final int energyPerSteam = 2647600 / 1000;
     protected final int energyPerSteam = 52000;

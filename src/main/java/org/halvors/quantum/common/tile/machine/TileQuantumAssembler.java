@@ -32,8 +32,9 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
     public EntityItem entityItem = null;
 
     public TileQuantumAssembler() {
+        super(6 + 1);
+
         energyStorage = new EnergyStorage(energy);
-        maxSlots = 6 + 1;
     }
 
     @Override
