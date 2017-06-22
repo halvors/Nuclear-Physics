@@ -18,7 +18,7 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer {
     private static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/models/nuclearBoiler.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTick) {
         if (tile instanceof TileNuclearBoiler) {
             TileNuclearBoiler tileNuclearBoiler = (TileNuclearBoiler) tile;
 

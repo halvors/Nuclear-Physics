@@ -18,7 +18,7 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer {
     public static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/models/chemicalExtractor.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTick) {
         if (tile instanceof TileChemicalExtractor) {
             TileChemicalExtractor tileChemicalExtractor = (TileChemicalExtractor) tile;
 

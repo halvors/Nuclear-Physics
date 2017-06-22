@@ -26,7 +26,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
     private static final ResourceLocation textureFissile = new ResourceLocation(Reference.PREFIX + "textures/models/reactorFissileMaterial.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float f) {
+    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTick) {
         if (tileEntity instanceof TileReactorCell) {
             TileReactorCell tileReactorCell = (TileReactorCell) tileEntity;
 

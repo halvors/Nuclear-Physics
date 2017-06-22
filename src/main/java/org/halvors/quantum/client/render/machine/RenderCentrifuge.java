@@ -18,7 +18,7 @@ public class RenderCentrifuge extends TileEntitySpecialRenderer {
     private static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/models/centrifuge.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTick) {
         if (tile instanceof TileGasCentrifuge) {
             TileGasCentrifuge tileGasCentrifuge = (TileGasCentrifuge) tile;
 

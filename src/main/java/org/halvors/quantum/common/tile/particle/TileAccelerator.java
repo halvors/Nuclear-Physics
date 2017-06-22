@@ -10,7 +10,7 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.block.IElectromagnet;
+import org.halvors.quantum.common.block.reactor.fusion.IElectromagnet;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.item.particle.ItemAntimatter;
 import org.halvors.quantum.common.item.particle.ItemDarkmatter;
@@ -100,8 +100,8 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
             }
 
             // Check if redstone signal is currently being applied.
-            //if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-                if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
+            if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+                //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
                         if (getStackInSlot(0) != null && lastSpawnTick >= 40) {
@@ -110,7 +110,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                             spawnAcceleratedParticle.translate(0.5f);
 
                             // Only render the particle if container within the proper environment for it.
-                            if (EntityParticle.canRenderAcceleratedParticle(worldObj, spawnAcceleratedParticle)) {
+                            if (EntityParticle.canSpawnParticle(worldObj, spawnAcceleratedParticle)) {
                                 // Spawn the particle.
                                 totalEnergyConsumed = 0;
                                 entityParticle = new EntityParticle(worldObj, spawnAcceleratedParticle, new Vector3(this), getDirection().getOpposite());
@@ -128,9 +128,9 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                         if (entityParticle.isDead) {
                             // On particle collision we roll the dice to see if dark-matter is generated.
                             if (entityParticle.didParticleCollide) {
-                                if (worldObj.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
+                                //if (worldObj.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
                                     incrStackSize(3, new ItemStack(Quantum.itemDarkMatter));
-                                }
+                                //}
                             }
 
                             entityParticle = null;
@@ -156,6 +156,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                     }
 
                     energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
+                /*
                 } else {
                     if (entityParticle != null) {
                         entityParticle.setDead();
@@ -163,7 +164,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
                     entityParticle = null;
                 }
-            /*
+                */
             } else {
                 if (entityParticle != null) {
                     entityParticle.setDead();
@@ -171,7 +172,6 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
                 entityParticle = null;
             }
-            */
 
             if (worldObj.getWorldTime() % 5 == 0) {
                 NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
@@ -233,7 +233,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void calculateParticleDensity() {
-        ItemStack itemToAccelerate = this.getStackInSlot(0);
+        ItemStack itemToAccelerate = getStackInSlot(0);
 
         if (itemToAccelerate != null) {
             // Calculate block density multiplier if ore dictionary block.

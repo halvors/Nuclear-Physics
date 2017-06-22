@@ -30,7 +30,7 @@ public class GuiAccelerator extends GuiContainerBase {
         Vector3 position = new Vector3(tile);
         position.translate(tile.getDirection().getOpposite());
 
-        if (!EntityParticle.canRenderAcceleratedParticle(tile.getWorld(), position)) {
+        if (!EntityParticle.canSpawnParticle(tile.getWorld(), position)) {
             status = Color.DARK_RED + "Fail to emit; try rotating.";
         } else if (tile.entityParticle != null && tile.velocity > 0) {
             status = Color.ORANGE + "Accelerating";

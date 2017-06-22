@@ -19,6 +19,7 @@ import org.halvors.quantum.client.render.machine.RenderCentrifuge;
 import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
 import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
 import org.halvors.quantum.client.render.machine.RenderQuantumAssembler;
+import org.halvors.quantum.client.render.particle.RenderParticle;
 import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
 import org.halvors.quantum.client.render.reactor.fission.RenderReactorCell;
 import org.halvors.quantum.client.render.reactor.fission.RenderThermometer;
@@ -26,6 +27,7 @@ import org.halvors.quantum.client.render.reactor.fusion.RenderPlasmaHeater;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.client.gui.debug.GuiCreativeBuilder;
+import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
@@ -47,10 +49,12 @@ import org.halvors.quantum.client.render.BlockRenderingHandler;
 public class ClientProxy extends CommonProxy implements IGuiHandler {
 	@Override
 	public void init() {
+		super.init();
+
         // Register block rendering handler.
         RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
 
-        // Register special renderers.
+        // Register special renderer.
         ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
         ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
         ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderCentrifuge());
@@ -59,6 +63,9 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
         ClientRegistry.bindTileEntitySpecialRenderer(TilePlasmaHeater.class, new RenderPlasmaHeater());
         ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
+
+        // Register entity renderer.
+		RenderingRegistry.registerEntityRenderingHandler(EntityParticle.class, new RenderParticle());
 	}
 
 	@Override

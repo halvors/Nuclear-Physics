@@ -18,7 +18,7 @@ public class RenderPlasmaHeater extends TileEntitySpecialRenderer {
     private final ResourceLocation texture =new ResourceLocation(Reference.PREFIX + "textures/models/plasmaHeater.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTick) {
         if (tile instanceof TilePlasmaHeater) {
             TilePlasmaHeater tilePlasmaHeater = (TilePlasmaHeater) tile;
 
