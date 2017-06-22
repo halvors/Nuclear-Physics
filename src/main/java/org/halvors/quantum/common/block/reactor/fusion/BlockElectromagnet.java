@@ -79,12 +79,6 @@ public class BlockElectromagnet extends BlockContainer implements IBlockCustomRe
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean renderAsNormalBlock() {
-        return false;
-    }
-
-    @Override
     public boolean shouldSideBeRendered(IBlockAccess access, int x, int y, int z, int side) {
         Vector3 neighborPosition = new Vector3(x, y, z).translate(ForgeDirection.getOrientation(side).getOpposite());
         Block block = access.getBlock(x, y, z);
