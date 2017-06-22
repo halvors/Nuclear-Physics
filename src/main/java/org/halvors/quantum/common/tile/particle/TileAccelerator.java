@@ -3,6 +3,7 @@ package org.halvors.quantum.common.tile.particle;
 import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -28,7 +29,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
     public static final int energyPerTick = 4800; // TODO: Get the correct value here, 4800000 (UniversalElectricity) units.
 
     /** User client side to determine the velocity of the particle. */
-    public static final float clientParticleVelocity = 0.9f;
+    public static final float clientParticleVelocity = 0.9F;
 
     /** The total amount of energy consumed by this particle. In Joules. */
     public float totalEnergyConsumed = 0; // Synced
@@ -44,14 +45,13 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
     private int lastSpawnTick = 0;
 
     /** Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore. */
-    private int antiMatterDensityMultiplyer = DENSITY_MULTIPLYER_DEFAULT;
     private static final int DENSITY_MULTIPLYER_DEFAULT = 1;
+    private int antiMatterDensityMultiplyer = DENSITY_MULTIPLYER_DEFAULT;
 
     public TileAccelerator() {
         super(4);
 
         energyStorage = new EnergyStorage(energyPerTick * 2, energyPerTick / 20);
-        antiMatterDensityMultiplyer = DENSITY_MULTIPLYER_DEFAULT;
     }
 
     @Override
@@ -174,7 +174,11 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
             }
 
             if (worldObj.getWorldTime() % 5 == 0) {
-                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                for (EntityPlayer player : playersUsing) {
+                    NetworkHandler.sendToReceivers(new PacketTileEntity(this), player);
+                }
+
+                //NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
             }
 
             lastSpawnTick++;
