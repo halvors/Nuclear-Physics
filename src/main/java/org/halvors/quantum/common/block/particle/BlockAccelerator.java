@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.particle.TileAcceleratorX;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.lib.prefab.block.BlockRotatable;
 
 public class BlockAccelerator extends BlockRotatable {
@@ -31,6 +31,6 @@ public class BlockAccelerator extends BlockRotatable {
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
-        return new TileAcceleratorX();
+        return new TileAccelerator();
     }
 }

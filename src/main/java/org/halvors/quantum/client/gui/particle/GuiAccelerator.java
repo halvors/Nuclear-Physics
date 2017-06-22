@@ -5,7 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.halvors.quantum.common.container.particle.ContainerAccelerator;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
-import org.halvors.quantum.common.tile.particle.TileAcceleratorX;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.render.Color;
 import org.halvors.quantum.lib.gui.GuiContainerBase;
@@ -13,9 +13,9 @@ import universalelectricity.api.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
 public class GuiAccelerator extends GuiContainerBase {
-    private TileAcceleratorX tile;
+    private TileAccelerator tile;
 
-    public GuiAccelerator(InventoryPlayer inventoryPlayer, TileAcceleratorX tile) {
+    public GuiAccelerator(InventoryPlayer inventoryPlayer, TileAccelerator tile) {
         super(new ContainerAccelerator(inventoryPlayer, tile));
 
         this.tile = tile;
@@ -38,10 +38,10 @@ public class GuiAccelerator extends GuiContainerBase {
             status = Color.DARK_GREEN + "Idle";
         }
 
-        fontRendererObj.drawString("Velocity: " + Math.round((tile.velocity / TileAcceleratorX.clientParticleVelocity) * 100) + "%", 8, 27, 4210752);
+        fontRendererObj.drawString("Velocity: " + Math.round((tile.velocity / TileAccelerator.clientParticleVelocity) * 100) + "%", 8, 27, 4210752);
         fontRendererObj.drawString("Energy Used:", 8, 38, 4210752);
         fontRendererObj.drawString(UnitDisplay.getDisplay(tile.totalEnergyConsumed, UnitDisplay.Unit.JOULES), 8, 49, 4210752);
-        fontRendererObj.drawString(UnitDisplay.getDisplay(TileAcceleratorX.energyPerTick * 20, UnitDisplay.Unit.WATT), 8, 60, 4210752);
+        fontRendererObj.drawString(UnitDisplay.getDisplay(TileAccelerator.energyPerTick * 20, UnitDisplay.Unit.WATT), 8, 60, 4210752);
         //fontRendererObj.drawString(UnitDisplay.getDisplay(tile.getVoltageInput(null), UnitDisplay.Unit.VOLTAGE), 8, 70, 4210752);
         fontRendererObj.drawString("Antimatter: " + tile.antimatter + " mg", 8, 80, 4210752);
         fontRendererObj.drawString("Status:", 8, 90, 4210752);

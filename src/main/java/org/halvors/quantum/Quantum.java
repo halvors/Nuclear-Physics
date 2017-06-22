@@ -33,6 +33,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
@@ -80,7 +81,7 @@ import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.tile.particle.FulminationHandler;
-import org.halvors.quantum.common.tile.particle.TileAcceleratorX;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
@@ -92,7 +93,6 @@ import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.lib.grid.UpdateTicker;
-import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
 
 import java.util.List;
@@ -352,7 +352,7 @@ public class Quantum implements IUpdatableMod {
 
 	private void registerTileEntities() {
 		// Register tile entities.
-		GameRegistry.registerTileEntity(TileAcceleratorX.class, "tileAccelerator");
+		GameRegistry.registerTileEntity(TileAccelerator.class, "tileAccelerator");
 		GameRegistry.registerTileEntity(TileChemicalExtractor.class, "tileChemicalExtractor");
 		GameRegistry.registerTileEntity(TileElectricTurbine.class, "tileElectricTurbine");
 		GameRegistry.registerTileEntity(TileElectromagnet.class, "tileElectromagnet");

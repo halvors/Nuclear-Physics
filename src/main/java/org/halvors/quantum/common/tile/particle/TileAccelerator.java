@@ -48,8 +48,9 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
     private static final int DENSITY_MULTIPLYER_DEFAULT = 1;
 
     public TileAccelerator() {
+        super(4);
+
         energyStorage = new EnergyStorage(energyPerTick * 2, energyPerTick / 20);
-        maxSlots = 4;
         antiMatterDensityMultiplyer = DENSITY_MULTIPLYER_DEFAULT;
     }
 
@@ -200,10 +201,12 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
-        totalEnergyConsumed = dataStream.readFloat();
-        antimatter = dataStream.readInt();
-        velocity = dataStream.readFloat();
-        clientEnergy = dataStream.readLong();
+        if (worldObj.isRemote) {
+            totalEnergyConsumed = dataStream.readFloat();
+            antimatter = dataStream.readInt();
+            velocity = dataStream.readFloat();
+            clientEnergy = dataStream.readLong();
+        }
     }
 
     @Override

@@ -6,13 +6,13 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.tile.particle.TileAcceleratorX;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.lib.container.ContainerBase;
 
 public class ContainerAccelerator extends ContainerBase {
-    private TileAcceleratorX tile;
+    private TileAccelerator tile;
 
-    public ContainerAccelerator(InventoryPlayer inventoryPlayer, TileAcceleratorX tile) {
+    public ContainerAccelerator(InventoryPlayer inventoryPlayer, TileAccelerator tile) {
         super(tile);
 
         this.tile = tile;

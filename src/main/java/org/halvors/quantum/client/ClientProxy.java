@@ -9,12 +9,14 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.halvors.quantum.client.gui.debug.GuiCreativeBuilder;
 import org.halvors.quantum.client.gui.machine.GuiChemicalExtractor;
 import org.halvors.quantum.client.gui.machine.GuiGasCentrifuge;
 import org.halvors.quantum.client.gui.machine.GuiNuclearBoiler;
 import org.halvors.quantum.client.gui.machine.GuiQuantumAssembler;
 import org.halvors.quantum.client.gui.particle.GuiAccelerator;
 import org.halvors.quantum.client.gui.reactor.fission.GuiReactorCell;
+import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.machine.RenderCentrifuge;
 import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
 import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
@@ -26,19 +28,17 @@ import org.halvors.quantum.client.render.reactor.fission.RenderThermometer;
 import org.halvors.quantum.client.render.reactor.fusion.RenderPlasmaHeater;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.client.gui.debug.GuiCreativeBuilder;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
-import org.halvors.quantum.common.tile.particle.TileAcceleratorX;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.client.render.BlockRenderingHandler;
 
 /**
  * This is the client proxy used only by the client.
@@ -77,8 +77,8 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 			return new GuiCreativeBuilder(new Vector3(x, y, z));
 		}
 
-		if (tile instanceof TileAcceleratorX) {
-			return new GuiAccelerator(player.inventory, (TileAcceleratorX) tile);
+		if (tile instanceof TileAccelerator) {
+			return new GuiAccelerator(player.inventory, (TileAccelerator) tile);
 		} else if (tile instanceof TileGasCentrifuge) {
 			return new GuiGasCentrifuge(player.inventory, (TileGasCentrifuge) tile);
 		} else if (tile instanceof TileChemicalExtractor) {

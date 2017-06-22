@@ -14,7 +14,7 @@ import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
-import org.halvors.quantum.common.tile.particle.TileAcceleratorX;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 
 /**
@@ -42,12 +42,8 @@ public class CommonProxy implements IGuiHandler {
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tile = world.getTileEntity(x, y, z);
 
-		if (tile instanceof TileAcceleratorX) {
-			new ContainerAccelerator(player.inventory, (TileAcceleratorX) tile);
-		}
-
-		if (tile instanceof TileAcceleratorX) {
-			return new ContainerAccelerator(player.inventory, (TileAcceleratorX) tile);
+		if (tile instanceof TileAccelerator) {
+			return new ContainerAccelerator(player.inventory, (TileAccelerator) tile);
 		} else if (tile instanceof TileGasCentrifuge) {
 			return new ContainerGasCentrifuge(player.inventory, (TileGasCentrifuge) tile);
 		} else if (tile instanceof TileChemicalExtractor) {
