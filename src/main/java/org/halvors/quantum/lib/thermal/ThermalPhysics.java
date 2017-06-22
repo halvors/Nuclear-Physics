@@ -13,6 +13,8 @@ import java.util.Map;
 public class ThermalPhysics {
     public static final ThermalPhysics instance = new ThermalPhysics();
     public static final int roomTemperature = 295;
+    public static final int iceMeltTemperature = 273;
+    public static final int waterBoilTemperature = 373;
 
     /** Temperature: 0.5f = 22C
      *
@@ -38,7 +40,7 @@ public class ThermalPhysics {
     }
 
     public static double getRequiredBoilWaterEnergy(World world, int x, int z, int volume) {
-        float temperatureChange = 373 - getTemperatureForCoordinate(world, x, z);
+        float temperatureChange = waterBoilTemperature - getTemperatureForCoordinate(world, x, z);
         float mass = getMass(volume, 1);
 
         return getEnergyForTemperatureChange(mass, 4200, temperatureChange) + getEnergyForStateChange(mass, 2257000);

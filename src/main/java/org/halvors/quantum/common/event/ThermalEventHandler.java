@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.block.reactor.fusion.IElectromagnet;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
@@ -20,6 +21,7 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.lib.grid.UpdateTicker;
 import org.halvors.quantum.lib.thermal.IBoilHandler;
+import org.halvors.quantum.lib.thermal.ThermalPhysics;
 import universalelectricity.api.net.IUpdate;
 
 public class ThermalEventHandler {
@@ -98,15 +100,15 @@ public class ThermalEventHandler {
         // TODO: Synchronized maybe not reqiured for all the following code?
         synchronized (world) {
             if (block.getMaterial() == Material.air) {
-                event.heatLoss = 0.15f;
+                event.heatLoss = 0.15F;
             }
 
             if (block == Blocks.water || block == Blocks.flowing_water) {
-                if (event.temperature >= 373) {
+                if (event.temperature >= ThermalPhysics.waterBoilTemperature) {
                     if (FluidRegistry.getFluid("steam") != null) {
                         // TODO: INCORRECT!
                         int steamMultiplier = 1; // Add this as configuration option?
-                        int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.temperature / 373) * steamMultiplier);
+                        int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.temperature / ThermalPhysics.waterBoilTemperature) * steamMultiplier);
 
                         MinecraftForge.EVENT_BUS.post(new BoilEvent(position.world, position, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(FluidRegistry.getFluid("steam"), volume), 2, event.isReactor));
                     }
@@ -115,24 +117,43 @@ public class ThermalEventHandler {
                 }
             }
 
-            if (block == Blocks.ice) {
-                if (event.temperature >= 273) {
-                    UpdateTicker.addNetwork(new IUpdate() {
-                        @Override
-                        public void update() {
-                            position.setBlock(Blocks.flowing_water);
-                        }
+            if (block == Blocks.ice || block == Blocks.snow || block == Blocks.snow_layer) {
+                if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
+                    if (block == Blocks.ice || block == Blocks.snow) {
+                        UpdateTicker.addNetwork(new IUpdate() {
+                            @Override
+                            public void update() {
+                                position.setBlock(Blocks.flowing_water);
+                            }
 
-                        @Override
-                        public boolean canUpdate() {
-                            return true;
-                        }
+                            @Override
+                            public boolean canUpdate() {
+                                return true;
+                            }
 
-                        @Override
-                        public boolean continueUpdate() {
-                            return false;
-                        }
-                    });
+                            @Override
+                            public boolean continueUpdate() {
+                                return false;
+                            }
+                        });
+                    } else if (block == Blocks.snow_layer) {
+                        UpdateTicker.addNetwork(new IUpdate() {
+                            @Override
+                            public void update() {
+                                position.setBlock(Blocks.air);
+                            }
+
+                            @Override
+                            public boolean canUpdate() {
+                                return true;
+                            }
+
+                            @Override
+                            public boolean continueUpdate() {
+                                return false;
+                            }
+                        });
+                    }
                 }
 
                 event.heatLoss = 0.4F;
