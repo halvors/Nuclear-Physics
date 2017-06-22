@@ -23,9 +23,8 @@ import org.halvors.quantum.common.event.PlasmaEvent;
 import org.halvors.quantum.common.explosion.ReactorExplosion;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.multiblock.MultiBlockHandler;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.tile.TileInventory;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.transform.vector.Vector3;
@@ -217,7 +216,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
             if (worldObj.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
                 shouldUpdate = false;
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
-                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
 
             if (worldObj.isRemote) {
@@ -302,7 +301,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
             temperature = dataStream.readFloat();
 
             if (dataStream.readBoolean()) {
-                tank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+                tank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
             }
         }
     }

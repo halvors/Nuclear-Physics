@@ -113,7 +113,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
         if (tile != null && tile instanceof TileAccelerator) {
             TileAccelerator tileAccelerator = (TileAccelerator) tile;
-            double acceleration = 0.0009;
+            double acceleration = 0.0006;
 
             // Play sound effects.
             if (ticksExisted % 10 == 0) {

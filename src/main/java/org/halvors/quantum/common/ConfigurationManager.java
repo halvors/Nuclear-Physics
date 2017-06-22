@@ -3,13 +3,11 @@ package org.halvors.quantum.common;
 import cpw.mods.fml.common.Loader;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.common.config.Configuration;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.utility.energy.EnergyUnit;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ConfigurationManager {
     public static final String CATEGORY_INTEGRATION = "integration";
@@ -153,6 +151,6 @@ public class ConfigurationManager {
         // Client.
         // We don't sync this as this is client specific changes that the server shouldn't care about.
 
-        NetworkHandler.writeObjects(objects, dataStream);
+        PacketHandler.writeObjects(objects, dataStream);
     }
 }

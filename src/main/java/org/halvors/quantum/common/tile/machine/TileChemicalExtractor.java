@@ -11,7 +11,7 @@ import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.lib.IRotatable;
 import org.halvors.quantum.lib.utility.OreDictionaryUtility;
@@ -85,7 +85,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
             }
 
             if (worldObj.getWorldTime() % 10 == 0) {
-                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
     }
@@ -127,11 +127,11 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
         if (dataStream.readBoolean()) {
-            inputTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+            inputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
         }
 
         if (dataStream.readBoolean()) {
-            outputTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+            outputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
         }
 
         time = dataStream.readInt();

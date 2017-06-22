@@ -4,10 +4,10 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.ResourceLocation;
+import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;
-import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.location.Location;
@@ -95,7 +95,7 @@ public class GuiCreativeBuilder extends GuiContainer {
 
             if (radius > 0) {
                 //PacketDispatcher.sendPacketToServer(References.PACKET_TILE.getPacket(position.intX(), position.intY(), position.intZ(), mode, radius));
-                NetworkHandler.sendToServer(new PacketCreativeBuilder(new Location(0, (int) position.x, (int) position.y, (int) position.z), mode, radius));
+                Quantum.getPacketHandler().sendToServer(new PacketCreativeBuilder(new Location(0, (int) position.x, (int) position.y, (int) position.z), mode, radius));
                 mc.thePlayer.closeScreen();
             }
         } else if (par1GuiButton.id == 1) {

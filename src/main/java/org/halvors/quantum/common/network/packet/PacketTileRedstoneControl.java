@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import org.halvors.quantum.common.base.RedstoneControlType;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.PacketHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ public class PacketTileRedstoneControl extends PacketLocation implements IMessag
                 break;
         }
 
-        NetworkHandler.writeObjects(objects, dataStream);
+        PacketHandler.writeObjects(objects, dataStream);
     }
 
     public static class PacketTileRedstoneControlMessage implements IMessageHandler<PacketTileRedstoneControl, IMessage> {
@@ -78,7 +78,7 @@ public class PacketTileRedstoneControl extends PacketLocation implements IMessag
 
         @SuppressWarnings("unchecked")
         public <T extends TileEntity & ITileNetworkable & ITileRedstoneControl> IMessage onPacketTileRedstoneControlMessage(PacketTileRedstoneControl message, MessageContext messageContext) {
-            World world = NetworkHandler.getWorld(messageContext);
+            World world = PacketHandler.getWorld(messageContext);
             TileEntity tileEntity = message.getLocation().getTileEntity(world);
 
             if (tileEntity != null && tileEntity instanceof ITileRedstoneControl) {

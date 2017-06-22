@@ -8,10 +8,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
-import org.halvors.quantum.lib.prefab.tile.TileElectrical;
 
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITileNetw
         if (worldObj.getWorldTime() % 80 == 0) {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
-            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
     }
 
@@ -95,15 +94,15 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITileNetw
     public void handlePacketData(ByteBuf dataStream) throws Exception {
         if (worldObj.isRemote) {
             if (dataStream.readBoolean()) {
-                tankInputDeuterium.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+                tankInputDeuterium.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
             }
 
             if (dataStream.readBoolean()) {
-                tankInputTritium.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+                tankInputTritium.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
             }
 
             if (dataStream.readBoolean()) {
-                tankOutput.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+                tankOutput.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
             }
         }
     }

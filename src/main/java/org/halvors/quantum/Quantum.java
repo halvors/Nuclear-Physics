@@ -72,6 +72,7 @@ import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemBucketToxicWaste;
 import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.schematic.SchematicAccelerator;
 import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
 import org.halvors.quantum.common.schematic.SchematicFissionReactor;
@@ -116,6 +117,9 @@ public class Quantum implements IUpdatableMod {
 	// Says where the client and server 'proxy' code is loaded.
 	@SidedProxy(clientSide = "org.halvors." + Reference.ID + ".client.ClientProxy", serverSide = "org.halvors." + Reference.ID + ".common.CommonProxy")
 	private static CommonProxy proxy;
+
+	// Network
+	public static final PacketHandler packetHandler = new PacketHandler();
 
 	// Logger
 	private static final Logger logger = LogManager.getLogger(Reference.ID);
@@ -272,6 +276,9 @@ public class Quantum implements IUpdatableMod {
 
 		// Calling proxy handler.
 		proxy.init();
+
+		//Packet registrations
+		packetHandler.init();
 	}
 
 	@EventHandler
@@ -475,6 +482,10 @@ public class Quantum implements IUpdatableMod {
 
 	public static CommonProxy getProxy() {
 		return proxy;
+	}
+
+	public static PacketHandler getPacketHandler() {
+		return packetHandler;
 	}
 
 	public static Logger getLogger() {

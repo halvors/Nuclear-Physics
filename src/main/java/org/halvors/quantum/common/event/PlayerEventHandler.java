@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketConfiguration;
 
 /**
@@ -21,7 +20,7 @@ public class PlayerEventHandler {
 		World world = player.worldObj;
 
 		if (!world.isRemote) {
-			NetworkHandler.sendTo(new PacketConfiguration(), (EntityPlayerMP) player);
+			Quantum.getPacketHandler().sendTo(new PacketConfiguration(), (EntityPlayerMP) player);
 
 			Quantum.getLogger().info("Sent configuration to '" + player.getDisplayName() + "'.");
 		}

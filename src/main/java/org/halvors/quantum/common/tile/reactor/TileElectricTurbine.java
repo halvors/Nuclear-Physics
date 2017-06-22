@@ -9,12 +9,12 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
+import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
-import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectric;
 import org.halvors.quantum.common.transform.vector.Vector3;
@@ -91,7 +91,7 @@ public class TileElectricTurbine extends TileElectric implements IMultiBlockStru
                 angularVelocity = (power * 4) / torque;
 
                 if (worldObj.getWorldTime() % 3 == 0 && previousAngularVelocity != angularVelocity) {
-                    NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                     previousAngularVelocity = angularVelocity;
                 }
 

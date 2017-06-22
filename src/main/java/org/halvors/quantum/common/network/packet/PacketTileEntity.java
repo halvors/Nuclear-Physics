@@ -6,7 +6,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.utility.location.Location;
 
 import java.util.ArrayList;
@@ -46,13 +46,13 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 	public void toBytes(ByteBuf dataStream) {
 		super.toBytes(dataStream);
 
-		NetworkHandler.writeObjects(objects, dataStream);
+		PacketHandler.writeObjects(objects, dataStream);
 	}
 
 	public static class PacketTileEntityMessage implements IMessageHandler<PacketTileEntity, IMessage> {
 		@Override
 		public IMessage onMessage(PacketTileEntity message, MessageContext messageContext) {
-			TileEntity tileEntity = message.getLocation().getTileEntity(NetworkHandler.getPlayer(messageContext).worldObj); // TODO: Does this fix the NPE?
+			TileEntity tileEntity = message.getLocation().getTileEntity(PacketHandler.getWorld(messageContext));
 
 			if (tileEntity != null && tileEntity instanceof ITileNetworkable) {
 				ITileNetworkable tileNetworkable = (ITileNetworkable) tileEntity;

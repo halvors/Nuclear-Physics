@@ -4,9 +4,10 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
+import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.base.tile.ITileRotatable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class TileRotatable extends TileEntity implements ITileNetworkable, ITile
 
 	@Override
 	public Packet getDescriptionPacket() {
-		return NetworkHandler.getPacketFrom(new PacketTileEntity(this));
+		return PacketHandler.getPacketFrom(new PacketTileEntity(this));
 	}
 
 	@Override
@@ -73,7 +74,7 @@ public class TileRotatable extends TileEntity implements ITileNetworkable, ITile
 		}
 
 		if (!worldObj.isRemote) {
-			NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+			Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
 		}
 	}
 }

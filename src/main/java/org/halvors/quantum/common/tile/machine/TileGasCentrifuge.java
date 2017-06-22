@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.transform.vector.Vector3;
@@ -95,7 +95,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
             }
 
             if (worldObj.getWorldTime() % 10 == 0) {
-                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
     }
@@ -133,7 +133,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
             timer = dataStream.readInt();
 
             if (dataStream.readBoolean()) {
-                gasTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+                gasTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
             }
         }
     }
@@ -177,7 +177,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
     @Override
     public void openChest() {
         if (!worldObj.isRemote) {
-            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
     }
 

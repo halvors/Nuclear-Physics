@@ -11,7 +11,6 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 
@@ -66,7 +65,7 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
             }
 
             if (worldObj.getWorldTime() % 10 == 0) {
-                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         } else if (time > 0) {
             if (worldObj.getWorldTime() % 600 == 0) {
@@ -159,7 +158,7 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
     @Override
     public void openChest() {
         if (!worldObj.isRemote) {
-            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
     }
 

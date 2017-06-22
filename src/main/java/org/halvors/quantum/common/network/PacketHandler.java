@@ -1,6 +1,5 @@
 package org.halvors.quantum.common.network;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -8,7 +7,6 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -24,8 +22,8 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;
 import org.halvors.quantum.common.network.packet.PacketConfiguration;
+import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.network.packet.PacketTileRedstoneControl;
 import org.halvors.quantum.common.utility.PlayerUtils;
@@ -34,14 +32,14 @@ import org.halvors.quantum.common.utility.location.Range;
 import java.util.List;
 
 /**
- * This is the NetworkHandler which is responsible for registering the packet that we are going to use.
+ * This is the PacketHandler which is responsible for registering the packet that we are going to use.
  *
  * @author halvors
  */
-public class NetworkHandler {
-	private static final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.ID);
+public class PacketHandler {
+	private final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.ID);
 
-	static {
+	public void init() {
 		// Register packets.
 		networkWrapper.registerMessage(PacketConfiguration.PacketConfigurationMessage.class, PacketConfiguration.class, 0, Side.CLIENT);
 		networkWrapper.registerMessage(PacketTileEntity.PacketTileEntityMessage.class, PacketTileEntity.class, 1, Side.CLIENT);
@@ -52,45 +50,23 @@ public class NetworkHandler {
 		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 3, Side.CLIENT);
 	}
 
-	public static SimpleNetworkWrapper getNetworkWrapper() {
-		return networkWrapper;
-	}
-
-	public static EntityPlayer getPlayer(MessageContext context) {
-		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
-			return context.getServerHandler().playerEntity;
-		} else {
-			return Minecraft.getMinecraft().thePlayer;
-		}
-
-		//return context.side.isClient() ? PlayerUtils.getClientPlayer() : context.getServerHandler().playerEntity;
-	}
-
-	public static World getWorld(MessageContext context) {
-		return getPlayer(context).worldObj;
-	}
-
-	public static Packet getPacketFrom(IMessage message) {
-		return networkWrapper.getPacketFrom(message);
-	}
-
-	public static void sendTo(IMessage message, EntityPlayerMP player) {
+	public void sendTo(IMessage message, EntityPlayerMP player) {
 		networkWrapper.sendTo(message, player);
 	}
 
-	public static void sendToAll(IMessage message) {
+	public void sendToAll(IMessage message) {
 		networkWrapper.sendToAll(message);
 	}
 
-	public static void sendToAllAround(IMessage message, TargetPoint point) {
+	public void sendToAllAround(IMessage message, TargetPoint point) {
 		networkWrapper.sendToAllAround(message, point);
 	}
 
-	public static void sendToDimension(IMessage message, int dimensionId) {
+	public void sendToDimension(IMessage message, int dimensionId) {
 		networkWrapper.sendToDimension(message, dimensionId);
 	}
 
-	public static void sendToServer(IMessage message) {
+	public void sendToServer(IMessage message) {
 		networkWrapper.sendToServer(message);
 	}
 
@@ -100,7 +76,7 @@ public class NetworkHandler {
 	 * @param cuboid - the AABB cuboid to send the packet in
 	 * @param dimensionId - the dimension the cuboid is in
 	 */
-	public static void sendToCuboid(IMessage message, AxisAlignedBB cuboid, int dimensionId) {
+	public void sendToCuboid(IMessage message, AxisAlignedBB cuboid, int dimensionId) {
 		if (cuboid != null) {
 			for (EntityPlayerMP player : PlayerUtils.getPlayers()) {
 				if (player.dimension == dimensionId && cuboid.isVecInside(Vec3.createVectorHelper(player.posX, player.posY, player.posZ))) {
@@ -110,7 +86,7 @@ public class NetworkHandler {
 		}
 	}
 
-	public static void sendToReceivers(IMessage message, Range range) {
+	public void sendToReceivers(IMessage message, Range range) {
 		for (EntityPlayerMP player : PlayerUtils.getPlayers()) {
 			if (player.dimension == range.getDimensionId() && Range.getChunkRange(player).intersects(range)) {
 				sendTo(message, player);
@@ -118,12 +94,24 @@ public class NetworkHandler {
 		}
 	}
 
-	public static void sendToReceivers(IMessage message, Entity entity) {
+	public void sendToReceivers(IMessage message, Entity entity) {
 		sendToReceivers(message, new Range(entity));
 	}
 
-	public static void sendToReceivers(IMessage message, TileEntity tileEntity) {
+	public void sendToReceivers(IMessage message, TileEntity tileEntity) {
 		sendToReceivers(message, new Range(tileEntity));
+	}
+
+	public Packet getPacketFrom(IMessage message) {
+		return networkWrapper.getPacketFrom(message);
+	}
+
+	public static EntityPlayer getPlayer(MessageContext context) {
+		return Quantum.getProxy().getPlayer(context);
+	}
+
+	public static World getWorld(MessageContext context) {
+		return getPlayer(context).worldObj;
 	}
 
     public static void writeObject(Object object, ByteBuf dataStream) {

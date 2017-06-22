@@ -16,7 +16,6 @@ import org.halvors.quantum.common.block.reactor.fusion.IElectromagnet;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.item.particle.ItemAntimatter;
 import org.halvors.quantum.common.item.particle.ItemDarkmatter;
-import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.transform.vector.Vector3;
@@ -24,7 +23,6 @@ import org.halvors.quantum.lib.IRotatable;
 
 import java.util.List;
 
-/** Accelerator TileEntity */
 public class TileAccelerator extends TileElectricInventory implements ITileNetworkable, IElectromagnet, IRotatable {
     /** Joules required per ticks. */
     public static final int energyPerTick = 4800; // TODO: Get the correct value here, 4800000 (UniversalElectricity) units.
@@ -176,12 +174,8 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
             if (worldObj.getWorldTime() % 5 == 0) {
                 for (EntityPlayer player : playersUsing) {
-                    Quantum.getLogger().info("Sending packet to: " + player.getDisplayName());
-
-                    NetworkHandler.sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
+                    Quantum.getPacketHandler().sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
                 }
-
-                //NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
             }
 
             lastSpawnTick++;
@@ -209,8 +203,6 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
         if (worldObj.isRemote) {
-            Quantum.getLogger().info("Received packet from TileAccelerator.");
-
             totalEnergyConsumed = dataStream.readFloat();
             antimatter = dataStream.readInt();
             velocity = dataStream.readFloat();

@@ -4,12 +4,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.gui.IGui;
 import org.halvors.quantum.client.sound.SoundHandler;
 import org.halvors.quantum.common.base.RedstoneControlType;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
-import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileRedstoneControl;
 
 @SideOnly(Side.CLIENT)
@@ -77,7 +77,7 @@ public class GuiRedstoneControl<T extends TileEntity & ITileNetworkable & ITileR
 					SoundHandler.playSound("gui.button.press");
 
 					// Send a update packet to the server.
-					NetworkHandler.sendToServer(new PacketTileRedstoneControl(tileEntity, PacketTileRedstoneControl.PacketType.UPDATE, RedstoneControlType.values()[ordinalToSet]));
+					Quantum.getPacketHandler().sendToServer(new PacketTileRedstoneControl(tileEntity, PacketTileRedstoneControl.PacketType.UPDATE, RedstoneControlType.values()[ordinalToSet]));
 				}
 				break;
 		}

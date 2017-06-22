@@ -5,7 +5,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.PacketHandler;
 
 public class PacketRequestData extends PacketLocation implements IMessage {
 	public PacketRequestData() {
@@ -24,7 +24,7 @@ public class PacketRequestData extends PacketLocation implements IMessage {
 
 		@SuppressWarnings("unchecked")
 		public <T extends TileEntity & ITileNetworkable> IMessage onPacketRequestDataMessage(PacketRequestData message, MessageContext messageContext) {
-			TileEntity tileEntity = message.getLocation().getTileEntity(NetworkHandler.getWorld(messageContext));
+			TileEntity tileEntity = message.getLocation().getTileEntity(PacketHandler.getWorld(messageContext));
 
 			if (tileEntity != null && tileEntity instanceof ITileNetworkable) {
 				return new PacketTileEntity((T) tileEntity);

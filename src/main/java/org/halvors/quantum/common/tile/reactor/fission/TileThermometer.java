@@ -3,8 +3,8 @@ package org.halvors.quantum.common.tile.reactor.fission;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
@@ -46,7 +46,7 @@ public class TileThermometer extends TileEntity implements ITileNetworkable {
                     isProvidingPower = isOverThreshold();
                     worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
 
-                    NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
         }

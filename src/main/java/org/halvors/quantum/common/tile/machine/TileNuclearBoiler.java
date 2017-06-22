@@ -11,7 +11,7 @@ import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.lib.IRotatable;
 import org.halvors.quantum.lib.utility.OreDictionaryUtility;
@@ -101,7 +101,7 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetworkable, 
 
             if (worldObj.getWorldTime() % 10 == 0) {
                 if (!worldObj.isRemote) {
-                    NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
         }
@@ -144,11 +144,11 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetworkable, 
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
         if (dataStream.readBoolean()) {
-            waterTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+            waterTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
         }
 
         if (dataStream.readBoolean()) {
-            gasTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+            gasTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
         }
 
         timer = dataStream.readInt();
