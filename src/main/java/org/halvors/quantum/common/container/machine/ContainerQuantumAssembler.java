@@ -6,12 +6,15 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.container.ContainerQuantum;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 
-public class ContainerQuantumAssembler extends Container {
+public class ContainerQuantumAssembler extends ContainerQuantum {
     private TileQuantumAssembler tile;
 
     public ContainerQuantumAssembler(InventoryPlayer inventoryPlayer, TileQuantumAssembler tile) {
+        super(inventoryPlayer, tile);
+
         this.tile = tile;
 
         addSlotToContainer(new Slot(tile, 0, 80, 40));

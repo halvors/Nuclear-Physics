@@ -11,7 +11,7 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.EnumSet;
 
-public class TileElectric extends TileEntity implements IEnergyHandler {
+public class TileElectric extends TileQuantum implements IEnergyHandler {
     protected EnergyStorage energyStorage;
 
     @Override

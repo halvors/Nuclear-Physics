@@ -4,6 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 
+import java.util.HashSet;
+
 public class TileElectricInventory extends TileElectric implements ISidedInventory {
     private ItemStack[] inventory;
     private int[] openSlots;
