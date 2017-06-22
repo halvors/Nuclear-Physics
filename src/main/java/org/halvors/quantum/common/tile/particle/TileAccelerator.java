@@ -107,7 +107,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                         if (getStackInSlot(0) != null && lastSpawnTick >= 40) {
                             Vector3 spawnAcceleratedParticle = new Vector3(this);
                             spawnAcceleratedParticle.translate(getDirection().getOpposite());
-                            spawnAcceleratedParticle.translate(0.5f);
+                            spawnAcceleratedParticle.translate(0.5F);
 
                             // Only render the particle if container within the proper environment for it.
                             if (EntityParticle.canSpawnParticle(worldObj, spawnAcceleratedParticle)) {
@@ -128,9 +128,9 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                         if (entityParticle.isDead) {
                             // On particle collision we roll the dice to see if dark-matter is generated.
                             if (entityParticle.didParticleCollide) {
-                                //if (worldObj.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
+                                if (worldObj.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
                                     incrStackSize(3, new ItemStack(Quantum.itemDarkMatter));
-                                //}
+                                }
                             }
 
                             entityParticle = null;
@@ -141,7 +141,6 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                             // Create anti-matter in the internal reserve.
                             int generatedAntimatter = 5 + worldObj.rand.nextInt(antiMatterDensityMultiplyer);
                             antimatter += generatedAntimatter;
-                            // AtomicScience.LOGGER.info("[Particle Accelerator] Generated " + String.valueOf(generatedAntimatter) + " mg of anti-matter.");
 
                             // Reset energy consumption levels and destroy accelerated particle.
                             totalEnergyConsumed = 0;
@@ -175,12 +174,6 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
             if (worldObj.getWorldTime() % 5 == 0) {
                 NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
-
-                /*
-                for (EntityPlayer player : getPlayersUsing()) {
-                    NetworkHandler.sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
-                }
-                */
             }
 
             lastSpawnTick++;

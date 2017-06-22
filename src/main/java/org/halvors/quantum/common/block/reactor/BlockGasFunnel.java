@@ -59,12 +59,6 @@ public class BlockGasFunnel extends BlockContainer implements IBlockCustomRender
         return false;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean renderAsNormalBlock() {
-        return false;
-    }
-
     /*
     @Override
     public boolean shouldSideBeRendered(IBlockAccess access, int x, int y, int z, int side) {

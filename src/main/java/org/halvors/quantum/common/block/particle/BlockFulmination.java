@@ -44,12 +44,6 @@ public class BlockFulmination extends BlockContainer implements IBlockCustomRend
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean renderAsNormalBlock() {
-        return false;
-    }
-
-    @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileFulmination();
     }

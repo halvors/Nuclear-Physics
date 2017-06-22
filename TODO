@@ -6,23 +6,23 @@ Known bugs:
     - Reactor Cell rendering is messed up.
     - Machine animation continues even if the process is stalled, i.e when there is no more power available.
     - Fluid levels in machines is not always synced properly to the client.
-    - When plasma is released into the world and causes block damage, block change is not propetly synced to the client.
+    - When plasma is released into the world and causes block damage, block change is not properly synced to the client.
+    - Electromagnet Glass have wrong material and footstep sound? As well as break sound.
 
 Known features not implemented:
-    - Render Electromagnet and Fulmination with connected textures.
     - Display tooltip to all items.
+    - Make slots in machines only accept valid items.
 
 New features to add:
     Convenience:
-        - Make slots in machines only accept valid items.
         - Fluid output is not transferred to neighbor machine accepting it as input.
         - Add electromagnetic cell, a cell capable of holding antimatter.
-
 
     Enhancement:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
         - Make more stuff only server side, if not needed on the client.
-        - Geiger counter.
+        - Add a Geiger counter to measure radiation.
+        - Add radiation resistance block which implements IAntiPoisonBlock.
 
     Rendering:
         - Make the whole multiblock reactor cell share GUI.
@@ -30,7 +30,7 @@ New features to add:
         - Make turbines eject smoke particles?
 
     Networking:
-        - Only send PacketTileEntity from server to client? (Done) (Not tested)
+
 
     Energy:
         Centrifuge:
@@ -42,11 +42,14 @@ New features to add:
         Nuclear Boiler:
             128 MJ ~= 21000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride
 
-        Turbine
+        Turbine:
             Fission Reactor with 4 Control Rods: (Generated from one Turbine)
                (128 MJ * 20) + 90 MJ = 2650 MJ
 
                60 seconds run = 64 MJ
+
+        Particle Accelerator:
+            5 mg antimatter (One particle accelerated to 100%) uses 97.85 MJ if inner circle is 100x100 blocks.
 
     Useful resources:
         How a fusion reactor works: https://www.youtube.com/watch?v=Vwgy6w8ExHE

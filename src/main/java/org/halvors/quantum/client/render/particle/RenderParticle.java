@@ -33,7 +33,7 @@ public class RenderParticle extends Render {
         Random rand = new Random(432);
 
         GL11.glPushMatrix();
-        GL11.glTranslated(x, y, z);
+        GL11.glTranslated(x, y, z + 0.3);
         GL11.glScaled(0.15, 0.15, 0.15);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glShadeModel(GL11.GL_SMOOTH);
