@@ -36,7 +36,7 @@ public class TileRotatable extends TileEntity implements ITileNetworkable, ITile
 
 	@Override
 	public Packet getDescriptionPacket() {
-		return PacketHandler.getPacketFrom(new PacketTileEntity(this));
+		return Quantum.getPacketHandler().getPacketFrom(new PacketTileEntity(this));
 	}
 
 	@Override
