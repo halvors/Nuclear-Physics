@@ -151,21 +151,21 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
                 // Add heat to surrounding blocks in the thermal grid.
                 ThermalGrid.addTemperature(new VectorWorld(this), deltaT);
-
+                
                 // Sound of lava flowing randomly plays when above temperature to boil water.
-                if (worldObj.rand.nextInt(80) == 0 && getTemperature() >= 373) {
+                if (worldObj.rand.nextInt(80) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     // TODO: Only do this is there is a water block nearby.
                     worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lava", 0.5F, 2.1F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.85F);
                 }
 
                 // Sounds of lava popping randomly plays when above temperature to boil water.
-                if (worldObj.rand.nextInt(40) == 0 && getTemperature() >= 373) {
+                if (worldObj.rand.nextInt(40) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     // TODO: Only do this is there is a water block nearby.
                     worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lavapop", 0.5F, 2.6F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.8F);
                 }
 
                 // Reactor cell plays random idle noises while operating and above temperature to boil water.
-                if (worldObj.getWorldTime() % 100 == 0 && getTemperature() >= 373) {
+                if (worldObj.getWorldTime() % 100 == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     float percentage = Math.min(getTemperature() / meltingPoint, 1.0F);
                     worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, Reference.PREFIX + "tile.reactorCell", percentage, 1.0F);
                 }
@@ -221,7 +221,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
             if (worldObj.isRemote) {
                 // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
-                if (worldObj.rand.nextInt(5) == 0 && getTemperature() >= 373) {
+                if (worldObj.rand.nextInt(5) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     worldObj.spawnParticle("cloud", xCoord + worldObj.rand.nextInt(2), yCoord + 1.0F, zCoord + worldObj.rand.nextInt(2), 0.0D, 0.1D, 0.0D);
                     worldObj.spawnParticle("bubble", xCoord + worldObj.rand.nextInt(5), yCoord, zCoord + worldObj.rand.nextInt(5), 0.0D, 0.0D, 0.0D);
                 }
