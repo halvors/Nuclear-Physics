@@ -52,7 +52,7 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 	public static class PacketTileEntityMessage implements IMessageHandler<PacketTileEntity, IMessage> {
 		@Override
 		public IMessage onMessage(PacketTileEntity message, MessageContext messageContext) {
-			TileEntity tileEntity = message.getLocation().getTileEntity(NetworkHandler.getWorld(messageContext));
+			TileEntity tileEntity = message.getLocation().getTileEntity(NetworkHandler.getPlayer(messageContext).worldObj); // TODO: Does this fix the NPE?
 
 			if (tileEntity != null && tileEntity instanceof ITileNetworkable) {
 				ITileNetworkable tileNetworkable = (ITileNetworkable) tileEntity;
