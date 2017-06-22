@@ -151,7 +151,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
                 // Add heat to surrounding blocks in the thermal grid.
                 ThermalGrid.addTemperature(new VectorWorld(this), deltaT);
-                
+
                 // Sound of lava flowing randomly plays when above temperature to boil water.
                 if (worldObj.rand.nextInt(80) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     // TODO: Only do this is there is a water block nearby.

@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -105,55 +106,61 @@ public class ThermalEventHandler {
 
             if (block == Blocks.water || block == Blocks.flowing_water) {
                 if (event.temperature >= ThermalPhysics.waterBoilTemperature) {
-                    if (FluidRegistry.getFluid("steam") != null) {
+                    Fluid fluidSteam = FluidRegistry.getFluid("steam");
+
+                    if (fluidSteam != null) {
                         // TODO: INCORRECT!
                         int steamMultiplier = 1; // Add this as configuration option?
                         int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.temperature / ThermalPhysics.waterBoilTemperature) * steamMultiplier);
 
-                        MinecraftForge.EVENT_BUS.post(new BoilEvent(position.world, position, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(FluidRegistry.getFluid("steam"), volume), 2, event.isReactor));
+                        MinecraftForge.EVENT_BUS.post(new BoilEvent(world, position, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(fluidSteam, volume), 2, event.isReactor));
                     }
 
                     event.heatLoss = 0.2F;
                 }
             }
 
-            if (block == Blocks.ice || block == Blocks.snow || block == Blocks.snow_layer) {
+            if (block == Blocks.ice || block == Blocks.packed_ice) {
                 if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
-                    if (block == Blocks.ice || block == Blocks.snow) {
-                        UpdateTicker.addNetwork(new IUpdate() {
-                            @Override
-                            public void update() {
-                                position.setBlock(Blocks.flowing_water);
-                            }
+                    UpdateTicker.addNetwork(new IUpdate() {
+                        @Override
+                        public void update() {
+                            position.setBlock(Blocks.flowing_water);
+                        }
 
-                            @Override
-                            public boolean canUpdate() {
-                                return true;
-                            }
+                        @Override
+                        public boolean canUpdate() {
+                            return true;
+                        }
 
-                            @Override
-                            public boolean continueUpdate() {
-                                return false;
-                            }
-                        });
-                    } else if (block == Blocks.snow_layer) {
-                        UpdateTicker.addNetwork(new IUpdate() {
-                            @Override
-                            public void update() {
-                                position.setBlock(Blocks.air);
-                            }
+                        @Override
+                        public boolean continueUpdate() {
+                            return false;
+                        }
+                    });
+                }
 
-                            @Override
-                            public boolean canUpdate() {
-                                return true;
-                            }
+                event.heatLoss = 0.4F;
+            }
 
-                            @Override
-                            public boolean continueUpdate() {
-                                return false;
-                            }
-                        });
-                    }
+            if (block == Blocks.snow || block == Blocks.snow_layer) {
+                if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
+                    UpdateTicker.addNetwork(new IUpdate() {
+                        @Override
+                        public void update() {
+                            position.setBlock(Blocks.air);
+                        }
+
+                        @Override
+                        public boolean canUpdate() {
+                            return true;
+                        }
+
+                        @Override
+                        public boolean continueUpdate() {
+                            return false;
+                        }
+                    });
                 }
 
                 event.heatLoss = 0.4F;
