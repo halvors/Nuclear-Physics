@@ -125,7 +125,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 tileAccelerator.entityParticle = this;
             }
 
-            //Force load chunks.
+            // Force load chunks.
             // TODO: Calculate direction so to only load two chunks instead of 5.
             for (int x = -1; x < 1; x++) {
                 for (int z = -1; z < 1; z++) {
@@ -139,9 +139,6 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             } else {
                 movementDirection = ForgeDirection.getOrientation(dataWatcher.getWatchableObjectByte(movementDirectionDataWatcherId));
             }
-
-            // TODO: Double check this? Should it be the old one instead?
-            //if (!isElectromagnet(worldObj, new Vector3(this), movementDirection.getRotation(ForgeDirection.UP)) || !isElectromagnet(worldObj, new Vector3(this), movementDirection.getRotation(ForgeDirection.DOWN)) && lastTurn <= 0) {
 
             if ((!isElectromagnet(worldObj, new Vector3(this), movementDirection.getRotation(ForgeDirection.UP)) || !isElectromagnet(worldObj, new Vector3(this), movementDirection.getRotation(ForgeDirection.DOWN))) && lastTurn <= 0) {
                 acceleration = turn();

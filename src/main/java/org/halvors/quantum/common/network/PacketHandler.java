@@ -30,6 +30,7 @@ import org.halvors.quantum.common.utility.PlayerUtils;
 import org.halvors.quantum.common.utility.location.Range;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * This is the PacketHandler which is responsible for registering the packet that we are going to use.
@@ -43,8 +44,6 @@ public class PacketHandler {
 		// Register packets.
 		networkWrapper.registerMessage(PacketConfiguration.PacketConfigurationMessage.class, PacketConfiguration.class, 0, Side.CLIENT);
 		networkWrapper.registerMessage(PacketTileEntity.PacketTileEntityMessage.class, PacketTileEntity.class, 1, Side.CLIENT);
-		networkWrapper.registerMessage(PacketTileEntity.PacketTileEntityMessage.class, PacketTileEntity.class, 1, Side.SERVER);
-		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 2, Side.CLIENT);
 		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 2, Side.SERVER);
 		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 3, Side.SERVER);
 		networkWrapper.registerMessage(PacketTileRedstoneControl.PacketTileRedstoneControlMessage.class, PacketTileRedstoneControl.class, 3, Side.CLIENT);
@@ -83,6 +82,12 @@ public class PacketHandler {
 					sendTo(message, player);
 				}
 			}
+		}
+	}
+
+	public void sendToReceivers(IMessage message, Set<EntityPlayer> playerList) {
+		for (EntityPlayer player : playerList) {
+			sendTo(message, (EntityPlayerMP) player);
 		}
 	}
 

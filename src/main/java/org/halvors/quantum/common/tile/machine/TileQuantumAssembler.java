@@ -65,7 +65,9 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
             }
 
             if (worldObj.getWorldTime() % 10 == 0) {
-                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+                if (!worldObj.isRemote) {
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
+                }
             }
         } else if (time > 0) {
             if (worldObj.getWorldTime() % 600 == 0) {

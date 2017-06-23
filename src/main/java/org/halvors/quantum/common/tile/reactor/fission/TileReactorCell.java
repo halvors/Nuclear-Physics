@@ -216,6 +216,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
             if (worldObj.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
                 shouldUpdate = false;
                 worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
+
                 Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
 

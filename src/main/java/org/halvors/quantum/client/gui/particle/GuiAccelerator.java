@@ -41,7 +41,7 @@ public class GuiAccelerator extends GuiContainerBase {
         fontRendererObj.drawString("Velocity: " + Math.round((tile.velocity / TileAccelerator.clientParticleVelocity) * 100) + "%", 8, 27, 4210752);
         fontRendererObj.drawString("Energy Used:", 8, 38, 4210752);
         fontRendererObj.drawString(UnitDisplay.getDisplay(tile.totalEnergyConsumed, UnitDisplay.Unit.JOULES), 8, 49, 4210752);
-        fontRendererObj.drawString(UnitDisplay.getDisplay(TileAccelerator.energyPerTick * 20, UnitDisplay.Unit.WATT), 8, 60, 4210752);
+        fontRendererObj.drawString(UnitDisplay.getDisplay(tile.acceleratorEnergyCostPerTick * 20, UnitDisplay.Unit.WATT), 8, 60, 4210752);
         //fontRendererObj.drawString(UnitDisplay.getDisplay(tile.getVoltageInput(null), UnitDisplay.Unit.VOLTAGE), 8, 70, 4210752);
         fontRendererObj.drawString("Antimatter: " + tile.antimatter + " mg", 8, 80, 4210752);
         fontRendererObj.drawString("Status:", 8, 90, 4210752);

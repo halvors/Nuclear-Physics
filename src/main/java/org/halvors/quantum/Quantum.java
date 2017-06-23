@@ -118,20 +118,20 @@ public class Quantum implements IUpdatableMod {
 	@SidedProxy(clientSide = "org.halvors." + Reference.ID + ".client.ClientProxy", serverSide = "org.halvors." + Reference.ID + ".common.CommonProxy")
 	private static CommonProxy proxy;
 
+	// ConfigurationManager
+	private static Configuration configuration;
+
 	// Network
-	public static final PacketHandler packetHandler = new PacketHandler();
+	private static final PacketHandler packetHandler = new PacketHandler();
 
 	// Logger
 	private static final Logger logger = LogManager.getLogger(Reference.ID);
 
-	// ConfigurationManager
-	private static Configuration configuration;
-
-	// Grids
-	public static final ThermalGrid thermalGrid = new ThermalGrid();
-
 	// Creative Tab
 	private static final QuantumCreativeTab creativeTab = new QuantumCreativeTab();
+
+	// Grids
+	private static final ThermalGrid thermalGrid = new ThermalGrid();
 
 	// Fluids
 	public static final Fluid fluidDeuterium = new Fluid("deuterium").setGaseous(true);
@@ -274,11 +274,11 @@ public class Quantum implements IUpdatableMod {
 			}
 		});
 
+		// Register packets.
+		packetHandler.init();
+
 		// Calling proxy handler.
 		proxy.init();
-
-		//Packet registrations
-		packetHandler.init();
 	}
 
 	@EventHandler
@@ -484,6 +484,10 @@ public class Quantum implements IUpdatableMod {
 		return proxy;
 	}
 
+	public static Configuration getConfiguration() {
+		return configuration;
+	}
+
 	public static PacketHandler getPacketHandler() {
 		return packetHandler;
 	}
@@ -494,10 +498,6 @@ public class Quantum implements IUpdatableMod {
 
 	public static QuantumCreativeTab getCreativeTab() {
 		return creativeTab;
-	}
-
-	public static Configuration getConfiguration() {
-		return configuration;
 	}
 
 	@Override

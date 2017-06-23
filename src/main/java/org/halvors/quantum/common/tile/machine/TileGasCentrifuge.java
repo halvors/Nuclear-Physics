@@ -177,7 +177,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
     @Override
     public void openChest() {
         if (!worldObj.isRemote) {
-            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
         }
     }
 
