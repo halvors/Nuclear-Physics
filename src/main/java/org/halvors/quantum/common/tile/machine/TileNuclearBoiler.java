@@ -94,6 +94,8 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetworkable, 
                     }
 
                     energyStorage.extractEnergy(energy, false);
+                } else {
+                    timer = 0;
                 }
             } else {
                 timer = 0;

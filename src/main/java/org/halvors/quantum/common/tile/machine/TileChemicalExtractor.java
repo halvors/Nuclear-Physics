@@ -25,7 +25,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
     public final FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10); // Synced
 
     // How many ticks has this item been extracting for?
-    public int time = 0; // Synced
+    public int timer = 0; // Synced
     public float rotation = 0;
 
     public TileChemicalExtractor() {
@@ -46,7 +46,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
     public void updateEntity() {
         super.updateEntity();
 
-        if (time > 0) {
+        if (timer > 0) {
             rotation += 0.2;
         }
 
@@ -56,32 +56,32 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
                 //discharge(getStackInSlot(0));
 
                 if (energyStorage.extractEnergy(energy, true) >= energy) {
-                    if (time == 0) {
-                        time = tickTime;
+                    if (timer == 0) {
+                        timer = tickTime;
                     }
 
-                    if (time > 0) {
-                        time--;
+                    if (timer > 0) {
+                        timer--;
 
-                        if (time < 1) {
+                        if (timer < 1) {
                             if (!refineUranium()) {
                                 if (!extractTritium()) {
                                     extractDeuterium();
                                 }
                             }
 
-                            time = 0;
+                            timer = 0;
                         }
                     } else {
-                        time = 0;
+                        timer = 0;
                     }
 
                     energyStorage.extractEnergy(energy, false);
                 } else {
-                    time = 0;
+                    timer = 0;
                 }
             } else {
-                time = 0;
+                timer = 0;
             }
 
             if (worldObj.getWorldTime() % 10 == 0) {
@@ -96,18 +96,20 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
 
+        timer = nbt.getInteger("timer");
+
         NBTTagCompound inputTankCompound = nbt.getCompoundTag("inputTank");
         inputTank.setFluid(FluidStack.loadFluidStackFromNBT(inputTankCompound));
 
         NBTTagCompound outputTankCompound = nbt.getCompoundTag("outputTank");
         outputTank.setFluid(FluidStack.loadFluidStackFromNBT(outputTankCompound));
-
-        time = nbt.getInteger("time");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
+
+        nbt.setInteger("timer", timer);
 
         if (inputTank.getFluid() != null) {
             NBTTagCompound compound = new NBTTagCompound();
@@ -120,8 +122,6 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
             outputTank.getFluid().writeToNBT(compound);
             nbt.setTag("outputTank", compound);
         }
-
-        nbt.setInteger("time", time);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,6 +129,8 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
         if (worldObj.isRemote) {
+            timer = dataStream.readInt();
+
             if (dataStream.readBoolean()) {
                 inputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
             }
@@ -136,13 +138,13 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
             if (dataStream.readBoolean()) {
                 outputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
             }
-
-            time = dataStream.readInt();
         }
     }
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
+        objects.add(timer);
+
         if (inputTank.getFluid() != null) {
             objects.add(true);
 
@@ -162,8 +164,6 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
         } else {
             objects.add(false);
         }
-
-        objects.add(time);
 
         return objects;
     }

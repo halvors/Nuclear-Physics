@@ -89,6 +89,8 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
                     }
 
                     energyStorage.extractEnergy(energy, false);
+                } else {
+                    timer = 0;
                 }
             } else {
                 timer = 0;
@@ -177,7 +179,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
     @Override
     public void openChest() {
         if (!worldObj.isRemote) {
-            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
+            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
     }
 
