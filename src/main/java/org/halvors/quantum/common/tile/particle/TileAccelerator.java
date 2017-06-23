@@ -3,8 +3,6 @@ package org.halvors.quantum.common.tile.particle;
 import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -21,7 +19,6 @@ import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.lib.IRotatable;
 import org.halvors.quantum.lib.utility.OreDictionaryUtility;
-import sun.security.krb5.Config;
 
 import java.util.List;
 

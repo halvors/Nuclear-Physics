@@ -14,7 +14,6 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.block.reactor.fusion.IElectromagnet;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;

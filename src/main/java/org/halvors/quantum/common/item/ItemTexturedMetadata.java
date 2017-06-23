@@ -1,7 +1,6 @@
 package org.halvors.quantum.common.item;
 
 import net.minecraft.item.ItemStack;
-import org.halvors.quantum.common.item.ItemTextured;
 import org.halvors.quantum.common.utility.LanguageUtility;
 
 public class ItemTexturedMetadata extends ItemTextured {

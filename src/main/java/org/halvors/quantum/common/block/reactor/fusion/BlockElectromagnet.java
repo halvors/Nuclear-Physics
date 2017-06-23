@@ -15,13 +15,13 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
-import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
 import org.halvors.quantum.client.render.IBlockRenderer;
+import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
+import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.List;
 

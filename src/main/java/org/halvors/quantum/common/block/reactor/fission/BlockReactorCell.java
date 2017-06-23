@@ -9,12 +9,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.tile.reactor.fission.IReactorComponent;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 
 public class BlockReactorCell extends BlockRotatable {

@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.container.ContainerQuantum;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
-import org.halvors.quantum.lib.container.ContainerBase;
 
 public class ContainerAccelerator extends ContainerQuantum {
     private TileAccelerator tile;

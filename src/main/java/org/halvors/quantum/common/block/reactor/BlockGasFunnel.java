@@ -9,12 +9,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
 import org.halvors.quantum.client.render.IBlockRenderer;
+import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 
 public class BlockGasFunnel extends BlockContainer implements IBlockCustomRender {
     private static IIcon iconTop;

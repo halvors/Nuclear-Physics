@@ -17,9 +17,9 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.common.transform.vector.Cuboid;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 
 import java.util.ArrayList;

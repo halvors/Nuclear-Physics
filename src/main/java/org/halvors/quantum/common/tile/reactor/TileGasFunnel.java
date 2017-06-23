@@ -4,7 +4,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
-import org.halvors.quantum.common.tile.TileQuantum;
 import org.halvors.quantum.lib.thermal.IBoilHandler;
 
 public class TileGasFunnel extends TileEntity implements IBoilHandler {

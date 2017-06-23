@@ -11,8 +11,8 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import org.halvors.quantum.lib.item.ISimpleItemRenderer;
 import org.halvors.quantum.client.utility.render.RenderUtility;
+import org.halvors.quantum.lib.item.ISimpleItemRenderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 

@@ -8,10 +8,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
-import org.halvors.quantum.lib.prefab.block.BlockTile;
-import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.lib.utility.FluidUtility;
 
 public class BlockPlasmaHeater extends BlockContainer {

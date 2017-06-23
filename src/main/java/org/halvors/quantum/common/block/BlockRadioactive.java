@@ -11,8 +11,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.transform.vector.Vector3;
 

@@ -7,12 +7,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
 import org.halvors.quantum.client.render.IBlockRenderer;
+import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.tile.particle.TileFulmination;
 
 public class BlockFulmination extends BlockContainer implements IBlockCustomRender {
     public BlockFulmination() {

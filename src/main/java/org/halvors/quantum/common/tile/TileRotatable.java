@@ -7,7 +7,6 @@ import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.base.tile.ITileRotatable;
-import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 
 import java.util.List;
