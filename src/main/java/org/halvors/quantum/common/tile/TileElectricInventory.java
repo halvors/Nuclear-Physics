@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
+import org.halvors.quantum.Quantum;
 
 public class TileElectricInventory extends TileElectric implements ISidedInventory {
     private ItemStack[] inventory;
@@ -27,10 +28,10 @@ public class TileElectricInventory extends TileElectric implements ISidedInvento
 
         for (int tagCount = 0; tagCount < tagList.tagCount(); tagCount++) {
             NBTTagCompound slotTagCompound = tagList.getCompoundTagAt(tagCount);
-            byte slotID = tagCompound.getByte("Slot");
+            byte index = slotTagCompound.getByte("Slot");
 
-            if (slotID >= 0 && slotID < getSizeInventory()) {
-                setInventorySlotContents(slotID, ItemStack.loadItemStackFromNBT(slotTagCompound));
+            if (index >= 0 && index < getSizeInventory()) {
+                setInventorySlotContents(index, ItemStack.loadItemStackFromNBT(slotTagCompound));
             }
         }
     }
@@ -41,11 +42,11 @@ public class TileElectricInventory extends TileElectric implements ISidedInvento
 
         NBTTagList tagList = new NBTTagList();
 
-        for (int slotCount = 0; slotCount < getSizeInventory(); slotCount++) {
-            if (getStackInSlot(slotCount) != null) {
+        for (int index = 0; index < getSizeInventory(); index++) {
+            if (getStackInSlot(index) != null) {
                 NBTTagCompound slotTagCompound = new NBTTagCompound();
-                slotTagCompound.setByte("Slot", (byte) slotCount);
-                getStackInSlot(slotCount).writeToNBT(slotTagCompound);
+                slotTagCompound.setByte("Slot", (byte) index);
+                getStackInSlot(index).writeToNBT(slotTagCompound);
                 tagList.appendTag(slotTagCompound);
             }
         }
@@ -87,7 +88,7 @@ public class TileElectricInventory extends TileElectric implements ISidedInvento
 
     @Override
     public ItemStack getStackInSlot(int slot) {
-        return inventory != null ? inventory[slot] : null;
+        return inventory[slot];
     }
 
     @Override
