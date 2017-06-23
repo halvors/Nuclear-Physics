@@ -3,6 +3,9 @@ package org.halvors.quantum.common.tile;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.Constants;
 
 public class TileElectricInventory extends TileElectric implements ISidedInventory {
     private ItemStack[] inventory;
@@ -14,6 +17,40 @@ public class TileElectricInventory extends TileElectric implements ISidedInvento
 
     public TileElectricInventory() {
         this(1);
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
+
+        NBTTagList tagList = tagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
+
+        for (int tagCount = 0; tagCount < tagList.tagCount(); tagCount++) {
+            NBTTagCompound slotTagCompound = tagList.getCompoundTagAt(tagCount);
+            byte slotID = tagCompound.getByte("Slot");
+
+            if (slotID >= 0 && slotID < getSizeInventory()) {
+                setInventorySlotContents(slotID, ItemStack.loadItemStackFromNBT(slotTagCompound));
+            }
+        }
+    }
+
+    @Override
+    public void writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
+
+        NBTTagList tagList = new NBTTagList();
+
+        for (int slotCount = 0; slotCount < getSizeInventory(); slotCount++) {
+            if (getStackInSlot(slotCount) != null) {
+                NBTTagCompound slotTagCompound = new NBTTagCompound();
+                slotTagCompound.setByte("Slot", (byte) slotCount);
+                getStackInSlot(slotCount).writeToNBT(slotTagCompound);
+                tagList.appendTag(slotTagCompound);
+            }
+        }
+
+        tagCompound.setTag("Items", tagList);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

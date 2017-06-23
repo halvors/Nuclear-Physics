@@ -53,6 +53,8 @@ public class TileInventory extends TileQuantum implements ISidedInventory {
         tagCompound.setTag("Items", tagList);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public int[] getSlotsForFace(int side) {
         if (openSlots == null || openSlots.length != getSizeInventory()) {

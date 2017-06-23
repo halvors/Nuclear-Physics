@@ -2,6 +2,8 @@ Make it more toxic to carry larger quantities of radioactive material. Like a wh
 
 Known bugs:
     - Items is not stored in inventory probably using NBT somehow.
+        - Stores, but doesn't load it in the right slot.
+
     - Quantum Assembler render incorrectly.
     - Reactor Cell rendering is messed up.
     - Machine animation continues even if the process is stalled, i.e when there is no more power available.
