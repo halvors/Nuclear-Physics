@@ -3,6 +3,7 @@ package org.halvors.quantum.common.tile;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyHandler;
 import cofh.api.energy.IEnergyReceiver;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -113,4 +114,16 @@ public class TileElectric extends TileQuantum implements IEnergyHandler {
 
         return totalUsed;
     }
+
+    /*
+    // Recharges electric item.
+    public void recharge(ItemStack itemStack) {
+        energyStorage.extractEnergy(CompatibilityModule.chargeItem(itemStack, energyStorage.getEnergyStored(), true), true);
+    }
+
+    // Discharges electric item.
+    public void discharge(ItemStack itemStack) {
+        energyStorage.receiveEnergy(CompatibilityModule.dischargeItem(itemStack, energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored(), true), true);
+    }
+    */
 }
