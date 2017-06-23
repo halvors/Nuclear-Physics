@@ -12,6 +12,7 @@ Known bugs:
 Known features not implemented:
     - Display tooltip to all items.
     - Make slots in machines only accept valid items.
+    - Add support for batteries in machines etc.
 
 New features to add:
     Convenience:

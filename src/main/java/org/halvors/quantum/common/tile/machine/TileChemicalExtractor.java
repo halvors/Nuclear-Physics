@@ -1,9 +1,7 @@
 package org.halvors.quantum.common.tile.machine;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyReceiver;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -18,7 +16,7 @@ import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
 import java.util.List;
 
-public class TileChemicalExtractor extends TileProcess implements ITileNetworkable, ISidedInventory, IFluidHandler, IRotatable, IEnergyReceiver {
+public class TileChemicalExtractor extends TileProcess implements ITileNetworkable, IFluidHandler, IRotatable {
     public static final int tickTime = 20 * 14;
     private static final int extractSpeed = 100;
     public static final int energy = 20000;
@@ -48,7 +46,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
     public void updateEntity() {
         super.updateEntity();
 
-        if (canProcess() && time > 0) {
+        if (time > 0) {
             rotation += 0.2;
         }
 
@@ -79,6 +77,8 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
                     }
 
                     energyStorage.extractEnergy(energy, false);
+                } else {
+                    time = 0;
                 }
             } else {
                 time = 0;
@@ -86,7 +86,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
 
             if (worldObj.getWorldTime() % 10 == 0) {
                 if (!worldObj.isRemote) {
-                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
         }
@@ -128,15 +128,17 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetworkab
 
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
-        if (dataStream.readBoolean()) {
-            inputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
-        }
+        if (worldObj.isRemote) {
+            if (dataStream.readBoolean()) {
+                inputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
+            }
 
-        if (dataStream.readBoolean()) {
-            outputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
-        }
+            if (dataStream.readBoolean()) {
+                outputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
+            }
 
-        time = dataStream.readInt();
+            time = dataStream.readInt();
+        }
     }
 
     @Override
