@@ -97,7 +97,9 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
             }
 
             if (worldObj.getWorldTime() % 10 == 0) {
-                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+                if (!worldObj.isRemote) {
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+                }
             }
         }
     }

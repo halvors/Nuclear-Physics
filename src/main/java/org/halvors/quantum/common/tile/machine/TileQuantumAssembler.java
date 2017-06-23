@@ -41,25 +41,23 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
         super.updateEntity();
 
         if (!worldObj.isRemote) {
-            if (canProcess()) {
-                if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
-                    if (time == 0) {
-                        time = tickTime;
-                    }
+            if (canProcess() && energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
+                if (time == 0) {
+                    time = tickTime;
+                }
 
-                    if (time > 0) {
-                        time--;
+                if (time > 0) {
+                    time--;
 
-                        if (time < 1) {
-                            doProcess();
-                            time = 0;
-                        }
-                    } else {
+                    if (time < 1) {
+                        doProcess();
                         time = 0;
                     }
-
-                    energyStorage.extractEnergy(energy, false);
+                } else {
+                    time = 0;
                 }
+
+                energyStorage.extractEnergy(energy, false);
             } else {
                 time = 0;
             }

@@ -103,7 +103,7 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetworkable, 
 
             if (worldObj.getWorldTime() % 10 == 0) {
                 if (!worldObj.isRemote) {
-                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
         }
