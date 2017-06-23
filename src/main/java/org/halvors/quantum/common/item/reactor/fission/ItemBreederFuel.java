@@ -7,7 +7,7 @@ import org.halvors.quantum.common.tile.reactor.fission.IReactorComponent;
 
 public class ItemBreederFuel extends ItemRadioactive implements IReactorComponent {
     public ItemBreederFuel() {
-        super("rodBreederFuel");
+        super("breederFuel");
 
         setMaxDurability(ItemFissileFuel.decay);
         setMaxStackSize(1);
