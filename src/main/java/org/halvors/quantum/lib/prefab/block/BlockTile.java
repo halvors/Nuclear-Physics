@@ -37,43 +37,43 @@ public abstract class BlockTile extends BlockAdvanced implements ITileEntityProv
     }
 
     public void dropEntireInventory(World world, int x, int y, int z, Block block, int par6) {
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
 
-        if (tileEntity != null) {
-            if (tileEntity instanceof IInventory) {
-                IInventory inventory = (IInventory) tileEntity;
+        if (tile != null) {
+            if (tile instanceof IInventory) {
+                IInventory inventory = (IInventory) tile;
 
                 for (int i = 0; i < inventory.getSizeInventory(); i++) {
-                    ItemStack var7 = inventory.getStackInSlot(i);
+                    ItemStack itemStack = inventory.getStackInSlot(i);
 
-                    if (var7 != null) {
+                    if (itemStack != null) {
                         Random random = new Random();
                         float var8 = random.nextFloat() * 0.8F + 0.1F;
                         float var9 = random.nextFloat() * 0.8F + 0.1F;
                         float var10 = random.nextFloat() * 0.8F + 0.1F;
 
-                        while (var7.stackSize > 0) {
+                        while (itemStack.stackSize > 0) {
                             int var11 = random.nextInt(21) + 10;
 
-                            if (var11 > var7.stackSize) {
-                                var11 = var7.stackSize;
+                            if (var11 > itemStack.stackSize) {
+                                var11 = itemStack.stackSize;
                             }
 
-                            var7.stackSize -= var11;
+                            itemStack.stackSize -= var11;
 
-                            EntityItem var12 = new EntityItem(world, x + var8, y + var9, z + var10, new ItemStack(var7.getItem(), var11, var7.getMetadata()));
+                            EntityItem entityItem = new EntityItem(world, x + var8, y + var9, z + var10, new ItemStack(itemStack.getItem(), var11, itemStack.getMetadata()));
 
-                            if (var7.hasTagCompound()) {
-                                var12.getEntityItem().setTagCompound((NBTTagCompound)var7.getTagCompound().copy());
+                            if (itemStack.hasTagCompound()) {
+                                entityItem.getEntityItem().setTagCompound((NBTTagCompound) itemStack.getTagCompound().copy());
                             }
 
                             float var13 = 0.05F;
-                            var12.motionX = ((float)random.nextGaussian() * var13);
-                            var12.motionY = ((float)random.nextGaussian() * var13 + 0.2F);
-                            var12.motionZ = ((float)random.nextGaussian() * var13);
-                            world.spawnEntityInWorld(var12);
+                            entityItem.motionX = random.nextGaussian() * var13;
+                            entityItem.motionY = (random.nextGaussian() * var13) + 0.2F;
+                            entityItem.motionZ = random.nextGaussian() * var13;
+                            world.spawnEntityInWorld(entityItem);
 
-                            if (var7.stackSize <= 0) {
+                            if (itemStack.stackSize <= 0) {
                                 inventory.setInventorySlotContents(i, null);
                             }
                         }

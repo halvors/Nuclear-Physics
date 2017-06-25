@@ -1,8 +1,10 @@
 Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
 
 Known bugs:
-    - Quantum Assembler render incorrectly.
     - Reactor Cell rendering is messed up.
+    - Reactor Cell top model is missing glass texture from one edge.
+    - Should not be possible to inject fuel into each of the reactor cell multiblocks...
+    - Quantum Assembler render incorrectly.
     - Fluid levels in machines is not always synced properly to the client. (Needs retesting, likely solved).
     - When plasma is released into the world and causes block damage, block change is not properly synced to the client.
     - Electromagnet Glass have wrong material and footstep sound? As well as break sound.

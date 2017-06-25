@@ -21,8 +21,6 @@ public abstract class BlockAdvanced extends Block {
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ) {
-        int metadata = world.getBlockMetadata(x, y, z);
-
         if (WrenchUtility.isUsableWrench(entityPlayer, entityPlayer.inventory.getCurrentItem(), x, y, z)) {
             WrenchUtility.damageWrench(entityPlayer, entityPlayer.inventory.getCurrentItem(), x, y, z);
             if (entityPlayer.isSneaking()) {
@@ -76,10 +74,10 @@ public abstract class BlockAdvanced extends Block {
         return extractItem(inventory, slotID, player);
     }
 
-    public boolean insertCurrentItem(IInventory inventory, int slotID, EntityPlayer player)
-    {
+    public boolean insertCurrentItem(IInventory inventory, int slotID, EntityPlayer player) {
         ItemStack stackInInventory = inventory.getStackInSlot(slotID);
         ItemStack current = player.inventory.getCurrentItem();
+
         if (current != null) {
             if (stackInInventory == null || stackInInventory.isItemEqual(current)) {
                 if (inventory.isItemValidForSlot(slotID, current)) {
@@ -101,7 +99,7 @@ public abstract class BlockAdvanced extends Block {
                         current = null;
                     }
 
-                    if ((current == null) || (current.stackSize <= 0)) {
+                    if (current == null || current.stackSize <= 0) {
                         player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
                     }
 
@@ -123,7 +121,7 @@ public abstract class BlockAdvanced extends Block {
                 stackInInventory = null;
             }
 
-            if ((stackInInventory == null) || (stackInInventory.stackSize <= 0)) {
+            if (stackInInventory == null || stackInInventory.stackSize <= 0) {
                 inventory.setInventorySlotContents(slotID, null);
             }
 
