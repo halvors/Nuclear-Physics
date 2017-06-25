@@ -25,12 +25,12 @@ import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.thermal.ThermalGrid;
+import org.halvors.quantum.common.thermal.ThermalPhysics;
 import org.halvors.quantum.common.tile.TileInventory;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.common.thermal.ThermalGrid;
-import org.halvors.quantum.common.thermal.ThermalPhysics;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -16,9 +16,9 @@ import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.thermal.IBoilHandler;
 import org.halvors.quantum.common.tile.TileElectric;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.thermal.IBoilHandler;
 
 import java.util.EnumSet;
 import java.util.HashSet;

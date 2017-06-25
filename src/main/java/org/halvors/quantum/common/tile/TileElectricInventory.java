@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants;
-import org.halvors.quantum.Quantum;
 
 public class TileElectricInventory extends TileElectric implements ISidedInventory {
     private ItemStack[] inventory;

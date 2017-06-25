@@ -6,10 +6,10 @@ import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.transform.vector.VectorWorld;
 import org.halvors.quantum.common.thermal.ThermalGrid;
 import org.halvors.quantum.common.thermal.ThermalPhysics;
+import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.common.transform.vector.VectorWorld;
 
 import java.util.List;
 

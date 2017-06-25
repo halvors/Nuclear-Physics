@@ -4,7 +4,6 @@ import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.tile.TileElectric;
-import org.halvors.quantum.common.tile.TileElectricInventory;
 
 import java.util.EnumSet;
 
