@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.utility.LanguageUtility;
-import org.halvors.quantum.common.utility.render.Color;
+import org.halvors.quantum.client.utility.render.Color;
 import org.lwjgl.input.Keyboard;
 
 import java.util.List;

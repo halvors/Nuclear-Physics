@@ -11,7 +11,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.ITileNetwork;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
@@ -21,7 +21,7 @@ import org.halvors.quantum.lib.IRotatable;
 
 import java.util.List;
 
-public class TileGasCentrifuge extends TileElectricInventory implements ITileNetworkable, IFluidHandler, ISidedInventory, IRotatable, IEnergyReceiver {
+public class TileGasCentrifuge extends TileElectricInventory implements ITileNetwork, IFluidHandler, ISidedInventory, IRotatable, IEnergyReceiver {
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 

@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.base;
+package org.halvors.quantum.common;
 
 public interface IUpdatableMod {
 	String getModId();

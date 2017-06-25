@@ -1,5 +1,7 @@
 package org.halvors.quantum.client.gui;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
@@ -23,6 +25,7 @@ import universalelectricity.api.energy.UnitDisplay;
 import java.util.HashMap;
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public class GuiContainerBase extends GuiContainer {
     public static final ResourceLocation GUI_EMPTY_FILE = new ResourceLocation(Reference.PREFIX + "textures/gui/gui_empty.png");
     public static final ResourceLocation GUI_BASE = new ResourceLocation(Reference.PREFIX + "textures/gui/gui_base.png");

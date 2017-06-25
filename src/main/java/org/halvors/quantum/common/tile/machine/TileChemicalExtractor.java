@@ -8,7 +8,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.ITileNetwork;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
@@ -16,7 +16,7 @@ import org.halvors.quantum.lib.IRotatable;
 
 import java.util.List;
 
-public class TileChemicalExtractor extends TileProcess implements ITileNetworkable, IFluidHandler, IRotatable {
+public class TileChemicalExtractor extends TileProcess implements ITileNetwork, IFluidHandler, IRotatable {
     public static final int tickTime = 20 * 14;
     private static final int extractSpeed = 100;
     public static final int energy = 20000;

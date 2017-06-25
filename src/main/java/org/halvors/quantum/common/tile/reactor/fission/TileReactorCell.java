@@ -17,10 +17,10 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.ITileNetwork;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.event.PlasmaEvent;
-import org.halvors.quantum.common.explosion.ReactorExplosion;
+import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.common.network.PacketHandler;
@@ -35,7 +35,7 @@ import org.halvors.quantum.common.transform.vector.VectorWorld;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileReactorCell extends TileInventory implements IMultiBlockStructure<TileReactorCell>, ITileNetworkable, IFluidHandler, IReactor {
+public class TileReactorCell extends TileInventory implements IMultiBlockStructure<TileReactorCell>, ITileNetwork, IFluidHandler, IReactor {
     public static final int radius = 2;
     public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;

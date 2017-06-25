@@ -1,5 +1,7 @@
 package org.halvors.quantum.client.gui.debug;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -14,6 +16,7 @@ import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.location.Location;
 import org.lwjgl.opengl.GL11;
 
+@SideOnly(Side.CLIENT)
 public class GuiCreativeBuilder extends GuiContainer {
     private GuiTextField textFieldSize;
     private int mode = 0;

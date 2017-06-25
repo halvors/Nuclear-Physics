@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.ITileNetwork;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.thermal.ThermalGrid;
 import org.halvors.quantum.common.thermal.ThermalPhysics;
@@ -13,7 +13,7 @@ import org.halvors.quantum.common.transform.vector.VectorWorld;
 
 import java.util.List;
 
-public class TileThermometer extends TileEntity implements ITileNetworkable {
+public class TileThermometer extends TileEntity implements ITileNetwork {
     private static final int maxThreshold = 5000;
     public float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
     private float previousDetectedTemperature = detectedTemperature; // Synced

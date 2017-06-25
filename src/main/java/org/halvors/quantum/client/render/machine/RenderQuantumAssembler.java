@@ -37,28 +37,28 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer {
             RenderUtility.bind(texture);
 
             GL11.glPushMatrix();
-            GL11.glRotatef(-tileQuantumAssembler.rotationYaw1, 0, 1, 0);
+            GL11.glRotated(-tileQuantumAssembler.rotationYaw1, 0, 1, 0);
             model.renderOnly(hands);
             model.renderOnly("Resonance_Crystal");
             GL11.glPopMatrix();
 
-            /** Small Laser Arm */
+            // Small Laser Arm.
             GL11.glPushMatrix();
-            GL11.glRotatef(tileQuantumAssembler.rotationYaw2, 0, 1, 0);
+            GL11.glRotated(tileQuantumAssembler.rotationYaw2, 0, 1, 0);
             model.renderOnly(arms);
 
             GL11.glPopMatrix();
 
-            /** Large Laser Arm */
+            // Large Laser Arm.
             GL11.glPushMatrix();
-            GL11.glRotatef(-tileQuantumAssembler.rotationYaw3, 0, 1, 0);
+            GL11.glRotated(-tileQuantumAssembler.rotationYaw3, 0, 1, 0);
             model.renderOnly(largeArms);
             GL11.glPopMatrix();
 
             model.renderAllExcept(ArrayUtils.add(ArrayUtils.addAll(ArrayUtils.addAll(hands, arms), largeArms), "Resonance_Crystal"));
             GL11.glPopMatrix();
 
-            /** Render the item */
+            // Render the item.
             RenderItem renderItem = ((RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class));
 
             GL11.glPushMatrix();

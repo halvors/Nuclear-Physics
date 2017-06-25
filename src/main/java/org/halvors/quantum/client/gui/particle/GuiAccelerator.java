@@ -8,7 +8,7 @@ import org.halvors.quantum.common.container.particle.ContainerAccelerator;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.render.Color;
+import org.halvors.quantum.client.utility.render.Color;
 import universalelectricity.api.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)

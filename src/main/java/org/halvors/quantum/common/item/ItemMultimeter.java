@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.utility.render.Color;
+import org.halvors.quantum.client.utility.render.Color;
 
 public class ItemMultimeter extends ItemTextured {
 	public ItemMultimeter() {

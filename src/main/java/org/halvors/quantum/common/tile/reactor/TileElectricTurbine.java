@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.ITileNetwork;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
@@ -31,7 +31,7 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
-public class TileElectricTurbine extends TileElectric implements IMultiBlockStructure<TileElectricTurbine>, ITileNetworkable, IBoilHandler {
+public class TileElectricTurbine extends TileElectric implements IMultiBlockStructure<TileElectricTurbine>, ITileNetwork, IBoilHandler {
     // Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
     //protected final int energyPerSteam = 2647600 / 1000;
     protected final int energyPerSteam = 52000;

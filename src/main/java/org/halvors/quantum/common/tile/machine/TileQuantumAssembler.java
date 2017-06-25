@@ -10,13 +10,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.ITileNetwork;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 
 import java.util.List;
 
-public class TileQuantumAssembler extends TileElectricInventory implements ITileNetworkable, IEnergyReceiver {
+public class TileQuantumAssembler extends TileElectricInventory implements ITileNetwork, IEnergyReceiver {
     public static final int tickTime = 20 * 120;
     private static final int energy = 10000000; // Fix this.
 

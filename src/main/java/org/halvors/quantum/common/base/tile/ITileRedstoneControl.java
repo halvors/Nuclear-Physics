@@ -1,6 +1,6 @@
 package org.halvors.quantum.common.base.tile;
 
-import org.halvors.quantum.common.base.RedstoneControlType;
+import org.halvors.quantum.common.tile.RedstoneControlType;
 
 public interface ITileRedstoneControl {
 	/**

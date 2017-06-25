@@ -5,7 +5,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.ITileNetwork;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.utility.location.Location;
 
@@ -31,7 +31,7 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 		this.objects = objects;
 	}
 
-	public <T extends TileEntity & ITileNetworkable> PacketTileEntity(T tile) {
+	public <T extends TileEntity & ITileNetwork> PacketTileEntity(T tile) {
 		this(new Location(tile), tile.getPacketData(new ArrayList<>()));
 	}
 
@@ -54,8 +54,8 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 		public IMessage onMessage(PacketTileEntity message, MessageContext messageContext) {
 			TileEntity tileEntity = message.getLocation().getTileEntity(PacketHandler.getWorld(messageContext));
 
-			if (tileEntity != null && tileEntity instanceof ITileNetworkable) {
-				ITileNetworkable tileNetworkable = (ITileNetworkable) tileEntity;
+			if (tileEntity != null && tileEntity instanceof ITileNetwork) {
+				ITileNetwork tileNetworkable = (ITileNetwork) tileEntity;
 
 				try {
 					tileNetworkable.handlePacketData(message.storedBuffer);

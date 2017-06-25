@@ -41,7 +41,7 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.CreativeTabQuantum;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.base.IUpdatableMod;
+import org.halvors.quantum.common.IUpdatableMod;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
 import org.halvors.quantum.common.block.BlockToxicWaste;
 import org.halvors.quantum.common.block.BlockUraniumOre;

@@ -7,13 +7,13 @@ import net.minecraft.util.ResourceLocation;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.gui.IGui;
 import org.halvors.quantum.client.sound.SoundHandler;
-import org.halvors.quantum.common.base.RedstoneControlType;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.tile.RedstoneControlType;
+import org.halvors.quantum.common.network.ITileNetwork;
 import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
 import org.halvors.quantum.common.network.packet.PacketTileRedstoneControl;
 
 @SideOnly(Side.CLIENT)
-public class GuiRedstoneControl<T extends TileEntity & ITileNetworkable & ITileRedstoneControl> extends GuiComponentBase implements IGuiComponent {
+public class GuiRedstoneControl<T extends TileEntity & ITileNetwork & ITileRedstoneControl> extends GuiComponentBase implements IGuiComponent {
 	private final T tileEntity;
 
 	public GuiRedstoneControl(IGui gui, T tileEntity, ResourceLocation defaultResource) {

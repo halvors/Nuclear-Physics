@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.utility.render;
+package org.halvors.quantum.client.utility.render;
 
 import org.halvors.quantum.common.utility.LanguageUtility;
 

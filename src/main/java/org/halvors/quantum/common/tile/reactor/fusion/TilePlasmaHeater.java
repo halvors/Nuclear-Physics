@@ -7,14 +7,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.network.ITileNetwork;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 
 import java.util.List;
 
-public class TilePlasmaHeater extends TileElectricInventory implements ITileNetworkable, IFluidHandler, IEnergyReceiver {
+public class TilePlasmaHeater extends TileElectricInventory implements ITileNetwork, IFluidHandler, IEnergyReceiver {
     public static long power = 10000000000L;
     public static int plasmaHeatAmount = 100; //@Config
 

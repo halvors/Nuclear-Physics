@@ -6,8 +6,8 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.base.RedstoneControlType;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.tile.RedstoneControlType;
+import org.halvors.quantum.common.network.ITileNetwork;
 import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
 import org.halvors.quantum.common.network.PacketHandler;
 
@@ -22,7 +22,7 @@ public class PacketTileRedstoneControl extends PacketLocation implements IMessag
 
     }
 
-    public <T extends TileEntity & ITileNetworkable & ITileRedstoneControl> PacketTileRedstoneControl(T tileEntity, PacketType packetType, RedstoneControlType redstoneControlType) {
+    public <T extends TileEntity & ITileNetwork & ITileRedstoneControl> PacketTileRedstoneControl(T tileEntity, PacketType packetType, RedstoneControlType redstoneControlType) {
         super(tileEntity);
 
         this.packetType = packetType;
@@ -35,7 +35,7 @@ public class PacketTileRedstoneControl extends PacketLocation implements IMessag
         }
     }
 
-    public <T extends TileEntity & ITileNetworkable & ITileRedstoneControl> PacketTileRedstoneControl(T tileEntity, PacketType packetType) {
+    public <T extends TileEntity & ITileNetwork & ITileRedstoneControl> PacketTileRedstoneControl(T tileEntity, PacketType packetType) {
         this(tileEntity, packetType, tileEntity.getControlType());
     }
 
@@ -77,7 +77,7 @@ public class PacketTileRedstoneControl extends PacketLocation implements IMessag
         }
 
         @SuppressWarnings("unchecked")
-        public <T extends TileEntity & ITileNetworkable & ITileRedstoneControl> IMessage onPacketTileRedstoneControlMessage(PacketTileRedstoneControl message, MessageContext messageContext) {
+        public <T extends TileEntity & ITileNetwork & ITileRedstoneControl> IMessage onPacketTileRedstoneControlMessage(PacketTileRedstoneControl message, MessageContext messageContext) {
             World world = PacketHandler.getWorld(messageContext);
             TileEntity tileEntity = message.getLocation().getTileEntity(world);
 

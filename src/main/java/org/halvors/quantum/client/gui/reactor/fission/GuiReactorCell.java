@@ -1,5 +1,7 @@
 package org.halvors.quantum.client.gui.reactor.fission;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell;
@@ -11,6 +13,7 @@ import universalelectricity.api.energy.UnitDisplay.Unit;
 
 import java.util.List;
 
+@SideOnly(Side.CLIENT)
 public class GuiReactorCell extends GuiContainerBase {
     private TileReactorCell tile;
 

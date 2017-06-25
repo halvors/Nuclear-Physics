@@ -1,15 +1,15 @@
-package org.halvors.quantum.common.base.tile;
+package org.halvors.quantum.common.network;
 
 import io.netty.buffer.ByteBuf;
 
 import java.util.List;
 
 /**
- * Implement this to enable your TileEntity to send and receive data.
+ * Implement this to enable your tile to send and receive data.
  *
  * @author halvors
  */
-public interface ITileNetworkable {
+public interface ITileNetwork {
 	/**
 	 * Receive and manage a packet's data.
 	 * @param dataStream the dataStream to read data from.

@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.base;
+package org.halvors.quantum.common.tile;
 
 public enum RedstoneControlType {
 	DISABLED("Disabled"),
