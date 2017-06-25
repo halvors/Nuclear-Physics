@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.block.reactor.fusion;
+package org.halvors.quantum.api;
 
 public interface IElectromagnet {
     boolean isRunning();

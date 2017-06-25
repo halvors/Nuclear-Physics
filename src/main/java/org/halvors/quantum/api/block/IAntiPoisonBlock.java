@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.block;
+package org.halvors.quantum.api.block;
 
 import net.minecraft.world.World;
 

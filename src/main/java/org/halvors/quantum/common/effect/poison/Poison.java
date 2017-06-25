@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.block.IAntiPoisonBlock;
+import org.halvors.quantum.api.block.IAntiPoisonBlock;
 import org.halvors.quantum.common.item.armor.IAntiPoisonArmor;
 import org.halvors.quantum.common.transform.vector.Vector3;
 

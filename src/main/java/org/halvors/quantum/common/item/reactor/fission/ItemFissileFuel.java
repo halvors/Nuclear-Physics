@@ -12,8 +12,8 @@ import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.item.ItemRadioactive;
-import org.halvors.quantum.common.tile.reactor.fission.IReactor;
-import org.halvors.quantum.common.tile.reactor.fission.IReactorComponent;
+import org.halvors.quantum.api.IReactor;
+import org.halvors.quantum.api.IReactorComponent;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.List;

@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.block.reactor.fusion.IElectromagnet;
+import org.halvors.quantum.api.IElectromagnet;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.thermal.IBoilHandler;

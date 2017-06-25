@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.event.ThermalEvent;
-import org.halvors.quantum.common.tile.reactor.fission.IReactor;
+import org.halvors.quantum.api.IReactor;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
 import universalelectricity.api.net.IUpdate;
 
