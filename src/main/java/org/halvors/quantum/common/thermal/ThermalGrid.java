@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.thermal;
+package org.halvors.quantum.common.thermal;
 
 
 import net.minecraft.block.material.Material;

@@ -5,7 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.type.Pair;
+import org.halvors.quantum.common.utility.type.Pair;
 
 import java.util.HashMap;
 

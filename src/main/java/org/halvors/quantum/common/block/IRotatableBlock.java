@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.block;
+package org.halvors.quantum.common.block;
 
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;

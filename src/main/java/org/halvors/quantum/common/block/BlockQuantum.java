@@ -12,7 +12,6 @@ public class BlockQuantum extends BlockContainer {
         super(material);
 
         setUnlocalizedName(name);
-        setTextureName(Reference.PREFIX + name);
         setCreativeTab(Quantum.getCreativeTab());
     }
 

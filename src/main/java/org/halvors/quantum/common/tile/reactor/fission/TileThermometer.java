@@ -8,8 +8,8 @@ import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.lib.thermal.ThermalGrid;
-import org.halvors.quantum.lib.thermal.ThermalPhysics;
+import org.halvors.quantum.common.thermal.ThermalGrid;
+import org.halvors.quantum.common.thermal.ThermalPhysics;
 
 import java.util.List;
 

@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
-import org.halvors.quantum.lib.prefab.block.BlockRotatable;
+import org.halvors.quantum.common.BlockRotatable;
 
 import java.util.ArrayList;
 
@@ -22,11 +22,9 @@ public class BlockThermometer extends BlockRotatable {
     private static IIcon iconSide;
 
     public BlockThermometer() {
-        super(Material.piston);
+        super("thermometer", Material.piston);
 
-        setUnlocalizedName("thermometer");
         setTextureName(Reference.PREFIX + "thermometer");
-        setCreativeTab(Quantum.getCreativeTab());
     }
 
     @Override

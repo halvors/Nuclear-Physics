@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.schematic.ISchematic;
-import org.halvors.quantum.lib.prefab.block.BlockRotatable;
+import org.halvors.quantum.common.BlockRotatable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +33,10 @@ public class BlockCreativeBuilder extends BlockRotatable {
     }
 
     public BlockCreativeBuilder() {
-        super(Material.iron);
+        super("creativeBuilder", Material.iron);
 
         rotationMask = Byte.parseByte("111111", 2);
 
-        setUnlocalizedName("creativeBuilder");
         setTextureName(Reference.PREFIX + "creativeBuilder");
         setCreativeTab(Quantum.getCreativeTab());
     }

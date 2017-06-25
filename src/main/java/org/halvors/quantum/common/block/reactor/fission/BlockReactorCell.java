@@ -15,16 +15,14 @@ import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.reactor.fission.IReactorComponent;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.prefab.block.BlockRotatable;
+import org.halvors.quantum.common.BlockRotatable;
 import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 
 public class BlockReactorCell extends BlockRotatable {
     public BlockReactorCell() {
-        super(Material.iron);
+        super("reactorCell", Material.iron);
 
-        setUnlocalizedName("reactorCell");
         setTextureName(Reference.PREFIX + "machine");
-        setCreativeTab(Quantum.getCreativeTab());
         setHardness(1.0F);
         setResistance(1.0F);
     }

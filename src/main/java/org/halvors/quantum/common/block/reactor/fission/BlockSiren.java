@@ -1,21 +1,18 @@
 package org.halvors.quantum.common.block.reactor.fission;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.utility.MachineUtils;
 
-public class BlockSiren extends BlockContainer {
+public class BlockSiren extends BlockTextured {
     public BlockSiren() {
-        super(Material.iron);
+        super("siren", Material.iron);
 
-        setUnlocalizedName("siren");
-        setTextureName(Reference.PREFIX + "siren");
         setCreativeTab(Quantum.getCreativeTab());
     }
 

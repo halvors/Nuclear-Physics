@@ -17,7 +17,7 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 import java.util.List;
 import java.util.Random;
 
-public class BlockRadioactive extends BlockQuantum {
+public class BlockRadioactive extends BlockTextured {
     protected static boolean canSpread;
     protected static float radius;
     protected static int amplifier;

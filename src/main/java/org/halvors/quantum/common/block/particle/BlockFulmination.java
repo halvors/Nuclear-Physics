@@ -12,15 +12,13 @@ import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
 import org.halvors.quantum.client.render.IBlockRenderer;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
 
-public class BlockFulmination extends BlockContainer implements IBlockCustomRender {
+public class BlockFulmination extends BlockTextured implements IBlockCustomRender {
     public BlockFulmination() {
-        super(Material.iron);
+        super("fulmination", Material.iron);
 
-        setUnlocalizedName("fulmination");
-        setTextureName(Reference.PREFIX + "fulmination");
-        setCreativeTab(Quantum.getCreativeTab());
         setHardness(10);
         setResistance(25000);
     }

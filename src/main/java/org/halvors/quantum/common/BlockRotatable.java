@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.prefab.block;
+package org.halvors.quantum.common;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -7,19 +7,34 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.quantum.lib.block.IRotatableBlock;
+import org.halvors.quantum.common.block.BlockQuantum;
+import org.halvors.quantum.common.block.IRotatableBlock;
+import org.halvors.quantum.common.utility.MachineUtils;
 
-public abstract class BlockRotatable extends BlockTile implements IRotatableBlock {
+public abstract class BlockRotatable extends BlockQuantum implements IRotatableBlock {
     protected byte rotationMask = Byte.parseByte("111100", 2);
     protected boolean isFlipPlacement = false;
 
-    public BlockRotatable(Material material) {
-        super(material);
+    public BlockRotatable(String name, Material material) {
+        super(name, material);
     }
 
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
         world.setBlockMetadataWithNotify(x, y, z, determineOrientation(world, x, y, z, entityLiving), 3);
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        if (!player.isSneaking()) {
+            if (MachineUtils.hasUsableWrench(player, x, y, z)) {
+                rotate(world, x, y, z, ForgeDirection.getOrientation(side));
+
+                return true;
+            }
+        }
+
+        return super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
     }
 
     public int determineOrientation(World world, int x, int y, int z, EntityLivingBase entity) {
@@ -49,17 +64,7 @@ public abstract class BlockRotatable extends BlockTile implements IRotatableBloc
         return (rotationMask & 1 << ordinal) != 0;
     }
 
-    @Override
-    public boolean onSneakUseWrench(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ) {
-        return doRotateBlock(world, x, y, z, ForgeDirection.getOrientation(side));
-    }
-
-    @Override
-    public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY, float hitZ) {
-        return onSneakUseWrench(world, x, y, z, par5EntityPlayer, side, hitX, hitY, hitZ);
-    }
-
-    public boolean doRotateBlock(World worldObj, int x, int y, int z, ForgeDirection axis) {
+    public boolean rotate(World worldObj, int x, int y, int z, ForgeDirection axis) {
         int currentRotMeta = worldObj.getBlockMetadata(x, y, z);
         ForgeDirection orientation = ForgeDirection.getOrientation(currentRotMeta);
         ForgeDirection rotated = orientation.getRotation(axis);

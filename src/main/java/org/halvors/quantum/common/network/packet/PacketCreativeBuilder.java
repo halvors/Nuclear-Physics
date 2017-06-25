@@ -11,7 +11,7 @@ import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.location.Location;
-import org.halvors.quantum.lib.type.Pair;
+import org.halvors.quantum.common.utility.type.Pair;
 
 import java.util.HashMap;
 import java.util.Map;

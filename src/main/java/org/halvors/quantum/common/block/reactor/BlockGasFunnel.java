@@ -14,17 +14,15 @@ import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
 import org.halvors.quantum.client.render.IBlockRenderer;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockQuantum;
+import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 
-public class BlockGasFunnel extends BlockContainer implements IBlockCustomRender {
+public class BlockGasFunnel extends BlockTextured implements IBlockCustomRender {
     private static IIcon iconTop;
 
     public BlockGasFunnel() {
-        super(Material.iron);
-
-        setUnlocalizedName("gasFunnel");
-        setTextureName(Reference.PREFIX + "gasFunnel");
-        setCreativeTab(Quantum.getCreativeTab());
+        super("gasFunnel", Material.iron);
     }
 
     @Override

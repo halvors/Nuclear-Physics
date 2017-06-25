@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.grid;
+package org.halvors.quantum.common.grid;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraftforge.common.MinecraftForge;

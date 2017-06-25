@@ -3,11 +3,12 @@ package org.halvors.quantum.common.tile.particle;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.quantum.common.tile.TileElectric;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 
 import java.util.EnumSet;
 
-public class TileFulmination extends TileElectricInventory implements IEnergyReceiver {
+public class TileFulmination extends TileElectric implements IEnergyReceiver {
     private static final long energyCapacity = 10000000000000L;
 
     public TileFulmination() {

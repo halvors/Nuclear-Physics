@@ -1,7 +1,6 @@
-package org.halvors.quantum.lib.prefab.block;
+package org.halvors.quantum.common.block;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
@@ -9,14 +8,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.halvors.quantum.common.BlockRotatable;
 
 import java.util.Random;
 
-public abstract class BlockTile extends BlockAdvanced implements ITileEntityProvider {
-    public BlockTile(Material material) {
-        super(material);
-
-        this.isBlockContainer = true;
+public class BlockInventory extends BlockRotatable {
+    public BlockInventory(String name, Material material) {
+        super(name, material);
     }
 
     @Override
@@ -24,16 +22,6 @@ public abstract class BlockTile extends BlockAdvanced implements ITileEntityProv
         dropEntireInventory(world, x, y, z, block, metadata);
 
         super.breakBlock(world, x, y, z, block, metadata);
-
-        world.removeTileEntity(x, y, z);
-    }
-
-    @Override
-    public boolean onBlockEventReceived(World par1World, int par2, int par3, int par4, int par5, int par6) {
-        super.onBlockEventReceived(par1World, par2, par3, par4, par5, par6);
-        TileEntity tileentity = par1World.getTileEntity(par2, par3, par4);
-
-        return tileentity != null && tileentity.receiveClientEvent(par5, par6);
     }
 
     public void dropEntireInventory(World world, int x, int y, int z, Block block, int par6) {

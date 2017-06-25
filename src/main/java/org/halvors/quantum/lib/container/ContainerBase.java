@@ -5,7 +5,6 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import org.halvors.quantum.lib.IPlayerUsing;
 
 public class ContainerBase extends Container {
     protected int slotCount = 0;
@@ -21,10 +20,6 @@ public class ContainerBase extends Container {
 
     public ContainerBase(EntityPlayer player, IInventory inventory) {
         this(inventory);
-
-        if (inventory instanceof IPlayerUsing) {
-            ((IPlayerUsing) inventory).getPlayersUsing().add(player);
-        }
     }
 
     // Called to transfer a stack from one inventory to the other eg. when shift clicking.
@@ -60,20 +55,7 @@ public class ContainerBase extends Container {
         return inventory.isUseableByPlayer(player);
     }
 
-    @Override
-    public void onContainerClosed(EntityPlayer entityplayer) {
-        if (inventory instanceof IPlayerUsing) {
-            ((IPlayerUsing) inventory).getPlayersUsing().remove(entityplayer);
-        }
-
-        super.onContainerClosed(entityplayer);
-    }
-
     public void addPlayerInventory(EntityPlayer player) {
-        if (this.inventory instanceof IPlayerUsing) {
-            ((IPlayerUsing) inventory).getPlayersUsing().add(player);
-        }
-
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
                 addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, xInventoryDisplacement + x * 18, yInventoryDisplacement + y * 18));

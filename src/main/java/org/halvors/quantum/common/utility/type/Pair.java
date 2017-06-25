@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.type;
+package org.halvors.quantum.common.utility.type;
 
 /** Container for two objects
  *
