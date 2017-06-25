@@ -9,7 +9,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.network.ITileNetwork;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.block.reactor.fusion.IElectromagnet;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.item.particle.ItemAntimatter;
@@ -18,11 +18,11 @@ import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
-import org.halvors.quantum.lib.IRotatable;
+import org.halvors.quantum.common.tile.ITileRotatable;
 
 import java.util.List;
 
-public class TileAccelerator extends TileElectricInventory implements ITileNetwork, IElectromagnet, IRotatable {
+public class TileAccelerator extends TileElectricInventory implements ITileNetwork, IElectromagnet, ITileRotatable {
     // Energy required per ticks.
     public int acceleratorEnergyCostPerTick = ConfigurationManager.General.acceleratorEnergyCostPerTick;
 

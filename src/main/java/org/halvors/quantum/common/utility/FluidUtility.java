@@ -7,7 +7,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
-import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 
 /**
  * Fluid interactions.

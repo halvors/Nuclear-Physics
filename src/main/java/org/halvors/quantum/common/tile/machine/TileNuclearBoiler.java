@@ -10,15 +10,15 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.network.ITileNetwork;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
-import org.halvors.quantum.lib.IRotatable;
+import org.halvors.quantum.common.tile.ITileRotatable;
 
 import java.util.List;
 
-public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IRotatable, IEnergyReceiver, IFluidHandler, ISidedInventory {
+public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITileRotatable, IEnergyReceiver, IFluidHandler, ISidedInventory {
     public static final int tickTime = 20 * 15;
     public static final int energy = 21000;
 

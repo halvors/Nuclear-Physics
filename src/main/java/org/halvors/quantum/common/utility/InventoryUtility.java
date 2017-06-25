@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.utility.inventory;
+package org.halvors.quantum.common.utility;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
@@ -118,7 +118,7 @@ public class InventoryUtility {
                             return null;
                         }
 
-                        if ((inSlot.isItemEqual(toInsert)) && (inSlot.stackSize < inSlot.getMaxStackSize())) {
+                        if (inSlot.isItemEqual(toInsert) && inSlot.stackSize < inSlot.getMaxStackSize()) {
                             if (inSlot.stackSize + toInsert.stackSize <= inSlot.getMaxStackSize()) {
                                 ItemStack toSet = toInsert.copy();
                                 toSet.stackSize += inSlot.stackSize;

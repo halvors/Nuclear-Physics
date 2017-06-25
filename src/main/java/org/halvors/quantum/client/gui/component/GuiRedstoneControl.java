@@ -8,7 +8,7 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.gui.IGui;
 import org.halvors.quantum.client.sound.SoundHandler;
 import org.halvors.quantum.common.tile.RedstoneControlType;
-import org.halvors.quantum.common.network.ITileNetwork;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
 import org.halvors.quantum.common.network.packet.PacketTileRedstoneControl;
 

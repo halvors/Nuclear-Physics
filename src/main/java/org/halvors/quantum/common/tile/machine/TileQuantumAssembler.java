@@ -10,7 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.network.ITileNetwork;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 

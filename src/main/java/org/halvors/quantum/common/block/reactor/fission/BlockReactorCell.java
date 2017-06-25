@@ -16,7 +16,7 @@ import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.tile.reactor.fission.IReactorComponent;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
+import org.halvors.quantum.common.utility.InventoryUtility;
 
 public class BlockReactorCell extends BlockRotatable {
     public BlockReactorCell() {

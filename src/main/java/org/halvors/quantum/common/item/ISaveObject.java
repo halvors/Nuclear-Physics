@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.utility.nbt;
+package org.halvors.quantum.common.item;
 
 import net.minecraft.nbt.NBTTagCompound;
 

@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.tile.RedstoneControlType;
-import org.halvors.quantum.common.network.ITileNetwork;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
 import org.halvors.quantum.common.network.PacketHandler;
 

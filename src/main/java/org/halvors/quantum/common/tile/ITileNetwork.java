@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.network;
+package org.halvors.quantum.common.tile;
 
 import io.netty.buffer.ByteBuf;
 

@@ -8,7 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
+import org.halvors.quantum.common.utility.InventoryUtility;
 
 public class ItemBlockSaved extends ItemBlockTooltip {
     public ItemBlockSaved(Block block) {

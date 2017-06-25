@@ -3,7 +3,7 @@ package org.halvors.quantum.common.multiblock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.utility.nbt.ISaveObject;
+import org.halvors.quantum.common.item.ISaveObject;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;

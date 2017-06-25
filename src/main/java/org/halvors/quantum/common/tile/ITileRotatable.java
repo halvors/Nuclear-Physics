@@ -1,8 +1,8 @@
-package org.halvors.quantum.lib;
+package org.halvors.quantum.common.tile;
 
 import net.minecraftforge.common.util.ForgeDirection;
 
-public interface IRotatable {
+public interface ITileRotatable {
     ForgeDirection getDirection();
 
     void setDirection(ForgeDirection direction);
