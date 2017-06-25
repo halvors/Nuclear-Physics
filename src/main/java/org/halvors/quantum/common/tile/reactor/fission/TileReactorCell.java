@@ -29,6 +29,7 @@ import org.halvors.quantum.common.tile.TileInventory;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
+import org.halvors.quantum.lib.IRotatable;
 import org.halvors.quantum.lib.thermal.ThermalGrid;
 import org.halvors.quantum.lib.thermal.ThermalPhysics;
 
@@ -450,8 +451,8 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         tileEntity.getMultiBlock().deconstruct();
         tileEntity.getMultiBlock().construct();
 
-        boolean top = new Vector3(this).add(new Vector3(0.0D, 1.0D, 0.0D)).getTileEntity(worldObj) instanceof TileReactorCell;
-        boolean bottom = new Vector3(this).add(new Vector3(0.0D, -1.0D, 0.0D)).getTileEntity(worldObj) instanceof TileReactorCell;
+        boolean top = new Vector3(this).add(new Vector3(0, 1, 0)).getTileEntity(worldObj) instanceof TileReactorCell;
+        boolean bottom = new Vector3(this).add(new Vector3(0, -1, 0)).getTileEntity(worldObj) instanceof TileReactorCell;
 
         if (top && bottom) {
             worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 3);

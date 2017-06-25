@@ -1,7 +1,6 @@
 Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
 
 Known bugs:
-    - Reactor Cell rendering is messed up.
     - Reactor Cell top model is missing glass texture from one edge.
     - Should not be possible to inject fuel into each of the reactor cell multiblocks...
     - Quantum Assembler render incorrectly.

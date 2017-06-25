@@ -2,7 +2,6 @@ package org.halvors.quantum.client.render.reactor.fission;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -31,7 +30,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
             TileReactorCell tileReactorCell = (TileReactorCell) tileEntity;
 
             GL11.glPushMatrix();
-            GL11.glTranslated(x + 0.5F, y, z + 0.5F);
+            GL11.glTranslated(x + 0.5, y, z + 0.5);
 
             int metadata = 2;
 
@@ -39,38 +38,25 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
                 metadata = tileEntity.getBlockMetadata();
             }
 
-            boolean hasBelow = (tileReactorCell.getWorld() != null && tileReactorCell.getWorld().getTileEntity(tileEntity.xCoord, tileEntity.yCoord - 1, tileEntity.zCoord) instanceof TileReactorCell);
+            boolean hasBelow = tileReactorCell.getWorld() != null && tileReactorCell.getWorld().getTileEntity(tileReactorCell.xCoord, tileReactorCell.yCoord - 1, tileReactorCell.zCoord) instanceof TileReactorCell;
 
             switch (metadata) {
                 case 0:
                     RenderUtility.bind(textureBottom);
-
-                    GL11.glTranslatef(0.0F, 0.035F, 0.0F);
-                    GL11.glScalef(1.0F, 1.0F, 1.0F);
-
                     modelBottom.renderAll();
                     break;
 
                 case 1:
                     RenderUtility.bind(textureMiddle);
-
-                    GL11.glTranslatef(0.0F, 0.036F, 0.0F);
-                    GL11.glScalef(1.0F, 1.0F, 1.0F);
                     modelMiddle.renderAll();
                     break;
 
                 case 2:
                     RenderUtility.bind(textureTop);
+                    GL11.glScaled(1, 1.3, 1);
 
                     if (hasBelow) {
-                        GL11.glTranslatef(0.0F, -0.9F, 0.0F);
-                        GL11.glScalef(1.0F, 1.42F, 1.0F);
-                    } else {
-                        GL11.glTranslatef(0.0F, 0.04F, 0.0F);
-                        GL11.glScalef(1.0F, 1.2F, 1.0F);
-                    }
-
-                    if (hasBelow) {
+                        GL11.glTranslated(0, -0.125, 0);
                         modelTop.renderAllExcept("BottomPad", "BaseDepth", "BaseWidth", "Base");
                     } else {
                         modelTop.renderAll();
@@ -78,23 +64,22 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
                     break;
             }
 
-            GL11.glPopMatrix();
-
             // Render fissile fuel inside reactor.
             ItemStack itemStackFuel = tileReactorCell.getStackInSlot(0);
 
             if (itemStackFuel != null) {
-                float height = tileReactorCell.getHeight() * ((itemStackFuel.getMaxDurability() - itemStackFuel.getMetadata()) / itemStackFuel.getMaxDurability());
+                float height = tileReactorCell.getHeight() * (((float) itemStackFuel.getMaxDurability() - itemStackFuel.getMetadata()) / (float) itemStackFuel.getMaxDurability());
 
                 GL11.glPushMatrix();
-                GL11.glTranslatef((float) x + 0.5F, (float) y + 0.5F * height, (float) z + 0.5F);
-                GL11.glScalef(0.4F, 0.9F * height, 0.4F);
-                Minecraft.getMinecraft().renderEngine.bindTexture(textureFissile);
+                RenderUtility.bind(textureFissile);
+                GL11.glScaled(0.4, 1.6 * height, 0.4);
                 RenderUtility.disableLighting();
                 ModelCube.instance.render();
                 RenderUtility.enableLighting();
                 GL11.glPopMatrix();
             }
+
+            GL11.glPopMatrix();
         }
     }
 }

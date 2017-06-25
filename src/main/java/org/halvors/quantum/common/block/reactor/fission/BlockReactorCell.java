@@ -4,6 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -11,15 +12,15 @@ import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.tile.reactor.fission.IReactorComponent;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.lib.prefab.block.BlockRotatable;
 import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 
 public class BlockReactorCell extends BlockRotatable {
     public BlockReactorCell() {
-        super("reactorCell", Material.iron);
+        super(Material.iron);
 
         setUnlocalizedName("reactorCell");
         setTextureName(Reference.PREFIX + "machine");
@@ -29,20 +30,17 @@ public class BlockReactorCell extends BlockRotatable {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(){
+    public boolean renderAsNormalBlock() {
         return false;
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean renderAsNormalBlock(){
+    public boolean isOpaqueCube() {
         return false;
     }
 
-    @Override
     @SideOnly(Side.CLIENT)
-    public int getRenderType(){
+    public int getRenderType() {
         return BlockRenderingHandler.getId();
     }
 
@@ -76,7 +74,7 @@ public class BlockReactorCell extends BlockRotatable {
     }
 
     @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if (tileEntity instanceof TileReactorCell) {
@@ -94,7 +92,7 @@ public class BlockReactorCell extends BlockRotatable {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int metadata) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileReactorCell();
     }
 }
