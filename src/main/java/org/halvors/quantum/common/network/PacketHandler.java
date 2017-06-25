@@ -7,6 +7,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -26,7 +27,7 @@ import org.halvors.quantum.common.network.packet.PacketConfiguration;
 import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.network.packet.PacketTileRedstoneControl;
-import org.halvors.quantum.common.utility.PlayerUtils;
+import org.halvors.quantum.common.utility.PlayerUtility;
 import org.halvors.quantum.common.utility.location.Range;
 
 import java.util.List;
@@ -77,7 +78,7 @@ public class PacketHandler {
 	 */
 	public void sendToCuboid(IMessage message, AxisAlignedBB cuboid, int dimensionId) {
 		if (cuboid != null) {
-			for (EntityPlayerMP player : PlayerUtils.getPlayers()) {
+			for (EntityPlayerMP player : PlayerUtility.getPlayers()) {
 				if (player.dimension == dimensionId && cuboid.isVecInside(Vec3.createVectorHelper(player.posX, player.posY, player.posZ))) {
 					sendTo(message, player);
 				}
@@ -92,7 +93,7 @@ public class PacketHandler {
 	}
 
 	public void sendToReceivers(IMessage message, Range range) {
-		for (EntityPlayerMP player : PlayerUtils.getPlayers()) {
+		for (EntityPlayerMP player : PlayerUtility.getPlayers()) {
 			if (player.dimension == range.getDimensionId() && Range.getChunkRange(player).intersects(range)) {
 				sendTo(message, player);
 			}
@@ -112,7 +113,7 @@ public class PacketHandler {
 	}
 
 	public static EntityPlayer getPlayer(MessageContext context) {
-		return Quantum.getProxy().getPlayer(context);
+		return context.side.isClient() ? Minecraft.getMinecraft().thePlayer : context.getServerHandler().playerEntity;
 	}
 
 	public static World getWorld(MessageContext context) {

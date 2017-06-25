@@ -1,4 +1,4 @@
-package org.halvors.quantum.common;
+package org.halvors.quantum.common.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
@@ -7,9 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.quantum.common.block.BlockQuantum;
-import org.halvors.quantum.common.block.IRotatableBlock;
-import org.halvors.quantum.common.utility.MachineUtils;
+import org.halvors.quantum.common.utility.WrenchUtility;
 
 public abstract class BlockRotatable extends BlockQuantum implements IRotatableBlock {
     protected byte rotationMask = Byte.parseByte("111100", 2);
@@ -27,7 +25,7 @@ public abstract class BlockRotatable extends BlockQuantum implements IRotatableB
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         if (!player.isSneaking()) {
-            if (MachineUtils.hasUsableWrench(player, x, y, z)) {
+            if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
                 rotate(world, x, y, z, ForgeDirection.getOrientation(side));
 
                 return true;

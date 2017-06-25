@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.container;
+package org.halvors.quantum.common.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

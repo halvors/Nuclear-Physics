@@ -1,11 +1,13 @@
-package org.halvors.quantum.common.base;
+package org.halvors.quantum.common.utility.type;
 
 public enum ResourceType {
 	GUI("gui"),
 	GUI_COMPONENT("gui/components"),
-	SOUND("sound"),
+	MODEL("models"),
+	SOUND("sounds"),
 	TEXTURE_BLOCKS("textures/blocks"),
-	TEXTURE_ITEMS("textures/items");
+	TEXTURE_ITEMS("textures/items"),
+	TEXTURE_MODELS("textures/models");
 
 	private final String prefix;
 

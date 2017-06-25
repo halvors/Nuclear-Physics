@@ -180,8 +180,4 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
     public static BlockRenderingHandler getInstance() {
         return instance;
     }
-
-    public static int getId() {
-        return id;
-    }
 }

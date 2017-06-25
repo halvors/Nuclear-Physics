@@ -26,7 +26,7 @@ public class RenderParticle extends Render {
         float var41 = (5 + age) / 200;
         float var51 = 0;
 
-        if (var41 > 0.8F) {
+        if (var41 > 0.8) {
             var51 = (var41 - 0.8F) / 0.2F;
         }
 

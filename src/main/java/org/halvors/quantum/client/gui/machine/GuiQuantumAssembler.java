@@ -4,10 +4,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
-import org.halvors.quantum.lib.gui.GuiContainerBase;
 import org.lwjgl.opengl.GL11;
 import universalelectricity.api.energy.UnitDisplay;
 

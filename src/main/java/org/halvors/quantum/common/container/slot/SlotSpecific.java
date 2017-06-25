@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.container.slot;
+package org.halvors.quantum.common.container.slot;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;

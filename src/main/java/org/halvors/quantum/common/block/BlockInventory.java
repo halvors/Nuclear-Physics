@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.BlockRotatable;
 
 import java.util.Random;
 

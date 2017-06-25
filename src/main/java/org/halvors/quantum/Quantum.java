@@ -39,7 +39,7 @@ import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
-import org.halvors.quantum.common.QuantumCreativeTab;
+import org.halvors.quantum.common.CreativeTabQuantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.base.IUpdatableMod;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
@@ -65,6 +65,7 @@ import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.event.ThermalEventHandler;
+import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.item.ItemBlockMetadata;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemRadioactive;
@@ -79,6 +80,7 @@ import org.halvors.quantum.common.schematic.SchematicAccelerator;
 import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
 import org.halvors.quantum.common.schematic.SchematicFissionReactor;
 import org.halvors.quantum.common.schematic.SchematicFusionReactor;
+import org.halvors.quantum.common.thermal.ThermalGrid;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
@@ -95,8 +97,6 @@ import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.common.grid.UpdateTicker;
-import org.halvors.quantum.common.thermal.ThermalGrid;
 
 import java.util.List;
 
@@ -130,7 +130,7 @@ public class Quantum implements IUpdatableMod {
 	private static final Logger logger = LogManager.getLogger(Reference.ID);
 
 	// Creative Tab
-	private static final QuantumCreativeTab creativeTab = new QuantumCreativeTab();
+	private static final CreativeTabQuantum creativeTab = new CreativeTabQuantum();
 
 	// Grids
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
@@ -588,7 +588,7 @@ public class Quantum implements IUpdatableMod {
 		return logger;
 	}
 
-	public static QuantumCreativeTab getCreativeTab() {
+	public static CreativeTabQuantum getCreativeTab() {
 		return creativeTab;
 	}
 

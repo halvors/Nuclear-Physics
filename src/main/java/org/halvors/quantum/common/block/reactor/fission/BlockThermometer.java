@@ -11,10 +11,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
-import org.halvors.quantum.common.BlockRotatable;
+import org.halvors.quantum.common.utility.WrenchUtility;
 
 import java.util.ArrayList;
 
@@ -49,22 +49,21 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
-        // TODO: Do this when using wrench.
-        /*
-        if (player.isSneaking()) {
-            tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
-        } else {
-            tileThermometer.setThreshold(tileThermometer.getThershold() + 10);
-        }
-
-        return true;
-        */
-
         if (!player.isSneaking()) {
             TileEntity tile = world.getTileEntity(x, y, z);
 
             if (tile instanceof TileThermometer) {
                 TileThermometer tileThermometer = (TileThermometer) tile;
+
+                if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
+                    if (player.isSneaking()) {
+                        tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
+                    } else {
+                        tileThermometer.setThreshold(tileThermometer.getThershold() + 10);
+                    }
+
+                    return true;
+                }
 
                 if (player.isSneaking()) {
                     tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
@@ -109,7 +108,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileThermometer();
     }
 }

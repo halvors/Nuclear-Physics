@@ -5,10 +5,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.container.ContainerQuantum;
+import org.halvors.quantum.common.container.slot.SlotSpecific;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
-import org.halvors.quantum.lib.container.slot.SlotSpecific;
 
 public class ContainerReactorCell extends ContainerQuantum {
     public ContainerReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {

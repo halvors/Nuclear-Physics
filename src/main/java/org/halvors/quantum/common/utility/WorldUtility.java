@@ -1,6 +1,5 @@
-package org.halvors.quantum.lib.utility;
+package org.halvors.quantum.common.utility;
 
-import net.minecraft.block.Block;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -9,7 +8,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.event.ForgeEventFactory;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.ArrayList;
@@ -93,7 +91,8 @@ public class WorldUtility {
         return direction;
     }
 
-    /** Used to find all tileEntities sounding the location you will have to filter for selective
+    /**
+     * Used to find all tileEntities sounding the location you will have to filter for selective
      * tileEntities
      *
      * @param world - the world being searched threw
@@ -119,8 +118,10 @@ public class WorldUtility {
         return list;
     }
 
-    /** Used to find which of 4 Corners this block is in a group of blocks 0 = not a corner 1-4 = a
-     * corner of some direction */
+    /**
+     * Used to find which of 4 Corners this block is in a group of blocks 0 = not a corner 1-4 = a
+     * corner of some direction.
+     */
     public static int corner(TileEntity entity) {
         TileEntity[] en = getSurroundingTileEntities(entity.getWorld(), entity.xCoord, entity.yCoord, entity.zCoord);
         TileEntity north = en[ForgeDirection.NORTH.ordinal()];
@@ -237,32 +238,5 @@ public class WorldUtility {
         }
 
         return sideMap;
-    }
-
-    public static List<ItemStack> getItemStackFromBlock(World world, int x, int y, int z) {
-        Block block = world.getBlock(x, y, z);
-
-        if (block == null) {
-            return null;
-        }
-
-        if (block.isAir(world, x, y, z)) {
-            return null;
-        }
-
-        int meta = world.getBlockMetadata(x, y, z);
-
-        ArrayList<ItemStack> dropsList = block.getDrops(world, x, y, z, meta, 0);
-        float dropChance = ForgeEventFactory.fireBlockHarvesting(dropsList, world, block, x, y, z, meta, 0, 1.0F, false, MachinePlayer.get(world));
-
-        ArrayList<ItemStack> returnList = new ArrayList<>();
-
-        for (ItemStack itemStack : dropsList) {
-            if (world.rand.nextFloat() <= dropChance) {
-                returnList.add(itemStack);
-            }
-        }
-
-        return returnList;
     }
 }

@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.utility;
+package org.halvors.quantum.common.utility;
 
 public class RotationUtility {
     private static final int[] sideRotMap = new int[] { 3, 4, 2, 5, 3, 5, 2, 4, 1, 5, 0, 4, 1, 4, 0, 5, 1, 2, 0, 3, 1, 3, 0, 2 };

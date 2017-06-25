@@ -9,10 +9,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import org.halvors.quantum.client.gui.component.IGuiComponent;
-import org.halvors.quantum.common.base.ResourceType;
 import org.halvors.quantum.common.tile.component.IComponent;
 import org.halvors.quantum.common.tile.component.IComponentContainer;
-import org.halvors.quantum.common.utility.ResourceUtils;
+import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 public abstract class GuiComponentContainerScreen extends GuiScreen implements IComponentContainer, IGui {
 	private static final Minecraft game = Minecraft.getMinecraft();
 
-    protected final ResourceLocation defaultResource = ResourceUtils.getResource(ResourceType.GUI, "Screen.png");
+    protected final ResourceLocation defaultResource = ResourceUtility.getResource(ResourceType.GUI, "Screen.png");
     protected final TileEntity tileEntity;
 
 	// This is not present by default in GuiComponentContainerScreen as it is in GuiComponentContainerInventoryScreen.

@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.container.slot;
+package org.halvors.quantum.common.container.slot;
 
 import cofh.api.energy.IEnergyContainerItem;
 import net.minecraft.inventory.IInventory;

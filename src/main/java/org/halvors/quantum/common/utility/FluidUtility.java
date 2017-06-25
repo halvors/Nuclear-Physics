@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.utility;
+package org.halvors.quantum.common.utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,6 @@ import org.halvors.quantum.lib.utility.inventory.InventoryUtility;
 public class FluidUtility {
     // Does all the work needed to fill or drain an item of fluid when a player clicks on the block.
     public static boolean playerActivatedFluidItem(World world, int x, int y, int z, EntityPlayer entityplayer, int side) {
-        // TODO Add double click support similar to the crates in assembly line.
         ItemStack current = entityplayer.inventory.getCurrentItem();
 
         if (current != null && world.getTileEntity(x, y, z) instanceof IFluidHandler) {

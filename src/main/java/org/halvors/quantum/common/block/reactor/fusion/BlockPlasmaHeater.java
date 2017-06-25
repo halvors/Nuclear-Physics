@@ -2,24 +2,21 @@ package org.halvors.quantum.common.block.reactor.fusion;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
-import org.halvors.quantum.lib.utility.FluidUtility;
+import org.halvors.quantum.common.utility.FluidUtility;
 
-public class BlockPlasmaHeater extends BlockContainer {
+public class BlockPlasmaHeater extends BlockQuantum {
     public BlockPlasmaHeater() {
-        super(Material.iron);
+        super("plasmaHeater", Material.iron);
 
-        setUnlocalizedName("plasmaHeater");
         setTextureName(Reference.PREFIX + "machine");
-        setCreativeTab(Quantum.getCreativeTab());
     }
 
     @Override
@@ -30,7 +27,7 @@ public class BlockPlasmaHeater extends BlockContainer {
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return BlockRenderingHandler.getId();
+        return BlockRenderingHandler.getInstance().getRenderId();
     }
 
     @Override

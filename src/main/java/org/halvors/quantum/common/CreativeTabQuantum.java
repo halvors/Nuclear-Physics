@@ -11,8 +11,8 @@ import org.halvors.quantum.Quantum;
  *
  * @author halvors
  */
-public class QuantumCreativeTab extends CreativeTabs {
-	public QuantumCreativeTab() {
+public class CreativeTabQuantum extends CreativeTabs {
+	public CreativeTabQuantum() {
 		super("tab" + Reference.NAME);
 	}
 

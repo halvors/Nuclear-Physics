@@ -3,12 +3,12 @@ package org.halvors.quantum.client.gui.particle;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
+import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.particle.ContainerAccelerator;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.render.Color;
-import org.halvors.quantum.lib.gui.GuiContainerBase;
 import universalelectricity.api.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)

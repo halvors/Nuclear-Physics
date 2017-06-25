@@ -7,12 +7,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
-import org.halvors.quantum.common.BlockRotatable;
 
 public class BlockElectricTurbine extends BlockQuantum {
     public BlockElectricTurbine() {
@@ -66,7 +64,7 @@ public class BlockElectricTurbine extends BlockQuantum {
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return BlockRenderingHandler.getId();
+        return BlockRenderingHandler.getInstance().getRenderId();
     }
 
     @Override

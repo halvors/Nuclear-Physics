@@ -6,13 +6,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.schematic.ISchematic;
-import org.halvors.quantum.common.BlockRotatable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/*
+/**
  * Automatically set up structures to allow easy debugging in creative mode.
  */
 public class BlockCreativeBuilder extends BlockRotatable {

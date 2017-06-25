@@ -1,10 +1,10 @@
 package org.halvors.quantum.client.gui.reactor.fission;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.LanguageUtility;
-import org.halvors.quantum.lib.gui.GuiContainerBase;
 import org.lwjgl.opengl.GL11;
 import universalelectricity.api.energy.UnitDisplay;
 import universalelectricity.api.energy.UnitDisplay.Unit;

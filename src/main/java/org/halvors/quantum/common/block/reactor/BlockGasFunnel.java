@@ -2,19 +2,16 @@ package org.halvors.quantum.common.block.reactor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
 import org.halvors.quantum.client.render.IBlockRenderer;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 
@@ -42,7 +39,7 @@ public class BlockGasFunnel extends BlockTextured implements IBlockCustomRender 
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return BlockRenderingHandler.getId();
+        return BlockRenderingHandler.getInstance().getRenderId();
     }
 
     @Override
@@ -57,31 +54,14 @@ public class BlockGasFunnel extends BlockTextured implements IBlockCustomRender 
         return false;
     }
 
-    /*
     @Override
-    public boolean shouldSideBeRendered(IBlockAccess access, int x, int y, int z, int side) {
-        Vector3 neighborPosition = new Vector3(x, y, z).translate(ForgeDirection.getOrientation(side).getOpposite());
-        Block block = access.getBlock(x, y, z);
-        int metadata = access.getBlockMetadata(x, y, z);
-        Block neighborBlock = neighborPosition.getBlock(access);
-        int neighborMetadata = neighborPosition.getBlockMetadata(access);
-
-        // Transparent electromagnetic glass.
-        if (block == this && neighborBlock == this && metadata == 1 && neighborMetadata == 1) {
-            return false;
-        }
-
-        return true;
+    @SideOnly(Side.CLIENT)
+    public IBlockRenderer getRenderer() {
+        return new ConnectedTextureRenderer(this, Reference.PREFIX + "gasFunnel_edge");
     }
-    */
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileGasFunnel();
-    }
-
-    @Override
-    public IBlockRenderer getRenderer() {
-        return new ConnectedTextureRenderer(this, Reference.PREFIX + "gasFunnel_edge");
     }
 }

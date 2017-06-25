@@ -17,8 +17,8 @@ import org.halvors.quantum.common.item.particle.ItemDarkmatter;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.OreDictionaryUtility;
 import org.halvors.quantum.lib.IRotatable;
-import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
 import java.util.List;
 

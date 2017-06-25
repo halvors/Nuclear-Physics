@@ -18,6 +18,10 @@ public class ModelCube extends ModelBase {
         cube.mirror = true;
     }
 
+    public static ModelCube getInstance() {
+        return instance;
+    }
+
     public void render() {
         cube.render(0.0625F);
     }

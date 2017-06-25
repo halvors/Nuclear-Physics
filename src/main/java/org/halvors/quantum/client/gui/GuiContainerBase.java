@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.gui;
+package org.halvors.quantum.client.gui;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -10,10 +10,10 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.container.ContainerDummy;
 import org.halvors.quantum.common.transform.vector.Rectangle;
 import org.halvors.quantum.common.transform.vector.Vector2;
 import org.halvors.quantum.common.utility.LanguageUtility;
-import org.halvors.quantum.lib.container.ContainerDummy;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -111,10 +111,10 @@ public class GuiContainerBase extends GuiContainer {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         if (isOn) {
-            this.drawTexturedModalRect(containerWidth + x, containerHeight + y, 161, 0, 6, 6);
+            drawTexturedModalRect(containerWidth + x, containerHeight + y, 161, 0, 6, 6);
 
         } else {
-            this.drawTexturedModalRect(containerWidth + x, containerHeight + y, 161, 4, 6, 6);
+            drawTexturedModalRect(containerWidth + x, containerHeight + y, 161, 4, 6, 6);
         }
     }
 
@@ -165,24 +165,23 @@ public class GuiContainerBase extends GuiContainer {
         this.drawTextWithTooltip(textName, "%1", x, y, mouseX, mouseY);
     }
 
-    protected void drawSlot(int x, int y, GuiSlotType type, float r, float g, float b)
-    {
+    protected void drawSlot(int x, int y, SlotType type, float r, float g, float b) {
         this.mc.renderEngine.bindTexture(GUI_COMPONENTS);
         GL11.glColor4f(r, g, b, 1.0F);
 
         this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 0, 0, 18, 18);
 
-        if (type != GuiSlotType.NONE) {
+        if (type != SlotType.NONE) {
             this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 0, 18 * type.ordinal(), 18, 18);
         }
     }
 
-    protected void drawSlot(int x, int y, GuiSlotType type) {
+    protected void drawSlot(int x, int y, SlotType type) {
         this.drawSlot(x, y, type, 1, 1, 1);
     }
 
     protected void drawSlot(int x, int y) {
-        this.drawSlot(x, y, GuiSlotType.NONE);
+        this.drawSlot(x, y, SlotType.NONE);
     }
 
     protected void drawBar(int x, int y, float scale) {
@@ -259,22 +258,6 @@ public class GuiContainerBase extends GuiContainer {
         /** Draw measurement lines */
         this.mc.renderEngine.bindTexture(GUI_COMPONENTS);
         this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 40, 49 * 2, meterWidth, meterHeight);
-    }
-
-    protected void drawSlot(int x, int y, SlotType type, float r, float g, float b) {
-        this.mc.renderEngine.bindTexture(GUI_COMPONENTS);
-        GL11.glColor4f(r, g, b, 1.0F);
-
-        this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 0, 0, 18, 18);
-
-        if (type != SlotType.NONE)
-        {
-            this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 0, 18 * type.ordinal(), 18, 18);
-        }
-    }
-
-    protected void drawSlot(int x, int y, SlotType type) {
-        this.drawSlot(x, y, type, 1, 1, 1);
     }
 
     public void renderUniversalDisplay(int x, int y, float energy, int mouseX, int mouseY, UnitDisplay.Unit unit) {

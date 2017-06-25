@@ -10,7 +10,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.client.utility.render.BlockRenderUtility;
 import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.utility.WorldUtility;
+import org.halvors.quantum.common.utility.WorldUtility;
 import org.lwjgl.opengl.GL11;
 
 public class ConnectedTextureRenderer implements IBlockRenderer {

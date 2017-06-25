@@ -15,7 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.utility.WorldUtility;
+import org.halvors.quantum.common.utility.WorldUtility;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -149,13 +149,13 @@ public class RenderUtility {
     public static void renderFloatingText(String text, double x, double y, double z, int color) {
         RenderManager renderManager = RenderManager.instance;
         FontRenderer fontRenderer = renderManager.getFontRenderer();
-        float scale = 0.027f;
-        GL11.glColor4f(1f, 1f, 1f, 0.5f);
+        float scale = 0.027F;
+        GL11.glColor4f(1, 1, 1, 0.5F);
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
-        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+        GL11.glNormal3f(0, 1, 0);
+        GL11.glRotatef(-renderManager.playerViewY, 0, 1, 0);
+        GL11.glRotatef(renderManager.playerViewX, 1, 0, 0);
         GL11.glScalef(-scale, -scale, scale);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDepthMask(false);
@@ -168,22 +168,22 @@ public class RenderUtility {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         tessellator.startDrawingQuads();
         int stringMiddle = fontRenderer.getStringWidth(text) / 2;
-        tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.5F);
-        tessellator.addVertex(-stringMiddle - 1, -1 + yOffset, 0.0D);
-        tessellator.addVertex(-stringMiddle - 1, 8 + yOffset, 0.0D);
-        tessellator.addVertex(stringMiddle + 1, 8 + yOffset, 0.0D);
-        tessellator.addVertex(stringMiddle + 1, -1 + yOffset, 0.0D);
+        tessellator.setColorRGBA_F(0, 0, 0, 0.5F);
+        tessellator.addVertex(-stringMiddle - 1, -1 + yOffset, 0);
+        tessellator.addVertex(-stringMiddle - 1, 8 + yOffset, 0);
+        tessellator.addVertex(stringMiddle + 1, 8 + yOffset, 0);
+        tessellator.addVertex(stringMiddle + 1, -1 + yOffset, 0);
         tessellator.draw();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
 
-        GL11.glColor4f(1f, 1f, 1f, 0.5f);
+        GL11.glColor4f(1, 1, 1, 0.5F);
         fontRenderer.drawString(text, -fontRenderer.getStringWidth(text) / 2, yOffset, color);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(true);
         fontRenderer.drawString(text, -fontRenderer.getStringWidth(text) / 2, yOffset, color);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_BLEND);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f(1, 1, 1, 1);
         GL11.glPopMatrix();
     }
 
@@ -298,7 +298,7 @@ public class RenderUtility {
         offsetY = (realHeight - requiredHeight) / 2;
 
         GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glColor4f(1f, 1f, 1f, 0.5f);
+        GL11.glColor4f(1, 1, 1, 0.5F);
         fontRenderer.drawString(text, offsetX - (realWidth / 2), 2 + offsetY - (realHeight / 2), 1);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glDepthMask(true);
@@ -321,33 +321,37 @@ public class RenderUtility {
                     renderer.uvRotateEast = 3;
                     renderer.uvRotateWest = 3;
                     break;
+
                 case EAST:
                     renderer.uvRotateTop = 1;
                     renderer.uvRotateBottom = 2;
                     renderer.uvRotateWest = 1;
                     renderer.uvRotateEast = 2;
                     break;
+
                 case NORTH:
                     renderer.uvRotateNorth = 2;
                     renderer.uvRotateSouth = 1;
                     break;
+
                 case SOUTH:
                     renderer.uvRotateTop = 3;
                     renderer.uvRotateBottom = 3;
                     renderer.uvRotateNorth = 1;
                     renderer.uvRotateSouth = 2;
                     break;
+
                 case UNKNOWN:
                     break;
+
                 case UP:
                     break;
+
                 case WEST:
                     renderer.uvRotateTop = 2;
                     renderer.uvRotateBottom = 1;
                     renderer.uvRotateWest = 2;
                     renderer.uvRotateEast = 1;
-                    break;
-                default:
                     break;
 
             }

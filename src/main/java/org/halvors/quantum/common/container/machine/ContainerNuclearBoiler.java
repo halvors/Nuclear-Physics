@@ -7,9 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.container.ContainerQuantum;
+import org.halvors.quantum.common.container.slot.SlotEnergyItem;
+import org.halvors.quantum.common.container.slot.SlotSpecific;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
-import org.halvors.quantum.lib.container.slot.SlotEnergyItem;
-import org.halvors.quantum.lib.container.slot.SlotSpecific;
 
 public class ContainerNuclearBoiler extends ContainerQuantum {
     private static final int slotCount = 4;

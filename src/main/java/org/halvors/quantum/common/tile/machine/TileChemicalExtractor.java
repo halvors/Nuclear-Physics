@@ -11,8 +11,8 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.base.tile.ITileNetworkable;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.utility.OreDictionaryUtility;
 import org.halvors.quantum.lib.IRotatable;
-import org.halvors.quantum.lib.utility.OreDictionaryUtility;
 
 import java.util.List;
 

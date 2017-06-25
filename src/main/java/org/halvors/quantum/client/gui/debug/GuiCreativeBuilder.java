@@ -7,11 +7,11 @@ import net.minecraft.util.ResourceLocation;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
+import org.halvors.quantum.common.container.ContainerDummy;
 import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.location.Location;
-import org.halvors.quantum.lib.container.ContainerDummy;
 import org.lwjgl.opengl.GL11;
 
 public class GuiCreativeBuilder extends GuiContainer {

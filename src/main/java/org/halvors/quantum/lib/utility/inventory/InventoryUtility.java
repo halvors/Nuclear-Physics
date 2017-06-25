@@ -16,7 +16,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.lib.utility.MachinePlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -290,31 +289,6 @@ public class InventoryUtility {
             entityitem.delayBeforeCanPickup = delay;
             world.spawnEntityInWorld(entityitem);
         }
-    }
-
-    public static boolean placeItemBlock(World world, int x, int y, int z, ItemStack itemStack, int side)
-    {
-        if (itemStack != null) {
-            try {
-                Vector3 rightClickPos = new Vector3(x, y, z);
-
-                if (world.isAirBlock(x, y, z)) {
-                    rightClickPos.translate(ForgeDirection.getOrientation(side));
-                }
-
-                side ^= 0x1;
-
-                return MachinePlayer.useItemAt(itemStack, world, x, y - 1, z, side);
-            } catch (Exception e) {
-                e.printStackTrace();
-
-                if (world.getBlock(x, y, z).getItem(world, x, y, z) == itemStack.getItem()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     public static ItemStack decrStackSize(ItemStack stack, int amount) {

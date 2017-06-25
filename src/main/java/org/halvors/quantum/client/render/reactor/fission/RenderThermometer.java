@@ -20,11 +20,11 @@ public class RenderThermometer extends TileEntitySpecialRenderer {
             RenderUtility.enableLightmap();
 
             for (int side = 2; side < 6; side++) {
-                RenderUtility.renderText((tileThermometer.isOverThreshold() ? Color.DARK_RED : Color.BLACK) + Integer.toString(Math.round(tileThermometer.detectedTemperature)) + " K", side, 0.8f, x, y + 0.1, z);
+                RenderUtility.renderText((tileThermometer.isOverThreshold() ? Color.DARK_RED : Color.BLACK) + Integer.toString(Math.round(tileThermometer.detectedTemperature)) + " K", side, 0.8F, x, y + 0.1, z);
                 RenderUtility.renderText((tileThermometer.isOverThreshold() ? Color.DARK_RED : Color.DARK_BLUE) + "Threshold: " + (tileThermometer.getThershold()) + " K", side, 1, x, y - 0.1, z);
 
                 if (tileThermometer.trackCoordinate != null) {
-                    RenderUtility.renderText(tileThermometer.trackCoordinate.intX() + ", " + tileThermometer.trackCoordinate.intY() + ", " + tileThermometer.trackCoordinate.intZ(), side, 0.5f, x, y - 0.3, z);
+                    RenderUtility.renderText(tileThermometer.trackCoordinate.intX() + ", " + tileThermometer.trackCoordinate.intY() + ", " + tileThermometer.trackCoordinate.intZ(), side, 0.5F, x, y - 0.3, z);
                 }
             }
 

@@ -8,14 +8,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.halvors.quantum.client.utility.render.RenderUtility;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
+import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderPlasmaHeater extends TileEntitySpecialRenderer {
-    private final IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/plasmaHeater.obj"));
-    private final ResourceLocation texture =new ResourceLocation(Reference.PREFIX + "textures/models/plasmaHeater.png");
+    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "plasmaHeater.obj"));
+    private static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "plasmaHeater.png");
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTick) {

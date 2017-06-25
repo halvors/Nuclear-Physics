@@ -12,14 +12,15 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.apache.commons.lang3.ArrayUtils;
 import org.halvors.quantum.client.utility.render.RenderUtility;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
+import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderQuantumAssembler extends TileEntitySpecialRenderer {
-    public static final IModelCustom model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/quantumAssembler.obj"));
-    public static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/models/quantumAssembler.png");
+    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "quantumAssembler.obj"));
+    private static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "quantumAssembler.png");
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTick) {
@@ -27,7 +28,7 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer {
             TileQuantumAssembler tileQuantumAssembler = (TileQuantumAssembler) tile;
 
             GL11.glPushMatrix();
-            GL11.glTranslated(x + 0.5F, y, z + 0.5F);
+            GL11.glTranslated(x + 0.5, y, z + 0.5);
 
             String[] hands = new String[] {"Back Arm Upper", "Back Arm Lower", "Right Arm Upper", "Right Arm Lower", "Front Arm Upper", "Front Arm Lower", "Left Arm Upper", "Left Arm Lower"};
             String[] arms = new String[] {"Middle Rotor Focus Lazer", "Middle Rotor Uppper Arm", "Middle Rotor Lower Arm", "Middle Rotor Arm Base", "Middle Rotor"};
@@ -63,7 +64,7 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer {
             GL11.glPushMatrix();
 
             if (tileQuantumAssembler.entityItem != null) {
-                renderItem.doRender(tileQuantumAssembler.entityItem, x + 0.5F, y + 0.4F, z + 0.5F, 0, 0);
+                renderItem.doRender(tileQuantumAssembler.entityItem, x + 0.5, y + 0.4, z + 0.5, 0, 0);
             }
 
             GL11.glPopMatrix();

@@ -3,7 +3,6 @@ package org.halvors.quantum.common.container;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.halvors.quantum.common.tile.TileQuantum;
-import org.halvors.quantum.lib.container.ContainerBase;
 
 public class ContainerQuantum extends ContainerBase {
     private TileQuantum tile;

@@ -8,7 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
 
-public class MachineUtils {
+public class WrenchUtility {
 	/**
 	 * Whether or not the player has a usable wrench for a block at the coordinates given.
 	 * @param player - the player using the wrench

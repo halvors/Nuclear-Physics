@@ -1,4 +1,4 @@
-package org.halvors.quantum.lib.utility;
+package org.halvors.quantum.common.utility;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;

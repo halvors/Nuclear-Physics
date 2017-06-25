@@ -7,9 +7,9 @@ import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.container.ContainerQuantum;
+import org.halvors.quantum.common.container.slot.SlotEnergyItem;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
-import org.halvors.quantum.lib.container.slot.SlotEnergyItem;
-import org.halvors.quantum.lib.utility.OreDictionaryUtility;
+import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
 public class ContainerGasCentrifuge extends ContainerQuantum {
     private static final int slotCount = 4;
