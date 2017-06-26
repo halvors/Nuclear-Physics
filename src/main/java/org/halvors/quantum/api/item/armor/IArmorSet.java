@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.item.armor;
+package org.halvors.quantum.api.item.armor;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;

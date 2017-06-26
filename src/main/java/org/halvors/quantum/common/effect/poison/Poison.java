@@ -5,7 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import org.halvors.quantum.api.block.IAntiPoisonBlock;
-import org.halvors.quantum.common.item.armor.IAntiPoisonArmor;
+import org.halvors.quantum.api.item.armor.IAntiPoisonArmor;
 import org.halvors.quantum.common.transform.vector.Vector3;
 
 import java.util.EnumSet;

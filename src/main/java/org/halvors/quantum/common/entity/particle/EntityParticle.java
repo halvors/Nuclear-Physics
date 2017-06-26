@@ -15,7 +15,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.api.IElectromagnet;
+import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.transform.vector.Vector3;

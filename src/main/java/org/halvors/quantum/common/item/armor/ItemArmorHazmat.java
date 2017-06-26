@@ -1,5 +1,6 @@
 package org.halvors.quantum.common.item.armor;
 
+import org.halvors.quantum.api.item.armor.IAntiPoisonArmor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemArmor;

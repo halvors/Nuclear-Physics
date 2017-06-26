@@ -1,4 +1,4 @@
-package org.halvors.quantum.api;
+package org.halvors.quantum.api.tile;
 
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.IFluidHandler;

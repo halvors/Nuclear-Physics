@@ -15,7 +15,7 @@ import org.halvors.quantum.lib.prefab.item.ItemBlockSaved;
 import java.util.List;
 
 public class ItemBlockThermometer extends ItemBlockSaved {
-    public static final int ENERGY_CONSUMPTION = 1000;
+    public static final int energy = 1000;
 
     public ItemBlockThermometer(Block block) {
         super(block);

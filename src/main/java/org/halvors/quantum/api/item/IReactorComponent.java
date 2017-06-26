@@ -1,6 +1,7 @@
-package org.halvors.quantum.api;
+package org.halvors.quantum.api.item;
 
 import net.minecraft.item.ItemStack;
+import org.halvors.quantum.api.tile.IReactor;
 
 
 /**

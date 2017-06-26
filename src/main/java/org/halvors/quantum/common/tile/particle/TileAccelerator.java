@@ -10,7 +10,7 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.api.IElectromagnet;
+import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.item.particle.ItemAntimatter;
 import org.halvors.quantum.common.item.particle.ItemDarkmatter;

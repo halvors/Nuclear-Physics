@@ -1,4 +1,4 @@
-package org.halvors.quantum.api;
+package org.halvors.quantum.api.tile;
 
 /**
  * Applied to all tiles that are to act like an electromagnet.
