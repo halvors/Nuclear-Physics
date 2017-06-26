@@ -1,5 +1,7 @@
 package org.halvors.quantum.client.render;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
@@ -13,7 +15,8 @@ import org.halvors.quantum.common.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.WorldUtility;
 import org.lwjgl.opengl.GL11;
 
-public class ConnectedTextureRenderer implements IBlockRenderer {
+@SideOnly(Side.CLIENT)
+public class ConnectedTextureRenderer implements ISimpleBlockRenderer {
     private Block block;
     private IIcon edgeTexture;
 

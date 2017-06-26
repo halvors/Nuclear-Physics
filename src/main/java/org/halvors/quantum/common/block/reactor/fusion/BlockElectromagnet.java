@@ -16,7 +16,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
-import org.halvors.quantum.client.render.IBlockRenderer;
+import org.halvors.quantum.client.render.ISimpleBlockRenderer;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
@@ -104,7 +104,7 @@ public class BlockElectromagnet extends BlockTextured implements IBlockCustomRen
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IBlockRenderer getRenderer() {
+    public ISimpleBlockRenderer getRenderer() {
         return new ConnectedTextureRenderer(this, Reference.PREFIX + "atomic_edge");
     }
 

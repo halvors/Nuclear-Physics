@@ -3,6 +3,8 @@ package org.halvors.quantum.client.render;
 import com.google.common.collect.Maps;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -12,12 +14,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import org.halvors.quantum.client.utility.render.RenderUtility;
-import org.halvors.quantum.common.item.ISimpleItemRenderer;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
     private static final BlockRenderingHandler instance = new BlockRenderingHandler();
     private static final int id = RenderingRegistry.getNextAvailableRenderId();
@@ -38,7 +40,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         // Render custom block render.
         if (block instanceof IBlockCustomRender) {
-            IBlockRenderer blockRenderer = ((IBlockCustomRender) block).getRenderer();
+            ISimpleBlockRenderer blockRenderer = ((IBlockCustomRender) block).getRenderer();
 
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
@@ -129,7 +131,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
     public boolean renderWorldBlock(IBlockAccess access, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
         // Render custom block render.
         if (block instanceof IBlockCustomRender) {
-            IBlockRenderer blockRenderer = ((IBlockCustomRender) block).getRenderer();
+            ISimpleBlockRenderer blockRenderer = ((IBlockCustomRender) block).getRenderer();
 
             if (blockRenderer != null) {
                 if (!blockRenderer.renderStatic(renderer, access, x, y, z)) {
