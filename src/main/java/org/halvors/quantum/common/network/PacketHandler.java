@@ -113,7 +113,7 @@ public class PacketHandler {
 	}
 
 	public static EntityPlayer getPlayer(MessageContext context) {
-		return context.side.isClient() ? Minecraft.getMinecraft().thePlayer : context.getServerHandler().playerEntity;
+		return Quantum.getProxy().getPlayer(context);
 	}
 
 	public static World getWorld(MessageContext context) {

@@ -2,10 +2,13 @@ package org.halvors.quantum.client;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IGuiHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -92,5 +95,14 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		}
 
 		return null;
+	}
+
+	@Override
+	public EntityPlayer getPlayer(MessageContext context) {
+		if (context.side.isServer()) {
+			return context.getServerHandler().playerEntity;
+		} else {
+			return Minecraft.getMinecraft().thePlayer;
+		}
 	}
 }
