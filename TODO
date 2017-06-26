@@ -7,6 +7,7 @@ Known bugs:
     - When plasma is released into the world and causes block damage, block change is not properly synced to the client.
     - Electromagnet Glass have wrong material and footstep sound? As well as break sound.
     - Reactor Cell top model is missing glass texture from one edge.
+    - Turbine multi block construction is not synced properly.
 
 Known features not implemented:
     - Display tooltip to all items.
@@ -24,10 +25,10 @@ New features to add:
         - Add a Geiger counter to measure radiation.
         - Add radiation resistance block which implements IAntiPoisonBlock.
         - Make reactor make glass if sand is next to it, and make it melt snow.
-        - Make accelerator GUi show energy usage per 5 mg antimatter, as a measure of efficiency.
+        - Make accelerator GUI show energy usage per 5 mg antimatter, as a measure of efficiency.
 
     Rendering:
-        - Make the whole multiblock reactor cell share GUI.
+        - Make the whole multi block reactor cell share GUI.
         - Make nuclear boiler eject steam.
         - Make turbines eject smoke particles?
 

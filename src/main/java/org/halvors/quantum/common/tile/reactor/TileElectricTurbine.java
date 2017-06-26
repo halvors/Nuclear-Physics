@@ -4,6 +4,7 @@ import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -106,7 +107,7 @@ public class TileElectricTurbine extends TileElectric implements IMultiBlockStru
                     double maxVelocity = (getMaxPower() / torque) * 4;
                     float percentage = angularVelocity * 4 / (float) maxVelocity;
 
-                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "electricTurbine", percentage, 1);
+                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.electricTurbine", percentage, 1);
                 }
 
                 // Update rotation.
@@ -184,7 +185,7 @@ public class TileElectricTurbine extends TileElectric implements IMultiBlockStru
 
     @Override
     public void onMultiBlockChanged() {
-        worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType(), 0);
+        worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType() != null ? getBlockType() : Blocks.air, 0);
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
