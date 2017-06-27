@@ -14,8 +14,6 @@ import java.util.List;
 
 /**
  * This packet i used by tile tile entities to send custom information from server to client.
- *
- * @author halvors
  */
 public class PacketTileEntity extends PacketLocation implements IMessage {
 	private List<Object> objects;

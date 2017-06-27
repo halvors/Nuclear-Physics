@@ -6,7 +6,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
-import org.halvors.quantum.common.base.tile.ITileRedstoneControl;
 
 public class WrenchUtility {
 	/**
@@ -41,34 +40,6 @@ public class WrenchUtility {
 
 					return wrench.canUseWrench(player, x, y, z);
 				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Whether or not a certain TileEntity can function with redstone logic. Illogical to use unless the defined TileEntity implements
-	 * ITileRedstoneControl.
-	 * @param tileEntity - TileEntity to check
-	 * @return if the TileEntity can function with redstone logic
-	 */
-	public static boolean canFunction(TileEntity tileEntity) {
-		if (tileEntity instanceof ITileRedstoneControl) {
-			ITileRedstoneControl tileRedstoneControl = (ITileRedstoneControl) tileEntity;
-
-			switch (tileRedstoneControl.getControlType()) {
-				case DISABLED:
-					return true;
-
-				case HIGH:
-					return tileRedstoneControl.isPowered();
-
-				case LOW:
-					return !tileRedstoneControl.isPowered();
-
-				case PULSE:
-					return tileRedstoneControl.isPowered() && !tileRedstoneControl.wasPowered();
 			}
 		}
 

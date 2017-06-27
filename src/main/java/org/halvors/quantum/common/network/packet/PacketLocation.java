@@ -10,8 +10,6 @@ import org.halvors.quantum.common.utility.location.Location;
 
 /**
  * This is a packet that provides a location, and is meant to be extended.
- *
- * @author halvors
  */
 public class PacketLocation implements IMessage {
 	private Location location;
