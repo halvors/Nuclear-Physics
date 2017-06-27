@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -54,30 +55,28 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
-        if (!player.isSneaking()) {
-            TileEntity tile = world.getTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(x, y, z);
 
-            if (tile instanceof TileThermometer) {
-                TileThermometer tileThermometer = (TileThermometer) tile;
+        if (tile instanceof TileThermometer) {
+            TileThermometer tileThermometer = (TileThermometer) tile;
 
-                if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
-                    if (player.isSneaking()) {
-                        tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
-                    } else {
-                        tileThermometer.setThreshold(tileThermometer.getThershold() + 10);
-                    }
-
-                    return true;
-                }
-
+            if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
                 if (player.isSneaking()) {
-                    tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
+                    tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
                 } else {
-                    tileThermometer.setThreshold(tileThermometer.getThershold() - 100);
+                    tileThermometer.setThreshold(tileThermometer.getThershold() + 10);
                 }
 
                 return true;
             }
+
+            if (player.isSneaking()) {
+                tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
+            } else {
+                tileThermometer.setThreshold(tileThermometer.getThershold() - 100);
+            }
+
+            return true;
         }
 
         return false;
@@ -96,9 +95,15 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
-        ItemStack stack = ItemBlockSaved.getItemStackWithNBT(block, world, x, y, z);
-        InventoryUtility.dropItemStack(world, new Vector3(x, y, z), stack);
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
+        Block block = world.getBlock(x, y, z);
+
+        if (!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
+            ItemStack stack = ItemBlockSaved.getItemStackWithNBT(block, world, x, y, z);
+            InventoryUtility.dropItemStack(world, new Vector3(x, y, z), stack);
+        }
+
+        return world.setBlockToAir(x, y, z);
     }
 
     @Override

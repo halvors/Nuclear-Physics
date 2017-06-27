@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.quantum.common.item.block.ItemBlockSaved;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
@@ -90,7 +91,7 @@ public class InventoryUtility {
             return putStackInInventory((IInventory)tile, toInsert, force);
         }
 
-        dropItemStack(position.world, position, toInsert, 20, 0.0F);
+        dropItemStack(position.world, position, toInsert, 20);
 
         return null;
     }
@@ -252,42 +253,24 @@ public class InventoryUtility {
     }
 
     public static void dropItemStack(World world, Vector3 position, ItemStack itemStack, int delay) {
-        dropItemStack(world, position, itemStack, delay, 0.0F);
+        dropItemStack(world, position, itemStack, delay);
     }
 
-    public static void dropItemStack(World world, Vector3 position, ItemStack itemStack, int delay, float randomAmount) {
-        dropItemStack(world, position.x, position.y, position.z, itemStack, delay, randomAmount);
-    }
-
-    public static void dropItemStack(World world, double x, double y, double z, ItemStack itemStack, int delay, float randomAmount) {
-        assert (world.isRemote) : ("Inventory Utility [Can not drop ItemStacks client side @" + x + "x " + y + "y " + z + "z]");
-        assert (itemStack == null) : ("Inventory Utility [Can not drop null ItemStacks @" + x + "x " + y + "y " + z + "z]");
-
+    public static void dropItemStack(World world, double x, double y, double z, ItemStack itemStack, int delay) {
         if (!world.isRemote && itemStack != null) {
-            double randomX = 0.0D;
-            double randomY = 0.0D;
-            double randomZ = 0.0D;
+            float motion = 0.7F;
+            double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+            double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+            double motionZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
 
-            if (randomAmount > 0.0F) {
-                randomX = world.rand.nextFloat() * randomAmount + (1.0F - randomAmount) * 0.5D;
-                randomY = world.rand.nextFloat() * randomAmount + (1.0F - randomAmount) * 0.5D;
-                randomZ = world.rand.nextFloat() * randomAmount + (1.0F - randomAmount) * 0.5D;
-            }
-
-            EntityItem entityitem = new EntityItem(world, x + randomX, y + randomY, z + randomZ, itemStack);
-
-            if (randomAmount <= 0.0F) {
-                entityitem.motionX = 0.0D;
-                entityitem.motionY = 0.0D;
-                entityitem.motionZ = 0.0D;
-            }
+            EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
 
             if (itemStack.hasTagCompound()) {
-                entityitem.getEntityItem().setTagCompound((NBTTagCompound)itemStack.getTagCompound().copy());
+                entityItem.getEntityItem().setTagCompound((NBTTagCompound)itemStack.getTagCompound().copy());
             }
 
-            entityitem.delayBeforeCanPickup = delay;
-            world.spawnEntityInWorld(entityitem);
+            entityItem.delayBeforeCanPickup = delay;
+            world.spawnEntityInWorld(entityItem);
         }
     }
 
