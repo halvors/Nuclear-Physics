@@ -91,7 +91,7 @@ public class BlockThermometer extends BlockRotatable {
         if (tile instanceof TileThermometer) {
             TileThermometer tileThermometer = (TileThermometer) tile;
             ItemBlockThermometer itemBlockThermometer = (ItemBlockThermometer) itemStack.getItem();
-            tileThermometer.setTrack(itemBlockThermometer.getSavedCoord(itemStack));
+            tileThermometer.setTrackCoordinate(itemBlockThermometer.getSavedCoord(itemStack));
         }
     }
 

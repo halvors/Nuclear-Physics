@@ -12,12 +12,13 @@ import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import java.util.List;
+import java.util.Vector;
 
 public class TileThermometer extends TileEntity implements ITileNetwork {
     private static final int maxThreshold = 5000;
-    public float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
+    private float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
     private float previousDetectedTemperature = detectedTemperature; // Synced
-    public Vector3 trackCoordinate; // Synced
+    private Vector3 trackCoordinate; // Synced
     private int threshold = 1000; // Synced
     public boolean isProvidingPower = false; // Synced
 
@@ -41,7 +42,7 @@ public class TileThermometer extends TileEntity implements ITileNetwork {
                 }
 
                 // Send update packet if temperature is different or over temperature threshold.
-                if (detectedTemperature != previousDetectedTemperature || isProvidingPower != this.isOverThreshold()) {
+                if (detectedTemperature != previousDetectedTemperature || isProvidingPower != isOverThreshold()) {
                     previousDetectedTemperature = detectedTemperature;
                     isProvidingPower = isOverThreshold();
                     worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
@@ -89,6 +90,7 @@ public class TileThermometer extends TileEntity implements ITileNetwork {
 
         threshold = dataStream.readInt();
         isProvidingPower = dataStream.readBoolean();
+
     }
 
     @Override
@@ -98,9 +100,9 @@ public class TileThermometer extends TileEntity implements ITileNetwork {
 
         if (trackCoordinate != null) {
             objects.add(true);
-            objects.add(trackCoordinate.x);
-            objects.add(trackCoordinate.y);
-            objects.add(trackCoordinate.z);
+            objects.add(trackCoordinate.intX());
+            objects.add(trackCoordinate.intY());
+            objects.add(trackCoordinate.intZ());
         } else {
             objects.add(false);
         }
@@ -113,8 +115,15 @@ public class TileThermometer extends TileEntity implements ITileNetwork {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void setTrack(Vector3 track) {
-        trackCoordinate = track;
+    public Vector3 getTrackCoordinate() {
+        return trackCoordinate;
+    }
+
+    public void setTrackCoordinate(Vector3 trackCoordinate) {
+        this.trackCoordinate = trackCoordinate;
+
+        // Update the server side with this new coordinate.
+        Quantum.getPacketHandler().sendToServer(new PacketTileEntity(this));
     }
 
     public int getThershold() {
@@ -125,10 +134,14 @@ public class TileThermometer extends TileEntity implements ITileNetwork {
         this.threshold = threshold % maxThreshold;
 
         if (threshold <= 0) {
-            threshold = maxThreshold;
+            this.threshold = maxThreshold;
         }
 
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+    public float getDetectedTemperature() {
+        return detectedTemperature;
     }
 
     public boolean isOverThreshold() {
