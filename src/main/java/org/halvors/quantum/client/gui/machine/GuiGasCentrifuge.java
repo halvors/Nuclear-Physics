@@ -8,7 +8,7 @@ import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.machine.ContainerGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
-import universalelectricity.api.energy.UnitDisplay;
+import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
 public class GuiGasCentrifuge extends GuiContainerBase {

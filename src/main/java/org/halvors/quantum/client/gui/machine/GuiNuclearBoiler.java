@@ -7,7 +7,7 @@ import net.minecraft.util.StatCollector;
 import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.machine.ContainerNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
-import universalelectricity.api.energy.UnitDisplay;
+import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
 public class GuiNuclearBoiler extends GuiContainerBase {

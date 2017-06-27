@@ -7,9 +7,9 @@ import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.particle.ContainerAccelerator;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.client.utility.render.Color;
-import universalelectricity.api.energy.UnitDisplay;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.type.Color;
+import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
 public class GuiAccelerator extends GuiContainerBase {

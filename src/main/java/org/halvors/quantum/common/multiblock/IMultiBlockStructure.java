@@ -1,7 +1,7 @@
 package org.halvors.quantum.common.multiblock;
 
 import net.minecraft.world.World;
-import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 public interface IMultiBlockStructure<W extends IMultiBlockStructure> extends IMultiBlock {
     World getWorldObject();

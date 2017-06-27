@@ -18,7 +18,7 @@ import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
-import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 

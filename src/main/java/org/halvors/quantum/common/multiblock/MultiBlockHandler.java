@@ -2,8 +2,8 @@ package org.halvors.quantum.common.multiblock;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.item.ISaveObject;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.api.nbt.ISaveObject;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;

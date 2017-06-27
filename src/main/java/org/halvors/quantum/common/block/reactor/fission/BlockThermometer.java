@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -13,7 +14,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockRotatable;
+import org.halvors.quantum.common.item.block.ItemBlockSaved;
+import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.WrenchUtility;
 
 import java.util.ArrayList;
@@ -29,7 +34,7 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean renderAsNormalBlock(){
+    public boolean renderAsNormalBlock() {
         return false;
     }
 
@@ -79,9 +84,21 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
+        TileEntity tile = world.getTileEntity(x, y, z);
+
+        // Fetch saved coordinates from ItemBlockThermometer and apply them to the block.
+        if (tile instanceof TileThermometer) {
+            TileThermometer tileThermometer = (TileThermometer) tile;
+            ItemBlockThermometer itemBlockThermometer = (ItemBlockThermometer) itemStack.getItem();
+            tileThermometer.setTrack(itemBlockThermometer.getSavedCoord(itemStack));
+        }
+    }
+
+    @Override
     public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
-        //ItemStack stack = ItemBlockSaved.getItemStackWithNBT(block, world, x, y, z);
-        //InventoryUtility.dropItemStack(world, center(), stack);
+        ItemStack stack = ItemBlockSaved.getItemStackWithNBT(block, world, x, y, z);
+        InventoryUtility.dropItemStack(world, new Vector3(x, y, z), stack);
     }
 
     @Override

@@ -4,7 +4,7 @@ import cpw.mods.fml.common.eventhandler.Event.HasResult;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fluids.FluidStack;
-import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 @HasResult
 public class BoilEvent extends WorldEvent {

@@ -9,7 +9,7 @@ import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.lwjgl.opengl.GL11;
-import universalelectricity.api.energy.UnitDisplay;
+import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuantumAssembler extends GuiContainerBase {

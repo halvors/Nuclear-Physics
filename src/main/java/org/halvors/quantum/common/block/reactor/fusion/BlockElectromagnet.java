@@ -20,7 +20,7 @@ import org.halvors.quantum.client.render.ISimpleBlockRenderer;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
-import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 

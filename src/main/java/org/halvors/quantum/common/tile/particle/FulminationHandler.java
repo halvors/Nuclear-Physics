@@ -4,7 +4,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.util.Vec3;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.explotion.ExplosionEvent;
-import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -66,7 +66,7 @@ import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.event.ThermalEventHandler;
 import org.halvors.quantum.common.grid.UpdateTicker;
-import org.halvors.quantum.common.item.ItemBlockMetadata;
+import org.halvors.quantum.common.item.block.ItemBlockMetadata;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
@@ -75,6 +75,7 @@ import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemBucketToxicWaste;
 import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium;
+import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.schematic.SchematicAccelerator;
 import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
@@ -96,7 +97,7 @@ import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
-import org.halvors.quantum.common.transform.vector.VectorWorld;
+import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import java.util.List;
 
@@ -347,7 +348,7 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockGasFunnel, "blockGasFunnel");
 		GameRegistry.registerBlock(blockNuclearBoiler, "blockNuclearBoiler");
 		GameRegistry.registerBlock(blockSiren, "blockSiren");
-		GameRegistry.registerBlock(blockThermometer, "blockThermometer");
+		GameRegistry.registerBlock(blockThermometer, ItemBlockThermometer.class, "blockThermometer");
 		GameRegistry.registerBlock(blockUraniumOre, "blockUraniumOre");
 		GameRegistry.registerBlock(blockPlasma, "blockPlasma");
         GameRegistry.registerBlock(blockPlasmaHeater, "blockPlasmaHeater");

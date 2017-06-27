@@ -12,7 +12,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.quantum.common.transform.vector.Cuboid;
+import org.halvors.quantum.common.utility.transform.vector.Cuboid;
 
 import java.util.ArrayList;
 

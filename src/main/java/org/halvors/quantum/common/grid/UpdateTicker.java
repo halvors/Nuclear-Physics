@@ -3,7 +3,6 @@ package org.halvors.quantum.common.grid;
 import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraftforge.common.MinecraftForge;
 import org.halvors.quantum.common.Reference;
-import universalelectricity.api.net.IUpdate;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;

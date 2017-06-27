@@ -31,8 +31,8 @@ import org.halvors.quantum.common.thermal.ThermalGrid;
 import org.halvors.quantum.common.thermal.ThermalPhysics;
 import org.halvors.quantum.common.tile.TileInventory;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.transform.vector.VectorWorld;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import java.util.ArrayList;
 import java.util.List;

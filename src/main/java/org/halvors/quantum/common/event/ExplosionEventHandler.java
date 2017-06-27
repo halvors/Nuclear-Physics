@@ -12,7 +12,7 @@ import org.halvors.quantum.api.explotion.IExplosion;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.effect.explosion.AntimatterExplosion;
-import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 

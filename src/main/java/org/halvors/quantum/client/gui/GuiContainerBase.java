@@ -13,23 +13,25 @@ import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.container.ContainerDummy;
-import org.halvors.quantum.common.transform.vector.Rectangle;
-import org.halvors.quantum.common.transform.vector.Vector2;
+import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.transform.vector.Rectangle;
+import org.halvors.quantum.common.utility.transform.vector.Vector2;
 import org.halvors.quantum.common.utility.LanguageUtility;
+import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import universalelectricity.api.energy.UnitDisplay;
+import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class GuiContainerBase extends GuiContainer {
-    public static final ResourceLocation GUI_EMPTY_FILE = new ResourceLocation(Reference.PREFIX + "textures/gui/gui_empty.png");
-    public static final ResourceLocation GUI_BASE = new ResourceLocation(Reference.PREFIX + "textures/gui/gui_base.png");
-    public static final ResourceLocation GUI_COMPONENTS = new ResourceLocation(Reference.PREFIX + "textures/gui/gui_components.png");
+    public static final ResourceLocation GUI_EMPTY_FILE = ResourceUtility.getResource(ResourceType.GUI, "gui_empty.png");
+    public static final ResourceLocation GUI_BASE = ResourceUtility.getResource(ResourceType.GUI, "gui_base.png");
+    public static final ResourceLocation GUI_COMPONENTS = ResourceUtility.getResource(ResourceType.GUI, "gui_components.png");
     public ResourceLocation baseTexture;
 
     public enum SlotType {

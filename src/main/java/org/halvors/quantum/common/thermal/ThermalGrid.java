@@ -7,8 +7,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.event.ThermalEvent;
 import org.halvors.quantum.api.tile.IReactor;
-import org.halvors.quantum.common.transform.vector.VectorWorld;
-import universalelectricity.api.net.IUpdate;
+import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
+import org.halvors.quantum.common.grid.IUpdate;
 
 import java.util.HashMap;
 import java.util.Iterator;

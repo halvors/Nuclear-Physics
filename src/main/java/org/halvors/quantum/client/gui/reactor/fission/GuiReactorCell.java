@@ -8,8 +8,8 @@ import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.lwjgl.opengl.GL11;
-import universalelectricity.api.energy.UnitDisplay;
-import universalelectricity.api.energy.UnitDisplay.Unit;
+import org.halvors.quantum.common.utility.energy.UnitDisplay;
+import org.halvors.quantum.common.utility.energy.UnitDisplay.Unit;
 
 import java.util.List;
 

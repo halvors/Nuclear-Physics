@@ -20,9 +20,9 @@ import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.thermal.IBoilHandler;
 import org.halvors.quantum.common.thermal.ThermalPhysics;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.transform.vector.VectorWorld;
-import universalelectricity.api.net.IUpdate;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
+import org.halvors.quantum.common.grid.IUpdate;
 
 public class ThermalEventHandler {
     @SubscribeEvent
