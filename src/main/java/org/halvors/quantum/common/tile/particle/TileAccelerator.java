@@ -9,26 +9,25 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.block.IElectromagnet;
+import org.halvors.quantum.common.tile.ITileNetwork;
+import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.item.particle.ItemAntimatter;
 import org.halvors.quantum.common.item.particle.ItemDarkmatter;
-import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.IRotatable;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.OreDictionaryUtility;
+import org.halvors.quantum.common.tile.ITileRotatable;
 
 import java.util.List;
 
-/** Accelerator TileEntity */
-public class TileAccelerator extends TileElectricInventory implements ITileNetworkable, IElectromagnet, IRotatable {
-    /** Joules required per ticks. */
-    public static final int energyPerTick = 4800; // TODO: Get the correct value here, 4800000 (UniversalElectricity) units.
+public class TileAccelerator extends TileElectricInventory implements ITileNetwork, IElectromagnet, ITileRotatable {
+    // Energy required per ticks.
+    public int acceleratorEnergyCostPerTick = ConfigurationManager.General.acceleratorEnergyCostPerTick;
 
-    /** User client side to determine the velocity of the particle. */
-    public static final float clientParticleVelocity = 0.9f;
+    // User client side to determine the velocity of the particle.
+    public static final float clientParticleVelocity = 0.9F;
 
     /** The total amount of energy consumed by this particle. In Joules. */
     public float totalEnergyConsumed = 0; // Synced
@@ -38,19 +37,18 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
     public EntityParticle entityParticle;
 
     public float velocity; // Synced
-
     private long clientEnergy = 0; // Synced
-
     private int lastSpawnTick = 0;
 
-    /** Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore. */
-    private int antiMatterDensityMultiplyer = DENSITY_MULTIPLYER_DEFAULT;
-    private static final int DENSITY_MULTIPLYER_DEFAULT = 1;
+    /**
+     * Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
+     */
+    private int acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
 
     public TileAccelerator() {
-        energyStorage = new EnergyStorage(energyPerTick * 2, energyPerTick / 20);
-        maxSlots = 4;
-        antiMatterDensityMultiplyer = DENSITY_MULTIPLYER_DEFAULT;
+        super(4);
+
+        energyStorage = new EnergyStorage(acceleratorEnergyCostPerTick * 2, acceleratorEnergyCostPerTick / 20);
     }
 
     @Override
@@ -59,58 +57,21 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
         if (!worldObj.isRemote) {
             clientEnergy = energyStorage.getEnergyStored();
-            velocity = 0;
-
-            // Calculate accelerated particle velocity if it is spawned.
-            if (entityParticle != null) {
-                velocity = (float) entityParticle.getParticleVelocity();
-            }
-
-            if (getStackInSlot(1) != null) {
-                // Check if item inside of empty cell slot is indeed an empty slot.
-                if (getStackInSlot(1).getItem() == Quantum.itemCell) {
-                    // Check if there are any empty cells we can store anti-matter in.
-                    if (getStackInSlot(1).stackSize > 0) {
-                        // Craft anti-matter item if there is enough anti-matter to actually do so.
-                        if (antimatter >= 125) {
-                            if (getStackInSlot(2) != null) {
-                                // Increase the existing amount of anti-matter if stack already exists.
-                                if (getStackInSlot(2).getItem() == Quantum.itemAntimatter) {
-                                    ItemStack newStack = getStackInSlot(2).copy();
-
-                                    if (newStack.stackSize < newStack.getMaxStackSize()) {
-                                        // Remove an empty cell which we will put the anti-matter into.
-                                        decrStackSize(1, 1);
-
-                                        // Remove anti-matter from internal reserve and increase stack count.
-                                        antimatter -= 125;
-                                        newStack.stackSize++;
-                                        setInventorySlotContents(2, newStack);
-                                    }
-                                }
-                            } else {
-                                // Remove some of the internal reserves of anti-matter and use it to craft an individual item.
-                                antimatter -= 125;
-                                decrStackSize(1, 1);
-                                setInventorySlotContents(2, new ItemStack(Quantum.itemAntimatter));
-                            }
-                        }
-                    }
-                }
-            }
+            velocity = getParticleVelocity();
+            outputAntimatter();
 
             // Check if redstone signal is currently being applied.
-            //if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
-                if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
+            if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+                //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
                         if (getStackInSlot(0) != null && lastSpawnTick >= 40) {
                             Vector3 spawnAcceleratedParticle = new Vector3(this);
                             spawnAcceleratedParticle.translate(getDirection().getOpposite());
-                            spawnAcceleratedParticle.translate(0.5f);
+                            spawnAcceleratedParticle.translate(0.5F);
 
                             // Only render the particle if container within the proper environment for it.
-                            if (EntityParticle.canRenderAcceleratedParticle(worldObj, spawnAcceleratedParticle)) {
+                            if (EntityParticle.canSpawnParticle(worldObj, spawnAcceleratedParticle)) {
                                 // Spawn the particle.
                                 totalEnergyConsumed = 0;
                                 entityParticle = new EntityParticle(worldObj, spawnAcceleratedParticle, new Vector3(this), getDirection().getOpposite());
@@ -139,9 +100,8 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                             worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.antimatter", 2F, 1F - worldObj.rand.nextFloat() * 0.3F);
 
                             // Create anti-matter in the internal reserve.
-                            int generatedAntimatter = 5 + worldObj.rand.nextInt(antiMatterDensityMultiplyer);
+                            int generatedAntimatter = 5 + worldObj.rand.nextInt(acceleratorAntimatterDensityMultiplyer);
                             antimatter += generatedAntimatter;
-                            // AtomicScience.LOGGER.info("[Particle Accelerator] Generated " + String.valueOf(generatedAntimatter) + " mg of anti-matter.");
 
                             // Reset energy consumption levels and destroy accelerated particle.
                             totalEnergyConsumed = 0;
@@ -151,11 +111,12 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
                         // Plays sound of particle accelerating past the speed based on total velocity at the time of anti-matter creation.
                         if (entityParticle != null) {
-                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.accelerator", 1.5F, (float) (0.6F + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
+                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.accelerator", 1.5F, (float) (0.6 + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
                         }
                     }
 
                     energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
+                /*
                 } else {
                     if (entityParticle != null) {
                         entityParticle.setDead();
@@ -163,7 +124,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
                     entityParticle = null;
                 }
-            /*
+                */
             } else {
                 if (entityParticle != null) {
                     entityParticle.setDead();
@@ -171,16 +132,9 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
                 entityParticle = null;
             }
-            */
 
             if (worldObj.getWorldTime() % 5 == 0) {
-                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
-
-                /*
-                for (EntityPlayer player : getPlayersUsing()) {
-                    NetworkHandler.sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
-                }
-                */
+                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
             }
 
             lastSpawnTick++;
@@ -207,10 +161,12 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
-        totalEnergyConsumed = dataStream.readFloat();
-        antimatter = dataStream.readInt();
-        velocity = dataStream.readFloat();
-        clientEnergy = dataStream.readLong();
+        if (worldObj.isRemote) {
+            totalEnergyConsumed = dataStream.readFloat();
+            antimatter = dataStream.readInt();
+            velocity = dataStream.readFloat();
+            clientEnergy = dataStream.readLong();
+        }
     }
 
     @Override
@@ -232,49 +188,19 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void calculateParticleDensity() {
-        ItemStack itemToAccelerate = this.getStackInSlot(0);
-
-        if (itemToAccelerate != null) {
-            // Calculate block density multiplier if ore dictionary block.
-            antiMatterDensityMultiplyer = DENSITY_MULTIPLYER_DEFAULT;
-
-            try {
-                Block potentialBlock = Block.getBlockFromItem(itemToAccelerate.getItem());
-
-                if (potentialBlock != null) {
-                    // Prevent negative numbers and disallow zero for density multiplier.
-
-                    // TODO: Fix this.
-                    //antiMatterDensityMultiplyer = BlockUtility.getBlockHardness(potentialBlock).asInstanceOf[Int];
-
-                    if (antiMatterDensityMultiplyer <= 0) {
-                        antiMatterDensityMultiplyer = 1;
-                    }
-
-                    // AtomicScience.LOGGER.info("[Particle Accelerator] " + String.valueOf(potentialBlock.getUnlocalizedName()) + " Hardness: " + String.valueOf(antiMatterDensityMultiplyer));
-                }
-            } catch (Exception e) {
-                antiMatterDensityMultiplyer = DENSITY_MULTIPLYER_DEFAULT;
-                // AtomicScience.LOGGER.info("[Particle Accelerator] Attempted to query Minecraft block-list with value out of index.");
-            }
-        }
-    }
-
     @Override
     public int[] getSlotsForFace(int side) {
         return new int[] { 0, 1, 2, 3 };
     }
 
     @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, int j) {
-        return isItemValidForSlot(slot, itemStack) && slot != 2 && slot != 3;
+    public boolean canInsertItem(int index, ItemStack itemStack, int side) {
+        return isItemValidForSlot(index, itemStack) && index != 2 && index != 3;
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack itemstack, int j)
-    {
-        return slot == 2 || slot == 3;
+    public boolean canExtractItem(int index, ItemStack itemStack, int side) {
+        return index == 2 || index == 3;
     }
 
     @Override
@@ -282,10 +208,13 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
         switch (slot) {
             case 0:
                 return true;
+
             case 1:
-                return Quantum.itemCell == itemStack.getItem();
+                return OreDictionaryUtility.isEmptyCell(itemStack);
+
             case 2:
                 return itemStack.getItem() instanceof ItemAntimatter;
+
             case 3:
                 return itemStack.getItem() instanceof ItemDarkmatter;
         }
@@ -302,7 +231,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
             totalEnergyConsumed += maxReceive;
         }
 
-        if (getStackInSlot(0) != null) {//&&(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) || worldObj.getBlockPowerInput(xCoord, yCoord, zCoord) > 0)) {
+        if (getStackInSlot(0) != null) { //&&(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) || worldObj.getBlockPowerInput(xCoord, yCoord, zCoord) > 0)) {
             return super.receiveEnergy(from, maxReceive, simulate);
         }
 
@@ -324,5 +253,71 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
     @Override
     public void setDirection(ForgeDirection direction) {
         worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Converts antimatter storage into item if the condition are meet.
+     */
+    private void outputAntimatter() {
+        // Do we have an empty cell in slot one
+        if (OreDictionaryUtility.isEmptyCell(getStackInSlot(1)) && getStackInSlot(1).stackSize > 0) {
+            // Each cell can only hold 125mg of antimatter
+            // TODO: maybe a config for this?
+            if (antimatter >= 125) {
+                if (getStackInSlot(2) != null) {
+                    // If the output slot is not empty we must increase stack size
+                    if (getStackInSlot(2).getItem() == Quantum.itemAntimatter) {
+                        ItemStack newStack = getStackInSlot(2).copy();
+
+                        if (newStack.stackSize < newStack.getMaxStackSize()) {
+                            decrStackSize(1, 1);
+                            antimatter -= 125;
+                            newStack.stackSize++;
+                            setInventorySlotContents(2, newStack);
+                        }
+                    }
+                } else {
+                    // Remove some of the internal reserves of anti-matter and use it to craft an individual item.
+                    antimatter -= 125;
+                    decrStackSize(1, 1);
+                    setInventorySlotContents(2, new ItemStack(Quantum.itemAntimatter));
+                }
+            }
+        }
+    }
+
+    private void calculateParticleDensity() {
+        ItemStack itemToAccelerate = getStackInSlot(0);
+
+        if (itemToAccelerate != null) {
+            // Calculate block density multiplier if ore dictionary block.
+            acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+
+            Block potentialBlock = Block.getBlockFromItem(itemToAccelerate.getItem());
+
+            if (potentialBlock != null) {
+                // Prevent negative numbers and disallow zero for density multiplier.
+                acceleratorAntimatterDensityMultiplyer = (int) potentialBlock.getBlockHardness(worldObj, 0, 0, 0) * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+
+                if (acceleratorAntimatterDensityMultiplyer <= 0) {
+                    acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+                }
+
+                if (acceleratorAntimatterDensityMultiplyer > 1000) {
+                    acceleratorAntimatterDensityMultiplyer = 1000 * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+                }
+            }
+        }
+    }
+
+    // Get velocity for the particle and @return it as a float.
+    public float getParticleVelocity() {
+        if (entityParticle != null) {
+            return (float) entityParticle.getParticleVelocity();
+        }
+
+        return 0;
     }
 }

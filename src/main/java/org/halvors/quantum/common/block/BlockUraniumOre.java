@@ -14,7 +14,8 @@ public class BlockUraniumOre extends BlockRadioactive {
 
         //setStepSound(soundStoneFootstep);
         setHardness(2.0F);
-        
+        setHarvestLevel("pickaxe", 2);
+
         isRandomlyRadioactive = ConfigurationManager.General.allowRadioactiveOres;
         canWalkPoison = ConfigurationManager.General.allowRadioactiveOres;
         canSpread = false;

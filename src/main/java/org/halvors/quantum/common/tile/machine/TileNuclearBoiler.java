@@ -10,15 +10,15 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.tile.ITileNetwork;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.lib.IRotatable;
-import org.halvors.quantum.lib.utility.OreDictionaryUtility;
+import org.halvors.quantum.common.utility.OreDictionaryUtility;
+import org.halvors.quantum.common.tile.ITileRotatable;
 
 import java.util.List;
 
-public class TileNuclearBoiler extends TileProcess implements ITileNetworkable, IRotatable, IEnergyReceiver, IFluidHandler, ISidedInventory {
+public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITileRotatable, IEnergyReceiver, IFluidHandler, ISidedInventory {
     public static final int tickTime = 20 * 15;
     public static final int energy = 21000;
 
@@ -30,8 +30,9 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetworkable, 
     public float rotation = 0;
 
     public TileNuclearBoiler() {
+        super(5);
+
         energyStorage = new EnergyStorage(energy * 2);
-        maxSlots = 5;
 
         outputSlot = 1;
 
@@ -93,6 +94,8 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetworkable, 
                     }
 
                     energyStorage.extractEnergy(energy, false);
+                } else {
+                    timer = 0;
                 }
             } else {
                 timer = 0;
@@ -100,7 +103,7 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetworkable, 
 
             if (worldObj.getWorldTime() % 10 == 0) {
                 if (!worldObj.isRemote) {
-                    NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
         }
@@ -143,11 +146,11 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetworkable, 
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
         if (dataStream.readBoolean()) {
-            waterTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+            waterTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
         }
 
         if (dataStream.readBoolean()) {
-            gasTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+            gasTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
         }
 
         timer = dataStream.readInt();

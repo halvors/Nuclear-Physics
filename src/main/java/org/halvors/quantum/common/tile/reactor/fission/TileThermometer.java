@@ -3,21 +3,22 @@ package org.halvors.quantum.common.tile.reactor.fission;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.lib.thermal.ThermalGrid;
-import org.halvors.quantum.lib.thermal.ThermalPhysics;
+import org.halvors.quantum.common.thermal.ThermalGrid;
+import org.halvors.quantum.common.thermal.ThermalPhysics;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import java.util.List;
+import java.util.Vector;
 
-public class TileThermometer extends TileEntity implements ITileNetworkable {
+public class TileThermometer extends TileEntity implements ITileNetwork {
     private static final int maxThreshold = 5000;
-    public float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
+    private float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
     private float previousDetectedTemperature = detectedTemperature; // Synced
-    public Vector3 trackCoordinate; // Synced
+    private Vector3 trackCoordinate; // Synced
     private int threshold = 1000; // Synced
     public boolean isProvidingPower = false; // Synced
 
@@ -41,12 +42,12 @@ public class TileThermometer extends TileEntity implements ITileNetworkable {
                 }
 
                 // Send update packet if temperature is different or over temperature threshold.
-                if (detectedTemperature != previousDetectedTemperature || isProvidingPower != this.isOverThreshold()) {
+                if (detectedTemperature != previousDetectedTemperature || isProvidingPower != isOverThreshold()) {
                     previousDetectedTemperature = detectedTemperature;
                     isProvidingPower = isOverThreshold();
                     worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
 
-                    NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
         }
@@ -89,6 +90,7 @@ public class TileThermometer extends TileEntity implements ITileNetworkable {
 
         threshold = dataStream.readInt();
         isProvidingPower = dataStream.readBoolean();
+
     }
 
     @Override
@@ -98,9 +100,9 @@ public class TileThermometer extends TileEntity implements ITileNetworkable {
 
         if (trackCoordinate != null) {
             objects.add(true);
-            objects.add(trackCoordinate.x);
-            objects.add(trackCoordinate.y);
-            objects.add(trackCoordinate.z);
+            objects.add(trackCoordinate.intX());
+            objects.add(trackCoordinate.intY());
+            objects.add(trackCoordinate.intZ());
         } else {
             objects.add(false);
         }
@@ -113,22 +115,33 @@ public class TileThermometer extends TileEntity implements ITileNetworkable {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void setTrack(Vector3 track) {
-        trackCoordinate = track;
+    public Vector3 getTrackCoordinate() {
+        return trackCoordinate;
+    }
+
+    public void setTrackCoordinate(Vector3 trackCoordinate) {
+        this.trackCoordinate = trackCoordinate;
+
+        // Update the server side with this new coordinate.
+        Quantum.getPacketHandler().sendToServer(new PacketTileEntity(this));
     }
 
     public int getThershold() {
         return threshold;
     }
 
-    public void setThreshold(int newThreshold) {
-        threshold = newThreshold % maxThreshold;
+    public void setThreshold(int threshold) {
+        this.threshold = threshold % maxThreshold;
 
         if (threshold <= 0) {
-            threshold = maxThreshold;
+            this.threshold = maxThreshold;
         }
 
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
+    public float getDetectedTemperature() {
+        return detectedTemperature;
     }
 
     public boolean isOverThreshold() {

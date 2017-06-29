@@ -12,7 +12,7 @@ public class BlockControlRod extends Block {
         setUnlocalizedName("controlRod");
         setTextureName(Reference.PREFIX + "controlRod");
         setCreativeTab(Quantum.getCreativeTab());
-        setBlockBounds(0.3f, 0f, 0.3f, 0.7f, 1f, 0.7f);
+        setBlockBounds(0.3F, 0, 0.3F, 0.7F, 1, 0.7F);
     }
 
     @Override

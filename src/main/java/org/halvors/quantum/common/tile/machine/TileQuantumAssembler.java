@@ -10,14 +10,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 
 import java.util.List;
 
-public class TileQuantumAssembler extends TileElectricInventory implements ITileNetworkable, IEnergyReceiver {
+public class TileQuantumAssembler extends TileElectricInventory implements ITileNetwork, IEnergyReceiver {
     public static final int tickTime = 20 * 120;
     private static final int energy = 10000000; // Fix this.
 
@@ -32,8 +31,9 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
     public EntityItem entityItem = null;
 
     public TileQuantumAssembler() {
+        super(6 + 1);
+
         energyStorage = new EnergyStorage(energy);
-        maxSlots = 6 + 1;
     }
 
     @Override
@@ -41,31 +41,31 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
         super.updateEntity();
 
         if (!worldObj.isRemote) {
-            if (canProcess()) {
-                if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
-                    if (time == 0) {
-                        time = tickTime;
-                    }
+            if (canProcess() && energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
+                if (time == 0) {
+                    time = tickTime;
+                }
 
-                    if (time > 0) {
-                        time--;
+                if (time > 0) {
+                    time--;
 
-                        if (time < 1) {
-                            doProcess();
-                            time = 0;
-                        }
-                    } else {
+                    if (time < 1) {
+                        doProcess();
                         time = 0;
                     }
-
-                    energyStorage.extractEnergy(energy, false);
+                } else {
+                    time = 0;
                 }
+
+                energyStorage.extractEnergy(energy, false);
             } else {
                 time = 0;
             }
 
             if (worldObj.getWorldTime() % 10 == 0) {
-                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                if (!worldObj.isRemote) {
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
+                }
             }
         } else if (time > 0) {
             if (worldObj.getWorldTime() % 600 == 0) {
@@ -158,7 +158,7 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
     @Override
     public void openChest() {
         if (!worldObj.isRemote) {
-            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
     }
 

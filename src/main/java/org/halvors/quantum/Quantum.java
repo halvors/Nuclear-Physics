@@ -30,19 +30,21 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
-import org.halvors.quantum.common.QuantumCreativeTab;
+import org.halvors.quantum.common.CreativeTabQuantum;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.base.IUpdatableMod;
+import org.halvors.quantum.common.IUpdatableMod;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
 import org.halvors.quantum.common.block.BlockToxicWaste;
 import org.halvors.quantum.common.block.BlockUraniumOre;
-import org.halvors.quantum.common.block.TileElectromagnet;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
 import org.halvors.quantum.common.block.machine.BlockGasCentrifuge;
@@ -63,6 +65,8 @@ import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.event.ThermalEventHandler;
+import org.halvors.quantum.common.grid.UpdateTicker;
+import org.halvors.quantum.common.item.block.ItemBlockMetadata;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
@@ -71,10 +75,13 @@ import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemBucketToxicWaste;
 import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium;
+import org.halvors.quantum.common.item.block.ItemBlockThermometer;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.schematic.SchematicAccelerator;
 import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
 import org.halvors.quantum.common.schematic.SchematicFissionReactor;
 import org.halvors.quantum.common.schematic.SchematicFusionReactor;
+import org.halvors.quantum.common.thermal.ThermalGrid;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
@@ -87,13 +94,10 @@ import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
+import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
-import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.common.updater.UpdateManager;
-import org.halvors.quantum.lib.grid.UpdateTicker;
-import org.halvors.quantum.lib.render.RenderUtility;
-import org.halvors.quantum.lib.thermal.ThermalGrid;
+import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import java.util.List;
 
@@ -117,17 +121,20 @@ public class Quantum implements IUpdatableMod {
 	@SidedProxy(clientSide = "org.halvors." + Reference.ID + ".client.ClientProxy", serverSide = "org.halvors." + Reference.ID + ".common.CommonProxy")
 	private static CommonProxy proxy;
 
-	// Logger
-	private static final Logger logger = LogManager.getLogger(Reference.ID);
-
 	// ConfigurationManager
 	private static Configuration configuration;
 
-	// Grids
-	public static ThermalGrid thermalGrid = new ThermalGrid();
+	// Network
+	private static final PacketHandler packetHandler = new PacketHandler();
+
+	// Logger
+	private static final Logger logger = LogManager.getLogger(Reference.ID);
 
 	// Creative Tab
-	private static final QuantumCreativeTab creativeTab = new QuantumCreativeTab();
+	private static final CreativeTabQuantum creativeTab = new CreativeTabQuantum();
+
+	// Grids
+	private static final ThermalGrid thermalGrid = new ThermalGrid();
 
 	// Fluids
 	public static final Fluid fluidDeuterium = new Fluid("deuterium").setGaseous(true);
@@ -169,7 +176,7 @@ public class Quantum implements IUpdatableMod {
 	// Items
 	// Cells
 	public static Item itemAntimatter;
-	public static Item itemBreedingRod;
+	public static Item itemBreederFuel;
 	public static Item itemCell;
 	public static Item itemDarkMatter;
 	public static Item itemDeuteriumCell;
@@ -270,6 +277,9 @@ public class Quantum implements IUpdatableMod {
 			}
 		});
 
+		// Register packets.
+		packetHandler.init();
+
 		// Calling proxy handler.
 		proxy.init();
 	}
@@ -332,13 +342,13 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.registerBlock(blockChemicalExtractor, "blockChemicalExtractor");
 		GameRegistry.registerBlock(blockControlRod, "blockControlRod");
 		GameRegistry.registerBlock(blockElectricTurbine, "blockElectricTurbine");
-		GameRegistry.registerBlock(blockElectromagnet, "blockElectromagnet");
+		GameRegistry.registerBlock(blockElectromagnet, ItemBlockMetadata.class, "blockElectromagnet");
 		GameRegistry.registerBlock(blockFulmination, "blockFulmination");
 		GameRegistry.registerBlock(blockGasCentrifuge, "blockGasCentrifuge");
 		GameRegistry.registerBlock(blockGasFunnel, "blockGasFunnel");
 		GameRegistry.registerBlock(blockNuclearBoiler, "blockNuclearBoiler");
 		GameRegistry.registerBlock(blockSiren, "blockSiren");
-		GameRegistry.registerBlock(blockThermometer, "blockThermometer");
+		GameRegistry.registerBlock(blockThermometer, ItemBlockThermometer.class, "blockThermometer");
 		GameRegistry.registerBlock(blockUraniumOre, "blockUraniumOre");
 		GameRegistry.registerBlock(blockPlasma, "blockPlasma");
         GameRegistry.registerBlock(blockPlasmaHeater, "blockPlasmaHeater");
@@ -372,7 +382,7 @@ public class Quantum implements IUpdatableMod {
 		// Register items.
 		// Cells
 		itemAntimatter = new ItemAntimatter();
-		itemBreedingRod = new ItemBreederFuel();
+		itemBreederFuel = new ItemBreederFuel();
 		itemCell = new ItemCell("cellEmpty");
 		itemDarkMatter = new ItemCell("darkMatter");
 		itemDeuteriumCell = new ItemCell("cellDeuterium");
@@ -394,11 +404,11 @@ public class Quantum implements IUpdatableMod {
 		itemHazmatBoots = new ItemArmorHazmat("hazmatBoots", 3);
 
 		GameRegistry.registerItem(itemAntimatter, "itemAntimatter");
-		GameRegistry.registerItem(itemBreedingRod, "itemRodBreedingFuel");
+		GameRegistry.registerItem(itemBreederFuel, "itemBreederFuel");
 		GameRegistry.registerItem(itemCell, "itemCellEmpty");
 		GameRegistry.registerItem(itemDarkMatter, "itemDarkMatter");
 		GameRegistry.registerItem(itemDeuteriumCell, "itemCellDeuterium");
-		GameRegistry.registerItem(itemFissileFuel, "itemRodFissileFuel");
+		GameRegistry.registerItem(itemFissileFuel, "itemFissileFuel");
 		GameRegistry.registerItem(itemTritiumCell, "itemCellTritium");
 		GameRegistry.registerItem(itemWaterCell, "itemCellWater");
 
@@ -427,7 +437,97 @@ public class Quantum implements IUpdatableMod {
 	}
 
 	private void registerRecipes() {
+		// Register recipes.
 
+		// Cells
+		// Antimatter
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemAntimatter, 1, 1), itemAntimatter, itemAntimatter, itemAntimatter, itemAntimatter, itemAntimatter, itemAntimatter, itemAntimatter, itemAntimatter));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemAntimatter, 8, 0), new ItemStack(itemAntimatter, 1, 1)));
+
+		// Breeder Fuel Rod
+		GameRegistry.addRecipe(new ShapedOreRecipe(itemBreederFuel, "CUC", "CUC", "CUC", 'U', "breederUranium", 'C', "cellEmpty"));
+
+		// Empty Cell
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemCell, 16), " T ", "TGT", " T ", 'T', "ingotTin", 'G', Blocks.glass));
+
+		// Fissile Fuel
+		GameRegistry.addRecipe(new ShapedOreRecipe(itemFissileFuel, "CUC", "CUC", "CUC", 'U', "ingotUranium", 'C', "cellEmpty"));
+
+		// Water Cell
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemWaterCell), "cellEmpty", Items.water_bucket));
+
+		// Hazmat
+		//GameRegistry.addRecipe(new ShapedOreRecipe(itemHazmatMask, "SSS", "BAB", "SCS", 'A', Items.leather_helmet, 'C', UniversalRecipe.CIRCUIT_T1.get(Settings.allowAlternateRecipes), 'S', Blocks.cloth }));
+		//GameRegistry.addRecipe(new ShapedOreRecipe(itemHazmatBody, "SSS", "BAB", "SCS", 'A', Items.leather_plate, 'C', UniversalRecipe.CIRCUIT_T1.get(Settings.allowAlternateRecipes), 'S', Block.cloth }));
+		//GameRegistry.addRecipe(new ShapedOreRecipe(itemHazmatLeggings, "SSS", "BAB", "SCS", 'A', Items.leather_legs, 'C', UniversalRecipe.CIRCUIT_T1.get(Settings.allowAlternateRecipes), 'S', Block.cloth }));
+		//GameRegistry.addRecipe(new ShapedOreRecipe(itemHazmatBoots, "SSS", "BAB", "SCS", 'A', Items.leather_boots, 'C', UniversalRecipe.CIRCUIT_T1.get(Settings.allowAlternateRecipes), 'S', Block.cloth }));
+
+		// Particle Accelerator
+		//GameRegistry.addRecipe(new ShapedOreRecipe(blockAccelerator, "SCS", "CMC", "SCS", 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes), 'C', UniversalRecipe.CIRCUIT_T3.get(Settings.allowAlternateRecipes), 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes)));
+
+		// Chemical Extractor
+		//GameRegistry.addRecipe(new ShapedOreRecipe(blockChemicalExtractor, "BSB", "MCM", "BSB", 'C', UniversalRecipe.CIRCUIT_T3.get(Settings.allowAlternateRecipes), 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes), 'B', UniversalRecipe.SECONDARY_METAL.get(Settings.allowAlternateRecipes), 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
+
+		// Control Rod
+		GameRegistry.addRecipe(new ShapedOreRecipe(blockControlRod, "I", "I", "I", 'I', Items.iron_ingot));
+
+		// Turbine
+		//GameRegistry.addRecipe(new ShapedOreRecipe(blockElectricTurbine, " B ", "BMB", " B ", 'B', UniversalRecipe.SECONDARY_PLATE.get(Settings.allowAlternateRecipes), 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
+
+		// Electromagnet
+		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectromagnet, 2, 0), "BBB", "BMB", "BBB", 'B', UniversalRecipe.SECONDARY_METAL.get(Settings.allowAlternateRecipes), 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
+
+		// Electromagnet Glass
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(blockElectromagnet, 1, 1), blockElectromagnet, Blocks.glass));
+
+		// Fulmination Generator
+		//GameRegistry.addRecipe(new ShapedOreRecipe(blockFulmination, "OSO", "SCS", "OSO", 'O', Blocks.obsidian, 'C', UniversalRecipe.CIRCUIT_T2.get(Settings.allowAlternateRecipes), 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes)));
+
+		// Gas Centrifuge
+		//GameRegistry.addRecipe(new ShapedOreRecipe(blockGasCentrifuge, "BSB", "MCM", "BSB", 'C', UniversalRecipe.CIRCUIT_T2.get(Settings.allowAlternateRecipes), 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes), 'B', UniversalRecipe.SECONDARY_METAL.get(Settings.allowAlternateRecipes), 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
+
+		// Gas Funnel
+		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockGasFunnel, 2), " B ", "B B", "B B", 'B', UniversalRecipe.SECONDARY_METAL.get(Settings.allowAlternateRecipes)));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockGasFunnel, 2), " B ", "B B", "B B", 'B', "ingotIron"));
+
+		// Nuclear Boiler
+		//GameRegistry.addRecipe(new ShapedOreRecipe(blockNuclearBoiler, "S S", "FBF", "SMS", 'F', Block.furnaceIdle, 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes), 'B', Item.bucketEmpty, 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
+
+		// Siren
+		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockSiren, 2), "NPN", 'N', Blocks.noteblock, 'P', UniversalRecipe.SECONDARY_PLATE.get(Settings.allowAlternateRecipes)));
+
+		// Thermometer
+		//GameRegistry.addRecipe(new ShapedOreRecipe(blockThermometer, "SSS", "GCG", "GSG", 'S', UniversalRecipe.PRIMARY_METAL.get(Settings.allowAlternateRecipes), 'G', Blocks.glass, 'C', UniversalRecipe.CIRCUIT_T1.get(Settings.allowAlternateRecipes)));
+
+		// Plasma Heater
+		//GameRegistry.addRecipe(new ShapedOreRecipe(blockPlasmaHeater, "CPC", "PFP", "CPC", 'P', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes), 'F', blockReactorCell, 'C', UniversalRecipe.CIRCUIT_T3.get(Settings.allowAlternateRecipes)));
+
+		// Quantum Assembler
+		//GameRegistry.addRecipe(new ShapedOreRecipe(blockQuantumAssembler, "CCC", "SXS", "SSS", 'X', blockGasCentrifuge, 'C', UniversalRecipe.CIRCUIT_T3.get(Settings.allowAlternateRecipes), 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes)));
+
+		// Fission Reactor
+		//GameRegistry.addRecipe(new ShapedOreRecipe(blockReactorCell, "SCS", "MEM", "SCS", 'E', "cellEmpty", 'C', UniversalRecipe.CIRCUIT_T2.get(Settings.allowAlternateRecipes), 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes), 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
+
+		/*
+		// IC2 Recipes
+		if (Loader.isModLoaded("IC2") && Settings.allowAlternateRecipes)
+		{
+			OreDictionary.registerOre("cellEmpty", Items.getItem("cell"));
+
+			// Check to make sure we have actually registered the Ore, otherwise tell the user about
+			// it.
+			String cellEmptyName = OreDictionary.getOreName(OreDictionary.getOreID("cellEmpty"));
+			if (cellEmptyName == "Unknown")
+			{
+				ResonantInduction.LOGGER.info("Unable to register cellEmpty in OreDictionary!");
+			}
+
+			// IC2 exchangeable recipes
+			GameRegistry.addRecipe(new ShapelessOreRecipe(itemYellowCake, Items.getItem("reactorUraniumSimple")));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(Items.getItem("cell"), itemCell));
+			GameRegistry.addRecipe(new ShapelessOreRecipe(itemCell, "cellEmpty"));
+		}
+		*/
 	}
 
 	@SubscribeEvent
@@ -449,7 +549,7 @@ public class Quantum implements IUpdatableMod {
 	public void preTextureHook(TextureStitchEvent.Pre event) {
 		if (event.map.getTextureType() == 0) {
 			RenderUtility.registerIcon(Reference.PREFIX + "atomic_edge", event.map);
-			RenderUtility.registerIcon(Reference.PREFIX + "funnel_edge", event.map);
+			RenderUtility.registerIcon(Reference.PREFIX + "gasFunnel_edge", event.map);
 
 			RenderUtility.registerIcon(Reference.PREFIX + "deuterium", event.map);
 			RenderUtility.registerIcon(Reference.PREFIX + "steam", event.map);
@@ -477,16 +577,20 @@ public class Quantum implements IUpdatableMod {
 		return proxy;
 	}
 
+	public static Configuration getConfiguration() {
+		return configuration;
+	}
+
+	public static PacketHandler getPacketHandler() {
+		return packetHandler;
+	}
+
 	public static Logger getLogger() {
 		return logger;
 	}
 
-	public static QuantumCreativeTab getCreativeTab() {
+	public static CreativeTabQuantum getCreativeTab() {
 		return creativeTab;
-	}
-
-	public static Configuration getConfiguration() {
-		return configuration;
 	}
 
 	@Override

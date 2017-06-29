@@ -5,8 +5,8 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.tile.ITileNetwork;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.utility.location.Location;
 
 import java.util.ArrayList;
@@ -14,8 +14,6 @@ import java.util.List;
 
 /**
  * This packet i used by tile tile entities to send custom information from server to client.
- *
- * @author halvors
  */
 public class PacketTileEntity extends PacketLocation implements IMessage {
 	private List<Object> objects;
@@ -31,7 +29,7 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 		this.objects = objects;
 	}
 
-	public <T extends TileEntity & ITileNetworkable> PacketTileEntity(T tile) {
+	public <T extends TileEntity & ITileNetwork> PacketTileEntity(T tile) {
 		this(new Location(tile), tile.getPacketData(new ArrayList<>()));
 	}
 
@@ -46,16 +44,16 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 	public void toBytes(ByteBuf dataStream) {
 		super.toBytes(dataStream);
 
-		NetworkHandler.writeObjects(objects, dataStream);
+		PacketHandler.writeObjects(objects, dataStream);
 	}
 
 	public static class PacketTileEntityMessage implements IMessageHandler<PacketTileEntity, IMessage> {
 		@Override
 		public IMessage onMessage(PacketTileEntity message, MessageContext messageContext) {
-			TileEntity tileEntity = message.getLocation().getTileEntity(NetworkHandler.getWorld(messageContext));
+			TileEntity tileEntity = message.getLocation().getTileEntity(PacketHandler.getWorld(messageContext));
 
-			if (tileEntity != null && tileEntity instanceof ITileNetworkable) {
-				ITileNetworkable tileNetworkable = (ITileNetworkable) tileEntity;
+			if (tileEntity != null && tileEntity instanceof ITileNetwork) {
+				ITileNetwork tileNetworkable = (ITileNetwork) tileEntity;
 
 				try {
 					tileNetworkable.handlePacketData(message.storedBuffer);

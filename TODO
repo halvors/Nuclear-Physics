@@ -1,25 +1,38 @@
 Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
 
 Known bugs:
+    - Should not be possible to inject fuel into each of the reactor cell multiblocks...
     - Quantum Assembler render incorrectly.
-    - Items is not stored in inventory probably using NBT somehow.
-    - Reactor Cell rendering is messed up.
-    - Machine animation continues even if the process is stalled, i.e when there is no more power available.
-    - Fluid levels in machines is not always synced properly to the client.
+    - Fluid levels in machines is not always synced properly to the client. (Needs retesting, likely solved).
+    - When plasma is released into the world and causes block damage, block change is not properly synced to the client.
+    - Electromagnet Glass have wrong material and footstep sound? As well as break sound.
+    - Reactor Cell top model is missing glass texture from one edge.
+    - Turbine multi block construction is not synced properly.
+
+Known features not implemented:
+    - Display tooltip to all items.
+    - Make slots in machines only accept valid items.
+    - Add support for batteries in machines etc.
 
 New features to add:
     Convenience:
-        - Make slots in machines only accept valid items.
         - Fluid output is not transferred to neighbor machine accepting it as input.
         - Add electromagnetic cell, a cell capable of holding antimatter.
 
+    Enhancement:
+        - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
+        - Make more stuff only server side, if not needed on the client.
+        - Add a Geiger counter to measure radiation.
+        - Add radiation resistance block which implements IAntiPoisonBlock.
+        - Make reactor make glass if sand is next to it, and make it melt snow.
+        - Make accelerator GUI show energy usage per 5 mg antimatter, as a measure of efficiency.
+
     Rendering:
-        - Make the whole multiblock reactor cell share GUI.
+        - Make the whole multi block reactor cell share GUI.
         - Make nuclear boiler eject steam.
         - Make turbines eject smoke particles?
 
     Networking:
-        - Only send PacketTileEntity from server to client? (Done) (Not tested)
 
     Energy:
         Centrifuge:
@@ -31,11 +44,20 @@ New features to add:
         Nuclear Boiler:
             128 MJ ~= 21000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride
 
-        Turbine
+        Turbine:
             Fission Reactor with 4 Control Rods: (Generated from one Turbine)
                (128 MJ * 20) + 90 MJ = 2650 MJ
 
                60 seconds run = 64 MJ
 
+        Particle Accelerator:
+            5 mg antimatter (One particle accelerated to 100%) uses 97.85 MJ if inner circle is 100x100 blocks.
+
     Useful resources:
-        - How a fusion reactor works: https://www.youtube.com/watch?v=Vwgy6w8ExHE
+        How a fusion reactor works: https://www.youtube.com/watch?v=Vwgy6w8ExHE
+
+        https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
+
+        Minecraft 1.6.4 to 1.7.10 porting:
+            - https://github.com/Spoutcraft/Spoutcraft/blob/master/conf/methods.csv https://github.com/Spoutcraft/Spoutcraft/blob/master/conf/fields.csv
+            - https://github.com/ntzrmtthihu777/CreepyPastaCraft/blob/master/gradle/methods.csv https://github.com/ntzrmtthihu777/CreepyPastaCraft/blob/master/gradle/fields.csv

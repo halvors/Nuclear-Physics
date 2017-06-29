@@ -3,13 +3,13 @@ package org.halvors.quantum.client.gui.particle;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
+import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.particle.ContainerAccelerator;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.render.Color;
-import org.halvors.quantum.lib.gui.GuiContainerBase;
-import universalelectricity.api.energy.UnitDisplay;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.type.Color;
+import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
 public class GuiAccelerator extends GuiContainerBase {
@@ -30,7 +30,7 @@ public class GuiAccelerator extends GuiContainerBase {
         Vector3 position = new Vector3(tile);
         position.translate(tile.getDirection().getOpposite());
 
-        if (!EntityParticle.canRenderAcceleratedParticle(tile.getWorld(), position)) {
+        if (!EntityParticle.canSpawnParticle(tile.getWorld(), position)) {
             status = Color.DARK_RED + "Fail to emit; try rotating.";
         } else if (tile.entityParticle != null && tile.velocity > 0) {
             status = Color.ORANGE + "Accelerating";
@@ -41,7 +41,7 @@ public class GuiAccelerator extends GuiContainerBase {
         fontRendererObj.drawString("Velocity: " + Math.round((tile.velocity / TileAccelerator.clientParticleVelocity) * 100) + "%", 8, 27, 4210752);
         fontRendererObj.drawString("Energy Used:", 8, 38, 4210752);
         fontRendererObj.drawString(UnitDisplay.getDisplay(tile.totalEnergyConsumed, UnitDisplay.Unit.JOULES), 8, 49, 4210752);
-        fontRendererObj.drawString(UnitDisplay.getDisplay(TileAccelerator.energyPerTick * 20, UnitDisplay.Unit.WATT), 8, 60, 4210752);
+        fontRendererObj.drawString(UnitDisplay.getDisplay(tile.acceleratorEnergyCostPerTick * 20, UnitDisplay.Unit.WATT), 8, 60, 4210752);
         //fontRendererObj.drawString(UnitDisplay.getDisplay(tile.getVoltageInput(null), UnitDisplay.Unit.VOLTAGE), 8, 70, 4210752);
         fontRendererObj.drawString("Antimatter: " + tile.antimatter + " mg", 8, 80, 4210752);
         fontRendererObj.drawString("Status:", 8, 90, 4210752);

@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.spi.AbstractLogger;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
-import org.halvors.quantum.common.base.IUpdatableMod;
+import org.halvors.quantum.common.IUpdatableMod;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

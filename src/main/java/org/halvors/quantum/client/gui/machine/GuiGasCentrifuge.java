@@ -4,11 +4,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
+import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.machine.ContainerGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
-import org.halvors.quantum.lib.gui.GuiContainerBase;
-import universalelectricity.api.energy.UnitDisplay;
+import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
 public class GuiGasCentrifuge extends GuiContainerBase {

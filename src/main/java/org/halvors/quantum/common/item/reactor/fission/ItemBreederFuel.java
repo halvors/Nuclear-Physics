@@ -2,12 +2,12 @@ package org.halvors.quantum.common.item.reactor.fission;
 
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.item.ItemRadioactive;
-import org.halvors.quantum.common.tile.reactor.fission.IReactor;
-import org.halvors.quantum.common.tile.reactor.fission.IReactorComponent;
+import org.halvors.quantum.api.tile.IReactor;
+import org.halvors.quantum.api.item.IReactorComponent;
 
 public class ItemBreederFuel extends ItemRadioactive implements IReactorComponent {
     public ItemBreederFuel() {
-        super("rodBreederFuel");
+        super("breederFuel");
 
         setMaxDurability(ItemFissileFuel.decay);
         setMaxStackSize(1);

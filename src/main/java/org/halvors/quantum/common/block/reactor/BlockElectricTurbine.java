@@ -7,36 +7,31 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
-import org.halvors.quantum.lib.prefab.block.BlockRotatable;
-import org.halvors.quantum.lib.render.BlockRenderingHandler;
 
-public class BlockElectricTurbine extends BlockRotatable {
+public class BlockElectricTurbine extends BlockQuantum {
     public BlockElectricTurbine() {
-        super(Material.iron);
+        super("electricTurbine", Material.iron);
 
-        rotationMask = Byte.parseByte("000001", 2);
-
-        setUnlocalizedName("electricTurbine");
         setTextureName(Reference.PREFIX + "machine");
-        setCreativeTab(Quantum.getCreativeTab());
     }
 
     @Override
-    public boolean onUseWrench(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
 
         if (tileEntity instanceof TileElectricTurbine) {
             TileElectricTurbine tileTurbine = (TileElectricTurbine) tileEntity;
 
-            // TODO: Need to sync this between client and server in order for clients to be updated as well.
-            if (!world.isRemote) {
-                return tileTurbine.getMultiBlock().toggleConstruct();
+            if (player.isSneaking()) {
+                // TODO: Need to sync this between client and server in order for clients to be updated as well.
+                if (!world.isRemote) {
+                    return tileTurbine.getMultiBlock().toggleConstruct();
+                }
             }
-
-            return true;
         }
 
         return false;
@@ -69,7 +64,7 @@ public class BlockElectricTurbine extends BlockRotatable {
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return BlockRenderingHandler.getId();
+        return BlockRenderingHandler.getInstance().getRenderId();
     }
 
     @Override

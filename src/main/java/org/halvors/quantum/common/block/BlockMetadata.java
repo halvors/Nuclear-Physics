@@ -2,7 +2,7 @@ package org.halvors.quantum.common.block;
 
 import net.minecraft.block.material.Material;
 
-public abstract class BlockMetadata extends Block {
+public abstract class BlockMetadata extends BlockTextured {
     protected BlockMetadata(String name, Material material) {
         super(name, material);
     }

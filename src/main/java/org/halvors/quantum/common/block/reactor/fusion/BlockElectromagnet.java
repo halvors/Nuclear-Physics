@@ -2,7 +2,7 @@ package org.halvors.quantum.common.block.reactor.fusion;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,31 +12,25 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
+import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.quantum.client.render.BlockRenderingHandler;
+import org.halvors.quantum.client.render.ConnectedTextureRenderer;
+import org.halvors.quantum.client.render.IBlockCustomRender;
+import org.halvors.quantum.client.render.ISimpleBlockRenderer;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
-import org.halvors.quantum.lib.render.BlockRenderingHandler;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 
-public class BlockElectromagnet extends BlockContainer {
+public class BlockElectromagnet extends BlockTextured implements IBlockCustomRender {
     private static IIcon iconTop, iconGlass;
 
     public BlockElectromagnet() {
-        super(Material.iron);
+        super("electromagnet", Material.iron);
 
-        setUnlocalizedName("electromagnet");
-        setTextureName(Reference.PREFIX + "electromagnet");
-        setCreativeTab(Quantum.getCreativeTab());
         setResistance(20);
-
-        //itemBlock = ItemBlockMetadata.class;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube() {
-        return false;
     }
 
     @Override
@@ -63,18 +57,37 @@ public class BlockElectromagnet extends BlockContainer {
     }
 
     @Override
-    public boolean shouldSideBeRendered(IBlockAccess access, int x, int y, int z, int side) {
-        return true;
+    @SideOnly(Side.CLIENT)
+    public int getRenderType() {
+        return BlockRenderingHandler.getInstance().getRenderId();
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public int getRenderBlockPass() {
         return 0;
     }
 
     @Override
-    public int getRenderType() {
-        return BlockRenderingHandler.getId();
+    @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean shouldSideBeRendered(IBlockAccess access, int x, int y, int z, int side) {
+        Vector3 neighborPosition = new Vector3(x, y, z).translate(ForgeDirection.getOrientation(side).getOpposite());
+        Block block = access.getBlock(x, y, z);
+        int metadata = access.getBlockMetadata(x, y, z);
+        Block neighborBlock = neighborPosition.getBlock(access);
+        int neighborMetadata = neighborPosition.getBlockMetadata(access);
+
+        // Transparent electromagnetic glass.
+        if (block == this && neighborBlock == this && metadata == 1 && neighborMetadata == 1) {
+            return false;
+        }
+
+        return super.shouldSideBeRendered(access, x, y, z, side);
     }
 
     @Override
@@ -90,15 +103,13 @@ public class BlockElectromagnet extends BlockContainer {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public ISimpleBlockRenderer getRenderer() {
+        return new ConnectedTextureRenderer(this, Reference.PREFIX + "atomic_edge");
+    }
+
+    @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileElectromagnet();
     }
-
-    /*
-    @Override
-    @SideOnly(Side.CLIENT)
-    protected TileRender newRenderer() {
-        return new ConnectedTextureRenderer(this, Reference.PREFIX + "atomic_edge");
-    }
-    */
 }

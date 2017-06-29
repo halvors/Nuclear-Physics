@@ -4,10 +4,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
+import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.machine.ContainerChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
-import org.halvors.quantum.lib.gui.GuiContainerBase;
-import universalelectricity.api.energy.UnitDisplay;
+import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
 public class GuiChemicalExtractor extends GuiContainerBase {
@@ -66,7 +66,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
         drawSlot(79, 49, SlotType.BATTERY);
         drawSlot(52, 24);
         drawSlot(106, 24);
-        drawBar(75, 24, (float) tile.time / (float) TileChemicalExtractor.tickTime);
+        drawBar(75, 24, (float) tile.timer / (float) TileChemicalExtractor.tickTime);
         drawMeter(8, 18, (float) tile.inputTank.getFluidAmount() / (float) tile.inputTank.getCapacity(), tile.inputTank.getFluid());
         drawSlot(24, 18, SlotType.LIQUID);
         drawSlot(24, 49, SlotType.LIQUID);

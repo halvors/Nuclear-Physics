@@ -10,7 +10,7 @@ import net.minecraft.event.ClickEvent.Action;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.*;
 import org.halvors.quantum.common.ConfigurationManager.General;
-import org.halvors.quantum.common.base.IUpdatableMod;
+import org.halvors.quantum.common.IUpdatableMod;
 
 public class UpdateManager {
     private static final ChatStyle description = new ChatStyle();

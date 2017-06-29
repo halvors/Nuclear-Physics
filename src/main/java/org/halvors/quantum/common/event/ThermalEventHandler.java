@@ -9,18 +9,20 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.block.IElectromagnet;
+import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
+import org.halvors.quantum.common.grid.UpdateTicker;
+import org.halvors.quantum.common.thermal.IBoilHandler;
+import org.halvors.quantum.common.thermal.ThermalPhysics;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.transform.vector.VectorWorld;
-import org.halvors.quantum.lib.grid.UpdateTicker;
-import org.halvors.quantum.lib.thermal.IBoilHandler;
-import universalelectricity.api.net.IUpdate;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
+import org.halvors.quantum.common.grid.IUpdate;
 
 public class ThermalEventHandler {
     @SubscribeEvent
@@ -98,29 +100,54 @@ public class ThermalEventHandler {
         // TODO: Synchronized maybe not reqiured for all the following code?
         synchronized (world) {
             if (block.getMaterial() == Material.air) {
-                event.heatLoss = 0.15f;
+                event.heatLoss = 0.15F;
             }
 
             if (block == Blocks.water || block == Blocks.flowing_water) {
-                if (event.temperature >= 373) {
-                    if (FluidRegistry.getFluid("steam") != null) {
+                if (event.temperature >= ThermalPhysics.waterBoilTemperature) {
+                    Fluid fluidSteam = FluidRegistry.getFluid("steam");
+
+                    if (fluidSteam != null) {
                         // TODO: INCORRECT!
                         int steamMultiplier = 1; // Add this as configuration option?
-                        int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.temperature / 373) * steamMultiplier);
+                        int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.temperature / ThermalPhysics.waterBoilTemperature) * steamMultiplier);
 
-                        MinecraftForge.EVENT_BUS.post(new BoilEvent(position.world, position, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(FluidRegistry.getFluid("steam"), volume), 2, event.isReactor));
+                        MinecraftForge.EVENT_BUS.post(new BoilEvent(world, position, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(fluidSteam, volume), 2, event.isReactor));
                     }
 
-                    event.heatLoss = 0.2f;
+                    event.heatLoss = 0.2F;
                 }
             }
 
-            if (block == Blocks.ice) {
-                if (event.temperature >= 273) {
+            if (block == Blocks.ice || block == Blocks.packed_ice) {
+                if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override
                         public void update() {
                             position.setBlock(Blocks.flowing_water);
+                        }
+
+                        @Override
+                        public boolean canUpdate() {
+                            return true;
+                        }
+
+                        @Override
+                        public boolean continueUpdate() {
+                            return false;
+                        }
+                    });
+                }
+
+                event.heatLoss = 0.4F;
+            }
+
+            if (block == Blocks.snow || block == Blocks.snow_layer) {
+                if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
+                    UpdateTicker.addNetwork(new IUpdate() {
+                        @Override
+                        public void update() {
+                            position.setBlock(Blocks.air);
                         }
 
                         @Override

@@ -5,14 +5,14 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.container.ContainerQuantum;
+import org.halvors.quantum.common.container.slot.SlotEnergyItem;
+import org.halvors.quantum.common.container.slot.SlotSpecific;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
-import org.halvors.quantum.lib.container.ContainerBase;
-import org.halvors.quantum.lib.container.slot.SlotEnergyItem;
-import org.halvors.quantum.lib.container.slot.SlotSpecific;
 
-public class ContainerChemicalExtractor extends ContainerBase {
+public class ContainerChemicalExtractor extends ContainerQuantum {
     public ContainerChemicalExtractor(InventoryPlayer inventoryPlayer, TileChemicalExtractor tile) {
-        super(tile);
+        super(inventoryPlayer, tile);
 
         // Battery
         addSlotToContainer(new SlotEnergyItem(tile, 0, 80, 50));

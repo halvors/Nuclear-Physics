@@ -14,29 +14,27 @@ import java.util.Random;
 @SideOnly(Side.CLIENT)
 public class RenderParticle extends Render {
     @Override
-    public void doRender(Entity entity, double x, double y, double z, float f1, float f2) {
+    public void doRender(Entity entity, double x, double y, double z, float f, float partialTick) {
         Tessellator tessellator = Tessellator.instance;
+        float age = entity.ticksExisted;
 
-        /** Enderdragon Light */
-        float par2 = (entity.ticksExisted);
-
-        while (par2 > 200) {
-            par2 -= 100;
+        while (age > 200) {
+            age -= 100;
         }
 
         RenderHelper.disableStandardItemLighting();
-        float var41 = (5 + par2) / 200.0F;
-        float var51 = 0.0F;
+        float var41 = (5 + age) / 200;
+        float var51 = 0;
 
-        if (var41 > 0.8F) {
+        if (var41 > 0.8) {
             var51 = (var41 - 0.8F) / 0.2F;
         }
 
-        Random rand = new Random(432L);
+        Random rand = new Random(432);
 
         GL11.glPushMatrix();
-        GL11.glTranslated(x, y, z);
-        GL11.glScalef(0.15F, 0.15F, 0.15F);
+        GL11.glTranslated(x, y, z + 0.3);
+        GL11.glScaled(0.15, 0.15, 0.15);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glShadeModel(GL11.GL_SMOOTH);
         GL11.glEnable(GL11.GL_BLEND);
@@ -45,25 +43,25 @@ public class RenderParticle extends Render {
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glDepthMask(false);
         GL11.glPushMatrix();
-        GL11.glTranslatef(0.0F, -1.0F, -2.0F);
+        GL11.glTranslatef(0, -1, -2);
 
-        for (int i1 = 0; i1 < (var41 + var41 * var41) / 2.0F * 60.0F; ++i1) {
-            GL11.glRotatef(rand.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(rand.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(rand.nextFloat() * 360.0F, 0.0F, 0.0F, 1.0F);
-            GL11.glRotatef(rand.nextFloat() * 360.0F, 1.0F, 0.0F, 0.0F);
-            GL11.glRotatef(rand.nextFloat() * 360.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(rand.nextFloat() * 360.0F + var41 * 90.0F, 0.0F, 0.0F, 1.0F);
+        for (int i1 = 0; i1 < (var41 + var41 * var41) / 2 * 60; ++i1) {
+            GL11.glRotated(rand.nextFloat() * 360, 1, 0, 0);
+            GL11.glRotated(rand.nextFloat() * 360, 0, 1, 0);
+            GL11.glRotated(rand.nextFloat() * 360, 0, 0, 1);
+            GL11.glRotated(rand.nextFloat() * 360, 1, 0, 0);
+            GL11.glRotated(rand.nextFloat() * 360, 0, 1, 0);
+            GL11.glRotated(rand.nextFloat() * 360 + var41 * 90, 0, 0, 1);
             tessellator.startDrawing(6);
-            float var81 = rand.nextFloat() * 20.0F + 5.0F + var51 * 10.0F;
-            float var91 = rand.nextFloat() * 2.0F + 1.0F + var51 * 2.0F;
-            tessellator.setColorRGBA_I(16777215, (int) (255.0F * (1.0F - var51)));
-            tessellator.addVertex(0.0D, 0.0D, 0.0D);
+            float var81 = rand.nextFloat() * 20 + 5 + var51 * 10;
+            float var91 = rand.nextFloat() * 2 + 1 + var51 * 2;
+            tessellator.setColorRGBA_I(16777215, (int) (255 * (1 - var51)));
+            tessellator.addVertex(0, 0, 0);
             tessellator.setColorRGBA_I(0, 0);
-            tessellator.addVertex(-0.866D * var91, var81, -0.5F * var91);
-            tessellator.addVertex(0.866D * var91, var81, -0.5F * var91);
-            tessellator.addVertex(0.0D, var81, 1.0F * var91);
-            tessellator.addVertex(-0.866D * var91, var81, -0.5F * var91);
+            tessellator.addVertex(-0.866 * var91, var81, -0.5 * var91);
+            tessellator.addVertex(0.866 * var91, var81, -0.5 * var91);
+            tessellator.addVertex(0, var81, 1 * var91);
+            tessellator.addVertex(-0.866 * var91, var81, -0.5 * var91);
             tessellator.draw();
         }
 
@@ -72,7 +70,7 @@ public class RenderParticle extends Render {
         GL11.glDisable(GL11.GL_CULL_FACE);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glShadeModel(GL11.GL_FLAT);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f(1, 1, 1, 1);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         RenderHelper.enableStandardItemLighting();

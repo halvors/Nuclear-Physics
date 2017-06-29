@@ -6,16 +6,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
-import org.halvors.quantum.lib.prefab.block.BlockRotatable;
 
 public class BlockAccelerator extends BlockRotatable {
     public BlockAccelerator() {
-        super(Material.iron);
+        super("accelerator", Material.iron);
 
-        setUnlocalizedName("accelerator");
         setTextureName(Reference.PREFIX + "accelerator");
-        setCreativeTab(Quantum.getCreativeTab());
     }
 
     @Override

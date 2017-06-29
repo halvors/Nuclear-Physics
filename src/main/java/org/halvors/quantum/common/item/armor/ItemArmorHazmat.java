@@ -1,5 +1,6 @@
 package org.halvors.quantum.common.item.armor;
 
+import org.halvors.quantum.api.item.armor.IAntiPoisonArmor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemArmor;
@@ -8,7 +9,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
 import org.halvors.quantum.common.Reference;
 
-public class ItemArmorHazmat extends ItemQuantumArmor implements IAntiPoisonArmor {
+public class ItemArmorHazmat extends ItemArmorQuantum implements IAntiPoisonArmor {
     public static final ItemArmor.ArmorMaterial hazmatArmorMaterial = EnumHelper.addArmorMaterial("HAZMAT", 0, new int[] { 0, 0, 0, 0 }, 0);
 
     public ItemArmorHazmat(String name, int slot) {

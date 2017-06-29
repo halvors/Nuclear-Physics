@@ -2,8 +2,8 @@ package org.halvors.quantum.common.multiblock;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.utility.nbt.ISaveObject;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.api.nbt.ISaveObject;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;
@@ -23,8 +23,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     protected Class<? extends W> wrapperClass;
 
     public MultiBlockHandler(W wrapper) {
-        this.self = wrapper;
-
+        self = wrapper;
         wrapperClass = (Class<? extends W>) wrapper.getClass();
     }
 
@@ -47,18 +46,15 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
      *
      * @return True if operation is successful. */
     public boolean toggleConstruct() {
-        if (!construct()) {
-            return deconstruct();
-        }
+        return construct() || deconstruct();
 
-        return true;
     }
 
     /** Gets the structure blocks of the multiblock.
      *
      * @return Null if structure cannot be created. */
     public Set<W> getStructure() {
-        Set<W> structure = new LinkedHashSet<W>();
+        Set<W> structure = new LinkedHashSet<>();
         Vector3[] vectors = self.getMultiBlockVectors();
 
         for (Vector3 vector : vectors) {

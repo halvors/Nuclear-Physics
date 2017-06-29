@@ -11,15 +11,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
-import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 import java.util.Random;
 
-public class BlockRadioactive extends net.minecraft.block.Block {
+public class BlockRadioactive extends BlockTextured {
     protected static boolean canSpread;
     protected static float radius;
     protected static int amplifier;
@@ -28,11 +26,8 @@ public class BlockRadioactive extends net.minecraft.block.Block {
     protected static boolean spawnParticle;
 
     public BlockRadioactive(String name) {
-        super(Material.rock);
+        super(name, Material.rock);
 
-        setUnlocalizedName(name);
-        setTextureName(Reference.PREFIX + name);
-        setCreativeTab(Quantum.getCreativeTab());
         setTickRandomly(true);
     }
 

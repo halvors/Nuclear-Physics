@@ -1,27 +1,24 @@
 package org.halvors.quantum.common.block.reactor.fission;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
-import org.halvors.quantum.common.utility.MachineUtils;
+import org.halvors.quantum.common.utility.WrenchUtility;
 
-public class BlockSiren extends BlockContainer {
+public class BlockSiren extends BlockTextured {
     public BlockSiren() {
-        super(Material.iron);
+        super("siren", Material.iron);
 
-        setUnlocalizedName("siren");
-        setTextureName(Reference.PREFIX + "siren");
         setCreativeTab(Quantum.getCreativeTab());
     }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
-        if (MachineUtils.hasUsableWrench(player, x, y, z)) {
+        if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
             int metadata = world.getBlockMetadata(x, y, z);
 
             if (player.isSneaking()) {
@@ -41,7 +38,7 @@ public class BlockSiren extends BlockContainer {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileSiren();
     }
 }

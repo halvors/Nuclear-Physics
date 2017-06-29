@@ -4,21 +4,22 @@ import cofh.api.energy.EnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
+import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
-import org.halvors.quantum.common.network.NetworkHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.tile.TileElectricStorage;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.lib.thermal.IBoilHandler;
+import org.halvors.quantum.common.thermal.IBoilHandler;
+import org.halvors.quantum.common.tile.TileElectric;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -31,7 +32,7 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
-public class TileElectricTurbine extends TileElectricStorage implements IMultiBlockStructure<TileElectricTurbine>, ITileNetworkable, IBoilHandler {
+public class TileElectricTurbine extends TileElectric implements IMultiBlockStructure<TileElectricTurbine>, ITileNetwork, IBoilHandler {
     // Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
     //protected final int energyPerSteam = 2647600 / 1000;
     protected final int energyPerSteam = 52000;
@@ -91,7 +92,7 @@ public class TileElectricTurbine extends TileElectricStorage implements IMultiBl
                 angularVelocity = (power * 4) / torque;
 
                 if (worldObj.getWorldTime() % 3 == 0 && previousAngularVelocity != angularVelocity) {
-                    NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                     previousAngularVelocity = angularVelocity;
                 }
 
@@ -106,7 +107,7 @@ public class TileElectricTurbine extends TileElectricStorage implements IMultiBl
                     double maxVelocity = (getMaxPower() / torque) * 4;
                     float percentage = angularVelocity * 4 / (float) maxVelocity;
 
-                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "electricTurbine", percentage, 1);
+                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.electricTurbine", percentage, 1);
                 }
 
                 // Update rotation.
@@ -184,7 +185,7 @@ public class TileElectricTurbine extends TileElectricStorage implements IMultiBl
 
     @Override
     public void onMultiBlockChanged() {
-        worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType(), 0);
+        worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType() != null ? getBlockType() : Blocks.air, 0);
         worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 

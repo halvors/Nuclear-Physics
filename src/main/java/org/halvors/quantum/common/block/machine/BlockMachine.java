@@ -7,17 +7,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.lib.prefab.block.BlockRotatable;
-import org.halvors.quantum.lib.render.BlockRenderingHandler;
+import org.halvors.quantum.common.block.BlockRotatable;
 
 public class BlockMachine extends BlockRotatable {
     public BlockMachine(String name) {
-        super(Material.iron);
+        super(name, Material.iron);
 
-        setUnlocalizedName(name);
         setTextureName(Reference.PREFIX + "machine");
-        setCreativeTab(Quantum.getCreativeTab());
     }
 
     @Override
@@ -32,7 +30,7 @@ public class BlockMachine extends BlockRotatable {
 
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
-        return BlockRenderingHandler.getId();
+        return BlockRenderingHandler.getInstance().getRenderId();
     }
 
     @Override

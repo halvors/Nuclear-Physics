@@ -2,7 +2,6 @@ package org.halvors.quantum.common.block.reactor.fusion;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -11,20 +10,15 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.quantum.common.transform.vector.Cuboid;
+import org.halvors.quantum.common.utility.transform.vector.Cuboid;
 
 import java.util.ArrayList;
 
-public class BlockPlasma extends BlockContainer {
+public class BlockPlasma extends BlockTextured {
     public BlockPlasma() {
-        super(Material.lava);
-
-        setUnlocalizedName("plasma");
-        setTextureName(Reference.PREFIX + "plasma");
-        setCreativeTab(Quantum.getCreativeTab());
+        super("plasma", Material.lava);
     }
 
     @Override

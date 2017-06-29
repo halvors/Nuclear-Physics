@@ -8,17 +8,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.apache.commons.lang3.ArrayUtils;
-import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
-import org.halvors.quantum.lib.render.RenderUtility;
+import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderElectricTurbine extends TileEntitySpecialRenderer {
-    private static final IModelCustom modelSmall = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/electricTurbineSmall.obj"));
-    private static final IModelCustom modelLarge = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.PREFIX + "models/electricTurbineLarge.obj"));
-    private static final ResourceLocation textureSmall = new ResourceLocation(Reference.PREFIX + "textures/models/electricTurbineSmall.png");
-    private static final ResourceLocation textureLarge = new ResourceLocation(Reference.PREFIX + "textures/models/electricTurbineLarge.png");
+    private static final IModelCustom modelSmall = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "electricTurbineSmall.obj"));
+    private static final IModelCustom modelLarge = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "electricTurbineLarge.obj"));
+    private static final ResourceLocation textureSmall = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electricTurbineSmall.png");
+    private static final ResourceLocation textureLarge = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electricTurbineLarge.png");
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
@@ -27,7 +28,7 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
 
             if (tileTurbine.getMultiBlock().isPrimary()) {
                 GL11.glPushMatrix();
-                GL11.glTranslated(x + 0.5F, y, z + 0.5F);
+                GL11.glTranslated(x + 0.5, y, z + 0.5);
 
                 if (tileTurbine.getMultiBlock().isConstructed()) {
                     RenderUtility.bind(textureLarge);
@@ -49,7 +50,7 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
 
                     modelLarge.renderAllExcept(ArrayUtils.addAll(ArrayUtils.addAll(blades, mediumBlades), largeBlades));
                 } else {
-                    GL11.glScalef(1.0F, 1.1F, 1.0F);
+                    GL11.glScaled(1, 1.1, 1);
                     RenderUtility.bind(textureSmall);
 
                     String[] blades = {"Blade1", "Blade2", "Blade3"};

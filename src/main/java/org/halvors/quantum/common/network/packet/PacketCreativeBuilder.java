@@ -8,10 +8,10 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.common.network.NetworkHandler;
-import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.common.network.PacketHandler;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.location.Location;
-import org.halvors.quantum.lib.type.Pair;
+import org.halvors.quantum.common.utility.type.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +51,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
         @Override
         public IMessage onMessage(PacketCreativeBuilder message, MessageContext messageContext) {
             Location location = message.getLocation();
-            World world = NetworkHandler.getWorld(messageContext);
+            World world = PacketHandler.getWorld(messageContext);
 
             if (!world.isRemote) {
                 // TODO: Only allow operators.

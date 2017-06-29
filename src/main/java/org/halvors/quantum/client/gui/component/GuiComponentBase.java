@@ -6,8 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import org.halvors.quantum.client.gui.IGui;
-import org.halvors.quantum.common.base.ResourceType;
-import org.halvors.quantum.common.utility.ResourceUtils;
+import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public abstract class GuiComponentBase implements IGuiComponent {
 	final IGui gui;
 
 	GuiComponentBase(String texture, IGui gui, ResourceLocation defaultResource) {
-		this.resource = ResourceUtils.getResource(ResourceType.GUI_COMPONENT, texture);
+		this.resource = ResourceUtility.getResource(ResourceType.GUI_COMPONENT, texture);
 		this.gui = gui;
 		this.defaultResource = defaultResource;
 	}

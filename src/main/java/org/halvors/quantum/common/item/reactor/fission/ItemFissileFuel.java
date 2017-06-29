@@ -12,9 +12,9 @@ import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.item.ItemRadioactive;
-import org.halvors.quantum.common.tile.reactor.fission.IReactor;
-import org.halvors.quantum.common.tile.reactor.fission.IReactorComponent;
-import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.api.tile.IReactor;
+import org.halvors.quantum.api.item.IReactorComponent;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
     public static final long energyPerTick = energyDensity / 50000;
 
     public ItemFissileFuel() {
-        super("rodFissileFuel");
+        super("fissileFuel");
 
         setMaxStackSize(1);
         setMaxDurability(decay);

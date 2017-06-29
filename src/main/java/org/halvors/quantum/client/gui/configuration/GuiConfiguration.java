@@ -12,7 +12,6 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.gui.configuration.category.CategoryEntryClient;
 import org.halvors.quantum.client.gui.configuration.category.CategoryEntryGeneral;
 import org.halvors.quantum.client.gui.configuration.category.CategoryEntryIntegration;
-import org.halvors.quantum.client.gui.configuration.category.CategoryEntryMachine;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.utility.LanguageUtility;
@@ -26,7 +25,6 @@ public class GuiConfiguration extends GuiConfig {
 
     static {
         register(Configuration.CATEGORY_GENERAL, CategoryEntryGeneral.class);
-        register(ConfigurationManager.CATEGORY_MACHINE, CategoryEntryMachine.class);
         register(ConfigurationManager.CATEGORY_INTEGRATION, CategoryEntryIntegration.class);
         register(ConfigurationManager.CATEGORY_CLIENT, CategoryEntryClient.class);
     }

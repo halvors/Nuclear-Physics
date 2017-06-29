@@ -15,7 +15,8 @@ buildscript {
     }
 }
 
-apply plugin: 'idea'
+apply plugin: "forge"
+apply plugin: "idea"
 
 idea {
     module {
@@ -23,8 +24,6 @@ idea {
         inheritOutputDirs = true
     }
 }
-
-apply plugin: "forge"
 
 // Define properties file
 ext.configFile = file "build.properties"

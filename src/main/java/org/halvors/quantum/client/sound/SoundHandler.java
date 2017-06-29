@@ -5,8 +5,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import org.halvors.quantum.common.base.ResourceType;
-import org.halvors.quantum.common.utility.ResourceUtils;
+import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.type.ResourceType;
 
 @SideOnly(Side.CLIENT)
 public class SoundHandler {
@@ -17,7 +17,7 @@ public class SoundHandler {
 	}
 
 	public static void playSound(String sound) {
-		playSound(PositionedSoundRecord.createPositionedSoundRecord(ResourceUtils.getResource(ResourceType.SOUND, sound), 1));
+		playSound(PositionedSoundRecord.createPositionedSoundRecord(ResourceUtility.getResource(ResourceType.SOUND, sound), 1));
 	}
 }
 

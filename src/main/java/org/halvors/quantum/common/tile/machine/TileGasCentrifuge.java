@@ -11,17 +11,17 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.base.tile.ITileNetworkable;
-import org.halvors.quantum.common.network.NetworkHandler;
+import org.halvors.quantum.common.tile.ITileNetwork;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileElectricInventory;
-import org.halvors.quantum.common.transform.vector.Vector3;
-import org.halvors.quantum.common.transform.vector.VectorHelper;
-import org.halvors.quantum.lib.IRotatable;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.VectorHelper;
+import org.halvors.quantum.common.tile.ITileRotatable;
 
 import java.util.List;
 
-public class TileGasCentrifuge extends TileElectricInventory implements ITileNetworkable, IFluidHandler, ISidedInventory, IRotatable, IEnergyReceiver {
+public class TileGasCentrifuge extends TileElectricInventory implements ITileNetwork, IFluidHandler, ISidedInventory, ITileRotatable, IEnergyReceiver {
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 
@@ -31,8 +31,9 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
     public float rotation = 0;
 
     public TileGasCentrifuge() {
+        super(4);
+
         energyStorage = new EnergyStorage(energy * 2);
-        maxSlots = 4;
     }
 
     @Override
@@ -88,13 +89,17 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
                     }
 
                     energyStorage.extractEnergy(energy, false);
+                } else {
+                    timer = 0;
                 }
             } else {
                 timer = 0;
             }
 
             if (worldObj.getWorldTime() % 10 == 0) {
-                NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+                if (!worldObj.isRemote) {
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+                }
             }
         }
     }
@@ -132,7 +137,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
             timer = dataStream.readInt();
 
             if (dataStream.readBoolean()) {
-                gasTank.setFluid(FluidStack.loadFluidStackFromNBT(NetworkHandler.readNBTTag(dataStream)));
+                gasTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
             }
         }
     }
@@ -176,7 +181,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
     @Override
     public void openChest() {
         if (!worldObj.isRemote) {
-            NetworkHandler.sendToReceivers(new PacketTileEntity(this), this);
+            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
     }
 

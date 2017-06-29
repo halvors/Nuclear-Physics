@@ -22,6 +22,10 @@ public abstract class TileProcess extends TileElectricInventory {
 
     protected String machineName;
 
+    public TileProcess(int maxSlots) {
+        super(maxSlots);
+    }
+
     @Override
     public void updateEntity() {
         super.updateEntity();

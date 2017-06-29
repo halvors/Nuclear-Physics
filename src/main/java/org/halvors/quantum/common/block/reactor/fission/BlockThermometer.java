@@ -5,16 +5,22 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.BlockRotatable;
+import org.halvors.quantum.common.item.block.ItemBlockSaved;
+import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
-import org.halvors.quantum.lib.prefab.block.BlockRotatable;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.InventoryUtility;
+import org.halvors.quantum.common.utility.WrenchUtility;
 
 import java.util.ArrayList;
 
@@ -22,16 +28,14 @@ public class BlockThermometer extends BlockRotatable {
     private static IIcon iconSide;
 
     public BlockThermometer() {
-        super(Material.piston);
+        super("thermometer", Material.piston);
 
-        setUnlocalizedName("thermometer");
         setTextureName(Reference.PREFIX + "thermometer");
-        setCreativeTab(Quantum.getCreativeTab());
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean renderAsNormalBlock(){
+    public boolean renderAsNormalBlock() {
         return false;
     }
 
@@ -51,40 +55,55 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
-        // TODO: Do this when using wrench.
-        /*
-        if (player.isSneaking()) {
-            tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
-        } else {
-            tileThermometer.setThreshold(tileThermometer.getThershold() + 10);
-        }
+        TileEntity tile = world.getTileEntity(x, y, z);
 
-        return true;
-        */
+        if (tile instanceof TileThermometer) {
+            TileThermometer tileThermometer = (TileThermometer) tile;
 
-        if (!player.isSneaking()) {
-            TileEntity tile = world.getTileEntity(x, y, z);
-
-            if (tile instanceof TileThermometer) {
-                TileThermometer tileThermometer = (TileThermometer) tile;
-
+            if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
                 if (player.isSneaking()) {
-                    tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
+                    tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
                 } else {
-                    tileThermometer.setThreshold(tileThermometer.getThershold() - 100);
+                    tileThermometer.setThreshold(tileThermometer.getThershold() + 10);
                 }
 
                 return true;
             }
+
+            if (player.isSneaking()) {
+                tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
+            } else {
+                tileThermometer.setThreshold(tileThermometer.getThershold() - 100);
+            }
+
+            return true;
         }
 
         return false;
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
-        //ItemStack stack = ItemBlockSaved.getItemStackWithNBT(block, world, x, y, z);
-        //InventoryUtility.dropItemStack(world, center(), stack);
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
+        TileEntity tile = world.getTileEntity(x, y, z);
+
+        // Fetch saved coordinates from ItemBlockThermometer and apply them to the block.
+        if (tile instanceof TileThermometer) {
+            TileThermometer tileThermometer = (TileThermometer) tile;
+            ItemBlockThermometer itemBlockThermometer = (ItemBlockThermometer) itemStack.getItem();
+            tileThermometer.setTrackCoordinate(itemBlockThermometer.getSavedCoord(itemStack));
+        }
+    }
+
+    @Override
+    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
+        Block block = world.getBlock(x, y, z);
+
+        if (!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
+            ItemStack stack = ItemBlockSaved.getItemStackWithNBT(block, world, x, y, z);
+            InventoryUtility.dropItemStack(world, new Vector3(x, y, z), stack);
+        }
+
+        return world.setBlockToAir(x, y, z);
     }
 
     @Override
@@ -111,7 +130,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return new TileThermometer();
     }
 }

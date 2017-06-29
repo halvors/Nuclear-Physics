@@ -4,7 +4,7 @@ import net.minecraft.entity.EntityLivingBase;
 import org.halvors.quantum.common.effect.damage.CustomDamageSource;
 import org.halvors.quantum.common.effect.potion.CustomPotionEffect;
 import org.halvors.quantum.common.effect.potion.PotionRadiation;
-import org.halvors.quantum.common.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 public class PoisonRadiation extends Poison {
     public static final Poison INSTANCE = new PoisonRadiation("radiation");
