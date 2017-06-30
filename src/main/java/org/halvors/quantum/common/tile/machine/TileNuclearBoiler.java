@@ -146,11 +146,11 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
         if (dataStream.readBoolean()) {
-            waterTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
+            waterTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
         }
 
         if (dataStream.readBoolean()) {
-            gasTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
+            gasTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
         }
 
         timer = dataStream.readInt();
@@ -226,14 +226,14 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.getID() == FluidRegistry.WATER.getID();
+        return fluid.equals(FluidRegistry.WATER);
     }
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
         //return fluid.getID() == Quantum.fluidUraniumHexaflouride.getID();
 
-        return gasTank.getFluid() != null && fluid.getID() == gasTank.getFluid().getFluidID();
+        return gasTank.getFluid() != null && fluid.equals(gasTank.getFluid());
     }
 
     @Override

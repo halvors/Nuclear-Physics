@@ -26,7 +26,7 @@ public class ContainerBase extends Container {
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {
         ItemStack itemstack = null;
-        Slot slot = (Slot) inventorySlots.get(slotId);
+        Slot slot = inventorySlots.get(slotId);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack slot_stack = slot.getStack();

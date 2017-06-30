@@ -8,8 +8,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.api.explotion.ExplosionEvent;
-import org.halvors.quantum.api.explotion.IExplosion;
+import org.halvors.quantum.api.explosion.ExplosionEvent;
+import org.halvors.quantum.api.explosion.IExplosion;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.effect.explosion.AntimatterExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
@@ -27,7 +27,7 @@ public class ExplosionEventHandler {
                 EntityItem entityItem = event.getEntityItem();
 
                 if (itemStack.getItem() == Quantum.itemAntimatter) {
-                    event.getEntityItem().getEntityWorld().playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, Reference.PREFIX + "antimatter", 3F, 1F - entityItem.getEntityWorld().rand.nextFloat() * 0.3F);
+                    //event.getEntityItem().getEntityWorld().playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, Reference.PREFIX + "antimatter", 3F, 1F - entityItem.getEntityWorld().rand.nextFloat() * 0.3F);
 
                     if (!entityItem.getEntityWorld().isRemote) {
                         //if (!FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(event.entityItem.worldObj, Atomic.BAN_ANTIMATTER_POWER, "true", new Vector3(event.entityItem))) {
@@ -37,7 +37,7 @@ public class ExplosionEventHandler {
                             Quantum.getLogger().info("Antimatter cell detonated at: " + entityItem.posX + ", " + entityItem.posY + ", " + entityItem.posZ);
 
                             int radius = 20;
-                            AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(entityItem.posX - radius, entityItem.posY - radius, entityItem.posZ - radius, entityItem.posX + radius, entityItem.posY + radius, entityItem.posZ + radius);
+                            AxisAlignedBB bounds = new AxisAlignedBB(entityItem.posX - radius, entityItem.posY - radius, entityItem.posZ - radius, entityItem.posX + radius, entityItem.posY + radius, entityItem.posZ + radius);
                             List<EntityLiving> entitiesNearby = entityItem.getEntityWorld().getEntitiesWithinAABB(EntityLiving.class, bounds);
 
                             for (EntityLiving entity : entitiesNearby) {

@@ -134,11 +134,11 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
             timer = dataStream.readInt();
 
             if (dataStream.readBoolean()) {
-                inputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
+                inputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
             }
 
             if (dataStream.readBoolean()) {
-                outputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
+                outputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
             }
         }
     }
@@ -284,7 +284,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
                 }
 
                 if (inputTank.getFluid().equals(Quantum.fluidStackWater) && inputTank.getFluid().amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
-                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(Quantum.fluidDeuterium) {
+                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(Quantum.fluidDeuterium)) {
                         return true;
                     }
                 }

@@ -1,5 +1,7 @@
 package org.halvors.quantum.common.block;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,9 +33,9 @@ public class BlockUraniumOre extends BlockRadioactive {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
         if (ConfigurationManager.General.allowRadioactiveOres) {
-            super.randomDisplayTick(world, x, y, z, random);
+            super.randomDisplayTick(state, world, pos, random);
         }
     }
 

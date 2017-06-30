@@ -303,7 +303,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
             temperature = dataStream.readFloat();
 
             if (dataStream.readBoolean()) {
-                tank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
+                tank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
             }
         }
     }

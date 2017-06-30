@@ -20,7 +20,7 @@ import org.halvors.quantum.client.gui.machine.GuiQuantumAssembler;
 import org.halvors.quantum.client.gui.particle.GuiAccelerator;
 import org.halvors.quantum.client.gui.reactor.fission.GuiReactorCell;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
-import org.halvors.quantum.client.render.machine.RenderCentrifuge;
+import org.halvors.quantum.client.render.machine.RenderGasCentrifuge;
 import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
 import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
 import org.halvors.quantum.client.render.machine.RenderQuantumAssembler;
@@ -60,7 +60,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         // Register special renderer.
         ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
         ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderCentrifuge());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderGasCentrifuge());
         ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
         ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());

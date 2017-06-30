@@ -3,7 +3,7 @@ package org.halvors.quantum.common.container.machine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
+import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.container.ContainerQuantum;
@@ -27,10 +27,11 @@ public class ContainerGasCentrifuge extends ContainerQuantum {
         addSlotToContainer(new Slot(tile, 1, 25, 50));
 
         // Output Uranium 235
-        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 2, 81, 26));
+        addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 2, 81, 26));
 
         // Output Uranium 238
-        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 3, 101, 26));
+        addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 3, 101, 26));
+
         addPlayerInventory(inventoryPlayer.player);
         tile.openChest();
     }

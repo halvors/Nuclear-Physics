@@ -37,7 +37,7 @@ public abstract class BlockRotatable extends BlockQuantum implements IRotatableB
 
     public int determineOrientation(World world, int x, int y, int z, EntityLivingBase entity) {
         if (MathHelper.abs((float) entity.posX - x) < 2 && MathHelper.abs((float) entity.posZ - z) < 2) {
-            double d0 = entity.posY + 1.82D - entity.yOffset;
+            double d0 = entity.posY + 1.82D - entity.getYOffset();
 
             if (canRotate(1) && (d0 - y > 2)) {
                 return 1;
@@ -52,7 +52,9 @@ public abstract class BlockRotatable extends BlockQuantum implements IRotatableB
         int returnSide = playerSide == 3 && canRotate(4) ? 4 : playerSide == 2 && canRotate(3) ? 3 : playerSide == 1 && canRotate(5) ? 5 : playerSide == 0 && canRotate(2) ? 2 : 0;
 
         if (isFlipPlacement) {
-            return EnumFacing.getOrientation(returnSide).getOpposite().ordinal();
+            // TODO: Proper replacement in 1.10.2?
+            //return EnumFacing.getOrientation(returnSide).getOpposite().ordinal();
+            return EnumFacing.getFront(returnSide).getOpposite().ordinal();
         }
 
         return returnSide;
@@ -79,8 +81,8 @@ public abstract class BlockRotatable extends BlockQuantum implements IRotatableB
     }
 
     @Override
-    public ForgeDirection getDirection(World world, int x, int y, int z) {
-        return ForgeDirection.getOrientation(world.getBlockMetadata(x, y, z));
+    public EnumFacing getDirection(World world, int x, int y, int z) {
+        return EnumFacing.getOrientation(world.getBlockMetadata(x, y, z));
     }
 
     @Override

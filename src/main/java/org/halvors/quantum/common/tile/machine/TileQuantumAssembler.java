@@ -3,6 +3,8 @@ package org.halvors.quantum.common.tile.machine;
 import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -156,9 +158,9 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITick
     }
 
     @Override
-    public void openChest() {
+    public void openInventory(EntityPlayer player) {
         if (!world.isRemote) {
-            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            Quantum.getPacketHandler().sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
         }
     }
 

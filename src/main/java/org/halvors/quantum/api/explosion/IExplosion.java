@@ -1,4 +1,4 @@
-package org.halvors.quantum.api.explotion;
+package org.halvors.quantum.api.explosion;
 
 /** The actual explosion interface. Extends Explosion.java.
  *

@@ -1,13 +1,11 @@
-package org.halvors.quantum.api.explotion;
+package org.halvors.quantum.api.explosion;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.IModelCustom;
+import net.minecraftforge.client.model.IModel;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.api.ITier;
 
 /** An interface used to find various types of explosive's information.
@@ -49,7 +47,7 @@ public interface IExplosive extends ITier {
     ModelBase getBlockModel();
 
     @SideOnly(Side.CLIENT)
-    IModelCustom getMissileModel();
+    IModel getMissileModel();
 
     @SideOnly(Side.CLIENT)
     ResourceLocation getBlockResource();

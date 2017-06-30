@@ -74,8 +74,8 @@ public class GuiReactorCell extends GuiContainerBase {
             GL11.glPushMatrix();
             GL11.glTranslatef(68 * 2, 0, 0);
             GL11.glScalef(0.5F, 1, 1);
-            float ticksLeft = (tile.getStackInSlot(0).getMaxDurability() - tile.getStackInSlot(0).getMetadata());
-            drawElectricity(70, 70, ticksLeft / tile.getStackInSlot(0).getMaxDurability());
+            float ticksLeft = (tile.getStackInSlot(0).getMaxDamage() - tile.getStackInSlot(0).getMetadata());
+            drawElectricity(70, 70, ticksLeft / tile.getStackInSlot(0).getMaxDamage());
             GL11.glPopMatrix();
         }
     }

@@ -5,7 +5,10 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.util.Constants;
+
+import javax.annotation.Nullable;
 
 public class TileInventory extends TileQuantum implements ISidedInventory {
     private ItemStack[] inventory;
@@ -58,7 +61,7 @@ public class TileInventory extends TileQuantum implements ISidedInventory {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int[] getSlotsForFace(int side) {
+    public int[] getSlotsForFace(EnumFacing side) {
         if (openSlots == null || openSlots.length != getSizeInventory()) {
             openSlots = new int[getSizeInventory()];
 
@@ -71,12 +74,12 @@ public class TileInventory extends TileQuantum implements ISidedInventory {
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack itemstack, int side) {
-        return isItemValidForSlot(index, itemstack);
+    public boolean canInsertItem(int index, ItemStack itemStack, EnumFacing direction) {
+        return isItemValidForSlot(index, itemStack);
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack itemstack, int side) {
+    public boolean canExtractItem(int index, ItemStack itemStack, EnumFacing direction) {
         return true;
     }
 
@@ -87,11 +90,13 @@ public class TileInventory extends TileQuantum implements ISidedInventory {
         return inventory.length;
     }
 
+    @Nullable
     @Override
-    public ItemStack getStackInSlot(int slot) {
-        return inventory[slot];
+    public ItemStack getStackInSlot(int index) {
+        return inventory[index];
     }
 
+    @Nullable
     @Override
     public ItemStack decrStackSize(int index, int count) {
         if (getStackInSlot(index) != null) {
@@ -115,20 +120,14 @@ public class TileInventory extends TileQuantum implements ISidedInventory {
         return null;
     }
 
+    @Nullable
     @Override
-    public ItemStack getStackInSlotOnClosing(int index) {
-        if (getStackInSlot(index) != null) {
-            ItemStack tempStack = getStackInSlot(index);
-            setInventorySlotContents(index, null);
-
-            return tempStack;
-        }
-
+    public ItemStack removeStackFromSlot(int index) {
         return null;
     }
 
     @Override
-    public void setInventorySlotContents(int index, ItemStack itemStack) {
+    public void setInventorySlotContents(int index, @Nullable ItemStack itemStack) {
         inventory[index] = itemStack;
 
         if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
@@ -139,38 +138,60 @@ public class TileInventory extends TileQuantum implements ISidedInventory {
     }
 
     @Override
-    public String getInventoryName() {
-        return getBlockType().getLocalizedName();
-    }
-
-    @Override
-    public boolean isCustomInventoryName() {
-        return true;
-    }
-
-    @Override
     public int getInventoryStackLimit() {
         return 64;
     }
 
     @Override
     public boolean isUsableByPlayer(EntityPlayer player) {
-        return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
+        return player.getDistanceSq(pos.add(0.5, 0.5, 0.5)) <= 64;
     }
 
     @Override
-    public void openChest() {
+    public void openInventory(EntityPlayer player) {
 
     }
 
     @Override
-    public void closeChest() {
+    public void closeInventory(EntityPlayer player) {
 
     }
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
         return index < getSizeInventory();
+    }
+
+    @Override
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public String getName() {
+        return blockType.getLocalizedName();
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

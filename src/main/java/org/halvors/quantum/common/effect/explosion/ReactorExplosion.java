@@ -3,21 +3,24 @@ package org.halvors.quantum.common.effect.explosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.utility.location.Chunk;
 
+import java.util.List;
 import java.util.Random;
 
 public class ReactorExplosion extends Explosion {
     private Random explosionRAND = new Random();
     private World world;
 
-    public ReactorExplosion(World world, Entity entity, double x, double y, double z, float f) {
-        super(world, entity, x, y, z, f);
+    public ReactorExplosion(World world, Entity entity, BlockPos pos, float size) {
+        super(world, entity, pos.getX(), pos.getY(), pos.getZ(), size, true, false);
 
         this.world = world;
-        this.isFlaming = true;
     }
 
     public void explode() {
@@ -29,7 +32,8 @@ public class ReactorExplosion extends Explosion {
     public void doExplosionB(boolean flag) {
         super.doExplosionB(flag);
 
-        for (Object affectedBlockPosition : affectedBlockPositions) {
+        for (BlockPos affectedBlockPosition : getAffectedBlockPositions()) {
+            //ChunkPos chunkPosition = new ChunkPos(affectedBlockPosition);
             ChunkPosition chunkPosition = (ChunkPosition) affectedBlockPosition;
             int x = chunkPosition.chunkPosX;
             int y = chunkPosition.chunkPosY;

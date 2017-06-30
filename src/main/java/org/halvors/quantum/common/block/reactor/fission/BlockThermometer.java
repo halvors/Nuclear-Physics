@@ -1,17 +1,16 @@
 package org.halvors.quantum.common.block.reactor.fission;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.item.block.ItemBlockSaved;
@@ -27,7 +26,7 @@ public class BlockThermometer extends BlockRotatable {
     private static IIcon iconSide;
 
     public BlockThermometer() {
-        super("thermometer", Material.piston);
+        super("thermometer", Material.PISTON);
 
         setTextureName(Reference.PREFIX + "thermometer");
     }
@@ -106,7 +105,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public boolean canProvidePower() {
+    public boolean canProvidePower(IBlockState state) {
         return true;
     }
 

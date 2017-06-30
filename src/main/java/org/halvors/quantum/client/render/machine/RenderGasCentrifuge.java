@@ -13,31 +13,27 @@ import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
-public class RenderCentrifuge extends TileEntitySpecialRenderer {
+public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentrifuge> {
     private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "centrifuge.obj"));
     private static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "centrifuge.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTick) {
-        if (tile instanceof TileGasCentrifuge) {
-            TileGasCentrifuge tileGasCentrifuge = (TileGasCentrifuge) tile;
+    public void renderTileEntityAt(TileGasCentrifuge tile, double x, double y, double z, float partialTicks, int destroyStage) {
+        GL11.glPushMatrix();
+        GL11.glTranslated(x + 0.5, y, z + 0.5);
 
-            GL11.glPushMatrix();
-            GL11.glTranslated(x + 0.5, y, z + 0.5);
-
-            if (tileGasCentrifuge.getWorld() != null) {
-                RenderUtility.rotateBlockBasedOnDirection(tileGasCentrifuge.getDirection());
-            }
-
-            RenderUtility.bind(texture);
-
-            GL11.glPushMatrix();
-            GL11.glRotated(Math.toDegrees(tileGasCentrifuge.rotation), 0, 1, 0);
-            model.renderOnly("C", "JROT", "KROT", "LROT", "MROT");
-            GL11.glPopMatrix();
-
-            model.renderAllExcept("C", "JROT", "KROT", "LROT", "MROT");
-            GL11.glPopMatrix();
+        if (tile.getWorld() != null) {
+            RenderUtility.rotateBlockBasedOnDirection(tile.getDirection());
         }
+
+        RenderUtility.bind(texture);
+
+        GL11.glPushMatrix();
+        GL11.glRotated(Math.toDegrees(tile.rotation), 0, 1, 0);
+        model.renderOnly("C", "JROT", "KROT", "LROT", "MROT");
+        GL11.glPopMatrix();
+
+        model.renderAllExcept("C", "JROT", "KROT", "LROT", "MROT");
+        GL11.glPopMatrix();
     }
 }

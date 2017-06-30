@@ -44,8 +44,8 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITickabl
 
         if (!world.isRemote) {
             if (world.getWorldTime() % 20 == 0) {
-                for (int i = 0; i < 6; i++) {
-                    EnumFacing direction = EnumFacing.getOrientation(i);
+                for (int side = 0; side < 6; side++) {
+                    EnumFacing direction = EnumFacing.getOrientation(side);
                     TileEntity tileEntity = VectorHelper.getTileEntityFromSide(world, new Vector3(this), direction);
 
                     if (tileEntity instanceof IFluidHandler && tileEntity.getClass() != getClass()) {

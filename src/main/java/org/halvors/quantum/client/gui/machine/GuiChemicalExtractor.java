@@ -1,7 +1,7 @@
 package org.halvors.quantum.client.gui.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
@@ -31,7 +31,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
         fontRendererObj.drawString("uranium, deuterium and tritium.", 8, 85, 4210752);
         fontRendererObj.drawString("Place them in the input slot.", 8, 95, 4210752);
 
-        fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
+        fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.inputTank.getFluid() != null) {
             if (tile.inputTank.getFluid() != null) {

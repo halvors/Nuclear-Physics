@@ -5,6 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
@@ -19,7 +20,7 @@ import java.util.Random;
 
 public class BlockToxicWaste extends BlockFluidClassic {
     public BlockToxicWaste() {
-        super(Quantum.fluidToxicWaste, Material.water);
+        super(Quantum.fluidToxicWaste, Material.WATER);
 
         setUnlocalizedName("toxicWaste");
         setTextureName(Reference.PREFIX + "toxicWaste");
@@ -41,11 +42,11 @@ public class BlockToxicWaste extends BlockFluidClassic {
         super.randomDisplayTick(state, world, pos, random);
 
         if (random.nextInt(100) == 0) {
-            world.spawnParticle("suspended", pos.getX() + random.nextFloat(), pos.getY() + maxY, pos.getZ() + random.nextFloat(), 0, 0, 0);
+            world.spawnParticle(EnumParticleTypes.SUSPENDED, pos.getX() + random.nextFloat(), pos.getY() + maxY, pos.getZ() + random.nextFloat(), 0, 0, 0);
         }
 
         if (random.nextInt(200) == 0) {
-            world.playSound(x, y, z, "liquid.lava", 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
+            //world.playSound(x, y, z, "liquid.lava", 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
         }
     }
 }

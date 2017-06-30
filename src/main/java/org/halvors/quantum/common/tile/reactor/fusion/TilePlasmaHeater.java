@@ -94,15 +94,15 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITickable
     public void handlePacketData(ByteBuf dataStream) throws Exception {
         if (world.isRemote) {
             if (dataStream.readBoolean()) {
-                tankInputDeuterium.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
+                tankInputDeuterium.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
             }
 
             if (dataStream.readBoolean()) {
-                tankInputTritium.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
+                tankInputTritium.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
             }
 
             if (dataStream.readBoolean()) {
-                tankOutput.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
+                tankOutput.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
             }
         }
     }

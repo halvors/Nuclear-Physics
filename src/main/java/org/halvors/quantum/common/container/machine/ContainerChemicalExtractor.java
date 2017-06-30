@@ -2,7 +2,7 @@ package org.halvors.quantum.common.container.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
+import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.container.ContainerQuantum;
@@ -21,7 +21,7 @@ public class ContainerChemicalExtractor extends ContainerQuantum {
         addSlotToContainer(new SlotSpecific(tile, 1, 53, 25, new ItemStack(Quantum.blockUraniumOre)));
 
         // Process Output
-        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 2, 107, 25));
+        addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 2, 107, 25));
 
         // Fluid input fill
         addSlotToContainer(new Slot(tile, 3, 25, 19));

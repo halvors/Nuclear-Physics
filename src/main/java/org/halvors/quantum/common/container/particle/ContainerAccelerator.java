@@ -3,6 +3,7 @@ package org.halvors.quantum.common.container.particle;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.container.ContainerQuantum;
@@ -21,8 +22,8 @@ public class ContainerAccelerator extends ContainerQuantum {
         addSlotToContainer(new Slot(tile, 1, 132, 51));
 
         // Output
-        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 2, 132, 75));
-        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 3, 106, 75));
+        addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 2, 132, 75));
+        addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 3, 106, 75));
         addPlayerInventory(inventoryPlayer.player);
     }
 

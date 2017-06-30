@@ -92,7 +92,7 @@ public class ThermalEventHandler {
     public void onThermalUpdateEvent(ThermalUpdateEvent event) {
         final VectorWorld position = event.position;
         final World world = position.getWorld();
-        Block block = position.getBlockS();
+        Block block = position.getBlock();
 
         if (block == Quantum.blockElectromagnet) {
             event.heatLoss = event.deltaTemperature * 0.6F;
@@ -100,7 +100,7 @@ public class ThermalEventHandler {
 
         // TODO: Synchronized maybe not reqiured for all the following code?
         synchronized (world) {
-            if (block.getMaterial() == Material.AIR) {
+            if (block.getDefaultState().getMaterial().equals(Material.AIR)) {
                 event.heatLoss = 0.15F;
             }
 

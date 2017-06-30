@@ -186,7 +186,7 @@ public class RenderUtility {
     }
 
     public static void renderText(String text, int side, float maxScale, double x, double y, double z) {
-        renderText(text, ForgeDirection.getOrientation(side), maxScale, x, y, z);
+        renderText(text, EnumFacing.getOrientation(side), maxScale, x, y, z);
     }
 
     public static void renderText(String text, EnumFacing side, float maxScale, double x, double y, double z) {

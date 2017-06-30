@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.ConfigurationManager;
@@ -59,7 +60,7 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
             outputAntimatter();
 
             // Check if redstone signal is currently being applied.
-            if (world.isBlockIndirectlyGettingPowered(pos)) {
+            if (world.isBlockIndirectlyGettingPowered(pos) > 0) {
                 //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
@@ -187,18 +188,18 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int[] getSlotsForFace(int side) {
+    public int[] getSlotsForFace(EnumFacing side) {
         return new int[] { 0, 1, 2, 3 };
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack itemStack, int side) {
-        return isItemValidForSlot(index, itemStack) && index != 2 && index != 3;
+    public boolean canInsertItem(int index, ItemStack itemStack, EnumFacing direction) {
+        return isItemValidForSlot(index, itemStack) && index != 2 && index != 3; // TODO: Convert int to enum.
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack itemStack, int side) {
-        return index == 2 || index == 3;
+    public boolean canExtractItem(int index, ItemStack itemStack, EnumFacing direction) {
+        return index == 2 || index == 3; // TODO: Convert int to enum.
     }
 
     @Override
@@ -297,7 +298,7 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
 
             if (potentialBlock != null) {
                 // Prevent negative numbers and disallow zero for density multiplier.
-                acceleratorAntimatterDensityMultiplyer = (int) potentialBlock.getBlockHardness(world, 0, 0, 0) * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+                acceleratorAntimatterDensityMultiplyer = (int) potentialBlock.getDefaultState().getBlockHardness(world, new BlockPos(0, 0, 0)) * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
 
                 if (acceleratorAntimatterDensityMultiplyer <= 0) {
                     acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
