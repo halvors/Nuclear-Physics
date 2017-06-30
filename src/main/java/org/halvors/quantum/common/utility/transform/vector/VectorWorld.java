@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
@@ -47,13 +46,6 @@ public class VectorWorld extends Vector3 implements IVectorWorld {
         this.world = world;
     }
 
-    public VectorWorld(World world, MovingObjectPosition pos) {
-        this.x = pos.blockX;
-        this.y = pos.blockY;
-        this.z = pos.blockZ;
-        this.world = world;
-    }
-
     @Override
     public World getWorld() {
         return world;
@@ -90,20 +82,6 @@ public class VectorWorld extends Vector3 implements IVectorWorld {
         return super.getBlock(world);
     }
 
-    public boolean setBlock(Block block, int metadata, int notify) {
-        return super.setBlock(this.world, block, metadata, notify);
-    }
-
-    public boolean setBlock(Block block, int metadata)
-    {
-        return setBlock(block, metadata, 3);
-    }
-
-    public boolean setBlock(Block block)
-    {
-        return setBlock(block, 0);
-    }
-
     public List<Entity> getEntitiesWithin(Class<? extends Entity> par1Class) {
         return super.getEntitiesWithin(this.world, par1Class);
     }
@@ -113,21 +91,7 @@ public class VectorWorld extends Vector3 implements IVectorWorld {
     }
 
     public static VectorWorld fromCenter(TileEntity e) {
-        return new VectorWorld(e.getWorld(), e.xCoord + 0.5D, e.yCoord + 0.5D, e.zCoord + 0.5D);
-    }
-
-    public MovingObjectPosition rayTraceEntities(VectorWorld target) {
-        return super.rayTraceEntities(target.getWorld(), target);
-    }
-
-    public MovingObjectPosition rayTraceEntities(Entity target)
-    {
-        return super.rayTraceEntities(this.world, target);
-    }
-
-    public MovingObjectPosition rayTraceEntities(Vector3 target)
-    {
-        return super.rayTraceEntities(this.world, target);
+        return new VectorWorld(e.getWorld(), e.getPos().getX() + 0.5D, e.getPos().getY() + 0.5D, e.getPos().getZ() + 0.5D);
     }
 
     public boolean equals(Object o) {

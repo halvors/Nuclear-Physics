@@ -1,11 +1,14 @@
 package org.halvors.quantum.common.block.reactor.fusion;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,6 +18,7 @@ import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Cuboid;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BlockPlasma extends BlockTextured {
     public BlockPlasma() {
@@ -23,37 +27,39 @@ public class BlockPlasma extends BlockTextured {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
+    /*
     @Override
     public int getRenderBlockPass() {
         return 1;
     }
+    */
 
     @Override
-    public int getLightValue(IBlockAccess access, int x, int y, int z) {
+    public int getLightValue(IBlockState state, IBlockAccess access, BlockPos pos) {
         return 7;
     }
 
     @Override
-    public boolean isBlockSolid(IBlockAccess access, int x, int y, int z, int side) {
+    public boolean isBlockSolid(IBlockAccess access, BlockPos pos, EnumFacing side) {
         return false;
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World world, BlockPos pos) {
         return new Cuboid().toAABB();
     }
 
     @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         return new ArrayList<>();
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
         entity.attackEntityFrom(DamageSource.inFire, 100);
     }
 

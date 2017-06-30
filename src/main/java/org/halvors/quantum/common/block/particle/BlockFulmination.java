@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
 import org.halvors.quantum.client.render.ISimpleBlockRenderer;
@@ -22,11 +21,20 @@ public class BlockFulmination extends BlockTextured implements IBlockCustomRende
         setResistance(25000);
     }
 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderBlockPass() {
         return 0;
     }
+
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getRenderType() {
+        return BlockRenderingHandler.getInstance().getRenderId();
+    }
+    */
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -34,11 +42,6 @@ public class BlockFulmination extends BlockTextured implements IBlockCustomRende
         return false;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getRenderType() {
-        return BlockRenderingHandler.getInstance().getRenderId();
-    }
 
     @Override
     @SideOnly(Side.CLIENT)

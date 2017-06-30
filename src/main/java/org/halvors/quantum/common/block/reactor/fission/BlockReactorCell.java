@@ -1,19 +1,18 @@
 package org.halvors.quantum.common.block.reactor.fission;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.item.IReactorComponent;
-import org.halvors.quantum.client.render.BlockRenderingHandler;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.InventoryUtility;
@@ -23,34 +22,38 @@ public class BlockReactorCell extends BlockRotatable {
     public BlockReactorCell() {
         super("reactorCell", Material.IRON);
 
-        setTextureName(Reference.PREFIX + "machine");
+        //setTextureName(Reference.PREFIX + "machine");
         setHardness(1.0F);
         setResistance(1.0F);
     }
 
+    /*
     @Override
     public boolean renderAsNormalBlock() {
         return false;
     }
+    */
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
+    /*
     @SideOnly(Side.CLIENT)
     public int getRenderType() {
         return BlockRenderingHandler.getInstance().getRenderId();
     }
+    */
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
-        TileReactorCell tile = (TileReactorCell) world.getTileEntity(x, y, z);
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+        TileReactorCell tile = (TileReactorCell) world.getTileEntity(pos);
 
         if (player.inventory.getCurrentItem() != null) {
             if (tile.getStackInSlot(0) == null) {
                 if (player.inventory.getCurrentItem().getItem() instanceof IReactorComponent) {
-                    ItemStack itemStack = player.inventory.getCurrentItem().copy();
+                    //ItemStack itemStack = player.inventory.getCurrentItem().copy();
                     itemStack.stackSize = 1;
                     tile.setInventorySlotContents(0, itemStack);
                     player.inventory.decrStackSize(player.inventory.currentItem, 1);
@@ -73,8 +76,8 @@ public class BlockReactorCell extends BlockRotatable {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
-        TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entityLiving, ItemStack itemStack) {
+        TileEntity tileEntity = world.getTileEntity(pos);
 
         if (tileEntity instanceof TileReactorCell) {
             ((TileReactorCell) tileEntity).updatePositionStatus();
@@ -82,8 +85,8 @@ public class BlockReactorCell extends BlockRotatable {
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-        TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
+    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighborPos) {
+        TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileReactorCell) {
             ((TileReactorCell) tile).updatePositionStatus();

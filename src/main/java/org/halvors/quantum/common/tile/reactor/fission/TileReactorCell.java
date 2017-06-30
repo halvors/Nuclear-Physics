@@ -20,6 +20,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.item.IReactorComponent;
+import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.event.PlasmaEvent;
@@ -29,6 +30,7 @@ import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.thermal.ThermalGrid;
 import org.halvors.quantum.common.thermal.ThermalPhysics;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileInventory;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
@@ -37,7 +39,7 @@ import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileReactorCell extends TileInventory implements ITickable, IMultiBlockStructure<TileReactorCell> ITileNetwork, IFluidHandler, IReactor {
+public class TileReactorCell extends TileInventory implements ITickable, IMultiBlockStructure<TileReactorCell>, ITileNetwork, IFluidHandler, IReactor {
     public static final int radius = 2;
     public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;
@@ -95,7 +97,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
             FluidStack drain = tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false);
 
             if (drain != null && drain.amount >= FluidContainerRegistry.BUCKET_VOLUME) {
-                EnumFacing spawnDir = EnumFacing.getOrientation(world.rand.nextInt(3) + 2);
+                EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
                 Vector3 spawnPos = new Vector3(this).translate(spawnDir, 2);
                 spawnPos.translate(0, Math.max(world.rand.nextInt(getHeight()) - 1, 0), 0);
 
@@ -142,7 +144,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
 
                 // Check control rods.
                 for (int side = 2; side < 6; side++) {
-                    Vector3 checkAdjacent = new Vector3(this).translate(EnumFacing.getOrientation(side));
+                    Vector3 checkAdjacent = new Vector3(this).translate(EnumFacing.getFront(side));
 
                     if (checkAdjacent.getBlock(world) == Quantum.blockControlRod) {
                         deltaT /= 1.1;
@@ -383,11 +385,6 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public String getInventoryName() {
-        return getBlockType().getLocalizedName();
-    }
-
-    @Override
     public int getInventoryStackLimit() {
         return 1;
     }
@@ -407,7 +404,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
     }
 
     @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+    public boolean canInsertItem(int slot, ItemStack itemStack, EnumFacing side) {
         return isItemValidForSlot(slot, itemStack);
     }
 
@@ -454,6 +451,8 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
         boolean top = new Vector3(this).add(new Vector3(0, 1, 0)).getTileEntity(world) instanceof TileReactorCell;
         boolean bottom = new Vector3(this).add(new Vector3(0, -1, 0)).getTileEntity(world) instanceof TileReactorCell;
 
+        // TODO: Sort this out.
+        /*
         if (top && bottom) {
             world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 3);
         } else if (top) {
@@ -461,6 +460,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
         } else {
             world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 2, 3);
         }
+        */
     }
 
     private void meltDown() {

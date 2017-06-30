@@ -44,8 +44,8 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
         World world = tileEntity.getWorld();
         int reactors = 0;
 
-        for (int i = 0; i < 6; i++) {
-            Vector3 checkPos = new Vector3(tileEntity).translate(EnumFacing.getOrientation(i));
+        for (int side = 0; side < 6; side++) {
+            Vector3 checkPos = new Vector3(tileEntity).translate(EnumFacing.getFront(side));
             TileEntity tile = checkPos.getTileEntity(world);
 
             // Check that the other reactors not only exist but also are running.
@@ -69,7 +69,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
 
             // Consume fuel.
             if (reactor.getWorldObject().getWorldTime() % 20 == 0) {
-                itemStack.setItemDamage(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDamage());
+                itemStack.setItemDamage(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDamage()));
             }
 
             // Create toxic waste.
@@ -77,7 +77,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
                 FluidStack fluid = Quantum.fluidStackToxicWaste.copy();
                 fluid.amount = 1;
 
-                reactor.fill(EnumFacing.UNKNOWN, fluid, true);
+                reactor.fill(null, fluid, true);
             }
         }
     }

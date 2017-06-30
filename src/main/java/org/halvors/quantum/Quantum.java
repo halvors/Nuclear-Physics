@@ -3,15 +3,14 @@ package org.halvors.quantum;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -19,20 +18,15 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.*;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
@@ -90,7 +84,8 @@ import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
-import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
+import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.type.ResourceType;
 
 import java.util.List;
 
@@ -130,12 +125,12 @@ public class Quantum implements IUpdatableMod {
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
 
 	// Fluids
-	public static final Fluid fluidDeuterium = new Fluid("deuterium").setGaseous(true);
-	public static final Fluid fluidUraniumHexaflouride = new Fluid("uraniumHexafluoride").setGaseous(true);
-	public static final Fluid fluidPlasma = new Fluid("plasma").setGaseous(true);
-	public static final Fluid fluidSteam = new Fluid("steam").setGaseous(true);
-	public static final Fluid fluidTritium = new Fluid("tritium").setGaseous(true);
-	public static final Fluid fluidToxicWaste = new Fluid("toxicWaste");
+	public static final Fluid fluidDeuterium = new Fluid("deuterium", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "deuterium"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "deuterium")).setGaseous(true);
+	public static final Fluid fluidUraniumHexaflouride = new Fluid("uraniumHexafluoride", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "uraniumHexafluoride"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "uraniumHexafluoride")).setGaseous(true);
+	public static final Fluid fluidPlasma = new Fluid("plasma", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "plasma"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "plasma")).setGaseous(true);
+	public static final Fluid fluidSteam = new Fluid("steam", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "steam"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "steam")).setGaseous(true);
+	public static final Fluid fluidTritium = new Fluid("tritium", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "tritium"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "tritium")).setGaseous(true);
+	public static final Fluid fluidToxicWaste = new Fluid("toxicWaste", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "toxicWaste"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "toxicWaste"));
 
 	public static FluidStack fluidStackDeuterium;
 	public static FluidStack fluidStackUraniumHexaflouride;
@@ -391,10 +386,10 @@ public class Quantum implements IUpdatableMod {
 		itemYellowCake = new ItemRadioactive("yellowcake");
 
 		// Hazmat
-		itemHazmatMask = new ItemArmorHazmat("hazmatMask", 0);
-		itemHazmatBody = new ItemArmorHazmat("hazmatBody", 1);
-		itemHazmatLeggings = new ItemArmorHazmat("hazmatLeggings", 2);
-		itemHazmatBoots = new ItemArmorHazmat("hazmatBoots", 3);
+		itemHazmatMask = new ItemArmorHazmat("hazmatMask", EntityEquipmentSlot.HEAD);
+		itemHazmatBody = new ItemArmorHazmat("hazmatBody", EntityEquipmentSlot.CHEST);
+		itemHazmatLeggings = new ItemArmorHazmat("hazmatLeggings", EntityEquipmentSlot.LEGS);
+		itemHazmatBoots = new ItemArmorHazmat("hazmatBoots", EntityEquipmentSlot.FEET);
 
 		GameRegistry.registerItem(itemAntimatter, "itemAntimatter");
 		GameRegistry.registerItem(itemBreederFuel, "itemBreederFuel");
@@ -523,6 +518,7 @@ public class Quantum implements IUpdatableMod {
 		*/
 	}
 
+	/*
 	@SubscribeEvent
 	public void onFillBucketEvent(FillBucketEvent event) {
 		if (!event.getWorld().isRemote && event.getTarget() != null && event.getWorld().typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
@@ -561,6 +557,7 @@ public class Quantum implements IUpdatableMod {
 		fluidTritium.setIcons(RenderUtility.loadedIconMap.get(Reference.PREFIX + "tritium"));
 		fluidUraniumHexaflouride.setIcons(RenderUtility.loadedIconMap.get(Reference.PREFIX + "uraniumHexafluoride"));
 	}
+	*/
 
 	public static Quantum getInstance() {
 		return instance;

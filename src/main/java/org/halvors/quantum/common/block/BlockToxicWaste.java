@@ -12,7 +12,6 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
@@ -23,16 +22,16 @@ public class BlockToxicWaste extends BlockFluidClassic {
         super(Quantum.fluidToxicWaste, Material.WATER);
 
         setUnlocalizedName("toxicWaste");
-        setTextureName(Reference.PREFIX + "toxicWaste");
+        //setTextureName(Reference.PREFIX + "toxicWaste");
         setCreativeTab(Quantum.getCreativeTab());
         setTickRate(20);
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
         if (entity instanceof EntityLivingBase) {
             entity.attackEntityFrom(DamageSource.wither, 3);
-            PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), (EntityLivingBase) entity, 4);
+            PoisonRadiation.INSTANCE.poisonEntity(new Vector3(pos.getX(), pos.getY(), pos.getZ()), (EntityLivingBase) entity, 4);
         }
     }
 
@@ -42,7 +41,8 @@ public class BlockToxicWaste extends BlockFluidClassic {
         super.randomDisplayTick(state, world, pos, random);
 
         if (random.nextInt(100) == 0) {
-            world.spawnParticle(EnumParticleTypes.SUSPENDED, pos.getX() + random.nextFloat(), pos.getY() + maxY, pos.getZ() + random.nextFloat(), 0, 0, 0);
+            // TODO: Check if Y paramter should be pos.getY() + maxY?
+            world.spawnParticle(EnumParticleTypes.SUSPENDED, pos.getX() + random.nextFloat(), pos.getY(), pos.getZ() + random.nextFloat(), 0, 0, 0);
         }
 
         if (random.nextInt(200) == 0) {

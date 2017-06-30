@@ -7,15 +7,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.utility.LanguageUtility;
 
 import java.util.List;
 
 public class ItemAntimatter extends ItemCell {
-    @SideOnly(Side.CLIENT)
-    private IIcon iconGram;
+    //@SideOnly(Side.CLIENT)
+    //private IIcon iconGram;
 
     public ItemAntimatter() {
         super("antimatter");
@@ -28,6 +27,7 @@ public class ItemAntimatter extends ItemCell {
         return 160;
     }
 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
@@ -40,6 +40,7 @@ public class ItemAntimatter extends ItemCell {
     public IIcon getIconFromDamage(int metadata) {
         return metadata >= 1 ? iconGram : itemIcon;
     }
+    */
 
     @SuppressWarnings("unchecked")
     @Override

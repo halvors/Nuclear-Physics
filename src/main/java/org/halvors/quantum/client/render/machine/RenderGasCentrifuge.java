@@ -1,7 +1,6 @@
 package org.halvors.quantum.client.render.machine;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,6 +19,7 @@ public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentri
     @Override
     public void renderTileEntityAt(TileGasCentrifuge tile, double x, double y, double z, float partialTicks, int destroyStage) {
         GL11.glPushMatrix();
+
         GL11.glTranslated(x + 0.5, y, z + 0.5);
 
         if (tile.getWorld() != null) {

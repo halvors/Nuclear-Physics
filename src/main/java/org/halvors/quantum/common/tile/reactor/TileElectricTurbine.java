@@ -123,21 +123,23 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
 
-        tank.readFromNBT(nbt);
-        multiBlockRadius = nbt.getInteger("multiBlockRadius");
-        getMultiBlock().load(nbt);
+        tank.readFromNBT(tagCompound);
+        multiBlockRadius = tagCompound.getInteger("multiBlockRadius");
+        getMultiBlock().load(tagCompound);
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
 
-        tank.writeToNBT(nbt);
-        nbt.setInteger("multiBlockRadius", multiBlockRadius);
-        getMultiBlock().save(nbt);
+        tank.writeToNBT(tagCompound);
+        tagCompound.setInteger("multiBlockRadius", multiBlockRadius);
+        getMultiBlock().save(tagCompound);
+
+        return tagCompound;
     }
 
     @Override
@@ -267,7 +269,10 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public EnumFacing getDirection() {
-        return EnumFacing.getOrientation(getBlockMetadata());
+        // TODO: Check this, block does not actually have an orientation.
+        //return EnumFacing.getOrientation(getBlockMetadata());
+
+        return EnumFacing.NORTH;
     }
 
     private int getMaxPower() {

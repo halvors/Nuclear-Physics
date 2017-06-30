@@ -22,17 +22,12 @@ import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.thermal.IBoilHandler;
 import org.halvors.quantum.common.thermal.ThermalPhysics;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 public class ThermalEventHandler {
     @SubscribeEvent
     public void onBoilEvent(BoilEvent event) {
-        Vector3 position = event.getPosition();
-        Block block = position.getBlock(event.getWorld());
-
         for (int height = 1; height <= event.getMaxSpread(); height++) {
-            TileEntity tileEntity = event.getWorld().getTileEntity(new BlockPos(position.intX(), position.intY() + height, position.intZ()));
+            TileEntity tileEntity = event.getWorld().getTileEntity(event.getPos());
 
             if (tileEntity instanceof IBoilHandler) {
                 IBoilHandler handler = (IBoilHandler) tileEntity;
@@ -46,6 +41,8 @@ public class ThermalEventHandler {
             }
         }
 
+        Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
+
         /*
         // Reactors will not actually remove water source blocks, however weapons will.
         if ((block == Blocks.water ||block == Blocks.flowing_water) && position.getBlockMetadata(event.world) == 0 && !event.isReactor) {
@@ -58,18 +55,17 @@ public class ThermalEventHandler {
 
     @SubscribeEvent
     public void onPlasmaSpawnEvent(PlasmaEvent.PlasmaSpawnEvent event) {
-        Vector3 position = new Vector3(event.x, event.y, event.z);
-        Block block = position.getBlock(event.getWorld());
+        Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
 
         if (block != null) {
-            TileEntity tile = position.getTileEntity(event.getWorld());
+            TileEntity tile = event.getWorld().getTileEntity(event.getPos());
 
             if (block == Blocks.BEDROCK || block == Blocks.IRON_BLOCK) {
                 return;
             }
 
             if (tile instanceof TilePlasma) {
-                ((TilePlasma) tile).setTemperature(event.temperature);
+                ((TilePlasma) tile).setTemperature(event.getTemperature());
 
                 return;
             }
@@ -79,20 +75,20 @@ public class ThermalEventHandler {
             }
         }
 
-        position.setBlock(event.getWorld(), Quantum.blockPlasma);
+        event.getWorld().setBlockState(event.getPos(), Quantum.blockPlasma.getDefaultState());
 
-        TileEntity tile = position.getTileEntity(event.getWorld());
+        TileEntity tile = event.getWorld().getTileEntity(event.getPos());
 
         if (tile instanceof TilePlasma) {
-            ((TilePlasma) tile).setTemperature(event.temperature);
+            ((TilePlasma) tile).setTemperature(event.getTemperature());
         }
     }
 
     @SubscribeEvent
     public void onThermalUpdateEvent(ThermalUpdateEvent event) {
-        final VectorWorld position = event.position;
-        final World world = position.getWorld();
-        Block block = position.getBlock();
+        final BlockPos pos = event.getPos();
+        final World world = (World) event.getWorld();
+        Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
 
         if (block == Quantum.blockElectromagnet) {
             event.heatLoss = event.deltaTemperature * 0.6F;
@@ -113,7 +109,7 @@ public class ThermalEventHandler {
                         int steamMultiplier = 1; // Add this as configuration option?
                         int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.temperature / ThermalPhysics.waterBoilTemperature) * steamMultiplier);
 
-                        MinecraftForge.EVENT_BUS.post(new BoilEvent(world, position, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(fluidSteam, volume), 2, event.isReactor));
+                        MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(fluidSteam, volume), 2, event.isReactor));
                     }
 
                     event.heatLoss = 0.2F;
@@ -125,7 +121,7 @@ public class ThermalEventHandler {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override
                         public void update() {
-                            position.setBlock(Blocks.FLOWING_WATER);
+                            world.setBlockState(pos, Blocks.FLOWING_WATER.getDefaultState());
                         }
 
                         @Override
@@ -148,7 +144,7 @@ public class ThermalEventHandler {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override
                         public void update() {
-                            position.setBlock(Blocks.AIR);
+                            world.setBlockToAir(pos);
                         }
 
                         @Override

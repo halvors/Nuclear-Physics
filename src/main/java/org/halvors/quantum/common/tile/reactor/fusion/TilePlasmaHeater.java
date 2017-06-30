@@ -68,7 +68,7 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITickable
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
 
         if (tankInputDeuterium.getFluid() != null) {
@@ -88,6 +88,8 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITickable
             tankOutput.getFluid().writeToNBT(compound);
             tagCompound.setTag("tankOutput", compound);
         }
+
+        return tagCompound;
     }
 
     @Override

@@ -8,9 +8,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.utility.location.Chunk;
 
-import java.util.List;
 import java.util.Random;
 
 public class ReactorExplosion extends Explosion {
@@ -33,7 +31,9 @@ public class ReactorExplosion extends Explosion {
         super.doExplosionB(flag);
 
         for (BlockPos affectedBlockPosition : getAffectedBlockPositions()) {
-            //ChunkPos chunkPosition = new ChunkPos(affectedBlockPosition);
+            //ChunkPos chunkPos = new ChunkPos(affectedBlockPosition);
+
+            /*
             ChunkPosition chunkPosition = (ChunkPosition) affectedBlockPosition;
             int x = chunkPosition.chunkPosX;
             int y = chunkPosition.chunkPosY;
@@ -41,9 +41,10 @@ public class ReactorExplosion extends Explosion {
             Block block = world.getBlock(x, y, z);
             Block blockUnder = world.getBlock(x, y - 1, z);
 
-            if (block == Blocks.air && blockUnder.isOpaqueCube() && explosionRAND.nextInt(3) == 0) {
-                world.setBlock(x, y, z, Quantum.blockRadioactiveGrass);
+            if (block == Blocks.AIR && blockUnder.getDefaultState().isOpaqueCube() && explosionRAND.nextInt(3) == 0) {
+                world.setBlockState(pos, Quantum.blockRadioactiveGrass.getDefaultState());
             }
+            */
         }
     }
 }

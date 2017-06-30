@@ -16,14 +16,13 @@ import org.halvors.quantum.common.item.particle.ItemAntimatter;
 import org.halvors.quantum.common.item.particle.ItemDarkmatter;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.ITileRotatable;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 
-public class TileAccelerator extends TileElectricInventory implements ITickable, ITileNetwork, IElectromagnet, ITileRotatable {
+public class TileAccelerator extends TileElectricInventory implements ITickable, ITileNetwork, IElectromagnet {
     // Energy required per ticks.
     public int acceleratorEnergyCostPerTick = ConfigurationManager.General.acceleratorEnergyCostPerTick;
 
@@ -66,14 +65,14 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
                         if (getStackInSlot(0) != null && lastSpawnTick >= 40) {
                             Vector3 spawnAcceleratedParticle = new Vector3(this);
-                            spawnAcceleratedParticle.translate(getDirection().getOpposite());
+                            spawnAcceleratedParticle.translate(EnumFacing.NORTH); //getDirection().getOpposite());
                             spawnAcceleratedParticle.translate(0.5F);
 
                             // Only render the particle if container within the proper environment for it.
                             if (EntityParticle.canSpawnParticle(world, spawnAcceleratedParticle)) {
                                 // Spawn the particle.
                                 totalEnergyConsumed = 0;
-                                entityParticle = new EntityParticle(world, spawnAcceleratedParticle, new Vector3(this), getDirection().getOpposite());
+                                entityParticle = new EntityParticle(world, spawnAcceleratedParticle, new Vector3(this), EnumFacing.NORTH); //getDirection().getOpposite());
                                 world.spawnEntity(entityParticle);
 
                                 // Grabs input block hardness if available, otherwise defaults are used.
@@ -149,11 +148,13 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
 
         tagCompound.setFloat("totalEnergyConsumed", totalEnergyConsumed);
         tagCompound.setInteger("antimatter", antimatter);
+
+        return tagCompound;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -244,6 +245,7 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /*
     @Override
     public EnumFacing getDirection() {
         return EnumFacing.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
@@ -253,6 +255,7 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
     public void setDirection(EnumFacing direction) {
         world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

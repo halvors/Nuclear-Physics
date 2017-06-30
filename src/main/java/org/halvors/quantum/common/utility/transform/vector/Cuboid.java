@@ -38,12 +38,8 @@ public class Cuboid {
         this(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ);
     }
 
-    public Cuboid(Block block) {
-        this(block.getBlockBoundsMinX(), block.getBlockBoundsMinY(), block.getBlockBoundsMinZ(), block.getBlockBoundsMaxX(), block.getBlockBoundsMaxY(), block.getBlockBoundsMaxZ());
-    }
-
     public AxisAlignedBB toAABB() {
-        return AxisAlignedBB.getBoundingBox(this.min.x, this.min.y, this.min.z, this.max.x, this.max.y, this.max.z);
+        return new AxisAlignedBB(this.min.x, this.min.y, this.min.z, this.max.x, this.max.y, this.max.z);
     }
 
     public static Cuboid full() {
@@ -71,21 +67,6 @@ public class Cuboid {
         this.max.rotate(angle);
 
         return this;
-    }
-
-    public Cuboid setBounds(Block block) {
-        block.setBlockBounds((float)this.min.x, (float)this.min.y, (float)this.min.z, (float)this.max.x, (float)this.max.y, (float)this.max.z);
-        return this;
-    }
-
-    @Deprecated
-    public boolean isIn(Vector3 point) {
-        return intersects(point);
-    }
-
-    @Deprecated
-    public boolean isIn(Cuboid other) {
-        return (other.max.z > this.min.z) && (other.min.z < this.max.z);
     }
 
     public boolean intersects(Vector3 point) {

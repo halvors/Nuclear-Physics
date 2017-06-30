@@ -7,6 +7,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.utility.transform.rotation.EulerAngle;
@@ -47,22 +49,12 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
 
     public Vector3(TileEntity par1)
     {
-        this(par1.xCoord, par1.yCoord, par1.zCoord);
+        this(par1.getPos().getX(), par1.getPos().getY(), par1.getPos().getZ());
     }
 
-    public Vector3(Vec3 par1)
+    public Vector3(Vec3d par1)
     {
         this(par1.xCoord, par1.yCoord, par1.zCoord);
-    }
-
-    public Vector3(MovingObjectPosition par1)
-    {
-        this(par1.blockX, par1.blockY, par1.blockZ);
-    }
-
-    public Vector3(ChunkCoordinates par1)
-    {
-        this(par1.posX, par1.posY, par1.posZ);
     }
 
     public Vector3(EnumFacing direction)
@@ -90,7 +82,7 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
     }
 
     public static Vector3 fromCenter(TileEntity e) {
-        return new Vector3(e.xCoord + 0.5D, e.yCoord + 0.5D, e.zCoord + 0.5D);
+        return new Vector3(e.getPos().getX() + 0.5D, e.getPos().getY() + 0.5D, e.getPos().getZ() + 0.5D);
     }
 
     @Override
@@ -142,33 +134,12 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
         return new Vector3(x, y, z);
     }
 
-    public Block getBlock(IBlockAccess world)
-    {
-        return world == null ? null : world.getBlock(intX(), intY(), intZ());
+    public Block getBlock(IBlockAccess world) {
+        return world == null ? null : world.getBlockState(new BlockPos(intX(), intY(), intZ())).getBlock();
     }
 
-    public int getBlockMetadata(IBlockAccess world)
-    {
-        return world.getBlockMetadata(intX(), intY(), intZ());
-    }
-
-    public TileEntity getTileEntity(IBlockAccess world)
-    {
-        return world.getTileEntity(intX(), intY(), intZ());
-    }
-
-    public boolean setBlock(World world, Block block, int metadata, int notify) {
-        return world.setBlock(intX(), intY(), intZ(), block, metadata, notify);
-    }
-
-    public boolean setBlock(World world, Block block, int metadata)
-    {
-        return setBlock(world, block, metadata, 3);
-    }
-
-    public boolean setBlock(World world, Block block)
-    {
-        return setBlock(world, block, 0);
+    public TileEntity getTileEntity(IBlockAccess world) {
+        return world.getTileEntity(new BlockPos(intX(), intY(), intZ()));
     }
 
     public Vector2 toVector2()
@@ -176,9 +147,8 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
         return new Vector2(this.x, this.z);
     }
 
-    public Vec3 toVec3()
-    {
-        return Vec3.createVectorHelper(this.x, this.y, this.z);
+    public Vec3d toVec3() {
+        return new Vec3d(this.x, this.y, this.z);
     }
 
     public EulerAngle toAngle() {
@@ -425,7 +395,7 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
     }
 
     public List<Entity> getEntitiesWithin(World worldObj, Class<? extends Entity> par1Class) {
-        return worldObj.getEntitiesWithinAABB(par1Class, AxisAlignedBB.getBoundingBox(intX(), intY(), intZ(), intX() + 1, intY() + 1, intZ() + 1));
+        return worldObj.getEntitiesWithinAABB(par1Class, new AxisAlignedBB(intX(), intY(), intZ(), intX() + 1, intY() + 1, intZ() + 1));
     }
 
     public Vector3 midPoint(Vector3 pos) {
@@ -626,96 +596,6 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
     public static Vector3 CENTER()
     {
         return new Vector3(0.5D, 0.5D, 0.5D);
-    }
-
-    public MovingObjectPosition rayTrace(World world, float rotationYaw, float rotationPitch, double reachDistance) {
-        Vector3 lookVector = getDeltaPositionFromRotation(rotationYaw, rotationPitch);
-        Vector3 reachPoint = clone().translate(lookVector.clone().scale(reachDistance));
-
-        return rayTrace(world, reachPoint);
-    }
-
-    public MovingObjectPosition rayTrace(World world, Vector3 reachPoint) {
-        MovingObjectPosition pickedBlock = rayTraceBlocks(world, reachPoint.clone());
-        MovingObjectPosition pickedEntity = rayTraceEntities(world, reachPoint.clone());
-
-        if (pickedBlock == null) {
-            return pickedEntity;
-        }
-
-        if (pickedEntity == null) {
-            return pickedBlock;
-        }
-
-        double dBlock = distance(new Vector3(pickedBlock.hitVec));
-        double dEntity = distance(new Vector3(pickedEntity.hitVec));
-
-        if (dEntity < dBlock) {
-            return pickedEntity;
-        }
-
-        return pickedBlock;
-    }
-
-    public MovingObjectPosition rayTraceBlocks(World world, Vector3 end) {
-        return world.rayTraceBlocks(toVec3(), end.toVec3());
-    }
-
-    public MovingObjectPosition rayTraceEntities(World world, float rotationYaw, float rotationPitch, double reachDistance) {
-        return rayTraceEntities(world, getDeltaPositionFromRotation(rotationYaw, rotationPitch).scale(reachDistance));
-    }
-
-    public MovingObjectPosition rayTraceEntities(World world, Vector3 target) {
-        MovingObjectPosition pickedEntity = null;
-        Vec3 startingPosition = toVec3();
-        Vec3 look = target.toVec3();
-        double reachDistance = distance(target);
-
-        double checkBorder = 1.1D * reachDistance;
-
-        AxisAlignedBB boxToScan = AxisAlignedBB.getBoundingBox(-checkBorder, -checkBorder, -checkBorder, checkBorder, checkBorder, checkBorder).offset(this.x, this.y, this.z);
-
-        List<Entity> entitiesInBounds = world.getEntitiesWithinAABB(null, boxToScan);
-        double closestEntity = reachDistance;
-
-        if ((entitiesInBounds == null) || (entitiesInBounds.isEmpty())) {
-            return null;
-        }
-
-        for (Entity possibleHits : entitiesInBounds) {
-            if ((possibleHits != null) && (possibleHits.canBeCollidedWith()) && (possibleHits.boundingBox != null)) {
-                float border = possibleHits.getCollisionBorderSize();
-                AxisAlignedBB aabb = possibleHits.boundingBox.expand(border, border, border);
-                MovingObjectPosition hitMOP = aabb.calculateIntercept(startingPosition, target.toVec3());
-
-                if (hitMOP != null) {
-                    if (aabb.isVecInside(startingPosition)) {
-                        if ((0.0D < closestEntity) || (closestEntity == 0.0D)) {
-                            pickedEntity = new MovingObjectPosition(possibleHits);
-
-                            if (pickedEntity != null) {
-                                pickedEntity.hitVec = hitMOP.hitVec;
-                                closestEntity = 0.0D;
-                            }
-                        }
-                    } else {
-                        double distance = startingPosition.distanceTo(hitMOP.hitVec);
-
-                        if ((distance < closestEntity) || (closestEntity == 0.0D)) {
-                            pickedEntity = new MovingObjectPosition(possibleHits);
-                            pickedEntity.hitVec = hitMOP.hitVec;
-                            closestEntity = distance;
-                        }
-                    }
-                }
-            }
-        }
-
-        return pickedEntity;
-    }
-
-    public MovingObjectPosition rayTraceEntities(World world, Entity target) {
-        return rayTraceEntities(world, new Vector3(target));
     }
 
     public int hashCode() {

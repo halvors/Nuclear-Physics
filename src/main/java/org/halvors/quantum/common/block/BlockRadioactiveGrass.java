@@ -1,14 +1,10 @@
 package org.halvors.quantum.common.block;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.Reference;
-
 import java.util.Random;
 
 public class BlockRadioactiveGrass extends BlockRadioactive {
-    private static IIcon iconTop;
-    private static IIcon iconBottom;
+    //private static IIcon iconTop;
+    //private static IIcon iconBottom;
 
     public BlockRadioactiveGrass() {
         super("radioactiveGrass");
@@ -23,6 +19,7 @@ public class BlockRadioactiveGrass extends BlockRadioactive {
         spawnParticle = true;
     }
 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
@@ -46,6 +43,7 @@ public class BlockRadioactiveGrass extends BlockRadioactive {
                 return blockIcon;
         }
     }
+    */
 
     @Override
     public int quantityDropped(Random random) {

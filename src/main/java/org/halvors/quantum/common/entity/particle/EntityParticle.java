@@ -8,6 +8,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -63,7 +64,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             int electromagnetCount = 0;
 
             for (int side = 0; side <= 6; side++) {
-                EnumFacing direction = EnumFacing.getOrientation(side);
+                EnumFacing direction = EnumFacing.getFront(side);
 
                 if (isElectromagnet(world, position, direction)) {
                     electromagnetCount++;
@@ -101,14 +102,14 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     @Override
     public void readSpawnData(ByteBuf data) {
         movementVector = new Vector3(data.readInt(), data.readInt(), data.readInt());
-        movementDirection = EnumFacing.getOrientation(data.readInt());
+        movementDirection = EnumFacing.getFront(data.readInt());
     }
 
     //////////////////////////////////
 
     @Override
     public void onUpdate() {
-        TileEntity tile = world.getTileEntity(movementVector.intX(), movementVector.intY(), movementVector.intZ());
+        TileEntity tile = world.getTileEntity(new BlockPos(movementVector.intX(), movementVector.intY(), movementVector.intZ()));
 
         if (tile != null && tile instanceof TileAccelerator) {
             TileAccelerator tileAccelerator = (TileAccelerator) tile;
@@ -124,6 +125,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 tileAccelerator.entityParticle = this;
             }
 
+            /*
             // Force load chunks.
             // TODO: Calculate direction so to only load two chunks instead of 5.
             for (int x = -1; x < 1; x++) {
@@ -139,6 +141,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 movementDirection = EnumFacing.getOrientation(dataWatcher.getWatchableObjectByte(movementDirectionDataWatcherId));
             }
 
+
             if ((!isElectromagnet(world, new Vector3(this), movementDirection.getRotation(EnumFacing.UP)) || !isElectromagnet(world, new Vector3(this), movementDirection.getRotation(EnumFacing.DOWN))) && lastTurn <= 0) {
                 acceleration = turn();
                 motionX = 0;
@@ -146,6 +149,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 motionZ = 0;
                 lastTurn = 40;
             }
+            */
 
             lastTurn--;
 
@@ -168,19 +172,19 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             lastTickPosY = posY;
             lastTickPosZ = posZ;
 
-            moveEntity(motionX, motionY, motionZ);
+            //moveEntity(motionX, motionY, motionZ);
             setPosition(posX, posY, posZ);
 
             if (lastTickPosX == posX && lastTickPosY == posY && lastTickPosZ == posZ && getParticleVelocity() <= 0 && lastTurn <= 0) {
                 setDead();
             }
 
-            world.spawnParticle("portal", posX, posY, posZ, 0, 0, 0);
-            world.spawnParticle("largesmoke", posX, posY, posZ, 0, 0, 0);
+            world.spawnParticle(EnumParticleTypes.PORTAL, posX, posY, posZ, 0, 0, 0);
+            world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX, posY, posZ, 0, 0, 0);
 
             float radius = 0.5F;
 
-            AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius);
+            AxisAlignedBB bounds = new AxisAlignedBB(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius);
             List<Entity> entitiesNearby = world.getEntitiesWithinAABB(Entity.class, bounds);
 
             if (entitiesNearby.size() > 1) {
@@ -193,7 +197,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     @Override
     protected void entityInit() {
-        dataWatcher.addObject(movementDirectionDataWatcherId, (byte) 3);
+        //dataWatcher.addObject(movementDirectionDataWatcherId, (byte) 3);
 
         if (updateTicket == null) {
             updateTicket = ForgeChunkManager.requestTicket(Quantum.getInstance(), world, ForgeChunkManager.Type.ENTITY);
@@ -205,7 +209,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     @Override
     protected void readEntityFromNBT(NBTTagCompound nbt) {
         movementVector = new Vector3(nbt.getCompoundTag("vector"));
-        EnumFacing.getOrientation(nbt.getByte("direction"));
+        EnumFacing.getFront(nbt.getByte("direction"));
     }
 
     @Override
@@ -234,10 +238,10 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     private double turn() {
         // TODO: Rewrite to allow for up and down turning
         int[][] RELATIVE_MATRIX = new int[][] { new int[] { 3, 2, 1, 0, 5, 4 }, new int[] { 4, 5, 0, 1, 2, 3}, new int[] { 0, 1, 3, 2, 4, 5 }, new int[] { 0, 1, 2, 3, 5, 4}, new int[] { 0, 1, 5, 4, 3, 2 }, new int[] { 0, 1, 4, 5, 2, 3 } };
-        EnumFacing zuoFangXiang = EnumFacing.getOrientation(RELATIVE_MATRIX[movementDirection.ordinal()][EnumFacing.EAST.ordinal()]);
+        EnumFacing zuoFangXiang = EnumFacing.getFront(RELATIVE_MATRIX[movementDirection.ordinal()][EnumFacing.EAST.ordinal()]);
         Vector3 zuoBian = new Vector3(this).floor();
         zuoBian.translate(zuoFangXiang);
-        EnumFacing youFangXiang = EnumFacing.getOrientation(RELATIVE_MATRIX[movementDirection.ordinal()][EnumFacing.WEST.ordinal()]);
+        EnumFacing youFangXiang = EnumFacing.getFront(RELATIVE_MATRIX[movementDirection.ordinal()][EnumFacing.WEST.ordinal()]);
         Vector3 youBian = new Vector3(this).floor();
         youBian.translate(youFangXiang);
 

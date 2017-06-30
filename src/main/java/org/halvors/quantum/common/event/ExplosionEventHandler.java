@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.explosion.ExplosionEvent;
 import org.halvors.quantum.api.explosion.IExplosion;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.effect.explosion.AntimatterExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;

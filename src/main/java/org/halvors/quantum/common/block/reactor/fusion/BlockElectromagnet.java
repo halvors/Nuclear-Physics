@@ -2,15 +2,17 @@ package org.halvors.quantum.common.block.reactor.fusion;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
 import org.halvors.quantum.client.render.ISimpleBlockRenderer;
@@ -22,7 +24,7 @@ import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import java.util.List;
 
 public class BlockElectromagnet extends BlockTextured implements IBlockCustomRender {
-    private static IIcon iconTop, iconGlass;
+    //private static IIcon iconTop, iconGlass;
 
     public BlockElectromagnet() {
         super("electromagnet", Material.IRON);
@@ -30,6 +32,7 @@ public class BlockElectromagnet extends BlockTextured implements IBlockCustomRen
         setResistance(20);
     }
 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
@@ -64,18 +67,19 @@ public class BlockElectromagnet extends BlockTextured implements IBlockCustomRen
     public int getRenderBlockPass() {
         return 0;
     }
+    */
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean shouldSideBeRendered(IBlockAccess access, int x, int y, int z, int side) {
-        Vector3 neighborPosition = new Vector3(x, y, z).translate(ForgeDirection.getOrientation(side).getOpposite());
-        Block block = access.getBlock(x, y, z);
-        int metadata = access.getBlockMetadata(x, y, z);
+    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess access, BlockPos pos, EnumFacing side) {
+        Vector3 neighborPosition = new Vector3(pos.getX(), pos.getY(), pos.getZ()).translate(side.getOpposite());
+        Block block = state.getBlock();
+        int metadata = state.getBlock().getMetaFromState(state);
         Block neighborBlock = neighborPosition.getBlock(access);
         int neighborMetadata = neighborPosition.getBlockMetadata(access);
 
@@ -84,12 +88,12 @@ public class BlockElectromagnet extends BlockTextured implements IBlockCustomRen
             return false;
         }
 
-        return super.shouldSideBeRendered(access, x, y, z, side);
+        return super.shouldSideBeRendered(state, access, pos, side);
     }
 
     @Override
-    public int damageDropped(int metadata) {
-        return metadata;
+    public int damageDropped(IBlockState state) {
+        return state.getBlock().getMetaFromState(state);
     }
 
     @Override

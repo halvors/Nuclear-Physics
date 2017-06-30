@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.schematic.ISchematic;
 
@@ -37,7 +36,7 @@ public class BlockCreativeBuilder extends BlockRotatable {
 
         rotationMask = Byte.parseByte("111111", 2);
 
-        setTextureName(Reference.PREFIX + "creativeBuilder");
+        //setTextureName(Reference.PREFIX + "creativeBuilder");
         setCreativeTab(Quantum.getCreativeTab());
     }
 

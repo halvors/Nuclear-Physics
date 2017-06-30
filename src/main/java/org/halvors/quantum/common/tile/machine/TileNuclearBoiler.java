@@ -13,12 +13,11 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.ITileRotatable;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
 import java.util.List;
 
-public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITileRotatable, IEnergyReceiver, IFluidHandler, ISidedInventory {
+public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IFluidHandler, ISidedInventory {
     public static final int tickTime = 20 * 15;
     public static final int energy = 21000;
 
@@ -110,35 +109,37 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
 
-        timer = nbt.getInteger("timer");
+        timer = tagCompound.getInteger("timer");
 
-        NBTTagCompound waterCompound = nbt.getCompoundTag("water");
+        NBTTagCompound waterCompound = tagCompound.getCompoundTag("water");
         waterTank.setFluid(FluidStack.loadFluidStackFromNBT(waterCompound));
 
-        NBTTagCompound gasCompound = nbt.getCompoundTag("gas");
+        NBTTagCompound gasCompound = tagCompound.getCompoundTag("gas");
         gasTank.setFluid(FluidStack.loadFluidStackFromNBT(gasCompound));
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
 
-        nbt.setInteger("timer", timer);
+        tagCompound.setInteger("timer", timer);
 
         if (waterTank.getFluid() != null) {
-            NBTTagCompound compound = new NBTTagCompound();
-            waterTank.getFluid().writeToNBT(compound);
-            nbt.setTag("water", compound);
+            NBTTagCompound waterTankCompound = new NBTTagCompound();
+            waterTank.getFluid().writeToNBT(waterTankCompound);
+            tagCompound.setTag("water", waterTankCompound);
         }
 
         if (gasTank.getFluid() != null) {
-            NBTTagCompound compound = new NBTTagCompound();
-            gasTank.getFluid().writeToNBT(compound);
-            nbt.setTag("gas", compound);
+            NBTTagCompound gasTankCompound = new NBTTagCompound();
+            gasTank.getFluid().writeToNBT(gasTankCompound);
+            tagCompound.setTag("gas", gasTankCompound);
         }
+
+        return tagCompound;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -294,17 +295,17 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
     }
 
     @Override
-    public int[] getSlotsForFace(int slot) {
-        return slot == 0 ? new int[] { 2 } : new int[] { 1, 3 };
+    public int[] getSlotsForFace(EnumFacing side) {
+        return side == EnumFacing.DOWN ? new int[] { 2 } : new int[] { 1, 3 };
     }
 
     @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+    public boolean canInsertItem(int slot, ItemStack itemStack, EnumFacing side) {
         return isItemValidForSlot(slot, itemStack);
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
+    public boolean canExtractItem(int slot, ItemStack itemstack, EnumFacing side) {
         return slot == 2;
     }
 
@@ -338,6 +339,7 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
         }
     }
 
+    /*
     @Override
     public EnumFacing getDirection() {
         return EnumFacing.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
@@ -347,4 +349,5 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
     public void setDirection(EnumFacing direction) {
         world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
+    */
 }

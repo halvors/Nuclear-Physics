@@ -3,6 +3,7 @@ package org.halvors.quantum.common.utility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -15,16 +16,16 @@ import net.minecraftforge.fluids.IFluidHandler;
  */
 public class FluidUtility {
     // Does all the work needed to fill or drain an item of fluid when a player clicks on the block.
-    public static boolean playerActivatedFluidItem(World world, int x, int y, int z, EntityPlayer entityplayer, int side) {
+    public static boolean playerActivatedFluidItem(World world, BlockPos pos, EntityPlayer entityplayer, EnumFacing side) {
         ItemStack current = entityplayer.inventory.getCurrentItem();
 
-        if (current != null && world.getTileEntity(x, y, z) instanceof IFluidHandler) {
+        if (current != null && world.getTileEntity(pos) instanceof IFluidHandler) {
             FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(current);
-            IFluidHandler tank = (IFluidHandler) world.getTileEntity(x, y, z);
+            IFluidHandler tank = (IFluidHandler) world.getTileEntity(pos);
 
             if (FluidContainerRegistry.isFilledContainer(current)) {
-                if (tank.fill(EnumFacing.getOrientation(side), fluid, false) == fluid.amount) {
-                    tank.fill(EnumFacing.getOrientation(side), fluid, true);
+                if (tank.fill(side, fluid, false) == fluid.amount) {
+                    tank.fill(side, fluid, true);
 
                     if (!entityplayer.capabilities.isCreativeMode) {
                         InventoryUtility.consumeHeldItem(entityplayer);
@@ -33,7 +34,7 @@ public class FluidUtility {
                     return true;
                 }
             } else if (FluidContainerRegistry.isEmptyContainer(current)) {
-                FluidStack available = tank.drain(EnumFacing.getOrientation(side), Integer.MAX_VALUE, false);
+                FluidStack available = tank.drain(side, Integer.MAX_VALUE, false);
 
                 if (available != null) {
                     ItemStack filled = FluidContainerRegistry.fillFluidContainer(available, current);
@@ -56,7 +57,7 @@ public class FluidUtility {
                         }
                         */
 
-                        tank.drain(EnumFacing.UNKNOWN, fluid.amount, true);
+                        tank.drain(null, fluid.amount, true);
 
                         return true;
                     }

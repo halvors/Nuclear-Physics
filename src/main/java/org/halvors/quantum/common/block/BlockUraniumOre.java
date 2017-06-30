@@ -25,11 +25,13 @@ public class BlockUraniumOre extends BlockRadioactive {
         spawnParticle = false;
     }
 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public IIcon getIcon(int side, int metadata) {
         return blockIcon;
     }
+    */
 
     @Override
     @SideOnly(Side.CLIENT)

@@ -4,6 +4,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import org.halvors.quantum.common.event.PlasmaEvent;
 import org.halvors.quantum.common.thermal.ThermalGrid;
@@ -29,16 +30,14 @@ public class TilePlasma extends TileEntity implements ITickable {
                 // We manually trigger a block update, to avoid client glitches.
                 //world.markBlockForUpdate(xCoord, yCoord, zCoord);
             } else {
-                for (int side = 0; side < 6; side++) {
+                for (EnumFacing side : EnumFacing.VALUES) {
                     // Randomize spread direction.
                     if (world.rand.nextFloat() < 0.4) {
-                        Vector3 position = new Vector3(this);
-                        position.translate(EnumFacing.getOrientation(side));
-
-                        TileEntity tileEntity = position.getTileEntity(world);
+                        BlockPos spreadPos = pos.offset(side);
+                        TileEntity tileEntity = world.getTileEntity(spreadPos);
 
                         if (!(tileEntity instanceof TilePlasma)) {
-                            MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, position.intX(), position.intY(), position.intZ(), temperature));
+                            MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, pos, temperature));
                         }
                     }
                 }

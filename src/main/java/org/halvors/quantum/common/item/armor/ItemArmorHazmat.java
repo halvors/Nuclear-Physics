@@ -2,6 +2,8 @@ package org.halvors.quantum.common.item.armor;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -10,16 +12,16 @@ import org.halvors.quantum.api.item.armor.IAntiPoisonArmor;
 import org.halvors.quantum.common.Reference;
 
 public class ItemArmorHazmat extends ItemArmorQuantum implements IAntiPoisonArmor {
-    public static final ItemArmor.ArmorMaterial hazmatArmorMaterial = EnumHelper.addArmorMaterial("HAZMAT", 0, new int[] { 0, 0, 0, 0 }, 0);
+    private static final ItemArmor.ArmorMaterial armorMaterial = EnumHelper.addArmorMaterial("HAZMAT" , "hazmat", 0, new int[] { 0, 0, 0, 0 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 
-    public ItemArmorHazmat(String name, int slot) {
-        super(name, hazmatArmorMaterial, slot);
+    public ItemArmorHazmat(String name, EntityEquipmentSlot entityEquipmentSlot) {
+        super(name, armorMaterial, entityEquipmentSlot);
 
         setMaxDamage(200000);
     }
 
     @Override
-    public String getArmorTexture(ItemStack itemStack, Entity entity, int slot, String type) {
+    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
         return Reference.PREFIX + "textures/models/hazmat.png";
     }
 
@@ -34,7 +36,7 @@ public class ItemArmorHazmat extends ItemArmorQuantum implements IAntiPoisonArmo
     }
 
     @Override
-    public int getArmorType() {
+    public EntityEquipmentSlot getArmorType() {
         return armorType;
     }
 

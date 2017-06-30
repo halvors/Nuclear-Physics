@@ -1,5 +1,8 @@
 package org.halvors.quantum.common.event;
 
+import jdk.nashorn.internal.ir.Block;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fluids.FluidStack;
@@ -8,35 +11,35 @@ import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 @Event.HasResult
 public class BoilEvent extends WorldEvent {
-    private final Vector3 position;
+    private final BlockPos pos;
     private final FluidStack fluid;
     private final int maxSpread;
     private final boolean reactor;
 
     /** @param world - The World Objecto
-     * @param position - The position in which the boiling happens.
+     * @param pos - The position in which the boiling happens.
      * @param result - The fluid being boiled.
      * @param maxSpread - The maximum distance the evaporated fluid can spread.
      * @param reactor - Determined if heat source if from power generation or a weapon. */
-    public BoilEvent(World world, Vector3 position, FluidStack source, FluidStack result, int maxSpread, boolean reactor) {
-        super(world);
+    public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack source, FluidStack result, int maxSpread, boolean reactor) {
+        super((World) world);
 
-        this.position = position;
+        this.pos = pos;
         this.fluid = result;
         this.maxSpread = maxSpread;
         this.reactor = reactor;
     }
 
-    public BoilEvent(World world, Vector3 position, FluidStack source, FluidStack result, int maxSpread) {
-        this(world, position, source, result, maxSpread, false);
+    public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack source, FluidStack result, int maxSpread) {
+        this(world, pos, source, result, maxSpread, false);
+    }
+
+    public BlockPos getPos() {
+        return pos;
     }
 
     public FluidStack getFluid() {
         return fluid;
-    }
-
-    public Vector3 getPosition() {
-        return position;
     }
 
     public int getMaxSpread() {

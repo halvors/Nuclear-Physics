@@ -2,6 +2,8 @@ package org.halvors.quantum.common.tile.machine;
 
 import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,14 +16,13 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.ITileRotatable;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorHelper;
 
 import java.util.List;
 
-public class TileGasCentrifuge extends TileElectricInventory implements ITickable, ITileNetwork, IFluidHandler, ISidedInventory, ITileRotatable {
+public class TileGasCentrifuge extends TileElectricInventory implements ITickable, ITileNetwork, IFluidHandler, ISidedInventory {
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 
@@ -45,7 +46,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITickabl
         if (!world.isRemote) {
             if (world.getWorldTime() % 20 == 0) {
                 for (int side = 0; side < 6; side++) {
-                    EnumFacing direction = EnumFacing.getOrientation(side);
+                    EnumFacing direction = EnumFacing.getFront(side);
                     TileEntity tileEntity = VectorHelper.getTileEntityFromSide(world, new Vector3(this), direction);
 
                     if (tileEntity instanceof IFluidHandler && tileEntity.getClass() != getClass()) {
@@ -137,7 +138,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITickabl
             timer = dataStream.readInt();
 
             if (dataStream.readBoolean()) {
-                gasTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
+                gasTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
             }
         }
     }
@@ -179,29 +180,24 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITickabl
     }
 
     @Override
-    public void openChest() {
+    public void openInventory(EntityPlayer player) {
         if (!world.isRemote) {
-            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            Quantum.getPacketHandler().sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
         }
     }
 
     @Override
-    public void closeChest() {
-
+    public int[] getSlotsForFace(EnumFacing side) {
+        return side == EnumFacing.UP ? new int[] { 0, 1 } : new int[] { 2, 3 };
     }
 
     @Override
-    public int[] getSlotsForFace(int slotIn) {
-        return slotIn == 1 ? new int[] { 0, 1 } : new int[] { 2, 3 };
-    }
-
-    @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+    public boolean canInsertItem(int slot, ItemStack itemStack, EnumFacing side) {
         return slot == 1 && isItemValidForSlot(slot, itemStack);
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
+    public boolean canExtractItem(int slot, ItemStack itemstack, EnumFacing side) {
         return slot == 2 || slot == 3;
     }
 
@@ -277,6 +273,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITickabl
         }
     }
 
+    /*
     @Override
     public EnumFacing getDirection() {
         return EnumFacing.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
@@ -286,4 +283,5 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITickabl
     public void setDirection(EnumFacing direction) {
         world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
+    */
 }

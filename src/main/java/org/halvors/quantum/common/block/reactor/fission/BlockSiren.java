@@ -1,8 +1,13 @@
 package org.halvors.quantum.common.block.reactor.fission;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.block.BlockTextured;
@@ -17,9 +22,9 @@ public class BlockSiren extends BlockTextured {
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
-        if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
-            int metadata = world.getBlockMetadata(x, y, z);
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+        if (WrenchUtility.hasUsableWrench(player, pos)) {
+            int metadata = state.getBlock().getMetaFromState(state);
 
             if (player.isSneaking()) {
                 metadata--;
@@ -29,7 +34,7 @@ public class BlockSiren extends BlockTextured {
 
             metadata = Math.max(metadata % 16, 0);
 
-            world.setBlockMetadataWithNotify(x, y, z, metadata, 2);
+            world.setBlockState(pos, state.getBlock().getStateFromMeta(metadata), 2);
 
             return true;
         }

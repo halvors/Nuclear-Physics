@@ -3,7 +3,6 @@ package org.halvors.quantum.common;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import org.halvors.quantum.Quantum;
 
 /**
@@ -14,11 +13,6 @@ import org.halvors.quantum.Quantum;
 public class CreativeTabQuantum extends CreativeTabs {
 	public CreativeTabQuantum() {
 		super("tab" + Reference.NAME);
-	}
-
-	@Override
-	public ItemStack getIconItemStack() {
-		return new ItemStack(Quantum.blockReactorCell);
 	}
 
 	@Override

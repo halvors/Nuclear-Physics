@@ -7,11 +7,11 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.item.block.ItemBlockSaved;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
@@ -21,16 +21,18 @@ import org.halvors.quantum.common.utility.WrenchUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BlockThermometer extends BlockRotatable {
-    private static IIcon iconSide;
+    //private static IIcon iconSide;
 
     public BlockThermometer() {
         super("thermometer", Material.PISTON);
 
-        setTextureName(Reference.PREFIX + "thermometer");
+        //setTextureName(Reference.PREFIX + "thermometer");
     }
 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public boolean renderAsNormalBlock() {
@@ -50,15 +52,16 @@ public class BlockThermometer extends BlockRotatable {
 
         iconSide = iconRegister.registerIcon(Reference.PREFIX + "machine");
     }
+    */
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
-        TileEntity tile = world.getTileEntity(x, y, z);
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+        TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileThermometer) {
             TileThermometer tileThermometer = (TileThermometer) tile;
 
-            if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
+            if (WrenchUtility.hasUsableWrench(player, pos)) {
                 if (player.isSneaking()) {
                     tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
                 } else {
@@ -81,8 +84,8 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
-        TileEntity tile = world.getTileEntity(x, y, z);
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
+        TileEntity tile = world.getTileEntity(pos);
 
         // Fetch saved coordinates from ItemBlockThermometer and apply them to the block.
         if (tile instanceof TileThermometer) {
@@ -93,15 +96,15 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
-        Block block = world.getBlock(x, y, z);
+    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+        Block block = state.getBlock();
 
         if (!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
-            ItemStack stack = ItemBlockSaved.getItemStackWithNBT(block, world, x, y, z);
-            InventoryUtility.dropItemStack(world, new Vector3(x, y, z), stack);
+            ItemStack itemStack = ItemBlockSaved.getItemStackWithNBT(block, world, pos.getX(), pos.getY(), pos.getZ());
+            InventoryUtility.dropItemStack(world, new Vector3(pos.getX(), pos.getY(), pos.getZ()), itemStack);
         }
 
-        return world.setBlockToAir(x, y, z);
+        return world.setBlockToAir(pos);
     }
 
     @Override
@@ -109,6 +112,8 @@ public class BlockThermometer extends BlockRotatable {
         return true;
     }
 
+    // TODO: Port this.
+    /*
     @Override
     public int isProvidingStrongPower(IBlockAccess access, int x, int y, int z, int side) {
         TileEntity tile = access.getTileEntity(x, y, z);
@@ -121,9 +126,10 @@ public class BlockThermometer extends BlockRotatable {
 
         return 0;
     }
+    */
 
     @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
         return new ArrayList<>();
     }
 

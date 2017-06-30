@@ -1,5 +1,6 @@
 package org.halvors.quantum.common.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -7,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -40,12 +42,17 @@ public class BlockRadioactive extends BlockTextured {
                 int radius = 3;
 
                 for (int i = 0; i < 2; i++) {
-                    Vector3 pos = new Vector3(x, y, z);
-                    pos.add(random.nextDouble() * radius - radius / 2);
+                    BlockPos newPos = pos.add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
+                    world.spawnParticle(EnumParticleTypes.BLOCK_DUST, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
 
-                    EntitySmokeFX fx = new EntitySmokeFX(world, pos.x, pos.y, pos.z, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
+                    /*
+                    Vector3 position = new Vector3(x, y, z);
+                    position.add(random.nextDouble() * radius - radius / 2);
+
+                    EntitySmokeFX fx = new EntitySmokeFX(world, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
                     fx.setRBGColorF(0.2F, 0.8F, 0);
                     Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+                    */
                 }
             }
         }
@@ -55,31 +62,29 @@ public class BlockRadioactive extends BlockTextured {
      * Ticks the block if it's been scheduled
      */
     @Override
-    public void updateTick(World world, int x, int y, int z, Random random) {
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
         if (!world.isRemote) {
             if (isRandomlyRadioactive) {
-                AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius);
+                AxisAlignedBB bounds = new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius);
                 List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
                 for (EntityLivingBase entity : entitiesNearby) {
-                    PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), entity, amplifier);
+                    PoisonRadiation.INSTANCE.poisonEntity(new Vector3(pos.getX(), pos.getY(), pos.getZ()), entity, amplifier);
                 }
             }
 
             if (canSpread) {
-                for (int i = 0; i < 4; i++) {
-                    int newX = x + random.nextInt(3) - 1;
-                    int newY = y + random.nextInt(5) - 3;
-                    int newZ = z + random.nextInt(3) - 1;
-                    net.minecraft.block.Block block = world.getBlock(newX, newY, newZ);
+                for (int side = 0; side < 4; side++) {
+                    BlockPos newPos = new BlockPos(pos.getX() + random.nextInt(3) - 1, pos.getY() + random.nextInt(5) - 3, pos.getZ() + random.nextInt(3) - 1);
+                    Block block = world.getBlockState(newPos).getBlock();
 
                     if (random.nextFloat() > 0.4 && (block == Blocks.FARMLAND || block == Blocks.GRASS)) {
-                        world.setBlock(newX, newY, newZ, this);
+                        world.setBlockState(newPos, getDefaultState());
                     }
                 }
 
                 if (random.nextFloat() > 0.85) {
-                    world.setBlock(x, y, z, Blocks.DIRT);
+                    world.setBlockState(pos, Blocks.DIRT.getDefaultState());
                 }
             }
         }
@@ -91,7 +96,7 @@ public class BlockRadioactive extends BlockTextured {
     @Override
     public void onEntityWalk(World world, BlockPos pos, Entity entity) {
         if (entity instanceof EntityLiving && canWalkPoison) {
-            PoisonRadiation.INSTANCE.poisonEntity(new Vector3(pos), (EntityLiving) entity);
+            PoisonRadiation.INSTANCE.poisonEntity(new Vector3(pos.getX(), pos.getY(), pos.getZ()), (EntityLiving) entity);
         }
     }
 }

@@ -11,12 +11,11 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.ITileRotatable;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
 import java.util.List;
 
-public class TileChemicalExtractor extends TileProcess implements ITileNetwork, IFluidHandler, ITileRotatable {
+public class TileChemicalExtractor extends TileProcess implements ITileNetwork, IFluidHandler {
     public static final int tickTime = 20 * 14;
     private static final int extractSpeed = 100;
     public static final int energy = 20000;
@@ -228,17 +227,17 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     }
 
     @Override
-    public int[] getSlotsForFace(int face) {
+    public int[] getSlotsForFace(EnumFacing side) {
         return new int[] { 1, 2, 3 };
     }
 
     @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, int side) {
+    public boolean canInsertItem(int slot, ItemStack itemStack, EnumFacing side) {
         return isItemValidForSlot(slot, itemStack);
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
+    public boolean canExtractItem(int slot, ItemStack itemstack, EnumFacing side) {
         return slot == 2;
     }
 
@@ -345,13 +344,17 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
         return false;
     }
 
+    /*
     @Override
     public EnumFacing getDirection() {
-        return EnumFacing.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
+        return EnumFacing.getFront(world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos)));
     }
 
     @Override
     public void setDirection(EnumFacing direction) {
+        world.setBlockState(3)
+
         world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
+    */
 }

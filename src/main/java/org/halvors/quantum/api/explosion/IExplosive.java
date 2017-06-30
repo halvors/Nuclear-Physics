@@ -5,6 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModel;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.api.ITier;
 
@@ -51,7 +52,4 @@ public interface IExplosive extends ITier {
 
     @SideOnly(Side.CLIENT)
     ResourceLocation getBlockResource();
-
-    @SideOnly(Side.CLIENT)
-    IIcon getIcon();
 }

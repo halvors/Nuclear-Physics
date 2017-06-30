@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.utility;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -12,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
@@ -103,13 +105,13 @@ public class InventoryUtility {
             }
 
             ISidedInventory sidedInventory = (ISidedInventory)inventory;
-            int[] slots = sidedInventory.getSlotsForFace(EnumFacing.getOrientation(side).getOpposite().ordinal());
+            int[] slots = sidedInventory.getSlotsForFace(EnumFacing.getFront(side).getOpposite());
 
             if ((slots != null) && (slots.length != 0)) {
                 for (int get = 0; get <= slots.length - 1; get++) {
                     int slotID = slots[get];
 
-                    if ((force) || (sidedInventory.isItemValidForSlot(slotID, toInsert)) || (sidedInventory.canInsertItem(slotID, toInsert, EnumFacing.getOrientation(side).getOpposite().ordinal()))) {
+                    if ((force) || (sidedInventory.isItemValidForSlot(slotID, toInsert)) || (sidedInventory.canInsertItem(slotID, toInsert, EnumFacing.getFront(side).getOpposite()))) {
                         ItemStack inSlot = inventory.getStackInSlot(slotID);
 
                         if (inSlot == null) {
@@ -160,7 +162,7 @@ public class InventoryUtility {
             }
         } else {
             ISidedInventory sidedInventory = (ISidedInventory)inventory;
-            int[] slots = sidedInventory.getSlotsForFace(side);
+            int[] slots = sidedInventory.getSlotsForFace(EnumFacing.getFront(side));
 
             if (slots != null) {
                 for (int get = slots.length - 1; get >= 0; get--) {
@@ -170,7 +172,7 @@ public class InventoryUtility {
                         ItemStack toSend = sidedInventory.getStackInSlot(slotID);
                         toSend.stackSize = 1;
 
-                        if (sidedInventory.canExtractItem(slotID, toSend, side)) {
+                        if (sidedInventory.canExtractItem(slotID, toSend, EnumFacing.getFront(side))) {
                             sidedInventory.decrStackSize(slotID, 1);
 
                             return toSend;
@@ -197,7 +199,7 @@ public class InventoryUtility {
             }
         } else {
             ISidedInventory sidedInventory = (ISidedInventory)inventory;
-            int[] slots = sidedInventory.getSlotsForFace(side);
+            int[] slots = sidedInventory.getSlotsForFace(EnumFacing.getFront(side));
 
             if (slots != null) {
                 for (int get = slots.length - 1; get >= 0; get--) {
@@ -207,7 +209,7 @@ public class InventoryUtility {
                         ItemStack toSend = sidedInventory.getStackInSlot(slotID);
                         toSend.stackSize = 1;
 
-                        if (sidedInventory.canExtractItem(slotID, toSend, side)) {
+                        if (sidedInventory.canExtractItem(slotID, toSend, EnumFacing.getFront(side))) {
                             sidedInventory.decrStackSize(slotID, 1);
 
                             return toSend;
@@ -220,24 +222,24 @@ public class InventoryUtility {
     }
 
     public static void dropBlockAsItem(World world, Vector3 position) {
-        dropBlockAsItem(world, position.intX(), position.intY(), position.intZ(), false);
+        dropBlockAsItem(world, new BlockPos(position.intX(), position.intY(), position.intZ()), false);
     }
 
-    public static void dropBlockAsItem(World world, int x, int y, int z, boolean destroy) {
+    public static void dropBlockAsItem(World world, BlockPos pos, boolean destroy) {
         if (!world.isRemote) {
-            int metadata = world.getBlockMetadata(x, y, z);
-            Block block = world.getBlock(x, y, z);
+            IBlockState state = world.getBlockState(pos);
+            Block block = state.getBlock();
 
-            if (block != Blocks.air) {
-                ArrayList<ItemStack> items = block.getDrops(world, x, y, z, metadata, 0);
+            if (block != Blocks.AIR) {
+                List<ItemStack> items = block.getDrops(world, pos, state, 0);
 
                 for (ItemStack itemStack : items) {
-                    dropItemStack(world, new Vector3(x, y, z), itemStack, 10);
+                    dropItemStack(world, new Vector3(pos.getX(), pos.getY(), pos.getZ()), itemStack, 10);
                 }
             }
 
             if (destroy) {
-                world.setBlockToAir(x, y, z);
+                world.setBlockToAir(pos);
             }
         }
     }

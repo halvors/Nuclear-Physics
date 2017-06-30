@@ -4,6 +4,11 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -60,24 +65,26 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if (!world.isRemote) {
             setSavedCoords(itemStack, null);
             player.sendMessage(new TextComponentString("Cleared tracking coordinate."));
+
+            return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
         }
 
-        return itemStack;
+        return new ActionResult<>(EnumActionResult.PASS, itemStack);
     }
 
     @Override
-    public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if (player.isSneaking()) {
-            setSavedCoords(itemStack, new Vector3(x, y, z));
-            player.sendMessage(new TextComponentString("Tracking coordinate: " + x + ", " + y + ", " + z));
+            setSavedCoords(itemStack, new Vector3(pos.getX(), pos.getY(), pos.getZ()));
+            player.sendMessage(new TextComponentString("Tracking coordinate: " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()));
 
-            return true;
+            return EnumActionResult.SUCCESS;
         }
 
-        return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+        return EnumActionResult.PASS;
     }
 }

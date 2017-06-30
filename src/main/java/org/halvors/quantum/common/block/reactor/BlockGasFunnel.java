@@ -1,11 +1,11 @@
 package org.halvors.quantum.common.block.reactor;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
 import org.halvors.quantum.client.render.ISimpleBlockRenderer;
@@ -14,12 +14,13 @@ import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 
 public class BlockGasFunnel extends BlockTextured implements IBlockCustomRender {
-    private static IIcon iconTop;
+    //private static IIcon iconTop;
 
     public BlockGasFunnel() {
         super("gasFunnel", Material.IRON);
     }
 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
@@ -45,10 +46,11 @@ public class BlockGasFunnel extends BlockTextured implements IBlockCustomRender 
     public int getRenderBlockPass() {
         return 0;
     }
+    */
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 

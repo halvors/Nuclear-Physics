@@ -1,15 +1,8 @@
 package org.halvors.quantum.common.block;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-import org.halvors.quantum.common.utility.WrenchUtility;
 
-public abstract class BlockRotatable extends BlockQuantum implements IRotatableBlock {
+public abstract class BlockRotatable extends BlockQuantum { //implements IRotatableBlock {
     protected byte rotationMask = Byte.parseByte("111100", 2);
     protected boolean isFlipPlacement = false;
 
@@ -17,16 +10,17 @@ public abstract class BlockRotatable extends BlockQuantum implements IRotatableB
         super(name, material);
     }
 
+    /*
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entityLiving, ItemStack itemStack) {
         world.setBlockMetadataWithNotify(x, y, z, determineOrientation(world, x, y, z, entityLiving), 3);
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!player.isSneaking()) {
-            if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
-                rotate(world, x, y, z, EnumFacing.getOrientation(side));
+            if (WrenchUtility.hasUsableWrench(player, pos)) {
+                rotate(world, pos, side);
 
                 return true;
             }
@@ -89,4 +83,5 @@ public abstract class BlockRotatable extends BlockQuantum implements IRotatableB
     public void setDirection(World world, int x, int y, int z, EnumFacing direction) {
         world.setBlockMetadataWithNotify(x, y, z, direction.ordinal(), 3);
     }
+    */
 }
