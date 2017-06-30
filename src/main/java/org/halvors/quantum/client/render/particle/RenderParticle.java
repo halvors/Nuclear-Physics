@@ -12,6 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.Random;
 
+/*
 @SideOnly(Side.CLIENT)
 public class RenderParticle extends Render {
     public RenderParticle(RenderManager renderManager) {
@@ -87,3 +88,4 @@ public class RenderParticle extends Render {
         return null;
     }
 }
+*/

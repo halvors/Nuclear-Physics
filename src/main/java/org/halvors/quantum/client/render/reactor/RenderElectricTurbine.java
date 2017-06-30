@@ -3,6 +3,7 @@ package org.halvors.quantum.client.render.reactor;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModel;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.ArrayUtils;
@@ -12,12 +13,18 @@ import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
+/*
 @SideOnly(Side.CLIENT)
 public class RenderElectricTurbine extends TileEntitySpecialRenderer<TileElectricTurbine> {
-    private static final IModel modelSmall = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "electricTurbineSmall.obj"));
-    private static final IModel modelLarge = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "electricTurbineLarge.obj"));
+    private static IModel modelSmall;
+    private static IModel modelLarge;
     private static final ResourceLocation textureSmall = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electricTurbineSmall.png");
     private static final ResourceLocation textureLarge = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electricTurbineLarge.png");
+
+    public RenderElectricTurbine() throws Exception {
+        modelSmall = OBJLoader.INSTANCE.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "electricTurbineSmall.obj"));
+        modelLarge = OBJLoader.INSTANCE.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "electricTurbineLarge.obj"));
+    }
 
     @Override
     public void renderTileEntityAt(TileElectricTurbine tile, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -73,3 +80,4 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer<TileElectri
         }
     }
 }
+*/

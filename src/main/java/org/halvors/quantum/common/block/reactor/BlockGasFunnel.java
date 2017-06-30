@@ -6,14 +6,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.render.ConnectedTextureRenderer;
-import org.halvors.quantum.client.render.IBlockCustomRender;
-import org.halvors.quantum.client.render.ISimpleBlockRenderer;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 
-public class BlockGasFunnel extends BlockTextured implements IBlockCustomRender {
+public class BlockGasFunnel extends BlockTextured { //implements IBlockCustomRender {
     //private static IIcon iconTop;
 
     public BlockGasFunnel() {
@@ -54,11 +50,13 @@ public class BlockGasFunnel extends BlockTextured implements IBlockCustomRender 
         return false;
     }
 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public ISimpleBlockRenderer getRenderer() {
         return new ConnectedTextureRenderer(this, Reference.PREFIX + "gasFunnel_edge");
     }
+    */
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {

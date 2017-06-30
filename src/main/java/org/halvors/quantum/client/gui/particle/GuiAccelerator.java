@@ -24,11 +24,11 @@ public class GuiAccelerator extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        fontRendererObj.drawString(tile.getInventoryName(), 40, 10, 4210752);
+        fontRendererObj.drawString(tile.getName(), 40, 10, 4210752);
 
         String status;
         Vector3 position = new Vector3(tile);
-        position.translate(tile.getDirection().getOpposite());
+        //position.translate(tile.getDirection().getOpposite());
 
         if (!EntityParticle.canSpawnParticle(tile.getWorld(), position)) {
             status = Color.DARK_RED + "Fail to emit; try rotating.";
@@ -47,7 +47,7 @@ public class GuiAccelerator extends GuiContainerBase {
         fontRendererObj.drawString("Status:", 8, 90, 4210752);
         fontRendererObj.drawString(status, 8, 100, 4210752);
         fontRendererObj.drawString("Buffer: " + UnitDisplay.getDisplayShort(tile.getEnergyStorage().getEnergyStored(), UnitDisplay.Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(tile.getEnergyStorage().getMaxEnergyStored(), UnitDisplay.Unit.JOULES), 8, 110, 4210752);
-        fontRendererObj.drawString("Facing: " + tile.getDirection().getOpposite(), 100, 123, 4210752);
+        //fontRendererObj.drawString("Facing: " + tile.getDirection().getOpposite(), 100, 123, 4210752);
     }
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */

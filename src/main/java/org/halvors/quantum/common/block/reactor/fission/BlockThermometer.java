@@ -97,10 +97,8 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
-        Block block = state.getBlock();
-
         if (!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
-            ItemStack itemStack = ItemBlockSaved.getItemStackWithNBT(block, world, pos.getX(), pos.getY(), pos.getZ());
+            ItemStack itemStack = ItemBlockSaved.getItemStackWithNBT(state, world, pos);
             InventoryUtility.dropItemStack(world, new Vector3(pos.getX(), pos.getY(), pos.getZ()), itemStack);
         }
 

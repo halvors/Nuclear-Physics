@@ -13,17 +13,13 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.render.ConnectedTextureRenderer;
-import org.halvors.quantum.client.render.IBlockCustomRender;
-import org.halvors.quantum.client.render.ISimpleBlockRenderer;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockTextured;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 
-public class BlockElectromagnet extends BlockTextured implements IBlockCustomRender {
+public class BlockElectromagnet extends BlockTextured { //implements IBlockCustomRender {
     //private static IIcon iconTop, iconGlass;
 
     public BlockElectromagnet() {
@@ -76,19 +72,19 @@ public class BlockElectromagnet extends BlockTextured implements IBlockCustomRen
     }
 
     @Override
-    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess access, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
         Vector3 neighborPosition = new Vector3(pos.getX(), pos.getY(), pos.getZ()).translate(side.getOpposite());
         Block block = state.getBlock();
         int metadata = state.getBlock().getMetaFromState(state);
-        Block neighborBlock = neighborPosition.getBlock(access);
-        int neighborMetadata = neighborPosition.getBlockMetadata(access);
+        Block neighborBlock = neighborPosition.getBlock(world);
+        int neighborMetadata = neighborPosition.getBlock(world).getMetaFromState(state);
 
         // Transparent electromagnetic glass.
         if (block == this && neighborBlock == this && metadata == 1 && neighborMetadata == 1) {
             return false;
         }
 
-        return super.shouldSideBeRendered(state, access, pos, side);
+        return super.shouldSideBeRendered(state, world, pos, side);
     }
 
     @Override
@@ -103,11 +99,13 @@ public class BlockElectromagnet extends BlockTextured implements IBlockCustomRen
         list.add(new ItemStack(item, 1, 1));
     }
 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public ISimpleBlockRenderer getRenderer() {
         return new ConnectedTextureRenderer(this, Reference.PREFIX + "atomic_edge");
     }
+    */
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {

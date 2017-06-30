@@ -1,8 +1,8 @@
 package org.halvors.quantum.common;
 
-import cpw.mods.fml.common.Loader;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.Loader;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.utility.energy.EnergyUnit;
 

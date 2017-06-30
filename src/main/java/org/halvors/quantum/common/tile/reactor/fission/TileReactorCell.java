@@ -101,8 +101,10 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
                 Vector3 spawnPos = new Vector3(this).translate(spawnDir, 2);
                 spawnPos.translate(0, Math.max(world.rand.nextInt(getHeight()) - 1, 0), 0);
 
-                if (world.isAirBlock(new BlockPos(spawnPos.intX(), spawnPos.intY(), spawnPos.intZ()))) {
-                    MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, spawnPos.intX(), spawnPos.intY(), spawnPos.intZ(), TilePlasma.plasmaMaxTemperature));
+                BlockPos pos = new BlockPos(spawnPos.intX(), spawnPos.intY(), spawnPos.intZ());
+
+                if (world.isAirBlock(pos)) {
+                    MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, pos, TilePlasma.plasmaMaxTemperature));
                     tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                 }
             }
@@ -200,15 +202,15 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
 
             if (isOverToxic()) {
                 // Randomly leak toxic waste when it is too toxic.
-                VectorWorld leakPos = new VectorWorld(this).translate(world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10);
-                Block block = leakPos.getBlock();
+                BlockPos leakPos = pos.add(world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10);
+                Block block = world.getBlockState(leakPos).getBlock();
 
                 if (block == Blocks.GRASS) {
-                    leakPos.setBlock(world, Quantum.blockRadioactiveGrass);
+                    world.setBlockState(leakPos, Quantum.blockRadioactiveGrass.getDefaultState());
                     tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                } else if (block == Blocks.AIR || block.isReplaceable(world, new BlockPos(leakPos.intX(), leakPos.intY(), leakPos.intZ()))) {
+                } else if (block == Blocks.AIR || block.isReplaceable(world, leakPos)) {
                     if (tank.getFluid() != null) {
-                        leakPos.setBlock(world, tank.getFluid().getFluid().getBlock());
+                        world.setBlockState(leakPos, tank.getFluid().getFluid().getBlock().getDefaultState());
                         tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                     }
                 }

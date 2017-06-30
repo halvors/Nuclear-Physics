@@ -5,10 +5,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 
 public class PotionRadiation extends CustomPotion {
-    public static final PotionRadiation INSTANCE = new PotionRadiation(21, true, 5149489, "radiation");
+    public static final PotionRadiation INSTANCE = new PotionRadiation(true, 5149489, "radiation");
 
-    public PotionRadiation(int id, boolean isBadEffect, int color, String name) {
-        super(id, isBadEffect, color, name);
+    public PotionRadiation(boolean isBadEffect, int color, String name) {
+        super(isBadEffect, color, name);
 
         setIconIndex(6, 0);
     }

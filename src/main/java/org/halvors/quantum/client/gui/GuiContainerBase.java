@@ -4,13 +4,10 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.container.ContainerDummy;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.ResourceUtility;
@@ -257,7 +254,7 @@ public class GuiContainerBase extends GuiContainer {
 
         /** Draw liquid/gas inside */
         if (liquidStack != null)
-            this.displayGauge(this.containerWidth + x, this.containerHeight + y, -10, 1, 12, (int) ((meterHeight - 1) * scale), liquidStack);
+            //this.displayGauge(this.containerWidth + x, this.containerHeight + y, -10, 1, 12, (int) ((meterHeight - 1) * scale), liquidStack);
 
         /** Draw measurement lines */
         this.mc.renderEngine.bindTexture(GUI_COMPONENTS);
@@ -409,7 +406,7 @@ public class GuiContainerBase extends GuiContainer {
         }
     }
 
-    /** Based on BuildCraft */
+    /*
     protected void displayGauge(int j, int k, int line, int col, int width, int squaled, FluidStack liquid) {
         squaled -= 1;
 
@@ -450,4 +447,5 @@ public class GuiContainerBase extends GuiContainer {
             }
         }
     }
+    */
 }

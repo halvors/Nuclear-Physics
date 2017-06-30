@@ -15,6 +15,7 @@ import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
+/*
 @SideOnly(Side.CLIENT)
 public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantumAssembler> {
     private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "quantumAssembler.obj"));
@@ -65,3 +66,4 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
         GL11.glPopMatrix();
     }
 }
+*/

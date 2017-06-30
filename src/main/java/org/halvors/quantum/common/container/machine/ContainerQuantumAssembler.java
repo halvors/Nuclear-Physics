@@ -34,12 +34,12 @@ public class ContainerQuantumAssembler extends ContainerQuantum {
             addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 206));
         }
 
-        tile.openChest();
+        tile.openInventory(inventoryPlayer.player);
     }
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return tile.isUseableByPlayer(player);
+        return tile.isUsableByPlayer(player);
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */

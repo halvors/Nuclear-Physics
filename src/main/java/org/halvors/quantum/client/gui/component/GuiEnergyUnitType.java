@@ -63,7 +63,7 @@ public class GuiEnergyUnitType extends GuiComponentBase implements IGuiComponent
                 if (xAxis >= x && xAxis <= x + 15 && yAxis >= y && yAxis <= y + 15) {
 					int ordinalToSet = Client.energyUnit.ordinal() < (EnergyUnit.values().length - 1) ? Client.energyUnit.ordinal() + 1 : 0;
 
-					SoundHandler.playSound("gui.button.press");
+					//SoundHandler.playSound("gui.button.press");
 
 					// Set energy unit type to use, and save the configuration.
 					Client.energyUnit = EnergyUnit.values()[ordinalToSet];

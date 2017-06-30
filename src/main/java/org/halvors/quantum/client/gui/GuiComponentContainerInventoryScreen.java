@@ -3,10 +3,10 @@ package org.halvors.quantum.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -151,7 +151,7 @@ public class GuiComponentContainerInventoryScreen extends GuiContainer implement
 		}
 	}
 
-	public void handleMouse(Slot slot, int slotIndex, int button, int modifier) {
+	public void handleMouse(Slot slot, int slotIndex, int button, ClickType modifier) {
 		handleMouseClick(slot, slotIndex, button, modifier);
 	}
 
@@ -160,10 +160,12 @@ public class GuiComponentContainerInventoryScreen extends GuiContainer implement
 		super.drawTexturedModalRect(x, y, textureX, textureY, width, height);
 	}
 
+	/*
 	@Override
 	public void drawTexturedRectFromIcon(int x, int y, IIcon icon, int width, int height) {
 		super.drawTexturedModelRectFromIcon(x, y, icon, width, height);
 	}
+	*/
 
 	@Override
 	public void drawString(String text, int x, int y) {

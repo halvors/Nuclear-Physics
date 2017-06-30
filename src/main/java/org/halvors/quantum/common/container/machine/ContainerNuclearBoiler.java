@@ -40,7 +40,7 @@ public class ContainerNuclearBoiler extends ContainerQuantum {
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return tile.isUseableByPlayer(player);
+        return tile.isUsableByPlayer(player);
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */

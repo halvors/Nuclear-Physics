@@ -11,6 +11,7 @@ import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
+/*
 @SideOnly(Side.CLIENT)
 public class RenderNuclearBoiler extends TileEntitySpecialRenderer<TileNuclearBoiler> {
     private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "nuclearBoiler.obj"));
@@ -45,3 +46,4 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer<TileNuclearBo
         GL11.glPopMatrix();
     }
 }
+*/

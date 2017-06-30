@@ -1,8 +1,13 @@
 package org.halvors.quantum.common.block.debug;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.block.BlockRotatable;
@@ -42,9 +47,9 @@ public class BlockCreativeBuilder extends BlockRotatable {
 
     // Called when the block is right clicked by the player.
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (schematicRegistry.size() > 0) {
-            player.openGui(Quantum.getInstance(), 0, world, x, y, z);
+            player.openGui(Quantum.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
 
             return true;
         }
@@ -53,7 +58,7 @@ public class BlockCreativeBuilder extends BlockRotatable {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int metadata) {
+    public TileEntity createNewTileEntity(World world, int metadata) {
         return null;
     }
 }

@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL12;
 
 import java.util.Map;
 
+/*
 @SideOnly(Side.CLIENT)
 public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
     private static final BlockRenderingHandler instance = new BlockRenderingHandler();
@@ -123,6 +124,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
                 }
             }
         */
+    /*
     }
 
     @Override
@@ -163,7 +165,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
             return true;
         }
         */
-
+        /*
         return false;
     }
 
@@ -181,3 +183,4 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
         return instance;
     }
 }
+*/

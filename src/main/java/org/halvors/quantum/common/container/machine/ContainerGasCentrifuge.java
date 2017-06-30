@@ -33,12 +33,12 @@ public class ContainerGasCentrifuge extends ContainerQuantum {
         addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 3, 101, 26));
 
         addPlayerInventory(inventoryPlayer.player);
-        tile.openChest();
+        tile.openInventory(inventoryPlayer.player);
     }
     
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return tile.isUseableByPlayer(player);
+        return tile.isUsableByPlayer(player);
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */

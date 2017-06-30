@@ -14,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 /**
  * A block rendering helper class.
  */
+/*
 public class BlockRenderUtility {
     public static void setupLight(World world, int x, int y, int z) {
         if (world.getBlockState(new BlockPos(x, y, z)).isOpaqueCube()) {
@@ -102,6 +103,7 @@ public class BlockRenderUtility {
      * Renders a connected texture block with a bitmask
      * @param sideMap - The sides that are connected
      */
+/*
     public static void tessellateBlockWithConnectedTextures(byte sideMap, IBlockAccess access, int x, int y, int z, Block block, IIcon faceOverride, IIcon edgeOverride) {
         tessellateBlockWithConnectedTextures(sideMap, RenderUtility.renderBlocks, access, x, y, z, block, faceOverride, edgeOverride);
     }
@@ -135,6 +137,7 @@ public class BlockRenderUtility {
     /**
      * For rendering items.
      */
+/*
     public static void tessellateBlockWithConnectedTextures(int metadata, Block block, IIcon faceOverride, IIcon edgeOverride) {
         GL11.glPushMatrix();
         RenderBlocks renderBlocks = RenderUtility.renderBlocks;
@@ -160,3 +163,4 @@ public class BlockRenderUtility {
         GL11.glPopMatrix();
     }
 }
+*/

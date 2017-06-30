@@ -4,7 +4,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -190,10 +189,12 @@ public abstract class GuiComponentContainerScreen extends GuiScreen implements I
 		super.drawTexturedModalRect(x, y, textureX, textureY, width, height);
 	}
 
+	/*
 	@Override
 	public void drawTexturedRectFromIcon(int x, int y, IIcon icon, int width, int height) {
 		super.drawTexturedModelRectFromIcon(x, y, icon, width, height);
 	}
+	*/
 
 	@Override
 	public void drawString(String text, int x, int y) {

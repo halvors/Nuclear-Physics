@@ -61,13 +61,14 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
 
                     if (message.size > 0) {
                         // TODO: EnumFacing.fromAngle() correct replacement for ForgeDirection.getOrientation()?
-                        HashMap<Vector3, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.fromAngle(position.getBlockMetadata(world)), message.size);
+                        /*HashMap<Vector3, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.fromAngle(position.getBlock(world)), message.size);
 
                         for (Map.Entry<Vector3, Pair<Block, Integer>> entry : map.entrySet()) {
                             Vector3 placePos = entry.getKey().clone();
                             placePos.translate(position);
                             placePos.setBlock(world, entry.getValue().getLeft(), entry.getValue().getRight());
                         }
+                        */
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

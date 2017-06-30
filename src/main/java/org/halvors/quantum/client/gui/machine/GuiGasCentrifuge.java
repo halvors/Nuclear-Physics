@@ -23,7 +23,7 @@ public class GuiGasCentrifuge extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString(tile.getInventoryName(), 60, 6, 4210752);
+        fontRendererObj.drawString(tile.getName(), 60, 6, 4210752);
 
         String displayText;
 

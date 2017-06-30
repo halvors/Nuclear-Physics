@@ -11,9 +11,10 @@ import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
+/*
 @SideOnly(Side.CLIENT)
 public class RenderChemicalExtractor extends TileEntitySpecialRenderer<TileChemicalExtractor> {
-    private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "chemicalExtractor.obj"));
+    private static final IModel model = OBJAdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "chemicalExtractor.obj"));
     private static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "chemicalExtractor.png");
 
     @Override
@@ -39,3 +40,4 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer<TileChemi
         }
     }
 }
+*/

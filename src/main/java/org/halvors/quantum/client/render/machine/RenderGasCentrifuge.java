@@ -11,6 +11,7 @@ import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
+/*
 @SideOnly(Side.CLIENT)
 public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentrifuge> {
     private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "centrifuge.obj"));
@@ -37,3 +38,4 @@ public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentri
         GL11.glPopMatrix();
     }
 }
+*/

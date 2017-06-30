@@ -16,8 +16,10 @@ public class SoundHandler {
 		game.getSoundHandler().playSound(sound);
 	}
 
+	/*
 	public static void playSound(String sound) {
 		playSound(PositionedSoundRecord.createPositionedSoundRecord(ResourceUtility.getResource(ResourceType.SOUND, sound), 1));
 	}
+	*/
 }
 

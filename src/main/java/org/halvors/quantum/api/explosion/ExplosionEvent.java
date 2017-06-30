@@ -24,9 +24,9 @@ public class ExplosionEvent extends Event {
     public ExplosionEvent(World world, IExplosion explosion) {
         this.world = world;
         this.iExplosion = iExplosion;
-        this.x = ((Explosion) explosion).explosionX;
-        this.y = ((Explosion) explosion).explosionY;
-        this.z = ((Explosion) explosion).explosionZ;
+        this.x = ((Explosion) explosion).getPosition().xCoord;
+        this.y = ((Explosion) explosion).getPosition().yCoord;
+        this.z = ((Explosion) explosion).getPosition().zCoord;
 
         if (iExplosion instanceof Explosion) {
             this.explosion = (Explosion) iExplosion;

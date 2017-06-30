@@ -13,6 +13,7 @@ import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
+/*
 @SideOnly(Side.CLIENT)
 public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell> {
     private static final IModel modelTop = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "reactorCellTop.obj"));
@@ -78,3 +79,4 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
         GL11.glPopMatrix();
     }
 }
+*/

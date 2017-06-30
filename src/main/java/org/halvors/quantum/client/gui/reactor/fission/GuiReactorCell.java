@@ -26,7 +26,7 @@ public class GuiReactorCell extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        fontRendererObj.drawString(tile.getInventoryName(), xSize / 2 - fontRendererObj.getStringWidth(tile.getInventoryName()) / 2, 6, 4210752);
+        fontRendererObj.drawString(tile.getName(), xSize / 2 - fontRendererObj.getStringWidth(tile.getName()) / 2, 6, 4210752);
 
         if (tile.getStackInSlot(0) != null) {
             // Test field for actual heat inside of reactor cell.

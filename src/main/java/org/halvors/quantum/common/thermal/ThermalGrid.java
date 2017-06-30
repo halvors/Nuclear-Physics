@@ -3,6 +3,7 @@ package org.halvors.quantum.common.thermal;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.common.event.ThermalEvent;
@@ -81,7 +82,7 @@ public class ThermalGrid implements IUpdate {
                     isReactor = false;
                 }
 
-                ThermalEvent.ThermalUpdateEvent event = new ThermalEvent.ThermalUpdateEvent(pos, currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
+                ThermalEvent.ThermalUpdateEvent event = new ThermalEvent.ThermalUpdateEvent(pos.getWorld(), new BlockPos(pos.intX(), pos.intY(), pos.intZ()), currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
                 MinecraftForge.EVENT_BUS.post(event);
 
                 float loss = event.heatLoss;

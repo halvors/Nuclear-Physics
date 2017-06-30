@@ -1,30 +1,25 @@
 package org.halvors.quantum.client.utility.render;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import org.halvors.quantum.common.utility.WorldUtility;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
-import java.util.Set;
+import java.util.Map;
 
 public class RenderUtility {
-    public static final HashMap<String, ResourceLocation> resourceCahce = new HashMap<>();
+    private static final Map<String, ResourceLocation> resourceCahce = new HashMap<>();
 
     /** Icon loading map for external icon registration. */
+    /*
     public static final HashMap<String, IIcon> loadedIconMap = new HashMap<>();
     public static RenderBlocks renderBlocks = new RenderBlocks();
+    */
 
     public static ResourceLocation getResource(String domain, String name) {
         String cacheName = domain + ":" + name;
@@ -36,6 +31,7 @@ public class RenderUtility {
         return resourceCahce.get(cacheName);
     }
 
+    /*
     public static void setTerrainTexture() {
         setSpriteTexture(0);
     }
@@ -61,6 +57,7 @@ public class RenderUtility {
     }
 
     /** Enables blending. */
+    /*
     public static void enableBlending() {
         GL11.glShadeModel(GL11.GL_SMOOTH);
         GL11.glEnable(GL11.GL_BLEND);
@@ -68,6 +65,7 @@ public class RenderUtility {
     }
 
     /** Disables blending. */
+    /*
     public static void disableBlending() {
         GL11.glShadeModel(GL11.GL_FLAT);
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
@@ -80,6 +78,7 @@ public class RenderUtility {
     }
 
     /** Disables lighting and turns glow on. */
+    /*
     public static void disableLighting() {
         RenderHelper.disableStandardItemLighting();
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
@@ -90,6 +89,7 @@ public class RenderUtility {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
     }
+    */
 
     public static void enableLightmap() {
         OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
@@ -97,6 +97,7 @@ public class RenderUtility {
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
     }
 
+    /*
     public static void renderNormalBlockAsItem(Block block, int metadata, RenderBlocks renderer) {
         Tessellator tessellator = Tessellator.getInstance();
 
@@ -140,6 +141,7 @@ public class RenderUtility {
     /** Renders a floating text in a specific position.
      *
      * @author Briman0094 */
+    /*
     public static void renderFloatingText(String text, Vector3 position, int color) {
         renderFloatingText(text, position.x, position.y, position.z, color);
     }
@@ -184,10 +186,7 @@ public class RenderUtility {
         GL11.glColor4f(1, 1, 1, 1);
         GL11.glPopMatrix();
     }
-
-    public static void renderText(String text, int side, float maxScale, double x, double y, double z) {
-        renderText(text, EnumFacing.getOrientation(side), maxScale, x, y, z);
-    }
+    */
 
     public static void renderText(String text, EnumFacing side, float maxScale, double x, double y, double z) {
         GL11.glPushMatrix();
@@ -263,6 +262,7 @@ public class RenderUtility {
 
     /** Pre-translated and rotated version. The current position will be the center of the text
      * render. */
+    /*
     public static void renderText(String text, float scaler, float maxScale) {
         GL11.glPushMatrix();
 
@@ -310,6 +310,7 @@ public class RenderUtility {
     }
 
     /** @author OpenBlocks */
+    /*
     public static void rotateFacesOnRenderer(EnumFacing rotation, RenderBlocks renderer, boolean fullRotation) {
         if (fullRotation) {
             switch (rotation) {
@@ -465,6 +466,7 @@ public class RenderUtility {
     }
 
     /** Renders a cube with custom block boundaries. */
+    /*
     public static void renderCube(double x1, double y1, double z1, double x2, double y2, double z2, Block block, IIcon overrideTexture, int meta) {
         GL11.glPushMatrix();
         Tessellator t = Tessellator.getInstance();
@@ -509,7 +511,7 @@ public class RenderUtility {
      * panels. The model will need to be centered and be facing upright to begin with.
      *
      * @param placementSide */
-    @SuppressWarnings("incomplete-switch")
+    /*@SuppressWarnings("incomplete-switch")
     public static void rotateFaceBlockToSide(EnumFacing placementSide) {
         switch (placementSide) {
             case DOWN:
@@ -597,6 +599,7 @@ public class RenderUtility {
     /** Rotates a block based on the direction it is facing.
      *
      * @param direction */
+    /*
     public static void rotateBlockBasedOnDirection(EnumFacing direction) {
         switch (direction) {
             default:
@@ -614,6 +617,7 @@ public class RenderUtility {
     /** Use this for models that are facing up by default.
      *
      * @param direction */
+    /*
     public static void rotateBlockBasedOnDirectionUp(EnumFacing direction) {
         switch (direction) {
             default:
@@ -627,6 +631,7 @@ public class RenderUtility {
                 break;
         }
     }
+    */
 
     public static void bind(String name) {
         bind(getResource("minecraft", name));

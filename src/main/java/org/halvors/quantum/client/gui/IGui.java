@@ -27,7 +27,7 @@ public interface IGui {
 	 * @param width
 	 * @param height
 	 */
-	void drawTexturedRectFromIcon(int x, int y, IIcon icon, int width, int height);
+	//void drawTexturedRectFromIcon(int x, int y, IIcon icon, int width, int height);
 
 	void drawString(String text, int x, int y);
 

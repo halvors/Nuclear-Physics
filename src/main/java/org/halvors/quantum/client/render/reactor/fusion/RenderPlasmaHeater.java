@@ -10,6 +10,7 @@ import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
+/*
 @SideOnly(Side.CLIENT)
 public class RenderPlasmaHeater extends TileEntitySpecialRenderer<TilePlasmaHeater> {
     private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "plasmaHeater.obj"));
@@ -33,3 +34,4 @@ public class RenderPlasmaHeater extends TileEntitySpecialRenderer<TilePlasmaHeat
         GL11.glPopMatrix();
     }
 }
+*/

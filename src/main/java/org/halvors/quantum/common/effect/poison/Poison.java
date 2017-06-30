@@ -58,7 +58,7 @@ public abstract class Poison {
                         IAntiPoisonArmor armor = (IAntiPoisonArmor)entityPlayer.inventory.armorInventory[i].getItem();
 
                         if (armor.isProtectedFromPoison(entityPlayer.inventory.armorInventory[i], entity, getName())) {
-                            armorWorn.add(ArmorType.values()[(armor.getArmorType() % ArmorType.values().length)]);
+                            armorWorn.add(ArmorType.values()[(armor.getArmorType().ordinal() % ArmorType.values().length)]);
 
                             armor.onProtectFromPoison(entityPlayer.inventory.armorInventory[i], entity, getName());
                         }

@@ -9,5 +9,5 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public interface ISimpleBlockRenderer {
     boolean renderItem(ItemStack itemStack);
 
-    boolean renderStatic(RenderBlocks renderer, IBlockAccess access, int x, int y, int z);
+    //boolean renderStatic(RenderBlocks renderer, IBlockAccess access, int x, int y, int z);
 }
