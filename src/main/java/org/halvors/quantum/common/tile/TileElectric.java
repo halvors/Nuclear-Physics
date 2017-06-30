@@ -1,45 +1,47 @@
 package org.halvors.quantum.common.tile;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyHandler;
+import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.EnumSet;
 
-public class TileElectric extends TileQuantum implements IEnergyHandler {
+public class TileElectric extends TileQuantum implements IEnergyReceiver, IEnergyProvider {
     protected EnergyStorage energyStorage;
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
 
         if (energyStorage != null) {
-            energyStorage.readFromNBT(nbt);
+            energyStorage.readFromNBT(tagCompound);
         }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
 
         if (energyStorage != null) {
-            energyStorage.writeToNBT(nbt);
+            energyStorage.writeToNBT(tagCompound);
         }
+
+        return tagCompound;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean canConnectEnergy(ForgeDirection from) {
+    public boolean canConnectEnergy(EnumFacing from) {
         return getReceivingDirections().contains(from) || getExtractingDirections().contains(from);
     }
 
     @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         if (energyStorage != null && getReceivingDirections().contains(from)) {
             return energyStorage.receiveEnergy(maxReceive, simulate);
         }
@@ -48,7 +50,7 @@ public class TileElectric extends TileQuantum implements IEnergyHandler {
     }
 
     @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
         if (energyStorage != null && getExtractingDirections().contains(from)) {
             return energyStorage.extractEnergy(maxExtract, simulate);
         }
@@ -57,7 +59,7 @@ public class TileElectric extends TileQuantum implements IEnergyHandler {
     }
 
     @Override
-    public int getEnergyStored(ForgeDirection from) {
+    public int getEnergyStored(EnumFacing from) {
         if (energyStorage != null) {
             return energyStorage.getEnergyStored();
         }
@@ -66,7 +68,7 @@ public class TileElectric extends TileQuantum implements IEnergyHandler {
     }
 
     @Override
-    public int getMaxEnergyStored(ForgeDirection from) {
+    public int getMaxEnergyStored(EnumFacing from) {
         if (energyStorage != null) {
             return energyStorage.getMaxEnergyStored();
         }
@@ -84,24 +86,21 @@ public class TileElectric extends TileQuantum implements IEnergyHandler {
         this.energyStorage = energyStorage;
     }
 
-    public EnumSet<ForgeDirection> getReceivingDirections() {
-        EnumSet<ForgeDirection> directions = EnumSet.allOf(ForgeDirection.class);
-        directions.remove(ForgeDirection.UNKNOWN);
-
-        return directions;
+    public EnumSet<EnumFacing> getReceivingDirections() {
+        return EnumSet.allOf(EnumFacing.class);
     }
 
-    public EnumSet<ForgeDirection> getExtractingDirections() {
-        return EnumSet.noneOf(ForgeDirection.class);
+    public EnumSet<EnumFacing> getExtractingDirections() {
+        return EnumSet.noneOf(EnumFacing.class);
     }
 
     protected int produce() {
         int totalUsed = 0;
 
         // Send energy to available receivers.
-        for (ForgeDirection direction : getExtractingDirections()) {
+        for (EnumFacing direction : getExtractingDirections()) {
             if (energyStorage.getEnergyStored() > 0) {
-                TileEntity tileEntity = new Vector3(this).translate(direction).getTileEntity(worldObj);
+                TileEntity tileEntity = new Vector3(this).translate(direction).getTileEntity(world);
 
                 if (tileEntity != null && tileEntity instanceof IEnergyReceiver) {
                     IEnergyReceiver tileReceiver = (IEnergyReceiver) tileEntity;

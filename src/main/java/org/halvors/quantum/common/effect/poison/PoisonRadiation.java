@@ -16,12 +16,12 @@ public class PoisonRadiation extends Poison {
 
     @Override
     public boolean isEntityProtected(Vector3 emitPosition, EntityLivingBase entity, int amplifier) {
-        return emitPosition != null && getAntiPoisonBlockCount(entity.worldObj, emitPosition, new Vector3(entity)) <= amplifier && super.isEntityProtected(emitPosition, entity, amplifier);
+        return emitPosition != null && getAntiPoisonBlockCount(entity.getEntityWorld(), emitPosition, new Vector3(entity)) <= amplifier && super.isEntityProtected(emitPosition, entity, amplifier);
     }
 
     @Override
     protected void doPoisonEntity(Vector3 emitPosition, EntityLivingBase entity, int amplifier) {
         // TODO: Add option to disable poisoning?
-        entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.INSTANCE.getId(), 300 * (amplifier + 1), amplifier, null));
+        entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.INSTANCE, 300 * (amplifier + 1), amplifier, null));
     }
 }

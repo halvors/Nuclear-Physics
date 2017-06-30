@@ -11,7 +11,7 @@ import org.halvors.quantum.common.utility.WrenchUtility;
 
 public class BlockSiren extends BlockTextured {
     public BlockSiren() {
-        super("siren", Material.iron);
+        super("siren", Material.IRON);
 
         setCreativeTab(Quantum.getCreativeTab());
     }

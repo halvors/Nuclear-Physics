@@ -11,7 +11,7 @@ import org.halvors.quantum.common.tile.particle.TileAccelerator;
 
 public class BlockAccelerator extends BlockRotatable {
     public BlockAccelerator() {
-        super("accelerator", Material.iron);
+        super("accelerator", Material.IRON);
 
         setTextureName(Reference.PREFIX + "accelerator");
     }

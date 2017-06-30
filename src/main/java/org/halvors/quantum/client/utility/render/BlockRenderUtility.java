@@ -2,12 +2,11 @@ package org.halvors.quantum.client.utility.render;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.utility.RotationUtility;
 import org.halvors.quantum.common.utility.WorldUtility;
 import org.lwjgl.opengl.GL11;
@@ -17,7 +16,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class BlockRenderUtility {
     public static void setupLight(World world, int x, int y, int z) {
-        if (world.getBlock(x, y, z).isOpaqueCube()) {
+        if (world.getBlockState(new BlockPos(x, y, z)).isOpaqueCube()) {
             return;
         }
 
@@ -29,7 +28,7 @@ public class BlockRenderUtility {
     }
 
     public static void tessellateFace(RenderBlocks renderBlocks, Block block, IIcon overrideTexture, int side) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = Tessellator.getInstance();
         int metadata = 0;
         IIcon useTexture = overrideTexture != null ? overrideTexture : block.getIcon(side, metadata);
 
@@ -116,10 +115,10 @@ public class BlockRenderUtility {
         renderBlocks.setRenderBoundsFromBlock(block);
         renderBlocks.renderStandardBlock(block, x, y, z);
 
-        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
+        for (EnumFacing direction : EnumFacing.VALUES) {
             for (int side = 0; side <= 4; side++) {
                 if (!WorldUtility.isEnabledSide(sideMap, direction)) {
-                    ForgeDirection absDirection = ForgeDirection.getOrientation(RotationUtility.rotateSide(direction.ordinal(), side));
+                    EnumFacing absDirection = EnumFacing.getOrientation(RotationUtility.rotateSide(direction.ordinal(), side));
 
                     if (!WorldUtility.isEnabledSide(sideMap, absDirection)) {
                         RenderUtility.rotateFacesOnRenderer(absDirection, renderBlocks, true);
@@ -148,16 +147,16 @@ public class BlockRenderUtility {
         GL11.glPopMatrix();
         GL11.glTranslated(-0.5, -0.5, -0.5);
 
-        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
+        for (EnumFacing direction : EnumFacing.VALUES) {
             for (int side = 0; side <= 4; side++) {
-                ForgeDirection absDirection = ForgeDirection.getOrientation(RotationUtility.rotateSide(direction.ordinal(), side));
+                EnumFacing absDirection = EnumFacing.getOrientation(RotationUtility.rotateSide(direction.ordinal(), side));
                 RenderUtility.rotateFacesOnRenderer(absDirection, renderBlocks, true);
                 tessellateFace(renderBlocks, block, edgeOverride, direction.ordinal());
                 RenderUtility.resetFacesOnRenderer(renderBlocks);
             }
         }
 
-        Tessellator.instance.draw();
+        Tessellator.getInstance().draw();
         GL11.glPopMatrix();
     }
 }

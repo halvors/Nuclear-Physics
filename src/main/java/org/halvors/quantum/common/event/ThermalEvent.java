@@ -1,6 +1,6 @@
 package org.halvors.quantum.common.event;
 
-import cpw.mods.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 public abstract class ThermalEvent extends Event {

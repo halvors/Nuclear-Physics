@@ -36,7 +36,7 @@ public class TileInventory extends TileQuantum implements ISidedInventory {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
 
         NBTTagList tagList = new NBTTagList();
@@ -51,6 +51,8 @@ public class TileInventory extends TileQuantum implements ISidedInventory {
         }
 
         tagCompound.setTag("Items", tagList);
+
+        return tagCompound;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,7 +154,7 @@ public class TileInventory extends TileQuantum implements ISidedInventory {
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
+    public boolean isUsableByPlayer(EntityPlayer player) {
         return player.getDistanceSq(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D) <= 64.0D;
     }
 

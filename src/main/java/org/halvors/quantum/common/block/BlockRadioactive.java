@@ -1,16 +1,17 @@
 package org.halvors.quantum.common.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
@@ -26,14 +27,14 @@ public class BlockRadioactive extends BlockTextured {
     protected static boolean spawnParticle;
 
     public BlockRadioactive(String name) {
-        super(name, Material.rock);
+        super(name, Material.ROCK);
 
         setTickRandomly(true);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
         if (spawnParticle) {
             if (Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
                 int radius = 3;
@@ -72,13 +73,13 @@ public class BlockRadioactive extends BlockTextured {
                     int newZ = z + random.nextInt(3) - 1;
                     net.minecraft.block.Block block = world.getBlock(newX, newY, newZ);
 
-                    if (random.nextFloat() > 0.4 && (block == Blocks.farmland || block == Blocks.grass)) {
+                    if (random.nextFloat() > 0.4 && (block == Blocks.FARMLAND || block == Blocks.GRASS)) {
                         world.setBlock(newX, newY, newZ, this);
                     }
                 }
 
                 if (random.nextFloat() > 0.85) {
-                    world.setBlock(x, y, z, Blocks.dirt);
+                    world.setBlock(x, y, z, Blocks.DIRT);
                 }
             }
         }
@@ -88,9 +89,9 @@ public class BlockRadioactive extends BlockTextured {
      * Called whenever an entity is walking on top of this block. Args: world, x, y, z, entity
      */
     @Override
-    public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
+    public void onEntityWalk(World world, BlockPos pos, Entity entity) {
         if (entity instanceof EntityLiving && canWalkPoison) {
-            PoisonRadiation.INSTANCE.poisonEntity(new Vector3(x, y, z), (EntityLiving) entity);
+            PoisonRadiation.INSTANCE.poisonEntity(new Vector3(pos), (EntityLiving) entity);
         }
     }
 }

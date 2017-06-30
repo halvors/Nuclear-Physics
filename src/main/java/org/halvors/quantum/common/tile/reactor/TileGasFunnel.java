@@ -2,11 +2,12 @@ package org.halvors.quantum.common.tile.reactor;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.common.thermal.IBoilHandler;
 
-public class TileGasFunnel extends TileEntity implements IBoilHandler {
+public class TileGasFunnel extends TileEntity implements ITickable, IBoilHandler {
     private final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 
     public TileGasFunnel() {
@@ -14,20 +15,18 @@ public class TileGasFunnel extends TileEntity implements IBoilHandler {
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
-
+    public void update() {
         if (tank.getFluidAmount() > 0) {
-            TileEntity tile = worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
+            TileEntity tile = world.getTileEntity(pos.up());
 
             if (tile instanceof IFluidHandler) {
                 IFluidHandler handler = (IFluidHandler) tile;
 
-                if (handler.canFill(ForgeDirection.DOWN, tank.getFluid().getFluid())) {
+                if (handler.canFill(EnumFacing.DOWN, tank.getFluid().getFluid())) {
                     FluidStack drainedStack = tank.drain(tank.getCapacity(), false);
 
                     if (drainedStack != null) {
-                        tank.drain(handler.fill(ForgeDirection.DOWN, drainedStack, true), true);
+                        tank.drain(handler.fill(EnumFacing.DOWN, drainedStack, true), true);
                     }
                 }
             }
@@ -42,19 +41,21 @@ public class TileGasFunnel extends TileEntity implements IBoilHandler {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
 
         tank.readFromNBT(tagCompound);
+
+        return tagCompound;
     }
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
         return tank.fill(resource, doFill);
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
         if (resource != null) {
             if (resource.isFluidEqual(tank.getFluid())){
                 return tank.drain(resource.amount, doDrain);
@@ -65,22 +66,22 @@ public class TileGasFunnel extends TileEntity implements IBoilHandler {
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return tank.drain(maxDrain, doDrain);
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return fluid.isGaseous() && from == ForgeDirection.DOWN;
+    public boolean canFill(EnumFacing from, Fluid fluid) {
+        return fluid.isGaseous() && from == EnumFacing.DOWN;
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return fluid.isGaseous() && from == ForgeDirection.UP;
+    public boolean canDrain(EnumFacing from, Fluid fluid) {
+        return fluid.isGaseous() && from == EnumFacing.UP;
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(EnumFacing from) {
         return new FluidTankInfo[] { tank.getInfo() };
     }
 }

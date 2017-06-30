@@ -1,16 +1,17 @@
 package org.halvors.quantum.client;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.debug.GuiCreativeBuilder;
 import org.halvors.quantum.client.gui.machine.GuiChemicalExtractor;
 import org.halvors.quantum.client.gui.machine.GuiGasCentrifuge;
@@ -72,10 +73,10 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
 	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity tile = world.getTileEntity(x, y, z);
-		Block block = world.getBlock(x, y, z);
+		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
+		IBlockState state = world.getBlockState(new BlockPos(x, y, z));
 
-		if (block instanceof BlockCreativeBuilder) {
+		if (state instanceof BlockCreativeBuilder) {
 			return new GuiCreativeBuilder(new Vector3(x, y, z));
 		}
 
@@ -101,7 +102,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		if (context.side.isServer()) {
 			return context.getServerHandler().playerEntity;
 		} else {
-			return Minecraft.getMinecraft().thePlayer;
+			return Minecraft.getMinecraft().player;
 		}
 	}
 }

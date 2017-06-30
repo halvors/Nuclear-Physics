@@ -1,12 +1,10 @@
 package org.halvors.quantum.client.render.reactor;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.ArrayUtils;
 import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
@@ -22,7 +20,7 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
     private static final ResourceLocation textureLarge = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electricTurbineLarge.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f) {
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks, int destroyStage) {
         if (tile instanceof TileElectricTurbine) {
             TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
 

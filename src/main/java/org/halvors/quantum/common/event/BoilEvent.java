@@ -1,12 +1,12 @@
 package org.halvors.quantum.common.event;
 
-import cpw.mods.fml.common.eventhandler.Event.HasResult;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
-@HasResult
+@Event.HasResult
 public class BoilEvent extends WorldEvent {
     private final Vector3 position;
     private final FluidStack fluid;

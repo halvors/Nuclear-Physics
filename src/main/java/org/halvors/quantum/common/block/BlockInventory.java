@@ -1,12 +1,12 @@
 package org.halvors.quantum.common.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -17,14 +17,14 @@ public class BlockInventory extends BlockRotatable {
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
-        dropEntireInventory(world, x, y, z, block, metadata);
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        dropEntireInventory(world, pos, state);
 
-        super.breakBlock(world, x, y, z, block, metadata);
+        super.breakBlock(world, pos, state);
     }
 
-    public void dropEntireInventory(World world, int x, int y, int z, Block block, int par6) {
-        TileEntity tile = world.getTileEntity(x, y, z);
+    public void dropEntireInventory(World world, BlockPos pos, IBlockState state) {
+        TileEntity tile = world.getTileEntity(pos);
 
         if (tile != null) {
             if (tile instanceof IInventory) {
@@ -48,17 +48,17 @@ public class BlockInventory extends BlockRotatable {
 
                             itemStack.stackSize -= var11;
 
-                            EntityItem entityItem = new EntityItem(world, x + var8, y + var9, z + var10, new ItemStack(itemStack.getItem(), var11, itemStack.getMetadata()));
+                            EntityItem entityItem = new EntityItem(world, pos.getX() + var8, pos.getY() + var9, pos.getZ() + var10, new ItemStack(itemStack.getItem(), var11, itemStack.getMetadata()));
 
                             if (itemStack.hasTagCompound()) {
-                                entityItem.getEntityItem().setTagCompound((NBTTagCompound) itemStack.getTagCompound().copy());
+                                entityItem.getEntityItem().setTagCompound(itemStack.getTagCompound().copy());
                             }
 
                             float var13 = 0.05F;
                             entityItem.motionX = random.nextGaussian() * var13;
                             entityItem.motionY = (random.nextGaussian() * var13) + 0.2F;
                             entityItem.motionZ = random.nextGaussian() * var13;
-                            world.spawnEntityInWorld(entityItem);
+                            world.spawnEntity(entityItem);
 
                             if (itemStack.stackSize <= 0) {
                                 inventory.setInventorySlotContents(i, null);

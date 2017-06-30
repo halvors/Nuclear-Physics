@@ -1,14 +1,12 @@
 package org.halvors.quantum.common.item.particle;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.utility.LanguageUtility;
@@ -22,7 +20,7 @@ public class ItemAntimatter extends ItemCell {
     public ItemAntimatter() {
         super("antimatter");
 
-        setMaxDurability(0);
+        setMaxDamage(0);
     }
 
     @Override

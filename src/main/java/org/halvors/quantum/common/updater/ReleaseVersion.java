@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.updater;
 
-import cpw.mods.fml.common.versioning.ArtifactVersion;
+
+import net.minecraftforge.fml.common.versioning.ArtifactVersion;
 
 public class ReleaseVersion implements ArtifactVersion {
     private final String label;

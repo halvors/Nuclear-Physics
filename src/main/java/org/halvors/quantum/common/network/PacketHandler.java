@@ -1,25 +1,22 @@
 package org.halvors.quantum.common.network;
 
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.network.packet.PacketConfiguration;
@@ -55,7 +52,7 @@ public class PacketHandler {
 		networkWrapper.sendToAll(message);
 	}
 
-	public void sendToAllAround(IMessage message, TargetPoint point) {
+	public void sendToAllAround(IMessage message, NetworkRegistry.TargetPoint point) {
 		networkWrapper.sendToAllAround(message, point);
 	}
 
@@ -76,7 +73,7 @@ public class PacketHandler {
 	public void sendToCuboid(IMessage message, AxisAlignedBB cuboid, int dimensionId) {
 		if (cuboid != null) {
 			for (EntityPlayerMP player : PlayerUtility.getPlayers()) {
-				if (player.dimension == dimensionId && cuboid.isVecInside(Vec3.createVectorHelper(player.posX, player.posY, player.posZ))) {
+				if (player.dimension == dimensionId && cuboid.isVecInside(new Vec3d(player.posX, player.posY, player.posZ))) {
 					sendTo(message, player);
 				}
 			}
@@ -114,7 +111,7 @@ public class PacketHandler {
 	}
 
 	public static World getWorld(MessageContext context) {
-		return getPlayer(context).worldObj;
+		return getPlayer(context).getEntityWorld();
 	}
 
     public static void writeObject(Object object, ByteBuf dataStream) {
@@ -140,9 +137,9 @@ public class PacketHandler {
             } else if (object instanceof String) {
                 writeString(dataStream, (String) object);
             } else if (object instanceof ItemStack) {
-                writeItemStack(dataStream, (ItemStack) object);
+                writeStack(dataStream, (ItemStack) object);
             } else if (object instanceof NBTTagCompound) {
-                writeNBTTag(dataStream, (NBTTagCompound) object);
+                writeNBT(dataStream, (NBTTagCompound) object);
             }
         } catch (Exception e) {
             Quantum.getLogger().error("An error occurred when sending packet data.");
@@ -156,68 +153,27 @@ public class PacketHandler {
         }
     }
 
-	public static void writeString(ByteBuf dataStream, String s) {
-		dataStream.writeInt(s.getBytes().length);
-		dataStream.writeBytes(s.getBytes());
+	public static void writeString(ByteBuf output, String s) {
+		ByteBufUtils.writeUTF8String(output, s);
 	}
 
-	public static String readString(ByteBuf dataStream) {
-		return new String(dataStream.readBytes(dataStream.readInt()).array());
+	public static String readString(ByteBuf input) {
+		return ByteBufUtils.readUTF8String(input);
 	}
 
-	public static void writeItemStack(ByteBuf dataStream, ItemStack stack) {
-		dataStream.writeInt(stack != null ? Item.getIdFromItem(stack.getItem()) : -1);
-
-		if (stack != null) {
-			dataStream.writeInt(stack.stackSize);
-			dataStream.writeInt(stack.getMetadata());
-
-			if(stack.getTagCompound() != null && stack.getItem().getShareTag()) {
-				dataStream.writeBoolean(true);
-				writeNBTTag(dataStream, stack.getTagCompound());
-			} else {
-				dataStream.writeBoolean(false);
-			}
-		}
+	public static void writeStack(ByteBuf output, ItemStack stack) {
+		ByteBufUtils.writeItemStack(output, stack);
 	}
 
-	public static ItemStack readItemStack(ByteBuf dataStream) {
-		int id = dataStream.readInt();
-
-		if (id >= 0) {
-			ItemStack stack = new ItemStack(Item.getItemById(id), dataStream.readInt(), dataStream.readInt());
-
-			if (dataStream.readBoolean()) {
-				stack.setTagCompound(readNBTTag(dataStream));
-			}
-
-			return stack;
-		}
-
-		return null;
+	public static ItemStack readStack(ByteBuf input) {
+		return ByteBufUtils.readItemStack(input);
 	}
 
-	public static void writeNBTTag(ByteBuf dataStream, NBTTagCompound tagCompound) {
-		try {
-			byte[] buffer = CompressedStreamTools.compress(tagCompound);
-
-			dataStream.writeInt(buffer.length);
-			dataStream.writeBytes(buffer);
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+	public static void writeNBT(ByteBuf output, NBTTagCompound tagCompound) {
+		ByteBufUtils.writeTag(output, tagCompound);
 	}
 
-	public static NBTTagCompound readNBTTag(ByteBuf dataStream) {
-		try {
-			byte[] buffer = new byte[dataStream.readInt()];
-			dataStream.readBytes(buffer);
-
-			return CompressedStreamTools.decompress(buffer, new NBTSizeTracker(2097152L));
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-
-		return null;
+	public static NBTTagCompound readNBT(ByteBuf input) {
+		return ByteBufUtils.readTag(input);
 	}
 }

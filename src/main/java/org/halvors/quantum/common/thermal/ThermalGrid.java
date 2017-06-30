@@ -1,14 +1,13 @@
 package org.halvors.quantum.common.thermal;
 
-
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.quantum.common.event.ThermalEvent;
 import org.halvors.quantum.api.tile.IReactor;
-import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
+import org.halvors.quantum.common.event.ThermalEvent;
 import org.halvors.quantum.common.grid.IUpdate;
+import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -89,13 +88,11 @@ public class ThermalGrid implements IUpdate {
                 addTemperature(pos, (deltaFromEquilibrium > 0 ? 1 : -1) * Math.min(Math.abs(deltaFromEquilibrium), Math.abs(loss)));
 
                 // Spread heat to surrounding.
-                for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+                for (EnumFacing dir : EnumFacing.VALUES) {
                     VectorWorld adjacent = (VectorWorld) pos.clone().translate(dir);
                     float deltaTemperature = getTemperature(pos) - getTemperature(adjacent);
-
-                    Material adjacentMat = adjacent.world.getBlock(adjacent.intX(), adjacent.intY(), adjacent.intZ()).getMaterial();
-
-                    float spread = (adjacentMat.isSolid() ? this.spread : this.spread / 2) * deltaTime;
+                    Material adjacentMaterial = adjacent.getBlock(adjacent.world).getBlockState().getBaseState().getMaterial();
+                    float spread = (adjacentMaterial.isSolid() ? this.spread : this.spread / 2) * deltaTime;
 
                     if (deltaTemperature > 0) {
                         addTemperature(adjacent, deltaTemperature * spread);

@@ -3,18 +3,18 @@ package org.halvors.quantum.common.tile.reactor.fission;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.thermal.ThermalGrid;
 import org.halvors.quantum.common.thermal.ThermalPhysics;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import java.util.List;
-import java.util.Vector;
 
-public class TileThermometer extends TileEntity implements ITileNetwork {
+public class TileThermometer extends TileEntity implements ITickable, ITileNetwork {
     private static final int maxThreshold = 5000;
     private float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
     private float previousDetectedTemperature = detectedTemperature; // Synced
@@ -27,16 +27,14 @@ public class TileThermometer extends TileEntity implements ITileNetwork {
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
-
+    public void update() {
         // Server only operation.
-        if (!worldObj.isRemote) {
+        if (!world.isRemote) {
             // Every ten ticks.
-            if (worldObj.getWorldTime() % 10 == 0) {
+            if (world.getWorldTime() % 10 == 0) {
                 // Grab temperature from target or from ourselves.
                 if (trackCoordinate != null) {
-                    detectedTemperature = ThermalGrid.getTemperature(new VectorWorld(worldObj, trackCoordinate));
+                    detectedTemperature = ThermalGrid.getTemperature(new VectorWorld(world, trackCoordinate));
                 } else {
                     detectedTemperature = ThermalGrid.getTemperature(new VectorWorld(this));
                 }
@@ -45,7 +43,7 @@ public class TileThermometer extends TileEntity implements ITileNetwork {
                 if (detectedTemperature != previousDetectedTemperature || isProvidingPower != isOverThreshold()) {
                     previousDetectedTemperature = detectedTemperature;
                     isProvidingPower = isOverThreshold();
-                    worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
+                    world.notifyNeighborsOfStateChange(pos, getBlockType());
 
                     Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
@@ -67,7 +65,7 @@ public class TileThermometer extends TileEntity implements ITileNetwork {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
 
         tagCompound.setInteger("threshold", threshold);
@@ -75,6 +73,8 @@ public class TileThermometer extends TileEntity implements ITileNetwork {
         if (trackCoordinate != null) {
             tagCompound.setTag("trackCoordinate", trackCoordinate.writeToNBT(new NBTTagCompound()));
         }
+
+        return tagCompound;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,7 +137,9 @@ public class TileThermometer extends TileEntity implements ITileNetwork {
             this.threshold = maxThreshold;
         }
 
-        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        // TODO: Is this a correct replacement in 1.10.2?
+        //world.markBlockForUpdate(xCoord, yCoord, zCoord);
+        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 2);
     }
 
     public float getDetectedTemperature() {

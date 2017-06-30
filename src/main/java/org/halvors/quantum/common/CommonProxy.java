@@ -1,10 +1,11 @@
 package org.halvors.quantum.common;
 
-import cpw.mods.fml.common.network.IGuiHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.quantum.common.container.machine.ContainerChemicalExtractor;
 import org.halvors.quantum.common.container.machine.ContainerGasCentrifuge;
 import org.halvors.quantum.common.container.machine.ContainerNuclearBoiler;
@@ -33,12 +34,11 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	public void postInit() {
-
 	}
 
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity tile = world.getTileEntity(x, y, z);
+		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 
 		if (tile instanceof TileAccelerator) {
 			return new ContainerAccelerator(player.inventory, (TileAccelerator) tile);

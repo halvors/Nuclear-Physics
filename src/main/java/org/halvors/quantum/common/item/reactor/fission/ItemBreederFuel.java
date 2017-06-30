@@ -1,15 +1,15 @@
 package org.halvors.quantum.common.item.reactor.fission;
 
 import net.minecraft.item.ItemStack;
-import org.halvors.quantum.common.item.ItemRadioactive;
-import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.api.item.IReactorComponent;
+import org.halvors.quantum.api.tile.IReactor;
+import org.halvors.quantum.common.item.ItemRadioactive;
 
 public class ItemBreederFuel extends ItemRadioactive implements IReactorComponent {
     public ItemBreederFuel() {
         super("breederFuel");
 
-        setMaxDurability(ItemFissileFuel.decay);
+        setMaxDamage(ItemFissileFuel.decay);
         setMaxStackSize(1);
         setNoRepair();
     }
@@ -19,7 +19,7 @@ public class ItemBreederFuel extends ItemRadioactive implements IReactorComponen
         reactor.heat(ItemFissileFuel.energyPerTick / 2);
 
         if (reactor.getWorldObject().getWorldTime() % 20 == 0) {
-            itemStack.setMetadata(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDurability()));
+            itemStack.setItemDamage(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDamage()));
         }
     }
 }

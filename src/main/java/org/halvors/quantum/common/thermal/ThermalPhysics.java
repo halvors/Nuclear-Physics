@@ -1,12 +1,12 @@
 package org.halvors.quantum.common.thermal;
 
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class ThermalPhysics {
@@ -20,7 +20,8 @@ public class ThermalPhysics {
      * @return The temperature of the coordinate in the world in kelvin.
      */
     public static float getTemperatureForCoordinate(World world, int x, int z) {
-        int averageTemperature = 273 + (int) ((world.getBiomeGenForCoords(x, z).getFloatTemperature(x, 0, z) - 0.4) * 50);
+        BlockPos pos = new BlockPos(x, 0, z);
+        int averageTemperature = 273 + (int) ((world.getBiome(pos).getFloatTemperature(pos) - 0.4) * 50);
         double dayNightVariance = averageTemperature * 0.05;
 
         return (float) (averageTemperature + (world.isDaytime() ? dayNightVariance : -dayNightVariance));
@@ -61,12 +62,9 @@ public class ThermalPhysics {
     public final HashMap<Vector3, Integer> thermalMap = new HashMap<>();
 
     public void update() {
-        Iterator<Map.Entry<Vector3, Integer>> it = this.thermalMap.entrySet().iterator();
 
-        while (it.hasNext()) {
-            Map.Entry<Vector3, Integer> entry = it.next();
-
-            for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
+        for (Map.Entry<Vector3, Integer> entry : thermalMap.entrySet()) {
+            for (EnumFacing dir : EnumFacing.VALUES) {
                 Vector3 checkPos = entry.getKey().clone().translate(dir);
                 int neighbourTemp = getTemperature(checkPos);
 

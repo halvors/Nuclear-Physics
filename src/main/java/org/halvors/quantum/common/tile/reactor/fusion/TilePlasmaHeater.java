@@ -4,17 +4,18 @@ import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 
 import java.util.List;
 
-public class TilePlasmaHeater extends TileElectricInventory implements ITileNetwork, IFluidHandler, IEnergyReceiver {
+public class TilePlasmaHeater extends TileElectricInventory implements ITickable, ITileNetwork, IFluidHandler, IEnergyReceiver {
     public static long power = 10000000000L;
     public static int plasmaHeatAmount = 100; //@Config
 
@@ -29,12 +30,10 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITileNetw
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
-
+    public void update() {
         rotation += energyStorage.getEnergyStored() / 10000F;
 
-        if (!worldObj.isRemote) {
+        if (!world.isRemote) {
             if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                 if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= plasmaHeatAmount) {
                     tankInputDeuterium.drain(plasmaHeatAmount, true);
@@ -46,8 +45,9 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITileNetw
             }
         }
 
-        if (worldObj.getWorldTime() % 80 == 0) {
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+        if (world.getWorldTime() % 80 == 0) {
+            // TODO: Is this still needed?
+            //world.markBlockForUpdate(xCoord, yCoord, zCoord);
 
             Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
@@ -92,7 +92,7 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITileNetw
 
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
-        if (worldObj.isRemote) {
+        if (world.isRemote) {
             if (dataStream.readBoolean()) {
                 tankInputDeuterium.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBTTag(dataStream)));
             }
@@ -184,7 +184,7 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITileNetw
     */
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
         if (resource.isFluidEqual(Quantum.fluidStackDeuterium)) {
             return tankInputDeuterium.fill(resource, doFill);
         }
@@ -197,34 +197,34 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITileNetw
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
         return drain(from, resource.amount, doDrain);
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return tankOutput.drain(maxDrain, doDrain);
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return fluid.getID() == Quantum.fluidDeuterium.getID() || fluid.getID() == Quantum.fluidTritium.getID();
+    public boolean canFill(EnumFacing from, Fluid fluid) {
+        return fluid.equals(Quantum.fluidDeuterium) || fluid.equals(Quantum.fluidTritium);
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return fluid.getID() == Quantum.fluidPlasma.getID();
+    public boolean canDrain(EnumFacing from, Fluid fluid) {
+        return fluid.equals(Quantum.fluidPlasma);
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(EnumFacing from) {
         return new FluidTankInfo[] { tankInputDeuterium.getInfo(), tankInputTritium.getInfo(), tankOutput.getInfo() };
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         if (tankInputDeuterium.getFluidAmount() > 0 && tankInputTritium.getFluidAmount() > 0) {
             return super.receiveEnergy(from, maxReceive, simulate);
         }
@@ -233,7 +233,7 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITileNetw
     }
 
     @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
         return 0;
     }
 }

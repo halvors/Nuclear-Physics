@@ -33,7 +33,7 @@ public class BlockCreativeBuilder extends BlockRotatable {
     }
 
     public BlockCreativeBuilder() {
-        super("creativeBuilder", Material.iron);
+        super("creativeBuilder", Material.IRON);
 
         rotationMask = Byte.parseByte("111111", 2);
 

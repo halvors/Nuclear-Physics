@@ -1,9 +1,9 @@
 package org.halvors.quantum.client.render.reactor.fission;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.utility.type.Color;
@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderThermometer extends TileEntitySpecialRenderer {
     @Override
-    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTick) {
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks, int destroyStage) {
         if (tile instanceof TileThermometer) {
             TileThermometer tileThermometer = (TileThermometer) tile;
 

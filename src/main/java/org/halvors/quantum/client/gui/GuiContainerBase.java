@@ -1,7 +1,5 @@
 package org.halvors.quantum.client.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
@@ -10,19 +8,20 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.utility.render.RenderUtility;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.container.ContainerDummy;
+import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.energy.UnitDisplay;
 import org.halvors.quantum.common.utility.transform.vector.Rectangle;
 import org.halvors.quantum.common.utility.transform.vector.Vector2;
-import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 import java.util.HashMap;
 import java.util.Map;

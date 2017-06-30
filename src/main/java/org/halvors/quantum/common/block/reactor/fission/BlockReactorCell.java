@@ -1,26 +1,27 @@
 package org.halvors.quantum.common.block.reactor.fission;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockRotatable;
-import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.InventoryUtility;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 public class BlockReactorCell extends BlockRotatable {
     public BlockReactorCell() {
-        super("reactorCell", Material.iron);
+        super("reactorCell", Material.IRON);
 
         setTextureName(Reference.PREFIX + "machine");
         setHardness(1.0F);
@@ -63,7 +64,7 @@ public class BlockReactorCell extends BlockRotatable {
 
             return true;
         } else {
-            player.openGui(Quantum.getInstance(), 0, world, tile.xCoord, tile.yCoord, tile.zCoord);
+            player.openGui(Quantum.getInstance(), 0, world, tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ());
 
             return true;
         }
@@ -73,7 +74,7 @@ public class BlockReactorCell extends BlockRotatable {
 
     @Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack) {
-        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
 
         if (tileEntity instanceof TileReactorCell) {
             ((TileReactorCell) tileEntity).updatePositionStatus();
@@ -82,7 +83,7 @@ public class BlockReactorCell extends BlockRotatable {
 
     @Override
     public void onNeighborBlockChange(World world, int x, int y, int z, Block block) {
-        TileEntity tile = world.getTileEntity(x, y, z);
+        TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 
         if (tile instanceof TileReactorCell) {
             ((TileReactorCell) tile).updatePositionStatus();

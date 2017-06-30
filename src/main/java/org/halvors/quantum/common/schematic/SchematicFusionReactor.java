@@ -2,7 +2,7 @@ package org.halvors.quantum.common.schematic;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.Pair;
@@ -16,7 +16,7 @@ public class SchematicFusionReactor implements ISchematic {
     }
 
     @Override
-    public HashMap<Vector3, Pair<Block, Integer>> getStructure(ForgeDirection direction, int size) {
+    public HashMap<Vector3, Pair<Block, Integer>> getStructure(EnumFacing direction, int size) {
         HashMap<Vector3, Pair<Block, Integer>> map = new HashMap<>();
 
         // Fusion Torus.
@@ -29,7 +29,7 @@ public class SchematicFusionReactor implements ISchematic {
                     double magnitude = Math.sqrt(x * x + z * z);
 
                     if (!map.containsKey(position)) {
-                        map.put(position, new Pair<>(Blocks.air, 0));
+                        map.put(position, new Pair<>(Blocks.AIR, 0));
                     }
 
                     if (magnitude <= radius) {

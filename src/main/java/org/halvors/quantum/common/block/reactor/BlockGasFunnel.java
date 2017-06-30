@@ -1,12 +1,10 @@
 package org.halvors.quantum.common.block.reactor;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
@@ -19,7 +17,7 @@ public class BlockGasFunnel extends BlockTextured implements IBlockCustomRender 
     private static IIcon iconTop;
 
     public BlockGasFunnel() {
-        super("gasFunnel", Material.iron);
+        super("gasFunnel", Material.IRON);
     }
 
     @Override

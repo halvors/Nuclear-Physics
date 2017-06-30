@@ -1,10 +1,11 @@
 package org.halvors.quantum.common.block.particle;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
@@ -15,16 +16,10 @@ import org.halvors.quantum.common.tile.particle.TileFulmination;
 
 public class BlockFulmination extends BlockTextured implements IBlockCustomRender {
     public BlockFulmination() {
-        super("fulmination", Material.iron);
+        super("fulmination", Material.IRON);
 
         setHardness(10);
         setResistance(25000);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getRenderType() {
-        return BlockRenderingHandler.getInstance().getRenderId();
     }
 
     @Override
@@ -35,8 +30,14 @@ public class BlockFulmination extends BlockTextured implements IBlockCustomRende
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getRenderType() {
+        return BlockRenderingHandler.getInstance().getRenderId();
     }
 
     @Override

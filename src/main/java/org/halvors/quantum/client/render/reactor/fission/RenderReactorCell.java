@@ -1,13 +1,12 @@
 package org.halvors.quantum.client.render.reactor.fission;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
+import net.minecraft.util.math.Vec3i;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.render.ModelCube;
 import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
@@ -26,9 +25,9 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
     private static final ResourceLocation textureFissile = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactorFissileMaterial.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTick) {
-        if (tileEntity instanceof TileReactorCell) {
-            TileReactorCell tileReactorCell = (TileReactorCell) tileEntity;
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks, int destroyStage) {
+        if (tile instanceof TileReactorCell) {
+            TileReactorCell tileReactorCell = (TileReactorCell) tile;
 
             GL11.glPushMatrix();
             GL11.glTranslated(x + 0.5, y, z + 0.5);
@@ -36,10 +35,10 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
             int metadata = 2;
 
             if (tileReactorCell.getWorld() != null) {
-                metadata = tileEntity.getBlockMetadata();
+                metadata = tile.getBlockMetadata();
             }
 
-            boolean hasBelow = tileReactorCell.getWorld() != null && tileReactorCell.getWorld().getTileEntity(tileReactorCell.xCoord, tileReactorCell.yCoord - 1, tileReactorCell.zCoord) instanceof TileReactorCell;
+            boolean hasBelow = tileReactorCell.getWorld() != null && tileReactorCell.getWorld().getTileEntity(tileReactorCell.getPos().subtract(new Vec3i(0, 1, 0))) instanceof TileReactorCell;
 
             switch (metadata) {
                 case 0:
@@ -69,7 +68,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
             ItemStack itemStackFuel = tileReactorCell.getStackInSlot(0);
 
             if (itemStackFuel != null) {
-                float height = tileReactorCell.getHeight() * (((float) itemStackFuel.getMaxDurability() - itemStackFuel.getMetadata()) / (float) itemStackFuel.getMaxDurability());
+                float height = tileReactorCell.getHeight() * (((float) itemStackFuel.getMaxDamage() - itemStackFuel.getMetadata()) / (float) itemStackFuel.getMaxDamage());
 
                 GL11.glPushMatrix();
                 RenderUtility.bind(textureFissile);

@@ -1,13 +1,13 @@
 package org.halvors.quantum.client.gui.configuration;
 
-import cpw.mods.fml.client.config.DummyConfigElement.DummyCategoryElement;
-import cpw.mods.fml.client.config.GuiConfig;
-import cpw.mods.fml.client.config.GuiConfigEntries.IConfigEntry;
-import cpw.mods.fml.client.config.IConfigElement;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.config.DummyConfigElement;
+import net.minecraftforge.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.client.config.GuiConfigEntries;
+import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.gui.configuration.category.CategoryEntryClient;
 import org.halvors.quantum.client.gui.configuration.category.CategoryEntryGeneral;
@@ -35,7 +35,7 @@ public class GuiConfiguration extends GuiConfig {
         titleLine2 = Quantum.getConfiguration().getConfigFile().getAbsolutePath();
     }
 
-    private static void register(String category, Class<? extends IConfigEntry> configEntryClass) {
-        configElements.add(new DummyCategoryElement(LanguageUtility.localize("gui.configuration.category." + category), "gui.configuration.category." + category, configEntryClass));
+    private static void register(String category, Class<? extends GuiConfigEntries.IConfigEntry> configEntryClass) {
+        configElements.add(new DummyConfigElement.DummyCategoryElement(LanguageUtility.localize("gui.configuration.category." + category), "gui.configuration.category." + category, configEntryClass));
     }
 }

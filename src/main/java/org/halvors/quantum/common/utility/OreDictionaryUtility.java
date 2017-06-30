@@ -6,7 +6,8 @@ import net.minecraftforge.oredict.OreDictionary;
 public class OreDictionaryUtility {
     public static boolean isItemStackOreDictionaryCompatible(ItemStack itemStack, String... names) {
         if (itemStack != null && names != null && names.length > 0) {
-            String name = OreDictionary.getOreName(OreDictionary.getOreID(itemStack));
+            // TODO: Sort this out.
+            String name = OreDictionary.getOreName(OreDictionary.getOreIDs(itemStack)[0]);
 
             for (String compareName : names) {
                 if (name.equals(compareName)) {

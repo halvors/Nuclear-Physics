@@ -4,7 +4,6 @@ import mekanism.api.IMekWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 
 public class WrenchUtility {
@@ -17,7 +16,7 @@ public class WrenchUtility {
 	 * @return if the player can use the wrench
 	 */
 	public static boolean hasUsableWrench(EntityPlayer player, int x, int y, int z) {
-		ItemStack itemStack = player.getCurrentEquippedItem();
+		ItemStack itemStack = player.getHeldItemMainhand();
 
 		if (itemStack != null) {
 			Item item = itemStack.getItem();

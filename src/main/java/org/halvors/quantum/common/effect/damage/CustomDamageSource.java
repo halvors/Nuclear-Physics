@@ -3,10 +3,10 @@ package org.halvors.quantum.common.effect.damage;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.translation.I18n;
 
 public class CustomDamageSource extends DamageSource {
     private Object damageSource;
@@ -55,22 +55,22 @@ public class CustomDamageSource extends DamageSource {
     }
 
     @Override
-    public IChatComponent getDeathMessage(EntityLivingBase victum) {
-        EntityLivingBase attacker = victum.func_94060_bK();
+    public ITextComponent getDeathMessage(EntityLivingBase victum) {
+        EntityLivingBase attacker = victum.getAttackingEntity();
         String deathTranslation = "death.attack." + this.damageType;
         String playerKillTranslation = deathTranslation + ".player";
         String machineKillTranslation = deathTranslation + ".machine";
 
         if (damageSource instanceof TileEntity) {
-            if (StatCollector.canTranslate(machineKillTranslation)) {
-                return new ChatComponentTranslation(machineKillTranslation, victum.getFormattedCommandSenderName());
+            if (I18n.canTranslate(machineKillTranslation)) {
+                return new TextComponentTranslation(machineKillTranslation, victum.getCommandSenderEntity().getDisplayName());
             }
         } else if (attacker != null) {
-            if (StatCollector.canTranslate(playerKillTranslation)) {
-                return new ChatComponentTranslation(playerKillTranslation, victum.getFormattedCommandSenderName(), attacker.getFormattedCommandSenderName());
+            if (I18n.canTranslate(playerKillTranslation)) {
+                return new TextComponentTranslation(playerKillTranslation, victum.getCommandSenderEntity().getDisplayName(), attacker.getCommandSenderEntity().getDisplayName());
             }
-        } else if (StatCollector.canTranslate(deathTranslation)) {
-            return new ChatComponentTranslation(deathTranslation, victum.getFormattedCommandSenderName());
+        } else if (I18n.canTranslate(deathTranslation)) {
+            return new TextComponentTranslation(deathTranslation, victum.getCommandSenderEntity().getDisplayName());
         }
 
         return null;

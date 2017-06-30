@@ -1,6 +1,6 @@
 package org.halvors.quantum.common.utility;
 
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class LanguageUtility {
 	 * @return text
 	 */
 	public static String localize(String text) {
-		return StatCollector.translateToLocal(text);
+		return I18n.translateToLocal(text);
 	}
 
 	public static List<String> splitStringPerWord(String string, int wordsPerLine) {

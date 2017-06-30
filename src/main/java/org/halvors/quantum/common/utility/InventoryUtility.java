@@ -9,12 +9,10 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.quantum.common.item.block.ItemBlockSaved;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
@@ -105,13 +103,13 @@ public class InventoryUtility {
             }
 
             ISidedInventory sidedInventory = (ISidedInventory)inventory;
-            int[] slots = sidedInventory.getSlotsForFace(ForgeDirection.getOrientation(side).getOpposite().ordinal());
+            int[] slots = sidedInventory.getSlotsForFace(EnumFacing.getOrientation(side).getOpposite().ordinal());
 
             if ((slots != null) && (slots.length != 0)) {
                 for (int get = 0; get <= slots.length - 1; get++) {
                     int slotID = slots[get];
 
-                    if ((force) || (sidedInventory.isItemValidForSlot(slotID, toInsert)) || (sidedInventory.canInsertItem(slotID, toInsert, ForgeDirection.getOrientation(side).getOpposite().ordinal()))) {
+                    if ((force) || (sidedInventory.isItemValidForSlot(slotID, toInsert)) || (sidedInventory.canInsertItem(slotID, toInsert, EnumFacing.getOrientation(side).getOpposite().ordinal()))) {
                         ItemStack inSlot = inventory.getStackInSlot(slotID);
 
                         if (inSlot == null) {
@@ -227,11 +225,11 @@ public class InventoryUtility {
 
     public static void dropBlockAsItem(World world, int x, int y, int z, boolean destroy) {
         if (!world.isRemote) {
-            int meta = world.getBlockMetadata(x, y, z);
+            int metadata = world.getBlockMetadata(x, y, z);
             Block block = world.getBlock(x, y, z);
 
             if (block != Blocks.air) {
-                ArrayList<ItemStack> items = block.getDrops(world, x, y, z, meta, 0);
+                ArrayList<ItemStack> items = block.getDrops(world, x, y, z, metadata, 0);
 
                 for (ItemStack itemStack : items) {
                     dropItemStack(world, new Vector3(x, y, z), itemStack, 10);
@@ -266,11 +264,11 @@ public class InventoryUtility {
             EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
 
             if (itemStack.hasTagCompound()) {
-                entityItem.getEntityItem().setTagCompound((NBTTagCompound)itemStack.getTagCompound().copy());
+                entityItem.getEntityItem().setTagCompound(itemStack.getTagCompound().copy());
             }
 
-            entityItem.delayBeforeCanPickup = delay;
-            world.spawnEntityInWorld(entityItem);
+            entityItem.setPickupDelay(delay);
+            world.spawnEntity(entityItem);
         }
     }
 
@@ -388,6 +386,7 @@ public class InventoryUtility {
                 }
             }
         }
+
         return count;
     }
 }

@@ -1,6 +1,6 @@
 package org.halvors.quantum.common.utility.transform.rotation;
 
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import org.halvors.quantum.common.utility.transform.vector.IVector3;
 
 public class EulerAngle implements IRotation, IVector3 {
@@ -13,7 +13,7 @@ public class EulerAngle implements IRotation, IVector3 {
         this(0.0D, 0.0D, 0.0D);
     }
 
-    public EulerAngle(ForgeDirection direction) {
+    public EulerAngle(EnumFacing direction) {
         switch (direction) {
             case DOWN:
                 this.pitch = -90.0D;

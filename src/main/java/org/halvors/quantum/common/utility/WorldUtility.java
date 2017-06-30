@@ -1,20 +1,20 @@
 package org.halvors.quantum.common.utility;
 
-import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class WorldUtility {
-    public static void rotateVectorFromDirection(Vector3 position, ForgeDirection direction) {
+    public static void rotateVectorFromDirection(Vector3 position, EnumFacing direction) {
         switch (direction) {
             case UP:
                 position.rotate(180, Vector3.EAST());
@@ -38,7 +38,7 @@ public class WorldUtility {
         }
     }
 
-    public static int getAngleFromForgeDirection(ForgeDirection direction) {
+    public static int getAngleFromForgeDirection(EnumFacing direction) {
         switch (direction) {
             case NORTH:
                 return 90;
@@ -56,36 +56,37 @@ public class WorldUtility {
         return 0;
     }
 
-    public static ForgeDirection invertX(ForgeDirection direction) {
+    public static EnumFacing invertX(EnumFacing direction) {
         switch (direction) {
             case NORTH:
-                return ForgeDirection.SOUTH;
+                return EnumFacing.SOUTH;
 
             case SOUTH:
-                return ForgeDirection.NORTH;
+                return EnumFacing.NORTH;
         }
 
         return direction;
     }
 
-    public static ForgeDirection invertY(ForgeDirection direction) {
+    public static EnumFacing invertY(EnumFacing direction) {
         switch (direction) {
             case UP:
-                return ForgeDirection.DOWN;
+                return EnumFacing.DOWN;
+
             case DOWN:
-                return ForgeDirection.UP;
+                return EnumFacing.UP;
         }
 
         return direction;
     }
 
-    public static ForgeDirection invertZ(ForgeDirection direction) {
+    public static EnumFacing invertZ(EnumFacing direction) {
         switch (direction) {
             case EAST:
-                return ForgeDirection.WEST;
+                return EnumFacing.WEST;
 
             case WEST:
-                return ForgeDirection.EAST;
+                return EnumFacing.EAST;
         }
 
         return direction;
@@ -101,18 +102,18 @@ public class WorldUtility {
      * @param z
      * @return an array of up to 6 tileEntities */
     public static TileEntity[] getSurroundingTileEntities(TileEntity tile) {
-        return getSurroundingTileEntities(tile.getWorld(), tile.xCoord, tile.yCoord, tile.zCoord);
+        return getSurroundingTileEntities(tile.getWorld(), tile.getPos());
     }
 
     public static TileEntity[] getSurroundingTileEntities(World world, Vector3 position) {
-        return getSurroundingTileEntities(world, position.intX(), position.intY(), position.intZ());
+        return getSurroundingTileEntities(world, new BlockPos(position.intX(), position.intY(), position.intZ()));
     }
 
-    public static TileEntity[] getSurroundingTileEntities(World world, int x, int y, int z) {
+    public static TileEntity[] getSurroundingTileEntities(World world, BlockPos pos) {
         TileEntity[] list = new TileEntity[6];
 
-        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-            list[direction.ordinal()] = world.getTileEntity(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ);
+        for (EnumFacing direction : EnumFacing.VALUES) {
+            list[direction.ordinal()] = world.getTileEntity(new BlockPos(pos.getX() + direction.getFrontOffsetX(), pos.getY() + direction.getFrontOffsetY(), pos.getZ() + direction.getFrontOffsetZ()));
         }
 
         return list;
@@ -123,11 +124,11 @@ public class WorldUtility {
      * corner of some direction.
      */
     public static int corner(TileEntity entity) {
-        TileEntity[] en = getSurroundingTileEntities(entity.getWorld(), entity.xCoord, entity.yCoord, entity.zCoord);
-        TileEntity north = en[ForgeDirection.NORTH.ordinal()];
-        TileEntity south = en[ForgeDirection.SOUTH.ordinal()];
-        TileEntity east = en[ForgeDirection.EAST.ordinal()];
-        TileEntity west = en[ForgeDirection.WEST.ordinal()];
+        TileEntity[] en = getSurroundingTileEntities(entity.getWorld(), entity.getPos());
+        TileEntity north = en[EnumFacing.NORTH.ordinal()];
+        TileEntity south = en[EnumFacing.SOUTH.ordinal()];
+        TileEntity east = en[EnumFacing.EAST.ordinal()];
+        TileEntity west = en[EnumFacing.WEST.ordinal()];
 
         if (west != null && north != null && east == null && south == null) {
             return 3;
@@ -150,14 +151,17 @@ public class WorldUtility {
 
     /** gets all EntityItems in a location using a start and end point */
     public static List<EntityItem> findAllItemsIn(World world, Vector3 startPosition, Vector3 endPosition) {
-        return world.getEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(startPosition.x, startPosition.y, startPosition.z, endPosition.x, endPosition.y, endPosition.z));
+        return world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(startPosition.x, startPosition.y, startPosition.z, endPosition.x, endPosition.y, endPosition.z));
     }
 
-    public static List<EntityItem> getEntitiesInDirection(World world, Vector3 center, ForgeDirection direction) {
-        List<EntityItem> list = world.selectEntitiesWithinAABB(EntityItem.class, AxisAlignedBB.getBoundingBox(center.x + direction.offsetX, center.y + direction.offsetY, center.z + direction.offsetZ, center.x + direction.offsetX + 1, center.y + direction.offsetY + 1, center.z + direction.offsetZ + 1), IEntitySelector.selectAnything);
+    // TODO: Fix this.
+    /*
+    public static List<EntityItem> getEntitiesInDirection(World world, Vector3 center, EnumFacing direction) {
+        List<EntityItem> list = world.selectEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(center.x + direction.getFrontOffsetX(), center.y + direction.getFrontOffsetY(), center.z + direction.getFrontOffsetZ(), center.x + direction.getFrontOffsetX() + 1, center.y + direction.getFrontOffsetY() + 1, center.z + direction.getFrontOffsetZ() + 1), IEntitySelector.selectAnything);
 
         return list.size() > 0 ? list : null;
     }
+    */
 
     /** Gets all EntityItems in an area and sorts them by a list of itemStacks
      *
@@ -226,11 +230,11 @@ public class WorldUtility {
     /** Checks based on a bitmap for sides if this side can be rendered.
      *
      * @return True if so. */
-    public static boolean isEnabledSide(byte sideMap, ForgeDirection direction) {
+    public static boolean isEnabledSide(byte sideMap, EnumFacing direction) {
         return (sideMap & (1 << direction.ordinal())) != 0;
     }
 
-    public static byte setEnableSide(byte sideMap, ForgeDirection direction, boolean doEnable) {
+    public static byte setEnableSide(byte sideMap, EnumFacing direction, boolean doEnable) {
         if (doEnable) {
             sideMap = (byte) (sideMap | (1 << direction.ordinal()));
         } else {

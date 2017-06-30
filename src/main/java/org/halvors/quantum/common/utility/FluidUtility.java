@@ -2,8 +2,8 @@ package org.halvors.quantum.common.utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
@@ -23,8 +23,8 @@ public class FluidUtility {
             IFluidHandler tank = (IFluidHandler) world.getTileEntity(x, y, z);
 
             if (FluidContainerRegistry.isFilledContainer(current)) {
-                if (tank.fill(ForgeDirection.getOrientation(side), fluid, false) == fluid.amount) {
-                    tank.fill(ForgeDirection.getOrientation(side), fluid, true);
+                if (tank.fill(EnumFacing.getOrientation(side), fluid, false) == fluid.amount) {
+                    tank.fill(EnumFacing.getOrientation(side), fluid, true);
 
                     if (!entityplayer.capabilities.isCreativeMode) {
                         InventoryUtility.consumeHeldItem(entityplayer);
@@ -33,7 +33,7 @@ public class FluidUtility {
                     return true;
                 }
             } else if (FluidContainerRegistry.isEmptyContainer(current)) {
-                FluidStack available = tank.drain(ForgeDirection.getOrientation(side), Integer.MAX_VALUE, false);
+                FluidStack available = tank.drain(EnumFacing.getOrientation(side), Integer.MAX_VALUE, false);
 
                 if (available != null) {
                     ItemStack filled = FluidContainerRegistry.fillFluidContainer(available, current);
@@ -56,7 +56,8 @@ public class FluidUtility {
                         }
                         */
 
-                        tank.drain(ForgeDirection.UNKNOWN, fluid.amount, true);
+                        tank.drain(EnumFacing.UNKNOWN, fluid.amount, true);
+
                         return true;
                     }
                 }

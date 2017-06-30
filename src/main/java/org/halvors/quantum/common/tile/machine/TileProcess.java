@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.tile.machine;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
@@ -11,7 +12,7 @@ import org.halvors.quantum.common.tile.TileElectricInventory;
 /*
  * General class for all machines that do traditional recipe processing.
  */
-public abstract class TileProcess extends TileElectricInventory {
+public abstract class TileProcess extends TileElectricInventory implements ITickable {
     protected int inputSlot;
     protected int outputSlot;
 
@@ -27,9 +28,7 @@ public abstract class TileProcess extends TileElectricInventory {
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
-
+    public void update() {
         if (getInputTank() != null) {
             fillOrDrainTank(tankInputFillSlot, tankInputDrainSlot, getInputTank());
         }

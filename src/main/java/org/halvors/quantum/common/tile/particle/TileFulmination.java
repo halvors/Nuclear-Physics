@@ -1,13 +1,13 @@
 package org.halvors.quantum.common.tile.particle;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyReceiver;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import org.halvors.quantum.common.tile.TileElectric;
 
 import java.util.EnumSet;
 
-public class TileFulmination extends TileElectric implements IEnergyReceiver {
+public class TileFulmination extends TileElectric implements ITickable {
     private static final long energyCapacity = 10000000000000L;
 
     public TileFulmination() {
@@ -20,10 +20,8 @@ public class TileFulmination extends TileElectric implements IEnergyReceiver {
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
-
-        if (worldObj.getWorldTime() == 0) {
+    public void update() {
+        if (world.getWorldTime() == 0) {
             FulminationHandler.INSTANCE.register(this);
         }
 
@@ -34,12 +32,12 @@ public class TileFulmination extends TileElectric implements IEnergyReceiver {
     }
 
     @Override
-    public EnumSet<ForgeDirection> getExtractingDirections() {
-        return EnumSet.allOf(ForgeDirection.class);
+    public EnumSet<EnumFacing> getExtractingDirections() {
+        return EnumSet.allOf(EnumFacing.class);
     }
 
     @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         return 0;
     }
 }

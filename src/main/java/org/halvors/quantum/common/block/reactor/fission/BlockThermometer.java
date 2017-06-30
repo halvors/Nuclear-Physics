@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -18,9 +17,9 @@ import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.item.block.ItemBlockSaved;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.WrenchUtility;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.ArrayList;
 

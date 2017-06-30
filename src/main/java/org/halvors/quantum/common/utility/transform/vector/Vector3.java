@@ -5,13 +5,10 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.utility.transform.rotation.EulerAngle;
 import org.halvors.quantum.common.utility.transform.rotation.Quaternion;
 
@@ -68,9 +65,9 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
         this(par1.posX, par1.posY, par1.posZ);
     }
 
-    public Vector3(ForgeDirection direction)
+    public Vector3(EnumFacing direction)
     {
-        this(direction.offsetX, direction.offsetY, direction.offsetZ);
+        this(direction.getFrontOffsetX(), direction.getFrontOffsetY(), direction.getFrontOffsetZ());
     }
 
     public Vector3(NBTTagCompound nbt)
@@ -89,7 +86,7 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
     }
 
     public static Vector3 fromCenter(Entity e) {
-        return new Vector3(e.posX, e.posY - e.yOffset + e.height / 2.0F, e.posZ);
+        return new Vector3(e.posX, e.posY - e.getYOffset() + e.height / 2.0F, e.posZ);
     }
 
     public static Vector3 fromCenter(TileEntity e) {
@@ -201,14 +198,14 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
         return nbt;
     }
 
-    public ForgeDirection toForgeDirection() {
-        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
-            if (x == direction.offsetX && y == direction.offsetY && z == direction.offsetZ) {
+    public EnumFacing toEnumFacing() {
+        for (EnumFacing direction : EnumFacing.VALUES) {
+            if (x == direction.getFrontOffsetX() && y == direction.getFrontOffsetY() && z == direction.getFrontOffsetZ()) {
                 return direction;
             }
         }
 
-        return ForgeDirection.UNKNOWN;
+        return EnumFacing.NORTH;
     }
 
     public double getMagnitude()
@@ -262,12 +259,12 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
         return this;
     }
 
-    public Vector3 translate(ForgeDirection side, double amount)
+    public Vector3 translate(EnumFacing side, double amount)
     {
         return translate(new Vector3(side).scale(amount));
     }
 
-    public Vector3 translate(ForgeDirection side)
+    public Vector3 translate(EnumFacing side)
     {
         return translate(side, 1.0D);
     }

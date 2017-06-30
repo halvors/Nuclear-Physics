@@ -1,36 +1,41 @@
 package org.halvors.quantum.common.block.machine;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockRotatable;
 
 public class BlockMachine extends BlockRotatable {
     public BlockMachine(String name) {
-        super(name, Material.iron);
+        super(name, Material.IRON);
 
         setTextureName(Reference.PREFIX + "machine");
     }
 
     @Override
-    public boolean renderAsNormalBlock() {
+    @SideOnly(Side.CLIENT)
+    public boolean renderAsNormalBlock(IBlockState blockState) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }
 
     @SideOnly(Side.CLIENT)
-    public int getRenderType() {
-        return BlockRenderingHandler.getInstance().getRenderId();
+    public EnumBlockRenderType getRenderType(IBlockState blockState) {
+        //return BlockRenderingHandler.getInstance().getRenderId();
+
+        return EnumBlockRenderType.MODEL;
     }
 
     @Override

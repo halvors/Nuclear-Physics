@@ -1,45 +1,46 @@
 package org.halvors.quantum.common.event;
 
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
+import org.halvors.quantum.common.grid.IUpdate;
 import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.thermal.IBoilHandler;
 import org.halvors.quantum.common.thermal.ThermalPhysics;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
-import org.halvors.quantum.common.grid.IUpdate;
 
 public class ThermalEventHandler {
     @SubscribeEvent
     public void onBoilEvent(BoilEvent event) {
         Vector3 position = event.getPosition();
-        Block block = position.getBlock(event.world);
+        Block block = position.getBlock(event.getWorld());
 
         for (int height = 1; height <= event.getMaxSpread(); height++) {
-            TileEntity tileEntity = event.world.getTileEntity(position.intX(), position.intY() + height, position.intZ());
+            TileEntity tileEntity = event.getWorld().getTileEntity(new BlockPos(position.intX(), position.intY() + height, position.intZ()));
 
             if (tileEntity instanceof IBoilHandler) {
                 IBoilHandler handler = (IBoilHandler) tileEntity;
                 FluidStack fluid = event.getRemainForSpread(height);
 
                 if (fluid.amount > 0) {
-                    if (handler.canFill(ForgeDirection.DOWN, fluid.getFluid())) {
-                        fluid.amount -= handler.fill(ForgeDirection.DOWN, fluid, true);
+                    if (handler.canFill(EnumFacing.DOWN, fluid.getFluid())) {
+                        fluid.amount -= handler.fill(EnumFacing.DOWN, fluid, true);
                     }
                 }
             }
@@ -58,12 +59,12 @@ public class ThermalEventHandler {
     @SubscribeEvent
     public void onPlasmaSpawnEvent(PlasmaEvent.PlasmaSpawnEvent event) {
         Vector3 position = new Vector3(event.x, event.y, event.z);
-        Block block = position.getBlock(event.world);
+        Block block = position.getBlock(event.getWorld());
 
         if (block != null) {
-            TileEntity tile = position.getTileEntity(event.world);
+            TileEntity tile = position.getTileEntity(event.getWorld());
 
-            if (block == Blocks.bedrock || block == Blocks.iron_block) {
+            if (block == Blocks.BEDROCK || block == Blocks.IRON_BLOCK) {
                 return;
             }
 
@@ -78,9 +79,9 @@ public class ThermalEventHandler {
             }
         }
 
-        position.setBlock(event.world, Quantum.blockPlasma);
+        position.setBlock(event.getWorld(), Quantum.blockPlasma);
 
-        TileEntity tile = position.getTileEntity(event.world);
+        TileEntity tile = position.getTileEntity(event.getWorld());
 
         if (tile instanceof TilePlasma) {
             ((TilePlasma) tile).setTemperature(event.temperature);
@@ -91,7 +92,7 @@ public class ThermalEventHandler {
     public void onThermalUpdateEvent(ThermalUpdateEvent event) {
         final VectorWorld position = event.position;
         final World world = position.getWorld();
-        Block block = position.getBlock();
+        Block block = position.getBlockS();
 
         if (block == Quantum.blockElectromagnet) {
             event.heatLoss = event.deltaTemperature * 0.6F;
@@ -99,11 +100,11 @@ public class ThermalEventHandler {
 
         // TODO: Synchronized maybe not reqiured for all the following code?
         synchronized (world) {
-            if (block.getMaterial() == Material.air) {
+            if (block.getMaterial() == Material.AIR) {
                 event.heatLoss = 0.15F;
             }
 
-            if (block == Blocks.water || block == Blocks.flowing_water) {
+            if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
                 if (event.temperature >= ThermalPhysics.waterBoilTemperature) {
                     Fluid fluidSteam = FluidRegistry.getFluid("steam");
 
@@ -119,12 +120,12 @@ public class ThermalEventHandler {
                 }
             }
 
-            if (block == Blocks.ice || block == Blocks.packed_ice) {
+            if (block == Blocks.ICE || block == Blocks.PACKED_ICE) {
                 if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override
                         public void update() {
-                            position.setBlock(Blocks.flowing_water);
+                            position.setBlock(Blocks.FLOWING_WATER);
                         }
 
                         @Override
@@ -142,12 +143,12 @@ public class ThermalEventHandler {
                 event.heatLoss = 0.4F;
             }
 
-            if (block == Blocks.snow || block == Blocks.snow_layer) {
+            if (block == Blocks.SNOW || block == Blocks.SNOW_LAYER) {
                 if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override
                         public void update() {
-                            position.setBlock(Blocks.air);
+                            position.setBlock(Blocks.AIR);
                         }
 
                         @Override

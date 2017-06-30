@@ -2,7 +2,6 @@ package org.halvors.quantum.common.utility.location;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 
 /**
@@ -56,7 +55,7 @@ public class Chunk {
 	 * @return if the chunk exists
 	 */
 	public boolean exists(World world) {
-		return world.getChunkProvider().chunkExists(x, z);
+		return world.getChunkProvider().getLoadedChunk(x, z) != null;
 	}
 
 	/**
@@ -66,14 +65,6 @@ public class Chunk {
 	 */
 	public net.minecraft.world.chunk.Chunk getChunk(World world) {
 		return world.getChunkFromChunkCoords(x, z);
-	}
-
-	/**
-	 * Returns this Chunk in the Minecraft-based ChunkCoordIntPair format.
-	 * @return this Chunk as a ChunkCoordIntPair
-	 */
-	public ChunkCoordIntPair toPair() {
-		return new ChunkCoordIntPair(x, z);
 	}
 
 	public int getDimensionId() {

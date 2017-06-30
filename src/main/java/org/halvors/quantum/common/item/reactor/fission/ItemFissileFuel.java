@@ -1,19 +1,19 @@
 package org.halvors.quantum.common.item.reactor.fission;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.api.item.IReactorComponent;
+import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.item.ItemRadioactive;
-import org.halvors.quantum.api.tile.IReactor;
-import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
         super("fissileFuel");
 
         setMaxStackSize(1);
-        setMaxDurability(decay);
+        setMaxDamage(decay);
         setNoRepair();
     }
 
@@ -45,7 +45,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
         int reactors = 0;
 
         for (int i = 0; i < 6; i++) {
-            Vector3 checkPos = new Vector3(tileEntity).translate(ForgeDirection.getOrientation(i));
+            Vector3 checkPos = new Vector3(tileEntity).translate(EnumFacing.getOrientation(i));
             TileEntity tile = checkPos.getTileEntity(world);
 
             // Check that the other reactors not only exist but also are running.
@@ -61,7 +61,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
                 // Cells can regain a random amount of health per tick.
                 int healAmt = world.rand.nextInt(5);
 
-                itemStack.setMetadata(Math.max(itemStack.getMetadata() - healAmt, 0));
+                itemStack.setItemDamage(Math.max(itemStack.getMetadata() - healAmt, 0));
             }
         } else {
             // Fission - Begin the process of heating.
@@ -69,7 +69,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
 
             // Consume fuel.
             if (reactor.getWorldObject().getWorldTime() % 20 == 0) {
-                itemStack.setMetadata(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDurability()));
+                itemStack.setItemDamage(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDamage());
             }
 
             // Create toxic waste.
@@ -77,7 +77,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
                 FluidStack fluid = Quantum.fluidStackToxicWaste.copy();
                 fluid.amount = 1;
 
-                reactor.fill(ForgeDirection.UNKNOWN, fluid, true);
+                reactor.fill(EnumFacing.UNKNOWN, fluid, true);
             }
         }
     }
@@ -87,6 +87,6 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List list) {
         list.add(new ItemStack(item, 1, 0));
-        list.add(new ItemStack(item, 1, getMaxDurability() - 1));
+        list.add(new ItemStack(item, 1, getMaxDamage() - 1));
     }
 }

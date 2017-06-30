@@ -6,15 +6,15 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.utility.OreDictionaryUtility;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.ITileRotatable;
+import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
 import java.util.List;
 
@@ -42,14 +42,14 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
+    public void update() {
+        super.update();
 
         if (timer > 0) {
             rotation += 0.1;
         }
 
-        if (!worldObj.isRemote) {
+        if (!world.isRemote) {
             // Put water as liquid
             /*
             if (getStackInSlot(1) != null) {
@@ -101,8 +101,8 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
                 timer = 0;
             }
 
-            if (worldObj.getWorldTime() % 10 == 0) {
-                if (!worldObj.isRemote) {
+            if (world.getWorldTime() % 10 == 0) {
+                if (!world.isRemote) {
                     Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
@@ -186,7 +186,7 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         if (canProcess()) {
             return super.receiveEnergy(from, maxReceive, simulate);
         }
@@ -195,14 +195,14 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
     }
 
     @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
         return 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
         if (resource != null && canFill(from, resource.getFluid())) {
             return waterTank.fill(resource, doFill);
         }
@@ -211,7 +211,7 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
         //if (resource.isFluidEqual(Quantum.fluidStackUraniumHexaflouride)) {
         //    return gasTank.drain(resource.amount, doDrain);
         //}
@@ -220,24 +220,24 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return gasTank.drain(maxDrain, doDrain);
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
+    public boolean canFill(EnumFacing from, Fluid fluid) {
         return fluid.getID() == FluidRegistry.WATER.getID();
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+    public boolean canDrain(EnumFacing from, Fluid fluid) {
         //return fluid.getID() == Quantum.fluidUraniumHexaflouride.getID();
 
         return gasTank.getFluid() != null && fluid.getID() == gasTank.getFluid().getFluidID();
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(EnumFacing from) {
         return new FluidTankInfo[] { waterTank.getInfo(), gasTank.getInfo() };
     }
 
@@ -339,12 +339,12 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, ITil
     }
 
     @Override
-    public ForgeDirection getDirection() {
-        return ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+    public EnumFacing getDirection() {
+        return EnumFacing.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
     }
 
     @Override
-    public void setDirection(ForgeDirection direction) {
-        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
+    public void setDirection(EnumFacing direction) {
+        world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
 }

@@ -1,9 +1,9 @@
 package org.halvors.quantum.common.utility.location;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class Range {
 	private int dimensionId;
@@ -53,7 +53,7 @@ public class Range {
 	}
 
 	public static Range getChunkRange(EntityPlayer player) {
-		int radius = FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().getViewDistance();
+		int radius = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getViewDistance();
 
 		return new Range(new Chunk(player)).expandChunks(radius);
 	}

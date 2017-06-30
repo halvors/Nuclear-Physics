@@ -1,9 +1,9 @@
 package org.halvors.quantum.client.gui.machine;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.machine.ContainerGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;

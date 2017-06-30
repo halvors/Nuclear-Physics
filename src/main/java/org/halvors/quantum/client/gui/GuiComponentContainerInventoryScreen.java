@@ -1,7 +1,5 @@
 package org.halvors.quantum.client.gui;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -10,6 +8,8 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.component.IGuiComponent;
 import org.halvors.quantum.common.tile.component.IComponent;
 import org.halvors.quantum.common.tile.component.IComponentContainer;
@@ -17,6 +17,7 @@ import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
+import java.io.IOException;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -95,7 +96,7 @@ public class GuiComponentContainerInventoryScreen extends GuiContainer implement
 	}
 
 	@Override
-	protected void mouseClicked(int mouseX, int mouseY, int button) {
+	protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
 		int guiWidth = (width - xSize) / 2;
 		int guiHeight = (height - ySize) / 2;
 		int xAxis = mouseX - guiWidth;

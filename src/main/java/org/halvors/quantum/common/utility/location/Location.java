@@ -1,8 +1,9 @@
 package org.halvors.quantum.common.utility.location;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 public class Location {
@@ -26,10 +27,10 @@ public class Location {
 	}
 
 	public Location(TileEntity tileEntity) {
-		this.dimensionId = tileEntity.getWorld().provider.dimensionId;
-		this.x = tileEntity.xCoord;
-		this.y = tileEntity.yCoord;
-		this.z = tileEntity.zCoord;
+		this.dimensionId = tileEntity.getWorld().provider.getDimension();
+		this.x = tileEntity.getPos().getX();
+		this.y = tileEntity.getPos().getY();
+		this.z = tileEntity.getPos().getZ();
 	}
 
 	public int getDimensionId() {
@@ -48,12 +49,12 @@ public class Location {
 		return z;
 	}
 
-	public Block getBlock(IBlockAccess world) {
-		return world.getBlock(x, y, z);
+	public IBlockState getBlockState(IBlockAccess world) {
+		return world.getBlockState(new BlockPos(x, y, z));
 	}
 
 	public TileEntity getTileEntity(IBlockAccess world) {
-		return world.getTileEntity(x, y, z);
+		return world.getTileEntity(new BlockPos(x, y, z));
 	}
 
     @Override

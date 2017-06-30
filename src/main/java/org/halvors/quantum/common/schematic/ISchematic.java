@@ -1,7 +1,7 @@
 package org.halvors.quantum.common.schematic;
 
 import net.minecraft.block.Block;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.Pair;
 
@@ -20,5 +20,5 @@ public interface ISchematic {
      *
      * @param size - The size multiplier.
      * @return A Hashmap of positions and block IDs with metadata. */
-    HashMap<Vector3, Pair<Block, Integer>> getStructure(ForgeDirection direction, int size);
+    HashMap<Vector3, Pair<Block, Integer>> getStructure(EnumFacing direction, int size);
 }

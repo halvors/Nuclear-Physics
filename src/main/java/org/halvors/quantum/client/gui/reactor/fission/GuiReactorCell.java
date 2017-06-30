@@ -1,15 +1,15 @@
 package org.halvors.quantum.client.gui.reactor.fission;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.LanguageUtility;
-import org.lwjgl.opengl.GL11;
 import org.halvors.quantum.common.utility.energy.UnitDisplay;
 import org.halvors.quantum.common.utility.energy.UnitDisplay.Unit;
+import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class GuiReactorCell extends GuiContainerBase {
             fontRendererObj.drawString(String.valueOf((int) tile.getTemperature()) + "/" + String.valueOf(TileReactorCell.meltingPoint) + " K", 9, 58, 4210752);
 
             // Text field for total number of ticks remaining.
-            int secondsLeft = (tile.getStackInSlot(0).getMaxDurability() - tile.getStackInSlot(0).getMetadata());
+            int secondsLeft = (tile.getStackInSlot(0).getMaxDamage() - tile.getStackInSlot(0).getMetadata());
             fontRendererObj.drawString(LanguageUtility.localize("tooltip.remainingTime"), 100, 45, 4210752);
             fontRendererObj.drawString(secondsLeft + " seconds", 100, 58, 4210752);
         }

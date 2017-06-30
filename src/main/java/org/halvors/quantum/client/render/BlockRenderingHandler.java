@@ -1,18 +1,16 @@
 package org.halvors.quantum.client.render;
 
 import com.google.common.collect.Maps;
-import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.utility.render.RenderUtility;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -29,7 +27,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
         TileEntity tile = inventoryTileEntities.get(block);
 
         if (tile == null) {
-            tile = block.createTileEntity(Minecraft.getMinecraft().thePlayer.getEntityWorld(), 0);
+            tile = block.createTileEntity(Minecraft.getMinecraft().player.getEntityWorld(), 0);
             inventoryTileEntities.put(block, tile);
         }
 
@@ -77,7 +75,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
                     if (tesr instanceof ISimpleItemRenderer) {
                         ((ISimpleItemRenderer) tesr).renderInventoryItem(new ItemStack(block, 1, metadata));
                     } else {
-                        tesr.renderTileEntityAt(tile, 0, 0, 0, 0);
+                        tesr.renderTileEntityAt(tile, 0, 0, 0, 0, 0);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

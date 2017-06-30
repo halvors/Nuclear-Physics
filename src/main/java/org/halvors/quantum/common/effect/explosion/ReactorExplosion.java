@@ -3,7 +3,6 @@ package org.halvors.quantum.common.effect.explosion;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;

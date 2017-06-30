@@ -1,10 +1,10 @@
 package org.halvors.quantum.common.event;
 
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.network.packet.PacketConfiguration;
 
@@ -15,9 +15,9 @@ import org.halvors.quantum.common.network.packet.PacketConfiguration;
  */
 public class PlayerEventHandler {
 	@SubscribeEvent
-	public void onPlayerLoginEvent(PlayerLoggedInEvent event) {
+	public void onPlayerLoginEvent(PlayerEvent.PlayerLoggedInEvent event) {
 		EntityPlayer player = event.player;
-		World world = player.worldObj;
+		World world = player.getEntityWorld();
 
 		if (!world.isRemote) {
 			Quantum.getPacketHandler().sendTo(new PacketConfiguration(), (EntityPlayerMP) player);

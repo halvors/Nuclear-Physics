@@ -7,7 +7,7 @@ import org.halvors.quantum.common.Reference;
 
 public class BlockControlRod extends Block {
     public BlockControlRod() {
-        super(Material.iron);
+        super(Material.IRON);
 
         setUnlocalizedName("controlRod");
         setTextureName(Reference.PREFIX + "controlRod");

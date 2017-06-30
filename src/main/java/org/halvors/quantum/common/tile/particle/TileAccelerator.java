@@ -5,24 +5,24 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.api.tile.IElectromagnet;
+import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.item.particle.ItemAntimatter;
 import org.halvors.quantum.common.item.particle.ItemDarkmatter;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.tile.TileElectricInventory;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.OreDictionaryUtility;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.ITileRotatable;
+import org.halvors.quantum.common.tile.TileElectricInventory;
+import org.halvors.quantum.common.utility.OreDictionaryUtility;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 
-public class TileAccelerator extends TileElectricInventory implements ITileNetwork, IElectromagnet, ITileRotatable {
+public class TileAccelerator extends TileElectricInventory implements ITickable, ITileNetwork, IElectromagnet, ITileRotatable {
     // Energy required per ticks.
     public int acceleratorEnergyCostPerTick = ConfigurationManager.General.acceleratorEnergyCostPerTick;
 
@@ -52,16 +52,14 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
-
-        if (!worldObj.isRemote) {
+    public void update() {
+        if (!world.isRemote) {
             clientEnergy = energyStorage.getEnergyStored();
             velocity = getParticleVelocity();
             outputAntimatter();
 
             // Check if redstone signal is currently being applied.
-            if (worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)) {
+            if (world.isBlockIndirectlyGettingPowered(pos)) {
                 //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
@@ -71,11 +69,11 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                             spawnAcceleratedParticle.translate(0.5F);
 
                             // Only render the particle if container within the proper environment for it.
-                            if (EntityParticle.canSpawnParticle(worldObj, spawnAcceleratedParticle)) {
+                            if (EntityParticle.canSpawnParticle(world, spawnAcceleratedParticle)) {
                                 // Spawn the particle.
                                 totalEnergyConsumed = 0;
-                                entityParticle = new EntityParticle(worldObj, spawnAcceleratedParticle, new Vector3(this), getDirection().getOpposite());
-                                worldObj.spawnEntityInWorld(entityParticle);
+                                entityParticle = new EntityParticle(world, spawnAcceleratedParticle, new Vector3(this), getDirection().getOpposite());
+                                world.spawnEntity(entityParticle);
 
                                 // Grabs input block hardness if available, otherwise defaults are used.
                                 calculateParticleDensity();
@@ -89,7 +87,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                         if (entityParticle.isDead) {
                             // On particle collision we roll the dice to see if dark-matter is generated.
                             if (entityParticle.didParticleCollide) {
-                                if (worldObj.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
+                                if (world.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
                                     incrStackSize(3, new ItemStack(Quantum.itemDarkMatter));
                                 }
                             }
@@ -97,10 +95,10 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                             entityParticle = null;
                         } else if (velocity > clientParticleVelocity) {
                             // Play sound of anti-matter being created.
-                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.antimatter", 2F, 1F - worldObj.rand.nextFloat() * 0.3F);
+                            //world.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.antimatter", 2F, 1F - world.rand.nextFloat() * 0.3F);
 
                             // Create anti-matter in the internal reserve.
-                            int generatedAntimatter = 5 + worldObj.rand.nextInt(acceleratorAntimatterDensityMultiplyer);
+                            int generatedAntimatter = 5 + world.rand.nextInt(acceleratorAntimatterDensityMultiplyer);
                             antimatter += generatedAntimatter;
 
                             // Reset energy consumption levels and destroy accelerated particle.
@@ -111,7 +109,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
                         // Plays sound of particle accelerating past the speed based on total velocity at the time of anti-matter creation.
                         if (entityParticle != null) {
-                            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.accelerator", 1.5F, (float) (0.6 + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
+                            //world.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.accelerator", 1.5F, (float) (0.6 + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
                         }
                     }
 
@@ -133,7 +131,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
                 entityParticle = null;
             }
 
-            if (worldObj.getWorldTime() % 5 == 0) {
+            if (world.getWorldTime() % 5 == 0) {
                 Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
             }
 
@@ -161,7 +159,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
-        if (worldObj.isRemote) {
+        if (world.isRemote) {
             totalEnergyConsumed = dataStream.readFloat();
             antimatter = dataStream.readInt();
             velocity = dataStream.readFloat();
@@ -226,7 +224,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         if (!simulate) {
             totalEnergyConsumed += maxReceive;
         }
@@ -239,20 +237,20 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
     }
 
     @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
         return 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public ForgeDirection getDirection() {
-        return ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+    public EnumFacing getDirection() {
+        return EnumFacing.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
     }
 
     @Override
-    public void setDirection(ForgeDirection direction) {
-        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
+    public void setDirection(EnumFacing direction) {
+        world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -299,7 +297,7 @@ public class TileAccelerator extends TileElectricInventory implements ITileNetwo
 
             if (potentialBlock != null) {
                 // Prevent negative numbers and disallow zero for density multiplier.
-                acceleratorAntimatterDensityMultiplyer = (int) potentialBlock.getBlockHardness(worldObj, 0, 0, 0) * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+                acceleratorAntimatterDensityMultiplyer = (int) potentialBlock.getBlockHardness(world, 0, 0, 0) * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
 
                 if (acceleratorAntimatterDensityMultiplyer <= 0) {
                     acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;

@@ -1,10 +1,10 @@
 package org.halvors.quantum.common.block;
 
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public interface IRotatableBlock {
-    ForgeDirection getDirection(World world, int x, int y, int z);
+    EnumFacing getDirection(World world, int x, int y, int z);
 
-    void setDirection(World world, int x, int y, int z, ForgeDirection direction);
+    void setDirection(World world, int x, int y, int z, EnumFacing direction);
 }

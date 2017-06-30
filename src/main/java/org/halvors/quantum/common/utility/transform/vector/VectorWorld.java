@@ -31,7 +31,7 @@ public class VectorWorld extends Vector3 implements IVectorWorld {
     public VectorWorld(Entity entity) {
         super(entity);
 
-        world = entity.worldObj;
+        world = entity.getEntityWorld();
     }
 
     public VectorWorld(TileEntity tile) {
@@ -73,7 +73,7 @@ public class VectorWorld extends Vector3 implements IVectorWorld {
 
     public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
-        nbt.setInteger("d", this.world.provider.dimensionId);
+        nbt.setInteger("d", this.world.provider.getDimension());
 
         return nbt;
     }
@@ -109,7 +109,7 @@ public class VectorWorld extends Vector3 implements IVectorWorld {
     }
 
     public static VectorWorld fromCenter(Entity e) {
-        return new VectorWorld(e.worldObj, e.posX, e.posY - e.yOffset + e.height / 2.0F, e.posZ);
+        return new VectorWorld(e.world, e.posX, e.posY - e.getYOffset() + e.height / 2.0F, e.posZ);
     }
 
     public static VectorWorld fromCenter(TileEntity e) {

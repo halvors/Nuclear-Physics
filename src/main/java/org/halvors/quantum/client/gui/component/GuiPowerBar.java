@@ -1,9 +1,9 @@
 package org.halvors.quantum.client.gui.component;
 
 import cofh.api.energy.IEnergyStorage;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.IGui;
 import org.halvors.quantum.common.utility.energy.EnergyUtils;
 

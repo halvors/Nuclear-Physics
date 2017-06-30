@@ -1,15 +1,15 @@
 package org.halvors.quantum.client.gui.particle;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.particle.ContainerAccelerator;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
+import org.halvors.quantum.common.utility.energy.UnitDisplay;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.Color;
-import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
 public class GuiAccelerator extends GuiContainerBase {

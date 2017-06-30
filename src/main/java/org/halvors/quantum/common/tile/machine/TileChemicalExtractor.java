@@ -4,15 +4,15 @@ import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.utility.OreDictionaryUtility;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.ITileRotatable;
+import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
 import java.util.List;
 
@@ -43,14 +43,14 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
+    public void update() {
+        super.update();
 
         if (timer > 0) {
             rotation += 0.2;
         }
 
-        if (!worldObj.isRemote) {
+        if (!world.isRemote) {
             if (canProcess()) {
                 // TODO: Implement this.
                 //discharge(getStackInSlot(0));
@@ -84,8 +84,8 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
                 timer = 0;
             }
 
-            if (worldObj.getWorldTime() % 10 == 0) {
-                if (!worldObj.isRemote) {
+            if (world.getWorldTime() % 10 == 0) {
+                if (!world.isRemote) {
                     Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
@@ -106,29 +106,31 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
 
-        nbt.setInteger("timer", timer);
+        tagCompound.setInteger("timer", timer);
 
         if (inputTank.getFluid() != null) {
-            NBTTagCompound compound = new NBTTagCompound();
-            inputTank.getFluid().writeToNBT(compound);
-            nbt.setTag("inputTank", compound);
+            NBTTagCompound inputTankCompound = new NBTTagCompound();
+            inputTank.getFluid().writeToNBT(inputTankCompound);
+            tagCompound.setTag("inputTank", inputTankCompound);
         }
 
         if (outputTank.getFluid() != null) {
-            NBTTagCompound compound = new NBTTagCompound();
-            outputTank.getFluid().writeToNBT(compound);
-            nbt.setTag("outputTank", compound);
+            NBTTagCompound outputTankCompound = new NBTTagCompound();
+            outputTank.getFluid().writeToNBT(outputTankCompound);
+            tagCompound.setTag("outputTank", outputTankCompound);
         }
+
+        return tagCompound;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
-        if (worldObj.isRemote) {
+        if (world.isRemote) {
             timer = dataStream.readInt();
 
             if (dataStream.readBoolean()) {
@@ -171,7 +173,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
         if (resource != null && canFill(from, resource.getFluid())) {
             return inputTank.fill(resource, doFill);
         }
@@ -180,27 +182,27 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
         return drain(from, resource.amount, doDrain);
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return outputTank.drain(maxDrain, doDrain);
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return fluid.getID() == FluidRegistry.WATER.getID() || fluid.getID() == Quantum.fluidDeuterium.getID();
+    public boolean canFill(EnumFacing from, Fluid fluid) {
+        return fluid.equals(FluidRegistry.WATER) || fluid.equals(Quantum.fluidDeuterium);
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return outputTank.getFluid() != null && fluid.getID() == outputTank.getFluid().getFluidID();
+    public boolean canDrain(EnumFacing from, Fluid fluid) {
+        return outputTank.getFluid() != null && fluid.equals(outputTank.getFluid());
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(EnumFacing from) {
         return new FluidTankInfo[] { inputTank.getInfo(), outputTank.getInfo() };
     }
 
@@ -251,7 +253,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     }
 
     @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         if (canProcess()) {
             return super.receiveEnergy(from, maxReceive, simulate);
         }
@@ -260,7 +262,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     }
 
     @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
         return 0;
     }
 
@@ -275,14 +277,14 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
             }
 
             if (outputTank.getFluidAmount() < outputTank.getCapacity()) {
-                if (inputTank.getFluid().getFluidID() == Quantum.fluidStackDeuterium.getFluidID() && inputTank.getFluid().amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
-                    if (outputTank.getFluid() == null || outputTank.getFluid().getFluidID() == Quantum.fluidTritium.getID()) {
+                if (inputTank.getFluid().equals(Quantum.fluidStackDeuterium) && inputTank.getFluid().amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
+                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(Quantum.fluidTritium)) {
                         return true;
                     }
                 }
 
-                if (inputTank.getFluid().getFluidID() == Quantum.fluidStackWater.getFluidID() && inputTank.getFluid().amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
-                    if (outputTank.getFluid() == null || outputTank.getFluid().getFluidID() == Quantum.fluidDeuterium.getID()) {
+                if (inputTank.getFluid().equals(Quantum.fluidStackWater) && inputTank.getFluid().amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
+                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(Quantum.fluidDeuterium) {
                         return true;
                     }
                 }
@@ -314,7 +316,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
             int waterUsage = ConfigurationManager.General.waterPerDeutermium;
             FluidStack drain = inputTank.drain(waterUsage * extractSpeed, false);
 
-            if (drain != null && drain.amount >= 1 && drain.getFluidID() == FluidRegistry.WATER.getID()) {
+            if (drain != null && drain.amount >= 1 && drain.equals(FluidRegistry.WATER)) {
                 if (outputTank.fill(new FluidStack(Quantum.fluidDeuterium, extractSpeed), true) >= extractSpeed) {
                     inputTank.drain(waterUsage * extractSpeed, true);
 
@@ -331,7 +333,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
             int deutermiumUsage = ConfigurationManager.General.deutermiumPerTritium;
             FluidStack drain = inputTank.drain(deutermiumUsage * extractSpeed, false);
 
-            if (drain != null && drain.amount >= 1 && drain.getFluidID() == Quantum.fluidDeuterium.getID()) {
+            if (drain != null && drain.amount >= 1 && drain.equals(Quantum.fluidDeuterium)) {
                 if (outputTank.fill(new FluidStack(Quantum.fluidTritium, extractSpeed), true) >= extractSpeed) {
                     inputTank.drain(deutermiumUsage * extractSpeed, true);
 
@@ -344,12 +346,12 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     }
 
     @Override
-    public ForgeDirection getDirection() {
-        return ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+    public EnumFacing getDirection() {
+        return EnumFacing.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
     }
 
     @Override
-    public void setDirection(ForgeDirection direction) {
-        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
+    public void setDirection(EnumFacing direction) {
+        world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
 }

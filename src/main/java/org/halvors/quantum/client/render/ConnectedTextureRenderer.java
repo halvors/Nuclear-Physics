@@ -1,18 +1,16 @@
 package org.halvors.quantum.client.render;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.utility.render.BlockRenderUtility;
 import org.halvors.quantum.client.utility.render.RenderUtility;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.WorldUtility;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
@@ -39,7 +37,7 @@ public class ConnectedTextureRenderer implements ISimpleBlockRenderer {
         TileEntity tile = access.getTileEntity(x, y, z);
         byte sideMap = 0;
 
-        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
+        for (EnumFacing direction : EnumFacing.VALUES) {
             Vector3 check = new Vector3(x, y, z).translate(direction);
             TileEntity checkTile = check.getTileEntity(access);
 

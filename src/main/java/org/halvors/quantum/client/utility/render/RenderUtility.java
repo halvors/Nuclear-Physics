@@ -1,21 +1,19 @@
 package org.halvors.quantum.client.utility.render;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import org.halvors.quantum.common.utility.WorldUtility;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -100,7 +98,7 @@ public class RenderUtility {
     }
 
     public static void renderNormalBlockAsItem(Block block, int metadata, RenderBlocks renderer) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = Tessellator.getInstance();
 
         block.setBlockBoundsForItemRender();
         renderer.setRenderBoundsFromBlock(block);
@@ -162,7 +160,7 @@ public class RenderUtility {
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = Tessellator.getInstance();
         int yOffset = 0;
 
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -191,7 +189,7 @@ public class RenderUtility {
         renderText(text, ForgeDirection.getOrientation(side), maxScale, x, y, z);
     }
 
-    public static void renderText(String text, ForgeDirection side, float maxScale, double x, double y, double z) {
+    public static void renderText(String text, EnumFacing side, float maxScale, double x, double y, double z) {
         GL11.glPushMatrix();
 
         GL11.glPolygonOffset(-10, -10);
@@ -312,7 +310,7 @@ public class RenderUtility {
     }
 
     /** @author OpenBlocks */
-    public static void rotateFacesOnRenderer(ForgeDirection rotation, RenderBlocks renderer, boolean fullRotation) {
+    public static void rotateFacesOnRenderer(EnumFacing rotation, RenderBlocks renderer, boolean fullRotation) {
         if (fullRotation) {
             switch (rotation) {
                 case DOWN:
@@ -383,16 +381,16 @@ public class RenderUtility {
         renderer.flipTexture = false;
     }
 
-    public static void renderInventoryBlock(RenderBlocks renderer, Block block, ForgeDirection rotation) {
+    public static void renderInventoryBlock(RenderBlocks renderer, Block block, EnumFacing rotation) {
         renderInventoryBlock(renderer, block, rotation, -1);
     }
 
-    public static void renderInventoryBlock(RenderBlocks renderer, Block block, ForgeDirection rotation, int colorMultiplier) {
+    public static void renderInventoryBlock(RenderBlocks renderer, Block block, EnumFacing rotation, int colorMultiplier) {
         renderInventoryBlock(renderer, block, rotation, colorMultiplier, null);
     }
 
-    public static void renderInventoryBlock(RenderBlocks renderer, Block block, ForgeDirection rotation, int colorMultiplier, Set<ForgeDirection> enabledSides) {
-        Tessellator tessellator = Tessellator.instance;
+    public static void renderInventoryBlock(RenderBlocks renderer, Block block, EnumFacing rotation, int colorMultiplier, Set<EnumFacing> enabledSides) {
+        Tessellator tessellator = Tessellator.getInstance();
         block.setBlockBoundsForItemRender();
         renderer.setRenderBoundsFromBlock(block);
 
@@ -413,42 +411,42 @@ public class RenderUtility {
         GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
         int metadata = rotation.ordinal();
 
-        if (enabledSides == null || enabledSides.contains(ForgeDirection.DOWN)) {
+        if (enabledSides == null || enabledSides.contains(EnumFacing.DOWN)) {
             tessellator.startDrawingQuads();
             tessellator.setNormal(0.0F, -1.0F, 0.0F);
             renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 0, metadata));
             tessellator.draw();
         }
 
-        if (enabledSides == null || enabledSides.contains(ForgeDirection.UP)) {
+        if (enabledSides == null || enabledSides.contains(EnumFacing.UP)) {
             tessellator.startDrawingQuads();
             tessellator.setNormal(0.0F, 1.0F, 0.0F);
             renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 1, metadata));
             tessellator.draw();
         }
 
-        if (enabledSides == null || enabledSides.contains(ForgeDirection.SOUTH)) {
+        if (enabledSides == null || enabledSides.contains(EnumFacing.SOUTH)) {
             tessellator.startDrawingQuads();
             tessellator.setNormal(0.0F, 0.0F, -1.0F);
             renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 2, metadata));
             tessellator.draw();
         }
 
-        if (enabledSides == null || enabledSides.contains(ForgeDirection.NORTH)) {
+        if (enabledSides == null || enabledSides.contains(EnumFacing.NORTH)) {
             tessellator.startDrawingQuads();
             tessellator.setNormal(0.0F, 0.0F, 1.0F);
             renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 3, metadata));
             tessellator.draw();
         }
 
-        if (enabledSides == null || enabledSides.contains(ForgeDirection.WEST)) {
+        if (enabledSides == null || enabledSides.contains(EnumFacing.WEST)) {
             tessellator.startDrawingQuads();
             tessellator.setNormal(-1.0F, 0.0F, 0.0F);
             renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 4, metadata));
             tessellator.draw();
         }
 
-        if (enabledSides == null || enabledSides.contains(ForgeDirection.EAST)) {
+        if (enabledSides == null || enabledSides.contains(EnumFacing.EAST)) {
             tessellator.startDrawingQuads();
             tessellator.setNormal(1.0F, 0.0F, 0.0F);
             renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderer.getBlockIconFromSideAndMetadata(block, 5, metadata));
@@ -469,7 +467,7 @@ public class RenderUtility {
     /** Renders a cube with custom block boundaries. */
     public static void renderCube(double x1, double y1, double z1, double x2, double y2, double z2, Block block, IIcon overrideTexture, int meta) {
         GL11.glPushMatrix();
-        Tessellator t = Tessellator.instance;
+        Tessellator t = Tessellator.getInstance();
 
         GL11.glColor4f(1, 1, 1, 1);
 
@@ -512,7 +510,7 @@ public class RenderUtility {
      *
      * @param placementSide */
     @SuppressWarnings("incomplete-switch")
-    public static void rotateFaceBlockToSide(ForgeDirection placementSide) {
+    public static void rotateFaceBlockToSide(EnumFacing placementSide) {
         switch (placementSide) {
             case DOWN:
                 GL11.glTranslatef(0, -0.45f, 0);
@@ -541,7 +539,7 @@ public class RenderUtility {
     }
 
     @SuppressWarnings("incomplete-switch")
-    public static void rotateFaceToSideNoTranslate(ForgeDirection placementSide) {
+    public static void rotateFaceToSideNoTranslate(EnumFacing placementSide) {
         switch (placementSide) {
             case DOWN:
                 break;
@@ -564,7 +562,7 @@ public class RenderUtility {
     }
 
     @SuppressWarnings("incomplete-switch")
-    public static void rotateFaceBlockToSideOutwards(ForgeDirection placementSide) {
+    public static void rotateFaceBlockToSideOutwards(EnumFacing placementSide) {
         switch (placementSide) {
             case DOWN:
                 GL11.glTranslatef(0, 0.45f, 0);
@@ -599,7 +597,7 @@ public class RenderUtility {
     /** Rotates a block based on the direction it is facing.
      *
      * @param direction */
-    public static void rotateBlockBasedOnDirection(ForgeDirection direction) {
+    public static void rotateBlockBasedOnDirection(EnumFacing direction) {
         switch (direction) {
             default:
                 GL11.glRotatef(WorldUtility.getAngleFromForgeDirection(direction), 0, 1, 0);
@@ -616,7 +614,7 @@ public class RenderUtility {
     /** Use this for models that are facing up by default.
      *
      * @param direction */
-    public static void rotateBlockBasedOnDirectionUp(ForgeDirection direction) {
+    public static void rotateBlockBasedOnDirectionUp(EnumFacing direction) {
         switch (direction) {
             default:
                 GL11.glRotatef(WorldUtility.getAngleFromForgeDirection(direction), 0, 1, 0);

@@ -1,11 +1,12 @@
 package org.halvors.quantum.common.thermal;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 public class FluidThermal extends Fluid {
-    public FluidThermal(String fluidName) {
-        super(fluidName);
+    public FluidThermal(String fluidName, ResourceLocation still, ResourceLocation flowing) {
+        super(fluidName, still, flowing);
     }
 
     public int getTemperature(FluidStack stack) {

@@ -1,7 +1,6 @@
 package org.halvors.quantum.common.utility.transform.vector;
 
 import com.google.common.io.ByteArrayDataInput;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class Vector2 implements Cloneable, IVector2 {

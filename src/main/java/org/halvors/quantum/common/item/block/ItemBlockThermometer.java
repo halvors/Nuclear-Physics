@@ -1,13 +1,13 @@
 package org.halvors.quantum.common.item.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.NBTUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
@@ -63,7 +63,7 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         if (!world.isRemote) {
             setSavedCoords(itemStack, null);
-            player.addChatMessage(new ChatComponentText("Cleared tracking coordinate."));
+            player.sendMessage(new TextComponentString("Cleared tracking coordinate."));
         }
 
         return itemStack;
@@ -73,7 +73,7 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         if (player.isSneaking()) {
             setSavedCoords(itemStack, new Vector3(x, y, z));
-            player.addChatMessage(new ChatComponentText("Tracking coordinate: " + x + ", " + y + ", " + z));
+            player.sendMessage(new TextComponentString("Tracking coordinate: " + x + ", " + y + ", " + z));
 
             return true;
         }

@@ -1,16 +1,16 @@
 package org.halvors.quantum.common.network.packet;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.network.PacketHandler;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.location.Location;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.Pair;
 
 import java.util.HashMap;
@@ -60,7 +60,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
                     Vector3 position = new Vector3(location.getX(), location.getY(), location.getZ());
 
                     if (message.size > 0) {
-                        HashMap<Vector3, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(ForgeDirection.getOrientation(position.getBlockMetadata(world)), message.size);
+                        HashMap<Vector3, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.getOrientation(position.getBlockMetadata(world)), message.size);
 
                         for (Map.Entry<Vector3, Pair<Block, Integer>> entry : map.entrySet()) {
                             Vector3 placePos = entry.getKey().clone();

@@ -1,27 +1,27 @@
 package org.halvors.quantum.common.tile.machine;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyReceiver;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.tile.ITileNetwork;
+import org.halvors.quantum.common.tile.ITileRotatable;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorHelper;
-import org.halvors.quantum.common.tile.ITileRotatable;
 
 import java.util.List;
 
-public class TileGasCentrifuge extends TileElectricInventory implements ITileNetwork, IFluidHandler, ISidedInventory, ITileRotatable, IEnergyReceiver {
+public class TileGasCentrifuge extends TileElectricInventory implements ITickable, ITileNetwork, IFluidHandler, ISidedInventory, ITileRotatable {
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 
@@ -37,18 +37,16 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
-
+    public void update() {
         if (timer > 0) {
             rotation += 0.45;
         }
 
-        if (!worldObj.isRemote) {
-            if (worldObj.getWorldTime() % 20 == 0) {
+        if (!world.isRemote) {
+            if (world.getWorldTime() % 20 == 0) {
                 for (int i = 0; i < 6; i++) {
-                    ForgeDirection direction = ForgeDirection.getOrientation(i);
-                    TileEntity tileEntity = VectorHelper.getTileEntityFromSide(worldObj, new Vector3(this), direction);
+                    EnumFacing direction = EnumFacing.getOrientation(i);
+                    TileEntity tileEntity = VectorHelper.getTileEntityFromSide(world, new Vector3(this), direction);
 
                     if (tileEntity instanceof IFluidHandler && tileEntity.getClass() != getClass()) {
                         IFluidHandler fluidHandler = (IFluidHandler) tileEntity;
@@ -96,8 +94,8 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
                 timer = 0;
             }
 
-            if (worldObj.getWorldTime() % 10 == 0) {
-                if (!worldObj.isRemote) {
+            if (world.getWorldTime() % 10 == 0) {
+                if (!world.isRemote) {
                     Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
@@ -107,33 +105,35 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
 
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
 
-        timer = nbt.getInteger("smeltingTicks");
+        timer = tagCompound.getInteger("smeltingTicks");
 
-        NBTTagCompound compound = nbt.getCompoundTag("gas");
+        NBTTagCompound compound = tagCompound.getCompoundTag("gas");
         gasTank.setFluid(FluidStack.loadFluidStackFromNBT(compound));
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
 
-        nbt.setInteger("smeltingTicks", timer);
+        tagCompound.setInteger("smeltingTicks", timer);
 
         if (gasTank.getFluid() != null) {
             NBTTagCompound compound = new NBTTagCompound();
             gasTank.getFluid().writeToNBT(compound);
-            nbt.setTag("gas", compound);
+            tagCompound.setTag("gas", compound);
         }
+
+        return tagCompound;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
-        if (worldObj.isRemote) {
+        if (world.isRemote) {
             timer = dataStream.readInt();
 
             if (dataStream.readBoolean()) {
@@ -180,7 +180,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
 
     @Override
     public void openChest() {
-        if (!worldObj.isRemote) {
+        if (!world.isRemote) {
             Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
     }
@@ -206,7 +206,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
     }
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
         if (resource.isFluidEqual(Quantum.fluidStackUraniumHexaflouride)) {
             return gasTank.fill(resource, doFill);
         }
@@ -215,32 +215,32 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
         return null;
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return null;
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return fluid.getID() == Quantum.fluidUraniumHexaflouride.getID();
+    public boolean canFill(EnumFacing from, Fluid fluid) {
+        return fluid.equals(Quantum.fluidUraniumHexaflouride);
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+    public boolean canDrain(EnumFacing from, Fluid fluid) {
         return false;
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(EnumFacing from) {
         return new FluidTankInfo[] { gasTank.getInfo() };
     }
 
     @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         if (canProcess()) {
             return super.receiveEnergy(from, maxReceive, simulate);
         }
@@ -249,7 +249,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
     }
 
     @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
         return 0;
     }
 
@@ -269,7 +269,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
         if (canProcess()) {
             gasTank.drain(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 
-            if (worldObj.rand.nextFloat() > 0.6) {
+            if (world.rand.nextFloat() > 0.6) {
                 incrStackSize(2, new ItemStack(Quantum.itemUranium));
             } else {
                 incrStackSize(3, new ItemStack(Quantum.itemUranium, 1, 1));
@@ -278,12 +278,12 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITileNet
     }
 
     @Override
-    public ForgeDirection getDirection() {
-        return ForgeDirection.getOrientation(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+    public EnumFacing getDirection() {
+        return EnumFacing.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
     }
 
     @Override
-    public void setDirection(ForgeDirection direction) {
-        worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
+    public void setDirection(EnumFacing direction) {
+        world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
     }
 }

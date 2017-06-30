@@ -1,27 +1,11 @@
 package org.halvors.quantum;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.eventhandler.Event;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -29,6 +13,19 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.*;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
@@ -36,12 +33,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.client.utility.render.RenderUtility;
-import org.halvors.quantum.common.CommonProxy;
-import org.halvors.quantum.common.ConfigurationManager;
+import org.halvors.quantum.common.*;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
-import org.halvors.quantum.common.CreativeTabQuantum;
-import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.IUpdatableMod;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
 import org.halvors.quantum.common.block.BlockToxicWaste;
 import org.halvors.quantum.common.block.BlockUraniumOre;
@@ -66,16 +59,16 @@ import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.event.ThermalEventHandler;
 import org.halvors.quantum.common.grid.UpdateTicker;
-import org.halvors.quantum.common.item.block.ItemBlockMetadata;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
+import org.halvors.quantum.common.item.block.ItemBlockMetadata;
+import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.item.particle.ItemAntimatter;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemBucketToxicWaste;
 import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium;
-import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.schematic.SchematicAccelerator;
 import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
@@ -114,7 +107,7 @@ import java.util.List;
      guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
 public class Quantum implements IUpdatableMod {
 	// The instance of your mod that Forge uses.
-	@Instance(value = Reference.ID)
+	@Mod.Instance(value = Reference.ID)
 	private static Quantum instance;
 
 	// Says where the client and server 'proxy' code is loaded.
@@ -197,7 +190,7 @@ public class Quantum implements IUpdatableMod {
 	public static ItemArmor itemHazmatLeggings;
 	public static ItemArmor itemHazmatBoots;
 
-	@EventHandler
+	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		// Initialize configuration.
         configuration = new Configuration(event.getSuggestedConfigurationFile());
@@ -216,7 +209,7 @@ public class Quantum implements IUpdatableMod {
 		proxy.preInit();
 	}
 
-	@EventHandler
+	@Mod.EventHandler
 	public void init(FMLInitializationEvent event) {
 		// Register event handlers.
 		MinecraftForge.EVENT_BUS.register(this);
@@ -284,7 +277,7 @@ public class Quantum implements IUpdatableMod {
 		proxy.init();
 	}
 
-	@EventHandler
+	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		if (!UpdateTicker.getInstance().isAlive()) {
 			UpdateTicker.getInstance().start();
@@ -427,7 +420,7 @@ public class Quantum implements IUpdatableMod {
 		// Register fluid containers.
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("deuterium"), 200), new ItemStack(itemDeuteriumCell), new ItemStack(itemCell));
 		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("tritium"), 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
-		FluidContainerRegistry.registerFluidContainer(fluidToxicWaste, new ItemStack(itemBucketToxicWaste), new ItemStack(Items.bucket));
+		FluidContainerRegistry.registerFluidContainer(fluidToxicWaste, new ItemStack(itemBucketToxicWaste), new ItemStack(Items.BUCKET));
 		FluidContainerRegistry.registerFluidContainer(FluidRegistry.WATER, new ItemStack(itemWaterCell), new ItemStack(itemCell));
 	}
 
@@ -448,13 +441,13 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.addRecipe(new ShapedOreRecipe(itemBreederFuel, "CUC", "CUC", "CUC", 'U', "breederUranium", 'C', "cellEmpty"));
 
 		// Empty Cell
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemCell, 16), " T ", "TGT", " T ", 'T', "ingotTin", 'G', Blocks.glass));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemCell, 16), " T ", "TGT", " T ", 'T', "ingotTin", 'G', Blocks.GLASS));
 
 		// Fissile Fuel
 		GameRegistry.addRecipe(new ShapedOreRecipe(itemFissileFuel, "CUC", "CUC", "CUC", 'U', "ingotUranium", 'C', "cellEmpty"));
 
 		// Water Cell
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemWaterCell), "cellEmpty", Items.water_bucket));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemWaterCell), "cellEmpty", Items.WATER_BUCKET));
 
 		// Hazmat
 		//GameRegistry.addRecipe(new ShapedOreRecipe(itemHazmatMask, "SSS", "BAB", "SCS", 'A', Items.leather_helmet, 'C', UniversalRecipe.CIRCUIT_T1.get(Settings.allowAlternateRecipes), 'S', Blocks.cloth }));
@@ -469,7 +462,7 @@ public class Quantum implements IUpdatableMod {
 		//GameRegistry.addRecipe(new ShapedOreRecipe(blockChemicalExtractor, "BSB", "MCM", "BSB", 'C', UniversalRecipe.CIRCUIT_T3.get(Settings.allowAlternateRecipes), 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes), 'B', UniversalRecipe.SECONDARY_METAL.get(Settings.allowAlternateRecipes), 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
 
 		// Control Rod
-		GameRegistry.addRecipe(new ShapedOreRecipe(blockControlRod, "I", "I", "I", 'I', Items.iron_ingot));
+		GameRegistry.addRecipe(new ShapedOreRecipe(blockControlRod, "I", "I", "I", 'I', Items.IRON_INGOT));
 
 		// Turbine
 		//GameRegistry.addRecipe(new ShapedOreRecipe(blockElectricTurbine, " B ", "BMB", " B ", 'B', UniversalRecipe.SECONDARY_PLATE.get(Settings.allowAlternateRecipes), 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
@@ -478,7 +471,7 @@ public class Quantum implements IUpdatableMod {
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectromagnet, 2, 0), "BBB", "BMB", "BBB", 'B', UniversalRecipe.SECONDARY_METAL.get(Settings.allowAlternateRecipes), 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
 
 		// Electromagnet Glass
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(blockElectromagnet, 1, 1), blockElectromagnet, Blocks.glass));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(blockElectromagnet, 1, 1), blockElectromagnet, Blocks.GLASS));
 
 		// Fulmination Generator
 		//GameRegistry.addRecipe(new ShapedOreRecipe(blockFulmination, "OSO", "SCS", "OSO", 'O', Blocks.obsidian, 'C', UniversalRecipe.CIRCUIT_T2.get(Settings.allowAlternateRecipes), 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes)));
@@ -532,13 +525,13 @@ public class Quantum implements IUpdatableMod {
 
 	@SubscribeEvent
 	public void onFillBucketEvent(FillBucketEvent event) {
-		if (!event.world.isRemote && event.target != null && event.target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-			VectorWorld pos = new VectorWorld(event.world, event.target);
+		if (!event.getWorld().isRemote && event.getTarget() != null && event.getWorld().typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+			VectorWorld pos = new VectorWorld(event.getWorld(), event.getTarget());
 
 			if (pos.getBlock() == blockToxicWaste) {
-				pos.setBlock(Blocks.air);
+				pos.setBlock(Blocks.AIR);
 
-				event.result = new ItemStack(itemBucketToxicWaste);
+				event.setFilledBucket(new ItemStack(itemBucketToxicWaste));
 				event.setResult(Event.Result.ALLOW);
 			}
 		}
@@ -547,14 +540,14 @@ public class Quantum implements IUpdatableMod {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void preTextureHook(TextureStitchEvent.Pre event) {
-		if (event.map.getTextureType() == 0) {
-			RenderUtility.registerIcon(Reference.PREFIX + "atomic_edge", event.map);
-			RenderUtility.registerIcon(Reference.PREFIX + "gasFunnel_edge", event.map);
+		if (event.getMap().getTextureType() == 0) {
+			RenderUtility.registerIcon(Reference.PREFIX + "atomic_edge", event.getMap());
+			RenderUtility.registerIcon(Reference.PREFIX + "gasFunnel_edge", event.getMap());
 
-			RenderUtility.registerIcon(Reference.PREFIX + "deuterium", event.map);
-			RenderUtility.registerIcon(Reference.PREFIX + "steam", event.map);
-			RenderUtility.registerIcon(Reference.PREFIX + "tritium", event.map);
-			RenderUtility.registerIcon(Reference.PREFIX + "uraniumHexafluoride", event.map);
+			RenderUtility.registerIcon(Reference.PREFIX + "deuterium", event.getMap());
+			RenderUtility.registerIcon(Reference.PREFIX + "steam", event.getMap());
+			RenderUtility.registerIcon(Reference.PREFIX + "tritium", event.getMap());
+			RenderUtility.registerIcon(Reference.PREFIX + "uraniumHexafluoride", event.getMap());
 		}
 	}
 

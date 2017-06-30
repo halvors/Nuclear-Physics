@@ -4,9 +4,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.utility.WrenchUtility;
 
 public abstract class BlockRotatable extends BlockQuantum implements IRotatableBlock {
@@ -26,7 +26,7 @@ public abstract class BlockRotatable extends BlockQuantum implements IRotatableB
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
         if (!player.isSneaking()) {
             if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
-                rotate(world, x, y, z, ForgeDirection.getOrientation(side));
+                rotate(world, x, y, z, EnumFacing.getOrientation(side));
 
                 return true;
             }
@@ -48,11 +48,11 @@ public abstract class BlockRotatable extends BlockQuantum implements IRotatableB
             }
         }
 
-        int playerSide = MathHelper.floor_double(entity.rotationYaw * 4 / 360 + 0.5) & 0x3;
+        int playerSide = MathHelper.floor(entity.rotationYaw * 4 / 360 + 0.5) & 0x3;
         int returnSide = playerSide == 3 && canRotate(4) ? 4 : playerSide == 2 && canRotate(3) ? 3 : playerSide == 1 && canRotate(5) ? 5 : playerSide == 0 && canRotate(2) ? 2 : 0;
 
         if (isFlipPlacement) {
-            return ForgeDirection.getOrientation(returnSide).getOpposite().ordinal();
+            return EnumFacing.getOrientation(returnSide).getOpposite().ordinal();
         }
 
         return returnSide;
@@ -62,10 +62,10 @@ public abstract class BlockRotatable extends BlockQuantum implements IRotatableB
         return (rotationMask & 1 << ordinal) != 0;
     }
 
-    public boolean rotate(World worldObj, int x, int y, int z, ForgeDirection axis) {
+    public boolean rotate(World worldObj, int x, int y, int z, EnumFacing axis) {
         int currentRotMeta = worldObj.getBlockMetadata(x, y, z);
-        ForgeDirection orientation = ForgeDirection.getOrientation(currentRotMeta);
-        ForgeDirection rotated = orientation.getRotation(axis);
+        EnumFacing orientation = EnumFacing.getOrientation(currentRotMeta);
+        EnumFacing rotated = orientation.getRotation(axis);
         int metadata = rotated.ordinal();
         int metadataBit = 1 << metadata;
 
@@ -84,7 +84,7 @@ public abstract class BlockRotatable extends BlockQuantum implements IRotatableB
     }
 
     @Override
-    public void setDirection(World world, int x, int y, int z, ForgeDirection direction) {
+    public void setDirection(World world, int x, int y, int z, EnumFacing direction) {
         world.setBlockMetadataWithNotify(x, y, z, direction.ordinal(), 3);
     }
 }

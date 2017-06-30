@@ -1,12 +1,12 @@
 package org.halvors.quantum.common.block.reactor;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockQuantum;
@@ -14,7 +14,7 @@ import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 
 public class BlockElectricTurbine extends BlockQuantum {
     public BlockElectricTurbine() {
-        super("electricTurbine", Material.iron);
+        super("electricTurbine", Material.IRON);
 
         setTextureName(Reference.PREFIX + "machine");
     }

@@ -1,13 +1,15 @@
 package org.halvors.quantum.common.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
@@ -35,11 +37,11 @@ public class BlockToxicWaste extends BlockFluidClassic {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-        super.randomDisplayTick(world, x, y, z, random);
+    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
+        super.randomDisplayTick(state, world, pos, random);
 
         if (random.nextInt(100) == 0) {
-            world.spawnParticle("suspended", x + random.nextFloat(), y + maxY, z + random.nextFloat(), 0, 0, 0);
+            world.spawnParticle("suspended", pos.getX() + random.nextFloat(), pos.getY() + maxY, pos.getZ() + random.nextFloat(), 0, 0, 0);
         }
 
         if (random.nextInt(200) == 0) {

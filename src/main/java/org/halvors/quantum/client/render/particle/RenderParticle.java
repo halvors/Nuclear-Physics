@@ -1,21 +1,26 @@
 package org.halvors.quantum.client.render.particle;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Random;
 
 @SideOnly(Side.CLIENT)
 public class RenderParticle extends Render {
+    public RenderParticle(RenderManager renderManager) {
+        super(renderManager);
+    }
+
     @Override
     public void doRender(Entity entity, double x, double y, double z, float f, float partialTick) {
-        Tessellator tessellator = Tessellator.instance;
+        Tessellator tessellator = Tessellator.getInstance();
         float age = entity.ticksExisted;
 
         while (age > 200) {

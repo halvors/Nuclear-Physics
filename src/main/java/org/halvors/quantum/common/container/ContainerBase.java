@@ -52,7 +52,7 @@ public class ContainerBase extends Container {
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return inventory.isUseableByPlayer(player);
+        return inventory.isUsableByPlayer(player);
     }
 
     public void addPlayerInventory(EntityPlayer player) {

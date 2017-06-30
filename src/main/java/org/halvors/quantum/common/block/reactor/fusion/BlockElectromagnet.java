@@ -1,18 +1,15 @@
 package org.halvors.quantum.common.block.reactor.fusion;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.render.BlockRenderingHandler;
 import org.halvors.quantum.client.render.ConnectedTextureRenderer;
 import org.halvors.quantum.client.render.IBlockCustomRender;
@@ -28,7 +25,7 @@ public class BlockElectromagnet extends BlockTextured implements IBlockCustomRen
     private static IIcon iconTop, iconGlass;
 
     public BlockElectromagnet() {
-        super("electromagnet", Material.iron);
+        super("electromagnet", Material.IRON);
 
         setResistance(20);
     }

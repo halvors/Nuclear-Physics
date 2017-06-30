@@ -2,43 +2,43 @@ package org.halvors.quantum.common.tile.reactor.fusion;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.quantum.common.event.PlasmaEvent;
 import org.halvors.quantum.common.thermal.ThermalGrid;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
-public class TilePlasma extends TileEntity {
+public class TilePlasma extends TileEntity implements ITickable {
     public static int plasmaMaxTemperature = 1000000;
     private int temperature = plasmaMaxTemperature;
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
-
+    public void update() {
         ThermalGrid.addTemperature(new VectorWorld(this), (temperature - ThermalGrid.getTemperature(new VectorWorld(this))) * 0.1F);
 
-        if (worldObj.getWorldTime() % 20 == 0) {
+        if (world.getWorldTime() % 20 == 0) {
             temperature /= 1.5;
 
             if (temperature <= plasmaMaxTemperature / 10) {
                 // At this temperature, set block to fire.
-                worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.fire, 0, 3);
+                world.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
 
+                // TODO: Is this still needed?
                 // We manually trigger a block update, to avoid client glitches.
-                worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+                //world.markBlockForUpdate(xCoord, yCoord, zCoord);
             } else {
-                for (int i = 0; i < 6; i++) {
+                for (int side = 0; side < 6; side++) {
                     // Randomize spread direction.
-                    if (worldObj.rand.nextFloat() < 0.4) {
+                    if (world.rand.nextFloat() < 0.4) {
                         Vector3 position = new Vector3(this);
-                        position.translate(ForgeDirection.getOrientation(i));
+                        position.translate(EnumFacing.getOrientation(side));
 
-                        TileEntity tileEntity = position.getTileEntity(worldObj);
+                        TileEntity tileEntity = position.getTileEntity(world);
 
                         if (!(tileEntity instanceof TilePlasma)) {
-                            MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(worldObj, position.intX(), position.intY(), position.intZ(), temperature));
+                            MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, position.intX(), position.intY(), position.intZ(), temperature));
                         }
                     }
                 }

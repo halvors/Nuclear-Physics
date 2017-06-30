@@ -1,15 +1,15 @@
 package org.halvors.quantum.client.gui.machine;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
-import org.lwjgl.opengl.GL11;
 import org.halvors.quantum.common.utility.energy.UnitDisplay;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuantumAssembler extends GuiContainerBase {

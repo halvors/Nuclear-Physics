@@ -11,6 +11,7 @@ public class AntimatterExplosion extends Explosion implements IExplosion {
 
     public AntimatterExplosion(World world, Entity entity, double x, double y, double z, float size, int tier) {
         super(world, entity, x, y, z, size + 2 * tier);
+
         this.tier = tier;
     }
 

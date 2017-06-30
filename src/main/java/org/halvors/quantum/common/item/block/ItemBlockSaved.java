@@ -6,9 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.NBTUtility;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 /**
  * An item that can store a block's tile data.
@@ -17,7 +17,7 @@ public class ItemBlockSaved extends ItemBlockTooltip {
     public ItemBlockSaved(Block block) {
         super(block);
 
-        setMaxDurability(0);
+        setMaxDamage(0);
         setHasSubtypes(true);
         setMaxStackSize(1);
     }
@@ -77,7 +77,7 @@ public class ItemBlockSaved extends ItemBlockTooltip {
     }
 
     public static void dropBlockWithNBT(Block block, World world, int x, int y, int z) {
-        if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops")) {
+        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops")) {
             ItemStack itemStack = getItemStackWithNBT(block, world, x, y, z);
 
             if (itemStack != null) {

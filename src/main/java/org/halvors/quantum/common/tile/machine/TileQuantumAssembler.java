@@ -1,22 +1,21 @@
 package org.halvors.quantum.common.tile.machine;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyReceiver;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
-import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileElectricInventory;
 
 import java.util.List;
 
-public class TileQuantumAssembler extends TileElectricInventory implements ITileNetwork, IEnergyReceiver {
+public class TileQuantumAssembler extends TileElectricInventory implements ITickable, ITileNetwork {
     public static final int tickTime = 20 * 120;
     private static final int energy = 10000000; // Fix this.
 
@@ -37,10 +36,8 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
-
-        if (!worldObj.isRemote) {
+    public void update() {
+        if (!world.isRemote) {
             if (canProcess() && energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                 if (time == 0) {
                     time = tickTime;
@@ -62,14 +59,14 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
                 time = 0;
             }
 
-            if (worldObj.getWorldTime() % 10 == 0) {
-                if (!worldObj.isRemote) {
+            if (world.getWorldTime() % 10 == 0) {
+                if (!world.isRemote) {
                     Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
                 }
             }
         } else if (time > 0) {
-            if (worldObj.getWorldTime() % 600 == 0) {
-                worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.assembler", 0.7F, 1F);
+            if (world.getWorldTime() % 600 == 0) {
+                //world.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.assembler", 0.7F, 1F);
             }
 
             rotationYaw1 += 3;
@@ -83,12 +80,13 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
                 itemStack.stackSize = 1;
 
                 if (entityItem == null) {
-                    entityItem = new EntityItem(worldObj, 0, 0, 0, itemStack);
+                    entityItem = new EntityItem(world, 0, 0, 0, itemStack);
                 } else if (!itemStack.isItemEqual(entityItem.getEntityItem())) {
-                    entityItem = new EntityItem(worldObj, 0, 0, 0, itemStack);
+                    entityItem = new EntityItem(world, 0, 0, 0, itemStack);
                 }
 
-                entityItem.age++;
+                // TODO: Howto port this to 1.10.2?
+                //entityItem.age++;
             } else {
                 entityItem = null;
             }
@@ -104,10 +102,12 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
 
         tagCompound.setInteger("smeltingTicks", time);
+
+        return tagCompound;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -131,7 +131,7 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         if (canProcess()) {
             return super.receiveEnergy(from, maxReceive, simulate);
         }
@@ -140,7 +140,7 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
     }
 
     @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
         return 0;
     }
 
@@ -157,7 +157,7 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITile
 
     @Override
     public void openChest() {
-        if (!worldObj.isRemote) {
+        if (!world.isRemote) {
             Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
     }

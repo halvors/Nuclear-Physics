@@ -36,7 +36,7 @@ public class TileElectricInventory extends TileElectric implements ISidedInvento
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
 
         NBTTagList tagList = new NBTTagList();
@@ -51,6 +51,8 @@ public class TileElectricInventory extends TileElectric implements ISidedInvento
         }
 
         tagCompound.setTag("Items", tagList);
+
+        return tagCompound;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

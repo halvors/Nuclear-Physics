@@ -1,10 +1,10 @@
 package org.halvors.quantum.client.gui.debug;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.client.utility.render.RenderUtility;
@@ -17,6 +17,8 @@ import org.halvors.quantum.common.utility.location.Location;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
+
+import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
 public class GuiCreativeBuilder extends GuiContainerBase {
@@ -39,7 +41,7 @@ public class GuiCreativeBuilder extends GuiContainerBase {
     public void initGui() {
         super.initGui();
 
-        textFieldSize = new GuiTextField(fontRendererObj, 45, 58, 50, 12);
+        textFieldSize = new GuiTextField(0, fontRendererObj, 45, 58, 50, 12);
         buttonList.add(new GuiButton(0, width / 2 - 80, height / 2 - 10, 58, 20, "Build"));
         buttonList.add(new GuiButton(1, width / 2 - 50, height / 2 - 35, 120, 20, "Mode"));
     }
@@ -75,21 +77,21 @@ public class GuiCreativeBuilder extends GuiContainerBase {
     }
 
     @Override
-    protected void keyTyped(char par1, int par2) {
+    protected void keyTyped(char par1, int par2) throws IOException {
         super.keyTyped(par1, par2);
 
         textFieldSize.textboxKeyTyped(par1, par2);
     }
 
     @Override
-    protected void mouseClicked(int x, int y, int par3) {
+    protected void mouseClicked(int x, int y, int par3) throws IOException {
         super.mouseClicked(x, y, par3);
 
         textFieldSize.mouseClicked(x - containerWidth, y - containerHeight, par3);
     }
 
     @Override
-    protected void actionPerformed(GuiButton par1GuiButton) {
+    protected void actionPerformed(GuiButton par1GuiButton) throws IOException {
         super.actionPerformed(par1GuiButton);
 
         if (par1GuiButton.id == 0) {
@@ -103,7 +105,7 @@ public class GuiCreativeBuilder extends GuiContainerBase {
 
             if (radius > 0) {
                 Quantum.getPacketHandler().sendToServer(new PacketCreativeBuilder(new Location(0, (int) position.x, (int) position.y, (int) position.z), mode, radius));
-                mc.thePlayer.closeScreen();
+                mc.player.closeScreen();
             }
         } else if (par1GuiButton.id == 1) {
             mode = (mode + 1) % (BlockCreativeBuilder.getSchematicCount());

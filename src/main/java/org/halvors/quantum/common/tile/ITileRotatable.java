@@ -1,9 +1,9 @@
 package org.halvors.quantum.common.tile;
 
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 
 public interface ITileRotatable {
-    ForgeDirection getDirection();
+    EnumFacing getDirection();
 
-    void setDirection(ForgeDirection direction);
+    void setDirection(EnumFacing direction);
 }

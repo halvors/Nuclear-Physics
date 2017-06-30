@@ -1,7 +1,5 @@
 package org.halvors.quantum.common.tile.reactor.fission;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
@@ -10,19 +8,21 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ITickable;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.api.item.IReactorComponent;
-import org.halvors.quantum.common.Reference;
-import org.halvors.quantum.common.tile.ITileNetwork;
+import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.event.PlasmaEvent;
-import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.common.network.PacketHandler;
@@ -37,7 +37,7 @@ import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileReactorCell extends TileInventory implements IMultiBlockStructure<TileReactorCell>, ITileNetwork, IFluidHandler, IReactor {
+public class TileReactorCell extends TileInventory implements ITickable, IMultiBlockStructure<TileReactorCell> ITileNetwork, IFluidHandler, IReactor {
     public static final int radius = 2;
     public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;
@@ -71,10 +71,8 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
     }
 
     @Override
-    public void updateEntity() {
-        super.updateEntity();
-
-        if (worldObj.getTotalWorldTime() == 0) {
+    public void update() {
+        if (world.getTotalWorldTime() == 0) {
             updatePositionStatus();
         }
 
@@ -92,17 +90,17 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
             }
         }
 
-        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().getFluidID() == Quantum.fluidPlasma.getID()) {
+        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().equals(Quantum.fluidPlasma)) {
             // Spawn plasma.
             FluidStack drain = tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false);
 
             if (drain != null && drain.amount >= FluidContainerRegistry.BUCKET_VOLUME) {
-                ForgeDirection spawnDir = ForgeDirection.getOrientation(worldObj.rand.nextInt(3) + 2);
+                EnumFacing spawnDir = EnumFacing.getOrientation(world.rand.nextInt(3) + 2);
                 Vector3 spawnPos = new Vector3(this).translate(spawnDir, 2);
-                spawnPos.translate(0, Math.max(worldObj.rand.nextInt(getHeight()) - 1, 0), 0);
+                spawnPos.translate(0, Math.max(world.rand.nextInt(getHeight()) - 1, 0), 0);
 
-                if (worldObj.isAirBlock(spawnPos.intX(), spawnPos.intY(), spawnPos.intZ())) {
-                    MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(worldObj, spawnPos.intX(), spawnPos.intY(), spawnPos.intZ(), TilePlasma.plasmaMaxTemperature));
+                if (world.isAirBlock(new BlockPos(spawnPos.intX(), spawnPos.intY(), spawnPos.intZ()))) {
+                    MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, spawnPos.intX(), spawnPos.intY(), spawnPos.intZ(), TilePlasma.plasmaMaxTemperature));
                     tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                 }
             }
@@ -118,14 +116,14 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
                     IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
                     reactorComponent.onReact(fuelRod, this);
 
-                    if (fuelRod.getMetadata() >= fuelRod.getMaxDurability()) {
+                    if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
                         getMultiBlock().get().setInventorySlotContents(0, null);
                     }
 
                     // Emit radiation.
-                    if (worldObj.getTotalWorldTime() % 20 == 0) {
-                        if (worldObj.rand.nextFloat() > 0.65) {
-                            List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord - radius * 2, yCoord - radius * 2, zCoord - radius * 2, xCoord + radius * 2, yCoord + radius * 2, zCoord + radius * 2));
+                    if (world.getTotalWorldTime() % 20 == 0) {
+                        if (world.rand.nextFloat() > 0.65) {
+                            List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - radius * 2, pos.getY() - radius * 2, pos.getZ() - radius * 2, pos.getX() + radius * 2, pos.getY() + radius * 2, pos.getZ() + radius * 2));
 
                             for (EntityLiving entity : entities) {
                                 PoisonRadiation.INSTANCE.poisonEntity(new Vector3(this), entity);
@@ -144,9 +142,9 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
                 // Check control rods.
                 for (int side = 2; side < 6; side++) {
-                    Vector3 checkAdjacent = new Vector3(this).translate(ForgeDirection.getOrientation(side));
+                    Vector3 checkAdjacent = new Vector3(this).translate(EnumFacing.getOrientation(side));
 
-                    if (checkAdjacent.getBlock(worldObj) == Quantum.blockControlRod) {
+                    if (checkAdjacent.getBlock(world) == Quantum.blockControlRod) {
                         deltaT /= 1.1;
                     }
                 }
@@ -155,21 +153,21 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
                 ThermalGrid.addTemperature(new VectorWorld(this), deltaT);
 
                 // Sound of lava flowing randomly plays when above temperature to boil water.
-                if (worldObj.rand.nextInt(80) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                if (world.rand.nextInt(80) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     // TODO: Only do this is there is a water block nearby.
-                    worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lava", 0.5F, 2.1F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.85F);
+                    //world.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lava", 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
                 }
 
                 // Sounds of lava popping randomly plays when above temperature to boil water.
-                if (worldObj.rand.nextInt(40) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                if (world.rand.nextInt(40) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     // TODO: Only do this is there is a water block nearby.
-                    worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lavapop", 0.5F, 2.6F + (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.8F);
+                    //world.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lavapop", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
                 }
 
                 // Reactor cell plays random idle noises while operating and above temperature to boil water.
-                if (worldObj.getWorldTime() % 100 == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                if (world.getWorldTime() % 100 == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     float percentage = Math.min(getTemperature() / meltingPoint, 1.0F);
-                    worldObj.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, Reference.PREFIX + "tile.reactorCell", percentage, 1.0F);
+                    //world.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, Reference.PREFIX + "tile.reactorCell", percentage, 1.0F);
                 }
 
                 if (previousTemperature != temperature && !shouldUpdate) {
@@ -200,53 +198,55 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
             if (isOverToxic()) {
                 // Randomly leak toxic waste when it is too toxic.
-                VectorWorld leakPos = new VectorWorld(this).translate(worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10);
+                VectorWorld leakPos = new VectorWorld(this).translate(world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10);
                 Block block = leakPos.getBlock();
 
-                if (block == Blocks.grass) {
-                    leakPos.setBlock(worldObj, Quantum.blockRadioactiveGrass);
+                if (block == Blocks.GRASS) {
+                    leakPos.setBlock(world, Quantum.blockRadioactiveGrass);
                     tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                } else if (block == Blocks.air || block.isReplaceable(worldObj, leakPos.intX(), leakPos.intY(), leakPos.intZ())) {
+                } else if (block == Blocks.AIR || block.isReplaceable(world, new BlockPos(leakPos.intX(), leakPos.intY(), leakPos.intZ()))) {
                     if (tank.getFluid() != null) {
-                        leakPos.setBlock(worldObj, tank.getFluid().getFluid().getBlock());
+                        leakPos.setBlock(world, tank.getFluid().getFluid().getBlock());
                         tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                     }
                 }
             }
 
-            if (worldObj.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
+            if (world.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
                 shouldUpdate = false;
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
+                world.notifyNeighborsOfStateChange(pos, blockType);
 
                 Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
 
-            if (worldObj.isRemote) {
+            if (world.isRemote) {
                 // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
-                if (worldObj.rand.nextInt(5) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                    worldObj.spawnParticle("cloud", xCoord + worldObj.rand.nextInt(2), yCoord + 1.0F, zCoord + worldObj.rand.nextInt(2), 0.0D, 0.1D, 0.0D);
-                    worldObj.spawnParticle("bubble", xCoord + worldObj.rand.nextInt(5), yCoord, zCoord + worldObj.rand.nextInt(5), 0.0D, 0.0D, 0.0D);
+                if (world.rand.nextInt(5) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                    world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextInt(2), pos.getY() + 1, pos.getZ() + world.rand.nextInt(2), 0.0D, 0.1D, 0.0D);
+                    world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, pos.getX() + world.rand.nextInt(5), pos.getY(), pos.getZ() + world.rand.nextInt(5), 0.0D, 0.0D, 0.0D);
                 }
             }
         }
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt) {
-        super.readFromNBT(nbt);
+    public void readFromNBT(NBTTagCompound tagCompound) {
+        super.readFromNBT(tagCompound);
 
-        temperature = nbt.getFloat("temperature");
-        tank.readFromNBT(nbt);
-        getMultiBlock().load(nbt);
+        temperature = tagCompound.getFloat("temperature");
+        tank.readFromNBT(tagCompound);
+        getMultiBlock().load(tagCompound);
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
+        super.writeToNBT(tagCompound);
 
-        nbt.setFloat("temperature", temperature);
-        tank.writeToNBT(nbt);
-        getMultiBlock().save(nbt);
+        tagCompound.setFloat("temperature", temperature);
+        tank.writeToNBT(tagCompound);
+        getMultiBlock().save(tagCompound);
+
+        return tagCompound;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -257,7 +257,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         Vector3 checkPosition = new Vector3(this);
 
         while (true) {
-            TileEntity tileEntity = checkPosition.getTileEntity(worldObj);
+            TileEntity tileEntity = checkPosition.getTileEntity(world);
 
             if (tileEntity instanceof TileReactorCell) {
                 vectors.add(checkPosition.clone().subtract(getPosition()));
@@ -273,7 +273,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
     @Override
     public World getWorldObject() {
-        return worldObj;
+        return world;
     }
 
     @Override
@@ -299,7 +299,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
     @Override
     public void handlePacketData(ByteBuf dataStream) throws Exception {
-        if (worldObj.isRemote) {
+        if (world.isRemote) {
             temperature = dataStream.readFloat();
 
             if (dataStream.readBoolean()) {
@@ -328,12 +328,12 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
         return getMultiBlock().get().tank.fill(resource, doFill);
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
         if (resource != null) {
             if (resource.isFluidEqual(tank.getFluid())) {
                 tank.drain(resource.amount, doDrain);
@@ -344,22 +344,22 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
         return tank.drain(maxDrain, doDrain);
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return fluid.getID() == Quantum.fluidPlasma.getID();
+    public boolean canFill(EnumFacing from, Fluid fluid) {
+        return fluid.equals(Quantum.fluidPlasma);
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return fluid.getID() == Quantum.fluidToxicWaste.getID();
+    public boolean canDrain(EnumFacing from, Fluid fluid) {
+        return fluid.equals(Quantum.fluidToxicWaste);
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(EnumFacing from) {
         return new FluidTankInfo[] { tank.getInfo() };
     }
 
@@ -377,7 +377,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
 
     @Override
     public boolean isOverToxic() {
-        return tank.getFluid() != null && tank.getFluid().getFluidID() == Quantum.fluidToxicWaste.getID() && tank.getFluid().amount >= tank.getCapacity();
+        return tank.getFluid() != null && tank.getFluid().equals(Quantum.fluidToxicWaste) && tank.getFluid().amount >= tank.getCapacity();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -393,8 +393,8 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
-        return worldObj.getTileEntity(xCoord, yCoord, zCoord) == this && player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) <= 64;
+    public boolean isUsableByPlayer(EntityPlayer player) {
+        return world.getTileEntity(pos) == this && player.getDistanceSq(pos.add(0.5, 0.5, 0.5)) <= 64;
     }
 
     @Override
@@ -421,7 +421,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         while (tile instanceof TileReactorCell) {
             height++;
             checkPosition.y++;
-            tile = checkPosition.getTileEntity(worldObj);
+            tile = checkPosition.getTileEntity(world);
         }
 
         return height;
@@ -432,7 +432,7 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         Vector3 checkPosition = new Vector3(this);
 
         while (true) {
-            TileEntity tile = checkPosition.getTileEntity(worldObj);
+            TileEntity tile = checkPosition.getTileEntity(world);
 
             if (tile instanceof TileReactorCell) {
                 lowest = (TileReactorCell) tile;
@@ -451,24 +451,24 @@ public class TileReactorCell extends TileInventory implements IMultiBlockStructu
         tileEntity.getMultiBlock().deconstruct();
         tileEntity.getMultiBlock().construct();
 
-        boolean top = new Vector3(this).add(new Vector3(0, 1, 0)).getTileEntity(worldObj) instanceof TileReactorCell;
-        boolean bottom = new Vector3(this).add(new Vector3(0, -1, 0)).getTileEntity(worldObj) instanceof TileReactorCell;
+        boolean top = new Vector3(this).add(new Vector3(0, 1, 0)).getTileEntity(world) instanceof TileReactorCell;
+        boolean bottom = new Vector3(this).add(new Vector3(0, -1, 0)).getTileEntity(world) instanceof TileReactorCell;
 
         if (top && bottom) {
-            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 3);
+            world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 3);
         } else if (top) {
-            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
+            world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
         } else {
-            worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 2, 3);
+            world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 2, 3);
         }
     }
 
     private void meltDown() {
         // Make sure the reactor block is destroyed.
-        worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.air);
+        world.setBlockToAir(pos);
 
         // No need to destroy reactor cell since explosion will do that for us.
-        ReactorExplosion reactorExplosion = new ReactorExplosion(worldObj, null, xCoord, yCoord, zCoord, 9.0F);
+        ReactorExplosion reactorExplosion = new ReactorExplosion(world, null, pos, 9.0F);
         reactorExplosion.explode();
     }
 }

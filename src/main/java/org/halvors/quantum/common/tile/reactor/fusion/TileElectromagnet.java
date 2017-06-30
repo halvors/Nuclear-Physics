@@ -9,11 +9,6 @@ public class TileElectromagnet extends TileEntity implements IElectromagnet {
     }
 
     @Override
-    public boolean canUpdate() {
-        return false;
-    }
-
-    @Override
     public boolean isRunning() {
         return true;
     }
