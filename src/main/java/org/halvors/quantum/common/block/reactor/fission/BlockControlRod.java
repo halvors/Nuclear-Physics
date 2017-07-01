@@ -7,15 +7,15 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Reference;
 
 public class BlockControlRod extends Block {
     public BlockControlRod() {
         super(Material.IRON);
 
         setUnlocalizedName("controlRod");
-        //setTextureName(Reference.PREFIX + "controlRod");
+        setRegistryName(Reference.ID, "controlRod");
         setCreativeTab(Quantum.getCreativeTab());
-        //setBlockBounds(0.3F, 0, 0.3F, 0.7F, 1, 0.7F);
     }
 
     @Override

@@ -6,6 +6,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
@@ -29,6 +30,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.common.*;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
+import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
 import org.halvors.quantum.common.block.BlockToxicWaste;
 import org.halvors.quantum.common.block.BlockUraniumOre;
@@ -58,7 +60,8 @@ import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
 import org.halvors.quantum.common.item.block.ItemBlockMetadata;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
-import org.halvors.quantum.common.item.particle.ItemAntimatter;
+import org.halvors.quantum.common.item.particle.ItemAntimatterCell;
+import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemBucketToxicWaste;
 import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
@@ -163,10 +166,10 @@ public class Quantum implements IUpdatableMod {
 
 	// Items
 	// Cells
-	public static Item itemAntimatter;
+	public static Item itemAntimatterCell;
 	public static Item itemBreederFuel;
 	public static Item itemCell;
-	public static Item itemDarkMatter;
+	public static Item itemDarkMatterCell;
 	public static Item itemDeuteriumCell;
 	public static Item itemFissileFuel;
 	public static Item itemTritiumCell;
@@ -200,8 +203,17 @@ public class Quantum implements IUpdatableMod {
 		logger.log(Level.INFO, "CoFHCore integration is " + (Integration.isCoFHCoreEnabled ? "enabled" : "disabled") + ".");
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
+		// Call functions for adding blocks, items, etc.
+		registerFluids();
+		registerBlocks();
+		registerTileEntities();
+		registerItems();
+		registerFluidContainers();
+		registerEntities();
+		registerRecipes();
+
 		// Calling proxy handler.
-		proxy.preInit();
+		proxy.preInit(event);
 	}
 
 	@Mod.EventHandler
@@ -214,15 +226,6 @@ public class Quantum implements IUpdatableMod {
 
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
-
-		// Call functions for adding blocks, items, etc.
-		registerFluids();
-		registerBlocks();
-		registerTileEntities();
-		registerItems();
-		registerFluidContainers();
-		registerEntities();
-		registerRecipes();
 
 		// Register event buses. TODO: Move this to a custom event handler?
 		MinecraftForge.EVENT_BUS.register(FulminationHandler.INSTANCE);
@@ -245,23 +248,23 @@ public class Quantum implements IUpdatableMod {
 		OreDictionary.registerOre("cellUranium", itemFissileFuel);
 		OreDictionary.registerOre("cellTritium", itemTritiumCell);
 		OreDictionary.registerOre("cellDeuterium", itemDeuteriumCell);
-		OreDictionary.registerOre("cellWater", itemWaterCell);
-		OreDictionary.registerOre("darkmatter", itemDarkMatter);
-		OreDictionary.registerOre("antimatterMilligram", new ItemStack(itemAntimatter, 1, 0));
-		OreDictionary.registerOre("antimatterGram", new ItemStack(itemAntimatter, 1, 1));
+		OreDictionary.registerOre("cellWater.json", itemWaterCell);
+		OreDictionary.registerOre("darkmatter", itemDarkMatterCell);
+		OreDictionary.registerOre("antimatterMilligram", new ItemStack(itemAntimatterCell, 1, 0));
+		OreDictionary.registerOre("antimatterGram", new ItemStack(itemAntimatterCell, 1, 1));
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, new ForgeChunkManager.LoadingCallback() {
 			@Override
 			public void ticketsLoaded(List<ForgeChunkManager.Ticket> tickets, World world) {
-			for (ForgeChunkManager.Ticket ticket : tickets) {
-				if (ticket.getType() == ForgeChunkManager.Type.ENTITY) {
-					if (ticket.getEntity() != null) {
-						if (ticket.getEntity() instanceof EntityParticle) {
-							((EntityParticle) ticket.getEntity()).updateTicket = ticket;
+				for (ForgeChunkManager.Ticket ticket : tickets) {
+					if (ticket.getType() == ForgeChunkManager.Type.ENTITY) {
+						if (ticket.getEntity() != null) {
+							if (ticket.getEntity() instanceof EntityParticle) {
+								((EntityParticle) ticket.getEntity()).updateTicket = ticket;
+							}
 						}
 					}
 				}
-			}
 			}
 		});
 
@@ -269,7 +272,7 @@ public class Quantum implements IUpdatableMod {
 		packetHandler.init();
 
 		// Calling proxy handler.
-		proxy.init();
+		proxy.init(event);
 	}
 
 	@Mod.EventHandler
@@ -282,7 +285,7 @@ public class Quantum implements IUpdatableMod {
 		UpdateTicker.addNetwork(thermalGrid);
 
 		// Calling proxy handler.
-		proxy.postInit();
+		proxy.postInit(event);
 	}
 
 	private void registerFluids() {
@@ -318,7 +321,7 @@ public class Quantum implements IUpdatableMod {
 		blockUraniumOre = new BlockUraniumOre();
 		blockPlasma = new BlockPlasma();
 		fluidPlasma.setBlock(blockPlasma);
-        blockPlasmaHeater = new BlockPlasmaHeater();
+		blockPlasmaHeater = new BlockPlasmaHeater();
 		blockQuantumAssembler = new BlockQuantumAssembler();
 		blockRadioactiveGrass = new BlockRadioactiveGrass();
 		blockReactorCell = new BlockReactorCell();
@@ -326,26 +329,26 @@ public class Quantum implements IUpdatableMod {
 
 		blockCreativeBuilder = new BlockCreativeBuilder();
 
-		GameRegistry.registerBlock(blockAccelerator, "blockAccelerator;");
-		GameRegistry.registerBlock(blockChemicalExtractor, "blockChemicalExtractor");
-		GameRegistry.registerBlock(blockControlRod, "blockControlRod");
-		GameRegistry.registerBlock(blockElectricTurbine, "blockElectricTurbine");
-		GameRegistry.registerBlock(blockElectromagnet, ItemBlockMetadata.class, "blockElectromagnet");
-		GameRegistry.registerBlock(blockFulmination, "blockFulmination");
-		GameRegistry.registerBlock(blockGasCentrifuge, "blockGasCentrifuge");
-		GameRegistry.registerBlock(blockGasFunnel, "blockGasFunnel");
-		GameRegistry.registerBlock(blockNuclearBoiler, "blockNuclearBoiler");
-		GameRegistry.registerBlock(blockSiren, "blockSiren");
-		GameRegistry.registerBlock(blockThermometer, ItemBlockThermometer.class, "blockThermometer");
-		GameRegistry.registerBlock(blockUraniumOre, "blockUraniumOre");
-		GameRegistry.registerBlock(blockPlasma, "blockPlasma");
-        GameRegistry.registerBlock(blockPlasmaHeater, "blockPlasmaHeater");
-		GameRegistry.registerBlock(blockQuantumAssembler, "blockQuantumAssembler");
-		GameRegistry.registerBlock(blockRadioactiveGrass, "blockRadioactiveGrass");
-		GameRegistry.registerBlock(blockReactorCell, "blockReactorCell");
-		GameRegistry.registerBlock(blockToxicWaste, "blockToxicWaste");
+		register(blockAccelerator);
+		register(blockChemicalExtractor);
+		register(blockControlRod);
+		register(blockElectricTurbine);
+		register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
+		register(blockFulmination);
+		register(blockGasCentrifuge);
+		register(blockGasFunnel);
+		register(blockNuclearBoiler);
+		register(blockSiren);
+		register(blockThermometer, new ItemBlockThermometer(blockThermometer));
+		register(blockUraniumOre);
+		register(blockPlasma);
+		register(blockPlasmaHeater);
+		register(blockQuantumAssembler);
+		register(blockRadioactiveGrass);
+		register(blockReactorCell);
+		register(blockToxicWaste);
 
-		GameRegistry.registerBlock(blockCreativeBuilder, "blockCreativeBuilder");
+		register(blockCreativeBuilder);
 	}
 
 	private void registerTileEntities() {
@@ -369,10 +372,10 @@ public class Quantum implements IUpdatableMod {
 	private void registerItems() {
 		// Register items.
 		// Cells
-		itemAntimatter = new ItemAntimatter();
+		itemAntimatterCell = new ItemAntimatterCell();
 		itemBreederFuel = new ItemBreederFuel();
 		itemCell = new ItemCell("cellEmpty");
-		itemDarkMatter = new ItemCell("darkMatter");
+		itemDarkMatterCell = new ItemDarkmatterCell();
 		itemDeuteriumCell = new ItemCell("cellDeuterium");
 		itemFissileFuel = new ItemFissileFuel();
 		itemTritiumCell = new ItemCell("cellTritium");
@@ -391,24 +394,23 @@ public class Quantum implements IUpdatableMod {
 		itemHazmatLeggings = new ItemArmorHazmat("hazmatLeggings", EntityEquipmentSlot.LEGS);
 		itemHazmatBoots = new ItemArmorHazmat("hazmatBoots", EntityEquipmentSlot.FEET);
 
-		GameRegistry.registerItem(itemAntimatter, "itemAntimatter");
-		GameRegistry.registerItem(itemBreederFuel, "itemBreederFuel");
-		GameRegistry.registerItem(itemCell, "itemCellEmpty");
-		GameRegistry.registerItem(itemDarkMatter, "itemDarkMatter");
-		GameRegistry.registerItem(itemDeuteriumCell, "itemCellDeuterium");
-		GameRegistry.registerItem(itemFissileFuel, "itemFissileFuel");
-		GameRegistry.registerItem(itemTritiumCell, "itemCellTritium");
-		GameRegistry.registerItem(itemWaterCell, "itemCellWater");
+		GameRegistry.register(itemAntimatterCell);
+		GameRegistry.register(itemBreederFuel);
+		GameRegistry.register(itemCell);
+		GameRegistry.register(itemDarkMatterCell);
+		GameRegistry.register(itemDeuteriumCell);
+		GameRegistry.register(itemFissileFuel);
+		GameRegistry.register(itemTritiumCell);
+		GameRegistry.register(itemWaterCell);
+		GameRegistry.register(itemBucketToxicWaste);
 
-		GameRegistry.registerItem(itemBucketToxicWaste, "itemBucketToxicWaste");
+		GameRegistry.register(itemUranium);
+		GameRegistry.register(itemYellowCake);
 
-		GameRegistry.registerItem(itemUranium, "itemUranium");
-		GameRegistry.registerItem(itemYellowCake, "itemYellowcake");
-
-		GameRegistry.registerItem(itemHazmatMask, "itemHazmatMask");
-		GameRegistry.registerItem(itemHazmatBody, "itemHazmatBody");
-		GameRegistry.registerItem(itemHazmatLeggings, "itemHazmatLeggings");
-		GameRegistry.registerItem(itemHazmatBoots, "itemHazmatBoots");
+		GameRegistry.register(itemHazmatMask);
+		GameRegistry.register(itemHazmatBody);
+		GameRegistry.register(itemHazmatLeggings);
+		GameRegistry.register(itemHazmatBoots);
 	}
 
 	private void registerFluidContainers() {
@@ -429,8 +431,8 @@ public class Quantum implements IUpdatableMod {
 
 		// Cells
 		// Antimatter
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemAntimatter, 1, 1), itemAntimatter, itemAntimatter, itemAntimatter, itemAntimatter, itemAntimatter, itemAntimatter, itemAntimatter, itemAntimatter));
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemAntimatter, 8, 0), new ItemStack(itemAntimatter, 1, 1)));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemAntimatterCell, 1, 1), itemAntimatterCell, itemAntimatterCell, itemAntimatterCell, itemAntimatterCell, itemAntimatterCell, itemAntimatterCell, itemAntimatterCell, itemAntimatterCell));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemAntimatterCell, 8, 0), new ItemStack(itemAntimatterCell, 1, 1)));
 
 		// Breeder Fuel Rod
 		GameRegistry.addRecipe(new ShapedOreRecipe(itemBreederFuel, "CUC", "CUC", "CUC", 'U', "breederUranium", 'C', "cellEmpty"));
@@ -596,5 +598,23 @@ public class Quantum implements IUpdatableMod {
 	@Override
 	public String getModVersion() {
 		return Reference.VERSION;
+	}
+
+	private static <T extends Block> T register(T block, ItemBlock itemBlock) {
+		GameRegistry.register(block);
+		GameRegistry.register(itemBlock);
+
+		if (block instanceof BlockQuantum) {
+			((BlockQuantum) block).registerItemModel(itemBlock);
+		}
+
+		return block;
+	}
+
+	private static <T extends Block> T register(T block) {
+		ItemBlock itemBlock = new ItemBlock(block);
+		itemBlock.setRegistryName(block.getRegistryName());
+
+		return register(block, itemBlock);
 	}
 }

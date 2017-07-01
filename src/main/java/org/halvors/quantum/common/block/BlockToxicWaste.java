@@ -12,6 +12,7 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
@@ -22,7 +23,7 @@ public class BlockToxicWaste extends BlockFluidClassic {
         super(Quantum.fluidToxicWaste, Material.WATER);
 
         setUnlocalizedName("toxicWaste");
-        //setTextureName(Reference.PREFIX + "toxicWaste");
+        setRegistryName(Reference.ID, "toxicWaste");
         setCreativeTab(Quantum.getCreativeTab());
         setTickRate(20);
     }

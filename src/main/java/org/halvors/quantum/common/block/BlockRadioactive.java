@@ -1,38 +1,22 @@
 package org.halvors.quantum.common.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.effect.poison.PoisonRadiation;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
-
-import java.util.List;
-import java.util.Random;
 
 public class BlockRadioactive extends BlockQuantum {
-    protected static boolean canSpread;
-    protected static float radius;
-    protected static int amplifier;
-    protected static boolean canWalkPoison;
-    protected static boolean isRandomlyRadioactive;
-    protected static boolean spawnParticle;
+    protected boolean canSpread;
+    protected float radius;
+    protected int amplifier;
+    protected boolean canWalkPoison;
+    protected boolean isRandomlyRadioactive;
+    protected boolean spawnParticle;
 
     public BlockRadioactive(String name) {
         super(name, Material.ROCK);
 
-        setTickRandomly(true);
+        //setTickRandomly(true);
     }
 
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
@@ -52,6 +36,7 @@ public class BlockRadioactive extends BlockQuantum {
                     fx.setRBGColorF(0.2F, 0.8F, 0);
                     Minecraft.getMinecraft().effectRenderer.addEffect(fx);
                     */
+    /*
                 }
             }
         }
@@ -60,6 +45,7 @@ public class BlockRadioactive extends BlockQuantum {
     /**
      * Ticks the block if it's been scheduled
      */
+    /*
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
         if (!world.isRemote) {
@@ -92,10 +78,12 @@ public class BlockRadioactive extends BlockQuantum {
     /**
      * Called whenever an entity is walking on top of this block. Args: world, x, y, z, entity
      */
+    /*
     @Override
     public void onEntityWalk(World world, BlockPos pos, Entity entity) {
         if (entity instanceof EntityLiving && canWalkPoison) {
             PoisonRadiation.INSTANCE.poisonEntity(new Vector3(pos.getX(), pos.getY(), pos.getZ()), (EntityLiving) entity);
         }
     }
+    */
 }

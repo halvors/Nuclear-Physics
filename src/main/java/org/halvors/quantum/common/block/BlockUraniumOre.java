@@ -1,10 +1,5 @@
 package org.halvors.quantum.common.block;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.ConfigurationManager;
 
 import java.util.Random;
@@ -31,7 +26,6 @@ public class BlockUraniumOre extends BlockRadioactive {
     public IIcon getIcon(int side, int metadata) {
         return blockIcon;
     }
-    */
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -40,6 +34,7 @@ public class BlockUraniumOre extends BlockRadioactive {
             super.randomDisplayTick(state, world, pos, random);
         }
     }
+    */
 
     @Override
     public int quantityDropped(Random random) {

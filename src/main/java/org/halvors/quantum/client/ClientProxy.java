@@ -49,15 +49,18 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	    super.preInit(event);
 
 	    // Register our domain to OBJLoader.
-		OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
+		//OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
 
         // Item Variants
+        /*
         ModelBakery.registerItemVariants(Quantum.itemAntimatterCell,
                 new ResourceLocation(Reference.PREFIX + "antimatter_milligram"),
                 new ResourceLocation(Reference.PREFIX + "antimatter_gram")
         );
+        */
 
 		// Items.
+        /*
         ModelLoader.setCustomModelResourceLocation(Quantum.itemAntimatterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellAntimatter_milligram", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemAntimatterCell, 1, new ModelResourceLocation(Reference.PREFIX + "cellAntimatter_gram", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemBreederFuel, 0, new ModelResourceLocation(Reference.PREFIX + "breederFuel", "inventory"));
@@ -71,6 +74,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ModelLoader.setCustomModelResourceLocation(Quantum.itemBucketToxicWaste, 0, new ModelResourceLocation(Reference.PREFIX + "bucketToxicWaste", "inventory"));
 
         ModelLoader.setCustomModelResourceLocation(Quantum.itemUranium, 0, new ModelResourceLocation(Reference.PREFIX + "uranium", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Quantum.itemUranium, 1, new ModelResourceLocation(Reference.PREFIX + "uranium", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemYellowCake, 0, new ModelResourceLocation(Reference.PREFIX + "yellowcake", "inventory"));
 
         ModelLoader.setCustomModelResourceLocation(Quantum.itemHazmatMask, 0, new ModelResourceLocation(Reference.PREFIX + "hazmatMask", "inventory"));
@@ -89,7 +93,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockNuclearBoiler), 0, new ModelResourceLocation(Reference.PREFIX + "nuclearBoiler", "inventory"));
         //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockSiren), 0, new ModelResourceLocation(Reference.PREFIX + "siren", "inventory"));
         //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockThermometer), 0, new ModelResourceLocation(Reference.PREFIX + "thermometer", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockUraniumOre), 0, new ModelResourceLocation(Reference.PREFIX + "uraniumOre", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockUraniumOre), 0, new ModelResourceLocation(Reference.PREFIX + "uraniumOre", "inventory"));
         //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockPlasma), 0, new ModelResourceLocation(Reference.PREFIX + "plasma", "inventory"));
         //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockPlasmaHeater), 0, new ModelResourceLocation(Reference.PREFIX + "plasmaHeater", "inventory"));
         //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockQuantumAssembler), 0, new ModelResourceLocation(Reference.PREFIX + "quantumAssembler", "inventory"));
@@ -99,6 +103,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockElectricTurbine), 0, new ModelResourceLocation(Reference.PREFIX + "electricTurbine", "inventory"));
 
         //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockCreativeBuilder), 0, new ModelResourceLocation(Reference.PREFIX + "creativeBuilder", "inventory"));
+        */
 	}
 
 	@Override
@@ -125,8 +130,8 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
     @Override
-    public void registerItemRenderer(Item item, int meta, String id) {
-        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(Reference.PREFIX + id, "inventory"));
+    public void registerItemRenderer(Item item, int metadata, String id) {
+        ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Reference.PREFIX + id, "inventory"));
     }
 
 	@Override
