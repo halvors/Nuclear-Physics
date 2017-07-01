@@ -31,25 +31,10 @@ import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.common.*;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.block.BlockQuantum;
+import org.halvors.quantum.common.block.BlockRadioactive;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
-import org.halvors.quantum.common.block.BlockToxicWaste;
-import org.halvors.quantum.common.block.BlockUraniumOre;
+import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
-import org.halvors.quantum.common.block.machine.BlockGasCentrifuge;
-import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
-import org.halvors.quantum.common.block.machine.BlockQuantumAssembler;
-import org.halvors.quantum.common.block.particle.BlockAccelerator;
-import org.halvors.quantum.common.block.particle.BlockFulmination;
-import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
-import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
-import org.halvors.quantum.common.block.reactor.fission.BlockControlRod;
-import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
-import org.halvors.quantum.common.block.reactor.fission.BlockSiren;
-import org.halvors.quantum.common.block.reactor.fission.BlockThermometer;
-import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
-import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
-import org.halvors.quantum.common.block.reactor.fusion.BlockPlasmaHeater;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
@@ -58,8 +43,6 @@ import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
-import org.halvors.quantum.common.item.block.ItemBlockMetadata;
-import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell;
 import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
@@ -128,12 +111,12 @@ public class Quantum implements IUpdatableMod {
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
 
 	// Fluids
-	public static final Fluid fluidDeuterium = new Fluid("deuterium", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "deuterium"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "deuterium")).setGaseous(true);
-	public static final Fluid fluidUraniumHexaflouride = new Fluid("uraniumHexafluoride", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "uraniumHexafluoride"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "uraniumHexafluoride")).setGaseous(true);
-	public static final Fluid fluidPlasma = new Fluid("plasma", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "plasma"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "plasma")).setGaseous(true);
-	public static final Fluid fluidSteam = new Fluid("steam", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "steam"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "steam")).setGaseous(true);
-	public static final Fluid fluidTritium = new Fluid("tritium", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "tritium"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "tritium")).setGaseous(true);
-	public static final Fluid fluidToxicWaste = new Fluid("toxicWaste", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "toxicWaste"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "toxicWaste"));
+	public static Fluid fluidDeuterium = new Fluid("deuterium", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "deuterium"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "deuterium")).setGaseous(true);
+	public static Fluid fluidUraniumHexaflouride = new Fluid("uraniumHexafluoride", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "uraniumHexafluoride"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "uraniumHexafluoride")).setGaseous(true);
+	public static Fluid fluidPlasma = new Fluid("plasma", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "plasma"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "plasma")).setGaseous(true);
+	public static Fluid fluidSteam = new Fluid("steam", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "steam"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "steam")).setGaseous(true);
+	public static Fluid fluidTritium = new Fluid("tritium", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "tritium"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "tritium")).setGaseous(true);
+	public static Fluid fluidToxicWaste = new Fluid("toxicWaste", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "toxicWaste"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "toxicWaste"));
 
 	public static FluidStack fluidStackDeuterium;
 	public static FluidStack fluidStackUraniumHexaflouride;
@@ -141,6 +124,7 @@ public class Quantum implements IUpdatableMod {
 	public static FluidStack fluidStackTritium;
 	public static FluidStack fluidStackToxicWaste;
 	public static FluidStack fluidStackWater;
+
 
 	// Blocks
 	public static Block blockAccelerator;
@@ -307,6 +291,7 @@ public class Quantum implements IUpdatableMod {
 
 	private void registerBlocks() {
 		// Register blocks.
+		/*
 		blockAccelerator = new BlockAccelerator();
 		blockChemicalExtractor = new BlockChemicalExtractor();
 		blockControlRod = new BlockControlRod();
@@ -320,10 +305,12 @@ public class Quantum implements IUpdatableMod {
 		blockThermometer = new BlockThermometer();
 		blockUraniumOre = new BlockUraniumOre();
 		blockPlasma = new BlockPlasma();
-		fluidPlasma.setBlock(blockPlasma);
+		//fluidPlasma.setBlock(blockPlasma);
 		blockPlasmaHeater = new BlockPlasmaHeater();
 		blockQuantumAssembler = new BlockQuantumAssembler();
+		*/
 		blockRadioactiveGrass = new BlockRadioactiveGrass();
+		/*
 		blockReactorCell = new BlockReactorCell();
 		blockToxicWaste = new BlockToxicWaste();
 
@@ -344,11 +331,15 @@ public class Quantum implements IUpdatableMod {
 		register(blockPlasma);
 		register(blockPlasmaHeater);
 		register(blockQuantumAssembler);
+		*/
 		register(blockRadioactiveGrass);
+
+		/*
 		register(blockReactorCell);
 		register(blockToxicWaste);
 
 		register(blockCreativeBuilder);
+		*/
 	}
 
 	private void registerTileEntities() {
@@ -604,8 +595,8 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.register(block);
 		GameRegistry.register(itemBlock);
 
-		if (block instanceof BlockQuantum) {
-			((BlockQuantum) block).registerItemModel(itemBlock);
+		if (block instanceof BlockRadioactive) {
+			((BlockRadioactive) block).registerItemModel(itemBlock);
 		}
 
 		return block;

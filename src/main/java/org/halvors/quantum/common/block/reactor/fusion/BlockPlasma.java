@@ -13,6 +13,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Cuboid;
@@ -20,7 +21,7 @@ import org.halvors.quantum.common.utility.transform.vector.Cuboid;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockPlasma extends BlockQuantum {
+public class BlockPlasma extends BlockContainerQuantum {
     public BlockPlasma() {
         super("plasma", Material.LAVA);
     }

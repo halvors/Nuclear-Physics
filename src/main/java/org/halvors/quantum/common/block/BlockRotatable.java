@@ -2,7 +2,7 @@ package org.halvors.quantum.common.block;
 
 import net.minecraft.block.material.Material;
 
-public abstract class BlockRotatable extends BlockQuantum { //implements IRotatableBlock {
+public abstract class BlockRotatable extends BlockContainerQuantum { //implements IRotatableBlock {
     protected byte rotationMask = Byte.parseByte("111100", 2);
     protected boolean isFlipPlacement = false;
 

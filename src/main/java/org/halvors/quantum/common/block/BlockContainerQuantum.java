@@ -1,14 +1,16 @@
 package org.halvors.quantum.common.block;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.EnumBlockRenderType;
 import org.halvors.quantum.Quantum;
 
-public class BlockQuantum extends Block {
+public abstract class BlockContainerQuantum extends BlockContainer {
     protected String name;
 
-    public BlockQuantum(String name, Material material) {
+    public BlockContainerQuantum(String name, Material material) {
         super(material);
 
         this.name = name;
@@ -20,5 +22,10 @@ public class BlockQuantum extends Block {
 
     public void registerItemModel(ItemBlock itemBlock) {
         Quantum.getProxy().registerItemRenderer(itemBlock, 0, name);
+    }
+
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL;
     }
 }

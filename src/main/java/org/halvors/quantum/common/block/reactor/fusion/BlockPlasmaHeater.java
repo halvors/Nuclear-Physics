@@ -11,11 +11,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.utility.FluidUtility;
 
-public class BlockPlasmaHeater extends BlockQuantum {
+public class BlockPlasmaHeater extends BlockContainerQuantum {
     public BlockPlasmaHeater() {
         super("plasmaHeater", Material.IRON);
 

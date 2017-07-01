@@ -11,10 +11,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 
-public class BlockElectricTurbine extends BlockQuantum {
+public class BlockElectricTurbine extends BlockContainerQuantum {
     public BlockElectricTurbine() {
         super("electricTurbine", Material.IRON);
 
