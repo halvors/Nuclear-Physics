@@ -1,13 +1,11 @@
 package org.halvors.quantum.common.event;
 
-import jdk.nashorn.internal.ir.Block;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.eventhandler.Event;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 @Event.HasResult
 public class BoilEvent extends WorldEvent {

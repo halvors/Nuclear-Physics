@@ -1,16 +1,5 @@
 package org.halvors.quantum.client.utility.render;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import org.halvors.quantum.common.utility.RotationUtility;
-import org.halvors.quantum.common.utility.WorldUtility;
-import org.lwjgl.opengl.GL11;
-
 /**
  * A block rendering helper class.
  */

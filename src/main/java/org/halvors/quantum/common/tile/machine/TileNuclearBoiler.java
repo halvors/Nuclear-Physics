@@ -1,7 +1,6 @@
 package org.halvors.quantum.common.tile.machine;
 
 import cofh.api.energy.EnergyStorage;
-import cofh.api.energy.IEnergyReceiver;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;

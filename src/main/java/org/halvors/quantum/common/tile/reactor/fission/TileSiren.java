@@ -4,8 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 public class TileSiren extends TileEntity implements ITickable {
     public TileSiren() {

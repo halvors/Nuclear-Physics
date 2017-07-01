@@ -1,18 +1,5 @@
 package org.halvors.quantum.client.render.reactor.fission;
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.IModel;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.render.ModelCube;
-import org.halvors.quantum.client.utility.render.RenderUtility;
-import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
-import org.halvors.quantum.common.utility.ResourceUtility;
-import org.halvors.quantum.common.utility.type.ResourceType;
-import org.lwjgl.opengl.GL11;
-
 /*
 @SideOnly(Side.CLIENT)
 public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell> {

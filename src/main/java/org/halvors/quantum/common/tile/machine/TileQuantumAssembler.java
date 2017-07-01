@@ -154,7 +154,7 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITick
             return true;
         }
 
-        return itemStack.getItem() == Quantum.itemDarkMatter;
+        return itemStack.getItem() == Quantum.itemDarkMatterCell;
     }
 
     @Override
@@ -172,7 +172,7 @@ public class TileQuantumAssembler extends TileElectricInventory implements ITick
                         return false;
                     }
 
-                    if (getStackInSlot(i).getItem() != Quantum.itemDarkMatter) {
+                    if (getStackInSlot(i).getItem() != Quantum.itemDarkMatterCell) {
                         return false;
                     }
                 }

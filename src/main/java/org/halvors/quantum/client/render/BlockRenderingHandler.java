@@ -1,22 +1,5 @@
 package org.halvors.quantum.client.render;
 
-import com.google.common.collect.Maps;
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.utility.render.RenderUtility;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
-import java.util.Map;
-
 /*
 @SideOnly(Side.CLIENT)
 public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {

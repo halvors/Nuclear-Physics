@@ -1,20 +1,13 @@
 package org.halvors.quantum.common.network.packet;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.utility.location.Location;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.type.Pair;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class PacketCreativeBuilder extends PacketLocation implements IMessage {
     public int schematicId;

@@ -25,7 +25,7 @@ public class ExplosionEventHandler {
             if (itemStack != null) {
                 EntityItem entityItem = event.getEntityItem();
 
-                if (itemStack.getItem() == Quantum.itemAntimatter) {
+                if (itemStack.getItem() == Quantum.itemAntimatterCell) {
                     //event.getEntityItem().getEntityWorld().playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, Reference.PREFIX + "antimatter", 3F, 1F - entityItem.getEntityWorld().rand.nextFloat() * 0.3F);
 
                     if (!entityItem.getEntityWorld().isRemote) {

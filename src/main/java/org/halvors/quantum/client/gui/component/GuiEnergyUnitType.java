@@ -5,7 +5,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.gui.IGui;
-import org.halvors.quantum.client.sound.SoundHandler;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Client;
 import org.halvors.quantum.common.utility.energy.EnergyUnit;

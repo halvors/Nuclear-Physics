@@ -53,7 +53,7 @@ public class ContainerQuantumAssembler extends ContainerQuantum {
             copyStack = itemStack.copy();
 
             if (slotId > 6) {
-                if (itemStack.getItem() == Quantum.itemDarkMatter) {
+                if (itemStack.getItem() == Quantum.itemDarkMatterCell) {
                     if (!mergeItemStack(itemStack, 0, 6, false)) {
                         return null;
                     }

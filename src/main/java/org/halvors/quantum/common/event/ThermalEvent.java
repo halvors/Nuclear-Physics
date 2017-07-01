@@ -4,9 +4,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.Event;
-import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
-
-import java.security.PublicKey;
 
 public class ThermalEvent extends Event {
     private final IBlockAccess world;

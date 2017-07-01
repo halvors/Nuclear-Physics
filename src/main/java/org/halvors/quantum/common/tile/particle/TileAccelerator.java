@@ -12,8 +12,8 @@ import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
-import org.halvors.quantum.common.item.particle.ItemAntimatter;
-import org.halvors.quantum.common.item.particle.ItemDarkmatter;
+import org.halvors.quantum.common.item.particle.ItemAntimatterCell;
+import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileElectricInventory;
@@ -88,7 +88,7 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
                             // On particle collision we roll the dice to see if dark-matter is generated.
                             if (entityParticle.didParticleCollide) {
                                 if (world.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
-                                    incrStackSize(3, new ItemStack(Quantum.itemDarkMatter));
+                                    incrStackSize(3, new ItemStack(Quantum.itemDarkMatterCell));
                                 }
                             }
 
@@ -213,10 +213,10 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
                 return OreDictionaryUtility.isEmptyCell(itemStack);
 
             case 2:
-                return itemStack.getItem() instanceof ItemAntimatter;
+                return itemStack.getItem() instanceof ItemAntimatterCell;
 
             case 3:
-                return itemStack.getItem() instanceof ItemDarkmatter;
+                return itemStack.getItem() instanceof ItemDarkmatterCell;
         }
 
         return false;
@@ -270,7 +270,7 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
             if (antimatter >= 125) {
                 if (getStackInSlot(2) != null) {
                     // If the output slot is not empty we must increase stack size
-                    if (getStackInSlot(2).getItem() == Quantum.itemAntimatter) {
+                    if (getStackInSlot(2).getItem() == Quantum.itemAntimatterCell) {
                         ItemStack newStack = getStackInSlot(2).copy();
 
                         if (newStack.stackSize < newStack.getMaxStackSize()) {
@@ -284,7 +284,7 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
                     // Remove some of the internal reserves of anti-matter and use it to craft an individual item.
                     antimatter -= 125;
                     decrStackSize(1, 1);
-                    setInventorySlotContents(2, new ItemStack(Quantum.itemAntimatter));
+                    setInventorySlotContents(2, new ItemStack(Quantum.itemAntimatterCell));
                 }
             }
         }

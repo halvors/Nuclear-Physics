@@ -1,8 +1,6 @@
 package org.halvors.quantum.common.tile.particle;
 
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.explosion.ExplosionEvent;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 

@@ -12,12 +12,12 @@ import org.halvors.quantum.common.utility.LanguageUtility;
 
 import java.util.List;
 
-public class ItemAntimatter extends ItemCell {
+public class ItemAntimatterCell extends ItemCell {
     //@SideOnly(Side.CLIENT)
     //private IIcon iconGram;
 
-    public ItemAntimatter() {
-        super("antimatter");
+    public ItemAntimatterCell() {
+        super("cellAntimatter");
 
         setMaxDamage(0);
     }

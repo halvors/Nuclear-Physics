@@ -1,6 +1,5 @@
 package org.halvors.quantum.common.utility.transform.vector;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;

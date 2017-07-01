@@ -1,13 +1,9 @@
 package org.halvors.quantum.common.effect.explosion;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
 
 import java.util.Random;
 

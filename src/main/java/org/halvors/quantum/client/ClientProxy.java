@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -30,14 +29,6 @@ import org.halvors.quantum.client.gui.reactor.fission.GuiReactorCell;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.common.item.ItemCell;
-import org.halvors.quantum.common.item.ItemRadioactive;
-import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
-import org.halvors.quantum.common.item.particle.ItemAntimatter;
-import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
-import org.halvors.quantum.common.item.reactor.fission.ItemBucketToxicWaste;
-import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
-import org.halvors.quantum.common.item.reactor.fission.ItemUranium;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
@@ -61,17 +52,17 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
 
         // Item Variants
-        ModelBakery.registerItemVariants(Quantum.itemAntimatter,
+        ModelBakery.registerItemVariants(Quantum.itemAntimatterCell,
                 new ResourceLocation(Reference.PREFIX + "antimatter_milligram"),
                 new ResourceLocation(Reference.PREFIX + "antimatter_gram")
         );
 
 		// Items.
-        ModelLoader.setCustomModelResourceLocation(Quantum.itemAntimatter, 0, new ModelResourceLocation(Reference.PREFIX + "antimatter_milligram", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Quantum.itemAntimatter, 1, new ModelResourceLocation(Reference.PREFIX + "antimatter_gram", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Quantum.itemAntimatterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellAntimatter_milligram", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Quantum.itemAntimatterCell, 1, new ModelResourceLocation(Reference.PREFIX + "cellAntimatter_gram", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemBreederFuel, 0, new ModelResourceLocation(Reference.PREFIX + "breederFuel", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellEmpty", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Quantum.itemDarkMatter, 0, new ModelResourceLocation(Reference.PREFIX + "darkMatter", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Quantum.itemDarkMatterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellDarkMatter", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemDeuteriumCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellDeuterium", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemFissileFuel, 0, new ModelResourceLocation(Reference.PREFIX + "fissileFuel", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemTritiumCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellTritium", "inventory"));
