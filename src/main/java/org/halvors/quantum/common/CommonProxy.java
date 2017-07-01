@@ -1,9 +1,13 @@
 package org.halvors.quantum.common;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.quantum.common.container.machine.ContainerChemicalExtractor;
@@ -25,15 +29,20 @@ import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
  * @author halvors
  */
 public class CommonProxy implements IGuiHandler {
-	public void preInit() {
+	public void preInit(FMLPreInitializationEvent event) {
 
 	}
 
-	public void init() {
+	public void init(FMLInitializationEvent event) {
 
 	}
 
-	public void postInit() {
+	public void postInit(FMLPostInitializationEvent event) {
+
+	}
+
+	public void registerItemRenderer(Item item, int metadata, String id) {
+
 	}
 
 	@Override

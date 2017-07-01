@@ -6,10 +6,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.block.BlockTextured;
+import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
 
-public class BlockFulmination extends BlockTextured { //implements IBlockCustomRender {
+public class BlockFulmination extends BlockQuantum { //implements IBlockCustomRender {
     public BlockFulmination() {
         super("fulmination", Material.IRON);
 

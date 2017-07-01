@@ -13,14 +13,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.block.BlockTextured;
+import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Cuboid;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockPlasma extends BlockTextured {
+public class BlockPlasma extends BlockQuantum {
     public BlockPlasma() {
         super("plasma", Material.LAVA);
     }

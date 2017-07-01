@@ -3,8 +3,8 @@ package org.halvors.quantum.common.item;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.utility.LanguageUtility;
 
-public class ItemTexturedMetadata extends ItemTextured {
-    public ItemTexturedMetadata(String name) {
+public class ItemMetadata extends ItemQuantum {
+    public ItemMetadata(String name) {
         super(name);
 
         setHasSubtypes(true);

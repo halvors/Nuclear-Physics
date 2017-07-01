@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
-public class ItemRadioactive extends ItemTextured {
+public class ItemRadioactive extends ItemQuantum {
     public ItemRadioactive(String name) {
         super(name);
     }

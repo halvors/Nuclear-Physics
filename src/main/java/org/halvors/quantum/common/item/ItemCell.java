@@ -2,7 +2,7 @@ package org.halvors.quantum.common.item;
 
 import org.halvors.quantum.Quantum;
 
-public class ItemCell extends ItemTexturedMetadata {
+public class ItemCell extends ItemMetadata {
     public ItemCell(String name) {
         super(name);
 

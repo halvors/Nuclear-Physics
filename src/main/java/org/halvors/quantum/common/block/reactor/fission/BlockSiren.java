@@ -10,11 +10,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.block.BlockTextured;
+import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.utility.WrenchUtility;
 
-public class BlockSiren extends BlockTextured {
+public class BlockSiren extends BlockQuantum {
     public BlockSiren() {
         super("siren", Material.IRON);
 

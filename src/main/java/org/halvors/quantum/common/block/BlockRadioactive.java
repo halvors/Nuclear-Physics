@@ -20,7 +20,7 @@ import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import java.util.List;
 import java.util.Random;
 
-public class BlockRadioactive extends BlockTextured {
+public class BlockRadioactive extends BlockQuantum {
     protected static boolean canSpread;
     protected static float radius;
     protected static int amplifier;
@@ -42,8 +42,8 @@ public class BlockRadioactive extends BlockTextured {
                 int radius = 3;
 
                 for (int i = 0; i < 2; i++) {
-                    BlockPos newPos = pos.add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
-                    world.spawnParticle(EnumParticleTypes.BLOCK_DUST, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
+                    //BlockPos newPos = pos.add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
+                    //world.spawnParticle(EnumParticleTypes.BLOCK_DUST, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
 
                     /*
                     Vector3 position = new Vector3(x, y, z);

@@ -6,10 +6,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.block.BlockTextured;
+import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 
-public class BlockGasFunnel extends BlockTextured { //implements IBlockCustomRender {
+public class BlockGasFunnel extends BlockQuantum { //implements IBlockCustomRender {
     //private static IIcon iconTop;
 
     public BlockGasFunnel() {
