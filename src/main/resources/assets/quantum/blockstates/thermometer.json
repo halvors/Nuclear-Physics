@@ -2,7 +2,13 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "all": "quantum:blocks/thermometer"
+      "particle": "quantum:blocks/machine",
+      "down": "quantum:blocks/thermometer",
+      "up": "quantum:blocks/thermometer",
+      "north": "quantum:blocks/machine",
+      "east": "quantum:blocks/machine",
+      "south": "quantum:blocks/machine",
+      "west": "quantum:blocks/machine"
     },
     "model": "cube_all",
     "uvlock": true

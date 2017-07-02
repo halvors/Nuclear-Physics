@@ -31,6 +31,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
+import org.halvors.quantum.client.render.reactor.fission.RenderThermometer;
 import org.halvors.quantum.common.*;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.block.*;
@@ -214,6 +215,7 @@ public class Quantum implements IUpdatableMod {
 		//registerRecipes();
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
 
 		// Calling proxy handler.
 		proxy.preInit(event);
