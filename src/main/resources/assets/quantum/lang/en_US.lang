@@ -7,68 +7,65 @@ itemGroup.tabQuantum=Quantum
 fluid.deuterium=Deuterium
 fluid.plasma=Plasma
 fluid.steam=Steam
-fluid.toxicWaste=Toxic Waste
+fluid.toxic_waste=Toxic Waste
 fluid.tritium=Tritium
-fluid.uraniumHexafluoride=Uranium Hexafluoride
+fluid.uranium_hexafluoride=Uranium Hexafluoride
 
 // Blocks.
 tile.accelerator.name=Particle Accelerator
 tile.accelerator.tooltip=Accelerates particles and creates antimatter and dark matter.
-tile.chemicalExtractor.name=Chemical Extractor
-tile.chemicalExtractor.tooltip=Extracts uranium ores to yellowcake, water to deuterium and deuterium to tritium.
-tile.controlRod.name=Control Rod
-tile.controlRod.tooltip=Suppresses fission reaction in adjacent reactor cells.
-tile.creativeBuilder.name=Creative Builder
-tile.creativeBuilder.tooltip=
+tile.chemical_extractor.name=Chemical Extractor
+tile.chemical_extractor.tooltip=Extracts uranium ores to yellowcake, water to deuterium and deuterium to tritium.
+tile.control_rod.name=Control Rod
+tile.control_rod.tooltip=Suppresses fission reaction in adjacent reactor cells.
+tile.creative_builder.name=Creative Builder
+tile.creative_builder.tooltip=
 tile.electromagnet.0.name=Electromagnet
 tile.electromagnet.1.name=Electromagnet Glass
 tile.electromagnet.electromagnet.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
-tile.electricTurbine.name=Electric Turbine
-tile.electricTurbine.tooltip=Transform the kinetic energy from moving steam into electrical energy.
+tile.electric_turbine.name=Electric Turbine
+tile.electric_tTurbine.tooltip=Transform the kinetic energy from moving steam into electrical energy.
 tile.fulmination.name=Fulmination Generator
 tile.fulmination.tooltip=Transforms the kinetic energy from explosions into electrical energy.
-tile.gasCentrifuge.name=Gas Centrifuge
-tile.gasCentrifuge.tooltip=Refines Uranium Hexafluoride gas into usable uranium.
-tile.gasFunnel.name=Gas Funnel
-tile.gasFunnel.tooltip=Captures gas to allow it to be transported with piping.
-tile.nuclearBoiler.name=Nuclear Boiler
-tile.nuclearBoiler.tooltip=Boils yellowcake into uranium hexaflouride gas.
-tile.oreUranium.name=Uranium Ore
-tile.oreUraniumOre.tooltip=A precious and useful ore used for fission reactions.
+tile.gas_centrifuge.name=Gas Centrifuge
+tile.gas_centrifuge.tooltip=Refines Uranium Hexafluoride gas into usable uranium.
+tile.gas_funnel.name=Gas Funnel
+tile.gas_funnel.tooltip=Captures gas to allow it to be transported with piping.
+tile.nuclear_boiler.name=Nuclear Boiler
+tile.nuclear_boiler.tooltip=Boils yellowcake into uranium hexaflouride gas.
+tile.uranium_ore.name=Uranium Ore
+tile.uranium_ore.tooltip=A precious and useful ore used for fission reactions.
 tile.plasma.name=Plasma
 tile.plasma.tooltip=Generates extreme heat for boiling water.
-tile.plasmaHeater.name=Plasma Heater
-tile.plasmaHeater.tooltip=A plasma heater is used to heat deuterium and tritium to plasma state for fusion power. Plasma must be moved into the reactor cell.
-tile.quantumAssembler.name=Quantum Assembler
-tile.quantumAssembler.tooltip=Reassembles Dark Matter atoms into usable materials.
-tile.radioactiveGrass.name=Radioactive Waste
-tile.radioactiveGrass.tooltip=Generates harmful radiation and spreads around the world, mutating organisms.
-tile.reactorCell.name=Reactor Cell
-tile.reactorCell.tooltip=The primary components for all types of reactors. Fuel rods or plasma may be injected into the cell.
+tile.plasma_heater.name=Plasma Heater
+tile.plasma_heater.tooltip=A plasma heater is used to heat deuterium and tritium to plasma state for fusion power. Plasma must be moved into the reactor cell.
+tile.quantum_assembler.name=Quantum Assembler
+tile.quantum_assembler.tooltip=Reassembles Dark Matter atoms into usable materials.
+tile.radioactive_grass.name=Radioactive Waste
+tile.radioactive_grass.tooltip=Generates harmful radiation and spreads around the world, mutating organisms.
+tile.reactor_cell.name=Reactor Cell
+tile.reactor_cell.tooltip=The primary components for all types of reactors. Fuel rods or plasma may be injected into the cell.
 tile.siren.name=Siren
 tile.siren.tooltip=Creates an alarm with customizable pitch and volume with a Redstone signal.
 tile.thermometer.name=Thermometer
 tile.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-right click to lock the reading to a specific coordinate.
-tile.toxicWaste.name=Toxic Waste
-tile.toxicWaste.tooltip=Toxic, nuclear waste that pollutes the world.
-
-//block.reactorDrain.name=Reactor Drain
-//block.reactorDrain.tooltip=Extracts fluids out of the reactor, such as toxic waste.
+tile.toxic_waste.name=Toxic Waste
+tile.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
 // Items.
 // Cells.
-item.cellEmpty.0.name=Empty Cell
-item.cellWater.0.name=Water Cell
-item.cellDeuterium.0.name=Deuterium Cell
-item.cellTritium.0.name=Tritium Cell
-item.darkMatter.0.name=Dark Matter
+item.cell_empty.0.name=Empty Cell
+item.cell_water.0.name=Water Cell
+item.cell_deuterium.0.name=Deuterium Cell
+item.cell_tritium.0.name=Tritium Cell
+item.dark_matter.0.name=Dark Matter
 item.antimatter.0.name=Antimatter
 item.antimatter.0.tooltip=125 Milligrams
 item.antimatter.1.name=Antimatter
 item.antimatter.1.tooltip=1 Gram
 
 // Buckets
-item.bucketToxicWaste.name=Toxic Waste Bucket
+item.bucket_toxic_waste.name=Toxic Waste Bucket
 
 // Uranium
 item.yellowcake.name=Yellowcake
@@ -76,19 +73,19 @@ item.uranium.0.name=Uranium-235
 item.uranium.0.tooltip=Enriched Uranium
 item.uranium.1.name=Uranium-238
 item.uranium.1.tooltip=Breeding Uranium
-item.fissileFuel.name=Fissile Fuel Rod
-item.fissileFuel.tooltip=The primary fuel source for fission reactors.
-item.breederFuel.name=Breeder Fuel Rod
-item.breederFuel.tooltip=The fuel source for re-breeding decayed fissile fuels.
+item.fissile_fuel.name=Fissile Fuel Rod
+item.fissile_fuel.tooltip=The primary fuel source for fission reactors.
+item.breeder_fuel.name=Breeder Fuel Rod
+item.breeder_fuel.tooltip=The fuel source for re-breeding decayed fissile fuels.
 
 //item.uraniumHexafluoride.name=Uranium Hexafluoride
 //item.steam.name=Steam
 
 // Hazmat
-item.hazmatMask.name=Hazmat Mask
-item.hazmatBody.name=Hazmat Body
-item.hazmatLeggings.name=Hazmat Leggings
-item.hazmatBoots.name=Hazmat Boots
+item.hazmat_mask.name=Hazmat Mask
+item.hazmat_body.name=Hazmat Body
+item.hazmat_leggings.name=Hazmat Leggings
+item.hazmat_boots.name=Hazmat Boots
 
 // Potions
 potion.radiation=Radiation
