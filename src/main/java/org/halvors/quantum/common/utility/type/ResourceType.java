@@ -1,8 +1,8 @@
 package org.halvors.quantum.common.utility.type;
 
 public enum ResourceType {
-	GUI("gui"),
-	GUI_COMPONENT("gui/components"),
+	GUI("textures/gui"),
+	GUI_COMPONENT(GUI + "/components"),
 	MODEL("block"),
 	SOUND("sounds"),
 	TEXTURE_BLOCKS("textures/blocks"),
