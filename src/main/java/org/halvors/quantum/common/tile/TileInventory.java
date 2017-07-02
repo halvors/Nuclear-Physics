@@ -186,7 +186,7 @@ public class TileInventory extends TileQuantum implements ISidedInventory {
 
     @Override
     public String getName() {
-        return blockType.getLocalizedName();
+        return getBlockType().getLocalizedName();
     }
 
     @Override

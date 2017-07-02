@@ -186,7 +186,7 @@ public class TileElectricInventory extends TileElectric implements ISidedInvento
 
     @Override
     public String getName() {
-        return blockType.getLocalizedName();
+        return getBlockType().getLocalizedName();
     }
 
     @Override

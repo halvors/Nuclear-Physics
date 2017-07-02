@@ -14,7 +14,7 @@ public class BlockGasFunnel extends BlockContainerQuantum { //implements IBlockC
     //private static IIcon iconTop;
 
     public BlockGasFunnel() {
-        super("gasFunnel", Material.IRON);
+        super("gas_funnel", Material.IRON);
     }
 
     /*

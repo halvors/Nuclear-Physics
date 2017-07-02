@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class BlockRadioactiveGrass extends BlockRadioactive {
     public BlockRadioactiveGrass() {
-        super("radioactiveGrass", Material.GLASS);
+        super("radioactive_grass", Material.GLASS);
 
         setHardness(0.2F);
 

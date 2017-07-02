@@ -4,13 +4,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.block.BlockRotatable;
+import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.schematic.ISchematic;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * Automatically set up structures to allow easy debugging in creative mode.
  */
-public class BlockCreativeBuilder extends BlockRotatable {
+public class BlockCreativeBuilder extends BlockQuantum {
     private static final List<ISchematic> schematicRegistry = new ArrayList<>();
 
     public static int registerSchematic(ISchematic schematic) {
@@ -37,12 +36,7 @@ public class BlockCreativeBuilder extends BlockRotatable {
     }
 
     public BlockCreativeBuilder() {
-        super("creativeBuilder", Material.IRON);
-
-        rotationMask = Byte.parseByte("111111", 2);
-
-        //setTextureName(Reference.PREFIX + "creativeBuilder");
-        setCreativeTab(Quantum.getCreativeTab());
+        super("creative_builder", Material.IRON);
     }
 
     // Called when the block is right clicked by the player.
@@ -55,10 +49,5 @@ public class BlockCreativeBuilder extends BlockRotatable {
         }
 
         return false;
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
-        return null;
     }
 }

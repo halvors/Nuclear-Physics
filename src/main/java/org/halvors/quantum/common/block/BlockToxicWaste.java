@@ -22,8 +22,8 @@ public class BlockToxicWaste extends BlockFluidClassic {
     public BlockToxicWaste() {
         super(Quantum.fluidToxicWaste, Material.WATER);
 
-        setUnlocalizedName("toxicWaste");
-        setRegistryName(Reference.ID, "toxicWaste");
+        setUnlocalizedName("toxic_waste");
+        setRegistryName(Reference.ID, "toxic_waste");
         setCreativeTab(Quantum.getCreativeTab());
         setTickRate(20);
     }

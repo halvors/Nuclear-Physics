@@ -17,7 +17,7 @@ import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 
 public class BlockElectricTurbine extends BlockContainerQuantum {
     public BlockElectricTurbine() {
-        super("electricTurbine", Material.IRON);
+        super("electric_turbine", Material.IRON);
 
         //setTextureName(Reference.PREFIX + "machine");
     }

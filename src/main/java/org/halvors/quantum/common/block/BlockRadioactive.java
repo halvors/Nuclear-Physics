@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 import java.util.Random;

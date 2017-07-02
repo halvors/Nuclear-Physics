@@ -6,7 +6,7 @@ import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 
 public class BlockGasCentrifuge extends BlockMachine {
     public BlockGasCentrifuge() {
-        super("gasCentrifuge");
+        super("gas_centrifuge");
     }
 
     @Override

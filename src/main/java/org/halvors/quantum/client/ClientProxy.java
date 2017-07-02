@@ -1,6 +1,6 @@
 package org.halvors.quantum.client;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
@@ -134,9 +134,9 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
-		IBlockState state = world.getBlockState(new BlockPos(x, y, z));
+		Block block = world.getBlockState(new BlockPos(x, y, z)).getBlock();
 
-		if (state instanceof BlockCreativeBuilder) {
+		if (block instanceof BlockCreativeBuilder) {
 			return new GuiCreativeBuilder(new Vector3(x, y, z));
 		}
 

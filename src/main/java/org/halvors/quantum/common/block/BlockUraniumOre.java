@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class BlockUraniumOre extends BlockRadioactive {
     public BlockUraniumOre() {
-        super("uraniumOre", Material.ROCK);
+        super("uranium_ore", Material.ROCK);
 
         //setStepSound(soundStoneFootstep);
         setHardness(2.0F);

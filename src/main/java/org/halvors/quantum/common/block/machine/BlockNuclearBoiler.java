@@ -6,7 +6,7 @@ import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 
 public class BlockNuclearBoiler extends BlockMachine {
     public BlockNuclearBoiler() {
-        super("nuclearBoiler");
+        super("nuclear_boiler");
     }
 
     @Override

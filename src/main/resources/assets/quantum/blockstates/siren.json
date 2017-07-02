@@ -1,8 +1,11 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "custom": { "flip-v": true },
-    "model": "quantum:chemicalExtractor.obj"
+    "textures": {
+      "all": "quantum:blocks/siren"
+    },
+    "model": "cube_all",
+    "uvlock": true
   },
   "variants": {
     "normal": [{}],

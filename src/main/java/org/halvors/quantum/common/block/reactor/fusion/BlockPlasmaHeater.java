@@ -18,7 +18,7 @@ import org.halvors.quantum.common.utility.FluidUtility;
 
 public class BlockPlasmaHeater extends BlockContainerQuantum {
     public BlockPlasmaHeater() {
-        super("plasmaHeater", Material.IRON);
+        super("plasma_heater", Material.IRON);
 
         //setTextureName(Reference.PREFIX + "machine");
     }

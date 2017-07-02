@@ -22,7 +22,7 @@ public class TileSiren extends TileEntity implements ITickable {
                 for (EnumFacing side : EnumFacing.VALUES) {
                     Block block = world.getBlockState(pos.offset(side)).getBlock();
 
-                    if (block == blockType) {
+                    if (block == getBlockType()) {
                         volume *= 1.5F;
                     }
                 }

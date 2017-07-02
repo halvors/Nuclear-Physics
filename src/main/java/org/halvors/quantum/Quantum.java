@@ -32,6 +32,12 @@ import org.halvors.quantum.common.*;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
+import org.halvors.quantum.common.block.particle.BlockAccelerator;
+import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
+import org.halvors.quantum.common.block.reactor.fission.BlockControlRod;
+import org.halvors.quantum.common.block.reactor.fission.BlockSiren;
+import org.halvors.quantum.common.block.reactor.fission.BlockThermometer;
+import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
@@ -290,48 +296,48 @@ public class Quantum implements IUpdatableMod {
 
 	private void registerBlocks() {
 		// Register blocks.
-		//blockAccelerator = new BlockAccelerator();
+		blockAccelerator = new BlockAccelerator();
 		//blockChemicalExtractor = new BlockChemicalExtractor();
-		//blockControlRod = new BlockControlRod();
+		blockControlRod = new BlockControlRod();
 		//blockElectricTurbine = new BlockElectricTurbine();
 		//blockElectromagnet = new BlockElectromagnet();
 		//blockFulmination = new BlockFulmination();
 		//blockGasCentrifuge = new BlockGasCentrifuge();
-		//blockGasFunnel = new BlockGasFunnel();
+		blockGasFunnel = new BlockGasFunnel();
 		//blockNuclearBoiler = new BlockNuclearBoiler();
-		//blockSiren = new BlockSiren();
-		//blockThermometer = new BlockThermometer();
+		blockSiren = new BlockSiren();
+		blockThermometer = new BlockThermometer();
 		blockUraniumOre = new BlockUraniumOre();
-		//blockPlasma = new BlockPlasma();
-		//fluidPlasma.setBlock(blockPlasma);
+		blockPlasma = new BlockPlasma();
+		fluidPlasma.setBlock(blockPlasma);
 		//blockPlasmaHeater = new BlockPlasmaHeater();
 		//blockQuantumAssembler = new BlockQuantumAssembler();
 		blockRadioactiveGrass = new BlockRadioactiveGrass();
 		//blockReactorCell = new BlockReactorCell();
 		//blockToxicWaste = new BlockToxicWaste();
 
-		//blockCreativeBuilder = new BlockCreativeBuilder();
+		blockCreativeBuilder = new BlockCreativeBuilder();
 
-		//register(blockAccelerator);
+		register(blockAccelerator);
 		//register(blockChemicalExtractor);
-		//register(blockControlRod);
+		register(blockControlRod);
 		//register(blockElectricTurbine);
 		//register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
 		//register(blockFulmination);
 		//register(blockGasCentrifuge);
-		//register(blockGasFunnel);
+		register(blockGasFunnel);
 		//register(blockNuclearBoiler);
-		//register(blockSiren);
-		//register(blockThermometer, new ItemBlockThermometer(blockThermometer));
+		register(blockSiren);
+		register(blockThermometer, new ItemBlockThermometer(blockThermometer));
 		register(blockUraniumOre);
-		//register(blockPlasma);
+		register(blockPlasma);
 		//register(blockPlasmaHeater);
 		//register(blockQuantumAssembler);
 		register(blockRadioactiveGrass);
 		//register(blockReactorCell);
 		//register(blockToxicWaste);
 
-		//register(blockCreativeBuilder);
+		register(blockCreativeBuilder);
 	}
 
 	private void registerTileEntities() {
@@ -587,8 +593,10 @@ public class Quantum implements IUpdatableMod {
 		GameRegistry.register(block);
 		GameRegistry.register(itemBlock);
 
-		if (block instanceof BlockRadioactive) {
-			((BlockRadioactive) block).registerItemModel(itemBlock);
+		if (block instanceof BlockQuantum) {
+			((BlockQuantum) block).registerItemModel(itemBlock);
+		} else if (block instanceof BlockContainerQuantum) {
+			((BlockContainerQuantum) block).registerItemModel(itemBlock);
 		}
 
 		return block;

@@ -12,7 +12,7 @@ import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 
 public class BlockChemicalExtractor extends BlockMachine {
     public BlockChemicalExtractor() {
-        super("chemicalExtractor");
+        super("chemical_extractor");
     }
 
     @Override

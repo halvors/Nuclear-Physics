@@ -20,7 +20,7 @@ import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 public class BlockReactorCell extends BlockRotatable {
     public BlockReactorCell() {
-        super("reactorCell", Material.IRON);
+        super("reactor_cell", Material.IRON);
 
         //setTextureName(Reference.PREFIX + "machine");
         setHardness(1.0F);

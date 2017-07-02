@@ -6,7 +6,7 @@ import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 
 public class BlockQuantumAssembler extends BlockMachine {
     public BlockQuantumAssembler() {
-        super("quantumAssembler");
+        super("quantum_assembler");
     }
 
     @Override
