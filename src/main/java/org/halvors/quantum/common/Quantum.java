@@ -1,19 +1,15 @@
-package org.halvors.quantum;
+package org.halvors.quantum.common;
 
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -32,22 +28,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
 import org.halvors.quantum.client.render.reactor.fission.RenderThermometer;
-import org.halvors.quantum.common.*;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
-import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
-import org.halvors.quantum.common.block.machine.BlockGasCentrifuge;
-import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
-import org.halvors.quantum.common.block.machine.BlockQuantumAssembler;
-import org.halvors.quantum.common.block.particle.BlockAccelerator;
-import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
-import org.halvors.quantum.common.block.reactor.fission.BlockControlRod;
-import org.halvors.quantum.common.block.reactor.fission.BlockSiren;
-import org.halvors.quantum.common.block.reactor.fission.BlockThermometer;
-import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
-import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
-import org.halvors.quantum.common.block.reactor.fusion.BlockPlasmaHeater;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
@@ -56,8 +38,6 @@ import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
-import org.halvors.quantum.common.item.block.ItemBlockMetadata;
-import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell;
 import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
@@ -85,8 +65,6 @@ import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
-import org.halvors.quantum.common.utility.ResourceUtility;
-import org.halvors.quantum.common.utility.type.ResourceType;
 
 import java.util.List;
 
@@ -124,44 +102,6 @@ public class Quantum implements IUpdatableMod {
 
 	// Grids
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
-
-	// Fluids
-	public static Fluid fluidDeuterium = new Fluid("deuterium", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "deuterium"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "deuterium")).setGaseous(true);
-	public static Fluid fluidUraniumHexaflouride = new Fluid("uraniumHexafluoride", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "uraniumHexafluoride"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "uraniumHexafluoride")).setGaseous(true);
-	public static Fluid fluidPlasma = new Fluid("plasma", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "plasma"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "plasma")).setGaseous(true);
-	public static Fluid fluidSteam = new Fluid("steam", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "steam"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "steam")).setGaseous(true);
-	public static Fluid fluidTritium = new Fluid("tritium", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "tritium"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "tritium")).setGaseous(true);
-	public static Fluid fluidToxicWaste = new Fluid("toxicWaste", ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "toxicWaste"), ResourceUtility.getResource(ResourceType.TEXTURE_BLOCKS, "toxicWaste"));
-
-	public static FluidStack fluidStackDeuterium;
-	public static FluidStack fluidStackUraniumHexaflouride;
-	public static FluidStack fluidStackSteam;
-	public static FluidStack fluidStackTritium;
-	public static FluidStack fluidStackToxicWaste;
-	public static FluidStack fluidStackWater;
-
-
-	// Blocks
-	public static Block blockAccelerator;
-	public static Block blockChemicalExtractor;
-	public static Block blockControlRod;
-	public static Block blockElectromagnet;
-	public static Block blockFulmination;
-	public static Block blockGasCentrifuge;
-	public static Block blockGasFunnel;
-	public static Block blockNuclearBoiler;
-	public static Block blockSiren;
-	public static Block blockThermometer;
-	public static Block blockUraniumOre;
-	public static Block blockPlasma;
-    public static Block blockPlasmaHeater;
-	public static Block blockQuantumAssembler;
-	public static Block blockRadioactiveGrass;
-	public static Block blockReactorCell;
-	public static BlockFluidClassic blockToxicWaste;
-	public static Block blockElectricTurbine;
-
-	public static Block blockCreativeBuilder;
 
 	// Items
 	// Cells
@@ -202,20 +142,14 @@ public class Quantum implements IUpdatableMod {
 		logger.log(Level.INFO, "CoFHCore integration is " + (Integration.isCoFHCoreEnabled ? "enabled" : "disabled") + ".");
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
-		// Register our domain to OBJLoader.
-		OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
-
 		// Call functions for adding blocks, items, etc.
-		registerFluids();
-		registerBlocks();
+		QuantumFluids.register();
+		QuantumBlocks.register();
 		registerTileEntities();
 		registerItems();
 		registerFluidContainers();
 		registerEntities();
 		//registerRecipes();
-
-		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
 
 		// Calling proxy handler.
 		proxy.preInit(event);
@@ -246,9 +180,9 @@ public class Quantum implements IUpdatableMod {
 			OreDictionary.registerOre("dustUranium", itemYellowCake);
 		}
 
-		OreDictionary.registerOre("oreUranium", new ItemStack(blockUraniumOre));
+		OreDictionary.registerOre("oreUranium", new ItemStack(QuantumBlocks.blockUraniumOre));
 		OreDictionary.registerOre("breederUranium", new ItemStack(itemUranium, 1, 1));
-		OreDictionary.registerOre("blockRadioactiveGrass", blockRadioactiveGrass);
+		OreDictionary.registerOre("blockRadioactiveGrass", QuantumBlocks.blockRadioactiveGrass);
 		OreDictionary.registerOre("cellEmpty", itemCell);
 		OreDictionary.registerOre("cellUranium", itemFissileFuel);
 		OreDictionary.registerOre("cellTritium", itemTritiumCell);
@@ -291,69 +225,6 @@ public class Quantum implements IUpdatableMod {
 
 		// Calling proxy handler.
 		proxy.postInit(event);
-	}
-
-	private void registerFluids() {
-		// Register fluids.
-		FluidRegistry.registerFluid(fluidDeuterium);
-		FluidRegistry.registerFluid(fluidUraniumHexaflouride);
-		FluidRegistry.registerFluid(fluidPlasma);
-		FluidRegistry.registerFluid(fluidSteam);
-		FluidRegistry.registerFluid(fluidTritium);
-		FluidRegistry.registerFluid(fluidToxicWaste);
-
-		fluidStackDeuterium = new FluidStack(fluidDeuterium, 0);
-		fluidStackUraniumHexaflouride = new FluidStack(fluidUraniumHexaflouride, 0);
-		fluidStackSteam = new FluidStack(fluidSteam, 0);
-		fluidStackTritium = new FluidStack(fluidTritium, 0);
-		fluidStackToxicWaste = new FluidStack(fluidToxicWaste, 0);
-		fluidStackWater = new FluidStack(FluidRegistry.WATER, 0);
-	}
-
-	private void registerBlocks() {
-		// Register blocks.
-		blockAccelerator = new BlockAccelerator();
-		blockChemicalExtractor = new BlockChemicalExtractor();
-		blockControlRod = new BlockControlRod();
-		//blockElectricTurbine = new BlockElectricTurbine();
-		//blockElectromagnet = new BlockElectromagnet();
-		//blockFulmination = new BlockFulmination();
-		blockGasCentrifuge = new BlockGasCentrifuge();
-		blockGasFunnel = new BlockGasFunnel();
-		blockNuclearBoiler = new BlockNuclearBoiler();
-		blockSiren = new BlockSiren();
-		blockThermometer = new BlockThermometer();
-		blockUraniumOre = new BlockUraniumOre();
-		blockPlasma = new BlockPlasma();
-		fluidPlasma.setBlock(blockPlasma);
-		blockPlasmaHeater = new BlockPlasmaHeater();
-		blockQuantumAssembler = new BlockQuantumAssembler();
-		blockRadioactiveGrass = new BlockRadioactiveGrass();
-		//blockReactorCell = new BlockReactorCell();
-		//blockToxicWaste = new BlockToxicWaste();
-
-		blockCreativeBuilder = new BlockCreativeBuilder();
-
-		register(blockAccelerator);
-		register(blockChemicalExtractor);
-		register(blockControlRod);
-		//register(blockElectricTurbine);
-		//register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
-		//register(blockFulmination);
-		register(blockGasCentrifuge);
-		register(blockGasFunnel);
-		register(blockNuclearBoiler);
-		register(blockSiren);
-		register(blockThermometer, new ItemBlockThermometer(blockThermometer));
-		register(blockUraniumOre);
-		register(blockPlasma);
-		register(blockPlasmaHeater);
-		register(blockQuantumAssembler);
-		register(blockRadioactiveGrass);
-		//register(blockReactorCell);
-		//register(blockToxicWaste);
-
-		register(blockCreativeBuilder);
 	}
 
 	private void registerTileEntities() {
@@ -419,11 +290,7 @@ public class Quantum implements IUpdatableMod {
 	}
 
 	private void registerFluidContainers() {
-		// Register fluid containers.
-		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("deuterium"), 200), new ItemStack(itemDeuteriumCell), new ItemStack(itemCell));
-		FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("tritium"), 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
-		FluidContainerRegistry.registerFluidContainer(fluidToxicWaste, new ItemStack(itemBucketToxicWaste), new ItemStack(Items.BUCKET));
-		FluidContainerRegistry.registerFluidContainer(FluidRegistry.WATER, new ItemStack(itemWaterCell), new ItemStack(itemCell));
+
 	}
 
 	private void registerEntities() {
@@ -464,7 +331,7 @@ public class Quantum implements IUpdatableMod {
 		//GameRegistry.addRecipe(new ShapedOreRecipe(blockChemicalExtractor, "BSB", "MCM", "BSB", 'C', UniversalRecipe.CIRCUIT_T3.get(Settings.allowAlternateRecipes), 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes), 'B', UniversalRecipe.SECONDARY_METAL.get(Settings.allowAlternateRecipes), 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
 
 		// Control Rod
-		GameRegistry.addRecipe(new ShapedOreRecipe(blockControlRod, "I", "I", "I", 'I', Items.IRON_INGOT));
+		GameRegistry.addRecipe(new ShapedOreRecipe(QuantumBlocks.blockControlRod, "I", "I", "I", 'I', Items.IRON_INGOT));
 
 		// Turbine
 		//GameRegistry.addRecipe(new ShapedOreRecipe(blockElectricTurbine, " B ", "BMB", " B ", 'B', UniversalRecipe.SECONDARY_PLATE.get(Settings.allowAlternateRecipes), 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
@@ -473,7 +340,7 @@ public class Quantum implements IUpdatableMod {
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockElectromagnet, 2, 0), "BBB", "BMB", "BBB", 'B', UniversalRecipe.SECONDARY_METAL.get(Settings.allowAlternateRecipes), 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
 
 		// Electromagnet Glass
-		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(blockElectromagnet, 1, 1), blockElectromagnet, Blocks.GLASS));
+		GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(QuantumBlocks.blockElectromagnet, 1, 1), QuantumBlocks.blockElectromagnet, Blocks.GLASS));
 
 		// Fulmination Generator
 		//GameRegistry.addRecipe(new ShapedOreRecipe(blockFulmination, "OSO", "SCS", "OSO", 'O', Blocks.obsidian, 'C', UniversalRecipe.CIRCUIT_T2.get(Settings.allowAlternateRecipes), 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes)));
@@ -483,7 +350,7 @@ public class Quantum implements IUpdatableMod {
 
 		// Gas Funnel
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockGasFunnel, 2), " B ", "B B", "B B", 'B', UniversalRecipe.SECONDARY_METAL.get(Settings.allowAlternateRecipes)));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockGasFunnel, 2), " B ", "B B", "B B", 'B', "ingotIron"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(QuantumBlocks.blockGasFunnel, 2), " B ", "B B", "B B", 'B', "ingotIron"));
 
 		// Nuclear Boiler
 		//GameRegistry.addRecipe(new ShapedOreRecipe(blockNuclearBoiler, "S S", "FBF", "SMS", 'F', Block.furnaceIdle, 'S', UniversalRecipe.PRIMARY_PLATE.get(Settings.allowAlternateRecipes), 'B', Item.bucketEmpty, 'M', UniversalRecipe.MOTOR.get(Settings.allowAlternateRecipes)));
@@ -603,25 +470,5 @@ public class Quantum implements IUpdatableMod {
 	@Override
 	public String getModVersion() {
 		return Reference.VERSION;
-	}
-
-	private static <T extends Block> T register(T block, ItemBlock itemBlock) {
-		GameRegistry.register(block);
-		GameRegistry.register(itemBlock);
-
-		if (block instanceof BlockQuantum) {
-			((BlockQuantum) block).registerItemModel(itemBlock);
-		} else if (block instanceof BlockContainerQuantum) {
-			((BlockContainerQuantum) block).registerItemModel(itemBlock);
-		}
-
-		return block;
-	}
-
-	private static <T extends Block> T register(T block) {
-		ItemBlock itemBlock = new ItemBlock(block);
-		itemBlock.setRegistryName(block.getRegistryName());
-
-		return register(block, itemBlock);
 	}
 }

@@ -3,7 +3,6 @@ package org.halvors.quantum.common;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import org.halvors.quantum.Quantum;
 
 /**
  * This is a custom creative tab used only by this mod.
@@ -17,6 +16,6 @@ public class CreativeTabQuantum extends CreativeTabs {
 
 	@Override
 	public Item getTabIconItem() {
-		return new ItemBlock(Quantum.blockReactorCell);
+		return new ItemBlock(QuantumBlocks.blockReactorCell);
 	}
 }

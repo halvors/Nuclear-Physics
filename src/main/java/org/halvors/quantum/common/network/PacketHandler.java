@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.network.packet.PacketConfiguration;
 import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;

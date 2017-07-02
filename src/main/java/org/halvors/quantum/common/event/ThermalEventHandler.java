@@ -14,8 +14,8 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.tile.IElectromagnet;
+import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.quantum.common.grid.IUpdate;
 import org.halvors.quantum.common.grid.UpdateTicker;
@@ -75,7 +75,7 @@ public class ThermalEventHandler {
             }
         }
 
-        event.getWorld().setBlockState(event.getPos(), Quantum.blockPlasma.getDefaultState());
+        event.getWorld().setBlockState(event.getPos(), QuantumBlocks.blockPlasma.getDefaultState());
 
         TileEntity tile = event.getWorld().getTileEntity(event.getPos());
 
@@ -90,7 +90,7 @@ public class ThermalEventHandler {
         final World world = (World) event.getWorld();
         Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
 
-        if (block == Quantum.blockElectromagnet) {
+        if (block == QuantumBlocks.blockElectromagnet) {
             event.heatLoss = event.deltaTemperature * 0.6F;
         }
 

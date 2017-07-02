@@ -1,7 +1,7 @@
 package org.halvors.quantum.common.item;
 
 import net.minecraft.item.Item;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.Reference;
 
 /**

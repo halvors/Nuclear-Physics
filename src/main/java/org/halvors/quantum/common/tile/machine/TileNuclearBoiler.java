@@ -7,8 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.*;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
+import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
@@ -20,8 +21,8 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IFlu
     public static final int tickTime = 20 * 15;
     public static final int energy = 21000;
 
-    public final FluidTank waterTank = new FluidTank(Quantum.fluidStackWater.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
-    public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
+    public final FluidTank waterTank = new FluidTank(QuantumFluids.fluidStackWater.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
+    public final FluidTank gasTank = new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
 
     // How many ticks has this item been extracting for?
     public int timer = 0; // Synced
@@ -42,6 +43,8 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IFlu
     @Override
     public void update() {
         super.update();
+
+        rotation += 0.1;
 
         if (timer > 0) {
             rotation += 0.1;
@@ -331,7 +334,7 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IFlu
     public void doProcess() {
         if (canProcess()) {
             waterTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-            FluidStack liquid = Quantum.fluidStackUraniumHexaflouride.copy();
+            FluidStack liquid = QuantumFluids.fluidStackUraniumHexaflouride.copy();
             liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
             gasTank.fill(liquid, true);
             decrStackSize(1, 1);

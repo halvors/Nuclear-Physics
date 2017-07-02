@@ -5,8 +5,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.halvors.quantum.Quantum;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockQuantum;
 
 public class BlockControlRod extends BlockQuantum {

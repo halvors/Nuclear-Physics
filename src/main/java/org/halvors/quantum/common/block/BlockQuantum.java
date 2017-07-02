@@ -3,7 +3,7 @@ package org.halvors.quantum.common.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Quantum;
 
 public class BlockQuantum extends Block {
     protected String name;

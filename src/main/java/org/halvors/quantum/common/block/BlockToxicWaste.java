@@ -11,16 +11,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.Random;
 
 public class BlockToxicWaste extends BlockFluidClassic {
     public BlockToxicWaste() {
-        super(Quantum.fluidToxicWaste, Material.WATER);
+        super(QuantumFluids.fluidToxicWaste, Material.WATER);
 
         setUnlocalizedName("toxic_waste");
         setRegistryName(Reference.ID, "toxic_waste");

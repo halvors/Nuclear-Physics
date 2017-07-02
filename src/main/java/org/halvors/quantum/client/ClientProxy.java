@@ -10,13 +10,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.gui.debug.GuiCreativeBuilder;
 import org.halvors.quantum.client.gui.machine.GuiChemicalExtractor;
 import org.halvors.quantum.client.gui.machine.GuiGasCentrifuge;
@@ -24,7 +24,12 @@ import org.halvors.quantum.client.gui.machine.GuiNuclearBoiler;
 import org.halvors.quantum.client.gui.machine.GuiQuantumAssembler;
 import org.halvors.quantum.client.gui.particle.GuiAccelerator;
 import org.halvors.quantum.client.gui.reactor.fission.GuiReactorCell;
+import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
+import org.halvors.quantum.client.render.machine.RenderGasCentrifuge;
+import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
+import org.halvors.quantum.client.render.reactor.fission.RenderThermometer;
 import org.halvors.quantum.common.CommonProxy;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
@@ -33,6 +38,7 @@ import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
+import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 /**
@@ -47,7 +53,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	    super.preInit(event);
 
 	    // Register our domain to OBJLoader.
-		//OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
+		OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
 
         // Item Variants
         /*
@@ -78,30 +84,6 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ModelLoader.setCustomModelResourceLocation(Quantum.itemHazmatBody, 0, new ModelResourceLocation(Reference.PREFIX + "hazmatBody", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemHazmatLeggings, 0, new ModelResourceLocation(Reference.PREFIX + "hazmatLeggings", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemHazmatBoots, 0, new ModelResourceLocation(Reference.PREFIX + "hazmatBoots", "inventory"));
-
-        /*
-		// Blocks.
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockAccelerator), 0, new ModelResourceLocation(Reference.PREFIX + "accelerator", "inventory"));
-		//ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockChemicalExtractor), 0, new ModelResourceLocation(Reference.PREFIX + "chemicalExtractor", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockControlRod), 0, new ModelResourceLocation(Reference.PREFIX + "controlRod", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockElectromagnet), 0, new ModelResourceLocation(Reference.PREFIX + "electromagnet", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockFulmination), 0, new ModelResourceLocation(Reference.PREFIX + "fulmination", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockGasCentrifuge), 0, new ModelResourceLocation(Reference.PREFIX + "gasCentrifuge", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockGasFunnel), 0, new ModelResourceLocation(Reference.PREFIX + "gasFunnel", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockNuclearBoiler), 0, new ModelResourceLocation(Reference.PREFIX + "nuclearBoiler", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockSiren), 0, new ModelResourceLocation(Reference.PREFIX + "siren", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockThermometer), 0, new ModelResourceLocation(Reference.PREFIX + "thermometer", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockUraniumOre), 0, new ModelResourceLocation(Reference.PREFIX + "uraniumOre", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockPlasma), 0, new ModelResourceLocation(Reference.PREFIX + "plasma", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockPlasmaHeater), 0, new ModelResourceLocation(Reference.PREFIX + "plasmaHeater", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockQuantumAssembler), 0, new ModelResourceLocation(Reference.PREFIX + "quantumAssembler", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockRadioactiveGrass), 0, new ModelResourceLocation(Reference.PREFIX + "radioactiveGrass", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockReactorCell), 0, new ModelResourceLocation(Reference.PREFIX + "reactorCell", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockToxicWaste), 0, new ModelResourceLocation(Reference.PREFIX + "toxicWaste", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockElectricTurbine), 0, new ModelResourceLocation(Reference.PREFIX + "electricTurbine", "inventory"));
-
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockCreativeBuilder), 0, new ModelResourceLocation(Reference.PREFIX + "creativeBuilder", "inventory"));
-        */
 	}
 
 	@Override
@@ -112,16 +94,14 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         //RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
 
         // Register special renderer.
-        /*
 		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
         ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderGasCentrifuge());
         ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
         ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
-        ClientRegistry.bindTileEntitySpecialRenderer(TilePlasmaHeater.class, new RenderPlasmaHeater());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
-        */
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TilePlasmaHeater.class, new RenderPlasmaHeater());
+        //ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
 
         // Register entity renderer.
 		//RenderingRegistry.registerEntityRenderingHandler(EntityParticle.class, new RenderParticle());

@@ -3,7 +3,7 @@ package org.halvors.quantum.common.schematic;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.Pair;
 
@@ -34,18 +34,18 @@ public class SchematicFissionReactor implements ISchematic {
             for (int x = -radius; x <= radius; x++) {
                 for (int z = -radius; z <= radius; z++) {
                     Vector3 targetPosition = new Vector3(x, 1, z);
-                    map.put(targetPosition, new Pair<>(Quantum.blockElectricTurbine, 0));
+                    map.put(targetPosition, new Pair<>(QuantumBlocks.blockElectricTurbine, 0));
 
                     if (!(x == -radius || x == radius && z == -radius || z == radius) && new Vector3(x, 0, z).getMagnitude() <= 1) {
-                        map.put(new Vector3(x, -1, z), new Pair<>(Quantum.blockControlRod, 0));
+                        map.put(new Vector3(x, -1, z), new Pair<>(QuantumBlocks.blockControlRod, 0));
                         map.put(new Vector3(x, -2, z), new Pair<>(Blocks.STICKY_PISTON, 1));
                     }
                 }
             }
 
-            map.put(new Vector3(0, -3, 0), new Pair<>(Quantum.blockSiren, 0));
+            map.put(new Vector3(0, -3, 0), new Pair<>(QuantumBlocks.blockSiren, 0));
             map.put(new Vector3(0, -2, 0), new Pair<>(Blocks.REDSTONE_WIRE, 0));
-            map.put(new Vector3(), new Pair<>(Quantum.blockReactorCell, 0));
+            map.put(new Vector3(), new Pair<>(QuantumBlocks.blockReactorCell, 0));
         } else {
             for (int y = 0; y < size; y++) {
                 for (int x = -radius; x <= radius; x++) {
@@ -55,7 +55,7 @@ public class SchematicFissionReactor implements ISchematic {
 
                         if (y < size - 1) {
                             if (targetPosition.distance(leveledPosition) == 2) {
-                                map.put(targetPosition, new Pair<>(Quantum.blockControlRod, 0));
+                                map.put(targetPosition, new Pair<>(QuantumBlocks.blockControlRod, 0));
 
                                 // Place piston base to push control rods in.
                                 int rotationMetadata = 0;
@@ -71,12 +71,12 @@ public class SchematicFissionReactor implements ISchematic {
                             } else if (x == -radius || x == radius || z == -radius || z == radius) {
                                 map.put(targetPosition, new Pair<>(Blocks.GLASS, 0));
                             } else if (x == 0 && z == 0) {
-                                map.put(targetPosition, new Pair<>(Quantum.blockReactorCell, 0));
+                                map.put(targetPosition, new Pair<>(QuantumBlocks.blockReactorCell, 0));
                             } else {
                                 map.put(targetPosition, new Pair<>(Blocks.WATER, 0));
                             }
                         } else if (targetPosition.distance(leveledPosition) < 2) {
-                            map.put(targetPosition, new Pair<>(Quantum.blockElectricTurbine, 0));
+                            map.put(targetPosition, new Pair<>(QuantumBlocks.blockElectricTurbine, 0));
                         }
                     }
                 }

@@ -38,7 +38,7 @@ public class ReactorExplosion extends Explosion {
             Block blockUnder = world.getBlock(x, y - 1, z);
 
             if (block == Blocks.AIR && blockUnder.getDefaultState().isOpaqueCube() && explosionRAND.nextInt(3) == 0) {
-                world.setBlockState(pos, Quantum.blockRadioactiveGrass.getDefaultState());
+                world.setBlockState(pos, QuantumBlocks.blockRadioactiveGrass.getDefaultState());
             }
             */
         }

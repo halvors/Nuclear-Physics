@@ -6,8 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.*;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
+import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
@@ -44,6 +45,8 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     @Override
     public void update() {
         super.update();
+
+        rotation += 0.2;
 
         if (timer > 0) {
             rotation += 0.2;
@@ -192,7 +195,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(FluidRegistry.WATER) || fluid.equals(Quantum.fluidDeuterium);
+        return fluid.equals(FluidRegistry.WATER) || fluid.equals(QuantumFluids.fluidDeuterium);
     }
 
     @Override
@@ -276,14 +279,14 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
             }
 
             if (outputTank.getFluidAmount() < outputTank.getCapacity()) {
-                if (inputTank.getFluid().equals(Quantum.fluidStackDeuterium) && inputTank.getFluid().amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
-                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(Quantum.fluidTritium)) {
+                if (inputTank.getFluid().equals(QuantumFluids.fluidStackDeuterium) && inputTank.getFluid().amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
+                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(QuantumFluids.fluidTritium)) {
                         return true;
                     }
                 }
 
-                if (inputTank.getFluid().equals(Quantum.fluidStackWater) && inputTank.getFluid().amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
-                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(Quantum.fluidDeuterium)) {
+                if (inputTank.getFluid().equals(QuantumFluids.fluidStackWater) && inputTank.getFluid().amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
+                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(QuantumFluids.fluidDeuterium)) {
                         return true;
                     }
                 }
@@ -316,7 +319,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
             FluidStack drain = inputTank.drain(waterUsage * extractSpeed, false);
 
             if (drain != null && drain.amount >= 1 && drain.equals(FluidRegistry.WATER)) {
-                if (outputTank.fill(new FluidStack(Quantum.fluidDeuterium, extractSpeed), true) >= extractSpeed) {
+                if (outputTank.fill(new FluidStack(QuantumFluids.fluidDeuterium, extractSpeed), true) >= extractSpeed) {
                     inputTank.drain(waterUsage * extractSpeed, true);
 
                     return true;
@@ -332,8 +335,8 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
             int deutermiumUsage = ConfigurationManager.General.deutermiumPerTritium;
             FluidStack drain = inputTank.drain(deutermiumUsage * extractSpeed, false);
 
-            if (drain != null && drain.amount >= 1 && drain.equals(Quantum.fluidDeuterium)) {
-                if (outputTank.fill(new FluidStack(Quantum.fluidTritium, extractSpeed), true) >= extractSpeed) {
+            if (drain != null && drain.amount >= 1 && drain.equals(QuantumFluids.fluidDeuterium)) {
+                if (outputTank.fill(new FluidStack(QuantumFluids.fluidTritium, extractSpeed), true) >= extractSpeed) {
                     inputTank.drain(deutermiumUsage * extractSpeed, true);
 
                     return true;

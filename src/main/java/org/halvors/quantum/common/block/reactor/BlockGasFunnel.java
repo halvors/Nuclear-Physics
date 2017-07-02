@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
-import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 
 public class BlockGasFunnel extends BlockContainerQuantum { //implements IBlockCustomRender {

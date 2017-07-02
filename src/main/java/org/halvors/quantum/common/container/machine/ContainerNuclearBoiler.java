@@ -5,7 +5,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumBlocks;
+import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.container.ContainerQuantum;
 import org.halvors.quantum.common.container.slot.SlotEnergyItem;
 import org.halvors.quantum.common.container.slot.SlotSpecific;
@@ -24,7 +26,7 @@ public class ContainerNuclearBoiler extends ContainerQuantum {
         addSlotToContainer(new SlotEnergyItem(tile, 0, 56, 26));
 
         // Yellowcake Input
-        addSlotToContainer(new SlotSpecific(tile, 1, 81, 26, new ItemStack(Quantum.itemYellowCake), new ItemStack(Quantum.blockUraniumOre)));
+        addSlotToContainer(new SlotSpecific(tile, 1, 81, 26, new ItemStack(Quantum.itemYellowCake), new ItemStack(QuantumBlocks.blockUraniumOre)));
 
         // Fluid input fill
         addSlotToContainer(new Slot(tile, 2, 25, 19));
@@ -58,7 +60,7 @@ public class ContainerNuclearBoiler extends ContainerQuantum {
                     if (!mergeItemStack(itemStack, 0, 1, false)) {
                         return null;
                     }
-                } else if (Quantum.fluidStackWater.isFluidEqual(FluidContainerRegistry.getFluidForFilledItem(itemStack))) {
+                } else if (QuantumFluids.fluidStackWater.isFluidEqual(FluidContainerRegistry.getFluidForFilledItem(itemStack))) {
                     if (!mergeItemStack(itemStack, 1, 2, false)) {
                         return null;
                     }

@@ -11,8 +11,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.*;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager;
+import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
@@ -26,7 +27,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITickabl
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 
-    public final FluidTank gasTank = new FluidTank(Quantum.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
+    public final FluidTank gasTank = new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
 
     public int timer = 0; // Synced
     public float rotation = 0;
@@ -39,6 +40,8 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITickabl
 
     @Override
     public void update() {
+        rotation += 0.45;
+
         if (timer > 0) {
             rotation += 0.45;
         }
@@ -52,7 +55,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITickabl
                     if (tileEntity instanceof IFluidHandler && tileEntity.getClass() != getClass()) {
                         IFluidHandler fluidHandler = (IFluidHandler) tileEntity;
 
-                        FluidStack requestFluid = Quantum.fluidStackUraniumHexaflouride.copy();
+                        FluidStack requestFluid = QuantumFluids.fluidStackUraniumHexaflouride.copy();
                         requestFluid.amount = (gasTank.getCapacity() - gasTank.getFluid().amount);
                         FluidStack receiveFluid = fluidHandler.drain(direction.getOpposite(), requestFluid, true);
 
@@ -203,7 +206,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITickabl
 
     @Override
     public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-        if (resource.isFluidEqual(Quantum.fluidStackUraniumHexaflouride)) {
+        if (resource.isFluidEqual(QuantumFluids.fluidStackUraniumHexaflouride)) {
             return gasTank.fill(resource, doFill);
         }
 
@@ -222,7 +225,7 @@ public class TileGasCentrifuge extends TileElectricInventory implements ITickabl
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(Quantum.fluidUraniumHexaflouride);
+        return fluid.equals(QuantumFluids.fluidUraniumHexaflouride);
     }
 
     @Override

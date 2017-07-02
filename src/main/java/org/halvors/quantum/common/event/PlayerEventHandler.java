@@ -5,7 +5,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.network.packet.PacketConfiguration;
 
 /**

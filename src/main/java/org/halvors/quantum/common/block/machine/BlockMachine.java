@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockRotatable;
 
 public class BlockMachine extends BlockRotatable {

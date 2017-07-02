@@ -3,7 +3,7 @@ package org.halvors.quantum.common.schematic;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.Pair;
 
@@ -38,10 +38,10 @@ public class SchematicFusionReactor implements ISchematic {
                                 double yDeviation = (y == 0 ? size / 3 : -size / 3) + (y == 0 ? -1 : 1) * Math.sin(magnitude / radius * Math.PI) * size / 2;
                                 Vector3 newPos = position.clone().translate(0, yDeviation, 0);
 
-                                map.put(newPos.round(), new Pair<>(Quantum.blockElectromagnet, 1));
+                                map.put(newPos.round(), new Pair<>(QuantumBlocks.blockElectromagnet, 1));
                             }
                         } else if (magnitude > radius - 1) {
-                            map.put(position, new Pair<>(Quantum.blockElectromagnet, 0));
+                            map.put(position, new Pair<>(QuantumBlocks.blockElectromagnet, 0));
                         }
                     }
                 }
@@ -50,14 +50,14 @@ public class SchematicFusionReactor implements ISchematic {
 
         // Fusion Core
         for (int y = 0; y < size; y++) {
-            map.put(new Vector3(0, y, 0), new Pair<>(Quantum.blockReactorCell, 0));
-            map.put(new Vector3(1, y, 0), new Pair<>(Quantum.blockElectromagnet, 0));
-            map.put(new Vector3(0, y, 1), new Pair<>(Quantum.blockElectromagnet, 0));
-            map.put(new Vector3(0, y, -1), new Pair<>(Quantum.blockElectromagnet, 0));
-            map.put(new Vector3(-1, y, 0), new Pair<>(Quantum.blockElectromagnet, 0));
+            map.put(new Vector3(0, y, 0), new Pair<>(QuantumBlocks.blockReactorCell, 0));
+            map.put(new Vector3(1, y, 0), new Pair<>(QuantumBlocks.blockElectromagnet, 0));
+            map.put(new Vector3(0, y, 1), new Pair<>(QuantumBlocks.blockElectromagnet, 0));
+            map.put(new Vector3(0, y, -1), new Pair<>(QuantumBlocks.blockElectromagnet, 0));
+            map.put(new Vector3(-1, y, 0), new Pair<>(QuantumBlocks.blockElectromagnet, 0));
         }
 
-        map.put(new Vector3(0, 0, 0), new Pair<>(Quantum.blockReactorCell, 0));
+        map.put(new Vector3(0, 0, 0), new Pair<>(QuantumBlocks.blockReactorCell, 0));
 
         return map;
     }

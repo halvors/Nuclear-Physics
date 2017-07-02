@@ -5,7 +5,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 public class ItemRadioactive extends ItemQuantum {
     public ItemRadioactive(String name) {

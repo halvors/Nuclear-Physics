@@ -7,7 +7,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.*;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
@@ -38,7 +39,7 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITickable
                 if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= plasmaHeatAmount) {
                     tankInputDeuterium.drain(plasmaHeatAmount, true);
                     tankInputTritium.drain(plasmaHeatAmount, true);
-                    tankOutput.fill(new FluidStack(Quantum.fluidPlasma, plasmaHeatAmount), true);
+                    tankOutput.fill(new FluidStack(QuantumFluids.fluidPlasma, plasmaHeatAmount), true);
 
                     energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
                 }
@@ -187,11 +188,11 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITickable
 
     @Override
     public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-        if (resource.isFluidEqual(Quantum.fluidStackDeuterium)) {
+        if (resource.isFluidEqual(QuantumFluids.fluidStackDeuterium)) {
             return tankInputDeuterium.fill(resource, doFill);
         }
 
-        if (resource.isFluidEqual(Quantum.fluidStackTritium)) {
+        if (resource.isFluidEqual(QuantumFluids.fluidStackTritium)) {
             return tankInputTritium.fill(resource, doFill);
         }
 
@@ -210,12 +211,12 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITickable
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(Quantum.fluidDeuterium) || fluid.equals(Quantum.fluidTritium);
+        return fluid.equals(QuantumFluids.fluidDeuterium) || fluid.equals(QuantumFluids.fluidTritium);
     }
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
-        return fluid.equals(Quantum.fluidPlasma);
+        return fluid.equals(QuantumFluids.fluidPlasma);
     }
 
     @Override

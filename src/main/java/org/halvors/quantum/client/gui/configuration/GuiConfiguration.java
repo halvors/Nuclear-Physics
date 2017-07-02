@@ -8,11 +8,11 @@ import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.client.gui.configuration.category.CategoryEntryClient;
 import org.halvors.quantum.client.gui.configuration.category.CategoryEntryGeneral;
 import org.halvors.quantum.client.gui.configuration.category.CategoryEntryIntegration;
 import org.halvors.quantum.common.ConfigurationManager;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.utility.LanguageUtility;
 

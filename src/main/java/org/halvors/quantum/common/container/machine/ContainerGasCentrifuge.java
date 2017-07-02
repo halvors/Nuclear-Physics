@@ -5,7 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
-import org.halvors.quantum.Quantum;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.container.ContainerQuantum;
 import org.halvors.quantum.common.container.slot.SlotEnergyItem;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;

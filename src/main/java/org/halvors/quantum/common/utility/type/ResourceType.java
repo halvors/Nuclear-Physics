@@ -3,9 +3,10 @@ package org.halvors.quantum.common.utility.type;
 public enum ResourceType {
 	GUI("gui"),
 	GUI_COMPONENT("gui/components"),
-	MODEL("models"),
+	MODEL("block"),
 	SOUND("sounds"),
 	TEXTURE_BLOCKS("textures/blocks"),
+	TEXTURE_FLUIDS("textures/fluids"),
 	TEXTURE_ITEMS("textures/items"),
 	TEXTURE_MODELS("textures/models");
 

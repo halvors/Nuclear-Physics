@@ -9,10 +9,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.common.ConfigurationManager;
+import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
@@ -74,7 +74,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
 
             // Create toxic waste.
             if (ConfigurationManager.General.allowToxicWaste && world.rand.nextFloat() > 0.5) {
-                FluidStack fluid = Quantum.fluidStackToxicWaste.copy();
+                FluidStack fluid = QuantumFluids.fluidStackToxicWaste.copy();
                 fluid.amount = 1;
 
                 reactor.fill(null, fluid, true);

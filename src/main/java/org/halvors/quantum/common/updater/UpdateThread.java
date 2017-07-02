@@ -5,9 +5,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.spi.AbstractLogger;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.IUpdatableMod;
+import org.halvors.quantum.common.Quantum;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -18,9 +18,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.Quantum;
 import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.api.tile.IReactor;
+import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumBlocks;
+import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.event.PlasmaEvent;
@@ -92,7 +94,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
             }
         }
 
-        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().equals(Quantum.fluidPlasma)) {
+        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().equals(QuantumFluids.fluidPlasma)) {
             // Spawn plasma.
             FluidStack drain = tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false);
 
@@ -148,7 +150,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
                 for (int side = 2; side < 6; side++) {
                     Vector3 checkAdjacent = new Vector3(this).translate(EnumFacing.getFront(side));
 
-                    if (checkAdjacent.getBlock(world) == Quantum.blockControlRod) {
+                    if (checkAdjacent.getBlock(world) == QuantumBlocks.blockControlRod) {
                         deltaT /= 1.1;
                     }
                 }
@@ -206,7 +208,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
                 Block block = world.getBlockState(leakPos).getBlock();
 
                 if (block == Blocks.GRASS) {
-                    world.setBlockState(leakPos, Quantum.blockRadioactiveGrass.getDefaultState());
+                    world.setBlockState(leakPos, QuantumBlocks.blockRadioactiveGrass.getDefaultState());
                     tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                 } else if (block == Blocks.AIR || block.isReplaceable(world, leakPos)) {
                     if (tank.getFluid() != null) {
@@ -354,12 +356,12 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(Quantum.fluidPlasma);
+        return fluid.equals(QuantumFluids.fluidPlasma);
     }
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
-        return fluid.equals(Quantum.fluidToxicWaste);
+        return fluid.equals(QuantumFluids.fluidToxicWaste);
     }
 
     @Override
@@ -381,7 +383,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
 
     @Override
     public boolean isOverToxic() {
-        return tank.getFluid() != null && tank.getFluid().equals(Quantum.fluidToxicWaste) && tank.getFluid().amount >= tank.getCapacity();
+        return tank.getFluid() != null && tank.getFluid().equals(QuantumFluids.fluidToxicWaste) && tank.getFluid().amount >= tank.getCapacity();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
