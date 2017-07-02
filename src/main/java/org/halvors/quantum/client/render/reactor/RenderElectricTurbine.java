@@ -9,8 +9,8 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer<TileElectri
     private static final ResourceLocation textureLarge = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electricTurbineLarge.png");
 
     public RenderElectricTurbine() throws Exception {
-        modelSmall = OBJLoader.INSTANCE.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "electricTurbineSmall.obj"));
-        modelLarge = OBJLoader.INSTANCE.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "electricTurbineLarge.obj"));
+        modelSmall = OBJLoader.INSTANCE.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "electric_turbine_small.obj"));
+        modelLarge = OBJLoader.INSTANCE.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "electric_turbine_large.obj"));
     }
 
     @Override

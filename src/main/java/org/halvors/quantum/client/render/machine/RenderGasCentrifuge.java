@@ -3,7 +3,7 @@ package org.halvors.quantum.client.render.machine;
 /*
 @SideOnly(Side.CLIENT)
 public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentrifuge> {
-    private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "centrifuge.obj"));
+    private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "gas_centrifuge.obj"));
     private static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "centrifuge.png");
 
     @Override

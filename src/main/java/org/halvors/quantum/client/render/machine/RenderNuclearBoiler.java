@@ -3,7 +3,7 @@ package org.halvors.quantum.client.render.machine;
 /*
 @SideOnly(Side.CLIENT)
 public class RenderNuclearBoiler extends TileEntitySpecialRenderer<TileNuclearBoiler> {
-    private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "nuclearBoiler.obj"));
+    private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "nuclear_boiler.obj"));
     private static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "nuclearBoiler.png");
 
     @Override

@@ -9,10 +9,12 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.*;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -28,10 +30,15 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
 import org.halvors.quantum.common.*;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
+import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
+import org.halvors.quantum.common.block.machine.BlockGasCentrifuge;
+import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
+import org.halvors.quantum.common.block.machine.BlockQuantumAssembler;
 import org.halvors.quantum.common.block.particle.BlockAccelerator;
 import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
 import org.halvors.quantum.common.block.reactor.fission.BlockControlRod;
@@ -39,6 +46,7 @@ import org.halvors.quantum.common.block.reactor.fission.BlockSiren;
 import org.halvors.quantum.common.block.reactor.fission.BlockThermometer;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
+import org.halvors.quantum.common.block.reactor.fusion.BlockPlasmaHeater;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
@@ -193,6 +201,9 @@ public class Quantum implements IUpdatableMod {
 		logger.log(Level.INFO, "CoFHCore integration is " + (Integration.isCoFHCoreEnabled ? "enabled" : "disabled") + ".");
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
+		// Register our domain to OBJLoader.
+		OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
+
 		// Call functions for adding blocks, items, etc.
 		registerFluids();
 		registerBlocks();
@@ -201,6 +212,8 @@ public class Quantum implements IUpdatableMod {
 		registerFluidContainers();
 		registerEntities();
 		//registerRecipes();
+
+		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
 
 		// Calling proxy handler.
 		proxy.preInit(event);
@@ -298,45 +311,45 @@ public class Quantum implements IUpdatableMod {
 	private void registerBlocks() {
 		// Register blocks.
 		blockAccelerator = new BlockAccelerator();
-		//blockChemicalExtractor = new BlockChemicalExtractor();
+		blockChemicalExtractor = new BlockChemicalExtractor();
 		blockControlRod = new BlockControlRod();
 		//blockElectricTurbine = new BlockElectricTurbine();
-		blockElectromagnet = new BlockElectromagnet();
+		//blockElectromagnet = new BlockElectromagnet();
 		//blockFulmination = new BlockFulmination();
-		//blockGasCentrifuge = new BlockGasCentrifuge();
+		blockGasCentrifuge = new BlockGasCentrifuge();
 		blockGasFunnel = new BlockGasFunnel();
-		//blockNuclearBoiler = new BlockNuclearBoiler();
+		blockNuclearBoiler = new BlockNuclearBoiler();
 		blockSiren = new BlockSiren();
 		blockThermometer = new BlockThermometer();
 		blockUraniumOre = new BlockUraniumOre();
 		blockPlasma = new BlockPlasma();
 		fluidPlasma.setBlock(blockPlasma);
-		//blockPlasmaHeater = new BlockPlasmaHeater();
-		//blockQuantumAssembler = new BlockQuantumAssembler();
+		blockPlasmaHeater = new BlockPlasmaHeater();
+		blockQuantumAssembler = new BlockQuantumAssembler();
 		blockRadioactiveGrass = new BlockRadioactiveGrass();
 		//blockReactorCell = new BlockReactorCell();
-		blockToxicWaste = new BlockToxicWaste();
+		//blockToxicWaste = new BlockToxicWaste();
 
 		blockCreativeBuilder = new BlockCreativeBuilder();
 
 		register(blockAccelerator);
-		//register(blockChemicalExtractor);
+		register(blockChemicalExtractor);
 		register(blockControlRod);
 		//register(blockElectricTurbine);
-		register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
+		//register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
 		//register(blockFulmination);
-		//register(blockGasCentrifuge);
+		register(blockGasCentrifuge);
 		register(blockGasFunnel);
-		//register(blockNuclearBoiler);
+		register(blockNuclearBoiler);
 		register(blockSiren);
 		register(blockThermometer, new ItemBlockThermometer(blockThermometer));
 		register(blockUraniumOre);
 		register(blockPlasma);
-		//register(blockPlasmaHeater);
-		//register(blockQuantumAssembler);
+		register(blockPlasmaHeater);
+		register(blockQuantumAssembler);
 		register(blockRadioactiveGrass);
 		//register(blockReactorCell);
-		register(blockToxicWaste);
+		//register(blockToxicWaste);
 
 		register(blockCreativeBuilder);
 	}

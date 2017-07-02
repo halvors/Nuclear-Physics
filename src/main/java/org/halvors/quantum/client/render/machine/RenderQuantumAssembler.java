@@ -3,7 +3,7 @@ package org.halvors.quantum.client.render.machine;
 /*
 @SideOnly(Side.CLIENT)
 public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantumAssembler> {
-    private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "quantumAssembler.obj"));
+    private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"));
     private static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "quantumAssembler.png");
 
     @Override

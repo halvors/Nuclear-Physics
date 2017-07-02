@@ -3,9 +3,9 @@ package org.halvors.quantum.client.render.reactor.fission;
 /*
 @SideOnly(Side.CLIENT)
 public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell> {
-    private static final IModel modelTop = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "reactorCellTop.obj"));
-    private static final IModel modelMiddle = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "reactorCellMiddle.obj"));
-    private static final IModel modelBottom = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "reactorCellBottom.obj"));
+    private static final IModel modelTop = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_top.obj"));
+    private static final IModel modelMiddle = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_middle.obj"));
+    private static final IModel modelBottom = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_bottom.obj"));
     private static final ResourceLocation textureTop = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactorCellTop.png");
     private static final ResourceLocation textureMiddle = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactorCellMiddle.png");
     private static final ResourceLocation textureBottom = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactorCellBottom.png");

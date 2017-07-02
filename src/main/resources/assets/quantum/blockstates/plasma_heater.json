@@ -4,9 +4,9 @@
     "custom": {
       "flip-v": true
     },
-    "model": "quantum:chemical_extractor.obj",
+    "model": "quantum:plasma_heater.obj",
     "textures": {
-      "#None": "quantum:models/chemical_extractor"
+      "#None": "quantum:models/plasma_heater"
     }
   },
   "variants": {

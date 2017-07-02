@@ -3,7 +3,7 @@ package org.halvors.quantum.client.render.reactor.fusion;
 /*
 @SideOnly(Side.CLIENT)
 public class RenderPlasmaHeater extends TileEntitySpecialRenderer<TilePlasmaHeater> {
-    private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "plasmaHeater.obj"));
+    private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "plasma_heater.obj"));
     private static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "plasmaHeater.png");
 
     @Override

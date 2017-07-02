@@ -4,9 +4,9 @@
     "custom": {
       "flip-v": true
     },
-    "model": "quantum:chemical_extractor.obj",
+    "model": "quantum:nuclear_boiler.obj",
     "textures": {
-      "#None": "quantum:models/chemical_extractor"
+      "#None": "quantum:models/nuclear_boiler"
     }
   },
   "variants": {
