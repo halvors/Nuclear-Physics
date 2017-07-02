@@ -20,6 +20,16 @@ public class BlockControlRod extends BlockQuantum {
     }
 
     @Override
+    public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World world, BlockPos pos) {
+        return new AxisAlignedBB(0.3F, 0, 0.3F, 0.7F, 1, 0.7F);
+    }
+
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }

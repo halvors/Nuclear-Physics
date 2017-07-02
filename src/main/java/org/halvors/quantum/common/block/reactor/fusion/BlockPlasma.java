@@ -5,6 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -32,12 +33,10 @@ public class BlockPlasma extends BlockContainerQuantum {
         return false;
     }
 
-    /*
-    @Override
-    public int getRenderBlockPass() {
-        return 1;
+    @SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.TRANSLUCENT;
     }
-    */
 
     @Override
     public int getLightValue(IBlockState state, IBlockAccess access, BlockPos pos) {

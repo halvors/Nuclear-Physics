@@ -4,11 +4,15 @@
     "textures": {
       "all": "quantum:blocks/control_rod"
     },
-    "model": "cube_all",
+    "model": "quantum:control_rod",
     "uvlock": true
   },
   "variants": {
-    "normal": [{}],
-    "inventory": [{}]
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {}
+    ]
   }
 }

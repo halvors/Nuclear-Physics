@@ -37,6 +37,7 @@ import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
 import org.halvors.quantum.common.block.reactor.fission.BlockControlRod;
 import org.halvors.quantum.common.block.reactor.fission.BlockSiren;
 import org.halvors.quantum.common.block.reactor.fission.BlockThermometer;
+import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.ExplosionEventHandler;
@@ -300,7 +301,7 @@ public class Quantum implements IUpdatableMod {
 		//blockChemicalExtractor = new BlockChemicalExtractor();
 		blockControlRod = new BlockControlRod();
 		//blockElectricTurbine = new BlockElectricTurbine();
-		//blockElectromagnet = new BlockElectromagnet();
+		blockElectromagnet = new BlockElectromagnet();
 		//blockFulmination = new BlockFulmination();
 		//blockGasCentrifuge = new BlockGasCentrifuge();
 		blockGasFunnel = new BlockGasFunnel();
@@ -314,7 +315,7 @@ public class Quantum implements IUpdatableMod {
 		//blockQuantumAssembler = new BlockQuantumAssembler();
 		blockRadioactiveGrass = new BlockRadioactiveGrass();
 		//blockReactorCell = new BlockReactorCell();
-		//blockToxicWaste = new BlockToxicWaste();
+		blockToxicWaste = new BlockToxicWaste();
 
 		blockCreativeBuilder = new BlockCreativeBuilder();
 
@@ -322,7 +323,7 @@ public class Quantum implements IUpdatableMod {
 		//register(blockChemicalExtractor);
 		register(blockControlRod);
 		//register(blockElectricTurbine);
-		//register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
+		register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
 		//register(blockFulmination);
 		//register(blockGasCentrifuge);
 		register(blockGasFunnel);
@@ -335,7 +336,7 @@ public class Quantum implements IUpdatableMod {
 		//register(blockQuantumAssembler);
 		register(blockRadioactiveGrass);
 		//register(blockReactorCell);
-		//register(blockToxicWaste);
+		register(blockToxicWaste);
 
 		register(blockCreativeBuilder);
 	}
