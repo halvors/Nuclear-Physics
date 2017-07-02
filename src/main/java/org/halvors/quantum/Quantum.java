@@ -30,10 +30,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.common.*;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
-import org.halvors.quantum.common.block.BlockQuantum;
-import org.halvors.quantum.common.block.BlockRadioactive;
-import org.halvors.quantum.common.block.BlockRadioactiveGrass;
-import org.halvors.quantum.common.block.BlockRotatable;
+import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.event.ExplosionEventHandler;
@@ -43,6 +40,8 @@ import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
+import org.halvors.quantum.common.item.block.ItemBlockMetadata;
+import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell;
 import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
@@ -194,7 +193,7 @@ public class Quantum implements IUpdatableMod {
 		registerItems();
 		registerFluidContainers();
 		registerEntities();
-		registerRecipes();
+		//registerRecipes();
 
 		// Calling proxy handler.
 		proxy.preInit(event);
@@ -291,55 +290,48 @@ public class Quantum implements IUpdatableMod {
 
 	private void registerBlocks() {
 		// Register blocks.
-		/*
-		blockAccelerator = new BlockAccelerator();
-		blockChemicalExtractor = new BlockChemicalExtractor();
-		blockControlRod = new BlockControlRod();
-		blockElectricTurbine = new BlockElectricTurbine();
-		blockElectromagnet = new BlockElectromagnet();
-		blockFulmination = new BlockFulmination();
-		blockGasCentrifuge = new BlockGasCentrifuge();
-		blockGasFunnel = new BlockGasFunnel();
-		blockNuclearBoiler = new BlockNuclearBoiler();
-		blockSiren = new BlockSiren();
-		blockThermometer = new BlockThermometer();
+		//blockAccelerator = new BlockAccelerator();
+		//blockChemicalExtractor = new BlockChemicalExtractor();
+		//blockControlRod = new BlockControlRod();
+		//blockElectricTurbine = new BlockElectricTurbine();
+		//blockElectromagnet = new BlockElectromagnet();
+		//blockFulmination = new BlockFulmination();
+		//blockGasCentrifuge = new BlockGasCentrifuge();
+		//blockGasFunnel = new BlockGasFunnel();
+		//blockNuclearBoiler = new BlockNuclearBoiler();
+		//blockSiren = new BlockSiren();
+		//blockThermometer = new BlockThermometer();
 		blockUraniumOre = new BlockUraniumOre();
-		blockPlasma = new BlockPlasma();
+		//blockPlasma = new BlockPlasma();
 		//fluidPlasma.setBlock(blockPlasma);
-		blockPlasmaHeater = new BlockPlasmaHeater();
-		blockQuantumAssembler = new BlockQuantumAssembler();
-		*/
+		//blockPlasmaHeater = new BlockPlasmaHeater();
+		//blockQuantumAssembler = new BlockQuantumAssembler();
 		blockRadioactiveGrass = new BlockRadioactiveGrass();
-		/*
-		blockReactorCell = new BlockReactorCell();
-		blockToxicWaste = new BlockToxicWaste();
+		//blockReactorCell = new BlockReactorCell();
+		//blockToxicWaste = new BlockToxicWaste();
 
-		blockCreativeBuilder = new BlockCreativeBuilder();
+		//blockCreativeBuilder = new BlockCreativeBuilder();
 
-		register(blockAccelerator);
-		register(blockChemicalExtractor);
-		register(blockControlRod);
-		register(blockElectricTurbine);
-		register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
-		register(blockFulmination);
-		register(blockGasCentrifuge);
-		register(blockGasFunnel);
-		register(blockNuclearBoiler);
-		register(blockSiren);
-		register(blockThermometer, new ItemBlockThermometer(blockThermometer));
+		//register(blockAccelerator);
+		//register(blockChemicalExtractor);
+		//register(blockControlRod);
+		//register(blockElectricTurbine);
+		//register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
+		//register(blockFulmination);
+		//register(blockGasCentrifuge);
+		//register(blockGasFunnel);
+		//register(blockNuclearBoiler);
+		//register(blockSiren);
+		//register(blockThermometer, new ItemBlockThermometer(blockThermometer));
 		register(blockUraniumOre);
-		register(blockPlasma);
-		register(blockPlasmaHeater);
-		register(blockQuantumAssembler);
-		*/
+		//register(blockPlasma);
+		//register(blockPlasmaHeater);
+		//register(blockQuantumAssembler);
 		register(blockRadioactiveGrass);
+		//register(blockReactorCell);
+		//register(blockToxicWaste);
 
-		/*
-		register(blockReactorCell);
-		register(blockToxicWaste);
-
-		register(blockCreativeBuilder);
-		*/
+		//register(blockCreativeBuilder);
 	}
 
 	private void registerTileEntities() {

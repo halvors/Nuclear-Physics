@@ -5,7 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 
 public class PotionRadiation extends CustomPotion {
-    public static final PotionRadiation INSTANCE = new PotionRadiation(true, 5149489, "radiation");
+    private static final PotionRadiation instance = new PotionRadiation(true, 5149489, "radiation");
 
     public PotionRadiation(boolean isBadEffect, int color, String name) {
         super(isBadEffect, color, name);
@@ -16,7 +16,7 @@ public class PotionRadiation extends CustomPotion {
     @Override
     public void performEffect(EntityLivingBase entity, int amplifier) {
         if (entity.getEntityWorld().rand.nextFloat() > 0.9D - amplifier * 0.07D) {
-            entity.attackEntityFrom(PoisonRadiation.damageSource, 1.0F);
+            entity.attackEntityFrom(PoisonRadiation.getDamageSource(), 1.0F);
 
             if (entity instanceof EntityPlayer) {
                 ((EntityPlayer) entity).addExhaustion(0.01F * (amplifier + 1));
@@ -27,5 +27,9 @@ public class PotionRadiation extends CustomPotion {
     @Override
     public boolean isReady(int duration, int amplifier) {
         return duration % 10 == 0;
+    }
+
+    public static PotionRadiation getInstance() {
+        return instance;
     }
 }

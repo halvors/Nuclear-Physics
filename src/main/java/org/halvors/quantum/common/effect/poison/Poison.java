@@ -3,6 +3,8 @@ package org.halvors.quantum.common.effect.poison;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.api.block.IAntiPoisonBlock;
 import org.halvors.quantum.api.item.armor.IAntiPoisonArmor;
@@ -12,16 +14,10 @@ import java.util.EnumSet;
 import java.util.HashMap;
 
 public abstract class Poison {
-    public enum ArmorType {
-        HELM,
-        BODY,
-        LEGGINGS,
-        BOOTS
-    }
-
     private final HashMap<String, Poison> poisons = new HashMap<>();
+
     protected String name;
-    protected EnumSet<ArmorType> armorRequired = EnumSet.range(ArmorType.HELM, ArmorType.BOOTS);
+    protected EnumSet<EntityEquipmentSlot> armorRequired = EnumSet.of(EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.FEET);
 
     public Poison(String name) {
         this.name = name;
@@ -32,22 +28,22 @@ public abstract class Poison {
         return name;
     }
 
-    public EnumSet<ArmorType> getArmorRequired() {
+    public EnumSet<EntityEquipmentSlot> getArmorRequired() {
         return armorRequired;
     }
 
-    public void poisonEntity(Vector3 emitPosition, EntityLivingBase entity, int amplifier) {
-        if (!isEntityProtected(emitPosition, entity, amplifier)) {
-            doPoisonEntity(emitPosition, entity, amplifier);
+    public void poisonEntity(BlockPos pos, EntityLivingBase entity, int amplifier) {
+        if (!isEntityProtected(pos, entity, amplifier)) {
+            doPoisonEntity(pos, entity, amplifier);
         }
     }
 
-    public void poisonEntity(Vector3 emitPosition, EntityLivingBase entity) {
-        poisonEntity(emitPosition, entity, 0);
+    public void poisonEntity(BlockPos pos, EntityLivingBase entity) {
+        poisonEntity(pos, entity, 0);
     }
 
-    public boolean isEntityProtected(Vector3 emitPosition, EntityLivingBase entity, int amplifier) {
-        EnumSet<ArmorType> armorWorn = EnumSet.noneOf(ArmorType.class);
+    public boolean isEntityProtected(BlockPos pos, EntityLivingBase entity, int amplifier) {
+        EnumSet<EntityEquipmentSlot> armorWorn = EnumSet.noneOf(EntityEquipmentSlot.class);
 
         if (entity instanceof EntityPlayer) {
             EntityPlayer entityPlayer = (EntityPlayer) entity;
@@ -58,7 +54,7 @@ public abstract class Poison {
                         IAntiPoisonArmor armor = (IAntiPoisonArmor)entityPlayer.inventory.armorInventory[i].getItem();
 
                         if (armor.isProtectedFromPoison(entityPlayer.inventory.armorInventory[i], entity, getName())) {
-                            armorWorn.add(ArmorType.values()[(armor.getArmorType().ordinal() % ArmorType.values().length)]);
+                            armorWorn.add(EntityEquipmentSlot.values()[(armor.getArmorType().ordinal() % EntityEquipmentSlot.values().length)]);
 
                             armor.onProtectFromPoison(entityPlayer.inventory.armorInventory[i], entity, getName());
                         }
@@ -92,5 +88,5 @@ public abstract class Poison {
         return count;
     }
 
-    protected abstract void doPoisonEntity(Vector3 paramVector3, EntityLivingBase paramEntityLivingBase, int paramInt);
+    protected abstract void doPoisonEntity(BlockPos pos, EntityLivingBase entity, int amplifier);
 }

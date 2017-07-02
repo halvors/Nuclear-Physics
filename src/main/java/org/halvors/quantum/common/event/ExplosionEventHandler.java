@@ -40,7 +40,7 @@ public class ExplosionEventHandler {
                             List<EntityLiving> entitiesNearby = entityItem.getEntityWorld().getEntitiesWithinAABB(EntityLiving.class, bounds);
 
                             for (EntityLiving entity : entitiesNearby) {
-                                PoisonRadiation.INSTANCE.poisonEntity(new Vector3(entity), entity);
+                                PoisonRadiation.getInstance().poisonEntity(entity.getPosition(), entity);
                             }
                         //}
                     }

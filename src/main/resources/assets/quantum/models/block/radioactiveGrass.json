@@ -1,6 +1,12 @@
 {
 	"parent": "block/cube_all",
 	"textures": {
-		"all": "quantum:blocks/radioactiveGrass"
+		"particle": "quantum:blocks/radioactiveGrass",
+		"down": "quantum:blocks/radioactiveGrass_bottom",
+		"up": "quantum:blocks/radioactiveGrass_top",
+		"north": "quantum:blocks/radioactiveGrass",
+		"east": "quantum:blocks/radioactiveGrass",
+		"south": "quantum:blocks/radioactiveGrass",
+		"west": "quantum:blocks/radioactiveGrass"
 	}
 }

@@ -1,13 +1,12 @@
 package org.halvors.quantum.common.block;
 
+import net.minecraft.block.material.Material;
+
 import java.util.Random;
 
 public class BlockRadioactiveGrass extends BlockRadioactive {
-    //private static IIcon iconTop;
-    //private static IIcon iconBottom;
-
     public BlockRadioactiveGrass() {
-        super("radioactiveGrass");
+        super("radioactiveGrass", Material.GLASS);
 
         setHardness(0.2F);
 
@@ -18,32 +17,6 @@ public class BlockRadioactiveGrass extends BlockRadioactive {
         isRandomlyRadioactive = true;
         spawnParticle = true;
     }
-
-    /*
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        super.registerIcons(iconRegister);
-
-        iconTop = iconRegister.registerIcon(Reference.PREFIX + getUnlocalizedName().replace("tile.", "") + "_top");
-        iconBottom = iconRegister.registerIcon(Reference.PREFIX + getUnlocalizedName().replace("tile.", "") + "_bottom");
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata) {
-        switch (side) {
-            case 0:
-                return iconBottom;
-
-            case 1:
-                return iconTop;
-
-            default:
-                return blockIcon;
-        }
-    }
-    */
 
     @Override
     public int quantityDropped(Random random) {

@@ -32,7 +32,7 @@ public class BlockToxicWaste extends BlockFluidClassic {
     public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
         if (entity instanceof EntityLivingBase) {
             entity.attackEntityFrom(DamageSource.wither, 3);
-            PoisonRadiation.INSTANCE.poisonEntity(new Vector3(pos.getX(), pos.getY(), pos.getZ()), (EntityLivingBase) entity, 4);
+            PoisonRadiation.getInstance().poisonEntity(pos, (EntityLivingBase) entity, 4);
         }
     }
 

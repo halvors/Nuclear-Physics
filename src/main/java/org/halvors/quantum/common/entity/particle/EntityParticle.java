@@ -285,7 +285,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
         for (EntityLivingBase entity : entitiesNearby) {
-            PoisonRadiation.INSTANCE.poisonEntity(new Vector3(entity), entity);
+            PoisonRadiation.getInstance().poisonEntity(entity.getPosition(), entity);
         }
 
         setDead();

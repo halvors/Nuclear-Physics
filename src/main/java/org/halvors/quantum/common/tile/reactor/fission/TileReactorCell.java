@@ -130,7 +130,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
                             List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - radius * 2, pos.getY() - radius * 2, pos.getZ() - radius * 2, pos.getX() + radius * 2, pos.getY() + radius * 2, pos.getZ() + radius * 2));
 
                             for (EntityLiving entity : entities) {
-                                PoisonRadiation.INSTANCE.poisonEntity(new Vector3(this), entity);
+                                PoisonRadiation.getInstance().poisonEntity(pos, entity);
                             }
                         }
                     }

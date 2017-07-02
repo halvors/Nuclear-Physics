@@ -2,16 +2,13 @@ package org.halvors.quantum.client;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -60,7 +57,6 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         */
 
 		// Items.
-        /*
         ModelLoader.setCustomModelResourceLocation(Quantum.itemAntimatterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellAntimatter_milligram", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemAntimatterCell, 1, new ModelResourceLocation(Reference.PREFIX + "cellAntimatter_gram", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemBreederFuel, 0, new ModelResourceLocation(Reference.PREFIX + "breederFuel", "inventory"));
@@ -82,6 +78,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ModelLoader.setCustomModelResourceLocation(Quantum.itemHazmatLeggings, 0, new ModelResourceLocation(Reference.PREFIX + "hazmatLeggings", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Quantum.itemHazmatBoots, 0, new ModelResourceLocation(Reference.PREFIX + "hazmatBoots", "inventory"));
 
+        /*
 		// Blocks.
         //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockAccelerator), 0, new ModelResourceLocation(Reference.PREFIX + "accelerator", "inventory"));
 		//ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(Quantum.blockChemicalExtractor), 0, new ModelResourceLocation(Reference.PREFIX + "chemicalExtractor", "inventory"));

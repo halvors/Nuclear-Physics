@@ -15,7 +15,7 @@ public class ItemRadioactive extends ItemQuantum {
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int int1, boolean type) {
         if (entity instanceof EntityLivingBase) {
-            PoisonRadiation.INSTANCE.poisonEntity(new Vector3(entity), (EntityLivingBase) entity, 1);
+            PoisonRadiation.getInstance().poisonEntity(entity.getPosition(), (EntityLivingBase) entity, 1);
         }
     }
 }

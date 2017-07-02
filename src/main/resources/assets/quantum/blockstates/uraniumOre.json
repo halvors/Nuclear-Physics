@@ -1,22 +1,5 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "textures": {
-      "all": "quantum:uraniumOre",
-      "up": "quantum:uraniumOre",
-      "down": "quantum:uraniumOre",
-      "north": "quantum:uraniumOre",
-      "east": "quantum:uraniumOre",
-      "south": "quantum:uraniumOre",
-      "west": "quantum:uraniumOre"
-    }
-  },
-  "variants": {
-    "normal": {
-      "model": "cube_all"
-    },
-    "inventory": {
-      "model": "cube_all"
-    }
-  }
+	"variants": {
+		"normal": { "model": "quantum:uraniumOre" }
+	}
 }

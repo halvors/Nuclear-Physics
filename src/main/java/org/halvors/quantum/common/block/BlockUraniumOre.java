@@ -1,12 +1,13 @@
 package org.halvors.quantum.common.block;
 
+import net.minecraft.block.material.Material;
 import org.halvors.quantum.common.ConfigurationManager;
 
 import java.util.Random;
 
 public class BlockUraniumOre extends BlockRadioactive {
     public BlockUraniumOre() {
-        super("oreUranium");
+        super("uraniumOre", Material.ROCK);
 
         //setStepSound(soundStoneFootstep);
         setHardness(2.0F);
