@@ -19,8 +19,12 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer<TileChemi
 
     @Override
     public void renderTileEntityAt(TileChemicalExtractor tile, double x, double y, double z, float partialTicks, int destroyStage) {
+        GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
+
+        // Translate to the location of our tile entity
         GlStateManager.translate(x + 0.5, y, z + 0.5);
+        GlStateManager.disableRescaleNormal();
 
         /*
         if (tile.getWorld() != null) {
@@ -40,5 +44,6 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer<TileChemi
         modelAll.render();
 
         GlStateManager.popMatrix();
+        GlStateManager.popAttrib();
     }
 }

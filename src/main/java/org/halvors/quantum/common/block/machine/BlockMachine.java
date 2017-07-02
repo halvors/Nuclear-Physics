@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,23 +22,18 @@ public class BlockMachine extends BlockRotatable {
         //setTextureName(Reference.PREFIX + "machine");
     }
 
-    /*
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean renderAsNormalBlock(IBlockState blockState) {
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
         return false;
     }
 
-    @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState blockState) {
-        //return BlockRenderingHandler.getInstance().getRenderId();
-
-        return EnumBlockRenderType.MODEL;
+    @Override
+    public boolean isBlockNormalCube(IBlockState blockState) {
+        return false;
     }
-    */
 
     @Override
-    @SideOnly(Side.CLIENT)
     public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }

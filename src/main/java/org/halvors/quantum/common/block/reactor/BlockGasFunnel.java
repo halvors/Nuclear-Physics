@@ -10,33 +10,11 @@ import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 
 public class BlockGasFunnel extends BlockContainerQuantum { //implements IBlockCustomRender {
-    //private static IIcon iconTop;
-
     public BlockGasFunnel() {
         super("gas_funnel", Material.IRON);
     }
 
     /*
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        super.registerIcons(iconRegister);
-
-        iconTop = iconRegister.registerIcon(Reference.PREFIX + "gasFunnel_top");
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata) {
-        return side == 1 || side == 0 ? iconTop : super.getIcon(side, metadata);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getRenderType() {
-        return BlockRenderingHandler.getInstance().getRenderId();
-    }
-
     @Override
     @SideOnly(Side.CLIENT)
     public int getRenderBlockPass() {

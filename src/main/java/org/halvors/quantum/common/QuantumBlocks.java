@@ -51,9 +51,9 @@ public class QuantumBlocks {
         register(blockAccelerator);
         register(blockChemicalExtractor);
         register(blockControlRod);
-        //register(blockElectricTurbine);
+        register(blockElectricTurbine);
         //register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
-        //register(blockFulmination);
+        register(blockFulmination);
         register(blockGasCentrifuge);
         register(blockGasFunnel);
         register(blockNuclearBoiler);

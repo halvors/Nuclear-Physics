@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,6 +20,22 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
         super("electric_turbine", Material.IRON);
 
         //setTextureName(Reference.PREFIX + "machine");
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+        return false;
+    }
+
+    @Override
+    public boolean isBlockNormalCube(IBlockState blockState) {
+        return false;
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState blockState) {
+        return false;
     }
 
     @Override
@@ -50,26 +67,6 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
 
         super.breakBlock(world, pos, state);
     }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    /*
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean renderAsNormalBlock() {
-        return false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getRenderType() {
-        return BlockRenderingHandler.getInstance().getRenderId();
-    }
-    */
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
