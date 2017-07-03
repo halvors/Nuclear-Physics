@@ -24,7 +24,7 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer<TileChemi
         GlStateManager.pushMatrix();
 
         // Translate to the location of our tile entity
-        GlStateManager.translate(x + 0.5, y, z + 0.5);
+        GlStateManager.translate(x, y, z);
         GlStateManager.disableRescaleNormal();
 
         /*
@@ -34,9 +34,9 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer<TileChemi
         */
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0.1875, 0.4375, 0);
+        GlStateManager.translate(0.6875, 0.4375, 0);
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 0, 1);
-        GlStateManager.translate(-0.1875, -0.4375, 0);
+        GlStateManager.translate(-0.6875, -0.4375, 0);
         modelPart.render();
         GlStateManager.popMatrix();
 
