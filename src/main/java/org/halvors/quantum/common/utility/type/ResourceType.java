@@ -5,10 +5,10 @@ public enum ResourceType {
 	GUI_COMPONENT(GUI + "/components"),
 	MODEL("block"),
 	SOUND("sounds"),
-	TEXTURE_BLOCKS("textures/blocks"),
-	TEXTURE_FLUIDS("textures/fluids"),
-	TEXTURE_ITEMS("textures/items"),
-	TEXTURE_MODELS("textures/models");
+	TEXTURE_BLOCKS("blocks"),
+	TEXTURE_FLUIDS("fluids"),
+	TEXTURE_ITEMS("items"),
+	TEXTURE_MODELS("models");
 
 	private final String prefix;
 

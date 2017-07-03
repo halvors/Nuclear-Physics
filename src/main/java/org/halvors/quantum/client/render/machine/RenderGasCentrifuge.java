@@ -19,6 +19,8 @@ public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentri
 
     @Override
     public void renderTileEntityAt(TileGasCentrifuge tile, double x, double y, double z, float partialTicks, int destroyStage) {
+        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+
         GlStateManager.pushMatrix();
         GlStateManager.translate(x + 0.5, y, z + 0.5);
 
@@ -27,8 +29,6 @@ public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentri
             RenderUtility.rotateBlockBasedOnDirection(tile.getDirection());
         }
         */
-
-        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         GlStateManager.pushMatrix();
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);

@@ -6,10 +6,7 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
-import org.halvors.quantum.common.block.machine.BlockGasCentrifuge;
-import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
-import org.halvors.quantum.common.block.machine.BlockQuantumAssembler;
+import org.halvors.quantum.common.block.machine.*;
 import org.halvors.quantum.common.block.particle.BlockAccelerator;
 import org.halvors.quantum.common.block.particle.BlockFulmination;
 import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
@@ -51,7 +48,7 @@ public class QuantumBlocks {
         register(blockAccelerator);
         register(blockChemicalExtractor);
         register(blockControlRod);
-        register(blockElectricTurbine);
+        //register(blockElectricTurbine);
         //register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
         register(blockFulmination);
         register(blockGasCentrifuge);
@@ -73,6 +70,10 @@ public class QuantumBlocks {
     private static <T extends Block> T register(T block, ItemBlock itemBlock) {
         GameRegistry.register(block);
         GameRegistry.register(itemBlock);
+
+        if (block instanceof BlockMachine) {
+            return block;
+        }
 
         if (block instanceof BlockQuantum) {
             ((BlockQuantum) block).registerItemModel(itemBlock);
