@@ -36,7 +36,7 @@ public class QuantumBlocks {
     public static Block blockPlasma = new BlockPlasma();
     //fluidPlasma.setBlock(blockPlasma);
     public static Block blockPlasmaHeater = new BlockPlasmaHeater();
-    public static Block blockQuantumAssembler = new BlockQuantumAssembler();
+    //public static Block blockQuantumAssembler = new BlockQuantumAssembler();
     public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
     public static Block blockReactorCell = new BlockReactorCell();
     public static BlockFluidClassic blockToxicWaste = new BlockToxicWaste();
@@ -59,7 +59,7 @@ public class QuantumBlocks {
         register(blockUraniumOre);
         register(blockPlasma);
         register(blockPlasmaHeater);
-        register(blockQuantumAssembler);
+        //register(blockQuantumAssembler);
         register(blockRadioactiveGrass);
         //register(blockReactorCell);
         //register(blockToxicWaste);
@@ -70,10 +70,6 @@ public class QuantumBlocks {
     private static <T extends Block> T register(T block, ItemBlock itemBlock) {
         GameRegistry.register(block);
         GameRegistry.register(itemBlock);
-
-        if (block instanceof BlockMachine) {
-            return block;
-        }
 
         if (block instanceof BlockQuantum) {
             ((BlockQuantum) block).registerItemModel(itemBlock);

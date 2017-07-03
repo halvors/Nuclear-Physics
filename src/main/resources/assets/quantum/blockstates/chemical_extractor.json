@@ -1,20 +1,3 @@
 {
   "forge_marker": 1,
-  "defaults": {
-    "custom": {
-      "flip-v": true
-    },
-    "model": "quantum:chemical_extractor.obj",
-    "textures": {
-      "#None": "quantum:models/chemical_extractor"
-    }
-  },
-  "variants": {
-    "normal": [
-      {}
-    ],
-    "inventory": [
-      {}
-    ]
-  }
 }

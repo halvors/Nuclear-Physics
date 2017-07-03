@@ -15,9 +15,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.block.BlockRotatable;
 
-public class BlockMachine extends BlockRotatable {
+public class BlockMachine extends BlockContainerQuantum {
     public BlockMachine(String name) {
         super(name, Material.IRON);
 
@@ -42,7 +43,7 @@ public class BlockMachine extends BlockRotatable {
 
     @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.MODEL;
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override

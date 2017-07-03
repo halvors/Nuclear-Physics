@@ -1,5 +1,6 @@
 package org.halvors.quantum.client.render.machine;
 
+import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -12,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
+import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -22,6 +24,7 @@ import org.lwjgl.opengl.GL11;
 @SideOnly(Side.CLIENT)
 public class RenderChemicalExtractorMcJty extends TileEntitySpecialRenderer<TileChemicalExtractor> {
     private IModel model;
+    private IModel fixedModel;
     private IBakedModel bakedModel;
 
     private IBakedModel getBakedModel() {
@@ -30,11 +33,12 @@ public class RenderChemicalExtractorMcJty extends TileEntitySpecialRenderer<Tile
         if (bakedModel == null) {
             try {
                 model = ModelLoaderRegistry.getModel(new ResourceLocation(Reference.ID, "block/chemical_extractor.obj"));
+                fixedModel = ((OBJModel) model).process(ImmutableMap.of("flip-v", "true"));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
 
-            bakedModel = model.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM,
+            bakedModel = fixedModel.bake(TRSRTransformation.identity(), DefaultVertexFormats.BLOCK,
                     location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString()));
         }
 
@@ -43,12 +47,12 @@ public class RenderChemicalExtractorMcJty extends TileEntitySpecialRenderer<Tile
 
     @Override
     public void renderTileEntityAt(TileChemicalExtractor tile, double x, double y, double z, float partialTicks, int destroyStage) {
-        GlStateManager.pushAttrib();
+        //GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
 
         // Translate to the location of our tile entity
         GlStateManager.translate(x, y, z);
-        GlStateManager.disableRescaleNormal();
+        //GlStateManager.disableRescaleNormal();
 
         // Render the rotating handles
         renderHandles(tile);
@@ -57,20 +61,23 @@ public class RenderChemicalExtractorMcJty extends TileEntitySpecialRenderer<Tile
         renderItem(tile);
 
         GlStateManager.popMatrix();
-        GlStateManager.popAttrib();
-
+        //GlStateManager.popAttrib();
     }
 
     private void renderHandles(TileChemicalExtractor tile) {
+        GlStateManager.enableLighting();
+
+        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+
         GlStateManager.pushMatrix();
 
         GlStateManager.translate(.5, 0, .5);
         //long angle = (System.currentTimeMillis() / 10) % 360;
         //GlStateManager.rotate(angle, 0, 1, 0);
 
-        RenderHelper.disableStandardItemLighting();
+        //RenderHelper.disableStandardItemLighting();
 
-        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+
 
         if (Minecraft.isAmbientOcclusionEnabled()) {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
@@ -83,7 +90,7 @@ public class RenderChemicalExtractorMcJty extends TileEntitySpecialRenderer<Tile
         GlStateManager.translate(-tile.getPos().getX(), -tile.getPos().getY(), -tile.getPos().getZ());
 
         Tessellator tessellator = Tessellator.getInstance();
-        tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+        tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
         Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(
                 world,
                 getBakedModel(),
@@ -93,7 +100,7 @@ public class RenderChemicalExtractorMcJty extends TileEntitySpecialRenderer<Tile
                 false);
         tessellator.draw();
 
-        RenderHelper.enableStandardItemLighting();
+        //RenderHelper.enableStandardItemLighting();
         GlStateManager.popMatrix();
     }
 
