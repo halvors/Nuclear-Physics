@@ -15,6 +15,7 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.*;
+import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.client.model.obj.OBJModel.OBJState;
 import net.minecraftforge.common.model.IModelState;
 import org.lwjgl.opengl.GL11;
@@ -231,7 +232,7 @@ public class OBJBakedModel {
         }
 
         try {
-            IModel mod = ModelLoaderRegistry.getModel(handle.getModel());
+            IModel mod = ((OBJModel) ModelLoaderRegistry.getModel(handle.getModel())).process(ImmutableMap.of("flip-v", "true"));
 
             if (mod instanceof IRetexturableModel && handle.getTextureReplacements().size() > 0) {
                 IRetexturableModel rtm = (IRetexturableModel) mod;

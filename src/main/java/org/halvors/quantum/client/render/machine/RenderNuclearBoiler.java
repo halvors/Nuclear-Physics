@@ -20,16 +20,19 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer<TileNuclearBo
 
     @Override
     public void renderTileEntityAt(TileNuclearBoiler tile, double x, double y, double z, float partialTicks, int destroyStage) {
+        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+
         GlStateManager.pushMatrix();
+
+        // Translate to the location of our tile entity
         GlStateManager.translate(x + 0.5, y, z + 0.5);
+        GlStateManager.disableRescaleNormal();
 
         /*
         if (tile.getWorld() != null) {
             RenderUtility.rotateBlockBasedOnDirection(tile.getDirection());
         }
         */
-
-        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.312958, 0, 0.187042);

@@ -30,9 +30,7 @@ import org.halvors.quantum.client.gui.machine.GuiQuantumAssembler;
 import org.halvors.quantum.client.gui.particle.GuiAccelerator;
 import org.halvors.quantum.client.gui.reactor.fission.GuiReactorCell;
 import org.halvors.quantum.client.render.OBJBakedModel;
-import org.halvors.quantum.client.render.machine.RenderChemicalExtractorMcJty;
-import org.halvors.quantum.client.render.machine.RenderGasCentrifuge;
-import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
+import org.halvors.quantum.client.render.machine.*;
 import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
 import org.halvors.quantum.client.render.reactor.fission.RenderThermometer;
 import org.halvors.quantum.common.CommonProxy;
@@ -103,11 +101,11 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         //RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
 
         // Register special renderer.
-		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractorMcJty());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderGasCentrifuge());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractor());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderGasCentrifuge());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
         //ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
         //ClientRegistry.bindTileEntitySpecialRenderer(TilePlasmaHeater.class, new RenderPlasmaHeater());
         //ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
@@ -119,12 +117,12 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	@SubscribeEvent
 	public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/chemical_extractor"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/electric_turbine_small"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/electric_turbine_large"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/chemical_extractor"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/gas_centrifuge"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/nuclear_boiler"));
 	}
-
-    @Override
-    public void registerItemRenderer(Item item, int metadata, String id) {
-        ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Reference.PREFIX + id, "inventory"));
-    }
 
 	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
@@ -151,6 +149,11 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		}
 
 		return null;
+	}
+
+	@Override
+	public void registerItemRenderer(Item item, int metadata, String id) {
+		ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Reference.PREFIX + id, "inventory"));
 	}
 
 	@Override

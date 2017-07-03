@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentrifuge> {
-    private static final OBJBakedModel modelRotate = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "gas_centrifuge.obj"), Arrays.asList("C", "JROT", "KROT", "LROT", "MROT"));
+    private static final OBJBakedModel modelPart = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "gas_centrifuge.obj"), Arrays.asList("C", "JROT", "KROT", "LROT", "MROT"));
     private static final OBJBakedModel modelAll = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "gas_centrifuge.obj"), Arrays.asList("A", "B", "D", "E", "F", "G", "H", "I"));
 
     @Override
@@ -22,7 +22,10 @@ public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentri
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         GlStateManager.pushMatrix();
+
+        // Translate to the location of our tile entity
         GlStateManager.translate(x + 0.5, y, z + 0.5);
+        GlStateManager.disableRescaleNormal();
 
         /*
         if (tile.getWorld() != null) {
@@ -32,7 +35,7 @@ public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentri
 
         GlStateManager.pushMatrix();
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
-        modelRotate.render();
+        modelPart.render();
         GlStateManager.popMatrix();
 
         modelAll.render();
