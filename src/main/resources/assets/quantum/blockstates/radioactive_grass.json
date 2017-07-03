@@ -1,6 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
+    "model": "cube_all",
     "textures": {
       "particle": "quantum:blocks/radioactive_grass",
       "down": "quantum:blocks/radioactive_grass_bottom",
@@ -10,7 +11,6 @@
       "south": "quantum:blocks/radioactive_grass",
       "west": "quantum:blocks/radioactive_grass"
     },
-    "model": "cube_all",
     "uvlock": true
   },
   "variants": {

@@ -5,7 +5,16 @@
       {}
     ],
     "inventory": [
-      {}
+      {
+        "custom": {
+          "flip-v": true
+        },
+        "model": "quantum:gas_centrifuge.obj",
+        "textures": {
+          "#None": "quantum:models/gas_centrifuge"
+        },
+        "transform": "forge:default-block"
+      }
     ]
   }
 }

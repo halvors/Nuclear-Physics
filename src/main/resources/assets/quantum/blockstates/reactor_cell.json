@@ -9,9 +9,9 @@
         "custom": {
           "flip-v": true
         },
-        "model": "quantum:nuclear_boiler.obj",
+        "model": "quantum:reactor_cell_top.obj",
         "textures": {
-          "#None": "quantum:models/nuclear_boiler"
+          "#None": "quantum:models/reactor_cell_top"
         },
         "transform": "forge:default-block"
       }

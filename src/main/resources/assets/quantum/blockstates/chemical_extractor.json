@@ -5,7 +5,16 @@
       {}
     ],
     "inventory": [
-      {}
+      {
+        "custom": {
+          "flip-v": true
+        },
+        "model": "quantum:chemical_extractor.obj",
+        "textures": {
+          "#None": "quantum:models/chemical_extractor"
+        },
+        "transform": "forge:default-block"
+      }
     ]
   }
 }

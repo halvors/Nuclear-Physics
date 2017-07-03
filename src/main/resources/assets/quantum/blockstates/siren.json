@@ -1,10 +1,10 @@
 {
   "forge_marker": 1,
   "defaults": {
+    "model": "cube_all",
     "textures": {
       "all": "quantum:blocks/siren"
     },
-    "model": "cube_all",
     "uvlock": true
   },
   "variants": {

@@ -7,7 +7,8 @@
     "model": "quantum:plasma_heater.obj",
     "textures": {
       "#None": "quantum:models/plasma_heater"
-    }
+    },
+    "transform": "forge:default-block"
   },
   "variants": {
     "normal": [

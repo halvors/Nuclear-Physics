@@ -1,11 +1,10 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "textures": {
-      "all": "quantum:blocks/toxic_waste",
-      "flowing": "minestuck:blocks/BloodFlowing"
-    },
     "model": "cube_all",
+    "textures": {
+      "all": "quantum:blocks/toxic_waste"
+    },
     "uvlock": true
   },
   "variants": {

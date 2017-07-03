@@ -9,9 +9,9 @@
         "custom": {
           "flip-v": true
         },
-        "model": "quantum:nuclear_boiler.obj",
+        "model": "quantum:electric_turbine_small.obj",
         "textures": {
-          "#None": "quantum:models/nuclear_boiler"
+          "#None": "quantum:models/electric_turbine_small"
         },
         "transform": "forge:default-block"
       }
