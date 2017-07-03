@@ -3,6 +3,7 @@ package org.halvors.quantum.client.gui.debug;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
@@ -14,7 +15,6 @@ import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.location.Location;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
@@ -24,16 +24,16 @@ import java.io.IOException;
 public class GuiCreativeBuilder extends GuiContainerBase {
     private GuiTextField textFieldSize;
     private int mode = 0;
-    private Vector3 position;
+    private BlockPos pos;
 
     public ResourceLocation baseTexture;
     protected int containerWidth;
     protected int containerHeight;
 
-    public GuiCreativeBuilder(Vector3 position) {
+    public GuiCreativeBuilder(BlockPos pos) {
         super(new ContainerDummy());
 
-        this.position = position;
+        this.pos = pos;
         this.baseTexture = ResourceUtility.getResource(ResourceType.GUI, "gui_empty.png");
     }
 
@@ -104,7 +104,7 @@ public class GuiCreativeBuilder extends GuiContainerBase {
             }
 
             if (radius > 0) {
-                Quantum.getPacketHandler().sendToServer(new PacketCreativeBuilder(new Location(0, (int) position.x, (int) position.y, (int) position.z), mode, radius));
+                Quantum.getPacketHandler().sendToServer(new PacketCreativeBuilder(new Location(0, pos), mode, radius));
                 mc.player.closeScreen();
             }
         } else if (par1GuiButton.id == 1) {

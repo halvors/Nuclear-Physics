@@ -12,11 +12,11 @@ public class Location {
 	private final int y;
 	private final int z;
 
-	public Location(int dimensionId, int x, int y, int z) {
+	public Location(int dimensionId, BlockPos pos) {
 		this.dimensionId = dimensionId;
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		this.x = pos.getX();
+		this.y = pos.getY();
+		this.z = pos.getZ();
 	}
 
 	public Location(Entity entity) {
@@ -31,6 +31,13 @@ public class Location {
 		this.x = tileEntity.getPos().getX();
 		this.y = tileEntity.getPos().getY();
 		this.z = tileEntity.getPos().getZ();
+	}
+
+	public Location(int dimensionId, int x, int y, int z) {
+		this.dimensionId = dimensionId;
+		this.x = x;
+		this.y = y;
+		this.z = z;
 	}
 
 	public int getDimensionId() {

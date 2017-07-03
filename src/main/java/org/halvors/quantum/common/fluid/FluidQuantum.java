@@ -1,4 +1,4 @@
-package org.halvors.quantum.common;
+package org.halvors.quantum.common.fluid;
 
 import net.minecraftforge.fluids.Fluid;
 import org.halvors.quantum.common.utility.ResourceUtility;
