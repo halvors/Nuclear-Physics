@@ -47,9 +47,9 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
 
             if (player.isSneaking()) {
                 // TODO: Need to sync this between client and server in order for clients to be updated as well.
-                if (!world.isRemote) {
+                //if (!world.isRemote) {
                     return tileTurbine.getMultiBlock().toggleConstruct();
-                }
+                //}
             }
         }
 

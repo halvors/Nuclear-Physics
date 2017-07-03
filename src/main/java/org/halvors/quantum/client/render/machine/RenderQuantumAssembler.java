@@ -1,54 +1,75 @@
 package org.halvors.quantum.client.render.machine;
 
-/*
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.quantum.client.render.OBJBakedModel;
+import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
+import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.type.ResourceType;
+
+import java.util.Arrays;
+import java.util.Collections;
+
 @SideOnly(Side.CLIENT)
 public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantumAssembler> {
-    private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"));
-    private static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "quantumAssembler.png");
+    private static final OBJBakedModel modelPartHands = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("BackArmLower", "BackArmUpper", "FrontArmLower", "FrontArmUpper", "LeftArmLower", "LeftArmUpper", "RightArmLower", "RightArmUpper"));
+    private static final OBJBakedModel modelPartArms = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("MiddleRotor", "MiddleRotorArmBase", "MiddleRotorFocusLaser", "MiddleRotorLowerArm", "MiddleRotorUpperArm"));
+    private static final OBJBakedModel modelPartLargeArms = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("BottomRotor", "BottomRotorArmBase", "BottomRotorLowerArm", "BottomRotorResonatorArm", "BottomRotorUpperArm"));
+    private static final OBJBakedModel modelPartResonanceCrystal = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Collections.singletonList("ResonanceCrystal"));
+    private static final OBJBakedModel modelAll = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("Circuit1", "Circuit2", "Circuit3", "Circuit4", "ControlPad", "ControlPadRibbonCable", "ControlPadRibbonConnector", "MaterialPlinthBase", "MaterialPlinthCore", "MaterialPlinthStand", "PlinthBasePlate", "PlinthBaseRibbonConnector", "Ram1", "Ram2", "Ram3", "Ram4", "ResonatorAssembly", "ResonatorUnit", "SafetyGlassBack", "SafetyGlassFront", "SafetyGlassLeft", "SafetyGlassRight", "SafetyGlassTop"));
 
     @Override
     public void renderTileEntityAt(TileQuantumAssembler tile, double x, double y, double z, float partialTicks, int destroyStage) {
-        GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5, y, z + 0.5);
+        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-        String[] hands = new String[] {"Back Arm Upper", "Back Arm Lower", "Right Arm Upper", "Right Arm Lower", "Front Arm Upper", "Front Arm Lower", "Left Arm Upper", "Left Arm Lower"};
-        String[] arms = new String[] {"Middle Rotor Focus Lazer", "Middle Rotor Uppper Arm", "Middle Rotor Lower Arm", "Middle Rotor Arm Base", "Middle Rotor"};
-        String[] largeArms = new String[] {"Bottom Rotor Upper Arm", "Bottom Rotor Lower Arm", "Bottom Rotor Arm Base", "Bottom Rotor", "Bottom Rotor Resonator Arm"};
+        GlStateManager.pushMatrix();
 
-        RenderUtility.bind(texture);
+        // Translate to the location of our tile entity
+        GlStateManager.translate(x + 0.5, y, z + 0.5);
+        GlStateManager.disableRescaleNormal();
 
-        GL11.glPushMatrix();
-        GL11.glRotated(-tile.rotationYaw1, 0, 1, 0);
-        model.renderOnly(hands);
-        model.renderOnly("Resonance_Crystal");
-        GL11.glPopMatrix();
+        /*
+        if (tile.getWorld() != null) {
+            RenderUtility.rotateBlockBasedOnDirection(tile.getDirection());
+        }
+        */
+
+        GlStateManager.pushMatrix();
+        GlStateManager.rotate(-tile.rotationYaw1, 0, 1, 0);
+        modelPartHands.render();
+        modelPartResonanceCrystal.render();
+        GlStateManager.popMatrix();
 
         // Small Laser Arm.
-        GL11.glPushMatrix();
-        GL11.glRotated(tile.rotationYaw2, 0, 1, 0);
-        model.renderOnly(arms);
-
-        GL11.glPopMatrix();
+        GlStateManager.pushMatrix();
+        GlStateManager.rotate(tile.rotationYaw2, 0, 1, 0);
+        modelPartArms.render();
+        GlStateManager.popMatrix();
 
         // Large Laser Arm.
-        GL11.glPushMatrix();
-        GL11.glRotated(-tile.rotationYaw3, 0, 1, 0);
-        model.renderOnly(largeArms);
-        GL11.glPopMatrix();
+        GlStateManager.pushMatrix();
+        GlStateManager.rotate(-tile.rotationYaw3, 0, 1, 0);
+        modelPartLargeArms.render();
+        GlStateManager.popMatrix();
 
-        model.renderAllExcept(ArrayUtils.add(ArrayUtils.addAll(ArrayUtils.addAll(hands, arms), largeArms), "Resonance_Crystal"));
-        GL11.glPopMatrix();
+        modelAll.render();
+
+        GlStateManager.popMatrix();
 
         // Render the item.
-        RenderItem renderItem = ((RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class));
+        //RenderItem renderItem = ((RenderItem) RenderManager.instance.getEntityClassRenderObject(EntityItem.class));
 
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
 
+        /*
         if (tile.entityItem != null) {
-            renderItem.doRender(tileQuantumAssembler.entityItem, x + 0.5, y + 0.4, z + 0.5, 0, 0);
+            renderItem.doRender(tile.entityItem, x + 0.5, y + 0.4, z + 0.5, 0, 0);
         }
+        */
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 }
-*/

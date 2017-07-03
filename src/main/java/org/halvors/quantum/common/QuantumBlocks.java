@@ -6,7 +6,10 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.halvors.quantum.common.block.*;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.common.block.machine.*;
+import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
+import org.halvors.quantum.common.block.machine.BlockGasCentrifuge;
+import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
+import org.halvors.quantum.common.block.machine.BlockQuantumAssembler;
 import org.halvors.quantum.common.block.particle.BlockAccelerator;
 import org.halvors.quantum.common.block.particle.BlockFulmination;
 import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
@@ -36,7 +39,7 @@ public class QuantumBlocks {
     public static Block blockPlasma = new BlockPlasma();
     //fluidPlasma.setBlock(blockPlasma);
     public static Block blockPlasmaHeater = new BlockPlasmaHeater();
-    //public static Block blockQuantumAssembler = new BlockQuantumAssembler();
+    public static Block blockQuantumAssembler = new BlockQuantumAssembler();
     public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
     public static Block blockReactorCell = new BlockReactorCell();
     public static BlockFluidClassic blockToxicWaste = new BlockToxicWaste();
@@ -48,7 +51,7 @@ public class QuantumBlocks {
         register(blockAccelerator);
         register(blockChemicalExtractor);
         register(blockControlRod);
-        //register(blockElectricTurbine);
+        register(blockElectricTurbine);
         //register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
         register(blockFulmination);
         register(blockGasCentrifuge);
@@ -59,7 +62,7 @@ public class QuantumBlocks {
         register(blockUraniumOre);
         register(blockPlasma);
         register(blockPlasmaHeater);
-        //register(blockQuantumAssembler);
+        register(blockQuantumAssembler);
         register(blockRadioactiveGrass);
         //register(blockReactorCell);
         //register(blockToxicWaste);

@@ -11,7 +11,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -29,8 +28,10 @@ import org.halvors.quantum.client.gui.machine.GuiNuclearBoiler;
 import org.halvors.quantum.client.gui.machine.GuiQuantumAssembler;
 import org.halvors.quantum.client.gui.particle.GuiAccelerator;
 import org.halvors.quantum.client.gui.reactor.fission.GuiReactorCell;
-import org.halvors.quantum.client.render.OBJBakedModel;
-import org.halvors.quantum.client.render.machine.*;
+import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
+import org.halvors.quantum.client.render.machine.RenderGasCentrifuge;
+import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
+import org.halvors.quantum.client.render.machine.RenderQuantumAssembler;
 import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
 import org.halvors.quantum.client.render.reactor.fission.RenderThermometer;
 import org.halvors.quantum.common.CommonProxy;
@@ -106,7 +107,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderGasCentrifuge());
         ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
         ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
         //ClientRegistry.bindTileEntitySpecialRenderer(TilePlasmaHeater.class, new RenderPlasmaHeater());
         //ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
 
@@ -122,6 +123,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/chemical_extractor"));
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/gas_centrifuge"));
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/nuclear_boiler"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/quantum_assembler"));
 	}
 
 	@Override
