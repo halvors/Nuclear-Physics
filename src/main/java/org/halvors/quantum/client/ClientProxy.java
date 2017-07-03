@@ -29,8 +29,7 @@ import org.halvors.quantum.client.gui.machine.GuiQuantumAssembler;
 import org.halvors.quantum.client.gui.particle.GuiAccelerator;
 import org.halvors.quantum.client.gui.reactor.fission.GuiReactorCell;
 import org.halvors.quantum.client.render.OBJBakedModel;
-import org.halvors.quantum.client.render.machine.RenderChemicalExtractor;
-import org.halvors.quantum.client.render.machine.RenderChemicalExtractorTest;
+import org.halvors.quantum.client.render.machine.RenderChemicalExtractorMcJty;
 import org.halvors.quantum.client.render.machine.RenderGasCentrifuge;
 import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
 import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
@@ -47,7 +46,6 @@ import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 /**
  * This is the client proxy used only by the client.
@@ -63,7 +61,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
 	    // Register our domain to OBJLoader.
 		OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
-		OBJBakedModel.init();
+		//OBJBakedModel.init();
 
         // Item Variants
         /*
@@ -104,7 +102,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         //RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
 
         // Register special renderer.
-		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractorTest());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileChemicalExtractor.class, new RenderChemicalExtractorMcJty());
         ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
         ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderGasCentrifuge());
         ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
@@ -119,9 +117,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
 	@SubscribeEvent
 	public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
-		//event.getMap().registerSprite(new ResourceLocation(Reference.PREFIX + "models/chemical_extractor"));
-		event.getMap().registerSprite(new ResourceLocation(Reference.PREFIX + "models/gas_centrifuge"));
-		event.getMap().registerSprite(new ResourceLocation(Reference.PREFIX + "models/nuclear_boiler"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/chemical_extractor"));
 	}
 
     @Override
@@ -131,11 +127,12 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
 	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
-		Block block = world.getBlockState(new BlockPos(x, y, z)).getBlock();
+		BlockPos pos = new BlockPos(x, y, z);
+		TileEntity tile = world.getTileEntity(pos);
+		Block block = world.getBlockState(pos).getBlock();
 
 		if (block instanceof BlockCreativeBuilder) {
-			return new GuiCreativeBuilder(new Vector3(x, y, z));
+			return new GuiCreativeBuilder(pos);
 		}
 
 		if (tile instanceof TileAccelerator) {
