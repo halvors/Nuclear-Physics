@@ -19,4 +19,8 @@ public class ItemQuantum extends Item {
 		setRegistryName(Reference.ID, name);
 		setCreativeTab(Quantum.getCreativeTab());
 	}
+
+	public void registerItemModel() {
+		Quantum.getProxy().registerItemRenderer(this, 0, name);
+	}
 }
