@@ -12,7 +12,6 @@ public class ItemBucketToxicWaste extends ItemBucket {
 
         setUnlocalizedName("bucketToxicWaste");
         setRegistryName(Reference.ID, "bucketToxicWaste");
-        //setTextureName(Reference.PREFIX + "bucketToxicWaste");
         setContainerItem(Items.BUCKET);
         setCreativeTab(Quantum.getCreativeTab());
     }

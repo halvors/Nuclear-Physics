@@ -24,6 +24,12 @@ public class BlockMachine extends BlockContainerQuantum {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return false;
+    }
+
+    @Override
     public boolean isBlockNormalCube(IBlockState blockState) {
         return false;
     }
@@ -31,11 +37,6 @@ public class BlockMachine extends BlockContainerQuantum {
     @Override
     public boolean isOpaqueCube(IBlockState blockState) {
         return false;
-    }
-
-    @Override
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.MODEL;
     }
 
     @Override

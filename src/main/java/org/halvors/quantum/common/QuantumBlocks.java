@@ -64,7 +64,7 @@ public class QuantumBlocks {
         register(blockPlasmaHeater);
         register(blockQuantumAssembler);
         register(blockRadioactiveGrass);
-        //register(blockReactorCell);
+        register(blockReactorCell);
         //register(blockToxicWaste);
 
         register(blockCreativeBuilder);

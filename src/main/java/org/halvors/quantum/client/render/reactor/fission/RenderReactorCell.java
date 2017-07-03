@@ -1,20 +1,38 @@
 package org.halvors.quantum.client.render.reactor.fission;
 
-/*
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.quantum.client.render.ModelCube;
+import org.halvors.quantum.client.render.OBJBakedModel;
+import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
+import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.type.ResourceType;
+
+import java.util.Arrays;
+
 @SideOnly(Side.CLIENT)
 public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell> {
-    private static final IModel modelTop = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_top.obj"));
-    private static final IModel modelMiddle = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_middle.obj"));
-    private static final IModel modelBottom = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_bottom.obj"));
-    private static final ResourceLocation textureTop = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactorCellTop.png");
-    private static final ResourceLocation textureMiddle = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactorCellMiddle.png");
-    private static final ResourceLocation textureBottom = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactorCellBottom.png");
-    private static final ResourceLocation textureFissile = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactorFissileMaterial.png");
+    private static final OBJBakedModel modelTopBelow = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_top.obj"), Arrays.asList("Base", "BaseDepth", "BaseWidth", "BottomPad"));
+    private static final OBJBakedModel modelTop = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_top.obj"), Arrays.asList("BackLeftSpike", "BackRightSpike", "FrontLeftSpike", "FrontRightSpike", "HatCover", "HatDepth", "HatMiddle", "HatTop", "HatWidth", "MiddleBackLeft", "MiddleBackRight", "MiddleFrontLeft", "MiddleFrontRight", "MiddlePBack", "MiddlePFront", "MiddlePLeft", "MiddlePRight", "OPBackLeft", "OPBackRight", "OPFrontLeft", "OPFrontRight", "OPLeftBack", "OPLeftFront1", "OPLeftFront2", "OPRightBack", "TopBase", "TopBaseDepth", "TopBaseWidth"));
+    private static final OBJBakedModel modelMiddle = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_middle.obj"));
+    private static final OBJBakedModel modelBottom = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_bottom.obj"));
+
+    private static final ResourceLocation textureFissile = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "blocks/reactor_fissile_material.png");
 
     @Override
     public void renderTileEntityAt(TileReactorCell tile, double x, double y, double z, float partialTicks, int destroyStage) {
-        GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5, y, z + 0.5);
+        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+
+        GlStateManager.pushMatrix();
+
+        // Translate to the location of our tile entity
+        GlStateManager.translate(x + 0.5, y, z + 0.5);
+        GlStateManager.disableRescaleNormal();
 
         int metadata = 2;
 
@@ -22,28 +40,25 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
             metadata = tile.getBlockMetadata();
         }
 
-        boolean hasBelow = tile.getWorld() != null && tile.getWorld().getTileEntity(tile.getPos().up()) instanceof TileReactorCell;
+        boolean hasBelow = tile.getWorld().getTileEntity(tile.getPos().up()) instanceof TileReactorCell;
 
         switch (metadata) {
             case 0:
-                RenderUtility.bind(textureBottom);
-                modelBottom.renderAll();
+                modelBottom.render();
                 break;
 
             case 1:
-                RenderUtility.bind(textureMiddle);
-                modelMiddle.renderAll();
+                modelMiddle.render();
                 break;
 
             case 2:
-                RenderUtility.bind(textureTop);
-                GL11.glScaled(1, 1.3, 1);
+                GlStateManager.scale(1, 1.3, 1);
 
                 if (hasBelow) {
-                    GL11.glTranslated(0, -0.125, 0);
-                    modelTop.renderAllExcept("BottomPad", "BaseDepth", "BaseWidth", "Base");
+                    GlStateManager.translate(0, -0.125, 0);
+                    modelTopBelow.render();
                 } else {
-                    modelTop.renderAll();
+                    modelTop.render();
                 }
                 break;
         }
@@ -54,16 +69,16 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
         if (itemStackFuel != null) {
             float height = tile.getHeight() * (((float) itemStackFuel.getMaxDamage() - itemStackFuel.getMetadata()) / (float) itemStackFuel.getMaxDamage());
 
-            GL11.glPushMatrix();
-            RenderUtility.bind(textureFissile);
-            GL11.glScaled(0.4, 1.6 * height, 0.4);
-            RenderUtility.disableLighting();
+            bindTexture(textureFissile);
+
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(0.4, 1.6 * height, 0.4);
+            GlStateManager.disableLighting();
             ModelCube.instance.render();
-            RenderUtility.enableLighting();
-            GL11.glPopMatrix();
+            GlStateManager.enableLighting();
+            GlStateManager.popMatrix();
         }
 
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
     }
 }
-*/

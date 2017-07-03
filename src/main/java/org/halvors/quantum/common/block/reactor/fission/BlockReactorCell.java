@@ -11,6 +11,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockRotatable;
@@ -27,24 +29,21 @@ public class BlockReactorCell extends BlockRotatable {
         setResistance(1.0F);
     }
 
-    /*
     @Override
-    public boolean renderAsNormalBlock() {
-        return false;
-    }
-    */
-
-    @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    /*
     @SideOnly(Side.CLIENT)
-    public int getRenderType() {
-        return BlockRenderingHandler.getInstance().getRenderId();
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return false;
     }
-    */
+
+    @Override
+    public boolean isBlockNormalCube(IBlockState blockState) {
+        return false;
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState blockState) {
+        return false;
+    }
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {

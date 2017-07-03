@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
@@ -33,9 +34,11 @@ import org.halvors.quantum.client.render.machine.RenderGasCentrifuge;
 import org.halvors.quantum.client.render.machine.RenderNuclearBoiler;
 import org.halvors.quantum.client.render.machine.RenderQuantumAssembler;
 import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
+import org.halvors.quantum.client.render.reactor.fission.RenderReactorCell;
 import org.halvors.quantum.client.render.reactor.fission.RenderThermometer;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
@@ -109,7 +112,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
         //ClientRegistry.bindTileEntitySpecialRenderer(TilePlasmaHeater.class, new RenderPlasmaHeater());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
 
         // Register entity renderer.
 		//RenderingRegistry.registerEntityRenderingHandler(EntityParticle.class, new RenderParticle());
@@ -124,6 +127,9 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/gas_centrifuge"));
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/nuclear_boiler"));
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/quantum_assembler"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/reactor_cell_top"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/reactor_cell_middle"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/reactor_cell_bottom"));
 	}
 
 	@Override
