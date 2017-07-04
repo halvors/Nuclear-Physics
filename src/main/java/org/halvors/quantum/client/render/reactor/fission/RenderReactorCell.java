@@ -9,6 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.render.ModelCube;
 import org.halvors.quantum.client.render.OBJBakedModel;
+import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
@@ -22,7 +23,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
     private static final OBJBakedModel modelMiddle = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_middle.obj"));
     private static final OBJBakedModel modelBottom = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_bottom.obj"));
 
-    private static final ResourceLocation textureFissile = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "blocks/reactor_fissile_material.png");
+    private ResourceLocation textureFissile = new ResourceLocation(Reference.ID, "models/reactor_fissile_material.png");
 
     @Override
     public void renderTileEntityAt(TileReactorCell tile, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -31,7 +32,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
         GlStateManager.pushMatrix();
 
         // Translate to the location of our tile entity
-        GlStateManager.translate(x + 0.5, y, z + 0.5);
+        GlStateManager.translate(x, y, z);
         GlStateManager.disableRescaleNormal();
 
         int metadata = 2;
@@ -52,8 +53,6 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
                 break;
 
             case 2:
-                GlStateManager.scale(1, 1.3, 1);
-
                 if (hasBelow) {
                     GlStateManager.translate(0, -0.125, 0);
                     modelTopBelow.render();
@@ -72,9 +71,10 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
             bindTexture(textureFissile);
 
             GlStateManager.pushMatrix();
+            GlStateManager.translate(0.5, 0, 0.5);
             GlStateManager.scale(0.4, 1.6 * height, 0.4);
             GlStateManager.disableLighting();
-            ModelCube.instance.render();
+            ModelCube.getInstance().render();
             GlStateManager.enableLighting();
             GlStateManager.popMatrix();
         }
