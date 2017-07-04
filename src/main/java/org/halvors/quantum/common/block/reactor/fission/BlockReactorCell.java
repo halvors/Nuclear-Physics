@@ -32,24 +32,26 @@ public class BlockReactorCell extends BlockRotatable {
     }
 
     @Override
-    @Nonnull
+    @SuppressWarnings("deprecation")
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(@Nonnull IBlockState blockState, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EnumFacing side) {
         return false;
     }
 
     @Override
-    public boolean isBlockNormalCube(IBlockState blockState) {
+    @SuppressWarnings("deprecation")
+    public boolean isBlockNormalCube(@Nonnull IBlockState blockState) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState blockState) {
+    @SuppressWarnings("deprecation")
+    public boolean isOpaqueCube(@Nonnull IBlockState blockState) {
         return false;
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull EntityPlayer player, @Nonnull EnumHand hand, ItemStack itemStack, @Nonnull EnumFacing side, float hitX, float hitY, float hitZ) {
         TileReactorCell tile = (TileReactorCell) world.getTileEntity(pos);
 
         if (player.inventory.getCurrentItem() != null) {
@@ -87,7 +89,7 @@ public class BlockReactorCell extends BlockRotatable {
     }
 
     @Override
-    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighborPos) {
+    public void onNeighborChange(@Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull BlockPos neighborPos) {
         TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileReactorCell) {

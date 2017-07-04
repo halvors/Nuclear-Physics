@@ -25,17 +25,20 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
         return false;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean isBlockNormalCube(IBlockState blockState) {
         return false;
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }
