@@ -6,6 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.container.ContainerQuantum;
 import org.halvors.quantum.common.container.slot.SlotEnergyItem;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
@@ -60,7 +61,7 @@ public class ContainerGasCentrifuge extends ContainerQuantum {
                     if (!mergeItemStack(itemStack, 1, 2, false)) {
                         return null;
                     }
-                } else if (itemStack.getItem() == Quantum.itemCell) {
+                } else if (itemStack.getItem() == QuantumItems.itemCell) {
                     if (!mergeItemStack(itemStack, 3, 4, false)) {
                         return null;
                     }

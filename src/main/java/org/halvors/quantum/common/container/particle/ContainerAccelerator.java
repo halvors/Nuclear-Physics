@@ -6,6 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.container.ContainerQuantum;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 
@@ -38,7 +39,7 @@ public class ContainerAccelerator extends ContainerQuantum {
             copyStack = itemStack.copy();
 
             if (slotId > 2) {
-                if (itemStack.getItem() == Quantum.itemCell) {
+                if (itemStack.getItem() == QuantumItems.itemCell) {
                     if (!mergeItemStack(itemStack, 1, 2, false)) {
                         return null;
                     }

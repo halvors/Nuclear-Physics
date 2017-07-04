@@ -10,6 +10,7 @@ import net.minecraftforge.fluids.*;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
+import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
@@ -318,7 +319,7 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IFlu
         if (waterTank.getFluid() != null) {
             if (waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME) {
                 if (getStackInSlot(1) != null) {
-                    if (getStackInSlot(1).getItem() == Quantum.itemYellowCake || OreDictionaryUtility.isUraniumOre(getStackInSlot(1))) {
+                    if (getStackInSlot(1).getItem() == QuantumItems.itemYellowCake || OreDictionaryUtility.isUraniumOre(getStackInSlot(1))) {
                         if (gasTank.getFluid().amount < gasTank.getCapacity()) {
                             return true;
                         }

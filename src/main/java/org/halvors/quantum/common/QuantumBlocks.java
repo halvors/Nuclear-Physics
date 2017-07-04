@@ -21,7 +21,22 @@ import org.halvors.quantum.common.block.reactor.fission.BlockThermometer;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
 import org.halvors.quantum.common.block.reactor.fusion.BlockPlasmaHeater;
+import org.halvors.quantum.common.item.block.ItemBlockMetadata;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
+import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
+import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
+import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
+import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
+import org.halvors.quantum.common.tile.particle.TileFulmination;
+import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
+import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
+import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
+import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
+import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
+import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
+import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
+import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 
 public class QuantumBlocks {
     public static Block blockAccelerator = new BlockAccelerator();
@@ -46,13 +61,13 @@ public class QuantumBlocks {
 
     public static Block blockCreativeBuilder = new BlockCreativeBuilder();
 
+    // Register blocks.
     public static void register() {
-        // Register blocks.
         register(blockAccelerator);
         register(blockChemicalExtractor);
         register(blockControlRod);
         register(blockElectricTurbine);
-        //register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
+        register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
         register(blockFulmination);
         register(blockGasCentrifuge);
         register(blockGasFunnel);
@@ -65,9 +80,24 @@ public class QuantumBlocks {
         register(blockQuantumAssembler);
         register(blockRadioactiveGrass);
         register(blockReactorCell);
-        //register(blockToxicWaste);
+        register(blockToxicWaste);
 
         register(blockCreativeBuilder);
+
+        GameRegistry.registerTileEntity(TileAccelerator.class, "tileAccelerator");
+        GameRegistry.registerTileEntity(TileChemicalExtractor.class, "tileChemicalExtractor");
+        GameRegistry.registerTileEntity(TileElectricTurbine.class, "tileElectricTurbine");
+        GameRegistry.registerTileEntity(TileElectromagnet.class, "tileElectromagnet");
+        GameRegistry.registerTileEntity(TileFulmination.class, "tileFulmination");
+        GameRegistry.registerTileEntity(TileGasCentrifuge.class, "tileGasCentrifuge");
+        GameRegistry.registerTileEntity(TileGasFunnel.class, "tileGasFunnel");
+        GameRegistry.registerTileEntity(TileNuclearBoiler.class, "tileNuclearBoiler");
+        GameRegistry.registerTileEntity(TileSiren.class, "tileSiren");
+        GameRegistry.registerTileEntity(TileThermometer.class, "tileThermometer");
+        GameRegistry.registerTileEntity(TilePlasma.class, "tilePlasma");
+        GameRegistry.registerTileEntity(TilePlasmaHeater.class, "tilePlasmaHeater");
+        GameRegistry.registerTileEntity(TileQuantumAssembler.class, "tileQuantumAssembler");
+        GameRegistry.registerTileEntity(TileReactorCell.class, "tileReactorCell");
     }
 
     private static <T extends Block> T register(T block, ItemBlock itemBlock) {

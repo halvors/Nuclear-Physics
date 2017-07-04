@@ -9,6 +9,7 @@ import net.minecraftforge.fluids.*;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
+import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
@@ -273,7 +274,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     public boolean canProcess() {
         if (inputTank.getFluid() != null) {
             if (inputTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME && OreDictionaryUtility.isUraniumOre(getStackInSlot(inputSlot))) {
-                if (isItemValidForSlot(outputSlot, new ItemStack(Quantum.itemYellowCake))) {
+                if (isItemValidForSlot(outputSlot, new ItemStack(QuantumItems.itemYellowCake))) {
                     return true;
                 }
             }
@@ -303,7 +304,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
         if (canProcess()) {
             if (OreDictionaryUtility.isUraniumOre(getStackInSlot(inputSlot))) {
                 inputTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                incrStackSize(outputSlot, new ItemStack(Quantum.itemYellowCake, 3));
+                incrStackSize(outputSlot, new ItemStack(QuantumItems.itemYellowCake, 3));
                 decrStackSize(inputSlot, 1);
 
                 return true;

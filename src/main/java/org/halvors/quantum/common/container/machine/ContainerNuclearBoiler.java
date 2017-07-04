@@ -8,6 +8,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.QuantumFluids;
+import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.container.ContainerQuantum;
 import org.halvors.quantum.common.container.slot.SlotEnergyItem;
 import org.halvors.quantum.common.container.slot.SlotSpecific;
@@ -26,7 +27,7 @@ public class ContainerNuclearBoiler extends ContainerQuantum {
         addSlotToContainer(new SlotEnergyItem(tile, 0, 56, 26));
 
         // Yellowcake Input
-        addSlotToContainer(new SlotSpecific(tile, 1, 81, 26, new ItemStack(Quantum.itemYellowCake), new ItemStack(QuantumBlocks.blockUraniumOre)));
+        addSlotToContainer(new SlotSpecific(tile, 1, 81, 26, new ItemStack(QuantumItems.itemYellowCake), new ItemStack(QuantumBlocks.blockUraniumOre)));
 
         // Fluid input fill
         addSlotToContainer(new Slot(tile, 2, 25, 19));

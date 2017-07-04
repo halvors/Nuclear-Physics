@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.api.explosion.ExplosionEvent;
 import org.halvors.quantum.api.explosion.IExplosion;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.effect.explosion.AntimatterExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 
@@ -24,7 +25,7 @@ public class ExplosionEventHandler {
             if (itemStack != null) {
                 EntityItem entityItem = event.getEntityItem();
 
-                if (itemStack.getItem() == Quantum.itemAntimatterCell) {
+                if (itemStack.getItem() == QuantumItems.itemAntimatterCell) {
                     //event.getEntityItem().getEntityWorld().playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, Reference.PREFIX + "antimatter", 3F, 1F - entityItem.getEntityWorld().rand.nextFloat() * 0.3F);
 
                     if (!entityItem.getEntityWorld().isRemote) {

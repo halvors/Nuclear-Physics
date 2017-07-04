@@ -11,6 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileElectricInventory;
@@ -154,7 +155,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable, ITil
             return true;
         }
 
-        return itemStack.getItem() == Quantum.itemDarkMatterCell;
+        return itemStack.getItem() == QuantumItems.itemDarkMatterCell;
     }
 
     @Override
@@ -172,7 +173,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable, ITil
                         return false;
                     }
 
-                    if (getStackInSlot(i).getItem() != Quantum.itemDarkMatterCell) {
+                    if (getStackInSlot(i).getItem() != QuantumItems.itemDarkMatterCell) {
                         return false;
                     }
                 }

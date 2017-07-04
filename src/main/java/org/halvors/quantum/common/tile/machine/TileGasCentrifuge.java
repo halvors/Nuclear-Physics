@@ -14,6 +14,7 @@ import net.minecraftforge.fluids.*;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
+import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
@@ -176,7 +177,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, ITileNe
                 return true;
             case 2:
             case 3:
-                return itemStack.getItem() == Quantum.itemUranium;
+                return itemStack.getItem() == QuantumItems.itemUranium;
         }
 
         return false;
@@ -257,7 +258,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, ITileNe
     public boolean canProcess() {
         if (gasTank.getFluid() != null) {
             if (gasTank.getFluid().amount >= ConfigurationManager.General.uraniumHexaflourideRatio) {
-                return isItemValidForSlot(2, new ItemStack(Quantum.itemUranium)) && isItemValidForSlot(3, new ItemStack(Quantum.itemUranium, 1, 1));
+                return isItemValidForSlot(2, new ItemStack(QuantumItems.itemUranium)) && isItemValidForSlot(3, new ItemStack(QuantumItems.itemUranium, 1, 1));
             }
         }
 
@@ -269,9 +270,9 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, ITileNe
             gasTank.drain(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 
             if (world.rand.nextFloat() > 0.6) {
-                incrStackSize(2, new ItemStack(Quantum.itemUranium));
+                incrStackSize(2, new ItemStack(QuantumItems.itemUranium));
             } else {
-                incrStackSize(3, new ItemStack(Quantum.itemUranium, 1, 1));
+                incrStackSize(3, new ItemStack(QuantumItems.itemUranium, 1, 1));
             }
         }
     }
