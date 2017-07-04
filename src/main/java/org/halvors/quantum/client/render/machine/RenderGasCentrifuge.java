@@ -24,7 +24,7 @@ public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentri
         GlStateManager.pushMatrix();
 
         // Translate to the location of our tile entity
-        GlStateManager.translate(x + 0.5, y, z + 0.5);
+        GlStateManager.translate(x, y, z);
         GlStateManager.disableRescaleNormal();
 
         /*
@@ -34,7 +34,10 @@ public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentri
         */
 
         GlStateManager.pushMatrix();
+        GlStateManager.translate(0.5, 0, 0.5);
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
+        GlStateManager.translate(-0.5, 0, -0.5);
+
         modelPart.render();
         GlStateManager.popMatrix();
 
