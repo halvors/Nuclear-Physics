@@ -5,7 +5,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -14,9 +13,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.block.BlockRotatable;
 
-public class BlockMachine extends BlockContainerQuantum {
+public class BlockMachine extends BlockRotatable {
     public BlockMachine(String name) {
         super(name, Material.IRON);
 

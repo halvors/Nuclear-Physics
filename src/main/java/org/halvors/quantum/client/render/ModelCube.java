@@ -7,8 +7,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelCube extends ModelBase {
-    public static final ModelCube instance = new ModelCube();
-    private ModelRenderer cube;
+    private static final ModelCube instance = new ModelCube();
+    private static ModelRenderer cube;
 
     public ModelCube() {
         int size = 16;

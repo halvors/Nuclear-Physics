@@ -38,7 +38,7 @@ public class WorldUtility {
         }
     }
 
-    public static int getAngleFromForgeDirection(EnumFacing direction) {
+    public static int getAngleFromDirection(EnumFacing direction) {
         switch (direction) {
             case NORTH:
                 return 90;

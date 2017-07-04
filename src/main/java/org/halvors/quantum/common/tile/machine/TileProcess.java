@@ -12,7 +12,7 @@ import org.halvors.quantum.common.tile.TileElectricInventory;
 /*
  * General class for all machines that do traditional recipe processing.
  */
-public abstract class TileProcess extends TileElectricInventory implements ITickable {
+public abstract class TileProcess extends TileMachine implements ITickable {
     protected int inputSlot;
     protected int outputSlot;
 

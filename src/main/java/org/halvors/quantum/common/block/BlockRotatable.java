@@ -1,13 +1,46 @@
 package org.halvors.quantum.common.block;
 
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public abstract class BlockRotatable extends BlockContainerQuantum { //implements IRotatableBlock {
-    protected byte rotationMask = Byte.parseByte("111100", 2);
-    protected boolean isFlipPlacement = false;
+    public static final PropertyDirection facing = BlockHorizontal.FACING;
+
+    //protected byte rotationMask = Byte.parseByte("111100", 2);
+    //protected boolean isFlipPlacement = false;
 
     public BlockRotatable(String name, Material material) {
         super(name, material);
+
+        setDefaultState(blockState.getBaseState().withProperty(facing, EnumFacing.SOUTH));
+    }
+
+    @Override
+    public BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, facing);
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(facing).getHorizontalIndex();
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int metadata) {
+        return getDefaultState().withProperty(facing, EnumFacing.getHorizontal(metadata));
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
+        world.setBlockState(pos, state.withProperty(facing, entity.getHorizontalFacing()), 2);
     }
 
     /*

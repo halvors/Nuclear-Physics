@@ -21,6 +21,7 @@ import net.minecraftforge.common.model.IModelState;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -187,10 +188,6 @@ public class OBJBakedModel {
         renderModel(get(), getVertexFormat());
     }
 
-    public void renderOnly(List<String> parts) {
-        renderModel(get(), getVertexFormat());
-    }
-
     // ========================================================= STATIC METHODS
 
     private static boolean initialized = false;
@@ -214,11 +211,11 @@ public class OBJBakedModel {
 
     private static void renderModel(IBakedModel model, VertexFormat fmt) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer worldrenderer = tessellator.getBuffer();
-        worldrenderer.begin(GL11.GL_QUADS, fmt);
+        VertexBuffer vertexBuffer = tessellator.getBuffer();
+        vertexBuffer.begin(GL11.GL_QUADS, fmt);
 
         for (BakedQuad bakedquad : model.getQuads(null, null, 0)) {
-            worldrenderer.addVertexData(bakedquad.getVertexData());
+            vertexBuffer.addVertexData(bakedquad.getVertexData());
         }
 
         tessellator.draw();

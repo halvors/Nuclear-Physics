@@ -346,18 +346,4 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
 
         return false;
     }
-
-    /*
-    @Override
-    public EnumFacing getDirection() {
-        return EnumFacing.getFront(world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos)));
-    }
-
-    @Override
-    public void setDirection(EnumFacing direction) {
-        world.setBlockState(3)
-
-        world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
-    }
-    */
 }

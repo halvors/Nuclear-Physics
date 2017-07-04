@@ -9,6 +9,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.render.OBJBakedModel;
+import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
@@ -36,15 +37,10 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
         GlStateManager.translate(x, y, z);
         GlStateManager.disableRescaleNormal();
 
-        tile.rotationYaw1 += 0.5;
-        tile.rotationYaw2 += 0.5;
-        tile.rotationYaw3 += 0.5;
-
-        /*
-        if (tile.getWorld() != null) {
-            RenderUtility.rotateBlockBasedOnDirection(tile.getDirection());
-        }
-        */
+        // Rotate block based on direction.
+        GlStateManager.translate(1, 0, 1);
+        GlStateManager.rotate(180, 0, 1, 0);
+        RenderUtility.rotateBlockBasedOnDirection(tile.getDirection());
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5, 0, 0.5);
