@@ -27,40 +27,44 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer<TileElectri
     @Override
     public void renderTileEntityAt(TileElectricTurbine tile, double x, double y, double z, float partialTicks, int destroyStage) {
         if (tile.getMultiBlock().isPrimary()) {
+            bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+
             GlStateManager.pushMatrix();
 
             // Translate to the location of our tile entity
-            GlStateManager.translate(x + 0.5, y, z + 0.5);
+            GlStateManager.translate(x, y, z);
             GlStateManager.disableRescaleNormal();
 
             if (tile.getMultiBlock().isConstructed()) {
-                bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-
                 GlStateManager.pushMatrix();
+                GlStateManager.translate(0.5, 0, 0.5);
                 GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
+                GlStateManager.translate(-0.5, 0, -0.5);
                 modelLargeBladesSmall.render();
                 modelLargeBladesLarge.render();
                 GlStateManager.popMatrix();
 
                 GlStateManager.pushMatrix();
+                GlStateManager.translate(0.5, 0, 0.5);
                 GlStateManager.rotate((float) -Math.toDegrees(tile.rotation), 0, 1, 0);
+                GlStateManager.translate(-0.5, 0, -0.5);
                 modelLargeBladesMedium.render();
                 GlStateManager.popMatrix();
 
                 modelLargeAll.render();
             } else {
-                bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-
-                GlStateManager.scale(1, 1.1, 1);
-
                 GlStateManager.pushMatrix();
+                GlStateManager.translate(0.5, 0, 0.5);
                 GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
+                GlStateManager.translate(-0.5, 0, -0.5);
                 modelSmallBlades.render();
                 modelSmallShields.render();
                 GlStateManager.popMatrix();
 
                 GlStateManager.pushMatrix();
+                GlStateManager.translate(0.5, 0, 0.5);
                 GlStateManager.rotate((float) -Math.toDegrees(tile.rotation), 0, 1, 0);
+                GlStateManager.translate(-0.5, 0, -0.5);
                 modelSmallBladesMedium.render();
                 modelSmallShieldsMedium.render();
                 GlStateManager.popMatrix();

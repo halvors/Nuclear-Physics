@@ -121,15 +121,14 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	@SubscribeEvent
 	public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/chemical_extractor"));
-		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/electric_turbine_small"));
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/electric_turbine_large"));
-		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/chemical_extractor"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/electric_turbine_small"));
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/gas_centrifuge"));
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/nuclear_boiler"));
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/quantum_assembler"));
-		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/reactor_cell_top"));
-		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/reactor_cell_middle"));
 		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/reactor_cell_bottom"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/reactor_cell_middle"));
+		event.getMap().registerSprite(new ResourceLocation(Reference.ID, "models/reactor_cell_top"));
 	}
 
 	@Override
