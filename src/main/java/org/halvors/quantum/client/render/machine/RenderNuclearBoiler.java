@@ -25,7 +25,7 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer<TileNuclearBo
         GlStateManager.pushMatrix();
 
         // Translate to the location of our tile entity
-        GlStateManager.translate(x + 0.5, y, z + 0.5);
+        GlStateManager.translate(x, y, z);
         GlStateManager.disableRescaleNormal();
 
         /*
@@ -35,16 +35,16 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer<TileNuclearBo
         */
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0.312958, 0, 0.187042);
+        GlStateManager.translate(0.812958, 0, 0.687042);
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
-        GlStateManager.translate(-0.312958, 0, -0.187042);
+        GlStateManager.translate(-0.812958, 0, -0.687042);
         modelPart1.render();
         GlStateManager.popMatrix();
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0.312958, 0, -0.187042);
+        GlStateManager.translate(0.812958, 0, 0.312958);
         GlStateManager.rotate((float) -Math.toDegrees(tile.rotation), 0, 1, 0);
-        GlStateManager.translate(-0.312958, 0, 0.187042);
+        GlStateManager.translate(-0.812958, 0, -0.312958);
         modelPart2.render();
         GlStateManager.popMatrix();
 
