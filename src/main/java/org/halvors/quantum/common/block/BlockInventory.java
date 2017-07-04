@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public abstract class BlockInventory extends BlockRotatable {
@@ -17,7 +18,7 @@ public abstract class BlockInventory extends BlockRotatable {
     }
 
     @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
         dropEntireInventory(world, pos, state);
 
         super.breakBlock(world, pos, state);

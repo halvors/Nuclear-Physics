@@ -20,6 +20,8 @@ import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
+import javax.annotation.Nonnull;
+
 public class BlockReactorCell extends BlockRotatable {
     public BlockReactorCell() {
         super("reactor_cell", Material.IRON);
@@ -30,8 +32,9 @@ public class BlockReactorCell extends BlockRotatable {
     }
 
     @Override
+    @Nonnull
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
         return false;
     }
 
@@ -93,7 +96,8 @@ public class BlockReactorCell extends BlockRotatable {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
+    @Nonnull
+    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
         return new TileReactorCell();
     }
 }

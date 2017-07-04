@@ -13,6 +13,8 @@ import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.utility.WrenchUtility;
 
+import javax.annotation.Nonnull;
+
 public class BlockSiren extends BlockContainerQuantum {
     public BlockSiren() {
         super("siren", Material.IRON);
@@ -40,7 +42,8 @@ public class BlockSiren extends BlockContainerQuantum {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
+    @Nonnull
+    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
         return new TileSiren();
     }
 }

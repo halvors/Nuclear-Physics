@@ -9,7 +9,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 
-public class BlockGasFunnel extends BlockContainerQuantum { //implements IBlockCustomRender {
+import javax.annotation.Nonnull;
+
+public class BlockGasFunnel extends BlockContainerQuantum {
     public BlockGasFunnel() {
         super("gas_funnel", Material.IRON);
     }
@@ -20,7 +22,6 @@ public class BlockGasFunnel extends BlockContainerQuantum { //implements IBlockC
     public int getRenderBlockPass() {
         return 0;
     }
-    */
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -28,7 +29,6 @@ public class BlockGasFunnel extends BlockContainerQuantum { //implements IBlockC
         return false;
     }
 
-    /*
     @Override
     @SideOnly(Side.CLIENT)
     public ISimpleBlockRenderer getRenderer() {
@@ -37,7 +37,8 @@ public class BlockGasFunnel extends BlockContainerQuantum { //implements IBlockC
     */
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
+    @Nonnull
+    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
         return new TileGasFunnel();
     }
 }

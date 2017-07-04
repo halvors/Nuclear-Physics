@@ -15,6 +15,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 
+import javax.annotation.Nonnull;
+
 public class BlockElectricTurbine extends BlockContainerQuantum {
     public BlockElectricTurbine() {
         super("electric_turbine", Material.IRON);
@@ -24,7 +26,7 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
         return false;
     }
 
@@ -57,7 +59,7 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
     }
 
     @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
         TileEntity tileEntity = world.getTileEntity(pos);
 
         if (tileEntity instanceof TileElectricTurbine) {
@@ -69,7 +71,8 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
+    @Nonnull
+    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
         return new TileElectricTurbine();
     }
 }

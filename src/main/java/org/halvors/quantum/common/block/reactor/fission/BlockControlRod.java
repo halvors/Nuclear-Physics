@@ -8,12 +8,15 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.block.BlockQuantum;
 
+import javax.annotation.Nonnull;
+
 public class BlockControlRod extends BlockQuantum {
     public BlockControlRod() {
         super("control_rod", Material.IRON);
     }
 
     @Override
+    @Nonnull
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess access, BlockPos pos) {
         return new AxisAlignedBB(0.3125, 0, 0.3125, 0.6875, 1, 0.6875);
     }

@@ -15,7 +15,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockRotatable;
 
-public class BlockMachine extends BlockRotatable {
+import javax.annotation.Nonnull;
+
+public abstract class BlockMachine extends BlockRotatable {
     public BlockMachine(String name) {
         super(name, Material.IRON);
 
@@ -47,10 +49,5 @@ public class BlockMachine extends BlockRotatable {
         }
 
         return false;
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
-        return null;
     }
 }

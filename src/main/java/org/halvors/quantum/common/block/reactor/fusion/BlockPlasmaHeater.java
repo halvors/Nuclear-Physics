@@ -15,6 +15,8 @@ import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.utility.FluidUtility;
 
+import javax.annotation.Nonnull;
+
 public class BlockPlasmaHeater extends BlockContainerQuantum {
     public BlockPlasmaHeater() {
         super("plasma_heater", Material.IRON);
@@ -39,7 +41,6 @@ public class BlockPlasmaHeater extends BlockContainerQuantum {
     public boolean renderAsNormalBlock() {
         return false;
     }
-    */
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -47,8 +48,11 @@ public class BlockPlasmaHeater extends BlockContainerQuantum {
         return false;
     }
 
+    */
+
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
+    @Nonnull
+    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
         return new TilePlasmaHeater();
     }
 }

@@ -11,6 +11,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public abstract class BlockRotatable extends BlockContainerQuantum { //implements IRotatableBlock {
     public static final PropertyDirection facing = BlockHorizontal.FACING;
 
@@ -24,6 +26,7 @@ public abstract class BlockRotatable extends BlockContainerQuantum { //implement
     }
 
     @Override
+    @Nonnull
     public BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, facing);
     }
@@ -31,11 +34,6 @@ public abstract class BlockRotatable extends BlockContainerQuantum { //implement
     @Override
     public int getMetaFromState(IBlockState state) {
         return state.getValue(facing).getHorizontalIndex();
-    }
-
-    @Override
-    public IBlockState getStateFromMeta(int metadata) {
-        return getDefaultState().withProperty(facing, EnumFacing.getHorizontal(metadata));
     }
 
     @Override

@@ -18,8 +18,11 @@ import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Cuboid;
 
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class BlockPlasma extends BlockContainerQuantum {
     public BlockPlasma() {
@@ -32,29 +35,26 @@ public class BlockPlasma extends BlockContainerQuantum {
         return false;
     }
 
+    @Override
+    @Nonnull
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.TRANSLUCENT;
     }
 
     @Override
-    public int getLightValue(IBlockState state, IBlockAccess access, BlockPos pos) {
+    public int getLightValue(@Nonnull IBlockState state, IBlockAccess access, @Nonnull BlockPos pos) {
         return 7;
     }
 
     @Override
-    public boolean isBlockSolid(IBlockAccess access, BlockPos pos, EnumFacing side) {
+    public boolean isBlockSolid(IBlockAccess access, @Nonnull BlockPos pos, EnumFacing side) {
         return false;
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, World world, BlockPos pos) {
-        return new Cuboid().toAABB();
-    }
-
-    @Override
-    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-        return new ArrayList<>();
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
+        return null;
     }
 
     @Override
@@ -63,7 +63,14 @@ public class BlockPlasma extends BlockContainerQuantum {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
+    public int quantityDropped(Random random) {
+        return 0;
+    }
+
+
+    @Override
+    @Nonnull
+    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
         return new TilePlasma();
     }
 }

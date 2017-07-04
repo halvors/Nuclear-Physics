@@ -13,6 +13,8 @@ import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 
+import javax.annotation.Nonnull;
+
 public class BlockAccelerator extends BlockRotatable {
     public BlockAccelerator() {
         super("accelerator", Material.IRON);
@@ -30,7 +32,8 @@ public class BlockAccelerator extends BlockRotatable {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
+    @Nonnull
+    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
         return new TileAccelerator();
     }
 }

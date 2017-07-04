@@ -1,6 +1,5 @@
 package org.halvors.quantum.common.block.reactor.fusion;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -15,11 +14,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class BlockElectromagnet extends BlockContainerQuantum { //implements IBlockCustomRender {
+public class BlockElectromagnet extends BlockContainerQuantum {
     //private static IIcon iconTop, iconGlass;
 
     public BlockElectromagnet() {
@@ -54,12 +53,6 @@ public class BlockElectromagnet extends BlockContainerQuantum { //implements IBl
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getRenderType() {
-        return BlockRenderingHandler.getInstance().getRenderId();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public int getRenderBlockPass() {
         return 0;
     }
@@ -72,7 +65,8 @@ public class BlockElectromagnet extends BlockContainerQuantum { //implements IBl
     }
 
     @Override
-    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
+        /*
         Vector3 neighborPosition = new Vector3(pos.getX(), pos.getY(), pos.getZ()).translate(side.getOpposite());
         Block block = state.getBlock();
         int metadata = state.getBlock().getMetaFromState(state);
@@ -83,17 +77,18 @@ public class BlockElectromagnet extends BlockContainerQuantum { //implements IBl
         if (block == this && neighborBlock == this && metadata == 1 && neighborMetadata == 1) {
             return false;
         }
+        */
 
         return super.shouldSideBeRendered(state, world, pos, side);
     }
 
     @Override
     public int damageDropped(IBlockState state) {
-        return state.getBlock().getMetaFromState(state);
+        return getMetaFromState(state);
     }
 
     @Override
-    public void getSubBlocks(Item item, CreativeTabs creativeTabs, List list) {
+    public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
         super.getSubBlocks(item, creativeTabs, list);
 
         list.add(new ItemStack(item, 1, 1));
@@ -108,7 +103,8 @@ public class BlockElectromagnet extends BlockContainerQuantum { //implements IBl
     */
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
+    @Nonnull
+    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
         return new TileElectromagnet();
     }
 }

@@ -9,6 +9,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
 
+import javax.annotation.Nonnull;
+
 public class BlockFulmination extends BlockContainerQuantum { //implements IBlockCustomRender {
     public BlockFulmination() {
         super("fulmination", Material.IRON);
@@ -30,7 +32,6 @@ public class BlockFulmination extends BlockContainerQuantum { //implements IBloc
     public int getRenderType() {
         return BlockRenderingHandler.getInstance().getRenderId();
     }
-    */
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -38,7 +39,6 @@ public class BlockFulmination extends BlockContainerQuantum { //implements IBloc
         return false;
     }
 
-    /*
     @Override
     @SideOnly(Side.CLIENT)
     public ISimpleBlockRenderer getRenderer() {
@@ -47,7 +47,8 @@ public class BlockFulmination extends BlockContainerQuantum { //implements IBloc
     */
 
     @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
+    @Nonnull
+    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
         return new TileFulmination();
     }
 }
