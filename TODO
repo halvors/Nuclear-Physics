@@ -64,6 +64,9 @@ New features to add:
             - https://github.com/Spoutcraft/Spoutcraft/blob/master/conf/methods.csv https://github.com/Spoutcraft/Spoutcraft/blob/master/conf/fields.csv
             - https://github.com/ntzrmtthihu777/CreepyPastaCraft/blob/master/gradle/methods.csv https://github.com/ntzrmtthihu777/CreepyPastaCraft/blob/master/gradle/fields.csv
 
+        ConnectedTextures in json: https://github.com/baileyholl/Aura-Cascade/blob/MC188/src/main/resources/assets/aura/blockstates/fortifiedStone.json
+        http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/modification-development/2726011-is-it-possible-to-draw-parts-of-a-json-model-in
+
             (16.01.27) halvors: Anyone knows how to render obj models in a TESR in 1.10.2? I need to call some code to only render parts of the model. Also groups of the obj file like i could with the AdvancedModelLoader and IModelCustom on 1.7.10, any ideas?
             (16.03.15) Umbraco forlot rommet (quit: Ping timeout: 204 seconds).
             (16.08.19) ScottehBoeh forlot rommet (quit: Ping timeout: 200 seconds).

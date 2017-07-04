@@ -1,0 +1,35 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all",
+    "uvlock": true
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {
+        "transform": "forge:default-block"
+      }
+    ],
+    "type": {
+      "0": {
+        "textures": {
+          "particle": "quantum:blocks/electromagnet",
+          "down": "quantum:blocks/electromagnet_top",
+          "up": "quantum:blocks/electromagnet_top",
+          "north": "quantum:blocks/electromagnet",
+          "east": "quantum:blocks/electromagnet",
+          "south": "quantum:blocks/electromagnet",
+          "west": "quantum:blocks/electromagnet"
+        }
+      },
+      "1": {
+        "textures": {
+          "all": "quantum:blocks/electromagnet_glass"
+        }
+      }
+    }
+  }
+}

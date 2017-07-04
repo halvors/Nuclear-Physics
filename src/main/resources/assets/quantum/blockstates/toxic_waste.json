@@ -3,7 +3,8 @@
   "defaults": {
     "model": "cube_all",
     "textures": {
-      "all": "quantum:blocks/toxic_waste"
+      "still": "quantum:blocks/toxic_waste",
+      "flowing": "quantum:blocks/toxic_waste"
     },
     "uvlock": true
   },
