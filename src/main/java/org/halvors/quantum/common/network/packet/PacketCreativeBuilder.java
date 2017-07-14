@@ -1,11 +1,13 @@
 package org.halvors.quantum.common.network.packet;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.quantum.common.network.PacketHandler;
+import org.halvors.quantum.common.utility.PlayerUtility;
 import org.halvors.quantum.common.utility.location.Location;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
@@ -44,17 +46,15 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
         @Override
         public IMessage onMessage(PacketCreativeBuilder message, MessageContext messageContext) {
             Location location = message.getLocation();
+            EntityPlayer player = PacketHandler.getPlayer(messageContext);
             World world = PacketHandler.getWorld(messageContext);
 
-            if (!world.isRemote) {
-                // TODO: Only allow operators.
-
+            if (!world.isRemote && PlayerUtility.isOp(player)) {
                 try {
                     Vector3 position = new Vector3(location.getX(), location.getY(), location.getZ());
 
                     if (message.size > 0) {
-                        // TODO: EnumFacing.fromAngle() correct replacement for ForgeDirection.getOrientation()?
-                        /*HashMap<Vector3, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.fromAngle(position.getBlock(world)), message.size);
+                        /*HashMap<Vector3, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.getFront(position.getBlock(world)), message.size);
 
                         for (Map.Entry<Vector3, Pair<Block, Integer>> entry : map.entrySet()) {
                             Vector3 placePos = entry.getKey().clone();
