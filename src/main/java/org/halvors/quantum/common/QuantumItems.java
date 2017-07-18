@@ -11,7 +11,6 @@ import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell;
 import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
-import org.halvors.quantum.common.item.reactor.fission.ItemBucketToxicWaste;
 import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium;
 
@@ -27,7 +26,7 @@ public class QuantumItems {
     public static Item itemWaterCell = new ItemCell("cellWater");
 
     // Buckets
-    public static Item itemBucketToxicWaste = new ItemBucketToxicWaste();
+    //public static Item itemBucketToxicWaste = new ItemBucketToxicWaste();
 
     // Uranium
     public static Item itemUranium = new ItemUranium();
@@ -49,7 +48,7 @@ public class QuantumItems {
         register(itemFissileFuel);
         register(itemTritiumCell);
         register(itemWaterCell);
-        register(itemBucketToxicWaste);
+        //register(itemBucketToxicWaste);
 
         register(itemUranium);
         register(itemYellowCake);
@@ -66,9 +65,7 @@ public class QuantumItems {
         if (item instanceof ItemQuantum) {
             ((ItemQuantum) item).registerItemModel();
         }
-
-        // TODO: Handle itemblocks?
-
+        
         return item;
     }
 }

@@ -58,9 +58,7 @@ import org.halvors.quantum.common.utility.type.ResourceType;
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy implements IGuiHandler {
 	@Override
-	public void preInit(FMLPreInitializationEvent event) {
-	    super.preInit(event);
-
+	public void preInit() {
 	    // Register our domain to OBJLoader.
 		OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
 		//OBJBakedModel.init();
@@ -97,9 +95,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) {
-		super.init(event);
-
+	public void init() {
         // Register block rendering handler.
         //RenderingRegistry.registerBlockHandler(new BlockRenderingHandler());
 

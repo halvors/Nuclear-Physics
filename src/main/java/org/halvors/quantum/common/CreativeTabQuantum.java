@@ -1,8 +1,11 @@
 package org.halvors.quantum.common;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * This is a custom creative tab used only by this mod.
@@ -14,8 +17,9 @@ public class CreativeTabQuantum extends CreativeTabs {
 		super("tab" + Reference.NAME);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public Item getTabIconItem() {
-		return new ItemBlock(QuantumBlocks.blockReactorCell);
+		return Item.getItemFromBlock(QuantumBlocks.blockReactorCell);
 	}
 }

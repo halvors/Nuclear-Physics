@@ -2,15 +2,15 @@ package org.halvors.quantum.common;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -36,10 +36,8 @@ import org.halvors.quantum.common.schematic.SchematicAccelerator;
 import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
 import org.halvors.quantum.common.schematic.SchematicFissionReactor;
 import org.halvors.quantum.common.schematic.SchematicFusionReactor;
-import org.halvors.quantum.common.thermal.ThermalGrid;
+import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.tile.particle.FulminationHandler;
-
-import java.util.List;
 
 /**
  * This is the Quantum class, which is the main class of this mod.
@@ -52,9 +50,9 @@ import java.util.List;
      dependencies = "after:CoFHCore;" +
                     "after:Mekanism",
      guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
-public class Quantum implements IUpdatableMod {
+public class Quantum {
 	// The instance of your mod that Forge uses.
-	@Mod.Instance(value = Reference.ID)
+	@Instance(Reference.ID)
 	private static Quantum instance;
 
 	// Says where the client and server 'proxy' code is loaded.
@@ -76,7 +74,11 @@ public class Quantum implements IUpdatableMod {
 	// Grids
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
 
-	@Mod.EventHandler
+	static {
+		FluidRegistry.enableUniversalBucket();
+	}
+
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		// Initialize configuration.
         configuration = new Configuration(event.getSuggestedConfigurationFile());
@@ -84,31 +86,25 @@ public class Quantum implements IUpdatableMod {
 		// Load the configuration.
 		ConfigurationManager.loadConfiguration(configuration);
 
-		// Check for updates.
-		//FMLCommonHandler.instance().bus().register(new UpdateManager(this, Reference.RELEASE_URL, Reference.DOWNLOAD_URL));
-
 		// Mod integration.
 		logger.log(Level.INFO, "CoFHCore integration is " + (Integration.isCoFHCoreEnabled ? "enabled" : "disabled") + ".");
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
 		// Call functions for adding blocks, items, etc.
-		QuantumFluids.register();
+		//QuantumFluids.register();
 		QuantumBlocks.register();
 		QuantumItems.register();
 		registerEntities();
 		registerRecipes();
 
 		// Calling proxy handler.
-		proxy.preInit(event);
+		proxy.preInit();
 	}
 
-	@Mod.EventHandler
+	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		// Register event handlers.
 		MinecraftForge.EVENT_BUS.register(this);
-		FMLCommonHandler.instance().bus().register(new PlayerEventHandler());
-		MinecraftForge.EVENT_BUS.register(new ExplosionEventHandler());
-		MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
 
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
@@ -155,10 +151,10 @@ public class Quantum implements IUpdatableMod {
 		packetHandler.init();
 
 		// Calling proxy handler.
-		proxy.init(event);
+		proxy.init();
 	}
 
-	@Mod.EventHandler
+	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		if (!UpdateTicker.getInstance().isAlive()) {
 			UpdateTicker.getInstance().start();
@@ -168,7 +164,7 @@ public class Quantum implements IUpdatableMod {
 		UpdateTicker.addNetwork(thermalGrid);
 
 		// Calling proxy handler.
-		proxy.postInit(event);
+		proxy.postInit();
 	}
 
 	private void registerEntities() {
@@ -333,20 +329,5 @@ public class Quantum implements IUpdatableMod {
 
 	public static CreativeTabQuantum getCreativeTab() {
 		return creativeTab;
-	}
-
-	@Override
-	public String getModId() {
-		return Reference.ID;
-	}
-
-	@Override
-	public String getModName() {
-		return Reference.NAME;
-	}
-
-	@Override
-	public String getModVersion() {
-		return Reference.VERSION;
 	}
 }

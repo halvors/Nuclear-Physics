@@ -29,15 +29,15 @@ import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
  * @author halvors
  */
 public class CommonProxy implements IGuiHandler {
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit() {
 
 	}
 
-	public void init(FMLInitializationEvent event) {
+	public void init() {
 
 	}
 
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit() {
 
 	}
 

@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.api.explosion.ExplosionEvent;
 import org.halvors.quantum.api.explosion.IExplosion;
@@ -16,6 +17,7 @@ import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 
 import java.util.List;
 
+@EventBusSubscriber
 public class ExplosionEventHandler {
     @SubscribeEvent
     public void onItemExpireEvent(ItemExpireEvent event) {

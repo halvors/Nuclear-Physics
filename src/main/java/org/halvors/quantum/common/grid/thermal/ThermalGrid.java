@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.thermal;
+package org.halvors.quantum.common.grid.thermal;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

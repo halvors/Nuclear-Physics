@@ -5,7 +5,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.*;
-import org.halvors.quantum.common.thermal.IBoilHandler;
+import org.halvors.quantum.common.grid.thermal.IBoilHandler;
 
 public class TileGasFunnel extends TileEntity implements ITickable, IBoilHandler {
     private final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);

@@ -9,22 +9,20 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.QuantumFluids;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 
 import java.util.Random;
 
-public class BlockToxicWaste extends BlockFluidClassic {
-    public BlockToxicWaste() {
-        super(QuantumFluids.fluidToxicWaste, Material.WATER);
+public class BlockFluidToxicWaste extends BlockFluidClassic {
+    public BlockFluidToxicWaste(Fluid fluid, Material material) {
+        super(fluid, material);
 
-        setUnlocalizedName("toxic_waste");
-        setRegistryName(Reference.ID, "toxic_waste");
-        setCreativeTab(Quantum.getCreativeTab());
+        //setUnlocalizedName("toxic_waste");
+        //setRegistryName(Reference.ID, "toxic_waste");
+        //setCreativeTab(Quantum.getCreativeTab());
         setTickRate(20);
     }
 

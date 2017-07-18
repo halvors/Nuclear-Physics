@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.thermal;
+package org.halvors.quantum.common.grid.thermal;
 
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;

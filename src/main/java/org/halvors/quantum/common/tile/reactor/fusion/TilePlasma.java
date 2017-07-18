@@ -7,7 +7,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import org.halvors.quantum.common.event.PlasmaEvent;
-import org.halvors.quantum.common.thermal.ThermalGrid;
+import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 public class TilePlasma extends TileEntity implements ITickable {

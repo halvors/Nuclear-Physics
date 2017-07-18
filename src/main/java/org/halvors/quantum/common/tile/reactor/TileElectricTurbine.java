@@ -15,7 +15,7 @@ import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.thermal.IBoilHandler;
+import org.halvors.quantum.common.grid.thermal.IBoilHandler;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileElectric;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;

@@ -57,7 +57,6 @@ public class QuantumBlocks {
     public static Block blockQuantumAssembler = new BlockQuantumAssembler();
     public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
     public static Block blockReactorCell = new BlockReactorCell();
-    public static BlockFluidClassic blockToxicWaste = new BlockToxicWaste();
 
     public static Block blockCreativeBuilder = new BlockCreativeBuilder();
 
@@ -80,7 +79,6 @@ public class QuantumBlocks {
         register(blockQuantumAssembler);
         register(blockRadioactiveGrass);
         register(blockReactorCell);
-        register(blockToxicWaste);
 
         register(blockCreativeBuilder);
 
