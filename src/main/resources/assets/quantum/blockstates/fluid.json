@@ -4,6 +4,41 @@
 		"model": "forge:fluid"
 	},
 	"variants": {
+		"deuterium": [
+			{
+				"custom": {
+					"fluid": "deuterium"
+				}
+			}
+		],
+		"uranium_hexaflouride": [
+			{
+				"custom": {
+					"fluid": "uranium_hexaflouride"
+				}
+			}
+		],
+		"plasma": [
+			{
+				"custom": {
+					"fluid": "plasma"
+				}
+			}
+		],
+		"steam": [
+			{
+				"custom": {
+					"fluid": "steam"
+				}
+			}
+		],
+		"tritium": [
+			{
+				"custom": {
+					"fluid": "tritium"
+				}
+			}
+		],
 		"toxic_waste": [
 			{
 				"custom": {
@@ -22,27 +57,6 @@
 			{
 				"custom": {
 					"fluid": "normal_gas"
-				}
-			}
-		],
-		"static": [
-			{
-				"custom": {
-					"fluid": "static"
-				}
-			}
-		],
-		"static_gas": [
-			{
-				"custom": {
-					"fluid": "static_gas"
-				}
-			}
-		],
-		"finite": [
-			{
-				"custom": {
-					"fluid": "finite"
 				}
 			}
 		]

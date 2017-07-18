@@ -3,7 +3,7 @@
   "defaults": {
     "model": "cube_all",
     "textures": {
-      "all": "quantum:blocks/plasma"
+      "all": "quantum:fluids/plasma_still"
     },
     "uvlock": true
   },

@@ -21,12 +21,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class QuantumFluids {
-    public static final Fluid fluidDeuterium = new FluidQuantum("deuterium").setGaseous(true);
-    public static final Fluid fluidUraniumHexaflouride = new FluidQuantum("uranium_hexafluoride").setGaseous(true);
-    public static final Fluid fluidPlasma = new FluidQuantum("plasma").setGaseous(true);
-    public static final Fluid fluidSteam = new FluidQuantum("steam").setGaseous(true);
-    public static final Fluid fluidTritium = new FluidQuantum("tritium").setGaseous(true);
-
     public static FluidStack fluidStackDeuterium;
     public static FluidStack fluidStackUraniumHexaflouride;
     public static FluidStack fluidStackSteam;
@@ -44,6 +38,26 @@ public class QuantumFluids {
      */
     public static final Set<IFluidBlock> MOD_FLUID_BLOCKS = new HashSet<>();
 
+    public static final Fluid fluidDeuterium = createFluid("deuterium", false,
+            fluid -> fluid.setGaseous(true),
+            fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
+
+    public static final Fluid fluidUraniumHexaflouride = createFluid("uranium_hexafluoride", false,
+            fluid -> fluid.setGaseous(true),
+            fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
+
+    public static final Fluid fluidPlasma = createFluid("plasma", false,
+            fluid -> fluid.setGaseous(true),
+            fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
+
+    public static final Fluid fluidSteam = createFluid("steam", false,
+            fluid -> fluid.setGaseous(true),
+            fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
+
+    public static final Fluid fluidTritium = createFluid("tritium", false,
+            fluid -> fluid.setGaseous(true),
+            fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
+
     public static final Fluid fluidToxicWaste = createFluid("toxic_waste", false,
             fluid -> fluid.setLuminosity(10).setDensity(1600).setViscosity(100),
             fluid -> new BlockFluidToxicWaste(fluid, new MaterialLiquid(MapColor.ADOBE)));
@@ -55,10 +69,6 @@ public class QuantumFluids {
     public static final Fluid NORMAL_GAS = createFluid("normal_gas", true,
             fluid -> fluid.setLuminosity(10).setDensity(-1600).setViscosity(100).setGaseous(true),
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
-
-    public static final Fluid FINITE = createFluid("finite", false,
-            fluid -> fluid.setLuminosity(10).setDensity(800).setViscosity(1500),
-            fluid -> new BlockFluidFinite(fluid, new MaterialLiquid(MapColor.BLACK)));
 
     /**
      * Create a {@link Fluid} and its {@link IFluidBlock}, or use the existing ones if a fluid has already been registered with the same name.

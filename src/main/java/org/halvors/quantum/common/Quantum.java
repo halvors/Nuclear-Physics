@@ -75,7 +75,7 @@ public class Quantum {
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
 
 	static {
-		FluidRegistry.enableUniversalBucket();
+		FluidRegistry.enableUniversalBucket(); // Must be called before preInit
 	}
 
 	@EventHandler

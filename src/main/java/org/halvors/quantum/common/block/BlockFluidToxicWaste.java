@@ -19,7 +19,7 @@ import java.util.Random;
 public class BlockFluidToxicWaste extends BlockFluidClassic {
     public BlockFluidToxicWaste(Fluid fluid, Material material) {
         super(fluid, material);
-        
+
         setTickRate(20);
     }
 
