@@ -19,10 +19,7 @@ import java.util.Random;
 public class BlockFluidToxicWaste extends BlockFluidClassic {
     public BlockFluidToxicWaste(Fluid fluid, Material material) {
         super(fluid, material);
-
-        //setUnlocalizedName("toxic_waste");
-        //setRegistryName(Reference.ID, "toxic_waste");
-        //setCreativeTab(Quantum.getCreativeTab());
+        
         setTickRate(20);
     }
 

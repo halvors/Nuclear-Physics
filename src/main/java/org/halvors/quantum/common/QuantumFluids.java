@@ -103,8 +103,8 @@ public class QuantumFluids {
 
             for (final IFluidBlock fluidBlock : MOD_FLUID_BLOCKS) {
                 final Block block = (Block) fluidBlock;
+                block.setUnlocalizedName(fluidBlock.getFluid().getUnlocalizedName());
                 block.setRegistryName(Reference.ID, "fluid." + fluidBlock.getFluid().getName());
-                block.setUnlocalizedName(Reference.ID + ":" + fluidBlock.getFluid().getUnlocalizedName());
                 block.setCreativeTab(Quantum.getCreativeTab());
                 registry.register(block);
             }

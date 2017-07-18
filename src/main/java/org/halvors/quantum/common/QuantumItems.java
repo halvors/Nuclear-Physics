@@ -65,7 +65,7 @@ public class QuantumItems {
         if (item instanceof ItemQuantum) {
             ((ItemQuantum) item).registerItemModel();
         }
-        
+
         return item;
     }
 }

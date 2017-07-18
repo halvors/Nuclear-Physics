@@ -82,7 +82,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemTritiumCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellTritium", "inventory"));
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemWaterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellWater", "inventory"));
 
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemBucketToxicWaste, 0, new ModelResourceLocation(Reference.PREFIX + "bucketToxicWaste", "inventory"));
+        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemBucketToxicWaste, 0, new ModelResourceLocation(Reference.PREFIX + "bucketToxicWaste", "inventory"));
 
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemUranium, 0, new ModelResourceLocation(Reference.PREFIX + "uranium", "inventory"));
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemUranium, 1, new ModelResourceLocation(Reference.PREFIX + "uranium", "inventory"));
