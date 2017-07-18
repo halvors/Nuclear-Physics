@@ -31,12 +31,12 @@ public class QuantumFluids {
     /**
      * The fluids registered by this mod. Includes fluids that were already registered by another mod.
      */
-    public static final Set<Fluid> FLUIDS = new HashSet<>();
+    public static final Set<Fluid> fluids = new HashSet<>();
 
     /**
      * The fluid blocks from this mod only. Doesn't include blocks for fluids that were already registered by another mod.
      */
-    public static final Set<IFluidBlock> MOD_FLUID_BLOCKS = new HashSet<>();
+    public static final Set<IFluidBlock> fluidBlocks = new HashSet<>();
 
     public static final Fluid fluidDeuterium = createFluid("deuterium", false,
             fluid -> fluid.setGaseous(true),
@@ -90,12 +90,12 @@ public class QuantumFluids {
 
         if (useOwnFluid) {
             fluidPropertyApplier.accept(fluid);
-            MOD_FLUID_BLOCKS.add(blockFactory.apply(fluid));
+            fluidBlocks.add(blockFactory.apply(fluid));
         } else {
             fluid = FluidRegistry.getFluid(name);
         }
 
-        FLUIDS.add(fluid);
+        fluids.add(fluid);
 
         return fluid;
     }
@@ -111,7 +111,7 @@ public class QuantumFluids {
         public static void registerBlocks(RegistryEvent.Register<Block> event) {
             final IForgeRegistry<Block> registry = event.getRegistry();
 
-            for (final IFluidBlock fluidBlock : MOD_FLUID_BLOCKS) {
+            for (final IFluidBlock fluidBlock : fluidBlocks) {
                 final Block block = (Block) fluidBlock;
                 block.setUnlocalizedName(fluidBlock.getFluid().getUnlocalizedName());
                 block.setRegistryName(Reference.ID, "fluid." + fluidBlock.getFluid().getName());
@@ -129,7 +129,7 @@ public class QuantumFluids {
         public static void registerItems(RegistryEvent.Register<Item> event) {
             final IForgeRegistry<Item> registry = event.getRegistry();
 
-            for (final IFluidBlock fluidBlock : MOD_FLUID_BLOCKS) {
+            for (final IFluidBlock fluidBlock : fluidBlocks) {
                 final Block block = (Block) fluidBlock;
                 final ItemBlock itemBlock = new ItemBlock(block);
                 itemBlock.setRegistryName(block.getRegistryName());
@@ -142,7 +142,7 @@ public class QuantumFluids {
         registerTank(FluidRegistry.WATER);
         registerTank(FluidRegistry.LAVA);
 
-        for (final Fluid fluid : FLUIDS) {
+        for (final Fluid fluid : fluids) {
             registerBucket(fluid);
             registerTank(fluid);
         }

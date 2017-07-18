@@ -18,9 +18,6 @@ import org.halvors.quantum.common.Reference;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ModelEventHandler {
-	private static final ModelEventHandler INSTANCE = new ModelEventHandler();
-	private static final String FLUID_MODEL_PATH = Reference.PREFIX + "fluid";
-
 	private ModelEventHandler() {
 
 	}
@@ -31,15 +28,17 @@ public class ModelEventHandler {
 	 * @param event The event
 	 */
 	@SubscribeEvent
-	public static void registerAllModels(ModelRegistryEvent event) {
-		INSTANCE.registerFluidModels();
+	public void registerAllModels(ModelRegistryEvent event) {
+		registerFluidModels();
 	}
 
 	/**
 	 * Register this mod's {@link Fluid} models.
 	 */
 	private void registerFluidModels() {
-		QuantumFluids.MOD_FLUID_BLOCKS.forEach(this::registerFluidModel);
+		for (final IFluidBlock fluid : QuantumFluids.fluidBlocks) {
+			registerFluidModel(fluid);
+		}
 	}
 
 	/**
@@ -49,10 +48,12 @@ public class ModelEventHandler {
 	 */
 	private void registerFluidModel(IFluidBlock fluidBlock) {
 		final Item item = Item.getItemFromBlock((Block) fluidBlock);
-		final ModelResourceLocation modelResourceLocation = new ModelResourceLocation(FLUID_MODEL_PATH, fluidBlock.getFluid().getName());
+		final ModelResourceLocation modelResourceLocation = new ModelResourceLocation(Reference.PREFIX + "fluid", fluidBlock.getFluid().getName());
 
 		ModelBakery.registerItemVariants(item);
+
 		ModelLoader.setCustomMeshDefinition(item, MeshDefinitionFix.create(stack -> modelResourceLocation));
+
 		ModelLoader.setCustomStateMapper((Block) fluidBlock, new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState p_178132_1_) {
