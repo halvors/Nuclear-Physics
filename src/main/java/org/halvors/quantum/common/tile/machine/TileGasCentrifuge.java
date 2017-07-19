@@ -226,7 +226,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, ITileNe
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(QuantumFluids.fluidUraniumHexaflouride);
+        return fluid.equals(QuantumFluids.gasUraniumHexaflouride);
     }
 
     @Override

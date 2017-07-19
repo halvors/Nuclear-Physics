@@ -46,7 +46,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
     public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;
     private final float mass = ThermalPhysics.getMass(1000, 7);
-    public final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 15);
+    public final FluidTank tank = new FluidTank(Fluid.BUCKET_VOLUME * 15);
 
     private float temperature = ThermalPhysics.roomTemperature; // Synced
     private float previousTemperature = temperature;
@@ -94,11 +94,11 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
             }
         }
 
-        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().equals(QuantumFluids.fluidPlasma)) {
+        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().equals(QuantumFluids.plasma)) {
             // Spawn plasma.
-            FluidStack drain = tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false);
+            FluidStack drain = tank.drain(Fluid.BUCKET_VOLUME, false);
 
-            if (drain != null && drain.amount >= FluidContainerRegistry.BUCKET_VOLUME) {
+            if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
                 EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
                 Vector3 spawnPos = new Vector3(this).translate(spawnDir, 2);
                 spawnPos.translate(0, Math.max(world.rand.nextInt(getHeight()) - 1, 0), 0);
@@ -107,7 +107,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
 
                 if (world.isAirBlock(pos)) {
                     MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, pos, TilePlasma.plasmaMaxTemperature));
-                    tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+                    tank.drain(Fluid.BUCKET_VOLUME, true);
                 }
             }
         } else {
@@ -209,11 +209,11 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
 
                 if (block == Blocks.GRASS) {
                     world.setBlockState(leakPos, QuantumBlocks.blockRadioactiveGrass.getDefaultState());
-                    tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+                    tank.drain(Fluid.BUCKET_VOLUME, true);
                 } else if (block == Blocks.AIR || block.isReplaceable(world, leakPos)) {
                     if (tank.getFluid() != null) {
                         world.setBlockState(leakPos, tank.getFluid().getFluid().getBlock().getDefaultState());
-                        tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+                        tank.drain(Fluid.BUCKET_VOLUME, true);
                     }
                 }
             }
@@ -356,7 +356,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(QuantumFluids.fluidPlasma);
+        return fluid.equals(QuantumFluids.plasma);
     }
 
     @Override

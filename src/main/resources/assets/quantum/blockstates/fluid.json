@@ -45,20 +45,6 @@
 					"fluid": "toxic_waste"
 				}
 			}
-		],
-		"normal": [
-			{
-				"custom": {
-					"fluid": "normal"
-				}
-			}
-		],
-		"normal_gas": [
-			{
-				"custom": {
-					"fluid": "normal_gas"
-				}
-			}
 		]
 	}
 }

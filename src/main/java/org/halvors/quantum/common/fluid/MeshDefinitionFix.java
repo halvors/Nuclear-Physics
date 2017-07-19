@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
  *
  * @author diesieben07
  */
-interface MeshDefinitionFix extends ItemMeshDefinition {
+public interface MeshDefinitionFix extends ItemMeshDefinition {
 	ModelResourceLocation getLocation(ItemStack stack);
 
 	// Helper method to easily create lambda instances of this class

@@ -39,7 +39,7 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITickable
                 if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= plasmaHeatAmount) {
                     tankInputDeuterium.drain(plasmaHeatAmount, true);
                     tankInputTritium.drain(plasmaHeatAmount, true);
-                    tankOutput.fill(new FluidStack(QuantumFluids.fluidPlasma, plasmaHeatAmount), true);
+                    tankOutput.fill(new FluidStack(QuantumFluids.plasma, plasmaHeatAmount), true);
 
                     energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
                 }
@@ -211,12 +211,12 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITickable
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(QuantumFluids.fluidDeuterium) || fluid.equals(QuantumFluids.fluidTritium);
+        return fluid.equals(QuantumFluids.gasDeuterium) || fluid.equals(QuantumFluids.gasTritium);
     }
 
     @Override
     public boolean canDrain(EnumFacing from, Fluid fluid) {
-        return fluid.equals(QuantumFluids.fluidPlasma);
+        return fluid.equals(QuantumFluids.plasma);
     }
 
     @Override

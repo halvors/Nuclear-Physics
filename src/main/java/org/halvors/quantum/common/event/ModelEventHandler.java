@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.fluid;
+package org.halvors.quantum.common.event;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -15,12 +15,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.fluid.MeshDefinitionFix;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ModelEventHandler {
-	private ModelEventHandler() {
-
-	}
+	private static final ModelEventHandler instance = new ModelEventHandler();
 
 	/**
 	 * Register this mod's {@link Fluid}, {@link Block} and {@link Item} models.
@@ -28,8 +27,8 @@ public class ModelEventHandler {
 	 * @param event The event
 	 */
 	@SubscribeEvent
-	public void registerAllModels(ModelRegistryEvent event) {
-		registerFluidModels();
+	public static void registerAllModels(ModelRegistryEvent event) {
+		instance.registerFluidModels();
 	}
 
 	/**

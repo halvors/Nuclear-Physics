@@ -196,7 +196,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
 
     @Override
     public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(FluidRegistry.WATER) || fluid.equals(QuantumFluids.fluidDeuterium);
+        return fluid.equals(FluidRegistry.WATER) || fluid.equals(QuantumFluids.gasDeuterium);
     }
 
     @Override
@@ -281,13 +281,13 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
 
             if (outputTank.getFluidAmount() < outputTank.getCapacity()) {
                 if (inputTank.getFluid().equals(QuantumFluids.fluidStackDeuterium) && inputTank.getFluid().amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
-                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(QuantumFluids.fluidTritium)) {
+                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(QuantumFluids.gasTritium)) {
                         return true;
                     }
                 }
 
                 if (inputTank.getFluid().equals(QuantumFluids.fluidStackWater) && inputTank.getFluid().amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
-                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(QuantumFluids.fluidDeuterium)) {
+                    if (outputTank.getFluid() == null || outputTank.getFluid().equals(QuantumFluids.gasDeuterium)) {
                         return true;
                     }
                 }
@@ -320,7 +320,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
             FluidStack drain = inputTank.drain(waterUsage * extractSpeed, false);
 
             if (drain != null && drain.amount >= 1 && drain.equals(FluidRegistry.WATER)) {
-                if (outputTank.fill(new FluidStack(QuantumFluids.fluidDeuterium, extractSpeed), true) >= extractSpeed) {
+                if (outputTank.fill(new FluidStack(QuantumFluids.gasDeuterium, extractSpeed), true) >= extractSpeed) {
                     inputTank.drain(waterUsage * extractSpeed, true);
 
                     return true;
@@ -336,8 +336,8 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
             int deutermiumUsage = ConfigurationManager.General.deutermiumPerTritium;
             FluidStack drain = inputTank.drain(deutermiumUsage * extractSpeed, false);
 
-            if (drain != null && drain.amount >= 1 && drain.equals(QuantumFluids.fluidDeuterium)) {
-                if (outputTank.fill(new FluidStack(QuantumFluids.fluidTritium, extractSpeed), true) >= extractSpeed) {
+            if (drain != null && drain.amount >= 1 && drain.equals(QuantumFluids.gasDeuterium)) {
+                if (outputTank.fill(new FluidStack(QuantumFluids.gasTritium, extractSpeed), true) >= extractSpeed) {
                     inputTank.drain(deutermiumUsage * extractSpeed, true);
 
                     return true;

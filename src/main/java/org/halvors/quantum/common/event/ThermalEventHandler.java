@@ -109,7 +109,7 @@ public class ThermalEventHandler {
                     if (fluidSteam != null) {
                         // TODO: INCORRECT!
                         int steamMultiplier = 1; // Add this as configuration option?
-                        int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.temperature / ThermalPhysics.waterBoilTemperature) * steamMultiplier);
+                        int volume = (int) (Fluid.BUCKET_VOLUME * (event.temperature / ThermalPhysics.waterBoilTemperature) * steamMultiplier);
 
                         MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(fluidSteam, volume), 2, event.isReactor));
                     }

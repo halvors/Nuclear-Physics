@@ -8,26 +8,17 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.*;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import org.halvors.quantum.common.block.BlockFluidToxicWaste;
-import org.halvors.quantum.common.fluid.FluidQuantum;
 
-import java.sql.Ref;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class QuantumFluids {
-    public static FluidStack fluidStackDeuterium;
-    public static FluidStack fluidStackUraniumHexaflouride;
-    public static FluidStack fluidStackSteam;
-    public static FluidStack fluidStackTritium;
-    public static FluidStack fluidStackToxicWaste;
-    public static FluidStack fluidStackWater;
-
     /**
      * The fluids registered by this mod. Includes fluids that were already registered by another mod.
      */
@@ -38,37 +29,36 @@ public class QuantumFluids {
      */
     public static final Set<IFluidBlock> fluidBlocks = new HashSet<>();
 
-    public static final Fluid fluidDeuterium = createFluid("deuterium", false,
+    public static final Fluid gasDeuterium = createFluid("deuterium", false,
             fluid -> fluid.setGaseous(true),
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
-    public static final Fluid fluidUraniumHexaflouride = createFluid("uranium_hexafluoride", false,
+    public static final Fluid gasUraniumHexaflouride = createFluid("uranium_hexafluoride", false,
             fluid -> fluid.setGaseous(true),
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
-    public static final Fluid fluidPlasma = createFluid("plasma", false,
+    public static final Fluid plasma = createFluid("plasma", false,
             fluid -> fluid.setGaseous(true),
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
-    public static final Fluid fluidSteam = createFluid("steam", false,
+    public static final Fluid gasSteam = createFluid("steam", false,
             fluid -> fluid.setGaseous(true),
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
-    public static final Fluid fluidTritium = createFluid("tritium", false,
+    public static final Fluid gasTritium = createFluid("tritium", false,
             fluid -> fluid.setGaseous(true),
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
     public static final Fluid fluidToxicWaste = createFluid("toxic_waste", false,
-            fluid -> fluid.setLuminosity(10).setDensity(1600).setViscosity(100),
+            fluid -> fluid.setDensity(100).setViscosity(100),
             fluid -> new BlockFluidToxicWaste(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
-    public static final Fluid NORMAL = createFluid("normal", true,
-            fluid -> fluid.setLuminosity(10).setDensity(1600).setViscosity(100),
-            fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
-
-    public static final Fluid NORMAL_GAS = createFluid("normal_gas", true,
-            fluid -> fluid.setLuminosity(10).setDensity(-1600).setViscosity(100).setGaseous(true),
-            fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
+    public static final FluidStack fluidStackDeuterium = new FluidStack(FluidRegistry.getFluid("deuterium"), 0);
+    public static final FluidStack fluidStackUraniumHexaflouride = new FluidStack(FluidRegistry.getFluid("uranium_hexafluoride"), 0);
+    public static final FluidStack fluidStackSteam = new FluidStack(FluidRegistry.getFluid("steam"), 0);
+    public static final FluidStack fluidStackTritium = new FluidStack(FluidRegistry.getFluid("tritium"), 0);
+    public static final FluidStack fluidStackToxicWaste = new FluidStack(FluidRegistry.getFluid("toxic_waste"), 0);
+    public static final FluidStack fluidStackWater = new FluidStack(FluidRegistry.WATER, 0);
 
     /**
      * Create a {@link Fluid} and its {@link IFluidBlock}, or use the existing ones if a fluid has already been registered with the same name.
@@ -81,7 +71,6 @@ public class QuantumFluids {
      */
     private static <T extends Block & IFluidBlock> Fluid createFluid(String name, boolean hasFlowIcon, Consumer<Fluid> fluidPropertyApplier, Function<Fluid, T> blockFactory) {
         final String texturePrefix = Reference.PREFIX + "fluids/";
-
         final ResourceLocation still = new ResourceLocation(texturePrefix + name + "_still");
         final ResourceLocation flowing = hasFlowIcon ? new ResourceLocation(texturePrefix + name + "_flow") : still;
 
@@ -100,7 +89,7 @@ public class QuantumFluids {
         return fluid;
     }
 
-    @Mod.EventBusSubscriber
+    @EventBusSubscriber
     public static class RegistrationHandler {
         /**
          * Register this mod's fluid {@link Block}s.
@@ -116,6 +105,7 @@ public class QuantumFluids {
                 block.setUnlocalizedName(fluidBlock.getFluid().getUnlocalizedName());
                 block.setRegistryName(Reference.ID, "fluid." + fluidBlock.getFluid().getName());
                 block.setCreativeTab(Quantum.getCreativeTab());
+
                 registry.register(block);
             }
         }
@@ -133,75 +123,26 @@ public class QuantumFluids {
                 final Block block = (Block) fluidBlock;
                 final ItemBlock itemBlock = new ItemBlock(block);
                 itemBlock.setRegistryName(block.getRegistryName());
+
                 registry.register(itemBlock);
             }
+
+            registerFluidContainers();
         }
     }
 
     public static void registerFluidContainers() {
-        registerTank(FluidRegistry.WATER);
-        registerTank(FluidRegistry.LAVA);
-
         for (final Fluid fluid : fluids) {
-            registerBucket(fluid);
-            registerTank(fluid);
+            if (!fluid.isGaseous()) {
+                FluidRegistry.addBucketForFluid(fluid);
+            }
         }
     }
-
-    private static void registerBucket(Fluid fluid) {
-        FluidRegistry.addBucketForFluid(fluid);
-    }
-
-    private static void registerTank(Fluid fluid) {
-		/*
-		final FluidStack fluidStack = new FluidStack(fluid, TileEntityFluidTank.CAPACITY);
-
-		final Item item = Item.getItemFromBlock(ModBlocks.FLUID_TANK);
-		assert item instanceof ItemFluidTank;
-
-		((ItemFluidTank) item).addFluid(fluidStack);
-		*/
-    }
 }
-    /*
-    public static final Fluid fluidDeuterium = new FluidQuantum("deuterium").setGaseous(true);
-    public static final Fluid fluidUraniumHexaflouride = new FluidQuantum("uranium_hexafluoride").setGaseous(true);
-    public static final Fluid fluidPlasma = new FluidQuantum("plasma").setGaseous(true);
-    public static final Fluid fluidSteam = new FluidQuantum("steam").setGaseous(true);
-    public static final Fluid fluidTritium = new FluidQuantum("tritium").setGaseous(true);
-    public static final Fluid fluidToxicWaste = new FluidQuantum("toxic_waste");
-
-    public static FluidStack fluidStackDeuterium;
-    public static FluidStack fluidStackUraniumHexaflouride;
-    public static FluidStack fluidStackSteam;
-    public static FluidStack fluidStackTritium;
-    public static FluidStack fluidStackToxicWaste;
-    public static FluidStack fluidStackWater;
-
-    public static void register() {
-        // Register fluids.
-        FluidRegistry.registerFluid(fluidDeuterium);
-        FluidRegistry.registerFluid(fluidUraniumHexaflouride);
-        FluidRegistry.registerFluid(fluidPlasma);
-        FluidRegistry.registerFluid(fluidSteam);
-        FluidRegistry.registerFluid(fluidTritium);
-        FluidRegistry.registerFluid(fluidToxicWaste);
-
-        fluidStackDeuterium = new FluidStack(fluidDeuterium, 0);
-        fluidStackUraniumHexaflouride = new FluidStack(fluidUraniumHexaflouride, 0);
-        fluidStackSteam = new FluidStack(fluidSteam, 0);
-        fluidStackTritium = new FluidStack(fluidTritium, 0);
-        fluidStackToxicWaste = new FluidStack(fluidToxicWaste, 0);
-        fluidStackWater = new FluidStack(FluidRegistry.WATER, 0);
-
-
-        FluidRegistry.addBucketForFluid(fluidToxicWaste);
-
-        // Register fluid containers.
-        FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("deuterium"), 200), new ItemStack(itemDeuteriumCell), new ItemStack(itemCell));
-        FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("tritium"), 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
-        FluidContainerRegistry.registerFluidContainer(fluidToxicWaste, new ItemStack(itemBucketToxicWaste), new ItemStack(Items.BUCKET));
-        FluidContainerRegistry.registerFluidContainer(FluidRegistry.WATER, new ItemStack(itemWaterCell), new ItemStack(itemCell));
-    }
-}
+/*
+    // Register fluid containers.
+    FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("deuterium"), 200), new ItemStack(itemDeuteriumCell), new ItemStack(itemCell));
+    FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.getFluid("tritium"), 200), new ItemStack(itemTritiumCell), new ItemStack(itemCell));
+    FluidContainerRegistry.registerFluidContainer(fluidToxicWaste, new ItemStack(itemBucketToxicWaste), new ItemStack(Items.BUCKET));
+    FluidContainerRegistry.registerFluidContainer(FluidRegistry.WATER, new ItemStack(itemWaterCell), new ItemStack(itemCell));
 */
