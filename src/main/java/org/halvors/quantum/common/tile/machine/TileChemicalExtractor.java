@@ -22,8 +22,8 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     private static final int extractSpeed = 100;
     public static final int energy = 20000;
 
-    public final FluidTank inputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10); // Synced
-    public final FluidTank outputTank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10); // Synced
+    public final FluidTank inputTank = new FluidTank(Fluid.BUCKET_VOLUME * 10); // Synced
+    public final FluidTank outputTank = new FluidTank(Fluid.BUCKET_VOLUME * 10); // Synced
 
     // How many ticks has this item been extracting for?
     public int timer = 0; // Synced
@@ -273,7 +273,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
 
     public boolean canProcess() {
         if (inputTank.getFluid() != null) {
-            if (inputTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME && OreDictionaryUtility.isUraniumOre(getStackInSlot(inputSlot))) {
+            if (inputTank.getFluid().amount >= Fluid.BUCKET_VOLUME && OreDictionaryUtility.isUraniumOre(getStackInSlot(inputSlot))) {
                 if (isItemValidForSlot(outputSlot, new ItemStack(QuantumItems.itemYellowCake))) {
                     return true;
                 }
@@ -303,7 +303,7 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     public boolean refineUranium() {
         if (canProcess()) {
             if (OreDictionaryUtility.isUraniumOre(getStackInSlot(inputSlot))) {
-                inputTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+                inputTank.drain(Fluid.BUCKET_VOLUME, true);
                 incrStackSize(outputSlot, new ItemStack(QuantumItems.itemYellowCake, 3));
                 decrStackSize(inputSlot, 1);
 

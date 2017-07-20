@@ -7,7 +7,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import org.halvors.quantum.api.recipe.MachineRecipes;
 import org.halvors.quantum.api.recipe.RecipeResource;
-import org.halvors.quantum.common.tile.TileElectricInventory;
 
 /*
  * General class for all machines that do traditional recipe processing.

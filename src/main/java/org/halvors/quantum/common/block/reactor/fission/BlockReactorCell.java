@@ -40,7 +40,7 @@ public class BlockReactorCell extends BlockRotatable {
 
     @Override
     @SuppressWarnings("deprecation")
-    public boolean isBlockNormalCube(@Nonnull IBlockState blockState) {
+    public boolean isFullCube(@Nonnull IBlockState blockState) {
         return false;
     }
 
@@ -52,7 +52,7 @@ public class BlockReactorCell extends BlockRotatable {
 
     @Override
     public boolean onBlockActivated(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull EntityPlayer player, @Nonnull EnumHand hand, ItemStack itemStack, @Nonnull EnumFacing side, float hitX, float hitY, float hitZ) {
-        TileReactorCell tile = (TileReactorCell) world.getTileEntity(pos);
+        final TileReactorCell tile = (TileReactorCell) world.getTileEntity(pos);
 
         if (player.inventory.getCurrentItem() != null) {
             if (tile.getStackInSlot(0) == null) {
@@ -81,16 +81,16 @@ public class BlockReactorCell extends BlockRotatable {
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entityLiving, ItemStack itemStack) {
-        TileEntity tileEntity = world.getTileEntity(pos);
+        final TileEntity tile = world.getTileEntity(pos);
 
-        if (tileEntity instanceof TileReactorCell) {
-            ((TileReactorCell) tileEntity).updatePositionStatus();
+        if (tile instanceof TileReactorCell) {
+            ((TileReactorCell) tile).updatePositionStatus();
         }
     }
 
     @Override
     public void onNeighborChange(@Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull BlockPos neighborPos) {
-        TileEntity tile = world.getTileEntity(pos);
+        final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileReactorCell) {
             ((TileReactorCell) tile).updatePositionStatus();

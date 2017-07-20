@@ -22,8 +22,8 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IFlu
     public static final int tickTime = 20 * 15;
     public static final int energy = 21000;
 
-    public final FluidTank waterTank = new FluidTank(QuantumFluids.fluidStackWater.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
-    public final FluidTank gasTank = new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
+    public final FluidTank waterTank = new FluidTank(QuantumFluids.fluidStackWater.copy(), Fluid.BUCKET_VOLUME * 5); // Synced
+    public final FluidTank gasTank = new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5); // Synced
 
     // How many ticks has this item been extracting for?
     public int timer = 0; // Synced
@@ -317,7 +317,7 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IFlu
     // Check all conditions and see if we can start smelting
     public boolean canProcess() {
         if (waterTank.getFluid() != null) {
-            if (waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME) {
+            if (waterTank.getFluid().amount >= Fluid.BUCKET_VOLUME) {
                 if (getStackInSlot(1) != null) {
                     if (getStackInSlot(1).getItem() == QuantumItems.itemYellowCake || OreDictionaryUtility.isUraniumOre(getStackInSlot(1))) {
                         if (gasTank.getFluid().amount < gasTank.getCapacity()) {
@@ -334,7 +334,7 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IFlu
     // Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack.
     public void doProcess() {
         if (canProcess()) {
-            waterTank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+            waterTank.drain(Fluid.BUCKET_VOLUME, true);
             FluidStack liquid = QuantumFluids.fluidStackUraniumHexaflouride.copy();
             liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
             gasTank.fill(liquid, true);

@@ -10,14 +10,14 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.fluid.MeshDefinitionFix;
 
-@Mod.EventBusSubscriber(Side.CLIENT)
+@EventBusSubscriber(Side.CLIENT)
 public class ModelEventHandler {
 	private static final ModelEventHandler instance = new ModelEventHandler();
 

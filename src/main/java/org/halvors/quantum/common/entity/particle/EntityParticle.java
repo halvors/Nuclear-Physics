@@ -105,8 +105,6 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         movementDirection = EnumFacing.getFront(data.readInt());
     }
 
-    //////////////////////////////////
-
     @Override
     public void onUpdate() {
         TileEntity tile = world.getTileEntity(new BlockPos(movementVector.intX(), movementVector.intY(), movementVector.intZ()));

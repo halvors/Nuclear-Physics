@@ -1,9 +1,7 @@
 package org.halvors.quantum.common;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -14,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class CreativeTabQuantum extends CreativeTabs {
 	public CreativeTabQuantum() {
-		super("tab" + Reference.NAME);
+		super(Reference.ID);
 	}
 
 	@SideOnly(Side.CLIENT)

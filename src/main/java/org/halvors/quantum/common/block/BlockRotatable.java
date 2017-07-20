@@ -16,9 +16,6 @@ import javax.annotation.Nonnull;
 public abstract class BlockRotatable extends BlockContainerQuantum { //implements IRotatableBlock {
     public static final PropertyDirection facing = BlockHorizontal.FACING;
 
-    //protected byte rotationMask = Byte.parseByte("111100", 2);
-    //protected boolean isFlipPlacement = false;
-
     public BlockRotatable(String name, Material material) {
         super(name, material);
 
@@ -42,11 +39,6 @@ public abstract class BlockRotatable extends BlockContainerQuantum { //implement
     }
 
     /*
-    @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entityLiving, ItemStack itemStack) {
-        world.setBlockMetadataWithNotify(x, y, z, determineOrientation(world, x, y, z, entityLiving), 3);
-    }
-
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!player.isSneaking()) {
@@ -83,36 +75,6 @@ public abstract class BlockRotatable extends BlockContainerQuantum { //implement
         }
 
         return returnSide;
-    }
-
-    public boolean canRotate(int ordinal) {
-        return (rotationMask & 1 << ordinal) != 0;
-    }
-
-    public boolean rotate(World worldObj, int x, int y, int z, EnumFacing axis) {
-        int currentRotMeta = worldObj.getBlockMetadata(x, y, z);
-        EnumFacing orientation = EnumFacing.getOrientation(currentRotMeta);
-        EnumFacing rotated = orientation.getRotation(axis);
-        int metadata = rotated.ordinal();
-        int metadataBit = 1 << metadata;
-
-        if ((metadataBit & rotationMask) == metadataBit && canRotate(metadata)) {
-            worldObj.setBlockMetadataWithNotify(x, y, z, metadata, 3);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
-    public EnumFacing getDirection(World world, int x, int y, int z) {
-        return EnumFacing.getOrientation(world.getBlockMetadata(x, y, z));
-    }
-
-    @Override
-    public void setDirection(World world, int x, int y, int z, EnumFacing direction) {
-        world.setBlockMetadataWithNotify(x, y, z, direction.ordinal(), 3);
     }
     */
 }

@@ -3,7 +3,6 @@ package org.halvors.quantum.common.block.reactor.fusion;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.DamageSource;
@@ -16,12 +15,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.quantum.common.utility.transform.vector.Cuboid;
 
-import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class BlockPlasma extends BlockContainerQuantum {
@@ -66,7 +61,6 @@ public class BlockPlasma extends BlockContainerQuantum {
     public int quantityDropped(Random random) {
         return 0;
     }
-
 
     @Override
     @Nonnull

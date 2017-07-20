@@ -33,7 +33,7 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
 
     @Override
     @SuppressWarnings("deprecation")
-    public boolean isBlockNormalCube(IBlockState blockState) {
+    public boolean isFullCube(IBlockState blockState) {
         return false;
     }
 
@@ -45,10 +45,10 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        TileEntity tile = world.getTileEntity(pos);
+        final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileElectricTurbine) {
-            TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
+            final TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
 
             if (player.isSneaking()) {
                 // TODO: Need to sync this between client and server in order for clients to be updated as well.
@@ -63,10 +63,10 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
 
     @Override
     public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        TileEntity tileEntity = world.getTileEntity(pos);
+        final TileEntity tile = world.getTileEntity(pos);
 
-        if (tileEntity instanceof TileElectricTurbine) {
-            TileElectricTurbine tileTurbine = (TileElectricTurbine) tileEntity;
+        if (tile instanceof TileElectricTurbine) {
+            TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
             tileTurbine.getMultiBlock().deconstruct();
         }
 

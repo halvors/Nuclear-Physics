@@ -2,6 +2,7 @@ package org.halvors.quantum.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -9,14 +10,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -36,7 +34,9 @@ import org.halvors.quantum.client.render.machine.RenderQuantumAssembler;
 import org.halvors.quantum.client.render.reactor.RenderElectricTurbine;
 import org.halvors.quantum.client.render.reactor.fission.RenderReactorCell;
 import org.halvors.quantum.client.render.reactor.fission.RenderThermometer;
-import org.halvors.quantum.common.*;
+import org.halvors.quantum.common.CommonProxy;
+import org.halvors.quantum.common.QuantumItems;
+import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
@@ -64,12 +64,10 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		//OBJBakedModel.init();
 
         // Item Variants
-        /*
-        ModelBakery.registerItemVariants(Quantum.itemAntimatterCell,
+        ModelBakery.registerItemVariants(QuantumItems.itemAntimatterCell,
                 new ResourceLocation(Reference.PREFIX + "antimatter_milligram"),
                 new ResourceLocation(Reference.PREFIX + "antimatter_gram")
         );
-        */
 
 		// Items.
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemAntimatterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellAntimatter_milligram", "inventory"));
@@ -81,8 +79,6 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemFissileFuel, 0, new ModelResourceLocation(Reference.PREFIX + "fissileFuel", "inventory"));
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemTritiumCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellTritium", "inventory"));
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemWaterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellWater", "inventory"));
-
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemBucketToxicWaste, 0, new ModelResourceLocation(Reference.PREFIX + "bucketToxicWaste", "inventory"));
 
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemUranium, 0, new ModelResourceLocation(Reference.PREFIX + "uranium", "inventory"));
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemUranium, 1, new ModelResourceLocation(Reference.PREFIX + "uranium", "inventory"));

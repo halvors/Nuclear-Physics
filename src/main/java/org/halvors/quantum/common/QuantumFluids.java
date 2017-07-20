@@ -102,9 +102,14 @@ public class QuantumFluids {
 
             for (final IFluidBlock fluidBlock : fluidBlocks) {
                 final Block block = (Block) fluidBlock;
-                block.setUnlocalizedName(fluidBlock.getFluid().getUnlocalizedName());
-                block.setRegistryName(Reference.ID, "fluid." + fluidBlock.getFluid().getName());
-                block.setCreativeTab(Quantum.getCreativeTab());
+                final Fluid fluid = fluidBlock.getFluid();
+
+                block.setUnlocalizedName(fluid.getUnlocalizedName());
+                block.setRegistryName(Reference.ID, fluid.getName());
+
+                if (!fluid.isGaseous()) {
+                    block.setCreativeTab(Quantum.getCreativeTab());
+                }
 
                 registry.register(block);
             }

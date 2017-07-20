@@ -32,10 +32,10 @@ public class TilePlasma extends TileEntity implements ITickable {
                 for (EnumFacing side : EnumFacing.VALUES) {
                     // Randomize spread direction.
                     if (world.rand.nextFloat() < 0.4) {
-                        BlockPos spreadPos = pos.offset(side);
-                        TileEntity tileEntity = world.getTileEntity(spreadPos);
+                        final BlockPos spreadPos = pos.offset(side);
+                        final TileEntity tile = world.getTileEntity(spreadPos);
 
-                        if (!(tileEntity instanceof TilePlasma)) {
+                        if (!(tile instanceof TilePlasma)) {
                             MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, pos, temperature));
                         }
                     }

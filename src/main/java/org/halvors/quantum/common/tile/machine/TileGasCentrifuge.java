@@ -18,7 +18,6 @@ import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorHelper;
 
@@ -28,7 +27,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, ITileNe
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 
-    public final FluidTank gasTank = new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5); // Synced
+    public final FluidTank gasTank = new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5); // Synced
 
     public int timer = 0; // Synced
     public float rotation = 0;

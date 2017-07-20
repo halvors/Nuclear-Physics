@@ -1,13 +1,10 @@
 package org.halvors.quantum.common;
 
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -16,27 +13,20 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
-import org.halvors.quantum.common.event.ExplosionEventHandler;
-import org.halvors.quantum.common.event.PlayerEventHandler;
-import org.halvors.quantum.common.event.ThermalEventHandler;
 import org.halvors.quantum.common.grid.UpdateTicker;
+import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.schematic.SchematicAccelerator;
 import org.halvors.quantum.common.schematic.SchematicBreedingReactor;
 import org.halvors.quantum.common.schematic.SchematicFissionReactor;
 import org.halvors.quantum.common.schematic.SchematicFusionReactor;
-import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.tile.particle.FulminationHandler;
 
 /**
@@ -169,45 +159,14 @@ public class Quantum {
 
 	/*
 	@SubscribeEvent
-	public void onFillBucketEvent(FillBucketEvent event) {
-		if (!event.getWorld().isRemote && event.getTarget() != null && event.getWorld().typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-			VectorWorld pos = new VectorWorld(event.getWorld(), event.getTarget());
-
-			if (pos.getBlock() == blockToxicWaste) {
-				pos.setBlock(Blocks.AIR);
-
-				event.setFilledBucket(new ItemStack(itemBucketToxicWaste));
-				event.setResult(Event.Result.ALLOW);
-			}
-		}
-	}
-
-	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void preTextureHook(TextureStitchEvent.Pre event) {
 		if (event.getMap().getTextureType() == 0) {
 			RenderUtility.registerIcon(Reference.PREFIX + "atomic_edge", event.getMap());
 			RenderUtility.registerIcon(Reference.PREFIX + "gasFunnel_edge", event.getMap());
-
-			RenderUtility.registerIcon(Reference.PREFIX + "deuterium", event.getMap());
-			RenderUtility.registerIcon(Reference.PREFIX + "steam", event.getMap());
-			RenderUtility.registerIcon(Reference.PREFIX + "tritium", event.getMap());
-			RenderUtility.registerIcon(Reference.PREFIX + "uraniumHexafluoride", event.getMap());
 		}
 	}
-
-	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	public void postTextureHook(TextureStitchEvent.Post event) {
-		fluidToxicWaste.setIcons(blockToxicWaste.getIcon(0, 0));
-		fluidPlasma.setIcons(blockPlasma.getIcon(0, 0));
-		fluidDeuterium.setIcons(RenderUtility.loadedIconMap.get(Reference.PREFIX + "deuterium"));
-		fluidSteam.setIcons(RenderUtility.loadedIconMap.get(Reference.PREFIX + "steam"));
-		fluidTritium.setIcons(RenderUtility.loadedIconMap.get(Reference.PREFIX + "tritium"));
-		fluidUraniumHexaflouride.setIcons(RenderUtility.loadedIconMap.get(Reference.PREFIX + "uraniumHexafluoride"));
-	}
 	*/
-
 	public static Quantum getInstance() {
 		return instance;
 	}

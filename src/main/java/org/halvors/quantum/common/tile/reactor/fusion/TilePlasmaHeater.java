@@ -20,9 +20,9 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITickable
     public static long power = 10000000000L;
     public static int plasmaHeatAmount = 100; //@Config
 
-    public final FluidTank tankInputDeuterium = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10);
-    public final FluidTank tankInputTritium = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10);
-    public final FluidTank tankOutput = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 10);
+    public final FluidTank tankInputDeuterium = new FluidTank(Fluid.BUCKET_VOLUME * 10);
+    public final FluidTank tankInputTritium = new FluidTank(Fluid.BUCKET_VOLUME * 10);
+    public final FluidTank tankOutput = new FluidTank(Fluid.BUCKET_VOLUME * 10);
 
     public float rotation = 0;
 

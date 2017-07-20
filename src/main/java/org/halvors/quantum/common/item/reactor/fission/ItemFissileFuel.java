@@ -16,7 +16,6 @@ import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemFissileFuel extends ItemRadioactive implements IReactorComponent {

@@ -61,8 +61,8 @@ public class BlockRadioactive extends BlockQuantum {
     public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
         if (!world.isRemote) {
             if (isRandomlyRadioactive) {
-                AxisAlignedBB bounds = new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius);
-                List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
+                final AxisAlignedBB bounds = new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius);
+                final List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
                 for (EntityLivingBase entity : entitiesNearby) {
                     PoisonRadiation.getInstance().poisonEntity(pos, entity, amplifier);
@@ -71,8 +71,8 @@ public class BlockRadioactive extends BlockQuantum {
 
             if (canSpread) {
                 for (int side = 0; side < 4; side++) {
-                    BlockPos newPos = new BlockPos(pos.getX() + random.nextInt(3) - 1, pos.getY() + random.nextInt(5) - 3, pos.getZ() + random.nextInt(3) - 1);
-                    Block block = world.getBlockState(newPos).getBlock();
+                    final BlockPos newPos = new BlockPos(pos.getX() + random.nextInt(3) - 1, pos.getY() + random.nextInt(5) - 3, pos.getZ() + random.nextInt(3) - 1);
+                    final Block block = world.getBlockState(newPos).getBlock();
 
                     if (random.nextFloat() > 0.4 && (block == Blocks.FARMLAND || block == Blocks.GRASS)) {
                         world.setBlockState(newPos, getDefaultState());

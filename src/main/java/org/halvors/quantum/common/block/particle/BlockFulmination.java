@@ -1,11 +1,8 @@
 package org.halvors.quantum.common.block.particle;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
 

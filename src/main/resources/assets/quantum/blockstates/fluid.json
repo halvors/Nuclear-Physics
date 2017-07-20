@@ -1,50 +1,50 @@
 {
-	"forge_marker": 1,
-	"defaults": {
-		"model": "forge:fluid"
-	},
-	"variants": {
-		"deuterium": [
-			{
-				"custom": {
-					"fluid": "deuterium"
-				}
-			}
-		],
-		"uranium_hexaflouride": [
-			{
-				"custom": {
-					"fluid": "uranium_hexaflouride"
-				}
-			}
-		],
-		"plasma": [
-			{
-				"custom": {
-					"fluid": "plasma"
-				}
-			}
-		],
-		"steam": [
-			{
-				"custom": {
-					"fluid": "steam"
-				}
-			}
-		],
-		"tritium": [
-			{
-				"custom": {
-					"fluid": "tritium"
-				}
-			}
-		],
-		"toxic_waste": [
-			{
-				"custom": {
-					"fluid": "toxic_waste"
-				}
-			}
-		]
-	}
+  "forge_marker": 1,
+  "defaults": {
+    "model": "forge:fluid"
+  },
+  "variants": {
+    "deuterium": [
+      {
+        "custom": {
+          "fluid": "deuterium"
+        }
+      }
+    ],
+    "uranium_hexafluoride": [
+      {
+        "custom": {
+          "fluid": "uranium_hexafluoride"
+        }
+      }
+    ],
+    "plasma": [
+      {
+        "custom": {
+          "fluid": "plasma"
+        }
+      }
+    ],
+    "steam": [
+      {
+        "custom": {
+          "fluid": "steam"
+        }
+      }
+    ],
+    "tritium": [
+      {
+        "custom": {
+          "fluid": "tritium"
+        }
+      }
+    ],
+    "toxic_waste": [
+      {
+        "custom": {
+          "fluid": "toxic_waste"
+        }
+      }
+    ]
+  }
 }

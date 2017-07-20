@@ -14,7 +14,6 @@ import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.TileElectricInventory;
 
 import java.util.List;
 

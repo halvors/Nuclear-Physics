@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.*;
 import org.halvors.quantum.common.grid.thermal.IBoilHandler;
 
 public class TileGasFunnel extends TileEntity implements ITickable, IBoilHandler {
-    private final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
+    private final FluidTank tank = new FluidTank(Fluid.BUCKET_VOLUME * 16);
 
     public TileGasFunnel() {
 

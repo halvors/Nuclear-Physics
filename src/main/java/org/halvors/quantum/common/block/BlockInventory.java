@@ -25,14 +25,14 @@ public abstract class BlockInventory extends BlockRotatable {
     }
 
     public void dropEntireInventory(World world, BlockPos pos, IBlockState state) {
-        TileEntity tile = world.getTileEntity(pos);
+        final TileEntity tile = world.getTileEntity(pos);
 
         if (tile != null) {
             if (tile instanceof IInventory) {
-                IInventory inventory = (IInventory) tile;
+                final IInventory inventory = (IInventory) tile;
 
                 for (int i = 0; i < inventory.getSizeInventory(); i++) {
-                    ItemStack itemStack = inventory.getStackInSlot(i);
+                    final ItemStack itemStack = inventory.getStackInSlot(i);
 
                     if (itemStack != null) {
                         Random random = new Random();

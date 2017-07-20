@@ -4,7 +4,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -14,8 +13,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockRotatable;
-
-import javax.annotation.Nonnull;
 
 public abstract class BlockMachine extends BlockRotatable {
     public BlockMachine(String name) {
@@ -31,7 +28,7 @@ public abstract class BlockMachine extends BlockRotatable {
     }
 
     @Override
-    public boolean isBlockNormalCube(IBlockState blockState) {
+    public boolean isFullCube(IBlockState blockState) {
         return false;
     }
 

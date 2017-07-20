@@ -24,42 +24,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockThermometer extends BlockRotatable {
-    //private static IIcon iconSide;
-
     public BlockThermometer() {
         super("thermometer", Material.PISTON);
-
-        //setTextureName(Reference.PREFIX + "thermometer");
     }
-
-    /*
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean renderAsNormalBlock() {
-        return false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta) {
-        return side == 1 || side == 0 ? super.getIcon(side, meta) : iconSide;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        super.registerIcons(iconRegister);
-
-        iconSide = iconRegister.registerIcon(Reference.PREFIX + "machine");
-    }
-    */
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        TileEntity tile = world.getTileEntity(pos);
+        final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileThermometer) {
-            TileThermometer tileThermometer = (TileThermometer) tile;
+            final TileThermometer tileThermometer = (TileThermometer) tile;
 
             if (WrenchUtility.hasUsableWrench(player, pos)) {
                 if (player.isSneaking()) {
@@ -85,12 +59,12 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
-        TileEntity tile = world.getTileEntity(pos);
+        final TileEntity tile = world.getTileEntity(pos);
 
         // Fetch saved coordinates from ItemBlockThermometer and apply them to the block.
         if (tile instanceof TileThermometer) {
-            TileThermometer tileThermometer = (TileThermometer) tile;
-            ItemBlockThermometer itemBlockThermometer = (ItemBlockThermometer) itemStack.getItem();
+            final TileThermometer tileThermometer = (TileThermometer) tile;
+            final ItemBlockThermometer itemBlockThermometer = (ItemBlockThermometer) itemStack.getItem();
             tileThermometer.setTrackCoordinate(itemBlockThermometer.getSavedCoord(itemStack));
         }
     }

@@ -14,7 +14,7 @@
       }
     ],
     "type": {
-      "0": {
+      "block": {
         "textures": {
           "particle": "quantum:blocks/electromagnet",
           "down": "quantum:blocks/electromagnet_top",
@@ -25,7 +25,7 @@
           "west": "quantum:blocks/electromagnet"
         }
       },
-      "1": {
+      "glass": {
         "textures": {
           "all": "quantum:blocks/electromagnet_glass"
         }

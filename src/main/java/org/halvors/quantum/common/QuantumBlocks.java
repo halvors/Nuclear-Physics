@@ -2,9 +2,11 @@ package org.halvors.quantum.common;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
-import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.halvors.quantum.common.block.*;
+import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.block.BlockQuantum;
+import org.halvors.quantum.common.block.BlockRadioactiveGrass;
+import org.halvors.quantum.common.block.BlockUraniumOre;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
 import org.halvors.quantum.common.block.machine.BlockGasCentrifuge;
@@ -52,7 +54,6 @@ public class QuantumBlocks {
     public static Block blockThermometer = new BlockThermometer();
     public static Block blockUraniumOre = new BlockUraniumOre();
     public static Block blockPlasma = new BlockPlasma();
-    //fluidPlasma.setBlock(blockPlasma);
     public static Block blockPlasmaHeater = new BlockPlasmaHeater();
     public static Block blockQuantumAssembler = new BlockQuantumAssembler();
     public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
@@ -74,7 +75,8 @@ public class QuantumBlocks {
         register(blockSiren);
         register(blockThermometer, new ItemBlockThermometer(blockThermometer));
         register(blockUraniumOre);
-        register(blockPlasma);
+        //register(blockPlasma);
+        //QuantumFluids.plasma.setBlock(blockPlasma);
         register(blockPlasmaHeater);
         register(blockQuantumAssembler);
         register(blockRadioactiveGrass);

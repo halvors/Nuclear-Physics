@@ -9,7 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -29,11 +28,11 @@ public class ThermalEventHandler {
     @SubscribeEvent
     public void onBoilEvent(BoilEvent event) {
         for (int height = 1; height <= event.getMaxSpread(); height++) {
-            TileEntity tileEntity = event.getWorld().getTileEntity(event.getPos());
+            final TileEntity tileEntity = event.getWorld().getTileEntity(event.getPos());
 
             if (tileEntity instanceof IBoilHandler) {
-                IBoilHandler handler = (IBoilHandler) tileEntity;
-                FluidStack fluid = event.getRemainForSpread(height);
+                final IBoilHandler handler = (IBoilHandler) tileEntity;
+                final FluidStack fluid = event.getRemainForSpread(height);
 
                 if (fluid.amount > 0) {
                     if (handler.canFill(EnumFacing.DOWN, fluid.getFluid())) {
@@ -43,7 +42,7 @@ public class ThermalEventHandler {
             }
         }
 
-        Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
+        final Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
 
         /*
         // Reactors will not actually remove water source blocks, however weapons will.
@@ -57,14 +56,16 @@ public class ThermalEventHandler {
 
     @SubscribeEvent
     public void onPlasmaSpawnEvent(PlasmaEvent.PlasmaSpawnEvent event) {
-        Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
+        final World world = event.getWorld();
+        final BlockPos pos = event.getPos();
+        final Block block = world.getBlockState(pos).getBlock();
 
         if (block != null) {
-            TileEntity tile = event.getWorld().getTileEntity(event.getPos());
-
             if (block == Blocks.BEDROCK || block == Blocks.IRON_BLOCK) {
                 return;
             }
+
+            final TileEntity tile = world.getTileEntity(pos);
 
             if (tile instanceof TilePlasma) {
                 ((TilePlasma) tile).setTemperature(event.getTemperature());
@@ -77,9 +78,9 @@ public class ThermalEventHandler {
             }
         }
 
-        event.getWorld().setBlockState(event.getPos(), QuantumBlocks.blockPlasma.getDefaultState());
+        world.setBlockState(pos, QuantumBlocks.blockPlasma.getDefaultState());
 
-        TileEntity tile = event.getWorld().getTileEntity(event.getPos());
+        TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TilePlasma) {
             ((TilePlasma) tile).setTemperature(event.getTemperature());
@@ -90,7 +91,7 @@ public class ThermalEventHandler {
     public void onThermalUpdateEvent(ThermalUpdateEvent event) {
         final BlockPos pos = event.getPos();
         final World world = (World) event.getWorld();
-        Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
+        final Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
 
         if (block == QuantumBlocks.blockElectromagnet) {
             event.heatLoss = event.deltaTemperature * 0.6F;

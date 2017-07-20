@@ -1,15 +1,16 @@
 # Quantum Language Properties
 
 // Creative tab.
-itemGroup.tabQuantum=Quantum
+itemGroup.quantum=Quantum
 
 // Fluids.
-fluid.deuterium=Deuterium
-fluid.plasma=Plasma
-fluid.steam=Steam
-fluid.toxic_waste=Toxic Waste
-fluid.tritium=Tritium
-fluid.uranium_hexafluoride=Uranium Hexafluoride
+tile.deuterium.name=Deuterium
+tile.uranium_hexafluoride.name=Uranium Hexafluoride
+tile.plasma.name=Plasma
+tile.steam.name=Steam
+tile.tritium.name=Tritium
+tile.toxic_waste.name=Toxic Waste
+tile.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
 // Blocks.
 tile.accelerator.name=Particle Accelerator
@@ -49,8 +50,6 @@ tile.siren.name=Siren
 tile.siren.tooltip=Creates an alarm with customizable pitch and volume with a Redstone signal.
 tile.thermometer.name=Thermometer
 tile.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-right click to lock the reading to a specific coordinate.
-tile.toxic_waste.name=Toxic Waste
-tile.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
 // Items.
 // Cells.

@@ -7,15 +7,18 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.grid.thermal.IBoilHandler;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.grid.thermal.IBoilHandler;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileElectric;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
@@ -37,7 +40,7 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
     protected final int energyPerSteam = 52000;
     protected final int defaultTorque = 5000;
     protected int torque = defaultTorque;
-    protected final FluidTank tank = new FluidTank(FluidContainerRegistry.BUCKET_VOLUME * 100);
+    protected final FluidTank tank = new FluidTank(Fluid.BUCKET_VOLUME * 100);
 
     // Radius of large turbine?
     public int multiBlockRadius = 1;
