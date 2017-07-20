@@ -6,7 +6,7 @@ import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 
 import javax.annotation.Nonnull;
 
-public class BlockChemicalExtractor extends BlockMachine {
+public class BlockChemicalExtractor extends BlockMachineModel {
     public BlockChemicalExtractor() {
         super("chemical_extractor");
     }

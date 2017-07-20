@@ -105,7 +105,7 @@ public class QuantumFluids {
                 final Fluid fluid = fluidBlock.getFluid();
 
                 block.setUnlocalizedName(fluid.getUnlocalizedName());
-                block.setRegistryName(Reference.ID, fluid.getName());
+                block.setRegistryName(fluid.getName());
 
                 if (!fluid.isGaseous()) {
                     block.setCreativeTab(Quantum.getCreativeTab());

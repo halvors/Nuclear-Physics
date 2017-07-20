@@ -6,7 +6,7 @@ import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 
 import javax.annotation.Nonnull;
 
-public class BlockQuantumAssembler extends BlockMachine {
+public class BlockQuantumAssembler extends BlockMachineModel {
     public BlockQuantumAssembler() {
         super("quantum_assembler");
     }

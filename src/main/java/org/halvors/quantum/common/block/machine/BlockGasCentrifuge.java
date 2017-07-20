@@ -6,7 +6,7 @@ import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 
 import javax.annotation.Nonnull;
 
-public class BlockGasCentrifuge extends BlockMachine {
+public class BlockGasCentrifuge extends BlockMachineModel {
     public BlockGasCentrifuge() {
         super("gas_centrifuge");
     }

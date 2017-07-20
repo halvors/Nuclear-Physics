@@ -2,18 +2,19 @@ package org.halvors.quantum.common.block.machine;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
+import org.halvors.quantum.common.block.machine.BlockMachine;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
 
 import javax.annotation.Nonnull;
 
-public class BlockNuclearBoiler extends BlockMachineModel {
-    public BlockNuclearBoiler() {
-        super("nuclear_boiler");
+public class BlockAccelerator extends BlockMachine {
+    public BlockAccelerator() {
+        super("accelerator");
     }
 
     @Override
     @Nonnull
     public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
-        return new TileNuclearBoiler();
+        return new TileAccelerator();
     }
 }

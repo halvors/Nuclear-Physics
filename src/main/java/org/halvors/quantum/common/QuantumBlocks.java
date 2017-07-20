@@ -12,7 +12,7 @@ import org.halvors.quantum.common.block.machine.BlockChemicalExtractor;
 import org.halvors.quantum.common.block.machine.BlockGasCentrifuge;
 import org.halvors.quantum.common.block.machine.BlockNuclearBoiler;
 import org.halvors.quantum.common.block.machine.BlockQuantumAssembler;
-import org.halvors.quantum.common.block.particle.BlockAccelerator;
+import org.halvors.quantum.common.block.machine.BlockAccelerator;
 import org.halvors.quantum.common.block.particle.BlockFulmination;
 import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
 import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
