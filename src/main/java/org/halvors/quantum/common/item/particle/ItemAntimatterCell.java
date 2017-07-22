@@ -13,9 +13,6 @@ import org.halvors.quantum.common.utility.LanguageUtility;
 import java.util.List;
 
 public class ItemAntimatterCell extends ItemCell {
-    //@SideOnly(Side.CLIENT)
-    //private IIcon iconGram;
-
     public ItemAntimatterCell() {
         super("cellAntimatter");
 
@@ -26,21 +23,6 @@ public class ItemAntimatterCell extends ItemCell {
     public int getEntityLifespan(ItemStack itemStack, World world) {
         return 160;
     }
-
-    /*
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        itemIcon = iconRegister.registerIcon(Reference.PREFIX + "antimatter_milligram");
-        iconGram = iconRegister.registerIcon(Reference.PREFIX + "antimatter_gram");
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage(int metadata) {
-        return metadata >= 1 ? iconGram : itemIcon;
-    }
-    */
 
     @SuppressWarnings("unchecked")
     @Override
@@ -53,7 +35,23 @@ public class ItemAntimatterCell extends ItemCell {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List list) {
-        list.add(new ItemStack(item, 1, 0));
-        list.add(new ItemStack(item, 1, 1));
+        for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
+            list.add(new ItemStack(item, 1, type.ordinal()));
+        }
+    }
+
+    public enum EnumAntimatterCell {
+        MILLIGRAM("milligram"),
+        GRAM("gram");
+
+        private String name;
+
+        EnumAntimatterCell(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name.toLowerCase();
+        }
     }
 }

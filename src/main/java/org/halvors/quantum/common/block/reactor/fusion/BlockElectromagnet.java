@@ -128,7 +128,7 @@ public class BlockElectromagnet extends BlockContainerQuantum {
 
         @Override
         public String getName() {
-            return name().toLowerCase();
+            return name.toLowerCase();
         }
     }
 }

@@ -41,6 +41,7 @@ import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumModelMachine;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
+import org.halvors.quantum.common.item.particle.ItemAntimatterCell.EnumAntimatterCell;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
@@ -92,13 +93,15 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
         // Item Variants
         ModelBakery.registerItemVariants(QuantumItems.itemAntimatterCell,
-                new ResourceLocation(Reference.PREFIX + "cellAntimatter_milligram"),
-                new ResourceLocation(Reference.PREFIX + "cellAntimatter_gram")
+                new ResourceLocation(Reference.PREFIX + "cellAntimatter_" + EnumAntimatterCell.MILLIGRAM.getName()),
+                new ResourceLocation(Reference.PREFIX + "cellAntimatter_" + EnumAntimatterCell.GRAM.getName())
         );
 
 		// Items.
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemAntimatterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellAntimatter_milligram", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemAntimatterCell, 1, new ModelResourceLocation(Reference.PREFIX + "cellAntimatter_gram", "inventory"));
+        for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
+            ModelLoader.setCustomModelResourceLocation(QuantumItems.itemAntimatterCell, type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "cellAntimatter_" + type.getName() , "inventory"));
+        }
+
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemBreederFuel, 0, new ModelResourceLocation(Reference.PREFIX + "breederFuel", "inventory"));
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellEmpty", "inventory"));
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemDarkMatterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellDarkMatter", "inventory"));
