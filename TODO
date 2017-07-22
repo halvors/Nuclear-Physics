@@ -2,6 +2,7 @@ Make it more toxic to carry larger quantities of radioactive material. Like a wh
 
 Porting to 1.10.2:
     - Fix double render with vanilla and TESR rendering for model_machine.
+    - Fix particle texture when breaking TESR rendered blocks.
 
 Known bugs:
     - Should not be possible to inject fuel into each of the reactor cell multiblocks...

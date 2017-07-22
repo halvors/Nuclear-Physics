@@ -2,7 +2,6 @@ package org.halvors.quantum.common.block.machine;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.block.machine.BlockMachine;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 
 import javax.annotation.Nonnull;

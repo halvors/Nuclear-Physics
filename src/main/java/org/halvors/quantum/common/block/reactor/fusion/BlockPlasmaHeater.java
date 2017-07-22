@@ -9,17 +9,15 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.utility.FluidUtility;
 
 import javax.annotation.Nonnull;
 
-public class BlockPlasmaHeater extends BlockContainerQuantum {
+public class BlockPlasmaHeater extends BlockRotatable {
     public BlockPlasmaHeater() {
         super("plasma_heater", Material.IRON);
-
-        //setTextureName(Reference.PREFIX + "machine");
     }
 
     @Override

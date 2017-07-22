@@ -10,9 +10,6 @@
           "flip-v": true
         },
         "model": "quantum:quantum_assembler.obj",
-        "textures": {
-          "#None": "quantum:models/quantum_assembler"
-        },
         "transform": "forge:default-block"
       }
     ]

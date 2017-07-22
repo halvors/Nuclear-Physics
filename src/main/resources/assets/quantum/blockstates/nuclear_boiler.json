@@ -10,9 +10,6 @@
           "flip-v": true
         },
         "model": "quantum:nuclear_boiler.obj",
-        "textures": {
-          "#None": "quantum:models/nuclear_boiler"
-        },
         "transform": "forge:default-block"
       }
     ]
