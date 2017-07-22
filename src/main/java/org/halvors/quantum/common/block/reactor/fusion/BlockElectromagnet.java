@@ -2,7 +2,6 @@ package org.halvors.quantum.common.block.reactor.fusion;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -25,15 +24,13 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class BlockElectromagnet extends BlockContainerQuantum {
-    public static final PropertyEnum<EnumElectromagnet> type = PropertyEnum.create("type", EnumElectromagnet.class);
-    //public static final PropertyInteger type = PropertyInteger.create("type", 0, 1);
+    private static final PropertyEnum<EnumElectromagnet> type = PropertyEnum.create("type", EnumElectromagnet.class);
 
     public BlockElectromagnet() {
         super("electromagnet", Material.IRON);
 
         setResistance(20);
-        setDefaultState(blockState.getBaseState().withProperty(type, EnumElectromagnet.BLOCK));
-        //setDefaultState(blockState.getBaseState().withProperty(type, 0));
+        setDefaultState(blockState.getBaseState().withProperty(type, EnumElectromagnet.NORMAL));
     }
 
     @Override
@@ -94,9 +91,9 @@ public class BlockElectromagnet extends BlockContainerQuantum {
 
     @Override
     public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
-        super.getSubBlocks(item, creativeTabs, list);
-
-        list.add(new ItemStack(item, 1, 1));
+        for (EnumElectromagnet type : EnumElectromagnet.values()) {
+            list.add(new ItemStack(item, 1, type.ordinal()));
+        }
     }
 
     /*
@@ -120,7 +117,7 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     }
 
     public enum EnumElectromagnet implements IStringSerializable {
-        BLOCK("block"),
+        NORMAL("normal"),
         GLASS("glass");
 
         private String name;

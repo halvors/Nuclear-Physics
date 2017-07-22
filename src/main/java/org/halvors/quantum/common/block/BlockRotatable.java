@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public abstract class BlockRotatable extends BlockContainerQuantum { //implements IRotatableBlock {
+public abstract class BlockRotatable extends BlockContainerQuantum {
     public static final PropertyDirection facing = BlockHorizontal.FACING;
 
     public BlockRotatable(String name, Material material) {

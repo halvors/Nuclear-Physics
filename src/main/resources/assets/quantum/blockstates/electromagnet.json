@@ -14,7 +14,7 @@
       }
     ],
     "type": {
-      "block": {
+      "normal": {
         "textures": {
           "particle": "quantum:blocks/electromagnet",
           "down": "quantum:blocks/electromagnet_top",

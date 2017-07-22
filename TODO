@@ -1,5 +1,8 @@
 Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
 
+Porting to 1.10.2:
+    - Fix double render with vanilla and TESR rendering for model_machine.
+
 Known bugs:
     - Should not be possible to inject fuel into each of the reactor cell multiblocks...
     - Quantum Assembler render incorrectly.
