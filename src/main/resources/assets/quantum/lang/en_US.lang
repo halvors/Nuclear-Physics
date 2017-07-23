@@ -13,8 +13,8 @@ tile.fluid.toxic_waste.name=Toxic Waste
 tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
 // Blocks.
-tile.accelerator.name=Particle Accelerator
-tile.accelerator.tooltip=Accelerates particles and creates antimatter and dark matter.
+tile.machine.0.name=Particle Accelerator
+tile.machine.0.tooltip=Accelerates particles and creates antimatter and dark matter.
 tile.machine_model.0.name=Chemical Extractor
 tile.machine_model.0.tooltip=Extracts uranium ores to yellowcake, water to deuterium and deuterium to tritium.
 tile.control_rod.name=Control Rod
@@ -38,8 +38,8 @@ tile.uranium_ore.name=Uranium Ore
 tile.uranium_ore.tooltip=A precious and useful ore used for fission reactions.
 tile.plasma.name=Plasma
 tile.plasma.tooltip=Generates extreme heat for boiling water.
-tile.plasma_heater.name=Plasma Heater
-tile.plasma_heater.tooltip=A plasma heater is used to heat deuterium and tritium to plasma state for fusion power. Plasma must be moved into the reactor cell.
+tile.machine.1.name=Plasma Heater
+tile.machine.1.tooltip=A plasma heater is used to heat deuterium and tritium to plasma state for fusion power. Plasma must be moved into the reactor cell.
 tile.machine_model.3.name=Quantum Assembler
 tile.machine_model.3.tooltip=Reassembles Dark Matter atoms into usable materials.
 tile.radioactive_grass.name=Radioactive Waste

@@ -22,6 +22,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
+import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
+import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
+import org.halvors.quantum.common.utility.FluidUtility;
+import org.halvors.quantum.common.utility.WrenchUtility;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -68,10 +72,16 @@ public class BlockMachine extends BlockRotatable {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (!player.isSneaking()) {
-            player.openGui(Quantum.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
+        TileEntity tile = world.getTileEntity(pos);
 
-            return true;
+        if (tile instanceof TilePlasmaHeater) {
+            return FluidUtility.playerActivatedFluidItem(world, pos, player, side);
+        } else {
+            if (!player.isSneaking()) {
+                player.openGui(Quantum.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
+
+                return true;
+            }
         }
 
         return false;
@@ -85,7 +95,8 @@ public class BlockMachine extends BlockRotatable {
     }
 
     public enum EnumMachine implements IStringSerializable {
-        ACCELERATOR("accelerator", TileAccelerator.class);
+        ACCELERATOR("accelerator", TileAccelerator.class),
+        PLASMA_HEATER("plasma_heater", TilePlasmaHeater.class);
 
         private String name;
         private Class<? extends TileEntity> tileClass;

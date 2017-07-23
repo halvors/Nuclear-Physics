@@ -1,7 +1,8 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "cube_all"
+    "model": "cube_all",
+    "uvlock": true
   },
   "variants": {
     "normal": [
@@ -21,12 +22,22 @@
       "west": {
         "y": 270
       }
-    }
+    },
     "type": {
       "accelerator": {
         "textures": {
           "all": "quantum:blocks/accelerator"
         }
+      },
+      "plasma_heater": {
+        "custom": {
+          "flip-v": true
+        },
+        "model": "quantum:plasma_heater.obj",
+        "textures": {
+          "#None": "quantum:models/plasma_heater"
+        },
+        "transform": "forge:default-block"
       }
     }
   }

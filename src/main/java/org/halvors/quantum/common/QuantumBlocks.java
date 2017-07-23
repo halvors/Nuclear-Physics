@@ -19,10 +19,8 @@ import org.halvors.quantum.common.block.reactor.fission.BlockSiren;
 import org.halvors.quantum.common.block.reactor.fission.BlockThermometer;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
-import org.halvors.quantum.common.block.reactor.fusion.BlockPlasmaHeater;
 import org.halvors.quantum.common.item.block.ItemBlockMetadata;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
-import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
@@ -31,7 +29,6 @@ import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 
 public class QuantumBlocks {
     public static Block blockControlRod = new BlockControlRod();
@@ -45,7 +42,6 @@ public class QuantumBlocks {
     public static Block blockThermometer = new BlockThermometer();
     public static Block blockUraniumOre = new BlockUraniumOre();
     public static Block blockPlasma = new BlockPlasma();
-    public static Block blockPlasmaHeater = new BlockPlasmaHeater();
     public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
     public static Block blockReactorCell = new BlockReactorCell();
 
@@ -65,7 +61,6 @@ public class QuantumBlocks {
         register(blockUraniumOre);
         //register(blockPlasma);
         //QuantumFluids.plasma.setBlock(blockPlasma);
-        register(blockPlasmaHeater);
         register(blockRadioactiveGrass);
         register(blockReactorCell);
 
@@ -90,7 +85,6 @@ public class QuantumBlocks {
         GameRegistry.registerTileEntity(TileSiren.class, "tile_siren");
         GameRegistry.registerTileEntity(TileThermometer.class, "tile_thermometer");
         GameRegistry.registerTileEntity(TilePlasma.class, "tile_plasma");
-        GameRegistry.registerTileEntity(TilePlasmaHeater.class, "tile_plasma_heater");
         GameRegistry.registerTileEntity(TileReactorCell.class, "tile_reactor_cell");
     }
 
