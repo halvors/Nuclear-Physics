@@ -21,24 +21,52 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockRotatable;
+import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
+import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
+import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
+import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class BlockMachine extends BlockRotatable {
-    private static final PropertyEnum<EnumMachine> type = PropertyEnum.create("type", EnumMachine.class);
+public class BlockMachineModel extends BlockRotatable {
+    private static final PropertyEnum<EnumModelMachine> type = PropertyEnum.create("type", EnumModelMachine.class);
 
-    public BlockMachine() {
-        super("machine", Material.IRON);
+    public BlockMachineModel() {
+        super("machine_model", Material.IRON);
 
-        setDefaultState(blockState.getBaseState().withProperty(type, EnumMachine.ACCELERATOR));
+        setDefaultState(blockState.getBaseState().withProperty(type, EnumModelMachine.CHEMICAL_EXTRACTOR));
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isFullCube(IBlockState blockState) {
+        return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube(IBlockState blockState) {
+        return false;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
-        for (EnumMachine type : EnumMachine.values()) {
+        for (EnumModelMachine type : EnumModelMachine.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
@@ -58,7 +86,7 @@ public class BlockMachine extends BlockRotatable {
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
         super.onBlockPlacedBy(world, pos, state, entity, itemStack);
 
-        world.setBlockState(pos, state.withProperty(type, EnumMachine.values()[itemStack.getItemDamage()]), 2);
+        world.setBlockState(pos, state.withProperty(type, EnumModelMachine.values()[itemStack.getItemDamage()]), 2);
     }
 
     @Override
@@ -79,18 +107,21 @@ public class BlockMachine extends BlockRotatable {
 
     @Override
     public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
-        final EnumMachine type = EnumMachine.values()[metadata];
+        final EnumModelMachine type = EnumModelMachine.values()[metadata];
 
         return type.getTileAsNewIntance();
     }
 
-    public enum EnumMachine implements IStringSerializable {
-        ACCELERATOR("accelerator", TileAccelerator.class);
+    public enum EnumModelMachine implements IStringSerializable {
+        CHEMICAL_EXTRACTOR("chemical_extractor", TileChemicalExtractor.class),
+        GAS_CENTRIFUGE("gas_centrifuge", TileGasCentrifuge.class),
+        NUCLEAR_BOILER("nuclear_boiler", TileNuclearBoiler.class),
+        QUANTUM_ASSEMBLER("quantum_assembler", TileQuantumAssembler.class);
 
         private String name;
         private Class<? extends TileEntity> tileClass;
 
-        EnumMachine(String name, Class<? extends TileEntity> tileClass) {
+        EnumModelMachine(String name, Class<? extends TileEntity> tileClass) {
             this.name = name;
             this.tileClass = tileClass;
         }

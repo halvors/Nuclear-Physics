@@ -7,7 +7,9 @@ import org.halvors.quantum.common.block.BlockRadioactiveGrass;
 import org.halvors.quantum.common.block.BlockUraniumOre;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.block.machine.BlockMachine;
-import org.halvors.quantum.common.block.machine.BlockMachine.EnumModelMachine;
+import org.halvors.quantum.common.block.machine.BlockMachine.EnumMachine;
+import org.halvors.quantum.common.block.machine.BlockMachineModel;
+import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumModelMachine;
 import org.halvors.quantum.common.block.particle.BlockFulmination;
 import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
 import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
@@ -20,6 +22,7 @@ import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
 import org.halvors.quantum.common.block.reactor.fusion.BlockPlasmaHeater;
 import org.halvors.quantum.common.item.block.ItemBlockMetadata;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
+import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
@@ -37,6 +40,7 @@ public class QuantumBlocks {
     public static Block blockFulmination = new BlockFulmination();
     public static Block blockGasFunnel = new BlockGasFunnel();
     public static Block blockMachine = new BlockMachine();
+    public static Block blockMachineModel = new BlockMachineModel();
     public static Block blockSiren = new BlockSiren();
     public static Block blockThermometer = new BlockThermometer();
     public static Block blockUraniumOre = new BlockUraniumOre();
@@ -55,6 +59,7 @@ public class QuantumBlocks {
         register(blockFulmination);
         register(blockGasFunnel);
         register(blockMachine, new ItemBlockMetadata(blockMachine));
+        register(blockMachineModel, new ItemBlockMetadata(blockMachineModel));
         register(blockSiren);
         register(blockThermometer, new ItemBlockThermometer(blockThermometer));
         register(blockUraniumOre);
@@ -65,6 +70,12 @@ public class QuantumBlocks {
         register(blockReactorCell);
 
         register(blockCreativeBuilder);
+
+        for (EnumMachine type : EnumMachine.values()) {
+            String name = type.getTileClass().getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
+
+            GameRegistry.registerTileEntity(type.getTileClass(), name);
+        }
 
         for (EnumModelMachine type : EnumModelMachine.values()) {
             String name = type.getTileClass().getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();

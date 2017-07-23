@@ -39,7 +39,8 @@ import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.common.block.machine.BlockMachine.EnumModelMachine;
+import org.halvors.quantum.common.block.machine.BlockMachine.EnumMachine;
+import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumModelMachine;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell.EnumAntimatterCell;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
@@ -77,8 +78,12 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockFulmination), 0, new ModelResourceLocation(Reference.PREFIX + "fulmination", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockGasFunnel), 0, new ModelResourceLocation(Reference.PREFIX + "gas_funnel", "inventory"));
 
-        for (EnumModelMachine type : EnumModelMachine.values()) {
+        for (EnumMachine type : EnumMachine.values()) {
             ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockMachine), type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "machine", "facing=north,type=" + type.getName()));
+        }
+
+        for (EnumModelMachine type : EnumModelMachine.values()) {
+            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockMachineModel), type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "machine_model", "facing=north,type=" + type.getName()));
         }
 
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockSiren), 0, new ModelResourceLocation(Reference.PREFIX + "siren", "inventory"));
