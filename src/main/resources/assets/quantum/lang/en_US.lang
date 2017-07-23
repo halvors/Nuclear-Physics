@@ -4,13 +4,13 @@
 itemGroup.quantum=Quantum
 
 // Fluids.
-tile.deuterium.name=Deuterium
-tile.uranium_hexafluoride.name=Uranium Hexafluoride
-tile.plasma.name=Plasma
-tile.steam.name=Steam
-tile.tritium.name=Tritium
-tile.toxic_waste.name=Toxic Waste
-tile.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
+tile.fluid.deuterium.name=Deuterium
+tile.fluid.uranium_hexafluoride.name=Uranium Hexafluoride
+tile.fluid.plasma.name=Plasma
+tile.fluid.steam.name=Steam
+tile.fluid.tritium.name=Tritium
+tile.fluid.toxic_waste.name=Toxic Waste
+tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
 // Blocks.
 tile.accelerator.name=Particle Accelerator

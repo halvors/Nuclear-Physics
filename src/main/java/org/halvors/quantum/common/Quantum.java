@@ -81,7 +81,6 @@ public class Quantum {
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
 		// Call functions for adding blocks, items, etc.
-		//QuantumFluids.register();
 		QuantumBlocks.register();
 		QuantumItems.register();
 		QuantumEntities.register();
@@ -157,16 +156,6 @@ public class Quantum {
 		proxy.postInit();
 	}
 
-	/*
-	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
-	public void preTextureHook(TextureStitchEvent.Pre event) {
-		if (event.getMap().getTextureType() == 0) {
-			RenderUtility.registerIcon(Reference.PREFIX + "atomic_edge", event.getMap());
-			RenderUtility.registerIcon(Reference.PREFIX + "gasFunnel_edge", event.getMap());
-		}
-	}
-	*/
 	public static Quantum getInstance() {
 		return instance;
 	}

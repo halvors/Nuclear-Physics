@@ -37,21 +37,17 @@ import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 
 public class QuantumBlocks {
     public static Block blockAccelerator = new BlockAccelerator();
-    //public static Block blockChemicalExtractor = new BlockChemicalExtractor();
     public static Block blockControlRod = new BlockControlRod();
     public static Block blockElectricTurbine = new BlockElectricTurbine();
     public static Block blockElectromagnet = new BlockElectromagnet();
     public static Block blockFulmination = new BlockFulmination();
-    //public static Block blockGasCentrifuge = new BlockGasCentrifuge();
     public static Block blockGasFunnel = new BlockGasFunnel();
     public static Block blockModelMachine = new BlockMachineModel();
-    //public static Block blockNuclearBoiler = new BlockNuclearBoiler();
     public static Block blockSiren = new BlockSiren();
     public static Block blockThermometer = new BlockThermometer();
     public static Block blockUraniumOre = new BlockUraniumOre();
     public static Block blockPlasma = new BlockPlasma();
     public static Block blockPlasmaHeater = new BlockPlasmaHeater();
-    //public static Block blockQuantumAssembler = new BlockQuantumAssembler();
     public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
     public static Block blockReactorCell = new BlockReactorCell();
 

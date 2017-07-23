@@ -11,6 +11,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -123,31 +124,33 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 tileAccelerator.entityParticle = this;
             }
 
-            /*
+
             // Force load chunks.
             // TODO: Calculate direction so to only load two chunks instead of 5.
             for (int x = -1; x < 1; x++) {
                 for (int z = -1; z < 1; z++) {
-                    ForgeChunkManager.forceChunk(updateTicket, new ChunkCoordIntPair(((int) posX >> 4) + x, ((int) posZ >> 4) + z));
+                    ForgeChunkManager.forceChunk(updateTicket, new ChunkPos(((int) posX >> 4) + x, ((int) posZ >> 4) + z));
                 }
             }
 
+            /*
             // Update data watcher.
             if (!world.isRemote) {
+                dataManager.set
+
                 dataWatcher.updateObject(movementDirectionDataWatcherId, (byte) movementDirection.ordinal());
             } else {
-                movementDirection = EnumFacing.getOrientation(dataWatcher.getWatchableObjectByte(movementDirectionDataWatcherId));
+                movementDirection = EnumFacing.getFront(dataWatcher.getWatchableObjectByte(movementDirectionDataWatcherId));
             }
+            */
 
-
-            if ((!isElectromagnet(world, new Vector3(this), movementDirection.getRotation(EnumFacing.UP)) || !isElectromagnet(world, new Vector3(this), movementDirection.getRotation(EnumFacing.DOWN))) && lastTurn <= 0) {
+            if ((!isElectromagnet(world, new Vector3(this), movementDirection.rotateAround(EnumFacing.UP.getAxis())) || !isElectromagnet(world, new Vector3(this), movementDirection.rotateAround(EnumFacing.DOWN.getAxis()))) && lastTurn <= 0) {
                 acceleration = turn();
                 motionX = 0;
                 motionY = 0;
                 motionZ = 0;
                 lastTurn = 40;
             }
-            */
 
             lastTurn--;
 
