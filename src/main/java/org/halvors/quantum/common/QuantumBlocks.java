@@ -6,8 +6,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
 import org.halvors.quantum.common.block.BlockUraniumOre;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.common.block.machine.BlockAccelerator;
-import org.halvors.quantum.common.block.machine.BlockMachineModel;
+import org.halvors.quantum.common.block.machine.BlockMachine;
+import org.halvors.quantum.common.block.machine.BlockMachine.EnumModelMachine;
 import org.halvors.quantum.common.block.particle.BlockFulmination;
 import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
 import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
@@ -20,11 +20,6 @@ import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
 import org.halvors.quantum.common.block.reactor.fusion.BlockPlasmaHeater;
 import org.halvors.quantum.common.item.block.ItemBlockMetadata;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
-import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
-import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
-import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
-import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
-import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
@@ -36,13 +31,12 @@ import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 
 public class QuantumBlocks {
-    public static Block blockAccelerator = new BlockAccelerator();
     public static Block blockControlRod = new BlockControlRod();
     public static Block blockElectricTurbine = new BlockElectricTurbine();
     public static Block blockElectromagnet = new BlockElectromagnet();
     public static Block blockFulmination = new BlockFulmination();
     public static Block blockGasFunnel = new BlockGasFunnel();
-    public static Block blockModelMachine = new BlockMachineModel();
+    public static Block blockMachine = new BlockMachine();
     public static Block blockSiren = new BlockSiren();
     public static Block blockThermometer = new BlockThermometer();
     public static Block blockUraniumOre = new BlockUraniumOre();
@@ -55,13 +49,12 @@ public class QuantumBlocks {
 
     // Register blocks.
     public static void register() {
-        register(blockAccelerator);
         register(blockControlRod);
         register(blockElectricTurbine);
         register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
         register(blockFulmination);
         register(blockGasFunnel);
-        register(blockModelMachine, new ItemBlockMetadata(blockModelMachine));
+        register(blockMachine, new ItemBlockMetadata(blockMachine));
         register(blockSiren);
         register(blockThermometer, new ItemBlockThermometer(blockThermometer));
         register(blockUraniumOre);
@@ -73,20 +66,21 @@ public class QuantumBlocks {
 
         register(blockCreativeBuilder);
 
-        GameRegistry.registerTileEntity(TileAccelerator.class, "tileAccelerator");
-        GameRegistry.registerTileEntity(TileChemicalExtractor.class, "tileChemicalExtractor");
-        GameRegistry.registerTileEntity(TileElectricTurbine.class, "tileElectricTurbine");
-        GameRegistry.registerTileEntity(TileElectromagnet.class, "tileElectromagnet");
-        GameRegistry.registerTileEntity(TileFulmination.class, "tileFulmination");
-        GameRegistry.registerTileEntity(TileGasCentrifuge.class, "tileGasCentrifuge");
-        GameRegistry.registerTileEntity(TileGasFunnel.class, "tileGasFunnel");
-        GameRegistry.registerTileEntity(TileNuclearBoiler.class, "tileNuclearBoiler");
-        GameRegistry.registerTileEntity(TileSiren.class, "tileSiren");
-        GameRegistry.registerTileEntity(TileThermometer.class, "tileThermometer");
-        GameRegistry.registerTileEntity(TilePlasma.class, "tilePlasma");
-        GameRegistry.registerTileEntity(TilePlasmaHeater.class, "tilePlasmaHeater");
-        GameRegistry.registerTileEntity(TileQuantumAssembler.class, "tileQuantumAssembler");
-        GameRegistry.registerTileEntity(TileReactorCell.class, "tileReactorCell");
+        for (EnumModelMachine type : EnumModelMachine.values()) {
+            String name = type.getTileClass().getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
+
+            GameRegistry.registerTileEntity(type.getTileClass(), name);
+        }
+
+        GameRegistry.registerTileEntity(TileElectricTurbine.class, "tile_electric_turbine");
+        GameRegistry.registerTileEntity(TileElectromagnet.class, "tile_electromagnet");
+        GameRegistry.registerTileEntity(TileFulmination.class, "tile_fulmination");
+        GameRegistry.registerTileEntity(TileGasFunnel.class, "tile_gas_funnel");
+        GameRegistry.registerTileEntity(TileSiren.class, "tile_siren");
+        GameRegistry.registerTileEntity(TileThermometer.class, "tile_thermometer");
+        GameRegistry.registerTileEntity(TilePlasma.class, "tile_plasma");
+        GameRegistry.registerTileEntity(TilePlasmaHeater.class, "tile_plasma_heater");
+        GameRegistry.registerTileEntity(TileReactorCell.class, "tile_reactor_cell");
     }
 
     private static <T extends Block> T register(T block, ItemBlock itemBlock) {

@@ -39,7 +39,7 @@ import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumModelMachine;
+import org.halvors.quantum.common.block.machine.BlockMachine.EnumModelMachine;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell.EnumAntimatterCell;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
@@ -67,7 +67,6 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		//OBJBakedModel.init();
 
 		// Blocks.
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockAccelerator), 0, new ModelResourceLocation(Reference.PREFIX + "accelerator", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockControlRod), 0, new ModelResourceLocation(Reference.PREFIX + "control_rod", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockElectricTurbine), 0, new ModelResourceLocation(Reference.PREFIX + "electric_turbine", "inventory"));
 
@@ -79,7 +78,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockGasFunnel), 0, new ModelResourceLocation(Reference.PREFIX + "gas_funnel", "inventory"));
 
         for (EnumModelMachine type : EnumModelMachine.values()) {
-            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockModelMachine), type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "machine_model", "facing=north,type=" + type.getName()));
+            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockMachine), type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "machine", "facing=north,type=" + type.getName()));
         }
 
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockSiren), 0, new ModelResourceLocation(Reference.PREFIX + "siren", "inventory"));
