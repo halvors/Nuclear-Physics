@@ -13,10 +13,12 @@ import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileElectricInventory;
+import org.halvors.quantum.common.tile.TileRotatable;
+import org.halvors.quantum.common.tile.machine.TileMachine;
 
 import java.util.List;
 
-public class TilePlasmaHeater extends TileElectricInventory implements ITickable, ITileNetwork, IFluidHandler, IEnergyReceiver {
+public class TilePlasmaHeater extends TileMachine implements ITickable, ITileNetwork, IFluidHandler, IEnergyReceiver {
     public static long power = 10000000000L;
     public static int plasmaHeatAmount = 100; //@Config
 
@@ -94,7 +96,9 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITickable
     }
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) throws Exception {
+    public void handlePacketData(ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
         if (world.isRemote) {
             if (dataStream.readBoolean()) {
                 tankInputDeuterium.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
@@ -112,6 +116,8 @@ public class TilePlasmaHeater extends TileElectricInventory implements ITickable
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
+        super.getPacketData(objects);
+
         if (tankInputDeuterium.getFluid() != null) {
             objects.add(true);
 

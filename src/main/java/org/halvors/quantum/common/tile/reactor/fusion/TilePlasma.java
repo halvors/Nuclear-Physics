@@ -23,7 +23,7 @@ public class TilePlasma extends TileEntity implements ITickable {
 
             if (temperature <= plasmaMaxTemperature / 10) {
                 // At this temperature, set block to fire.
-                //world.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
+                world.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
 
                 // TODO: Is this still needed?
                 // We manually trigger a block update, to avoid client glitches.

@@ -1,5 +1,6 @@
 package org.halvors.quantum.common.block.machine;
 
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -21,6 +22,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockRotatable;
+import org.halvors.quantum.common.block.BlockRotatableMeta;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
@@ -44,18 +46,21 @@ public class BlockMachineModel extends BlockRotatable {
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public boolean isFullCube(IBlockState blockState) {
         return false;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public boolean isOpaqueCube(IBlockState blockState) {
@@ -73,7 +78,7 @@ public class BlockMachineModel extends BlockRotatable {
     @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, type, facing);
+        return new BlockStateContainer(this, type, BlockHorizontal.FACING);
     }
 
     @Override

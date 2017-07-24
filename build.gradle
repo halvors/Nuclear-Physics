@@ -50,16 +50,6 @@ minecraft {
     replace "@version", config.mod_version
 }
 
-repositories {
-    maven {
-        url 'http://maven.epoxide.org/'
-    }
-}
-
-dependencies {
-    compile "net.darkhax.tesla:Tesla:1.2.1.49"
-}
-
 processResources {
     // This will ensure that this task is redone when this versions change.
     inputs.property "mod_version", config.mod_version

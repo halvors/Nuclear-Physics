@@ -31,7 +31,7 @@ public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentri
         // Rotate block based on direction.
         GlStateManager.translate(1, 0, 1);
         GlStateManager.rotate(180, 0, 1, 0);
-        RenderUtility.rotateBlockBasedOnDirection(tile.getDirection());
+        RenderUtility.rotateBlockBasedOnDirection(tile.getFacing());
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5, 0, 0.5);

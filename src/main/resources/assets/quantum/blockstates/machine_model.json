@@ -13,12 +13,6 @@
     "inventory": [
       {}
     ],
-    "facing": {
-      "north": {},
-      "south": {},
-      "east": {},
-      "west": {}
-    },
     "type": {
       "chemical_extractor": {
         "model": "quantum:chemical_extractor.obj"

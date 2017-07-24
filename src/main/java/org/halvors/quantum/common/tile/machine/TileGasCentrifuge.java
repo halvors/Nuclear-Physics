@@ -136,7 +136,9 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, ITileNe
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) throws Exception {
+    public void handlePacketData(ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
         if (world.isRemote) {
             timer = dataStream.readInt();
 
@@ -148,6 +150,8 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, ITileNe
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
+        super.getPacketData(objects);
+
         objects.add(timer);
 
         if (gasTank.getFluid() != null) {
@@ -275,16 +279,4 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, ITileNe
             }
         }
     }
-
-    /*
-    @Override
-    public EnumFacing getDirection() {
-        return EnumFacing.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
-    }
-
-    @Override
-    public void setDirection(EnumFacing direction) {
-        world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
-    }
-    */
 }

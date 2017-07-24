@@ -18,12 +18,13 @@ import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileElectricInventory;
+import org.halvors.quantum.common.tile.machine.TileMachine;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 
-public class TileAccelerator extends TileElectricInventory implements ITickable, ITileNetwork, IElectromagnet {
+public class TileAccelerator extends TileMachine implements ITickable, ITileNetwork, IElectromagnet {
     // Energy required per ticks.
     public int acceleratorEnergyCostPerTick = ConfigurationManager.General.acceleratorEnergyCostPerTick;
 
@@ -161,7 +162,9 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) throws Exception {
+    public void handlePacketData(ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
         if (world.isRemote) {
             totalEnergyConsumed = dataStream.readFloat();
             antimatter = dataStream.readInt();
@@ -172,6 +175,8 @@ public class TileAccelerator extends TileElectricInventory implements ITickable,
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
+        super.getPacketData(objects);
+
         objects.add(totalEnergyConsumed);
         objects.add(antimatter);
         objects.add(velocity);

@@ -132,7 +132,9 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) throws Exception {
+    public void handlePacketData(ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
         if (world.isRemote) {
             timer = dataStream.readInt();
 
@@ -148,6 +150,8 @@ public class TileChemicalExtractor extends TileProcess implements ITileNetwork, 
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
+        super.getPacketData(objects);
+
         objects.add(timer);
 
         if (inputTank.getFluid() != null) {

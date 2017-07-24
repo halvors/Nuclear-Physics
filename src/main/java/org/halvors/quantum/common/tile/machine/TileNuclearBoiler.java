@@ -148,7 +148,9 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IFlu
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) throws Exception {
+    public void handlePacketData(ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
         if (dataStream.readBoolean()) {
             waterTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
         }
@@ -162,6 +164,8 @@ public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IFlu
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
+        super.getPacketData(objects);
+
         if (waterTank.getFluid() != null) {
             objects.add(true);
 

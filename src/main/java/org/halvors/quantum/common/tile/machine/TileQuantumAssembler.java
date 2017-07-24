@@ -115,7 +115,9 @@ public class TileQuantumAssembler extends TileMachine implements ITickable, ITil
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) throws Exception {
+    public void handlePacketData(ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
         // TODO: Check if there should be any kind of item sync here.
 
         time = dataStream.readInt();
@@ -123,6 +125,8 @@ public class TileQuantumAssembler extends TileMachine implements ITickable, ITil
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
+        super.getPacketData(objects);
+
         // TODO: Check if there should be any kind of item sync here.
 
         objects.add(time);

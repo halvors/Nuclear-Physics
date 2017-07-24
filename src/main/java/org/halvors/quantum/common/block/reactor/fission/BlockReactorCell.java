@@ -15,14 +15,14 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.block.BlockRotatable;
+import org.halvors.quantum.common.block.BlockRotatableMeta;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import javax.annotation.Nonnull;
 
-public class BlockReactorCell extends BlockRotatable {
+public class BlockReactorCell extends BlockRotatableMeta {
     public BlockReactorCell() {
         super("reactor_cell", Material.IRON);
 
