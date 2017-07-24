@@ -17,7 +17,6 @@ import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 
 import java.util.List;
 
-@EventBusSubscriber
 public class ExplosionEventHandler {
     @SubscribeEvent
     public void onItemExpireEvent(ItemExpireEvent event) {

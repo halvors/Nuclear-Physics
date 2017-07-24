@@ -20,6 +20,9 @@ import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.entity.particle.EntityParticle;
+import org.halvors.quantum.common.event.ExplosionEventHandler;
+import org.halvors.quantum.common.event.PlayerEventHandler;
+import org.halvors.quantum.common.event.ThermalEventHandler;
 import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.network.PacketHandler;
@@ -94,6 +97,9 @@ public class Quantum {
 	public void init(FMLInitializationEvent event) {
 		// Register event handlers.
 		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
+		MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
+		MinecraftForge.EVENT_BUS.register(new ExplosionEventHandler());
 
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
