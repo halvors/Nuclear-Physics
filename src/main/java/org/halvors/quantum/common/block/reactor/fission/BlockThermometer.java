@@ -67,6 +67,8 @@ public class BlockThermometer extends BlockRotatable {
             final ItemBlockThermometer itemBlockThermometer = (ItemBlockThermometer) itemStack.getItem();
             tileThermometer.setTrackCoordinate(itemBlockThermometer.getSavedCoord(itemStack));
         }
+
+        super.onBlockPlacedBy(world, pos, state, entity, itemStack);
     }
 
     @Override

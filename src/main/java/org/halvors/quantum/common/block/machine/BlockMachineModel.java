@@ -25,7 +25,6 @@ import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
-import org.halvors.quantum.common.tile.particle.TileAccelerator;
 
 import javax.annotation.Nonnull;
 import java.util.List;

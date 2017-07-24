@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.halvors.quantum.common.Quantum;
 
 import javax.annotation.Nonnull;
 
@@ -19,7 +20,7 @@ public abstract class BlockRotatable extends BlockContainerQuantum {
     public BlockRotatable(String name, Material material) {
         super(name, material);
 
-        setDefaultState(blockState.getBaseState().withProperty(facing, EnumFacing.SOUTH));
+        setDefaultState(blockState.getBaseState().withProperty(facing, EnumFacing.NORTH));
     }
 
     @Override
@@ -34,8 +35,13 @@ public abstract class BlockRotatable extends BlockContainerQuantum {
     }
 
     @Override
+    public IBlockState getStateFromMeta(int metadata) {
+        return getDefaultState().withProperty(facing, EnumFacing.getHorizontal(metadata));
+    }
+
+    @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
-        world.setBlockState(pos, state.withProperty(facing, entity.getHorizontalFacing()), 2);
+        world.setBlockState(pos, state.withProperty(facing, entity.getHorizontalFacing().getOpposite()), 2);
     }
 
     /*
