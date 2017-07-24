@@ -1,5 +1,6 @@
 package org.halvors.quantum.common.block.reactor.fusion;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -67,7 +68,19 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
+        IBlockState neighborBlockState = world.getBlockState(pos.offset(side));
+        Block neighborBlock = neighborBlockState.getBlock();
+
+        if (neighborBlock == this) {
+            EnumElectromagnet neighborBlockType = neighborBlockState.getValue(type);
+
+            if (neighborBlockType == EnumElectromagnet.GLASS) {
+                return false;
+            }
+        }
+
         /*
         Vector3 neighborPosition = new Vector3(pos.getX(), pos.getY(), pos.getZ()).translate(side.getOpposite());
         Block block = state.getBlock();
