@@ -4,7 +4,7 @@ Porting to 1.10.2 from 1.7.10:
     - Fix particle texture when breaking TESR rendered blocks.
     - In EntityParticle use dataManager instead of dataWatcher, see: https://github.com/aidancbrady/Mekanism/blob/f277f49b92cd15764dd72f74f1ad6401d58fc364/src/main/java/mekanism/common/entity/EntityBalloon.java
     - Verify that event handlers are working.
-    - Fix block rotation.
+    - Implement block rotation stored in tile entity for metadata blocks.
 
 Known bugs:
     - Should not be possible to inject fuel into each of the reactor cell multiblocks...

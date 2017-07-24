@@ -11,7 +11,8 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
-import org.halvors.quantum.common.block.BlockFluidToxicWaste;
+import org.halvors.quantum.common.block.fluid.BlockFluidPlasma;
+import org.halvors.quantum.common.block.fluid.BlockFluidToxicWaste;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,7 +40,7 @@ public class QuantumFluids {
 
     public static final Fluid plasma = createFluid("plasma", false,
             fluid -> fluid.setGaseous(true),
-            fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
+            fluid -> new BlockFluidPlasma(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
     public static final Fluid gasSteam = createFluid("steam", false,
             fluid -> fluid.setGaseous(true),
@@ -107,7 +108,7 @@ public class QuantumFluids {
                 block.setUnlocalizedName(fluid.getUnlocalizedName());
                 block.setRegistryName(fluid.getName());
 
-                if (!fluid.isGaseous()) {
+                if (!fluid.isGaseous() || block instanceof BlockFluidPlasma) {
                     block.setCreativeTab(Quantum.getCreativeTab());
                 }
 

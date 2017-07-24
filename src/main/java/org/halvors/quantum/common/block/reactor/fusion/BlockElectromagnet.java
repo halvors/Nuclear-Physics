@@ -81,19 +81,6 @@ public class BlockElectromagnet extends BlockContainerQuantum {
             }
         }
 
-        /*
-        Vector3 neighborPosition = new Vector3(pos.getX(), pos.getY(), pos.getZ()).translate(side.getOpposite());
-        Block block = state.getBlock();
-        int metadata = state.getBlock().getMetaFromState(state);
-        Block neighborBlock = neighborPosition.getBlock(world);
-        int neighborMetadata = neighborPosition.getBlock(world).getMetaFromState(state);
-
-        // Transparent electromagnetic glass.
-        if (block == this && neighborBlock == this && metadata == 1 && neighborMetadata == 1) {
-            return false;
-        }
-        */
-
         return super.shouldSideBeRendered(state, world, pos, side);
     }
 

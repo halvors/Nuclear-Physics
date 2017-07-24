@@ -1,20 +1,24 @@
 package org.halvors.quantum.common.tile.reactor.fission;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
+import org.halvors.quantum.common.tile.ITileRotatable;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import java.util.List;
 
-public class TileThermometer extends TileEntity implements ITickable, ITileNetwork {
+public class TileThermometer extends TileEntity implements ITickable, ITileNetwork, ITileRotatable {
     private static final int maxThreshold = 5000;
     private float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
     private float previousDetectedTemperature = detectedTemperature; // Synced
@@ -148,5 +152,17 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
 
     public boolean isOverThreshold() {
         return detectedTemperature >= getThershold();
+    }
+
+    @Override
+    public EnumFacing getDirection() {
+        IBlockState state = world.getBlockState(pos);
+
+        return EnumFacing.getHorizontal(state.getBlock().getMetaFromState(state));
+    }
+
+    @Override
+    public void setDirection(EnumFacing direction) {
+        world.setBlockState(pos, world.getBlockState(pos).withProperty(BlockRotatable.facing, direction), 2);
     }
 }

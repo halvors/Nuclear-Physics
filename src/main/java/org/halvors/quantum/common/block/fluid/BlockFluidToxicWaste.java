@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.block;
+package org.halvors.quantum.common.block.fluid;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -17,7 +17,7 @@ import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import java.util.Random;
 
 public class BlockFluidToxicWaste extends BlockFluidClassic {
-    public BlockFluidToxicWaste(Fluid fluid, Material material) {
+    public BlockFluidToxicWaste(final Fluid fluid, final Material material) {
         super(fluid, material);
 
         setTickRate(20);
