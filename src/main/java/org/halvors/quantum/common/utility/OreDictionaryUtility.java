@@ -24,7 +24,7 @@ public class OreDictionaryUtility {
     }
 
     public static boolean isWaterCell(ItemStack itemStack) {
-        return isItemStackOreDictionaryCompatible(itemStack, "cell_water.json");
+        return isItemStackOreDictionaryCompatible(itemStack, "water_cell.json");
     }
 
     public static boolean isUraniumOre(ItemStack itemStack) {

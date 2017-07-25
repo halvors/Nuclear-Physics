@@ -23,9 +23,9 @@ tile.creative_builder.name=Creative Builder
 tile.creative_builder.tooltip=
 tile.electromagnet.0.name=Electromagnet
 tile.electromagnet.1.name=Electromagnet Glass
-tile.electromagnet.electromagnet.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
+tile.electromagnet.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
 tile.electric_turbine.name=Electric Turbine
-tile.electric_tTurbine.tooltip=Transform the kinetic energy from moving steam into electrical energy.
+tile.electric_turbine.tooltip=Transform the kinetic energy from moving steam into electrical energy.
 tile.fulmination.name=Fulmination Generator
 tile.fulmination.tooltip=Transforms the kinetic energy from explosions into electrical energy.
 tile.machine_model.1.name=Gas Centrifuge
@@ -53,18 +53,15 @@ tile.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-
 
 // Items.
 // Cells.
-item.cell_empty.0.name=Empty Cell
-item.cell_water.0.name=Water Cell
-item.cell_deuterium.0.name=Deuterium Cell
-item.cell_tritium.0.name=Tritium Cell
-item.dark_matter.0.name=Dark Matter
-item.antimatter.0.name=Antimatter
-item.antimatter.0.tooltip=125 Milligrams
-item.antimatter.1.name=Antimatter
-item.antimatter.1.tooltip=1 Gram
-
-// Buckets
-item.bucket_toxic_waste.name=Toxic Waste Bucket
+item.empty_cell.0.name=Empty Cell
+item.water_cell.0.name=Water Cell
+item.deuterium_cell.0.name=Deuterium Cell
+item.tritium_cell.0.name=Tritium Cell
+item.darkmatter_cell.0.name=Dark Matter
+item.antimatter_cell.0.name=Antimatter
+item.antimatter_cell.0.tooltip=125 Milligrams
+item.antimatter_cell.1.name=Antimatter
+item.antimatter_cell.1.tooltip=1 Gram
 
 // Uranium
 item.yellowcake.name=Yellowcake
@@ -76,9 +73,6 @@ item.fissile_fuel.name=Fissile Fuel Rod
 item.fissile_fuel.tooltip=The primary fuel source for fission reactors.
 item.breeder_fuel.name=Breeder Fuel Rod
 item.breeder_fuel.tooltip=The fuel source for re-breeding decayed fissile fuels.
-
-//item.uraniumHexafluoride.name=Uranium Hexafluoride
-//item.steam.name=Steam
 
 // Hazmat
 item.hazmat_mask.name=Hazmat Mask

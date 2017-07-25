@@ -5,8 +5,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.halvors.quantum.common.item.ItemCell;
+import org.halvors.quantum.common.item.ItemQuantum;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
+import org.halvors.quantum.common.item.armor.ItemArmorQuantum;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell;
 import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
@@ -17,12 +19,12 @@ public class QuantumItems {
     // Cells
     public static Item itemAntimatterCell = new ItemAntimatterCell();
     public static Item itemBreederFuel = new ItemBreederFuel();
-    public static Item itemCell = new ItemCell("cell_empty");
+    public static Item itemCell = new ItemCell("empty_cell");
     public static Item itemDarkMatterCell = new ItemDarkmatterCell();
-    public static Item itemDeuteriumCell = new ItemCell("cell_deuterium");
+    public static Item itemDeuteriumCell = new ItemCell("deuterium_cell");
     public static Item itemFissileFuel = new ItemFissileFuel();
-    public static Item itemTritiumCell = new ItemCell("cell_tritium");
-    public static Item itemWaterCell = new ItemCell("cell_water");
+    public static Item itemTritiumCell = new ItemCell("tritium_cell");
+    public static Item itemWaterCell = new ItemCell("water_cell");
 
     // Uranium
     public static Item itemUranium = new ItemUranium();
@@ -57,11 +59,11 @@ public class QuantumItems {
     private static <T extends Item> T register(T item) {
         GameRegistry.register(item);
 
-        /*
-        if (item instanceof ItemQuantum && !(item instanceof ItemMetadata)) {
+        if (item instanceof ItemQuantum) {
             ((ItemQuantum) item).registerItemModel();
+        } else if (item instanceof ItemArmorQuantum) {
+            ((ItemArmorQuantum) item).registerItemModel();
         }
-        */
 
         return item;
     }

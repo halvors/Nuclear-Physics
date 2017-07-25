@@ -11,10 +11,10 @@ import org.halvors.quantum.api.item.armor.IAntiPoisonArmor;
 import org.halvors.quantum.common.Reference;
 
 public class ItemArmorHazmat extends ItemArmorQuantum implements IAntiPoisonArmor {
-    private static final ArmorMaterial armorMaterial = EnumHelper.addArmorMaterial("hazmat" , "hazmat", 0, new int[] { 0, 0, 0, 0 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
+    private static final ArmorMaterial material = EnumHelper.addArmorMaterial("hazmat" , "hazmat", 0, new int[] { 0, 0, 0, 0 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 
     public ItemArmorHazmat(String name, EntityEquipmentSlot slot) {
-        super(name, armorMaterial, slot);
+        super(name, material, slot);
 
         setMaxDamage(200000);
     }

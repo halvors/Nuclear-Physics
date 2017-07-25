@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.utility.LanguageUtility;
 
@@ -16,6 +17,13 @@ public class ItemUranium extends ItemRadioactive {
         super("uranium");
 
         setMaxDamage(0);
+    }
+
+    @Override
+    public void registerItemModel() {
+        for (EnumUranium type : EnumUranium.values()) {
+            Quantum.getProxy().registerItemRenderer(this, type.ordinal(), name);
+        }
     }
 
     @Override

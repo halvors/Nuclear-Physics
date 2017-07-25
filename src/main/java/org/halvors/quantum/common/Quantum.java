@@ -125,7 +125,7 @@ public class Quantum {
 		OreDictionary.registerOre("cellUranium", QuantumItems.itemFissileFuel);
 		OreDictionary.registerOre("cellTritium", QuantumItems.itemTritiumCell);
 		OreDictionary.registerOre("cellDeuterium", QuantumItems.itemDeuteriumCell);
-		OreDictionary.registerOre("cell_water.json", QuantumItems.itemWaterCell);
+		OreDictionary.registerOre("water_cell.json", QuantumItems.itemWaterCell);
 		OreDictionary.registerOre("darkmatter", QuantumItems.itemDarkMatterCell);
 		OreDictionary.registerOre("antimatterMilligram", new ItemStack(QuantumItems.itemAntimatterCell, 1, 0));
 		OreDictionary.registerOre("antimatterGram", new ItemStack(QuantumItems.itemAntimatterCell, 1, 1));

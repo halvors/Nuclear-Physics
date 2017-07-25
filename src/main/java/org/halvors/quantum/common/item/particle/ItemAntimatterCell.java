@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.utility.LanguageUtility;
 
@@ -14,9 +15,16 @@ import java.util.List;
 
 public class ItemAntimatterCell extends ItemCell {
     public ItemAntimatterCell() {
-        super("cell_antimatter");
+        super("antimatter_cell");
 
         setMaxDamage(0);
+    }
+
+    @Override
+    public void registerItemModel() {
+        for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
+            Quantum.getProxy().registerItemRenderer(this, type.ordinal(), name + "_" + type.getName());
+        }
     }
 
     @Override
