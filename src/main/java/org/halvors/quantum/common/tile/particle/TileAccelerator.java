@@ -35,10 +35,10 @@ public class TileAccelerator extends TileMachine implements ITickable, ITileNetw
     public float totalEnergyConsumed = 0; // Synced
 
     /** The amount of anti-matter stored within the accelerator. Measured in milligrams. */
-    public int antimatter; // Synced
+    public int antimatter = 0; // Synced
     public EntityParticle entityParticle;
 
-    public float velocity; // Synced
+    public float velocity = 0; // Synced
     private long clientEnergy = 0; // Synced
     private int lastSpawnTick = 0;
 
@@ -165,22 +165,26 @@ public class TileAccelerator extends TileMachine implements ITickable, ITileNetw
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
+        /*
         if (world.isRemote) {
             totalEnergyConsumed = dataStream.readFloat();
             antimatter = dataStream.readInt();
             velocity = dataStream.readFloat();
             clientEnergy = dataStream.readLong();
         }
+        */
     }
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
+        /*
         objects.add(totalEnergyConsumed);
         objects.add(antimatter);
         objects.add(velocity);
         objects.add(clientEnergy);
+        */
 
         return objects;
     }

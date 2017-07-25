@@ -1,10 +1,9 @@
-Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
-
 Porting to 1.10.2 from 1.7.10:
     - Fix particle texture when breaking TESR rendered blocks.
     - In EntityParticle use dataManager instead of dataWatcher, see: https://github.com/aidancbrady/Mekanism/blob/f277f49b92cd15764dd72f74f1ad6401d58fc364/src/main/java/mekanism/common/entity/EntityBalloon.java
-    - Verify that event handlers are working.
-    - Implement block rotation stored in tile entity for metadata blocks.
+    - Verify that event handlers are working. (MOSTLY DONE).
+    - Implement block rotation stored in tile entity for metadata blocks. (MOSTLY DONE).
+    - Fix reactor cell rendering.
 
 Known bugs:
     - Should not be possible to inject fuel into each of the reactor cell multiblocks...
@@ -32,6 +31,7 @@ New features to add:
         - Add radiation resistance block which implements IAntiPoisonBlock.
         - Make reactor make glass if sand is next to it, and make it melt snow.
         - Make accelerator GUI show energy usage per 5 mg antimatter, as a measure of efficiency.
+        - Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
 
     Rendering:
         - Make the whole multi block reactor cell share GUI.

@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.base.tile;
+package org.halvors.quantum.common.tile;
 
 import net.minecraft.entity.player.EntityPlayer;
 

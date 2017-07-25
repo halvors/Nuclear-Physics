@@ -174,5 +174,4 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
             nbt.setTag("primaryMultiBlock", getPrimary().getPosition().subtract(self.getPosition()).writeToNBT(new NBTTagCompound()));
         }
     }
-
 }

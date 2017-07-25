@@ -9,7 +9,7 @@ import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.block.machine.BlockMachine;
 import org.halvors.quantum.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.quantum.common.block.machine.BlockMachineModel;
-import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumModelMachine;
+import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.quantum.common.block.particle.BlockFulmination;
 import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
 import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
@@ -72,7 +72,7 @@ public class QuantumBlocks {
             GameRegistry.registerTileEntity(type.getTileClass(), name);
         }
 
-        for (EnumModelMachine type : EnumModelMachine.values()) {
+        for (EnumMachineModel type : BlockMachineModel.EnumMachineModel.values()) {
             String name = type.getTileClass().getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
 
             GameRegistry.registerTileEntity(type.getTileClass(), name);

@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
-import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
+import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
@@ -38,34 +38,34 @@ public class BlockReactorCell extends BlockContainerQuantum {
         setDefaultState(blockState.getBaseState().withProperty(type, EnumReactorCell.TOP));
     }
 
-    @Override
     @SuppressWarnings("deprecation")
+    @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(@Nonnull IBlockState blockState, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EnumFacing side) {
         return false;
     }
 
-    @Override
     @SuppressWarnings("deprecation")
-    public boolean isOpaqueCube(@Nonnull IBlockState blockState) {
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
-    @Override
     @SuppressWarnings("deprecation")
-    public boolean isFullCube(@Nonnull IBlockState blockState) {
+    @Override
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, type);
+        return new BlockStateReactorCell(this);
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(type).ordinal();
+        return state.getValue(BlockStateReactorCell.typeProperty).ordinal();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class BlockReactorCell extends BlockContainerQuantum {
     }
 
     @Override
-    public boolean onBlockActivated(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull EntityPlayer player, @Nonnull EnumHand hand, ItemStack itemStack, @Nonnull EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
         final TileReactorCell tile = (TileReactorCell) world.getTileEntity(pos);
 
         if (player.inventory.getCurrentItem() != null) {
@@ -107,7 +107,7 @@ public class BlockReactorCell extends BlockContainerQuantum {
     }
 
     @Override
-    public void onNeighborChange(@Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull BlockPos neighborPos) {
+    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighborPos) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileReactorCell) {

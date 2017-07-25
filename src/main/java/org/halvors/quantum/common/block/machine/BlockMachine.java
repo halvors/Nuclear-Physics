@@ -10,15 +10,21 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.block.BlockInventory;
 import org.halvors.quantum.common.block.BlockRotatable;
+import org.halvors.quantum.common.block.states.BlockStateFacing;
+import org.halvors.quantum.common.block.states.BlockStateMachine;
+import org.halvors.quantum.common.tile.ITileRotatable;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.utility.FluidUtility;
@@ -26,13 +32,18 @@ import org.halvors.quantum.common.utility.FluidUtility;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class BlockMachine extends BlockRotatable {
-    private static final PropertyEnum<EnumMachine> type = PropertyEnum.create("type", EnumMachine.class);
-
+public class BlockMachine extends BlockInventory {
     public BlockMachine() {
         super("machine", Material.IRON);
 
-        setDefaultState(blockState.getBaseState().withProperty(type, EnumMachine.ACCELERATOR));
+        //setDefaultState(blockState.getBaseState().withProperty(type, EnumMachine.ACCELERATOR));
+    }
+
+    @Override
+    @Nonnull
+    @SideOnly(Side.CLIENT)
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.MODEL;
     }
 
     @Override
@@ -46,19 +57,19 @@ public class BlockMachine extends BlockRotatable {
     @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, type, facing);
+        return new BlockStateMachine(this);
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(type).ordinal();
+        return state.getValue(BlockStateMachine.typeProperty).ordinal();
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
         super.onBlockPlacedBy(world, pos, state, entity, itemStack);
 
-        world.setBlockState(pos, state.withProperty(type, EnumMachine.values()[itemStack.getItemDamage()]), 2);
+        world.setBlockState(pos, state.withProperty(BlockStateMachine.typeProperty, EnumMachine.values()[itemStack.getItemDamage()]), 2);
     }
 
     @Override

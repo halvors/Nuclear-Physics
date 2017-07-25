@@ -1,34 +1,30 @@
 package org.halvors.quantum.common.block;
 
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.halvors.quantum.common.block.states.BlockStateFacing;
 import org.halvors.quantum.common.tile.ITileRotatable;
 
 import javax.annotation.Nonnull;
 
 public abstract class BlockRotatable extends BlockContainerQuantum {
-    protected static final PropertyDirection facing = BlockHorizontal.FACING;
-
     public BlockRotatable(String name, Material material) {
         super(name, material);
 
-        setDefaultState(blockState.getBaseState().withProperty(facing, EnumFacing.NORTH));
+        //setDefaultState(blockState.getBaseState().withProperty(facing, EnumFacing.NORTH));
     }
 
     @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, facing);
+        return new BlockStateFacing(this);
     }
 
     @Override
@@ -38,13 +34,13 @@ public abstract class BlockRotatable extends BlockContainerQuantum {
 
     @SuppressWarnings("deprecation")
     @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof ITileRotatable) {
             ITileRotatable tileRotatable = (ITileRotatable) tile;
 
-            return state.withProperty(facing, tileRotatable.getFacing());
+            state = state.withProperty(BlockStateFacing.facingProperty, tileRotatable.getFacing());
         }
 
         return state;

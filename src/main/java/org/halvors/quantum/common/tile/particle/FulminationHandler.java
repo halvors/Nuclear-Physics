@@ -12,9 +12,9 @@ public class FulminationHandler {
     public static final FulminationHandler INSTANCE = new FulminationHandler();
     public static final List<TileFulmination> list = new ArrayList<>();
 
-    public void register(TileFulmination tileEntity) {
-        if (!list.contains(tileEntity)) {
-            list.add(tileEntity);
+    public void register(TileFulmination tile) {
+        if (!list.contains(tile)) {
+            list.add(tile);
         }
     }
 
@@ -23,7 +23,7 @@ public class FulminationHandler {
     }
 
     @SubscribeEvent
-    public void onDoExplosionEvent(ExplosionEvent.DoExplosionEvent event) {
+    public void onExplosionEvent(ExplosionEvent.DoExplosionEvent event) {
         if (event.iExplosion != null) {
             if (event.iExplosion.getRadius() > 0 && event.iExplosion.getEnergy() > 0) {
                 HashSet<TileFulmination> avaliableGenerators = new HashSet<>();

@@ -19,19 +19,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
 public class BlockElectromagnet extends BlockContainerQuantum {
-    private static final PropertyEnum<EnumElectromagnet> type = PropertyEnum.create("type", EnumElectromagnet.class);
-
     public BlockElectromagnet() {
         super("electromagnet", Material.IRON);
 
         setResistance(20);
-        setDefaultState(blockState.getBaseState().withProperty(type, EnumElectromagnet.NORMAL));
+        //setDefaultState(blockState.getBaseState().withProperty(type, EnumElectromagnet.NORMAL));
     }
 
     @SuppressWarnings("deprecation")
@@ -42,7 +41,7 @@ public class BlockElectromagnet extends BlockContainerQuantum {
         Block neighborBlock = neighborBlockState.getBlock();
 
         if (neighborBlock == this) {
-            EnumElectromagnet neighborBlockType = neighborBlockState.getValue(type);
+            EnumElectromagnet neighborBlockType = neighborBlockState.getValue(BlockStateElectromagnet.typeProperty);
 
             if (neighborBlockType == EnumElectromagnet.GLASS) {
                 return false;
@@ -77,17 +76,17 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, type);
+        return new BlockStateElectromagnet(this);
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(type).ordinal();
+        return state.getValue(BlockStateElectromagnet.typeProperty).ordinal();
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
-        world.setBlockState(pos, state.withProperty(type, EnumElectromagnet.values()[itemStack.getItemDamage()]), 2);
+        world.setBlockState(pos, state.withProperty(BlockStateElectromagnet.typeProperty, EnumElectromagnet.values()[itemStack.getItemDamage()]), 2);
     }
 
     @Override

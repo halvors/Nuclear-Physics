@@ -24,6 +24,7 @@ public class BlockPlasma extends BlockContainerQuantum {
         super("plasma", Material.LAVA);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public boolean isOpaqueCube(IBlockState state) {
@@ -31,6 +32,7 @@ public class BlockPlasma extends BlockContainerQuantum {
     }
 
     @Override
+    @Nonnull
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.TRANSLUCENT;
@@ -46,8 +48,8 @@ public class BlockPlasma extends BlockContainerQuantum {
         return false;
     }
 
-    @Override
     @SuppressWarnings("deprecation")
+    @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
         return NULL_AABB;
     }

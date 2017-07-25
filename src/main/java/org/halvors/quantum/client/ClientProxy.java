@@ -40,7 +40,8 @@ import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.block.machine.BlockMachine.EnumMachine;
-import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumModelMachine;
+import org.halvors.quantum.common.block.machine.BlockMachineModel;
+import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell.EnumAntimatterCell;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
@@ -82,7 +83,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
             ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockMachine), type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "machine", "facing=north,type=" + type.getName()));
         }
 
-        for (EnumModelMachine type : EnumModelMachine.values()) {
+        for (BlockMachineModel.EnumMachineModel type : EnumMachineModel.values()) {
             ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockMachineModel), type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "machine_model", "facing=north,type=" + type.getName()));
         }
 
@@ -142,7 +143,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
 	    final TextureMap textureMap = event.getMap();
 
-	    for (EnumModelMachine type : EnumModelMachine.values()) {
+	    for (BlockMachineModel.EnumMachineModel type : BlockMachineModel.EnumMachineModel.values()) {
             textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, type.getName()));
         }
 

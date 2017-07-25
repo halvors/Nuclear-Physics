@@ -73,12 +73,14 @@ public class TileRotatable extends TileElectricInventory implements ITileNetwork
     @Override
     public void setFacing(EnumFacing facing) {
         if (!(facing == clientFacing || world.isRemote)) {
-            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            //Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             //markDirty();
 
-            clientFacing = facing;
+            //clientFacing = facing;
         }
 
         this.facing = facing;
+
+        Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
     }
 }

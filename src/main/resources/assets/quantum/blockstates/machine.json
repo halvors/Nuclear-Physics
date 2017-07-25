@@ -1,8 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "orientable",
-    "uvlock": true
+
   },
   "variants": {
     "normal": [
@@ -25,12 +24,14 @@
     },
     "type": {
       "accelerator": {
+        "model": "orientable",
         "textures": {
-          "front": "quantum:blocks/accelerator",
+          "front": "quantum:blocks/machine",
           "top": "quantum:blocks/accelerator",
           "side": "quantum:blocks/accelerator",
           "particle": "quantum:blocks/accelerator"
-        }
+        },
+        "uvlock": true
       },
       "plasma_heater": {
         "custom": {

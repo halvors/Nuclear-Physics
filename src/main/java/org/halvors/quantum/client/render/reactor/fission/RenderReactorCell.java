@@ -39,8 +39,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
         GlStateManager.disableRescaleNormal();
 
         EnumReactorCell type = EnumReactorCell.values()[tile.getBlockMetadata()];
-        World world = tile.getWorld();
-        boolean hasBelow = world != null && world.getTileEntity(tile.getPos().down()) instanceof TileReactorCell;
+        boolean hasBelow = tile.getWorld().getTileEntity(tile.getPos().down()) instanceof TileReactorCell;
 
         switch (type) {
             case TOP:

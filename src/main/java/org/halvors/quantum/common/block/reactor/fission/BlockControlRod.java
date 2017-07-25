@@ -14,22 +14,24 @@ public class BlockControlRod extends BlockQuantum {
         super("control_rod", Material.IRON);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    @SuppressWarnings("deprecation")
     public AxisAlignedBB getBoundingBox(@Nonnull IBlockState state, @Nonnull IBlockAccess access, @Nonnull BlockPos pos) {
         return new AxisAlignedBB(0.3125, 0, 0.3125, 0.6875, 1, 0.6875);
     }
 
-    @Override
     @SuppressWarnings("deprecation")
-    public boolean isFullCube(@Nonnull IBlockState state) {
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
-    @Override
     @SuppressWarnings("deprecation")
-    public boolean isOpaqueCube(@Nonnull IBlockState state) {
+    @Override
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
+
+
 }

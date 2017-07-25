@@ -1,8 +1,6 @@
 package org.halvors.quantum.common.block.machine;
 
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -21,8 +19,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.block.BlockInventory;
 import org.halvors.quantum.common.block.BlockRotatable;
-import org.halvors.quantum.common.block.BlockRotatableMeta;
+import org.halvors.quantum.common.block.states.BlockStateMachine;
+import org.halvors.quantum.common.block.states.BlockStateMachineModel;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
@@ -31,19 +31,11 @@ import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class BlockMachineModel extends BlockRotatable {
-    private static final PropertyEnum<EnumModelMachine> type = PropertyEnum.create("type", EnumModelMachine.class);
-
+public class BlockMachineModel extends BlockInventory {
     public BlockMachineModel() {
         super("machine_model", Material.IRON);
 
-        setDefaultState(blockState.getBaseState().withProperty(type, EnumModelMachine.CHEMICAL_EXTRACTOR));
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+        //setDefaultState(blockState.getBaseState().withProperty(type, EnumMachineModel.CHEMICAL_EXTRACTOR));
     }
 
     @SuppressWarnings("deprecation")
@@ -56,21 +48,27 @@ public class BlockMachineModel extends BlockRotatable {
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isFullCube(IBlockState blockState) {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState blockState) {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
     public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
-        for (EnumModelMachine type : EnumModelMachine.values()) {
+        for (EnumMachineModel type : EnumMachineModel.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
@@ -78,19 +76,19 @@ public class BlockMachineModel extends BlockRotatable {
     @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, type, facing);
+        return new BlockStateMachineModel(this);
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(type).ordinal();
+        return state.getValue(BlockStateMachineModel.typeProperty).ordinal();
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
         super.onBlockPlacedBy(world, pos, state, entity, itemStack);
 
-        world.setBlockState(pos, state.withProperty(type, EnumModelMachine.values()[itemStack.getItemDamage()]), 2);
+        world.setBlockState(pos, state.withProperty(BlockStateMachineModel.typeProperty, EnumMachineModel.values()[itemStack.getItemDamage()]), 2);
     }
 
     @Override
@@ -111,12 +109,12 @@ public class BlockMachineModel extends BlockRotatable {
 
     @Override
     public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
-        final EnumModelMachine type = EnumModelMachine.values()[metadata];
+        final EnumMachineModel type = EnumMachineModel.values()[metadata];
 
         return type.getTileAsNewIntance();
     }
 
-    public enum EnumModelMachine implements IStringSerializable {
+    public enum EnumMachineModel implements IStringSerializable {
         CHEMICAL_EXTRACTOR("chemical_extractor", TileChemicalExtractor.class),
         GAS_CENTRIFUGE("gas_centrifuge", TileGasCentrifuge.class),
         NUCLEAR_BOILER("nuclear_boiler", TileNuclearBoiler.class),
@@ -125,7 +123,7 @@ public class BlockMachineModel extends BlockRotatable {
         private String name;
         private Class<? extends TileEntity> tileClass;
 
-        EnumModelMachine(String name, Class<? extends TileEntity> tileClass) {
+        EnumMachineModel(String name, Class<? extends TileEntity> tileClass) {
             this.name = name;
             this.tileClass = tileClass;
         }

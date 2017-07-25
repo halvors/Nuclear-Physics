@@ -13,6 +13,12 @@
         "transform": "forge:default-block"
       }
     ],
+    "facing": {
+      "north": {},
+      "south": {},
+      "east": {},
+      "west": {}
+    },
     "type": {
       "top": {},
       "middle": {},

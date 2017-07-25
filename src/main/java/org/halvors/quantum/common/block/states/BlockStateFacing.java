@@ -9,11 +9,11 @@ import net.minecraft.block.state.BlockStateContainer;
 public class BlockStateFacing extends BlockStateContainer {
     public static final PropertyDirection facingProperty = BlockHorizontal.FACING;
 
-    public BlockStateFacing(Block block, PropertyEnum typeProperty) {
-        super(block, facingProperty, typeProperty);
-    }
-
     public BlockStateFacing(Block block) {
         super(block, facingProperty);
+    }
+
+    public BlockStateFacing(Block block, PropertyEnum typeProperty) {
+        super(block, facingProperty, typeProperty);
     }
 }
