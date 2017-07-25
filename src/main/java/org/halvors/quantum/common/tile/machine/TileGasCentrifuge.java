@@ -23,7 +23,7 @@ import org.halvors.quantum.common.utility.transform.vector.VectorHelper;
 
 import java.util.List;
 
-public class TileGasCentrifuge extends TileMachine implements ITickable, ITileNetwork, IFluidHandler, ISidedInventory {
+public class TileGasCentrifuge extends TileMachine implements ITickable, IFluidHandler {
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 

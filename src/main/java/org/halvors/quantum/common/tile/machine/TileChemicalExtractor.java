@@ -17,7 +17,7 @@ import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
 import java.util.List;
 
-public class TileChemicalExtractor extends TileProcess implements ITileNetwork, IFluidHandler {
+public class TileChemicalExtractor extends TileProcess implements IFluidHandler {
     public static final int tickTime = 20 * 14;
     private static final int extractSpeed = 100;
     public static final int energy = 20000;

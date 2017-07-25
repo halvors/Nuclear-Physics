@@ -18,7 +18,7 @@ import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
 import java.util.List;
 
-public class TileNuclearBoiler extends TileProcess implements ITileNetwork, IFluidHandler, ISidedInventory {
+public class TileNuclearBoiler extends TileProcess implements IFluidHandler {
     public static final int tickTime = 20 * 15;
     public static final int energy = 21000;
 

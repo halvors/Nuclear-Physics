@@ -24,7 +24,7 @@ import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 
-public class TileAccelerator extends TileMachine implements ITickable, ITileNetwork, IElectromagnet {
+public class TileAccelerator extends TileMachine implements ITickable, IElectromagnet {
     // Energy required per ticks.
     public int acceleratorEnergyCostPerTick = ConfigurationManager.General.acceleratorEnergyCostPerTick;
 
@@ -165,26 +165,22 @@ public class TileAccelerator extends TileMachine implements ITickable, ITileNetw
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
-        /*
         if (world.isRemote) {
             totalEnergyConsumed = dataStream.readFloat();
             antimatter = dataStream.readInt();
             velocity = dataStream.readFloat();
             clientEnergy = dataStream.readLong();
         }
-        */
     }
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
-        /*
         objects.add(totalEnergyConsumed);
         objects.add(antimatter);
         objects.add(velocity);
         objects.add(clientEnergy);
-        */
 
         return objects;
     }

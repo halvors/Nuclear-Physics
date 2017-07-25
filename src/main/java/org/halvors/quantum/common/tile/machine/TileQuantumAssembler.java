@@ -17,7 +17,7 @@ import org.halvors.quantum.common.tile.ITileNetwork;
 
 import java.util.List;
 
-public class TileQuantumAssembler extends TileMachine implements ITickable, ITileNetwork {
+public class TileQuantumAssembler extends TileMachine implements ITickable {
     public static final int tickTime = 20 * 120;
     private static final int energy = 10000000; // Fix this.
 

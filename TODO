@@ -4,6 +4,7 @@ Porting to 1.10.2 from 1.7.10:
     - Verify that event handlers are working. (MOSTLY DONE).
     - Implement block rotation stored in tile entity for metadata blocks. (MOSTLY DONE).
     - Fix reactor cell rendering.
+    - Fix packet error for TileAccelerator and TilePlasmaHeater.
 
 Known bugs:
     - Should not be possible to inject fuel into each of the reactor cell multiblocks...

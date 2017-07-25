@@ -214,7 +214,7 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) throws Exception {
+    public void handlePacketData(ByteBuf dataStream) {
         if (world.isRemote) {
             tier = dataStream.readInt();
             angularVelocity = dataStream.readFloat();

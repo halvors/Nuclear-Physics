@@ -18,7 +18,7 @@ import org.halvors.quantum.common.tile.machine.TileMachine;
 
 import java.util.List;
 
-public class TilePlasmaHeater extends TileMachine implements ITickable, ITileNetwork, IFluidHandler, IEnergyReceiver {
+public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHandler {
     public static long power = 10000000000L;
     public static int plasmaHeatAmount = 100; //@Config
 
