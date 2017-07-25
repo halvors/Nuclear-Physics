@@ -1,12 +1,15 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "orientable",
+    "model": "cube_all",
     "textures": {
-      "front": "quantum:blocks/thermometer",
-      "top": "quantum:blocks/thermometer",
-      "side": "quantum:blocks/machine",
-      "particle": "quantum:blocks/machine"
+      "particle": "quantum:blocks/machine",
+      "down": "quantum:blocks/machine",
+      "up": "quantum:blocks/thermometer",
+      "north": "quantum:blocks/machine",
+      "east": "quantum:blocks/machine",
+      "south": "quantum:blocks/machine",
+      "west": "quantum:blocks/machine"
     },
     "uvlock": true
   },
@@ -16,18 +19,6 @@
     ],
     "inventory": [
       {}
-    ],
-    "facing": {
-      "north": {},
-      "south": {
-        "y": 180
-      },
-      "east": {
-        "y": 90
-      },
-      "west": {
-        "y": 270
-      }
-    }
+    ]
   }
 }

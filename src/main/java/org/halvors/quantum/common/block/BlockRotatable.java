@@ -2,6 +2,7 @@ package org.halvors.quantum.common.block;
 
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,18 +17,26 @@ import org.halvors.quantum.common.tile.ITileRotatable;
 import javax.annotation.Nonnull;
 
 public abstract class BlockRotatable extends BlockContainerQuantum {
+    protected static final PropertyDirection facing = BlockHorizontal.FACING;
+
     public BlockRotatable(String name, Material material) {
         super(name, material);
 
-        setDefaultState(blockState.getBaseState().withProperty(BlockHorizontal.FACING, EnumFacing.NORTH));
+        setDefaultState(blockState.getBaseState().withProperty(facing, EnumFacing.NORTH));
     }
 
     @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, BlockHorizontal.FACING);
+        return new BlockStateContainer(this, facing);
     }
 
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return 0;
+    }
+
+    @SuppressWarnings("deprecation")
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
@@ -35,7 +44,7 @@ public abstract class BlockRotatable extends BlockContainerQuantum {
         if (tile instanceof ITileRotatable) {
             ITileRotatable tileRotatable = (ITileRotatable) tile;
 
-            state.withProperty(BlockHorizontal.FACING, tileRotatable.getFacing());
+            return state.withProperty(facing, tileRotatable.getFacing());
         }
 
         return state;
@@ -49,23 +58,7 @@ public abstract class BlockRotatable extends BlockContainerQuantum {
             ITileRotatable tileRotatable = (ITileRotatable) tile;
 
             tileRotatable.setFacing(placer.getHorizontalFacing().getOpposite());
-            world.markBlockRangeForRenderUpdate(pos, pos.add(1,1,1));
+            //world.markBlockRangeForRenderUpdate(pos, pos.add(1,1,1));
         }
     }
-
-    /*
-    @Override
-    public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
-        TileEntity tile = world.getTileEntity(pos);
-
-        if (tile instanceof ITileRotatable) {
-            ITileRotatablee tileRotatable = (ITileRotatable) tile;
-            tileRotatable.setFacing(axis);
-
-            return true;
-        }
-
-        return false;
-    }
-    */
 }

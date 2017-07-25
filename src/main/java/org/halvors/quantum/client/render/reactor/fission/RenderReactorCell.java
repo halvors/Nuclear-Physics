@@ -4,12 +4,15 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.render.ModelCube;
 import org.halvors.quantum.client.render.OBJBakedModel;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
@@ -35,30 +38,26 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
         GlStateManager.translate(x, y, z);
         GlStateManager.disableRescaleNormal();
 
-        int metadata = 2;
+        EnumReactorCell type = EnumReactorCell.values()[tile.getBlockMetadata()];
+        World world = tile.getWorld();
+        boolean hasBelow = world != null && world.getTileEntity(tile.getPos().down()) instanceof TileReactorCell;
 
-        if (tile.getWorld() != null) {
-            metadata = tile.getBlockMetadata();
-        }
-
-        boolean hasBelow = tile.getWorld().getTileEntity(tile.getPos().up()) instanceof TileReactorCell;
-
-        switch (metadata) {
-            case 0:
-                modelBottom.render();
-                break;
-
-            case 1:
-                modelMiddle.render();
-                break;
-
-            case 2:
+        switch (type) {
+            case TOP:
                 if (hasBelow) {
                     GlStateManager.translate(0, -0.125, 0);
                     modelTopBelow.render();
                 } else {
                     modelTop.render();
                 }
+                break;
+
+            case MIDDLE:
+                modelMiddle.render();
+                break;
+
+            case BOTTOM:
+                modelBottom.render();
                 break;
         }
 

@@ -53,7 +53,7 @@ public class TileRotatable extends TileElectricInventory implements ITileNetwork
             if (clientFacing != facing) {
                 clientFacing = facing;
 
-                world.notifyNeighborsOfStateChange(getPos(), world.getBlockState(getPos()).getBlock());
+                //world.notifyNeighborsOfStateChange(getPos(), world.getBlockState(getPos()).getBlock());
             }
         }
     }
@@ -74,7 +74,7 @@ public class TileRotatable extends TileElectricInventory implements ITileNetwork
     public void setFacing(EnumFacing facing) {
         if (!(facing == clientFacing || world.isRemote)) {
             Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
-            markDirty();
+            //markDirty();
 
             clientFacing = facing;
         }

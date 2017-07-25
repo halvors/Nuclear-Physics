@@ -2,6 +2,7 @@ package org.halvors.quantum.common.tile.reactor.fission;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -23,6 +24,8 @@ import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.QuantumFluids;
+import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
+import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
 import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.event.PlasmaEvent;
@@ -304,7 +307,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) throws Exception {
+    public void handlePacketData(ByteBuf dataStream) {
         if (world.isRemote) {
             temperature = dataStream.readFloat();
 
@@ -448,23 +451,21 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
     }
 
     public void updatePositionStatus() {
-        TileReactorCell tileEntity = getLowest();
-        tileEntity.getMultiBlock().deconstruct();
-        tileEntity.getMultiBlock().construct();
+        TileReactorCell tile = getLowest();
+        tile.getMultiBlock().deconstruct();
+        tile.getMultiBlock().construct();
 
         boolean top = new Vector3(this).add(new Vector3(0, 1, 0)).getTileEntity(world) instanceof TileReactorCell;
         boolean bottom = new Vector3(this).add(new Vector3(0, -1, 0)).getTileEntity(world) instanceof TileReactorCell;
+        IBlockState state = world.getBlockState(pos);
 
-        // TODO: Sort this out.
-        /*
         if (top && bottom) {
-            world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 3);
+            world.setBlockState(pos, state.withProperty(BlockReactorCell.type, EnumReactorCell.MIDDLE), 3);
         } else if (top) {
-            world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 3);
+            world.setBlockState(pos, state.withProperty(BlockReactorCell.type, EnumReactorCell.BOTTOM), 3);
         } else {
-            world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 2, 3);
+            world.setBlockState(pos, state.withProperty(BlockReactorCell.type, EnumReactorCell.TOP), 3);
         }
-        */
     }
 
     private void meltDown() {

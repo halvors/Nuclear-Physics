@@ -78,7 +78,7 @@ public class BlockMachineModel extends BlockRotatable {
     @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, type, BlockHorizontal.FACING);
+        return new BlockStateContainer(this, type, facing);
     }
 
     @Override

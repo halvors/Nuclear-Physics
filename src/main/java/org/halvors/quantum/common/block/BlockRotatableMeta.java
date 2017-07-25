@@ -35,11 +35,6 @@ public abstract class BlockRotatableMeta extends BlockContainerQuantum {
     }
 
     @Override
-    public IBlockState getStateFromMeta(int metadata) {
-        return getDefaultState().withProperty(facing, EnumFacing.getHorizontal(metadata));
-    }
-
-    @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
         world.setBlockState(pos, state.withProperty(facing, entity.getHorizontalFacing().getOpposite()), 2);
     }

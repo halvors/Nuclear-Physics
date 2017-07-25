@@ -24,22 +24,24 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
         //setTextureName(Reference.PREFIX + "machine");
     }
 
-    @Override
     @SuppressWarnings("deprecation")
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
         return false;
     }
 
-    @Override
     @SuppressWarnings("deprecation")
-    public boolean isFullCube(IBlockState blockState) {
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube(IBlockState blockState) {
         return false;
     }
 
-    @Override
     @SuppressWarnings("deprecation")
-    public boolean isOpaqueCube(IBlockState blockState) {
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isFullCube(IBlockState blockState) {
         return false;
     }
 

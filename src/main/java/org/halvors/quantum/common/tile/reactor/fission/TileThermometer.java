@@ -19,7 +19,7 @@ import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import java.util.List;
 
-public class TileThermometer extends TileRotatable implements ITickable, ITileNetwork {
+public class TileThermometer extends TileEntity implements ITickable, ITileNetwork {
     private static final int maxThreshold = 5000;
     private float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
     private float previousDetectedTemperature = detectedTemperature; // Synced
@@ -86,8 +86,6 @@ public class TileThermometer extends TileRotatable implements ITickable, ITileNe
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {
-        super.handlePacketData(dataStream);
-
         detectedTemperature = dataStream.readFloat();
         previousDetectedTemperature = dataStream.readFloat();
 
@@ -97,13 +95,10 @@ public class TileThermometer extends TileRotatable implements ITickable, ITileNe
 
         threshold = dataStream.readInt();
         isProvidingPower = dataStream.readBoolean();
-
     }
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
-        super.getPacketData(objects);
-
         objects.add(detectedTemperature);
         objects.add(previousDetectedTemperature);
 

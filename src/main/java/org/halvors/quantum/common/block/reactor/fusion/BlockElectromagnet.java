@@ -34,39 +34,7 @@ public class BlockElectromagnet extends BlockContainerQuantum {
         setDefaultState(blockState.getBaseState().withProperty(type, EnumElectromagnet.NORMAL));
     }
 
-    @Override
-    @Nonnull
-    public BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, type);
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(type).ordinal();
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
-        world.setBlockState(pos, state.withProperty(type, EnumElectromagnet.values()[itemStack.getItemDamage()]), 2);
-    }
-
-    @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    @Nonnull
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.CUTOUT;
-    }
-
+    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
@@ -82,6 +50,44 @@ public class BlockElectromagnet extends BlockContainerQuantum {
         }
 
         return super.shouldSideBeRendered(state, world, pos, side);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @Nonnull
+    @SideOnly(Side.CLIENT)
+    public BlockRenderLayer getBlockLayer() {
+        return BlockRenderLayer.CUTOUT;
+    }
+
+    @Override
+    @Nonnull
+    public BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, type);
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(type).ordinal();
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
+        world.setBlockState(pos, state.withProperty(type, EnumElectromagnet.values()[itemStack.getItemDamage()]), 2);
     }
 
     @Override

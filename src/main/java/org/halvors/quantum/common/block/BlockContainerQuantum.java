@@ -23,10 +23,4 @@ public abstract class BlockContainerQuantum extends BlockContainer {
     public void registerItemModel(ItemBlock itemBlock) {
         Quantum.getProxy().registerItemRenderer(itemBlock, 0, name);
     }
-
-    // TODO: Is this really needed?
-    @Override
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.MODEL;
-    }
 }

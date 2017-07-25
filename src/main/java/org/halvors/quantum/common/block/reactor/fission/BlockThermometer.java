@@ -11,6 +11,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.block.BlockRotatableMeta;
 import org.halvors.quantum.common.item.block.ItemBlockSaved;
@@ -24,7 +25,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockThermometer extends BlockRotatable {
+public class BlockThermometer extends BlockContainerQuantum {
     public BlockThermometer() {
         super("thermometer", Material.PISTON);
     }
