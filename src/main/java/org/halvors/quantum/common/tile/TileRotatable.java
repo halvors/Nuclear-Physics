@@ -14,9 +14,6 @@ public class TileRotatable extends TileElectricInventory implements ITileNetwork
     /** The direction this block is facing. */
     public EnumFacing facing = EnumFacing.NORTH;
 
-    @SideOnly(Side.CLIENT)
-    public EnumFacing clientFacing = EnumFacing.NORTH;
-
     public TileRotatable() {
 
     }
@@ -49,12 +46,6 @@ public class TileRotatable extends TileElectricInventory implements ITileNetwork
     public void handlePacketData(ByteBuf dataStream) {
         if (world.isRemote) {
             facing = EnumFacing.getFront(dataStream.readInt());
-
-            if (clientFacing != facing) {
-                clientFacing = facing;
-
-                //world.notifyNeighborsOfStateChange(getPos(), world.getBlockState(getPos()).getBlock());
-            }
         }
     }
 
@@ -72,13 +63,6 @@ public class TileRotatable extends TileElectricInventory implements ITileNetwork
 
     @Override
     public void setFacing(EnumFacing facing) {
-        if (!(facing == clientFacing || world.isRemote)) {
-            //Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
-            //markDirty();
-
-            //clientFacing = facing;
-        }
-
         this.facing = facing;
 
         Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);

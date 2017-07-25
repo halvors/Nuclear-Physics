@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
@@ -12,10 +11,10 @@ import org.halvors.quantum.api.item.armor.IAntiPoisonArmor;
 import org.halvors.quantum.common.Reference;
 
 public class ItemArmorHazmat extends ItemArmorQuantum implements IAntiPoisonArmor {
-    private static final ItemArmor.ArmorMaterial armorMaterial = EnumHelper.addArmorMaterial("HAZMAT" , "hazmat", 0, new int[] { 0, 0, 0, 0 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
+    private static final ArmorMaterial armorMaterial = EnumHelper.addArmorMaterial("hazmat" , "hazmat", 0, new int[] { 0, 0, 0, 0 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 
-    public ItemArmorHazmat(String name, EntityEquipmentSlot entityEquipmentSlot) {
-        super(name, armorMaterial, entityEquipmentSlot);
+    public ItemArmorHazmat(String name, EntityEquipmentSlot slot) {
+        super(name, armorMaterial, slot);
 
         setMaxDamage(200000);
     }

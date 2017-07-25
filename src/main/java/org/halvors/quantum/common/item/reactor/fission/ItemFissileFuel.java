@@ -31,7 +31,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
     public static final long energyPerTick = energyDensity / 50000;
 
     public ItemFissileFuel() {
-        super("fissileFuel");
+        super("fissile_fuel");
 
         setMaxStackSize(1);
         setMaxDamage(decay);

@@ -17,12 +17,12 @@ public class QuantumItems {
     // Cells
     public static Item itemAntimatterCell = new ItemAntimatterCell();
     public static Item itemBreederFuel = new ItemBreederFuel();
-    public static Item itemCell = new ItemCell("cellEmpty");
+    public static Item itemCell = new ItemCell("cell_empty");
     public static Item itemDarkMatterCell = new ItemDarkmatterCell();
-    public static Item itemDeuteriumCell = new ItemCell("cellDeuterium");
+    public static Item itemDeuteriumCell = new ItemCell("cell_deuterium");
     public static Item itemFissileFuel = new ItemFissileFuel();
-    public static Item itemTritiumCell = new ItemCell("cellTritium");
-    public static Item itemWaterCell = new ItemCell("cellWater");
+    public static Item itemTritiumCell = new ItemCell("cell_tritium");
+    public static Item itemWaterCell = new ItemCell("cell_water");
 
     // Uranium
     public static Item itemUranium = new ItemUranium();

@@ -44,6 +44,7 @@ import org.halvors.quantum.common.block.machine.BlockMachineModel;
 import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell.EnumAntimatterCell;
+import org.halvors.quantum.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
@@ -97,31 +98,33 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
         // Item Variants
         ModelBakery.registerItemVariants(QuantumItems.itemAntimatterCell,
-                new ResourceLocation(Reference.PREFIX + "cellAntimatter_" + EnumAntimatterCell.MILLIGRAM.getName()),
-                new ResourceLocation(Reference.PREFIX + "cellAntimatter_" + EnumAntimatterCell.GRAM.getName())
+                new ResourceLocation(Reference.PREFIX + "cell_antimatter_" + EnumAntimatterCell.MILLIGRAM.getName()),
+                new ResourceLocation(Reference.PREFIX + "cell_antimatter_" + EnumAntimatterCell.GRAM.getName())
         );
 
 		// Items.
         for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
-            ModelLoader.setCustomModelResourceLocation(QuantumItems.itemAntimatterCell, type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "cellAntimatter_" + type.getName() , "inventory"));
+            ModelLoader.setCustomModelResourceLocation(QuantumItems.itemAntimatterCell, type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "cell_antimatter_" + type.getName(), "inventory"));
         }
 
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemBreederFuel, 0, new ModelResourceLocation(Reference.PREFIX + "breederFuel", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellEmpty", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemDarkMatterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellDarkMatter", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemDeuteriumCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellDeuterium", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemFissileFuel, 0, new ModelResourceLocation(Reference.PREFIX + "fissileFuel", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemTritiumCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellTritium", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemWaterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cellWater", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemBreederFuel, 0, new ModelResourceLocation(Reference.PREFIX + "breeder_fuel", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemCell, 0, new ModelResourceLocation(Reference.PREFIX + "cell_empty", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemDarkMatterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cell_darkmatter", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemDeuteriumCell, 0, new ModelResourceLocation(Reference.PREFIX + "cell_deuterium", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemFissileFuel, 0, new ModelResourceLocation(Reference.PREFIX + "fissile_fuel", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemTritiumCell, 0, new ModelResourceLocation(Reference.PREFIX + "cell_tritium", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemWaterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cell_water", "inventory"));
 
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemUranium, 0, new ModelResourceLocation(Reference.PREFIX + "uranium", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemUranium, 1, new ModelResourceLocation(Reference.PREFIX + "uranium", "inventory"));
+        for (EnumUranium type : EnumUranium.values()) {
+            ModelLoader.setCustomModelResourceLocation(QuantumItems.itemUranium, type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "uranium", "inventory"));
+        }
+
         ModelLoader.setCustomModelResourceLocation(QuantumItems.itemYellowCake, 0, new ModelResourceLocation(Reference.PREFIX + "yellowcake", "inventory"));
 
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatMask, 0, new ModelResourceLocation(Reference.PREFIX + "hazmatMask", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatBody, 0, new ModelResourceLocation(Reference.PREFIX + "hazmatBody", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatLeggings, 0, new ModelResourceLocation(Reference.PREFIX + "hazmatLeggings", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatBoots, 0, new ModelResourceLocation(Reference.PREFIX + "hazmatBoots", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatMask, 0, new ModelResourceLocation(Reference.PREFIX + "hazmat_mask", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatBody, 0, new ModelResourceLocation(Reference.PREFIX + "hazmat_body", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatLeggings, 0, new ModelResourceLocation(Reference.PREFIX + "hazmat_leggings", "inventory"));
+        ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatBoots, 0, new ModelResourceLocation(Reference.PREFIX + "hazmat_boots", "inventory"));
 	}
 
 	@Override

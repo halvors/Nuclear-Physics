@@ -6,7 +6,7 @@ public class ItemCell extends ItemMetadata {
     public ItemCell(String name) {
         super(name);
 
-        if (!name.equalsIgnoreCase("cellEmpty")) {
+        if (!name.equalsIgnoreCase("cell_empty")) {
             setContainerItem(QuantumItems.itemCell);
         }
     }

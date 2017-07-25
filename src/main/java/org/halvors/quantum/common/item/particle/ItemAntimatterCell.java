@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ItemAntimatterCell extends ItemCell {
     public ItemAntimatterCell() {
-        super("cellAntimatter");
+        super("cell_antimatter");
 
         setMaxDamage(0);
     }

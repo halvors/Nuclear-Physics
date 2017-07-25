@@ -6,12 +6,11 @@ import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.Reference;
 
 public class ItemArmorQuantum extends ItemArmor {
-    public ItemArmorQuantum(String name, ArmorMaterial armorMaterial, EntityEquipmentSlot entityEquipmentSlot) {
-        super(armorMaterial, 0, entityEquipmentSlot);
+    public ItemArmorQuantum(String name, ArmorMaterial material, EntityEquipmentSlot slot) {
+        super(material, 0, slot);
 
         setUnlocalizedName(name);
         setRegistryName(Reference.ID, name);
-        //setTextureName(Reference.PREFIX + name);
         setCreativeTab(Quantum.getCreativeTab());
     }
 }

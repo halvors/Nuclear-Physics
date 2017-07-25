@@ -44,7 +44,7 @@ import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileReactorCell extends TileInventory implements ITickable, IMultiBlockStructure<TileReactorCell>, IFluidHandler, IReactor {
+public class TileReactorCell extends TileInventory implements ITickable, IMultiBlockStructure<TileReactorCell>, IFluidHandler, IReactor, ITileNetwork {
     public static final int radius = 2;
     public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;

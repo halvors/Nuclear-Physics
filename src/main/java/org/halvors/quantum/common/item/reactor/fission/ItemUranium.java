@@ -34,7 +34,23 @@ public class ItemUranium extends ItemRadioactive {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List list) {
-        list.add(new ItemStack(item, 1, 0));
-        list.add(new ItemStack(item, 1, 1));
+        for (EnumUranium type : EnumUranium.values()) {
+            list.add(new ItemStack(item, 1, type.ordinal()));
+        }
+    }
+
+    public enum EnumUranium {
+        URANIUM_235("uranium_235"),
+        URANIUM_238("uranium_238");
+
+        private String name;
+
+        EnumUranium(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name.toLowerCase();
+        }
     }
 }
