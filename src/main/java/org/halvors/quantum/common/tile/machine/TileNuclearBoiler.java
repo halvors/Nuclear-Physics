@@ -2,7 +2,6 @@ package org.halvors.quantum.common.tile.machine;
 
 import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -13,7 +12,6 @@ import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
 import java.util.List;

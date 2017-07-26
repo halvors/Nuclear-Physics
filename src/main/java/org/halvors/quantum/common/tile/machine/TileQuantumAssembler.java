@@ -13,7 +13,6 @@ import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.tile.ITileNetwork;
 
 import java.util.List;
 

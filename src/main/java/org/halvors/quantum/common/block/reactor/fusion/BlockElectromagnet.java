@@ -2,7 +2,6 @@ package org.halvors.quantum.common.block.reactor.fusion;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
@@ -21,7 +20,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
-import org.halvors.quantum.common.block.machine.BlockMachine;
 import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 

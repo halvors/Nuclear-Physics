@@ -12,7 +12,6 @@ import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
 import java.util.List;

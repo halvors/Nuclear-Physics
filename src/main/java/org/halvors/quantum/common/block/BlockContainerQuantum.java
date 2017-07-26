@@ -2,9 +2,7 @@ package org.halvors.quantum.common.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.EnumBlockRenderType;
 import org.halvors.quantum.common.Quantum;
 
 public abstract class BlockContainerQuantum extends BlockContainer {

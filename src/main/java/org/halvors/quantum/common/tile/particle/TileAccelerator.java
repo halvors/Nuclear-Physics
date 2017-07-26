@@ -16,8 +16,6 @@ import org.halvors.quantum.common.entity.particle.EntityParticle;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell;
 import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.TileElectricInventory;
 import org.halvors.quantum.common.tile.machine.TileMachine;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
