@@ -7,6 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -36,6 +37,13 @@ public class BlockMachineModel extends BlockInventory {
         super("machine_model", Material.IRON);
 
         //setDefaultState(blockState.getBaseState().withProperty(type, EnumMachineModel.CHEMICAL_EXTRACTOR));
+    }
+
+    @Override
+    public void registerItemModel(ItemBlock itemBlock) {
+        for (EnumMachineModel type : EnumMachineModel.values()) {
+            Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "facing=north,type=" + type.getName());
+        }
     }
 
     @SuppressWarnings("deprecation")

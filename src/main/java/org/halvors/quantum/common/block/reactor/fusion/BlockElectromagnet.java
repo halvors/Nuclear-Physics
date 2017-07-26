@@ -8,6 +8,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
@@ -18,7 +19,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.block.machine.BlockMachine;
 import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 
@@ -31,6 +34,13 @@ public class BlockElectromagnet extends BlockContainerQuantum {
 
         setResistance(20);
         //setDefaultState(blockState.getBaseState().withProperty(type, EnumElectromagnet.NORMAL));
+    }
+
+    @Override
+    public void registerItemModel(ItemBlock itemBlock) {
+        for (EnumElectromagnet type : EnumElectromagnet.values()) {
+            Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "type=" + type.getName());
+        }
     }
 
     @SuppressWarnings("deprecation")

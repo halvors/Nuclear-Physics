@@ -44,7 +44,6 @@ import org.halvors.quantum.common.block.machine.BlockMachineModel;
 import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell.EnumAntimatterCell;
-import org.halvors.quantum.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
@@ -70,6 +69,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		//OBJBakedModel.init();
 
 		// Blocks.
+		/*
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockControlRod), 0, new ModelResourceLocation(Reference.PREFIX + "control_rod", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockElectricTurbine), 0, new ModelResourceLocation(Reference.PREFIX + "electric_turbine", "inventory"));
 
@@ -95,38 +95,16 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockRadioactiveGrass), 0, new ModelResourceLocation(Reference.PREFIX + "radioactive_grass", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockReactorCell), 0, new ModelResourceLocation(Reference.PREFIX + "reactor_cell", "inventory"));
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockCreativeBuilder), 0, new ModelResourceLocation(Reference.PREFIX + "creative_builder", "inventory"));
+		*/
 
         /*
+        // TODO: What is this used for?
+         */
         // Item Variants
         ModelBakery.registerItemVariants(QuantumItems.itemAntimatterCell,
                 new ResourceLocation(Reference.PREFIX + "cell_antimatter_" + EnumAntimatterCell.MILLIGRAM.getName()),
                 new ResourceLocation(Reference.PREFIX + "cell_antimatter_" + EnumAntimatterCell.GRAM.getName())
         );
-
-		// Items.
-        for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
-            ModelLoader.setCustomModelResourceLocation(QuantumItems.itemAntimatterCell, type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "cell_antimatter_" + type.getName(), "inventory"));
-        }
-
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemBreederFuel, 0, new ModelResourceLocation(Reference.PREFIX + "breeder_fuel", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemCell, 0, new ModelResourceLocation(Reference.PREFIX + "cell_empty", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemDarkMatterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cell_darkmatter", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemDeuteriumCell, 0, new ModelResourceLocation(Reference.PREFIX + "cell_deuterium", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemFissileFuel, 0, new ModelResourceLocation(Reference.PREFIX + "fissile_fuel", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemTritiumCell, 0, new ModelResourceLocation(Reference.PREFIX + "cell_tritium", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemWaterCell, 0, new ModelResourceLocation(Reference.PREFIX + "cell_water", "inventory"));
-
-        for (EnumUranium type : EnumUranium.values()) {
-            ModelLoader.setCustomModelResourceLocation(QuantumItems.itemUranium, type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "uranium", "inventory"));
-        }
-
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemYellowCake, 0, new ModelResourceLocation(Reference.PREFIX + "yellowcake", "inventory"));
-
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatMask, 0, new ModelResourceLocation(Reference.PREFIX + "hazmat_mask", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatBody, 0, new ModelResourceLocation(Reference.PREFIX + "hazmat_body", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatLeggings, 0, new ModelResourceLocation(Reference.PREFIX + "hazmat_leggings", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(QuantumItems.itemHazmatBoots, 0, new ModelResourceLocation(Reference.PREFIX + "hazmat_boots", "inventory"));
-	    */
 	}
 
 	@Override
@@ -190,7 +168,12 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
 	@Override
 	public void registerItemRenderer(Item item, int metadata, String id) {
-		ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Reference.PREFIX + id, "inventory"));
+		registerItemRenderer(item, metadata, id, "inventory");
+	}
+
+	@Override
+	public void registerItemRenderer(Item item, int metadata, String id, String variant) {
+		ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Reference.PREFIX + id, variant));
 	}
 
 	@Override

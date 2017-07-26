@@ -4,10 +4,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -17,9 +19,12 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.QuantumBlocks;
+import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.BlockInventory;
 import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.block.states.BlockStateFacing;
@@ -37,6 +42,13 @@ public class BlockMachine extends BlockInventory {
         super("machine", Material.IRON);
 
         //setDefaultState(blockState.getBaseState().withProperty(type, EnumMachine.ACCELERATOR));
+    }
+
+    @Override
+    public void registerItemModel(ItemBlock itemBlock) {
+        for (EnumMachine type : EnumMachine.values()) {
+            Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "facing=north,type=" + type.getName());
+        }
     }
 
     @Override

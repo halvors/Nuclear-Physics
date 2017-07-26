@@ -3,6 +3,8 @@ package org.halvors.quantum.common;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
 import org.halvors.quantum.common.block.BlockUraniumOre;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
@@ -92,13 +94,11 @@ public class QuantumBlocks {
         GameRegistry.register(block);
         GameRegistry.register(itemBlock);
 
-        /*
         if (block instanceof BlockQuantum) {
             ((BlockQuantum) block).registerItemModel(itemBlock);
         } else if (block instanceof BlockContainerQuantum) {
             ((BlockContainerQuantum) block).registerItemModel(itemBlock);
         }
-        */
 
         return block;
     }
