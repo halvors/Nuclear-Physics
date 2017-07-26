@@ -38,22 +38,22 @@ public class BlockMachineModel extends BlockInventory {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
     public void registerItemModel(ItemBlock itemBlock) {
         for (EnumMachineModel type : EnumMachineModel.values()) {
             Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "facing=north,type=" + type.getName());
         }
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
-    }
-
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess world, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
         return false;
     }
 
@@ -85,6 +85,12 @@ public class BlockMachineModel extends BlockInventory {
         return new BlockStateMachineModel(this);
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public IBlockState getStateFromMeta(int metadata) {
+        return getDefaultState().withProperty(BlockStateMachineModel.typeProperty, EnumMachineModel.values()[metadata]);
+    }
+
     @Override
     public int getMetaFromState(IBlockState state) {
         return state.getValue(BlockStateMachineModel.typeProperty).ordinal();
@@ -114,6 +120,7 @@ public class BlockMachineModel extends BlockInventory {
     }
 
     @Override
+    @Nonnull
     public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
         final EnumMachineModel type = EnumMachineModel.values()[metadata];
 

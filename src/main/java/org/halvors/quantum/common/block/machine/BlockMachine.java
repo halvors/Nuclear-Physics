@@ -21,6 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockInventory;
 import org.halvors.quantum.common.block.states.BlockStateMachine;
+import org.halvors.quantum.common.block.states.BlockStateMachineModel;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.utility.FluidUtility;
@@ -54,6 +55,12 @@ public class BlockMachine extends BlockInventory {
     @Nonnull
     public BlockStateContainer createBlockState() {
         return new BlockStateMachine(this);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public IBlockState getStateFromMeta(int metadata) {
+        return getDefaultState().withProperty(BlockStateMachine.typeProperty, EnumMachine.values()[metadata]);
     }
 
     @Override
@@ -91,6 +98,7 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
+    @Nonnull
     public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
         final EnumMachine type = EnumMachine.values()[metadata];
 
