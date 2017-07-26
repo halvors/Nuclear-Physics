@@ -8,7 +8,7 @@ import org.halvors.quantum.common.tile.particle.TileFulmination;
 
 import javax.annotation.Nonnull;
 
-public class BlockFulmination extends BlockContainerQuantum { //implements IBlockCustomRender {
+public class BlockFulmination extends BlockContainerQuantum {
     public BlockFulmination() {
         super("fulmination", Material.IRON);
 
@@ -22,7 +22,6 @@ public class BlockFulmination extends BlockContainerQuantum { //implements IBloc
     public int getRenderBlockPass() {
         return 0;
     }
-
 
     @Override
     @SideOnly(Side.CLIENT)

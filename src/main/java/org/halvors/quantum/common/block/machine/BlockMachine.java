@@ -43,13 +43,6 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    @Nonnull
-    @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.MODEL;
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
         for (EnumMachine type : EnumMachine.values()) {

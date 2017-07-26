@@ -97,10 +97,12 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         // TODO: What is this used for?
          */
         // Item Variants
-        ModelBakery.registerItemVariants(QuantumItems.itemAntimatterCell,
+        /*
+		ModelBakery.registerItemVariants(QuantumItems.itemAntimatterCell,
                 new ResourceLocation(Reference.PREFIX + "cell_antimatter_" + EnumAntimatterCell.MILLIGRAM.getName()),
                 new ResourceLocation(Reference.PREFIX + "cell_antimatter_" + EnumAntimatterCell.GRAM.getName())
         );
+        */
 	}
 
 	@Override

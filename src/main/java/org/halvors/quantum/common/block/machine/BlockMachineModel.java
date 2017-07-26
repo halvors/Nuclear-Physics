@@ -44,6 +44,12 @@ public class BlockMachineModel extends BlockInventory {
         }
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+    }
+
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
@@ -63,12 +69,6 @@ public class BlockMachineModel extends BlockInventory {
     @SideOnly(Side.CLIENT)
     public boolean isOpaqueCube(IBlockState state) {
         return false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
