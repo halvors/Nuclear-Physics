@@ -4,13 +4,12 @@
 itemGroup.quantum=Quantum
 
 // Fluids.
-tile.fluid.deuterium.name=Deuterium
-tile.fluid.uranium_hexafluoride.name=Uranium Hexafluoride
-tile.fluid.plasma.name=Plasma
-tile.fluid.steam.name=Steam
-tile.fluid.tritium.name=Tritium
-tile.fluid.toxic_waste.name=Toxic Waste
-tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
+fluid.deuterium=Deuterium
+fluid.uranium_hexafluoride=Uranium Hexafluoride
+fluid.plasma=Plasma
+fluid.steam=Steam
+fluid.tritium=Tritium
+fluid.toxic_waste=Toxic Waste
 
 // Blocks.
 tile.machine.0.name=Particle Accelerator
@@ -50,6 +49,13 @@ tile.siren.name=Siren
 tile.siren.tooltip=Creates an alarm with customizable pitch and volume with a Redstone signal.
 tile.thermometer.name=Thermometer
 tile.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-right click to lock the reading to a specific coordinate.
+tile.fluid.deuterium.name=Deuterium
+tile.fluid.uranium_hexafluoride.name=Uranium Hexafluoride
+tile.fluid.plasma.name=Plasma
+tile.fluid.steam.name=Steam
+tile.fluid.tritium.name=Tritium
+tile.fluid.toxic_waste.name=Toxic Waste
+tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
 // Items.
 // Cells.
