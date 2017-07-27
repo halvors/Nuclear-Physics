@@ -13,12 +13,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.quantum.client.render.particle.ParticleRadioactive;
+import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 
 import java.util.List;
 import java.util.Random;
 
-public class BlockRadioactive extends BlockQuantum {
+public abstract class BlockRadioactive extends BlockQuantum {
     protected boolean canSpread;
     protected float radius;
     protected int amplifier;
@@ -30,6 +32,8 @@ public class BlockRadioactive extends BlockQuantum {
         super(name, material);
 
         setTickRandomly(true);
+        setHardness(0.2F);
+        setLightLevel(0.1F);
     }
 
     @Override
@@ -39,17 +43,8 @@ public class BlockRadioactive extends BlockQuantum {
             int radius = 3;
 
             for (int i = 0; i < 2; i++) {
-                //BlockPos newPos = pos.add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
-                //world.spawnParticle(EnumParticleTypes.BLOCK_DUST, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
-
-                /*
-                Vector3 position = new Vector3(x, y, z);
-                position.add(random.nextDouble() * radius - radius / 2);
-
-                EntitySmokeFX fx = new EntitySmokeFX(world, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
-                fx.setRBGColorF(0.2F, 0.8F, 0);
-                Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-                */
+                BlockPos newPos = pos.add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
+                RenderUtility.renderParticle(new ParticleRadioactive(world, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2));
             }
         }
     }

@@ -24,15 +24,7 @@ public class BlockUraniumOre extends BlockRadioactive {
         canSpread = false;
         radius = 1.0F;
         amplifier = 0;
-        spawnParticle = false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
-        if (ConfigurationManager.General.allowRadioactiveOres) {
-            super.randomDisplayTick(state, world, pos, random);
-        }
+        spawnParticle = ConfigurationManager.General.allowRadioactiveOres;
     }
 
     @Override
