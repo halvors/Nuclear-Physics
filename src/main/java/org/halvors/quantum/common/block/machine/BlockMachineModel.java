@@ -26,6 +26,8 @@ import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
+import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
+import org.halvors.quantum.common.utility.FluidUtility;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -33,14 +35,13 @@ import java.util.List;
 public class BlockMachineModel extends BlockInventory {
     public BlockMachineModel() {
         super("machine_model", Material.IRON);
-
-        //setDefaultState(blockState.getBaseState().withProperty(type, EnumMachineModel.CHEMICAL_EXTRACTOR));
     }
 
     @Override
+    @Nonnull
     @SideOnly(Side.CLIENT)
     public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+        return state.getValue(BlockStateMachineModel.typeProperty).getRenderType();
     }
 
     @Override
@@ -110,7 +111,11 @@ public class BlockMachineModel extends BlockInventory {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (!player.isSneaking()) {
+        final TileEntity tile = world.getTileEntity(pos);
+
+        if (tile instanceof TilePlasmaHeater) {
+            return FluidUtility.playerActivatedFluidItem(world, pos, player, side);
+        } else if (!player.isSneaking()) {
             player.openGui(Quantum.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
 
             return true;
@@ -128,17 +133,20 @@ public class BlockMachineModel extends BlockInventory {
     }
 
     public enum EnumMachineModel implements IStringSerializable {
-        CHEMICAL_EXTRACTOR("chemical_extractor", TileChemicalExtractor.class),
-        GAS_CENTRIFUGE("gas_centrifuge", TileGasCentrifuge.class),
-        NUCLEAR_BOILER("nuclear_boiler", TileNuclearBoiler.class),
-        QUANTUM_ASSEMBLER("quantum_assembler", TileQuantumAssembler.class);
+        CHEMICAL_EXTRACTOR("chemical_extractor", TileChemicalExtractor.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
+        GAS_CENTRIFUGE("gas_centrifuge", TileGasCentrifuge.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
+        NUCLEAR_BOILER("nuclear_boiler", TileNuclearBoiler.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
+        QUANTUM_ASSEMBLER("quantum_assembler", TileQuantumAssembler.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
+        PLASMA_HEATER("plasma_heater", TilePlasmaHeater.class, EnumBlockRenderType.MODEL);
 
         private String name;
         private Class<? extends TileEntity> tileClass;
+        private EnumBlockRenderType renderType;
 
-        EnumMachineModel(String name, Class<? extends TileEntity> tileClass) {
+        EnumMachineModel(String name, Class<? extends TileEntity> tileClass, EnumBlockRenderType renderType) {
             this.name = name;
             this.tileClass = tileClass;
+            this.renderType = renderType;
         }
 
         @Override
@@ -159,6 +167,10 @@ public class BlockMachineModel extends BlockInventory {
 
                 return null;
             }
+        }
+
+        public EnumBlockRenderType getRenderType() {
+            return renderType;
         }
     }
 }

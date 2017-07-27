@@ -30,21 +30,19 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer<TileNuclearBo
         GlStateManager.disableRescaleNormal();
 
         // Rotate block based on direction.
-        GlStateManager.translate(1, 0, 1);
-        GlStateManager.rotate(180, 0, 1, 0);
         RenderUtility.rotateBlockBasedOnDirection(tile.getFacing());
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0.812958, 0, 0.687042);
+        GlStateManager.translate(0.687042, 0, 0.1875);
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
-        GlStateManager.translate(-0.812958, 0, -0.687042);
+        GlStateManager.translate(-0.687042, 0, -0.1875);
         modelPart1.render();
         GlStateManager.popMatrix();
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0.812958, 0, 0.312958);
+        GlStateManager.translate(0.312958, 0, 0.1875);
         GlStateManager.rotate((float) -Math.toDegrees(tile.rotation), 0, 1, 0);
-        GlStateManager.translate(-0.812958, 0, -0.312958);
+        GlStateManager.translate(-0.312958, 0, -0.1875);
         modelPart2.render();
         GlStateManager.popMatrix();
 

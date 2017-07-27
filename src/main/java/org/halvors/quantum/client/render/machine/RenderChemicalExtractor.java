@@ -29,14 +29,23 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer<TileChemi
         GlStateManager.disableRescaleNormal();
 
         // Rotate block based on direction.
-        GlStateManager.translate(1, 0, 1);
-        GlStateManager.rotate(180, 0, 1, 0);
         RenderUtility.rotateBlockBasedOnDirection(tile.getFacing());
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0.6875, 0.4375, 0);
-        GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 0, 1);
-        GlStateManager.translate(-0.6875, -0.4375, 0);
+        GlStateManager.translate(0, 0.4375, 0.314388);
+        GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 1, 0, 0);
+        GlStateManager.translate(0, -0.4375, -0.314388);
+
+        //GlStateManager.translate(0, -0.4375, -0.314388);
+        //GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 1, 0, 0);
+        //GlStateManager.translate(0, 0.4375, 0.314388);
+
+        //GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 1, 0, 0);
+        //GlStateManager.translate(0, 0.4375, 0.32);
+
+        //GlStateManager.translate(0.6875, 0.4375, 0);
+        //GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 0, 1);
+        //GlStateManager.translate(-0.6875, -0.4375, 0);
         modelPart.render();
         GlStateManager.popMatrix();
 

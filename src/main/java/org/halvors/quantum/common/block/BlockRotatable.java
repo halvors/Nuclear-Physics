@@ -9,7 +9,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.halvors.quantum.common.block.machine.BlockMachine;
 import org.halvors.quantum.common.block.states.BlockStateFacing;
+import org.halvors.quantum.common.block.states.BlockStateMachine;
 import org.halvors.quantum.common.tile.ITileRotatable;
 
 import javax.annotation.Nonnull;
@@ -17,14 +19,18 @@ import javax.annotation.Nonnull;
 public abstract class BlockRotatable extends BlockContainerQuantum {
     public BlockRotatable(String name, Material material) {
         super(name, material);
-
-        //setDefaultState(blockState.getBaseState().withProperty(facing, EnumFacing.NORTH));
     }
 
     @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
         return new BlockStateFacing(this);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public IBlockState getStateFromMeta(int metadata) {
+        return getDefaultState();
     }
 
     @Override

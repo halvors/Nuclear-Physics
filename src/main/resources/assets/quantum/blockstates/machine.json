@@ -1,5 +1,9 @@
 {
   "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all",
+    "uvlock": true
+  },
   "variants": {
     "normal": [
       {}
@@ -12,11 +16,11 @@
       "south": {
         "y": 180
       },
-      "east": {
-        "y": 90
-      },
       "west": {
         "y": 270
+      },
+      "east": {
+        "y": 90
       }
     },
     "type": {
@@ -27,18 +31,18 @@
           "top": "quantum:blocks/accelerator",
           "side": "quantum:blocks/accelerator",
           "particle": "quantum:blocks/accelerator"
-        },
-        "uvlock": true
+        }
       },
-      "plasma_heater": {
-        "custom": {
-          "flip-v": true
-        },
-        "model": "quantum:plasma_heater.obj",
+      "gas_funnel": {
         "textures": {
-          "#None": "quantum:models/plasma_heater"
-        },
-        "transform": "forge:default-block"
+          "particle": "quantum:blocks/gas_funnel",
+          "down": "quantum:blocks/gas_funnel_top",
+          "up": "quantum:blocks/gas_funnel_top",
+          "north": "quantum:blocks/gas_funnel",
+          "east": "quantum:blocks/gas_funnel",
+          "south": "quantum:blocks/gas_funnel",
+          "west": "quantum:blocks/gas_funnel"
+        }
       }
     }
   }

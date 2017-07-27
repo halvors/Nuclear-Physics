@@ -23,6 +23,7 @@ import org.halvors.quantum.common.block.BlockInventory;
 import org.halvors.quantum.common.block.states.BlockStateMachine;
 import org.halvors.quantum.common.block.states.BlockStateMachineModel;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
+import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.utility.FluidUtility;
 
@@ -32,8 +33,6 @@ import java.util.List;
 public class BlockMachine extends BlockInventory {
     public BlockMachine() {
         super("machine", Material.IRON);
-
-        //setDefaultState(blockState.getBaseState().withProperty(type, EnumMachine.ACCELERATOR));
     }
 
     @Override
@@ -82,32 +81,23 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        TileEntity tile = world.getTileEntity(pos);
+        if (!player.isSneaking()) {
+            player.openGui(Quantum.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
 
-        if (tile instanceof TilePlasmaHeater) {
-            return FluidUtility.playerActivatedFluidItem(world, pos, player, side);
-        } else {
-            if (!player.isSneaking()) {
-                player.openGui(Quantum.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
-
-                return true;
-            }
+            return true;
         }
 
         return false;
     }
 
     @Override
-    @Nonnull
     public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
-        final EnumMachine type = EnumMachine.values()[metadata];
-
-        return type.getTileAsNewIntance();
+        return EnumMachine.values()[metadata].getTileAsNewIntance();
     }
 
     public enum EnumMachine implements IStringSerializable {
         ACCELERATOR("accelerator", TileAccelerator.class),
-        PLASMA_HEATER("plasma_heater", TilePlasmaHeater.class);
+        GAS_FUNNEL("gas_funnel", TileGasFunnel.class);
 
         private String name;
         private Class<? extends TileEntity> tileClass;

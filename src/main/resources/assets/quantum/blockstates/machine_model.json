@@ -15,9 +15,15 @@
     ],
     "facing": {
       "north": {},
-      "south": {},
-      "east": {},
-      "west": {}
+      "south": {
+
+      },
+      "west": {
+
+      },
+      "east": {
+
+      }
     },
     "type": {
       "chemical_extractor": {
@@ -31,6 +37,12 @@
       },
       "quantum_assembler": {
         "model": "quantum:quantum_assembler.obj"
+      },
+      "plasma_heater": {
+        "model": "quantum:plasma_heater.obj",
+        "textures": {
+          "#None": "quantum:models/plasma_heater"
+        }
       }
     }
   }

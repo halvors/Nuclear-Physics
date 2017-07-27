@@ -25,18 +25,6 @@ public class BlockFulmination extends BlockContainerQuantum {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getRenderType() {
-        return BlockRenderingHandler.getInstance().getRenderId();
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
     public ISimpleBlockRenderer getRenderer() {
         return new ConnectedTextureRenderer(this, Reference.PREFIX + "atomic_edge");
     }

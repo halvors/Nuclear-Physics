@@ -14,7 +14,6 @@ import org.halvors.quantum.common.block.machine.BlockMachineModel;
 import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.quantum.common.block.particle.BlockFulmination;
 import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
-import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
 import org.halvors.quantum.common.block.reactor.fission.BlockControlRod;
 import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
 import org.halvors.quantum.common.block.reactor.fission.BlockSiren;
@@ -37,7 +36,6 @@ public class QuantumBlocks {
     public static Block blockElectricTurbine = new BlockElectricTurbine();
     public static Block blockElectromagnet = new BlockElectromagnet();
     public static Block blockFulmination = new BlockFulmination();
-    public static Block blockGasFunnel = new BlockGasFunnel();
     public static Block blockMachine = new BlockMachine();
     public static Block blockMachineModel = new BlockMachineModel();
     public static Block blockSiren = new BlockSiren();
@@ -55,7 +53,6 @@ public class QuantumBlocks {
         register(blockElectricTurbine);
         register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
         register(blockFulmination);
-        register(blockGasFunnel);
         register(blockMachine, new ItemBlockMetadata(blockMachine));
         register(blockMachineModel, new ItemBlockMetadata(blockMachineModel));
         register(blockSiren);
@@ -83,7 +80,6 @@ public class QuantumBlocks {
         GameRegistry.registerTileEntity(TileElectricTurbine.class, "tile_electric_turbine");
         GameRegistry.registerTileEntity(TileElectromagnet.class, "tile_electromagnet");
         GameRegistry.registerTileEntity(TileFulmination.class, "tile_fulmination");
-        GameRegistry.registerTileEntity(TileGasFunnel.class, "tile_gas_funnel");
         GameRegistry.registerTileEntity(TileSiren.class, "tile_siren");
         GameRegistry.registerTileEntity(TileThermometer.class, "tile_thermometer");
         GameRegistry.registerTileEntity(TilePlasma.class, "tile_plasma");

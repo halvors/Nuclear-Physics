@@ -27,7 +27,8 @@
       },
       "glass": {
         "textures": {
-          "all": "quantum:blocks/electromagnet_glass"
+          "all": "quantum:blocks/electromagnet_glass",
+          "particle": "quantum:blocks/electromagnet_glass"
         }
       }
     }
