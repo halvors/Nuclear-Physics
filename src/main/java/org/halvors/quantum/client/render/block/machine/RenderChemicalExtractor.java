@@ -35,17 +35,6 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer<TileChemi
         GlStateManager.translate(0, 0.4375, 0.314388);
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 1, 0, 0);
         GlStateManager.translate(0, -0.4375, -0.314388);
-
-        //GlStateManager.translate(0, -0.4375, -0.314388);
-        //GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 1, 0, 0);
-        //GlStateManager.translate(0, 0.4375, 0.314388);
-
-        //GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 1, 0, 0);
-        //GlStateManager.translate(0, 0.4375, 0.32);
-
-        //GlStateManager.translate(0.6875, 0.4375, 0);
-        //GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 0, 1);
-        //GlStateManager.translate(-0.6875, -0.4375, 0);
         modelPart.render();
         GlStateManager.popMatrix();
 
