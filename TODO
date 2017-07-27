@@ -6,6 +6,7 @@ Porting to 1.10.2 from 1.7.10:
     - Fix packet error for TileAccelerator and TilePlasmaHeater.
     - Fix particle texture for every block, ant make metadata blocks have different.
     - Implement connected edge texture for Gas funnel, Electromagnet and Fulmination Generator.
+    - Make plasma not behave like a liquid.
 
 General:
 
