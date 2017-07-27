@@ -1,4 +1,4 @@
-package org.halvors.quantum.client.render.reactor.fission;
+package org.halvors.quantum.client.render.block.reactor.fission;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;

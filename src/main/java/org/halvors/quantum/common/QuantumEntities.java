@@ -1,7 +1,7 @@
 package org.halvors.quantum.common;
 
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import org.halvors.quantum.common.entity.particle.EntityParticle;
+import org.halvors.quantum.common.entity.EntityParticle;
 
 public class QuantumEntities {
     public static void register() {

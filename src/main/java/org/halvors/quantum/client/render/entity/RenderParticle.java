@@ -1,4 +1,4 @@
-package org.halvors.quantum.client.render.particle;
+package org.halvors.quantum.client.render.entity;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.entity.particle.EntityParticle;
+import org.halvors.quantum.common.entity.EntityParticle;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Random;

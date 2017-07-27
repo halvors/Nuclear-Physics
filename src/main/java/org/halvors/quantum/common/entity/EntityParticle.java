@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.entity.particle;
+package org.halvors.quantum.common.entity;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;

@@ -1,13 +1,15 @@
 package org.halvors.quantum.client.gui.debug;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
-import org.halvors.quantum.client.utility.render.RenderUtility;
+import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.container.ContainerDummy;
@@ -70,7 +72,7 @@ public class GuiCreativeBuilder extends GuiContainerBase {
         containerWidth = (width - xSize) / 2;
         containerHeight = (height - ySize) / 2;
 
-        RenderUtility.bind(baseTexture);
+        RenderUtility.bindTexture(baseTexture);
         GL11.glColor4f(1, 1, 1, 1);
 
         drawTexturedModalRect(containerWidth, containerHeight, 0, 0, xSize, ySize);

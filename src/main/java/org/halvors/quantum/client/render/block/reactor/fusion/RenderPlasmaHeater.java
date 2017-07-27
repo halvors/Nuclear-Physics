@@ -1,4 +1,4 @@
-package org.halvors.quantum.client.render.reactor.fusion;
+package org.halvors.quantum.client.render.block.reactor.fusion;
 
 /*
 @SideOnly(Side.CLIENT)

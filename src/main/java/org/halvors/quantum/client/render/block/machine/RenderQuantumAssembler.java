@@ -1,4 +1,4 @@
-package org.halvors.quantum.client.render.machine;
+package org.halvors.quantum.client.render.block.machine;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

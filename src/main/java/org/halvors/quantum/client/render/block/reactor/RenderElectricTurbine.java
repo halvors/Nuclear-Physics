@@ -1,4 +1,4 @@
-package org.halvors.quantum.client.render.reactor;
+package org.halvors.quantum.client.render.block.reactor;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;

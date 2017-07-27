@@ -18,12 +18,15 @@ import net.minecraftforge.client.model.*;
 import net.minecraftforge.client.model.obj.OBJModel;
 import net.minecraftforge.client.model.obj.OBJModel.OBJState;
 import net.minecraftforge.common.model.IModelState;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public class OBJBakedModel {
     static Map<String, IBakedModel> loadedModels = Maps.newHashMap();
 

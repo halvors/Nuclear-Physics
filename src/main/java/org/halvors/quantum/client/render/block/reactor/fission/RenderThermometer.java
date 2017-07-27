@@ -1,11 +1,11 @@
-package org.halvors.quantum.client.render.reactor.fission;
+package org.halvors.quantum.client.render.block.reactor.fission;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.utility.render.RenderUtility;
+import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.utility.type.Color;
 
