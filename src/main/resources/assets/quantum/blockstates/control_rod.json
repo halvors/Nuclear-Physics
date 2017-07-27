@@ -3,7 +3,7 @@
   "defaults": {
     "model": "quantum:control_rod",
     "textures": {
-      "all": "quantum:blocks/control_rod"
+      "all": "quantum:models/control_rod"
     },
     "transform": "forge:default-block",
     "uvlock": true

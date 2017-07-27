@@ -1,4 +1,7 @@
 {
+  "textures": {
+    "particle": "#all"
+  },
   "elements": [
     {
       "name": "control_rod",
