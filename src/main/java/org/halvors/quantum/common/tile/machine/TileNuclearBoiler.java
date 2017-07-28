@@ -1,11 +1,11 @@
 package org.halvors.quantum.common.tile.machine;
 
-import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
@@ -46,8 +46,6 @@ public class TileNuclearBoiler extends TileProcess {
     @Override
     public void update() {
         super.update();
-
-        rotation += 0.1;
 
         if (timer > 0) {
             rotation += 0.1;
@@ -152,22 +150,6 @@ public class TileNuclearBoiler extends TileProcess {
         objects.add(timer);
 
         return objects;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-        if (canProcess()) {
-            return super.receiveEnergy(from, maxReceive, simulate);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-        return 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -10,6 +10,10 @@ public class FluidTankInputOutputStrict extends FluidTankInputOutput {
         super(inputTank, outputTank);
     }
 
+    public FluidTankInputOutputStrict(FluidTank tank) {
+        super(tank, tank);
+    }
+
     @Override
     public int fill(FluidStack resource, boolean doFill) {
         if (inputTank.getFluid() != null && resource.getFluid() == inputTank.getFluid().getFluid()) {

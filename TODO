@@ -8,6 +8,7 @@ Porting to 1.10.2 from 1.7.10:
     - Make plasma not behave like a liquid. Should be a block.
     - Render fluid in qui.
     - Fix plasma not spreading.
+    - Fix properly storing fluid capabilities.
 
 General:
 

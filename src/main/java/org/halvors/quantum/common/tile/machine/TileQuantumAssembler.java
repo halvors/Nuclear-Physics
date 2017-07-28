@@ -1,14 +1,13 @@
 package org.halvors.quantum.common.tile.machine;
 
-import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.energy.EnergyStorage;
 import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumItems;
@@ -39,7 +38,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     @Override
     public void update() {
         if (!world.isRemote) {
-            if (canProcess() && energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
+            if (canProcess() && energyStorage.extractEnergy(energy, true) >= energy) {
                 if (time == 0) {
                     time = tickTime;
                 }
@@ -131,22 +130,6 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
         objects.add(time);
 
         return objects;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-        if (canProcess()) {
-            return super.receiveEnergy(from, maxReceive, simulate);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-        return 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

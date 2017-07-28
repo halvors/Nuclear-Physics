@@ -1,6 +1,5 @@
 package org.halvors.quantum.common.tile.machine;
 
-import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -10,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidHandler;
@@ -43,8 +43,6 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
 
     @Override
     public void update() {
-        rotation += 0.45;
-
         if (timer > 0) {
             rotation += 0.45;
         }
@@ -188,20 +186,6 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     @Override
     public boolean canExtractItem(int slot, ItemStack itemstack, EnumFacing side) {
         return slot == 2 || slot == 3;
-    }
-
-    @Override
-    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-        if (canProcess()) {
-            return super.receiveEnergy(from, maxReceive, simulate);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-        return 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

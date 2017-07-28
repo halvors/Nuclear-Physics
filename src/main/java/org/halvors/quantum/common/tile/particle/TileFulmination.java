@@ -1,17 +1,12 @@
 package org.halvors.quantum.common.tile.particle;
 
-import cofh.api.energy.EnergyStorage;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import org.halvors.quantum.common.tile.TileElectric;
 
 import java.util.EnumSet;
 
-public class TileFulmination extends TileElectric implements ITickable {
-    private static final long energyCapacity = 10000000000000L;
-
+public class TileFulmination extends TileGenerator {
     public TileFulmination() {
-        energyStorage = new EnergyStorage((int) energyCapacity);
+        super((int) 10000000000000L);
     }
 
     @Override
@@ -21,11 +16,13 @@ public class TileFulmination extends TileElectric implements ITickable {
 
     @Override
     public void update() {
+        super.update();
+
         if (world.getWorldTime() == 0) {
             FulminationHandler.INSTANCE.register(this);
         }
 
-        produce();
+        generateEnergy();
 
         // Slowly lose energy.
         energyStorage.extractEnergy(1, false);
@@ -34,10 +31,5 @@ public class TileFulmination extends TileElectric implements ITickable {
     @Override
     public EnumSet<EnumFacing> getExtractingDirections() {
         return EnumSet.allOf(EnumFacing.class);
-    }
-
-    @Override
-    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-        return 0;
     }
 }

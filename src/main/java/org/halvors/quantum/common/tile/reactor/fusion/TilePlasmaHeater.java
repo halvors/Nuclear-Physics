@@ -1,10 +1,10 @@
 package org.halvors.quantum.common.tile.reactor.fusion;
 
-import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.*;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
@@ -23,9 +23,10 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     public final FluidTank tankOutput = new FluidTank(Fluid.BUCKET_VOLUME * 10);
 
     public float rotation = 0;
+    private final int maxTransfer = (int) power / 20;
 
     public TilePlasmaHeater() {
-        energyStorage = new EnergyStorage((int) power, (int) power / 20);
+        energyStorage = new EnergyStorage((int) power, maxTransfer);
     }
 
     @Override
@@ -33,13 +34,15 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
         rotation += energyStorage.getEnergyStored() / 10000F;
 
         if (!world.isRemote) {
-            if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
-                if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= plasmaHeatAmount) {
-                    tankInputDeuterium.drain(plasmaHeatAmount, true);
-                    tankInputTritium.drain(plasmaHeatAmount, true);
-                    tankOutput.fill(new FluidStack(QuantumFluids.plasma, plasmaHeatAmount), true);
+            if (tankInputDeuterium.getFluidAmount() > 0 && tankInputTritium.getFluidAmount() > 0) {
+                if (energyStorage.extractEnergy(maxTransfer, true) >= maxTransfer) {
+                    if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= plasmaHeatAmount) {
+                        tankInputDeuterium.drain(plasmaHeatAmount, true);
+                        tankInputTritium.drain(plasmaHeatAmount, true);
+                        tankOutput.fill(new FluidStack(QuantumFluids.plasma, plasmaHeatAmount), true);
 
-                    energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
+                        energyStorage.extractEnergy(maxTransfer, false);
+                    }
                 }
             }
         }
@@ -224,21 +227,5 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     @Override
     public FluidTankInfo[] getTankInfo(EnumFacing from) {
         return new FluidTankInfo[] { tankInputDeuterium.getInfo(), tankInputTritium.getInfo(), tankOutput.getInfo() };
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-        if (tankInputDeuterium.getFluidAmount() > 0 && tankInputTritium.getFluidAmount() > 0) {
-            return super.receiveEnergy(from, maxReceive, simulate);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-        return 0;
     }
 }

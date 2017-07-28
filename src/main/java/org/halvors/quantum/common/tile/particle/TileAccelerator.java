@@ -1,6 +1,5 @@
 package org.halvors.quantum.common.tile.particle;
 
-import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -8,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.energy.EnergyStorage;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
@@ -40,6 +40,8 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
     private long clientEnergy = 0; // Synced
     private int lastSpawnTick = 0;
 
+    private int maxTransfer = acceleratorEnergyCostPerTick / 20;
+
     /**
      * Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
      */
@@ -48,7 +50,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
     public TileAccelerator() {
         super(4);
 
-        energyStorage = new EnergyStorage(acceleratorEnergyCostPerTick * 2, acceleratorEnergyCostPerTick / 20);
+        energyStorage = new EnergyStorage(acceleratorEnergyCostPerTick * 2, maxTransfer);
     }
 
     @Override
@@ -59,7 +61,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
             outputAntimatter();
 
             // Check if redstone signal is currently being applied.
-            if (world.isBlockIndirectlyGettingPowered(pos) > 0) {
+            if (getStackInSlot(0) != null && world.isBlockIndirectlyGettingPowered(pos) > 0) {
                 //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
@@ -113,7 +115,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
                         }
                     }
 
-                    energyStorage.extractEnergy(energyStorage.getMaxExtract(), false);
+                totalEnergyConsumed += energyStorage.extractEnergy(maxTransfer, false);
                 /*
                 } else {
                     if (entityParticle != null) {
@@ -224,27 +226,6 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
         }
 
         return false;
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
-        if (!simulate) {
-            totalEnergyConsumed += maxReceive;
-        }
-
-        if (getStackInSlot(0) != null) { //&&(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord) || worldObj.getBlockPowerInput(xCoord, yCoord, zCoord) > 0)) {
-            return super.receiveEnergy(from, maxReceive, simulate);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
-        return 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

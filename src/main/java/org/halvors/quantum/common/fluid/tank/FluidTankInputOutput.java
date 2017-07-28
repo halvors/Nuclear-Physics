@@ -22,6 +22,10 @@ public class FluidTankInputOutput implements IFluidHandler {
         this.outputTank = outputTank;
     }
 
+    public FluidTankInputOutput(FluidTank tank) {
+        this(tank, tank);
+    }
+
     public void readFromNBT(NBTTagCompound tag) {
         NBTTagCompound inputTankTag = tag.getCompoundTag("inputTank");
         inputTank.setFluid(FluidStack.loadFluidStackFromNBT(inputTankTag));

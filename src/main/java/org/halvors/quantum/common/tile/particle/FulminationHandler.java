@@ -49,13 +49,13 @@ public class FulminationHandler {
                 final float totalEnergy = event.iExplosion.getEnergy();
                 final float maxEnergyPerGenerator = totalEnergy / avaliableGenerators.size();
 
-                for (TileFulmination tileEntity : avaliableGenerators) {
+                for (TileFulmination tile : avaliableGenerators) {
                     float density = 0; //event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBoxFromPool(event.world, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
-                    double juLi = new Vector3(tileEntity).distance(new Vector3(event.x, event.y, event.z));
+                    double juLi = new Vector3(tile).distance(new Vector3(event.x, event.y, event.z));
                     long energy = (long) Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (juLi / event.iExplosion.getRadius()));
                     energy = (long) Math.max((1 - density) * energy, 0);
 
-                    tileEntity.getEnergyStorage().receiveEnergy((int) energy, false);
+                    tile.getEnergyStorage().receiveEnergy((int) energy, false);
                 }
             }
         }

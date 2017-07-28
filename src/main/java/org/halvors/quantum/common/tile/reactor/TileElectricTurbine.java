@@ -1,13 +1,12 @@
 package org.halvors.quantum.common.tile.reactor;
 
-import cofh.api.energy.EnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -20,7 +19,7 @@ import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.TileElectric;
+import org.halvors.quantum.common.tile.particle.TileGenerator;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import javax.annotation.Nonnull;
@@ -35,7 +34,7 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
-public class TileElectricTurbine extends TileElectric implements ITickable, IMultiBlockStructure<TileElectricTurbine>, ITileNetwork {
+public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, ITileNetwork {
     // Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
     //protected final int energyPerSteam = 2647600 / 1000;
     protected final int energyPerSteam = 52000;
@@ -63,7 +62,8 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
     private ElectricTurbineMultiBlockHandler multiBlock;
 
     public TileElectricTurbine() {
-        setEnergyStorage(new EnergyStorage(maxPower * 20));
+        energyGeneration = maxPower * 20;
+        energyStorage = new EnergyStorage(maxPower * 20);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
 
                 if (power > 0) {
                     energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
-                    produce();
+                    generateEnergy();
                 }
             }
 
@@ -146,15 +146,12 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
         return tag;
     }
 
+    /*
     @Override
     public boolean canConnectEnergy(EnumFacing from) {
         return getMultiBlock().isPrimary() && from == EnumFacing.UP;
     }
-
-    @Override
-    public EnumSet<EnumFacing> getReceivingDirections() {
-        return EnumSet.noneOf(EnumFacing.class);
-    }
+    */
 
     @Override
     public EnumSet<EnumFacing> getExtractingDirections()

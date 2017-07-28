@@ -8,7 +8,7 @@ import org.halvors.quantum.common.network.packet.PacketTileEntity;
 
 import java.util.List;
 
-public class TileRotatable extends TileElectricInventory implements ITileNetwork, ITileRotatable {
+public class TileRotatable extends TileInventory implements ITileNetwork, ITileRotatable {
     /** The direction this block is facing. */
     public EnumFacing facing = EnumFacing.NORTH;
 
