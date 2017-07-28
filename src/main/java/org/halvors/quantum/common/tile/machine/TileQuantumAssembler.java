@@ -96,19 +96,19 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
 
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-        time = tagCompound.getInteger("smeltingTicks");
+        time = tag.getInteger("timer");
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        tag = super.writeToNBT(tag);
 
-        tagCompound.setInteger("smeltingTicks", time);
+        tag.setInteger("timer", time);
 
-        return tagCompound;
+        return tag;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

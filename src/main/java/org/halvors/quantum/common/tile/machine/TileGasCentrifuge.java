@@ -9,23 +9,28 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
-import org.halvors.quantum.common.network.PacketHandler;
+import org.halvors.quantum.common.fluid.FluidTankStrict;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorHelper;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileGasCentrifuge extends TileMachine implements ITickable, IFluidHandler {
+public class TileGasCentrifuge extends TileMachine implements ITickable {
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 
-    public final FluidTank gasTank = new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5); // Synced
+    public final FluidTankStrict tank = new FluidTankStrict(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5, true, false); // Synced
 
     public int timer = 0; // Synced
     public float rotation = 0;
@@ -54,13 +59,13 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, IFluidH
                         IFluidHandler fluidHandler = (IFluidHandler) tileEntity;
 
                         FluidStack requestFluid = QuantumFluids.fluidStackUraniumHexaflouride.copy();
-                        requestFluid.amount = (gasTank.getCapacity() - gasTank.getFluid().amount);
+                        requestFluid.amount = (tank.getCapacity() - tank.getFluid().amount);
                         FluidStack receiveFluid = fluidHandler.drain(direction.getOpposite(), requestFluid, true);
 
                         if (receiveFluid != null) {
                             if (receiveFluid.amount > 0) {
-                                if (gasTank.fill(receiveFluid, false) > 0) {
-                                    gasTank.fill(receiveFluid, true);
+                                if (tank.fill(receiveFluid, false) > 0) {
+                                    tank.fill(receiveFluid, true);
                                 }
                             }
                         }
@@ -104,31 +109,22 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, IFluidH
         }
     }
 
-
-
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-        timer = tagCompound.getInteger("smeltingTicks");
-
-        NBTTagCompound compound = tagCompound.getCompoundTag("gas");
-        gasTank.setFluid(FluidStack.loadFluidStackFromNBT(compound));
+        timer = tag.getInteger("timer");
+        tank.readFromNBT(tag);
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        tag = super.writeToNBT(tag);
 
-        tagCompound.setInteger("smeltingTicks", timer);
+        tag.setInteger("timer", timer);
+        tag = tank.writeToNBT(tag);
 
-        if (gasTank.getFluid() != null) {
-            NBTTagCompound compound = new NBTTagCompound();
-            gasTank.getFluid().writeToNBT(compound);
-            tagCompound.setTag("gas", compound);
-        }
-
-        return tagCompound;
+        return tag;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,10 +135,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, IFluidH
 
         if (world.isRemote) {
             timer = dataStream.readInt();
-
-            if (dataStream.readBoolean()) {
-                gasTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
-            }
+            tank.handlePacketData(dataStream);
         }
     }
 
@@ -151,16 +144,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, IFluidH
         super.getPacketData(objects);
 
         objects.add(timer);
-
-        if (gasTank.getFluid() != null) {
-            objects.add(true);
-
-            NBTTagCompound compoundGasTank = new NBTTagCompound();
-            gasTank.getFluid().writeToNBT(compoundGasTank);
-            objects.add(compoundGasTank);
-        } else {
-            objects.add(false);
-        }
+        objects.addAll(tank.getPacketData(objects));
 
         return objects;
     }
@@ -207,40 +191,6 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, IFluidH
     }
 
     @Override
-    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-        if (resource.isFluidEqual(QuantumFluids.fluidStackUraniumHexaflouride)) {
-            return gasTank.fill(resource, doFill);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
-        return null;
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
-        return null;
-    }
-
-    @Override
-    public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(QuantumFluids.gasUraniumHexaflouride);
-    }
-
-    @Override
-    public boolean canDrain(EnumFacing from, Fluid fluid) {
-        return false;
-    }
-
-    @Override
-    public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        return new FluidTankInfo[] { gasTank.getInfo() };
-    }
-
-    @Override
     public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
         if (canProcess()) {
             return super.receiveEnergy(from, maxReceive, simulate);
@@ -257,8 +207,8 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, IFluidH
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean canProcess() {
-        if (gasTank.getFluid() != null) {
-            if (gasTank.getFluid().amount >= ConfigurationManager.General.uraniumHexaflourideRatio) {
+        if (tank.getFluid() != null) {
+            if (tank.getFluid().amount >= ConfigurationManager.General.uraniumHexaflourideRatio) {
                 return isItemValidForSlot(2, new ItemStack(QuantumItems.itemUranium)) && isItemValidForSlot(3, new ItemStack(QuantumItems.itemUranium, 1, 1));
             }
         }
@@ -268,7 +218,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, IFluidH
 
     public void doProcess() {
         if (canProcess()) {
-            gasTank.drain(ConfigurationManager.General.uraniumHexaflourideRatio, true);
+            tank.drain(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 
             if (world.rand.nextFloat() > 0.6) {
                 incrStackSize(2, new ItemStack(QuantumItems.itemUranium));
@@ -276,5 +226,23 @@ public class TileGasCentrifuge extends TileMachine implements ITickable, IFluidH
                 incrStackSize(3, new ItemStack(QuantumItems.itemUranium, 1, 1));
             }
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return (T) tank;
+        }
+
+        return super.getCapability(capability, facing);
     }
 }

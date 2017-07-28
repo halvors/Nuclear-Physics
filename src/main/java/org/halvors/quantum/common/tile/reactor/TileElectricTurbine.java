@@ -7,15 +7,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.grid.thermal.IBoilHandler;
+import org.halvors.quantum.common.QuantumFluids;
+import org.halvors.quantum.common.fluid.FluidTankStrict;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
@@ -23,6 +25,7 @@ import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileElectric;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
+import javax.annotation.Nonnull;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
@@ -34,13 +37,13 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
-public class TileElectricTurbine extends TileElectric implements ITickable, IMultiBlockStructure<TileElectricTurbine>, ITileNetwork, IBoilHandler {
+public class TileElectricTurbine extends TileElectric implements ITickable, IMultiBlockStructure<TileElectricTurbine>, ITileNetwork {
     // Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
     //protected final int energyPerSteam = 2647600 / 1000;
     protected final int energyPerSteam = 52000;
     protected final int defaultTorque = 5000;
     protected int torque = defaultTorque;
-    protected final FluidTank tank = new FluidTank(Fluid.BUCKET_VOLUME * 100);
+    private final FluidTankStrict tank = new FluidTankStrict(QuantumFluids.fluidStackSteam, Fluid.BUCKET_VOLUME * 100);
 
     // Radius of large turbine?
     public int multiBlockRadius = 1;
@@ -126,23 +129,23 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-        tank.readFromNBT(tagCompound);
-        multiBlockRadius = tagCompound.getInteger("multiBlockRadius");
-        getMultiBlock().load(tagCompound);
+        multiBlockRadius = tag.getInteger("multiBlockRadius");
+        getMultiBlock().load(tag);
+        tank.readFromNBT(tag);
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        tag = super.writeToNBT(tag);
 
-        tank.writeToNBT(tagCompound);
-        tagCompound.setInteger("multiBlockRadius", multiBlockRadius);
-        getMultiBlock().save(tagCompound);
+        tag.setInteger("multiBlockRadius", multiBlockRadius);
+        tag = getMultiBlock().save(tag);
+        tag = tank.writeToNBT(tag);
 
-        return tagCompound;
+        return tag;
     }
 
     @Override
@@ -167,10 +170,10 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
     public Vector3[] getMultiBlockVectors() {
         Set<Vector3> vectors = new HashSet<>();
 
-        EnumFacing dir = getDirection();
-        int xMulti = dir.getFrontOffsetX() != 0 ? 0 : 1;
-        int yMulti = dir.getFrontOffsetY() != 0 ? 0 : 1;
-        int zMulti = dir.getFrontOffsetZ() != 0 ? 0 : 1;
+        EnumFacing facing = EnumFacing.NORTH;
+        int xMulti = facing.getFrontOffsetX() != 0 ? 0 : 1;
+        int yMulti = facing.getFrontOffsetY() != 0 ? 0 : 1;
+        int zMulti = facing.getFrontOffsetZ() != 0 ? 0 : 1;
 
         for (int x = -multiBlockRadius; x <= multiBlockRadius; x++) {
             for (int y = -multiBlockRadius; y <= multiBlockRadius; y++) {
@@ -218,6 +221,7 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
         if (world.isRemote) {
             tier = dataStream.readInt();
             angularVelocity = dataStream.readFloat();
+            tank.handlePacketData(dataStream);
         }
     }
 
@@ -225,57 +229,9 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
     public List<Object> getPacketData(List<Object> objects) {
         objects.add(tier);
         objects.add(angularVelocity);
+        objects.addAll(tank.getPacketData(objects));
 
         return objects;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-        if (resource != null && canFill(from, resource.getFluid())) {
-            return getMultiBlock().get().tank.fill(resource, doFill);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain)
-    {
-        return null;
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain)
-    {
-        return null;
-    }
-
-    @Override
-    public boolean canFill(EnumFacing from, Fluid fluid) {
-        return from == EnumFacing.DOWN && fluid != null && fluid.getName().equals("steam");
-    }
-
-    @Override
-    public boolean canDrain(EnumFacing from, Fluid fluid)
-    {
-        return false;
-    }
-
-    @Override
-    public FluidTankInfo[] getTankInfo(EnumFacing from)
-    {
-        return new FluidTankInfo[] { tank.getInfo() };
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public EnumFacing getDirection() {
-        // TODO: Check this, block does not actually have an orientation.
-        //return EnumFacing.getOrientation(getBlockMetadata());
-
-        return EnumFacing.NORTH;
     }
 
     private int getMaxPower() {
@@ -288,5 +244,25 @@ public class TileElectricTurbine extends TileElectric implements ITickable, IMul
 
     private int getArea() {
         return (int) (((multiBlockRadius + 0.5) * 2) * ((multiBlockRadius + 0.5) * 2));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            if (facing == EnumFacing.DOWN) {
+                return (T) getMultiBlock().get().tank;
+            }
+        }
+
+        return super.getCapability(capability, facing);
     }
 }

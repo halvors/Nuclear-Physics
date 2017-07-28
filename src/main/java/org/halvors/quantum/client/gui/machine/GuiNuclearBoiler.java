@@ -33,10 +33,10 @@ public class GuiNuclearBoiler extends GuiContainerBase {
 
         fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 
-        if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.waterTank.getFluid() != null) {
-            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.waterTank.getFluid().getLocalizedName(), tile.waterTank.getFluid().amount + " L");
-        } else if (isPointInRegion(155, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.gasTank.getFluid() != null) {
-            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.gasTank.getFluid().getLocalizedName(), tile.gasTank.getFluid().amount + " L");
+        if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.tank.getInputTank().getFluid() != null) {
+            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.tank.getInputTank().getFluid().getLocalizedName(), tile.tank.getInputTank().getFluid().amount + " L");
+        } else if (isPointInRegion(155, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.tank.getOutputTank().getFluid() != null) {
+            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.tank.getOutputTank().getFluid().getLocalizedName(), tile.tank.getOutputTank().getFluid().amount + " L");
         }
     }
 
@@ -51,12 +51,12 @@ public class GuiNuclearBoiler extends GuiContainerBase {
         drawBar(110, 26, (float) tile.timer / (float) TileNuclearBoiler.tickTime);
 
         // Water
-        drawMeter(8, 18, (float) tile.waterTank.getFluidAmount() / (float) tile.waterTank.getCapacity(), tile.waterTank.getFluid());
+        drawMeter(8, 18, (float) tile.tank.getInputTank().getFluidAmount() / (float) tile.tank.getInputTank().getCapacity(), tile.tank.getInputTank().getFluid());
         drawSlot(24, 18, SlotType.LIQUID);
         drawSlot(24, 49, SlotType.LIQUID);
 
         // Uranium Gas
-        drawMeter(155, 18, (float) tile.gasTank.getFluidAmount() / (float) tile.gasTank.getCapacity(), tile.gasTank.getFluid());
+        drawMeter(155, 18, (float) tile.tank.getOutputTank().getFluidAmount() / (float) tile.tank.getOutputTank().getCapacity(), tile.tank.getOutputTank().getFluid());
         drawSlot(134, 49, SlotType.GAS);
     }
 }

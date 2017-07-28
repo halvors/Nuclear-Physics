@@ -16,7 +16,12 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.api.item.IReactorComponent;
@@ -29,11 +34,12 @@ import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumRea
 import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.event.PlasmaEvent;
+import org.halvors.quantum.common.fluid.FluidTankInputOutput;
+import org.halvors.quantum.common.fluid.FluidTankStrict;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.multiblock.MultiBlockHandler;
-import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileInventory;
@@ -41,15 +47,17 @@ import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileReactorCell extends TileInventory implements ITickable, IMultiBlockStructure<TileReactorCell>, IFluidHandler, IReactor, ITileNetwork {
+public class TileReactorCell extends TileInventory implements ITickable, IMultiBlockStructure<TileReactorCell>, IReactor, ITileNetwork {
     public static final int radius = 2;
     public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;
     private final float mass = ThermalPhysics.getMass(1000, 7);
-    public final FluidTank tank = new FluidTank(Fluid.BUCKET_VOLUME * 15);
+
+    public final FluidTankStrict tank = new FluidTankStrict(QuantumFluids.stackPlasma, QuantumFluids.fluidStackToxicWaste, Fluid.BUCKET_VOLUME * 15);
 
     private float temperature = ThermalPhysics.roomTemperature; // Synced
     private float previousTemperature = temperature;
@@ -92,12 +100,13 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
                 }
             }
 
+            // Move fluid down into blocks below.
             if (tank.getFluidAmount() > 0) {
                 getMultiBlock().get().tank.fill(tank.drain(tank.getCapacity(), true), true);
             }
         }
 
-        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().equals(QuantumFluids.plasma)) {
+        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().getFluid() == QuantumFluids.plasma) {
             // Spawn plasma.
             FluidStack drain = tank.drain(Fluid.BUCKET_VOLUME, false);
 
@@ -239,23 +248,23 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-        temperature = tagCompound.getFloat("temperature");
-        tank.readFromNBT(tagCompound);
-        getMultiBlock().load(tagCompound);
+        temperature = tag.getFloat("temperature");
+        getMultiBlock().load(tag);
+        tank.readFromNBT(tag);
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        tag = super.writeToNBT(tag);
 
-        tagCompound.setFloat("temperature", temperature);
-        tank.writeToNBT(tagCompound);
-        getMultiBlock().save(tagCompound);
+        tag.setFloat("temperature", temperature);
+        tag = getMultiBlock().save(tag);
+        tag = tank.writeToNBT(tag);
 
-        return tagCompound;
+        return tag;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -310,69 +319,17 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
     public void handlePacketData(ByteBuf dataStream) {
         if (world.isRemote) {
             temperature = dataStream.readFloat();
-
-            if (dataStream.readBoolean()) {
-                tank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
-            }
+            tank.handlePacketData(dataStream);
         }
     }
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
         objects.add(temperature);
-
-        if (tank.getFluid() != null) {
-            objects.add(true);
-
-            NBTTagCompound compoundTank = new NBTTagCompound();
-            tank.getFluid().writeToNBT(compoundTank);
-            objects.add(compoundTank);
-        } else {
-            objects.add(false);
-        }
+        objects.addAll(tank.getPacketData(objects));
 
         return objects;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-        return getMultiBlock().get().tank.fill(resource, doFill);
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
-        if (resource != null) {
-            if (resource.isFluidEqual(tank.getFluid())) {
-                tank.drain(resource.amount, doDrain);
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
-        return tank.drain(maxDrain, doDrain);
-    }
-
-    @Override
-    public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(QuantumFluids.plasma);
-    }
-
-    @Override
-    public boolean canDrain(EnumFacing from, Fluid fluid) {
-        return fluid.equals(QuantumFluids.fluidToxicWaste);
-    }
-
-    @Override
-    public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        return new FluidTankInfo[] { tank.getInfo() };
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void heat(long energy) {
@@ -386,7 +343,12 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
 
     @Override
     public boolean isOverToxic() {
-        return tank.getFluid() != null && tank.getFluid().equals(QuantumFluids.fluidToxicWaste) && tank.getFluid().amount >= tank.getCapacity();
+        return tank.getFluid() != null && tank.getFluid().getFluid() == QuantumFluids.fluidToxicWaste && tank.getFluid().amount >= tank.getCapacity();
+    }
+
+    @Override
+    public IFluidHandler getTank() {
+        return tank;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -475,5 +437,23 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
         // No need to destroy reactor cell since explosion will do that for us.
         ReactorExplosion reactorExplosion = new ReactorExplosion(world, null, pos, 9.0F);
         reactorExplosion.explode();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return (T) getMultiBlock().get().tank;
+        }
+
+        return super.getCapability(capability, facing);
     }
 }

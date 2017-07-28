@@ -16,7 +16,7 @@ public class ElectricTurbineMultiBlockHandler extends MultiBlockHandler<TileElec
         if (tileEntity != null && wrapperClass.isAssignableFrom(tileEntity.getClass())) {
             TileElectricTurbine tileTurbine = (TileElectricTurbine) tileEntity;
 
-            if (tileTurbine.getDirection() == self.getDirection() && ((TileElectricTurbine) tileEntity).tier == self.tier) {
+            if (tileTurbine.tier == self.tier) {
                 return tileTurbine;
             }
         }

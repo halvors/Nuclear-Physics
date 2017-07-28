@@ -68,7 +68,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
             reactor.heat(energyPerTick);
 
             // Consume fuel.
-            if (reactor.getWorldObject().getWorldTime() % 20 == 0) {
+            if (reactor.getWorld().getWorldTime() % 20 == 0) {
                 itemStack.setItemDamage(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDamage()));
             }
 
@@ -77,7 +77,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
                 FluidStack fluid = QuantumFluids.fluidStackToxicWaste.copy();
                 fluid.amount = 1;
 
-                reactor.fill(null, fluid, true);
+                reactor.getTank().fill(fluid, true);
             }
         }
     }

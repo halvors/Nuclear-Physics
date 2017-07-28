@@ -4,11 +4,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraftforge.fluids.*;
-import org.halvors.quantum.common.grid.thermal.IBoilHandler;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.halvors.quantum.common.fluid.GasTank;
 
-public class TileGasFunnel extends TileEntity implements ITickable, IBoilHandler {
-    private final FluidTank tank = new FluidTank(Fluid.BUCKET_VOLUME * 16);
+import javax.annotation.Nonnull;
+
+public class TileGasFunnel extends TileEntity implements ITickable {
+    private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16);
 
     public TileGasFunnel() {
 
@@ -22,67 +28,51 @@ public class TileGasFunnel extends TileEntity implements ITickable, IBoilHandler
             if (tile instanceof IFluidHandler) {
                 IFluidHandler handler = (IFluidHandler) tile;
 
-                if (handler.canFill(EnumFacing.DOWN, tank.getFluid().getFluid())) {
+                //if (handler.canFill(EnumFacing.DOWN, tank.getFluid().getFluid())) {
                     FluidStack drainedStack = tank.drain(tank.getCapacity(), false);
 
                     if (drainedStack != null) {
-                        tank.drain(handler.fill(EnumFacing.DOWN, drainedStack, true), true);
+                        tank.drain(handler.fill(drainedStack, true), true);
                     }
-                }
+                //}
             }
         }
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-        tank.writeToNBT(tagCompound);
+        tank.readFromNBT(tag);
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        tag = super.writeToNBT(tag);
 
-        tank.readFromNBT(tagCompound);
+        tag = tank.writeToNBT(tag);
 
-        return tagCompound;
+        return tag;
     }
 
-    @Override
-    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-        return tank.fill(resource, doFill);
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
-        if (resource != null) {
-            if (resource.isFluidEqual(tank.getFluid())){
-                return tank.drain(resource.amount, doDrain);
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            if (facing == EnumFacing.DOWN || facing == EnumFacing.UP) {
+                return (T) tank;
             }
         }
 
-        return null;
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
-        return tank.drain(maxDrain, doDrain);
-    }
-
-    @Override
-    public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.isGaseous() && from == EnumFacing.DOWN;
-    }
-
-    @Override
-    public boolean canDrain(EnumFacing from, Fluid fluid) {
-        return fluid.isGaseous() && from == EnumFacing.UP;
-    }
-
-    @Override
-    public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        return new FluidTankInfo[] { tank.getInfo() };
+        return super.getCapability(capability, facing);
     }
 }
 

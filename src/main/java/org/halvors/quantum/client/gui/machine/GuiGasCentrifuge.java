@@ -46,8 +46,8 @@ public class GuiGasCentrifuge extends GuiContainerBase {
 
         fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
 
-        if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.gasTank.getFluid() != null) {
-            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.gasTank.getFluid().getLocalizedName(), tile.gasTank.getFluid().amount + " L");
+        if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.tank.getFluid() != null) {
+            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.tank.getFluid().getLocalizedName(), tile.tank.getFluid().amount + " L");
         }
     }
 
@@ -63,7 +63,7 @@ public class GuiGasCentrifuge extends GuiContainerBase {
         drawBar(40, 26, (float) tile.timer / (float) TileGasCentrifuge.tickTime);
 
         // Uranium Gas
-        drawMeter(8, 18, (float) tile.gasTank.getFluidAmount() / (float) tile.gasTank.getCapacity(), tile.gasTank.getFluid());
+        drawMeter(8, 18, (float) tile.tank.getFluidAmount() / (float) tile.tank.getCapacity(), tile.tank.getFluid());
         drawSlot(24, 49, SlotType.GAS);
     }
 }

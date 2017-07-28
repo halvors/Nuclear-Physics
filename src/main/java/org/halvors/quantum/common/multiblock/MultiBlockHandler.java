@@ -158,20 +158,21 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
     /** Only the primary wrapper of the multiblock saves and loads data. */
     @Override
-    public void load(NBTTagCompound nbt) {
-        if (nbt.hasKey("primaryMultiBlock")) {
-            newPrimary = new Vector3(nbt.getCompoundTag("primaryMultiBlock"));
+    public void load(NBTTagCompound tag) {
+        if (tag.hasKey("primaryMultiBlock")) {
+            newPrimary = new Vector3(tag.getCompoundTag("primaryMultiBlock"));
             update();
         } else {
             prim = null;
         }
     }
 
-    /** @param nbt */
     @Override
-    public void save(NBTTagCompound nbt) {
+    public NBTTagCompound save(NBTTagCompound tag) {
         if (isConstructed()) {
-            nbt.setTag("primaryMultiBlock", getPrimary().getPosition().subtract(self.getPosition()).writeToNBT(new NBTTagCompound()));
+            tag.setTag("primaryMultiBlock", getPrimary().getPosition().subtract(self.getPosition()).writeToNBT(new NBTTagCompound()));
         }
+
+        return tag;
     }
 }

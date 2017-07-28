@@ -3,7 +3,7 @@ package org.halvors.quantum.api.nbt;
 import net.minecraft.nbt.NBTTagCompound;
 
 public interface ISaveObject {
-    void save(NBTTagCompound tagCompound);
+    NBTTagCompound save(NBTTagCompound tag);
 
-    void load(NBTTagCompound tagCompound);
+    void load(NBTTagCompound tag);
 }

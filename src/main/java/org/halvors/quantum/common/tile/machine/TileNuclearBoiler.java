@@ -5,23 +5,27 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
-import org.halvors.quantum.common.network.PacketHandler;
+import org.halvors.quantum.common.fluid.FluidTankInputOutput;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileNuclearBoiler extends TileProcess implements IFluidHandler {
+public class TileNuclearBoiler extends TileProcess {
     public static final int tickTime = 20 * 15;
     public static final int energy = 21000;
 
-    public final FluidTank waterTank = new FluidTank(QuantumFluids.fluidStackWater.copy(), Fluid.BUCKET_VOLUME * 5); // Synced
-    public final FluidTank gasTank = new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5); // Synced
+    public final FluidTankInputOutput tank = new FluidTankInputOutput(new FluidTank(QuantumFluids.fluidStackWater.copy(), Fluid.BUCKET_VOLUME * 5), new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5));
 
     // How many ticks has this item been extracting for?
     public int timer = 0; // Synced
@@ -110,37 +114,21 @@ public class TileNuclearBoiler extends TileProcess implements IFluidHandler {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-        timer = tagCompound.getInteger("timer");
-
-        NBTTagCompound waterCompound = tagCompound.getCompoundTag("water");
-        waterTank.setFluid(FluidStack.loadFluidStackFromNBT(waterCompound));
-
-        NBTTagCompound gasCompound = tagCompound.getCompoundTag("gas");
-        gasTank.setFluid(FluidStack.loadFluidStackFromNBT(gasCompound));
+        timer = tag.getInteger("timer");
+        tank.readFromNBT(tag);
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        tag = super.writeToNBT(tag);
 
-        tagCompound.setInteger("timer", timer);
+        tag.setInteger("timer", timer);
+        tag = tank.writeToNBT(tag);
 
-        if (waterTank.getFluid() != null) {
-            NBTTagCompound waterTankCompound = new NBTTagCompound();
-            waterTank.getFluid().writeToNBT(waterTankCompound);
-            tagCompound.setTag("water", waterTankCompound);
-        }
-
-        if (gasTank.getFluid() != null) {
-            NBTTagCompound gasTankCompound = new NBTTagCompound();
-            gasTank.getFluid().writeToNBT(gasTankCompound);
-            tagCompound.setTag("gas", gasTankCompound);
-        }
-
-        return tagCompound;
+        return tag;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,12 +137,8 @@ public class TileNuclearBoiler extends TileProcess implements IFluidHandler {
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
-        if (dataStream.readBoolean()) {
-            waterTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
-        }
-
-        if (dataStream.readBoolean()) {
-            gasTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
+        if (world.isRemote) {
+            tank.handlePacketData(dataStream);
         }
 
         timer = dataStream.readInt();
@@ -164,26 +148,7 @@ public class TileNuclearBoiler extends TileProcess implements IFluidHandler {
     public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
-        if (waterTank.getFluid() != null) {
-            objects.add(true);
-
-            NBTTagCompound compoundWaterTank = new NBTTagCompound();
-            waterTank.getFluid().writeToNBT(compoundWaterTank);
-            objects.add(compoundWaterTank);
-        } else {
-            objects.add(false);
-        }
-
-        if (gasTank.getFluid() != null) {
-            objects.add(true);
-
-            NBTTagCompound compoundGasTank = new NBTTagCompound();
-            gasTank.getFluid().writeToNBT(compoundGasTank);
-            objects.add(compoundGasTank);
-        } else {
-            objects.add(false);
-        }
-
+        objects.addAll(tank.getPacketData(objects));
         objects.add(timer);
 
         return objects;
@@ -208,53 +173,13 @@ public class TileNuclearBoiler extends TileProcess implements IFluidHandler {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-        if (resource != null && canFill(from, resource.getFluid())) {
-            return waterTank.fill(resource, doFill);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
-        //if (resource.isFluidEqual(Quantum.fluidStackUraniumHexaflouride)) {
-        //    return gasTank.drain(resource.amount, doDrain);
-        //}
-
-        return gasTank.drain(resource.amount, doDrain);
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
-        return gasTank.drain(maxDrain, doDrain);
-    }
-
-    @Override
-    public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(FluidRegistry.WATER);
-    }
-
-    @Override
-    public boolean canDrain(EnumFacing from, Fluid fluid) {
-        //return fluid.getID() == Quantum.fluidUraniumHexaflouride.getID();
-
-        return gasTank.getFluid() != null && fluid.equals(gasTank.getFluid());
-    }
-
-    @Override
-    public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        return new FluidTankInfo[] { waterTank.getInfo(), gasTank.getInfo() };
-    }
-
-    @Override
     public FluidTank getInputTank() {
-        return waterTank;
+        return tank.getInputTank();
     }
 
     @Override
     public FluidTank getOutputTank() {
-        return gasTank;
+        return tank.getOutputTank();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -318,11 +243,11 @@ public class TileNuclearBoiler extends TileProcess implements IFluidHandler {
 
     // Check all conditions and see if we can start smelting
     public boolean canProcess() {
-        if (waterTank.getFluid() != null) {
-            if (waterTank.getFluid().amount >= Fluid.BUCKET_VOLUME) {
+        if (tank.getInputTank().getFluid() != null) {
+            if (tank.getInputTank().getFluid().amount >= Fluid.BUCKET_VOLUME) {
                 if (getStackInSlot(1) != null) {
                     if (getStackInSlot(1).getItem() == QuantumItems.itemYellowCake || OreDictionaryUtility.isUraniumOre(getStackInSlot(1))) {
-                        if (gasTank.getFluid().amount < gasTank.getCapacity()) {
+                        if (tank.getOutputTank().getFluid().amount < tank.getOutputTank().getCapacity()) {
                             return true;
                         }
                     }
@@ -336,23 +261,29 @@ public class TileNuclearBoiler extends TileProcess implements IFluidHandler {
     // Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack.
     public void doProcess() {
         if (canProcess()) {
-            waterTank.drain(Fluid.BUCKET_VOLUME, true);
+            tank.getInputTank().drain(Fluid.BUCKET_VOLUME, true);
             FluidStack liquid = QuantumFluids.fluidStackUraniumHexaflouride.copy();
             liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
-            gasTank.fill(liquid, true);
+            tank.getOutputTank().fill(liquid, true);
             decrStackSize(1, 1);
         }
     }
 
-    /*
-    @Override
-    public EnumFacing getDirection() {
-        return EnumFacing.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void setDirection(EnumFacing direction) {
-        world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
-    */
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return (T) tank;
+        }
+
+        return super.getCapability(capability, facing);
+    }
 }

@@ -56,6 +56,7 @@ public class QuantumFluids {
 
     public static final FluidStack fluidStackDeuterium = new FluidStack(FluidRegistry.getFluid("deuterium"), 0);
     public static final FluidStack fluidStackUraniumHexaflouride = new FluidStack(FluidRegistry.getFluid("uranium_hexafluoride"), 0);
+    public static final FluidStack stackPlasma = new FluidStack(FluidRegistry.getFluid("plasma"), 0);
     public static final FluidStack fluidStackSteam = new FluidStack(FluidRegistry.getFluid("steam"), 0);
     public static final FluidStack fluidStackTritium = new FluidStack(FluidRegistry.getFluid("tritium"), 0);
     public static final FluidStack fluidStackToxicWaste = new FluidStack(FluidRegistry.getFluid("toxic_waste"), 0);

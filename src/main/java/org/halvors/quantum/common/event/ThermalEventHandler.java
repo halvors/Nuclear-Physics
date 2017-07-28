@@ -11,6 +11,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.api.tile.IElectromagnet;
@@ -18,7 +20,6 @@ import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.quantum.common.grid.IUpdate;
 import org.halvors.quantum.common.grid.UpdateTicker;
-import org.halvors.quantum.common.grid.thermal.IBoilHandler;
 import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 
@@ -26,16 +27,18 @@ public class ThermalEventHandler {
     @SubscribeEvent
     public void onBoilEvent(BoilEvent event) {
         for (int height = 1; height <= event.getMaxSpread(); height++) {
-            final TileEntity tileEntity = event.getWorld().getTileEntity(event.getPos());
+            final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
 
-            if (tileEntity instanceof IBoilHandler) {
-                final IBoilHandler handler = (IBoilHandler) tileEntity;
+            // TODO: Add custom capability?
+            if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
+                final IFluidHandler handler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN);
+                //final IBoilHandler handler = (IBoilHandler) tileEntity;
                 final FluidStack fluid = event.getRemainForSpread(height);
 
                 if (fluid.amount > 0) {
-                    if (handler.canFill(EnumFacing.DOWN, fluid.getFluid())) {
-                        fluid.amount -= handler.fill(EnumFacing.DOWN, fluid, true);
-                    }
+                    //if (handler.canFill(EnumFacing.DOWN, fluid.getFluid())) {
+                        fluid.amount -= handler.fill(fluid, true);
+                    //}
                 }
             }
         }
