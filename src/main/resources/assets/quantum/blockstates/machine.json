@@ -25,23 +25,15 @@
     },
     "type": {
       "accelerator": {
-        "model": "orientable",
         "textures": {
-          "front": "quantum:blocks/machine",
-          "top": "quantum:blocks/accelerator",
-          "side": "quantum:blocks/accelerator",
-          "particle": "quantum:blocks/accelerator"
+          "all": "quantum:blocks/accelerator"
         }
       },
       "gas_funnel": {
         "textures": {
-          "particle": "quantum:blocks/gas_funnel",
           "down": "quantum:blocks/gas_funnel_top",
           "up": "quantum:blocks/gas_funnel_top",
-          "north": "quantum:blocks/gas_funnel",
-          "east": "quantum:blocks/gas_funnel",
-          "south": "quantum:blocks/gas_funnel",
-          "west": "quantum:blocks/gas_funnel"
+          "all": "quantum:blocks/gas_funnel"
         }
       }
     }

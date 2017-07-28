@@ -2,7 +2,6 @@
   "forge_marker": 1,
   "defaults": {
     "model": "cube_all",
-    "transform": "forge:default-block",
     "uvlock": true
   },
   "variants": {
@@ -26,8 +25,8 @@
       },
       "glass": {
         "textures": {
-          "all": "quantum:blocks/electromagnet_glass",
-          "particle": "quantum:blocks/electromagnet_glass"
+          "particle": "quantum:blocks/electromagnet_glass",
+          "all": "quantum:blocks/electromagnet_glass"
         }
       }
     }

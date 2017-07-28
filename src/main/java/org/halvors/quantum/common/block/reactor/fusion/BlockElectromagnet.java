@@ -31,7 +31,6 @@ public class BlockElectromagnet extends BlockContainerQuantum {
         super("electromagnet", Material.IRON);
 
         setResistance(20);
-        //setDefaultState(blockState.getBaseState().withProperty(type, EnumElectromagnet.NORMAL));
     }
 
     @Override
@@ -50,8 +49,9 @@ public class BlockElectromagnet extends BlockContainerQuantum {
 
         if (neighborBlock == this) {
             EnumElectromagnet neighborBlockType = neighborBlockState.getValue(BlockStateElectromagnet.typeProperty);
+            EnumElectromagnet blockType = state.getValue(BlockStateElectromagnet.typeProperty);
 
-            if (neighborBlockType == EnumElectromagnet.GLASS) {
+            if (blockType == neighborBlockType && neighborBlockType == EnumElectromagnet.GLASS) {
                 return false;
             }
         }
