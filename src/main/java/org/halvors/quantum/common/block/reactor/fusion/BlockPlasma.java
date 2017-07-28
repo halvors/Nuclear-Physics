@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 
 import javax.annotation.Nonnull;
@@ -66,7 +67,7 @@ public class BlockPlasma extends BlockContainerQuantum {
 
     @Override
     @Nonnull
-    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
+    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
         return new TilePlasma();
     }
 }

@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.block.particle;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
@@ -32,7 +33,7 @@ public class BlockFulmination extends BlockContainerQuantum {
 
     @Override
     @Nonnull
-    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
+    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
         return new TileFulmination();
     }
 }

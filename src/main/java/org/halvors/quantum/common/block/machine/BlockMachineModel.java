@@ -125,11 +125,10 @@ public class BlockMachineModel extends BlockInventory {
     }
 
     @Override
-    @Nonnull
-    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
-        final EnumMachineModel type = EnumMachineModel.values()[metadata];
+    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
+        EnumMachineModel type = state.getValue(BlockStateMachineModel.typeProperty);
 
-        return type.getTileAsNewIntance();
+        return type.getTileAsInstance();
     }
 
     public enum EnumMachineModel implements IStringSerializable {
@@ -158,7 +157,7 @@ public class BlockMachineModel extends BlockInventory {
             return tileClass;
         }
 
-        public TileEntity getTileAsNewIntance() {
+        public TileEntity getTileAsInstance() {
             try {
                 return tileClass.newInstance();
             } catch (Exception e) {

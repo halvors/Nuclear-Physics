@@ -20,6 +20,7 @@ import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
+import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
@@ -117,7 +118,7 @@ public class BlockReactorCell extends BlockContainerQuantum {
 
     @Override
     @Nonnull
-    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
+    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
         return new TileReactorCell();
     }
 

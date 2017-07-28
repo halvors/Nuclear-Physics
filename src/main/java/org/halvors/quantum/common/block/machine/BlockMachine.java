@@ -91,8 +91,8 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
-        return EnumMachine.values()[metadata].getTileAsNewIntance();
+    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
+        return state.getValue(BlockStateMachine.typeProperty).getTileAsInstance();
     }
 
     public enum EnumMachine implements IStringSerializable {
@@ -116,7 +116,7 @@ public class BlockMachine extends BlockInventory {
             return tileClass;
         }
 
-        public TileEntity getTileAsNewIntance() {
+        public TileEntity getTileAsInstance() {
             try {
                 return tileClass.newInstance();
             } catch (Exception e) {

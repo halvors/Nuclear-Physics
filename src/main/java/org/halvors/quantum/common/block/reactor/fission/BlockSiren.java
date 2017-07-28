@@ -10,6 +10,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.utility.WrenchUtility;
 
@@ -43,7 +44,7 @@ public class BlockSiren extends BlockContainerQuantum {
 
     @Override
     @Nonnull
-    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
+    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
         return new TileSiren();
     }
 }

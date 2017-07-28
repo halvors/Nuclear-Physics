@@ -32,6 +32,7 @@ import org.halvors.quantum.client.render.block.machine.RenderNuclearBoiler;
 import org.halvors.quantum.client.render.block.machine.RenderQuantumAssembler;
 import org.halvors.quantum.client.render.block.reactor.RenderElectricTurbine;
 import org.halvors.quantum.client.render.block.reactor.fission.RenderReactorCell;
+import org.halvors.quantum.client.render.block.reactor.fission.RenderThermometer;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
@@ -43,6 +44,7 @@ import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
+import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
 
@@ -59,46 +61,6 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	    // Register our domain to OBJLoader.
 		OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
 		//OBJBakedModel.init();
-
-		// Blocks.
-		/*
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockControlRod), 0, new ModelResourceLocation(Reference.PREFIX + "control_rod", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockElectricTurbine), 0, new ModelResourceLocation(Reference.PREFIX + "electric_turbine", "inventory"));
-
-        for (EnumElectromagnet type : EnumElectromagnet.values()) {
-            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockElectromagnet), type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "electromagnet", "type=" + type.getName()));
-        }
-
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockFulmination), 0, new ModelResourceLocation(Reference.PREFIX + "fulmination", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockGasFunnel), 0, new ModelResourceLocation(Reference.PREFIX + "gas_funnel", "inventory"));
-
-        for (EnumMachine type : EnumMachine.values()) {
-            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockMachine), type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "machine", "facing=north,type=" + type.getName()));
-        }
-
-        for (BlockMachineModel.EnumMachineModel type : EnumMachineModel.values()) {
-            ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockMachineModel), type.ordinal(), new ModelResourceLocation(Reference.PREFIX + "machine_model", "facing=north,type=" + type.getName()));
-        }
-
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockSiren), 0, new ModelResourceLocation(Reference.PREFIX + "siren", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockThermometer), 0, new ModelResourceLocation(Reference.PREFIX + "thermometer", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockUraniumOre), 0, new ModelResourceLocation(Reference.PREFIX + "uranium_ore", "inventory"));
-        //ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockPlasma), 0, new ModelResourceLocation(Reference.PREFIX + "plasma", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockRadioactiveGrass), 0, new ModelResourceLocation(Reference.PREFIX + "radioactive_grass", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockReactorCell), 0, new ModelResourceLocation(Reference.PREFIX + "reactor_cell", "inventory"));
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(QuantumBlocks.blockCreativeBuilder), 0, new ModelResourceLocation(Reference.PREFIX + "creative_builder", "inventory"));
-		*/
-
-        /*
-        // TODO: What is this used for?
-         */
-        // Item Variants
-        /*
-		ModelBakery.registerItemVariants(QuantumItems.itemAntimatterCell,
-                new ResourceLocation(Reference.PREFIX + "cell_antimatter_" + EnumAntimatterCell.MILLIGRAM.getName()),
-                new ResourceLocation(Reference.PREFIX + "cell_antimatter_" + EnumAntimatterCell.GRAM.getName())
-        );
-        */
 	}
 
 	@Override
@@ -108,7 +70,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
         ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderGasCentrifuge());
         ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
-        //ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
         ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
 
