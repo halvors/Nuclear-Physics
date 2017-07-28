@@ -20,7 +20,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.block.machine.BlockMachine;
 import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
+import org.halvors.quantum.common.block.states.BlockStateMachine;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 
 import javax.annotation.Nonnull;
@@ -37,6 +39,14 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     public void registerItemModel(ItemBlock itemBlock) {
         for (EnumElectromagnet type : EnumElectromagnet.values()) {
             Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "type=" + type.getName());
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
+        for (EnumElectromagnet type : EnumElectromagnet.values()) {
+            list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
 
@@ -87,6 +97,12 @@ public class BlockElectromagnet extends BlockContainerQuantum {
         return new BlockStateElectromagnet(this);
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public IBlockState getStateFromMeta(int metadata) {
+        return getDefaultState().withProperty(BlockStateElectromagnet.typeProperty, EnumElectromagnet.values()[metadata]);
+    }
+
     @Override
     public int getMetaFromState(IBlockState state) {
         return state.getValue(BlockStateElectromagnet.typeProperty).ordinal();
@@ -100,13 +116,6 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     @Override
     public int damageDropped(IBlockState state) {
         return getMetaFromState(state);
-    }
-
-    @Override
-    public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
-        for (EnumElectromagnet type : EnumElectromagnet.values()) {
-            list.add(new ItemStack(item, 1, type.ordinal()));
-        }
     }
 
     /*

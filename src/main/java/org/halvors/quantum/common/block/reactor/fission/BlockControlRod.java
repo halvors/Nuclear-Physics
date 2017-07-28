@@ -32,6 +32,4 @@ public class BlockControlRod extends BlockQuantum {
     public boolean isFullCube(IBlockState state) {
         return false;
     }
-
-
 }

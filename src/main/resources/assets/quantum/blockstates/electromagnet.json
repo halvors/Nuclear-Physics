@@ -14,18 +14,13 @@
     "type": {
       "normal": {
         "textures": {
-          "particle": "quantum:blocks/electromagnet",
+          "all": "quantum:blocks/electromagnet",
           "down": "quantum:blocks/electromagnet_top",
-          "up": "quantum:blocks/electromagnet_top",
-          "north": "quantum:blocks/electromagnet",
-          "east": "quantum:blocks/electromagnet",
-          "south": "quantum:blocks/electromagnet",
-          "west": "quantum:blocks/electromagnet"
+          "up": "quantum:blocks/electromagnet_top"
         }
       },
       "glass": {
         "textures": {
-          "particle": "quantum:blocks/electromagnet_glass",
           "all": "quantum:blocks/electromagnet_glass"
         }
       }

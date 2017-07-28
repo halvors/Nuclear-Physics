@@ -31,9 +31,9 @@
       },
       "gas_funnel": {
         "textures": {
+          "all": "quantum:blocks/gas_funnel",
           "down": "quantum:blocks/gas_funnel_top",
-          "up": "quantum:blocks/gas_funnel_top",
-          "all": "quantum:blocks/gas_funnel"
+          "up": "quantum:blocks/gas_funnel_top"
         }
       }
     }
