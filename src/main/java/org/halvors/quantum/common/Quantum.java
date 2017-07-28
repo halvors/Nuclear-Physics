@@ -1,7 +1,9 @@
 package org.halvors.quantum.common;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -131,13 +133,13 @@ public class Quantum {
 		OreDictionary.registerOre("antimatterGram", new ItemStack(QuantumItems.itemAntimatterCell, 1, 1));
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, (tickets, world) -> {
-            for (ForgeChunkManager.Ticket ticket : tickets) {
+            for (Ticket ticket : tickets) {
                 if (ticket.getType() == ForgeChunkManager.Type.ENTITY) {
-                    if (ticket.getEntity() != null) {
-                        if (ticket.getEntity() instanceof EntityParticle) {
-                            ((EntityParticle) ticket.getEntity()).updateTicket = ticket;
-                        }
-                    }
+					Entity entity = ticket.getEntity();
+
+					if (entity != null && entity instanceof EntityParticle) {
+						((EntityParticle) entity).updateTicket = ticket;
+					}
                 }
             }
         });

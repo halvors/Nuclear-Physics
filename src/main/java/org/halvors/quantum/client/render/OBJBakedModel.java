@@ -28,7 +28,7 @@ import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class OBJBakedModel {
-    static Map<String, IBakedModel> loadedModels = Maps.newHashMap();
+    private static Map<String, IBakedModel> loadedModels = Maps.newHashMap();
 
     private final Map<String, String> textureReplacements = Maps.newHashMap();
     private final ResourceLocation model;

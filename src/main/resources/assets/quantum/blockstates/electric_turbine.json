@@ -1,20 +1,21 @@
 {
   "forge_marker": 1,
+  "defaults": {
+    "custom": {
+      "flip-v": true
+    },
+    "model": "quantum:electric_turbine_small.obj",
+    "textures": {
+      "#None": "quantum:models/electric_turbine_small"
+    },
+    "transform": "forge:default-block"
+  },
   "variants": {
     "normal": [
       {}
     ],
     "inventory": [
-      {
-        "custom": {
-          "flip-v": true
-        },
-        "model": "quantum:electric_turbine_small.obj",
-        "textures": {
-          "#None": "quantum:models/electric_turbine_small"
-        },
-        "transform": "forge:default-block"
-      }
+      {}
     ]
   }
 }
