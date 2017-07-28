@@ -29,9 +29,6 @@ public class TileChemicalExtractor extends TileProcess {
     private static final int extractSpeed = 100;
     public static final int energy = 20000;
 
-    // How many ticks has this item been extracting for?
-    public int timer = 0; // Synced
-
     public float rotation = 0;
 
     public final FluidTankInputOutput tank = new FluidTankInputOutput(new FluidTank(Fluid.BUCKET_VOLUME * 10), new FluidTank(Fluid.BUCKET_VOLUME * 10));
@@ -105,7 +102,6 @@ public class TileChemicalExtractor extends TileProcess {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        timer = tag.getInteger("timer");
         tank.readFromNBT(tag);
     }
 
@@ -113,7 +109,6 @@ public class TileChemicalExtractor extends TileProcess {
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag = super.writeToNBT(tag);
 
-        tag.setInteger("timer", timer);
         tag = tank.writeToNBT(tag);
 
         return tag;
@@ -126,7 +121,6 @@ public class TileChemicalExtractor extends TileProcess {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
-            timer = dataStream.readInt();
             tank.handlePacketData(dataStream);
         }
     }
@@ -135,7 +129,6 @@ public class TileChemicalExtractor extends TileProcess {
     public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
-        objects.add(timer);
         objects.addAll(tank.getPacketData(objects));
 
         return objects;
@@ -191,23 +184,29 @@ public class TileChemicalExtractor extends TileProcess {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public boolean canProcess() {
-        if (tank.getInputTank().getFluid() != null) {
-            if (tank.getInputTank().getFluid().amount >= Fluid.BUCKET_VOLUME && OreDictionaryUtility.isUraniumOre(getStackInSlot(inputSlot))) {
+    public boolean canProcess() {;
+        FluidStack inputFluidStack = tank.getInputTank().getFluid();
+
+        if (inputFluidStack != null) {
+            if (inputFluidStack.amount >= Fluid.BUCKET_VOLUME && OreDictionaryUtility.isUraniumOre(getStackInSlot(inputSlot))) {
                 if (isItemValidForSlot(outputSlot, new ItemStack(QuantumItems.itemYellowCake))) {
                     return true;
                 }
             }
 
-            if (tank.getOutputTank().getFluidAmount() < tank.getOutputTank().getCapacity()) {
-                if (tank.getInputTank().getFluid().equals(QuantumFluids.fluidStackDeuterium) && tank.getInputTank().getFluid().amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
-                    if (tank.getOutputTank().getFluid() == null || tank.getOutputTank().getFluid().getFluid() == QuantumFluids.gasTritium) {
+            FluidTank outputTank = tank.getOutputTank();
+
+            if (outputTank.getFluidAmount() < outputTank.getCapacity()) {
+                FluidStack outputFluidStack = outputTank.getFluid();
+
+                if (inputFluidStack.isFluidEqual(QuantumFluids.fluidStackDeuterium) && inputFluidStack.amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
+                    if (outputFluidStack == null || outputFluidStack.getFluid() == QuantumFluids.gasTritium) {
                         return true;
                     }
                 }
 
-                if (tank.getInputTank().getFluid().equals(QuantumFluids.fluidStackWater) && tank.getInputTank().getFluid().amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
-                    if (tank.getOutputTank().getFluid() == null || tank.getOutputTank().getFluid().getFluid() == QuantumFluids.gasDeuterium) {
+                if (inputFluidStack.isFluidEqual(QuantumFluids.fluidStackWater) && inputFluidStack.amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
+                    if (outputFluidStack == null || outputFluidStack.getFluid() == QuantumFluids.gasDeuterium) {
                         return true;
                     }
                 }

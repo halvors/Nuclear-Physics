@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
@@ -19,7 +20,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     public static final int tickTime = 20 * 120;
     private static final int energy = 10000000; // Fix this.
 
-    public int time = 0; // Synced
+    public int timer = 0; // Synced
 
     // Used for rendering.
     public float rotationYaw1 = 0;
@@ -39,24 +40,24 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     public void update() {
         if (!world.isRemote) {
             if (canProcess() && energyStorage.extractEnergy(energy, true) >= energy) {
-                if (time == 0) {
-                    time = tickTime;
+                if (timer == 0) {
+                    timer = tickTime;
                 }
 
-                if (time > 0) {
-                    time--;
+                if (timer > 0) {
+                    timer--;
 
-                    if (time < 1) {
+                    if (timer < 1) {
                         doProcess();
-                        time = 0;
+                        timer = 0;
                     }
                 } else {
-                    time = 0;
+                    timer = 0;
                 }
 
                 energyStorage.extractEnergy(energy, false);
             } else {
-                time = 0;
+                timer = 0;
             }
 
             if (world.getWorldTime() % 10 == 0) {
@@ -64,7 +65,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
                     Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
                 }
             }
-        } else if (time > 0) {
+        } else if (timer > 0) {
             if (world.getWorldTime() % 600 == 0) {
                 //world.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.assembler", 0.7F, 1F);
             }
@@ -94,44 +95,6 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     }
 
 
-    @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-
-        time = tag.getInteger("timer");
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag = super.writeToNBT(tag);
-
-        tag.setInteger("timer", time);
-
-        return tag;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public void handlePacketData(ByteBuf dataStream) {
-        super.handlePacketData(dataStream);
-
-        // TODO: Check if there should be any kind of item sync here.
-
-        time = dataStream.readInt();
-    }
-
-    @Override
-    public List<Object> getPacketData(List<Object> objects) {
-        super.getPacketData(objects);
-
-        // TODO: Check if there should be any kind of item sync here.
-
-        objects.add(time);
-
-        return objects;
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -151,20 +114,24 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     }
 
     public boolean canProcess() {
-        if (getStackInSlot(6) != null) {
-            if (QuantumAssemblerRecipes.hasItemStack(getStackInSlot(6))) {
+        ItemStack itemStack = getStackInSlot(6);
+
+        if (itemStack != null) {
+            if (QuantumAssemblerRecipes.hasItemStack(itemStack)) {
                 for (int i = 0; i < 6; i++) {
-                    if (getStackInSlot(i) == null) {
+                    ItemStack slotItemStack = getStackInSlot(i);
+
+                    if (slotItemStack == null) {
                         return false;
                     }
 
-                    if (getStackInSlot(i).getItem() != QuantumItems.itemDarkMatterCell) {
+                    if (slotItemStack.getItem() != QuantumItems.itemDarkMatterCell) {
                         return false;
                     }
                 }
             }
 
-            return getStackInSlot(6).stackSize < 64;
+            return itemStack.stackSize < 64;
         }
 
         return false;
@@ -179,8 +146,10 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
                 }
             }
 
-            if (getStackInSlot(6) != null) {
-                getStackInSlot(6).stackSize++;
+            ItemStack itemStack = getStackInSlot(6);
+
+            if (itemStack != null) {
+                itemStack.stackSize++;
             }
         }
     }

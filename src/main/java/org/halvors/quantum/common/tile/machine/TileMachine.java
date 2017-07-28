@@ -1,16 +1,15 @@
 package org.halvors.quantum.common.tile.machine;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
-import org.halvors.quantum.common.tile.TileRotatable;
+import org.halvors.quantum.common.tile.ITileNetwork;
+import org.halvors.quantum.common.tile.TileConsumer;
 
-import javax.annotation.Nonnull;
+import java.util.List;
 
-public class TileMachine extends TileRotatable {
-    protected EnergyStorage energyStorage;
+public class TileMachine extends TileConsumer implements ITileNetwork {
+    // How many ticks has this item been processed for?
+    public int timer = 0; // Synced
 
     public TileMachine() {
 
@@ -24,39 +23,35 @@ public class TileMachine extends TileRotatable {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        if (energyStorage != null) {
-            CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag("storedEnergy"));
-        }
+        timer = tag.getInteger("timer");
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag = super.writeToNBT(tag);
 
-        if (energyStorage != null) {
-            tag.setTag("storedEnergy", CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));
-        }
+        tag.setInteger("timer", timer);
 
         return tag;
     }
 
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return capability == CapabilityEnergy.ENERGY || super.hasCapability(capability, facing);
-    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @SuppressWarnings("unchecked")
     @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY) {
-            return (T) energyStorage;
+    public void handlePacketData(ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
+        if (world.isRemote) {
+            timer = dataStream.readInt();
         }
-
-        return super.getCapability(capability, facing);
     }
 
-    public EnergyStorage getEnergyStorage() {
-        return energyStorage;
+    @Override
+    public List<Object> getPacketData(List<Object> objects) {
+        super.getPacketData(objects);
+
+        objects.add(timer);
+
+        return objects;
     }
 }

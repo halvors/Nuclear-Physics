@@ -5,23 +5,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.fluid.tank.FluidTankStrict;
+import org.halvors.quantum.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.transform.vector.VectorHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -32,7 +29,6 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
 
     public final FluidTankStrict tank = new FluidTankStrict(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5, true, false); // Synced
 
-    public int timer = 0; // Synced
     public float rotation = 0;
 
     public TileGasCentrifuge() {
@@ -48,6 +44,8 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
         }
 
         if (!world.isRemote) {
+            // TODO: Fix this?
+            /*
             if (world.getWorldTime() % 20 == 0) {
                 for (int side = 0; side < 6; side++) {
                     EnumFacing direction = EnumFacing.getFront(side);
@@ -70,6 +68,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
                     }
                 }
             }
+            */
 
             if (canProcess()) {
                 // TODO: Implement this.
@@ -111,7 +110,6 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        timer = tag.getInteger("timer");
         tank.readFromNBT(tag);
     }
 
@@ -119,7 +117,6 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag = super.writeToNBT(tag);
 
-        tag.setInteger("timer", timer);
         tag = tank.writeToNBT(tag);
 
         return tag;
@@ -132,7 +129,6 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
-            timer = dataStream.readInt();
             tank.handlePacketData(dataStream);
         }
     }
@@ -141,7 +137,6 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
-        objects.add(timer);
         objects.addAll(tank.getPacketData(objects));
 
         return objects;
@@ -191,8 +186,10 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean canProcess() {
-        if (tank.getFluid() != null) {
-            if (tank.getFluid().amount >= ConfigurationManager.General.uraniumHexaflourideRatio) {
+        FluidStack fluidStack = tank.getFluid();
+
+        if (fluidStack != null) {
+            if (fluidStack.amount >= ConfigurationManager.General.uraniumHexaflourideRatio) {
                 return isItemValidForSlot(2, new ItemStack(QuantumItems.itemUranium)) && isItemValidForSlot(3, new ItemStack(QuantumItems.itemUranium, 1, 1));
             }
         }
@@ -207,7 +204,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
             if (world.rand.nextFloat() > 0.6) {
                 incrStackSize(2, new ItemStack(QuantumItems.itemUranium));
             } else {
-                incrStackSize(3, new ItemStack(QuantumItems.itemUranium, 1, 1));
+                incrStackSize(3, new ItemStack(QuantumItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()));
             }
         }
     }

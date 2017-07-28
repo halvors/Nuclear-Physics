@@ -47,7 +47,7 @@ public class GuiAccelerator extends GuiContainerBase {
         fontRendererObj.drawString("Status:", 8, 90, 4210752);
         fontRendererObj.drawString(status, 8, 100, 4210752);
         fontRendererObj.drawString("Buffer: " + UnitDisplay.getDisplayShort(tile.getEnergyStorage().getEnergyStored(), UnitDisplay.Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(tile.getEnergyStorage().getMaxEnergyStored(), UnitDisplay.Unit.JOULES), 8, 110, 4210752);
-        //fontRendererObj.drawString("Facing: " + tile.getDirection().getOpposite(), 100, 123, 4210752);
+        fontRendererObj.drawString("Facing: " + tile.getFacing(), 100, 123, 4210752);
     }
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */

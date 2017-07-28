@@ -32,8 +32,8 @@ public class GuiQuantumAssembler extends GuiContainerBase {
 
         String displayText;
 
-        if (tile.time > 0) {
-            displayText = "Process: " + (int) (100 - ((float) tile.time / (float) TileQuantumAssembler.tickTime) * 100) + "%";
+        if (tile.timer > 0) {
+            displayText = "Process: " + (int) (100 - ((float) tile.timer / (float) TileQuantumAssembler.tickTime) * 100) + "%";
         } else if (tile.canProcess()) {
             displayText = "Ready";
         } else {

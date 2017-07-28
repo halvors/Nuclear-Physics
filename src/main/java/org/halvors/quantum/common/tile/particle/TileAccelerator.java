@@ -230,20 +230,6 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    /*
-    @Override
-    public EnumFacing getDirection() {
-        return EnumFacing.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
-    }
-
-    @Override
-    public void setDirection(EnumFacing direction) {
-        world.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
-    }
-    */
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
      * Converts antimatter storage into item if the condition are meet.
      */

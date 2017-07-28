@@ -21,8 +21,6 @@ import javax.annotation.Nonnull;
 public class BlockElectricTurbine extends BlockContainerQuantum {
     public BlockElectricTurbine() {
         super("electric_turbine", Material.IRON);
-
-        //setTextureName(Reference.PREFIX + "machine");
     }
 
     @SuppressWarnings("deprecation")

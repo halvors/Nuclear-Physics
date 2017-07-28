@@ -27,8 +27,6 @@ public class TileNuclearBoiler extends TileProcess {
 
     public final FluidTankInputOutputStrict tank = new FluidTankInputOutputStrict(new FluidTank(QuantumFluids.fluidStackWater.copy(), Fluid.BUCKET_VOLUME * 5), new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5));
 
-    // How many ticks has this item been extracting for?
-    public int timer = 0; // Synced
     public float rotation = 0;
 
     public TileNuclearBoiler() {
@@ -115,7 +113,6 @@ public class TileNuclearBoiler extends TileProcess {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        timer = tag.getInteger("timer");
         tank.readFromNBT(tag);
     }
 
@@ -123,7 +120,6 @@ public class TileNuclearBoiler extends TileProcess {
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag = super.writeToNBT(tag);
 
-        tag.setInteger("timer", timer);
         tag = tank.writeToNBT(tag);
 
         return tag;
@@ -138,8 +134,6 @@ public class TileNuclearBoiler extends TileProcess {
         if (world.isRemote) {
             tank.handlePacketData(dataStream);
         }
-
-        timer = dataStream.readInt();
     }
 
     @Override
@@ -147,7 +141,6 @@ public class TileNuclearBoiler extends TileProcess {
         super.getPacketData(objects);
 
         objects.addAll(tank.getPacketData(objects));
-        objects.add(timer);
 
         return objects;
     }
@@ -225,11 +218,17 @@ public class TileNuclearBoiler extends TileProcess {
 
     // Check all conditions and see if we can start smelting
     public boolean canProcess() {
-        if (tank.getInputTank().getFluid() != null) {
-            if (tank.getInputTank().getFluid().amount >= Fluid.BUCKET_VOLUME) {
-                if (getStackInSlot(1) != null) {
-                    if (getStackInSlot(1).getItem() == QuantumItems.itemYellowCake || OreDictionaryUtility.isUraniumOre(getStackInSlot(1))) {
-                        if (tank.getOutputTank().getFluid().amount < tank.getOutputTank().getCapacity()) {
+        FluidStack inputFluidStack = tank.getInputTank().getFluid();
+
+        if (inputFluidStack != null) {
+            if (inputFluidStack.amount >= Fluid.BUCKET_VOLUME) {
+                ItemStack itemStack = getStackInSlot(1);
+
+                if (itemStack != null) {
+                    if (itemStack.getItem() == QuantumItems.itemYellowCake || OreDictionaryUtility.isUraniumOre(getStackInSlot(1))) {
+                        FluidStack outputFluidStack = tank.getOutputTank().getFluid();
+
+                        if (outputFluidStack != null && outputFluidStack.amount < tank.getOutputTank().getCapacity()) {
                             return true;
                         }
                     }
