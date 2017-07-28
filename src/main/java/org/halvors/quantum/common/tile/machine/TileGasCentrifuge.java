@@ -18,7 +18,7 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
-import org.halvors.quantum.common.fluid.FluidTankStrict;
+import org.halvors.quantum.common.fluid.tank.FluidTankStrict;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorHelper;

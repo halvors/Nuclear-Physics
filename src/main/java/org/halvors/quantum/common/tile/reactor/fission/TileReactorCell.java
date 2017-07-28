@@ -19,7 +19,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,8 +33,7 @@ import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumRea
 import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.event.PlasmaEvent;
-import org.halvors.quantum.common.fluid.FluidTankInputOutput;
-import org.halvors.quantum.common.fluid.FluidTankStrict;
+import org.halvors.quantum.common.fluid.tank.FluidTankStrict;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;

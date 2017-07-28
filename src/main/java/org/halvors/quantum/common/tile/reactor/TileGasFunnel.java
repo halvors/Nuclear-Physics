@@ -9,7 +9,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.halvors.quantum.common.fluid.GasTank;
+import org.halvors.quantum.common.fluid.tank.GasTank;
 
 import javax.annotation.Nonnull;
 

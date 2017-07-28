@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.fluid;
+package org.halvors.quantum.common.fluid.tank;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,17 +13,13 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class FluidTankInputOutput implements IFluidHandler {
-    private FluidTank inputTank; // Synced
-    private FluidTank outputTank; // Synced
+    protected FluidTank inputTank; // Synced
+    protected FluidTank outputTank; // Synced
     private IFluidTankProperties[] tankProperties;
 
     public FluidTankInputOutput(FluidTank inputTank, FluidTank outputTank) {
         this.inputTank = inputTank;
         this.outputTank = outputTank;
-    }
-
-    public FluidTankInputOutput(FluidTank tank) {
-        this(tank, tank);
     }
 
     public void readFromNBT(NBTTagCompound tag) {
@@ -49,7 +45,6 @@ public class FluidTankInputOutput implements IFluidHandler {
 
         return tag;
     }
-
 
     public void handlePacketData(ByteBuf dataStream) {
         if (dataStream.readBoolean()) {
@@ -96,23 +91,13 @@ public class FluidTankInputOutput implements IFluidHandler {
 
     @Override
     public int fill(FluidStack resource, boolean doFill) {
-        // TODO: Does this work?
-        if (resource.isFluidEqual(inputTank.getFluid())) {
-            return inputTank.fill(resource, doFill);
-        }
-
-        return 0;
+        return inputTank.fill(resource, doFill);
     }
 
     @Nullable
     @Override
     public FluidStack drain(FluidStack resource, boolean doDrain) {
-        // TODO: Does this work?
-        if (resource.isFluidEqual(outputTank.getFluid())) {
-            return drain(resource.amount, doDrain);
-        }
-
-        return null;
+        return drain(resource.amount, doDrain);
     }
 
     @Nullable

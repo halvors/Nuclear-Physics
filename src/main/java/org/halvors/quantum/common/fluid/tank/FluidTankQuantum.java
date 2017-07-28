@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.fluid;
+package org.halvors.quantum.common.fluid.tank;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;

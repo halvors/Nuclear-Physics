@@ -27,7 +27,7 @@ public class ThermalEventHandler {
     @SubscribeEvent
     public void onBoilEvent(BoilEvent event) {
         for (int height = 1; height <= event.getMaxSpread(); height++) {
-            final TileEntity tile = event.getWorld().getTileEntity(event.getPos());
+            final TileEntity tile = event.getWorld().getTileEntity(event.getPos().up(height));
 
             // TODO: Add custom capability?
             if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
@@ -43,9 +43,9 @@ public class ThermalEventHandler {
             }
         }
 
+        /*
         final Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
 
-        /*
         // Reactors will not actually remove water source blocks, however weapons will.
         if ((block == Blocks.water ||block == Blocks.flowing_water) && position.getBlockMetadata(event.world) == 0 && !event.isReactor) {
             position.setBlock(event.world, Blocks.air);

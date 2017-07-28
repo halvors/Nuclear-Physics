@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.fluid;
+package org.halvors.quantum.common.fluid.tank;
 
 import net.minecraftforge.fluids.FluidStack;
 

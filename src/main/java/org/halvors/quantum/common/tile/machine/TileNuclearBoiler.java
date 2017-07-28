@@ -14,7 +14,7 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
-import org.halvors.quantum.common.fluid.FluidTankInputOutput;
+import org.halvors.quantum.common.fluid.tank.FluidTankInputOutputStrict;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
@@ -25,7 +25,7 @@ public class TileNuclearBoiler extends TileProcess {
     public static final int tickTime = 20 * 15;
     public static final int energy = 21000;
 
-    public final FluidTankInputOutput tank = new FluidTankInputOutput(new FluidTank(QuantumFluids.fluidStackWater.copy(), Fluid.BUCKET_VOLUME * 5), new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5));
+    public final FluidTankInputOutputStrict tank = new FluidTankInputOutputStrict(new FluidTank(QuantumFluids.fluidStackWater.copy(), Fluid.BUCKET_VOLUME * 5), new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5));
 
     // How many ticks has this item been extracting for?
     public int timer = 0; // Synced

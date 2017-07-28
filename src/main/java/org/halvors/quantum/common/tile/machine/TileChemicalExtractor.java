@@ -15,7 +15,7 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
-import org.halvors.quantum.common.fluid.FluidTankInputOutput;
+import org.halvors.quantum.common.fluid.tank.FluidTankInputOutput;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
@@ -31,7 +31,7 @@ public class TileChemicalExtractor extends TileProcess {
     public int timer = 0; // Synced
     public float rotation = 0;
 
-    public final FluidTankInputOutput tank = new FluidTankInputOutput(new FluidTank(Fluid.BUCKET_VOLUME * 10));
+    public final FluidTankInputOutput tank = new FluidTankInputOutput(new FluidTank(Fluid.BUCKET_VOLUME * 10), new FluidTank(Fluid.BUCKET_VOLUME * 10));
 
     public TileChemicalExtractor() {
         super(7);
@@ -280,8 +280,6 @@ public class TileChemicalExtractor extends TileProcess {
         return false;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Capability /////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
