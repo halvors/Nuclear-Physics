@@ -34,11 +34,11 @@ public class Location {
 		return pos;
 	}
 
-	public IBlockState getBlockState(IBlockAccess world) {
+	public IBlockState getBlockState() {
 		return world.getBlockState(pos);
 	}
 
-	public TileEntity getTileEntity(IBlockAccess world) {
+	public TileEntity getTileEntity() {
 		return world.getTileEntity(pos);
 	}
 }

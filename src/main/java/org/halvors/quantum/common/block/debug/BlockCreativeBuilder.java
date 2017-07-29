@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.schematic.ISchematic;
+import org.halvors.quantum.common.utility.PlayerUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class BlockCreativeBuilder extends BlockQuantum {
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (schematicRegistry.size() > 0) {
-            player.openGui(Quantum.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
+            PlayerUtility.openGui(player, world, pos);
 
             return true;
         }

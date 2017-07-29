@@ -3,7 +3,10 @@ package org.halvors.quantum.common.utility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import org.halvors.quantum.common.Quantum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,5 +26,9 @@ public class PlayerUtility {
 
 	public static boolean isOp(EntityPlayer player) {
 		return player instanceof EntityPlayerMP && ((EntityPlayerMP) player).mcServer.getPlayerList().canSendCommands(player.getGameProfile());
+	}
+
+	public static void openGui(EntityPlayer player, World world, BlockPos pos) {
+		player.openGui(Quantum.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
 	}
 }

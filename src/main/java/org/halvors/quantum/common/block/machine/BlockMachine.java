@@ -22,6 +22,7 @@ import org.halvors.quantum.common.block.BlockInventory;
 import org.halvors.quantum.common.block.states.BlockStateMachine;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
+import org.halvors.quantum.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -78,7 +79,7 @@ public class BlockMachine extends BlockInventory {
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!player.isSneaking()) {
-            player.openGui(Quantum.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
+            PlayerUtility.openGui(player, world, pos);
 
             return true;
         }

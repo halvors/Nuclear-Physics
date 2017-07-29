@@ -1,14 +1,16 @@
 Porting to 1.10.2 from 1.7.10:
     - Fix particle texture when breaking TESR rendered blocks.
     - In EntityParticle use dataManager instead of dataWatcher, see: https://github.com/aidancbrady/Mekanism/blob/f277f49b92cd15764dd72f74f1ad6401d58fc364/src/main/java/mekanism/common/entity/EntityBalloon.java
-    - Verify that event handlers are working. (MOSTLY DONE).
     - Fix reactor cell rendering.
     - Fix particle texture for every block, and make metadata blocks have different.
     - Implement connected edge texture for Gas funnel, Electromagnet and Fulmination Generator.
     - Make plasma not behave like a liquid. Should be a block.
     - Render fluid in qui.
-    - Fix plasma not spreading.
-    - Fix properly storing fluid capabilities.
+    - Fix plasma not spreading. (MOSTLY FIXED) - Fire bug?
+    - Implement fluid capability for Plasma Heater, 3 tanks?
+    - Fix reactor explosion not destroying blocks.
+    - Fix reactor cell not handling items correctly, item stack of 0 items?
+    - Handle inventory on destruction of block, drop in world or preserve in item block.
 
 General:
 

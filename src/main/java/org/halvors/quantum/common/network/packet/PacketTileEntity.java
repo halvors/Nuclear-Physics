@@ -50,7 +50,7 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 	public static class PacketTileEntityMessage implements IMessageHandler<PacketTileEntity, IMessage> {
 		@Override
 		public IMessage onMessage(PacketTileEntity message, MessageContext messageContext) {
-			TileEntity tileEntity = message.getLocation().getTileEntity(PacketHandler.getWorld(messageContext));
+			TileEntity tileEntity = message.getLocation().getTileEntity();
 
 			if (tileEntity != null && tileEntity instanceof ITileNetwork) {
 				ITileNetwork tileNetworkable = (ITileNetwork) tileEntity;

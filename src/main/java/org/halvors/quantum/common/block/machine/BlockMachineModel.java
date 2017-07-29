@@ -28,6 +28,7 @@ import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.quantum.common.utility.FluidUtility;
+import org.halvors.quantum.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -116,7 +117,7 @@ public class BlockMachineModel extends BlockInventory {
         if (tile instanceof TilePlasmaHeater) {
             return FluidUtility.playerActivatedFluidItem(world, pos, player, side);
         } else if (!player.isSneaking()) {
-            player.openGui(Quantum.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
+            PlayerUtility.openGui(player, world, pos);
 
             return true;
         }
