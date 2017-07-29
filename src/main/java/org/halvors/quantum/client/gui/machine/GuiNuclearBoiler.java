@@ -5,8 +5,10 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
+import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.quantum.common.container.machine.ContainerNuclearBoiler;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
+import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
@@ -22,16 +24,18 @@ public class GuiNuclearBoiler extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString("TODO"/*tile.getName()*/, 52, 6, 4210752);
+        String name = LanguageUtility.localize("tile.machine_model." + EnumMachineModel.NUCLEAR_BOILER.ordinal() + ".name");
+
+        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
         renderUniversalDisplay(8, 112, TileNuclearBoiler.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(110, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
-        fontRendererObj.drawString("The nuclear boiler can boil", 8, 75, 4210752);
-        fontRendererObj.drawString("yellow cake into uranium", 8, 85, 4210752);
-        fontRendererObj.drawString("hexafluoride gas to be refined.", 8, 95, 4210752);
+        fontRendererObj.drawString("The nuclear boiler can boil", 8, 75, 0x404040);
+        fontRendererObj.drawString("yellow cake into uranium", 8, 85, 0x404040);
+        fontRendererObj.drawString("hexafluoride gas to be refined.", 8, 95, 0x404040);
 
-        fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+        fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 0x404040);
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.tank.getInputTank().getFluid() != null) {
             drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.tank.getInputTank().getFluid().getLocalizedName(), tile.tank.getInputTank().getFluid().amount + " L");

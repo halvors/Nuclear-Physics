@@ -2,6 +2,7 @@ package org.halvors.quantum.common.tile.particle;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -92,7 +93,9 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
         if (!world.isRemote) {
             clientEnergy = energyStorage.getEnergyStored();
             velocity = getParticleVelocity();
-            outputAntimatter();
+
+            // TODO: Fix this.
+            //outputAntimatter();
 
             // Check if redstone signal is currently being applied.
             if (inventory.getStackInSlot(0) != null && world.isBlockIndirectlyGettingPowered(pos) > 0) {
@@ -252,14 +255,18 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
      */
     private void outputAntimatter() {
         // Do we have an empty cell in slot one
-        if (OreDictionaryUtility.isEmptyCell(inventory.getStackInSlot(1)) && inventory.getStackInSlot(1).stackSize > 0) {
+        ItemStack itemStackEmptyCell = inventory.getStackInSlot(1);
+
+        if (OreDictionaryUtility.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.stackSize > 0) {
             // Each cell can only hold 125mg of antimatter
             // TODO: maybe a config for this?
             if (antimatter >= 125) {
-                if (inventory.getStackInSlot(2) != null) {
+                ItemStack itemStack = inventory.getStackInSlot(2);
+
+                if (itemStack != null) {
                     // If the output slot is not empty we must increase stack size
-                    if (inventory.getStackInSlot(2).getItem() == QuantumItems.itemAntimatterCell) {
-                        ItemStack newStack = inventory.getStackInSlot(2).copy();
+                    if (itemStack.getItem() == QuantumItems.itemAntimatterCell) {
+                        ItemStack newStack = itemStack.copy();
 
                         if (newStack.stackSize < newStack.getMaxStackSize()) {
                             InventoryUtility.decrStackSize(inventory, 1);

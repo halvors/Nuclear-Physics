@@ -4,6 +4,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
+import org.halvors.quantum.common.block.machine.BlockMachine;
 import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.LanguageUtility;
@@ -26,17 +27,19 @@ public class GuiReactorCell extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        fontRendererObj.drawString("TODO"/*tile.getName()*/, xSize / 2 - fontRendererObj.getStringWidth("TODO"/*tile.getName()*/) / 2, 6, 4210752);
+        String name = LanguageUtility.localize("tile.reactor_cell.name");
+
+        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
         if (tile.getInventory().getStackInSlot(0) != null) {
             // Test field for actual heat inside of reactor cell.
-            fontRendererObj.drawString(LanguageUtility.localize("tooltip.temperature"), 9, 45, 4210752);
-            fontRendererObj.drawString(String.valueOf((int) tile.getTemperature()) + "/" + String.valueOf(TileReactorCell.meltingPoint) + " K", 9, 58, 4210752);
+            fontRendererObj.drawString(LanguageUtility.localize("tooltip.temperature"), 9, 45, 0x404040);
+            fontRendererObj.drawString(String.valueOf((int) tile.getTemperature()) + "/" + String.valueOf(TileReactorCell.meltingPoint) + " K", 9, 58, 0x404040);
 
             // Text field for total number of ticks remaining.
             int secondsLeft = (tile.getInventory().getStackInSlot(0).getMaxDamage() - tile.getInventory().getStackInSlot(0).getMetadata());
-            fontRendererObj.drawString(LanguageUtility.localize("tooltip.remainingTime"), 100, 45, 4210752);
-            fontRendererObj.drawString(secondsLeft + " seconds", 100, 58, 4210752);
+            fontRendererObj.drawString(LanguageUtility.localize("tooltip.remainingTime"), 100, 45, 0x404040);
+            fontRendererObj.drawString(secondsLeft + " seconds", 100, 58, 0x404040);
         }
 
         if (isPointInRegion(80, 40, meterWidth, meterHeight, x, y)) {
@@ -50,7 +53,7 @@ public class GuiReactorCell extends GuiContainerBase {
         List<String> desc = LanguageUtility.splitStringPerWord(LanguageUtility.localize("tile.reactorCell.tooltip"), 5);
 
         for (int i = 0; i < desc.size(); i++) {
-            fontRendererObj.drawString(desc.get(i), 9, 85 + i * 9, 4210752);
+            fontRendererObj.drawString(desc.get(i), 9, 85 + i * 9, 0x404040);
         }
     }
 

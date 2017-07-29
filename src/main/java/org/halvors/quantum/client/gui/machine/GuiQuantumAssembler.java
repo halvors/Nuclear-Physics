@@ -6,8 +6,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.Reference;
+import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.quantum.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
+import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.energy.UnitDisplay;
 import org.lwjgl.opengl.GL11;
 
@@ -28,7 +30,9 @@ public class GuiQuantumAssembler extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString("TODO"/*tile.getName()*/, 65 - "TODO"/*tile.getName()*/.length(), 6, 4210752);
+        String name = LanguageUtility.localize("tile.machine_model." + EnumMachineModel.QUANTUM_ASSEMBLER.ordinal() + ".name");
+
+        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
         String displayText;
 

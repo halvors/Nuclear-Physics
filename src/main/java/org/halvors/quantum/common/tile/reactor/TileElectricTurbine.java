@@ -86,7 +86,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             if (!world.isRemote) {
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
-                    power += tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true).amount * energyPerSteam;
+                    //power += tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true).amount * energyPerSteam;
                 }
 
                 // Set angular velocity based on power and torque.

@@ -56,7 +56,7 @@ public class GuiCreativeBuilder extends GuiContainerBase {
         fontRendererObj.drawString("Size: ", 9, 60, 4210752);
         textFieldSize.drawTextBox();
 
-        ((GuiButton) buttonList.get(1)).displayString = LanguageUtility.localize(BlockCreativeBuilder.getSchematic(mode).getName());
+        (buttonList.get(1)).displayString = LanguageUtility.localize(BlockCreativeBuilder.getSchematic(mode).getName());
         fontRendererObj.drawString("Mode: ", 9, 80, 4210752);
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 

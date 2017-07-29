@@ -1,12 +1,13 @@
 package org.halvors.quantum.client.gui.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
+import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.quantum.common.container.machine.ContainerChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
+import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.energy.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
@@ -22,16 +23,18 @@ public class GuiChemicalExtractor extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString("TODO"/*getName()*/, 45, 6, 4210752);
+        String name = LanguageUtility.localize("tile.machine_model." + EnumMachineModel.CHEMICAL_EXTRACTOR.ordinal() + ".name");
+
+        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
         renderUniversalDisplay(8, 112, TileChemicalExtractor.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
-        fontRendererObj.drawString("The extractor can extract", 8, 75, 4210752);
-        fontRendererObj.drawString("uranium, deuterium and tritium.", 8, 85, 4210752);
-        fontRendererObj.drawString("Place them in the input slot.", 8, 95, 4210752);
+        fontRendererObj.drawString("The extractor can extract", 8, 75, 0x404040);
+        fontRendererObj.drawString("uranium, deuterium and tritium.", 8, 85, 0x404040);
+        fontRendererObj.drawString("Place them in the input slot.", 8, 95, 0x404040);
 
-        fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
+        fontRendererObj.drawString(LanguageUtility.localize("container.inventory"), 8, ySize - 96 + 2, 0x404040);
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.tank.getInputTank().getFluid() != null) {
             if (tile.tank.getInputTank().getFluid() != null) {
