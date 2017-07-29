@@ -181,7 +181,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
             }
 
             // Update the temperature from the thermal grid.
-            temperature = ThermalGrid.getTemperature(new VectorWorld(world, new Vector3(pos.getX(), pos.getY(), pos.getZ())));
+            temperature = ThermalGrid.getTemperature(world, pos);
 
             // Only a small percentage of the internal energy is used for temperature.
             if ((internalEnergy - previousInternalEnergy) > 0) {
@@ -197,7 +197,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
                 }
 
                 // Add heat to surrounding blocks in the thermal grid.
-                ThermalGrid.addTemperature(new VectorWorld(world, new Vector3(pos.getX(), pos.getY(), pos.getZ())), deltaT);
+                ThermalGrid.addTemperature(world, pos, deltaT);
 
                 // Sound of lava flowing randomly plays when above temperature to boil water.
                 if (world.rand.nextInt(80) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {

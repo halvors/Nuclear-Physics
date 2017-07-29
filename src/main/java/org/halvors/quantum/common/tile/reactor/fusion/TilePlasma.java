@@ -17,7 +17,7 @@ public class TilePlasma extends TileEntity implements ITickable {
 
     @Override
     public void update() {
-        ThermalGrid.addTemperature(new VectorWorld(world, new Vector3(pos.getX(), pos.getY(), pos.getZ())), (temperature - ThermalGrid.getTemperature(new VectorWorld(world, new Vector3(pos.getX(), pos.getY(), pos.getZ()))) * 0.1F));
+        ThermalGrid.addTemperature(world, pos, (temperature - ThermalGrid.getTemperature(world, pos)) * 0.1F);
 
         if (world.getWorldTime() % 20 == 0) {
             temperature /= 1.5;

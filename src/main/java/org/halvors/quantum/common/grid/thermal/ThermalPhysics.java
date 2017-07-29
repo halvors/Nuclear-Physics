@@ -19,8 +19,7 @@ public class ThermalPhysics {
      *
      * @return The temperature of the coordinate in the world in kelvin.
      */
-    public static float getTemperatureForCoordinate(World world, int x, int z) {
-        BlockPos pos = new BlockPos(x, 0, z);
+    public static float getTemperatureForCoordinate(World world, BlockPos pos) {
         int averageTemperature = 273 + (int) ((world.getBiome(pos).getFloatTemperature(pos) - 0.4) * 50);
         double dayNightVariance = averageTemperature * 0.05;
 
@@ -35,12 +34,12 @@ public class ThermalPhysics {
         return energy / (mass * specificHeatCapacity);
     }
 
-    public static double getRequiredBoilWaterEnergy(World world, int x, int z) {
-        return getRequiredBoilWaterEnergy(world, x, z, 1000);
+    public static double getRequiredBoilWaterEnergy(World world, BlockPos pos) {
+        return getRequiredBoilWaterEnergy(world, pos, 1000);
     }
 
-    public static double getRequiredBoilWaterEnergy(World world, int x, int z, int volume) {
-        float temperatureChange = waterBoilTemperature - getTemperatureForCoordinate(world, x, z);
+    public static double getRequiredBoilWaterEnergy(World world, BlockPos pos, int volume) {
+        float temperatureChange = waterBoilTemperature - getTemperatureForCoordinate(world, pos);
         float mass = getMass(volume, 1);
 
         return getEnergyForTemperatureChange(mass, 4200, temperatureChange) + getEnergyForStateChange(mass, 2257000);
