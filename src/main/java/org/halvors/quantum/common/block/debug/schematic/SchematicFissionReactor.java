@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.schematic;
+package org.halvors.quantum.common.block.debug.schematic;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;

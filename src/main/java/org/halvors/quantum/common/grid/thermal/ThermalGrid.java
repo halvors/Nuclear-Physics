@@ -49,7 +49,7 @@ public class ThermalGrid implements IUpdate {
 
     @Override
     public void update() {
-        for (Entry<VectorWorld, Float> entry : new HashMap<>(thermalSource).entrySet()) {
+        for (Entry<VectorWorld, Float> entry : new HashMap<>(thermalSource).entrySet()) { // Use thermalSource HashMap directly without new?
             // Distribute temperature
             VectorWorld pos = entry.getKey();
             Location location = new Location(pos.getWorld(), new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
@@ -62,8 +62,8 @@ public class ThermalGrid implements IUpdate {
             } else {
                 float deltaFromEquilibrium = getDefaultTemperature(location.getWorld(), location.getPos()) - currentTemperature;
 
-                TileEntity possibleReactor = location.getTileEntity();
-                boolean isReactor = possibleReactor != null && possibleReactor instanceof IReactor;
+                TileEntity tile = location.getTileEntity();
+                boolean isReactor = tile != null && tile instanceof IReactor;
 
                 ThermalUpdateEvent event = new ThermalUpdateEvent(location.getWorld(), location.getPos(), currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
                 MinecraftForge.EVENT_BUS.post(event);
@@ -72,9 +72,9 @@ public class ThermalGrid implements IUpdate {
                 addTemperature(location.getWorld(), location.getPos(), (deltaFromEquilibrium > 0 ? 1 : -1) * Math.min(Math.abs(deltaFromEquilibrium), Math.abs(loss)));
 
                 // Spread heat to surrounding.
-                for (EnumFacing dir : EnumFacing.VALUES) {
+                for (EnumFacing side : EnumFacing.VALUES) {
                     // TODO: Convert to Location.
-                    VectorWorld adjacent = (VectorWorld) pos.clone().translate(dir);
+                    VectorWorld adjacent = (VectorWorld) pos.clone().translate(side);
 
                     /*
                     double x = pos.getX() + dir.getFrontOffsetX() * dir.getFrontOffsetX();
