@@ -30,8 +30,11 @@ public class ContainerChemicalExtractor extends ContainerQuantum {
         // Fluid input drain
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 4, 25, 50));
 
-        // Fluid output drain
+        // Fluid output fill
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 5, 135, 19));
+
+        // Fluid output drain
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 6, 135, 50));
 
         addPlayerInventory(inventoryPlayer.player);
     }

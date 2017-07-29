@@ -38,31 +38,34 @@ public class ContainerAccelerator extends ContainerQuantum {
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();
-            copyStack = itemStack.copy();
 
-            if (slotId > 2) {
-                if (itemStack.getItem() == QuantumItems.itemCell) {
-                    if (!mergeItemStack(itemStack, 1, 2, false)) {
+            if (itemStack != null) {
+                copyStack = itemStack.copy();
+
+                if (slotId > 2) {
+                    if (itemStack.getItem() == QuantumItems.itemCell) {
+                        if (!mergeItemStack(itemStack, 1, 2, false)) {
+                            return null;
+                        }
+                    } else if (!mergeItemStack(itemStack, 0, 1, false)) {
                         return null;
                     }
-                } else if (!mergeItemStack(itemStack, 0, 1, false)) {
+                } else if (!mergeItemStack(itemStack, 3, 36 + 3, false)) {
                     return null;
                 }
-            } else if (!mergeItemStack(itemStack, 3, 36 + 3, false)) {
-                return null;
-            }
 
-            if (itemStack.stackSize == 0) {
-                slot.putStack(null);
-            } else {
-                slot.onSlotChanged();
-            }
+                if (itemStack.stackSize == 0) {
+                    slot.putStack(null);
+                } else {
+                    slot.onSlotChanged();
+                }
 
-            if (itemStack.stackSize == copyStack.stackSize) {
-                return null;
-            }
+                if (itemStack.stackSize == copyStack.stackSize) {
+                    return null;
+                }
 
-            slot.onPickupFromSlot(player, itemStack);
+                slot.onPickupFromSlot(player, itemStack);
+            }
         }
 
         return copyStack;

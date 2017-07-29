@@ -52,33 +52,36 @@ public class ContainerQuantumAssembler extends ContainerQuantum {
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();
-            copyStack = itemStack.copy();
 
-            if (slotId > 6) {
-                if (itemStack.getItem() == QuantumItems.itemDarkMatterCell) {
-                    if (!mergeItemStack(itemStack, 0, 6, false)) {
-                        return null;
+            if (itemStack != null) {
+                copyStack = itemStack.copy();
+
+                if (slotId > 6) {
+                    if (itemStack.getItem() == QuantumItems.itemDarkMatterCell) {
+                        if (!mergeItemStack(itemStack, 0, 6, false)) {
+                            return null;
+                        }
+                    } else if (!getSlot(6).getHasStack()) {
+                        if (!mergeItemStack(itemStack, 6, 7, false)) {
+                            return null;
+                        }
                     }
-                } else if (!getSlot(6).getHasStack()) {
-                    if (!mergeItemStack(itemStack, 6, 7, false)) {
-                        return null;
-                    }
+                } else if (!mergeItemStack(itemStack, 7, 36 + 7, false)) {
+                    return null;
                 }
-            } else if (!mergeItemStack(itemStack, 7, 36 + 7, false)) {
-                return null;
-            }
 
-            if (itemStack.stackSize == 0) {
-                slot.putStack(null);
-            } else {
-                slot.onSlotChanged();
-            }
+                if (itemStack.stackSize == 0) {
+                    slot.putStack(null);
+                } else {
+                    slot.onSlotChanged();
+                }
 
-            if (itemStack.stackSize == copyStack.stackSize) {
-                return null;
-            }
+                if (itemStack.stackSize == copyStack.stackSize) {
+                    return null;
+                }
 
-            slot.onPickupFromSlot(player, itemStack);
+                slot.onPickupFromSlot(player, itemStack);
+            }
         }
 
         return copyStack;

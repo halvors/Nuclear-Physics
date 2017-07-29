@@ -40,6 +40,7 @@ import org.halvors.quantum.common.event.PlasmaEvent;
 import org.halvors.quantum.common.fluid.tank.FluidTankStrict;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
+import org.halvors.quantum.common.multiblock.IMultiBlock;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
@@ -48,6 +49,7 @@ import org.halvors.quantum.common.tile.TileQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
+import scala.actors.threadpool.Arrays;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -59,7 +61,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
     private final int specificHeatCapacity = 1000;
     private final float mass = ThermalPhysics.getMass(1000, 7);
 
-    public final FluidTankStrict tank = new FluidTankStrict(QuantumFluids.stackPlasma, QuantumFluids.fluidStackToxicWaste, Fluid.BUCKET_VOLUME * 15);
+    public final FluidTankStrict tank = new FluidTankStrict(Fluid.BUCKET_VOLUME * 15, true, true, QuantumFluids.stackPlasma, QuantumFluids.fluidStackToxicWaste);
 
     private float temperature = ThermalPhysics.roomTemperature; // Synced
     private float previousTemperature = temperature;
@@ -81,7 +83,9 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
         }
 
         public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-            if (getMultiBlock().isPrimary() && getMultiBlock().get().inventory.getStackInSlot(0) == null) {
+            MultiBlockHandler<TileReactorCell> multiBlock = getMultiBlock();
+
+            if (multiBlock.isPrimary() && multiBlock.get().inventory.getStackInSlot(0) == null) {
                 return itemStack.getItem() instanceof IReactorComponent;
             }
 
@@ -400,27 +404,8 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
 
     /*
     @Override
-    public int getInventoryStackLimit() {
-        return 1;
-    }
-
-    @Override
     public boolean isUsableByPlayer(EntityPlayer player) {
         return world.getTileEntity(pos) == this && player.getDistanceSq(pos.add(0.5, 0.5, 0.5)) <= 64;
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int index, ItemStack itemStack) {
-        if (getMultiBlock().isPrimary() && getMultiBlock().get().getStackInSlot(0) == null) {
-            return itemStack.getItem() instanceof IReactorComponent;
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, EnumFacing side) {
-        return isItemValidForSlot(slot, itemStack);
     }
     */
 
@@ -480,6 +465,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
     private void meltDown() {
         // Make sure the reactor block is destroyed.
         world.setBlockToAir(pos);
+        // TODO: Set temperature to room temperature, so tha the air block is not hot after explosion.
 
         // No need to destroy reactor cell since explosion will do that for us.
         ReactorExplosion reactorExplosion = new ReactorExplosion(world, null, pos, 9.0F);

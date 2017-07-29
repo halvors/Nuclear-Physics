@@ -30,7 +30,7 @@ public class ThermalEventHandler {
             final TileEntity tile = event.getWorld().getTileEntity(event.getPos().up(height));
 
             // TODO: Add custom capability?
-            if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
+            if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
                 final IFluidHandler handler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN);
                 //final IBoilHandler handler = (IBoilHandler) tileEntity;
                 final FluidStack fluid = event.getRemainForSpread(height);

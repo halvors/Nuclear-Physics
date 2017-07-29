@@ -40,7 +40,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     protected final int energyPerSteam = 52000;
     protected final int defaultTorque = 5000;
     protected int torque = defaultTorque;
-    private final FluidTankStrict tank = new FluidTankStrict(QuantumFluids.fluidStackSteam, Fluid.BUCKET_VOLUME * 100);
+    private final FluidTankStrict tank = new FluidTankStrict(QuantumFluids.fluidStackSteam, Fluid.BUCKET_VOLUME * 100, true, false);
 
     // Radius of large turbine?
     public int multiBlockRadius = 1;

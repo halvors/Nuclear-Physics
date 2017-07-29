@@ -1,20 +1,35 @@
 package org.halvors.quantum.common.fluid.tank;
 
 import net.minecraftforge.fluids.FluidStack;
+import scala.actors.threadpool.Arrays;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FluidTankStrict extends FluidTankQuantum {
-    private FluidStack fluidOther;
+    private FluidStack validFillFluid;
+    private FluidStack validDrainFluid;
 
-    public FluidTankStrict(@Nullable FluidStack fluidStack, @Nullable FluidStack fluidStackOther, int capacity, boolean canFill, boolean canDrain) {
-        super(fluidStack, capacity);
+    public FluidTankStrict(int capacity, boolean canFill, boolean canDrain, FluidStack validFillFluid, FluidStack validDrainFluid) {
+        super(capacity);
 
-        this.fluidOther = fluidStackOther;
         this.canFill = canFill;
         this.canDrain = canDrain;
+        this.validFillFluid = validFillFluid;
+        this.validDrainFluid = validDrainFluid;
     }
 
+    public FluidTankStrict(FluidStack fluid, int capacity, boolean canFill, boolean canDrain) {
+        super(fluid, capacity);
+
+        this.canFill = canFill;
+        this.canDrain = canDrain;
+        this.validFillFluid = fluid;
+        this.validDrainFluid = fluid;
+    }
+
+    /*
     public FluidTankStrict(@Nullable FluidStack fluidStack, @Nullable FluidStack fluidStackOther, int capacity) {
         this(fluidStack, fluidStackOther, capacity, true, true);
     }
@@ -26,22 +41,20 @@ public class FluidTankStrict extends FluidTankQuantum {
     public FluidTankStrict(@Nullable FluidStack fluidStack, int capacity) {
         this(fluidStack, fluidStack, capacity, true, true);
     }
+    */
 
     @Override
     public int fill(FluidStack resource, boolean doFill) {
-        // TODO: Does this work?
-        if (resource.isFluidEqual(fluid) || resource.isFluidEqual(fluidOther)) {
+        if (validFillFluid.isFluidEqual(resource)) {
             return super.fill(resource, doFill);
         }
 
         return 0;
     }
 
-    @Nullable
     @Override
     public FluidStack drain(FluidStack resource, boolean doDrain) {
-        // TODO: Does this work?
-        if (resource.isFluidEqual(fluid) || resource.isFluidEqual(fluidOther)) {
+        if (validDrainFluid.isFluidEqual(resource)) {
             return drain(resource.amount, doDrain);
         }
 

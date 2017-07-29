@@ -27,35 +27,38 @@ public class ContainerReactorCell extends ContainerQuantum {
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();
-            copyStack = itemStack.copy();
 
-            if (slotId >= slotCount) {
-                if (getSlot(0).isItemValid(itemStack)) {
-                    if (!mergeItemStack(itemStack, 0, 1, false)) {
+            if (itemStack != null) {
+                copyStack = itemStack.copy();
+
+                if (slotId >= slotCount) {
+                    if (getSlot(0).isItemValid(itemStack)) {
+                        if (!mergeItemStack(itemStack, 0, 1, false)) {
+                            return null;
+                        }
+                    } else if (slotId < 27 + slotCount) {
+                        if (!mergeItemStack(itemStack, 27 + slotCount, 36 + slotCount, false)) {
+                            return null;
+                        }
+                    } else if (slotId >= 27 + slotCount && slotId < 36 + slotCount && !mergeItemStack(itemStack, 4, 30, false)) {
                         return null;
                     }
-                } else if (slotId < 27 + slotCount) {
-                    if (!mergeItemStack(itemStack, 27 + slotCount, 36 + slotCount, false)) {
-                        return null;
-                    }
-                } else if (slotId >= 27 + slotCount && slotId < 36 + slotCount && !mergeItemStack(itemStack, 4, 30, false)) {
+                } else if (!mergeItemStack(itemStack, slotCount, 36 + slotCount, false)) {
                     return null;
                 }
-            } else if (!mergeItemStack(itemStack, slotCount, 36 + slotCount, false)) {
-                return null;
-            }
 
-            if (itemStack.stackSize == 0) {
-                slot.putStack(null);
-            } else {
-                slot.onSlotChanged();
-            }
+                if (itemStack.stackSize == 0) {
+                    slot.putStack(null);
+                } else {
+                    slot.onSlotChanged();
+                }
 
-            if (itemStack.stackSize == copyStack.stackSize) {
-                return null;
-            }
+                if (itemStack.stackSize == copyStack.stackSize) {
+                    return null;
+                }
 
-            slot.onPickupFromSlot(player, itemStack);
+                slot.onPickupFromSlot(player, itemStack);
+            }
         }
 
         return copyStack;
