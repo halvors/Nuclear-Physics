@@ -4,23 +4,34 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.EnergyStorage;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.items.CapabilityItemHandler;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
+import org.halvors.quantum.common.fluid.tank.GasTank;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.machine.TileMachine;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHandler {
     public static long power = 10000000000L;
     public static int plasmaHeatAmount = 100; //@Config
 
-    public final FluidTank tankInputDeuterium = new FluidTank(Fluid.BUCKET_VOLUME * 10);
-    public final FluidTank tankInputTritium = new FluidTank(Fluid.BUCKET_VOLUME * 10);
-    public final FluidTank tankOutput = new FluidTank(Fluid.BUCKET_VOLUME * 10);
+    public final GasTank tankInputDeuterium = new GasTank(Fluid.BUCKET_VOLUME * 10);
+    public final GasTank tankInputTritium = new GasTank(Fluid.BUCKET_VOLUME * 10);
+    public final GasTank tankOutput = new GasTank(Fluid.BUCKET_VOLUME * 10);
 
     public float rotation = 0;
     private final int maxTransfer = (int) power / 20;
@@ -56,60 +67,35 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-        NBTTagCompound deuterium = tagCompound.getCompoundTag("tankInputDeuterium");
-        tankInputDeuterium.setFluid(FluidStack.loadFluidStackFromNBT(deuterium));
-
-        NBTTagCompound tritium = tagCompound.getCompoundTag("tankInputTritium");
-        tankInputTritium.setFluid(FluidStack.loadFluidStackFromNBT(tritium));
-
-        NBTTagCompound output = tagCompound.getCompoundTag("tankOutput");
-        tankOutput.setFluid(FluidStack.loadFluidStackFromNBT(output));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInputDeuterium, null, tag.getTag("tankInputDeuterium"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInputTritium, null, tag.getTag("tankInputTritium"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankOutput, null, tag.getTag("tankOutput"));
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        tag = super.writeToNBT(tag);
 
-        if (tankInputDeuterium.getFluid() != null) {
-            NBTTagCompound compound = new NBTTagCompound();
-            tankInputDeuterium.getFluid().writeToNBT(compound);
-            tagCompound.setTag("tankInputDeuterium", compound);
-        }
+        tag.setTag("tankInputDeuterium", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInputDeuterium, null));
+        tag.setTag("tankInputTritium", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInputTritium, null));
+        tag.setTag("tankOutput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));
 
-        if (tankInputTritium.getFluid() != null) {
-            NBTTagCompound compound = new NBTTagCompound();
-            tankInputTritium.getFluid().writeToNBT(compound);
-            tagCompound.setTag("tankInputTritium", compound);
-        }
-
-        if (tankOutput.getFluid() != null) {
-            NBTTagCompound compound = new NBTTagCompound();
-            tankOutput.getFluid().writeToNBT(compound);
-            tagCompound.setTag("tankOutput", compound);
-        }
-
-        return tagCompound;
+        return tag;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
-            if (dataStream.readBoolean()) {
-                tankInputDeuterium.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
-            }
-
-            if (dataStream.readBoolean()) {
-                tankInputTritium.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
-            }
-
-            if (dataStream.readBoolean()) {
-                tankOutput.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
-            }
+            tankInputDeuterium.handlePacketData(dataStream);
+            tankInputTritium.handlePacketData(dataStream);
+            tankOutput.handlePacketData(dataStream);
         }
     }
 
@@ -117,37 +103,55 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
-        if (tankInputDeuterium.getFluid() != null) {
-            objects.add(true);
-
-            NBTTagCompound compoundDeuterium = new NBTTagCompound();
-            tankInputDeuterium.getFluid().writeToNBT(compoundDeuterium);
-            objects.add(compoundDeuterium);
-        } else {
-            objects.add(false);
-        }
-
-        if (tankInputTritium.getFluid() != null) {
-            objects.add(true);
-
-            NBTTagCompound compoundTritium = new NBTTagCompound();
-            tankInputTritium.getFluid().writeToNBT(compoundTritium);
-            objects.add(compoundTritium);
-        } else {
-            objects.add(false);
-        }
-
-        if (tankOutput.getFluid() != null) {
-            objects.add(true);
-
-            NBTTagCompound compoundOutput = new NBTTagCompound();
-            tankOutput.getFluid().writeToNBT(compoundOutput);
-            objects.add(compoundOutput);
-        } else {
-            objects.add(false);
-        }
+        objects.addAll(tankInputDeuterium.getPacketData(objects));
+        objects.addAll(tankInputTritium.getPacketData(objects));
+        objects.addAll(tankOutput.getPacketData(objects));
 
         return objects;
+    }
+
+    @Override
+    public IFluidTankProperties[] getTankProperties() {
+        return new IFluidTankProperties[] { new FluidTankPropertiesWrapper(tankInputDeuterium), new FluidTankPropertiesWrapper(tankInputDeuterium), new FluidTankPropertiesWrapper(tankOutput),};
+    }
+
+    @Override
+    public int fill(FluidStack resource, boolean doFill) {
+        if (resource.isFluidEqual(QuantumFluids.fluidStackDeuterium)) {
+            tankInputDeuterium.fill(resource, doFill);
+        } else if (resource.isFluidEqual(QuantumFluids.fluidStackTritium)) {
+            tankInputTritium.fill(resource, doFill);
+        }
+
+        return 0;
+    }
+
+    @Nullable
+    @Override
+    public FluidStack drain(FluidStack resource, boolean doDrain) {
+        return drain(resource.amount, doDrain);
+    }
+
+    @Nullable
+    @Override
+    public FluidStack drain(int maxDrain, boolean doDrain) {
+        return tankOutput.drain(maxDrain, doDrain);
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return (T) this;
+        }
+
+        return super.getCapability(capability, facing);
     }
 
     /*
@@ -191,6 +195,7 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     }
     */
 
+    /*
     @Override
     public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
         if (resource.isFluidEqual(QuantumFluids.fluidStackDeuterium)) {
@@ -223,9 +228,5 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     public boolean canDrain(EnumFacing from, Fluid fluid) {
         return fluid.equals(QuantumFluids.plasma);
     }
-
-    @Override
-    public FluidTankInfo[] getTankInfo(EnumFacing from) {
-        return new FluidTankInfo[] { tankInputDeuterium.getInfo(), tankInputTritium.getInfo(), tankOutput.getInfo() };
-    }
+    */
 }
