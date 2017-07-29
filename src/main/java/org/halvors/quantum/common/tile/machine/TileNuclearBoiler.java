@@ -10,12 +10,14 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.fluid.tank.FluidTankInputOutputStrict;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
 import javax.annotation.Nonnull;
@@ -30,9 +32,35 @@ public class TileNuclearBoiler extends TileProcess {
     public float rotation = 0;
 
     public TileNuclearBoiler() {
-        super(5);
-
         energyStorage = new EnergyStorage(energy * 2);
+        inventory = new ItemStackHandler(5) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                super.onContentsChanged(slot);
+                markDirty();
+            }
+
+            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+                switch (slot) {
+                    case 1:
+                        return OreDictionaryUtility.isWaterCell(itemStack);
+
+                    case 3:
+                        return itemStack.getItem() == QuantumItems.itemYellowCake;
+                }
+
+                return false;
+            }
+
+            @Override
+            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+                if (!isItemValidForSlot(slot, stack)) {
+                    return stack;
+                }
+
+                return super.insertItem(slot, stack, simulate);
+            }
+        };
 
         outputSlot = 1;
 
@@ -161,58 +189,15 @@ public class TileNuclearBoiler extends TileProcess {
 
     /*
     @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        switch (slot) {
-            case 1:
-                return OreDictionaryUtility.isWaterCell(itemStack);
-
-            case 3:
-                return itemStack.getItem() == Quantum.itemYellowCake;
-        }
-
-        return false;
-    }
-    */
-
-    @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        return true;
-
-        /*
-        switch (slot) {
-            case 0: // Water input for machine.
-                // TODO: Fix this.
-                //return CompatibilityModule.isHandler(itemStack.getItem());
-                return true;
-
-            case 1:
-                return OreDictionaryUtility.isWaterCell(itemStack);
-
-            case 2: // Empty cell to be filled with deuterium or tritium.
-                return OreDictionaryUtility.isDeuteriumCell(itemStack) || OreDictionaryUtility.isTritiumCell(itemStack);
-
-            case 3: // Uranium to be extracted into yellowcake.
-                return OreDictionaryUtility.isEmptyCell(itemStack) || OreDictionaryUtility.isUraniumOre(itemStack) || OreDictionaryUtility.isDeuteriumCell(itemStack);
-        }
-
-        return false;
-        */
-    }
-
-    @Override
     public int[] getSlotsForFace(EnumFacing side) {
         return side == EnumFacing.DOWN ? new int[] { 2 } : new int[] { 1, 3 };
-    }
-
-    @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, EnumFacing side) {
-        return isItemValidForSlot(slot, itemStack);
     }
 
     @Override
     public boolean canExtractItem(int slot, ItemStack itemstack, EnumFacing side) {
         return slot == 2;
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -222,10 +207,10 @@ public class TileNuclearBoiler extends TileProcess {
 
         if (inputFluidStack != null) {
             if (inputFluidStack.amount >= Fluid.BUCKET_VOLUME) {
-                ItemStack itemStack = getStackInSlot(1);
+                ItemStack itemStack = inventory.getStackInSlot(1);
 
                 if (itemStack != null) {
-                    if (itemStack.getItem() == QuantumItems.itemYellowCake || OreDictionaryUtility.isUraniumOre(getStackInSlot(1))) {
+                    if (itemStack.getItem() == QuantumItems.itemYellowCake || OreDictionaryUtility.isUraniumOre(itemStack)) {
                         FluidStack outputFluidStack = tank.getOutputTank().getFluid();
 
                         if (outputFluidStack != null && outputFluidStack.amount < tank.getOutputTank().getCapacity()) {
@@ -246,7 +231,7 @@ public class TileNuclearBoiler extends TileProcess {
             FluidStack liquid = QuantumFluids.fluidStackUraniumHexaflouride.copy();
             liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
             tank.getOutputTank().fill(liquid, true);
-            decrStackSize(1, 1);
+            InventoryUtility.decrStackSize(inventory, 1);
         }
     }
 

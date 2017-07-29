@@ -24,7 +24,7 @@ public class GuiAccelerator extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        fontRendererObj.drawString(tile.getName(), 40, 10, 4210752);
+        fontRendererObj.drawString("TODO"/*tile.getName()*/, 40, 10, 4210752);
 
         String status;
         Vector3 position = new Vector3(tile);

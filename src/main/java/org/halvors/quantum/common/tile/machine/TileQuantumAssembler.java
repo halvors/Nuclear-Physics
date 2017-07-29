@@ -1,20 +1,15 @@
 package org.halvors.quantum.common.tile.machine;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-
-import java.util.List;
+import org.halvors.quantum.common.utility.InventoryUtility;
 
 public class TileQuantumAssembler extends TileMachine implements ITickable {
     public static final int tickTime = 20 * 120;
@@ -31,9 +26,27 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     public EntityItem entityItem = null;
 
     public TileQuantumAssembler() {
-        super(6 + 1);
-
         energyStorage = new EnergyStorage(energy);
+        inventory = new ItemStackHandler(7) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                super.onContentsChanged(slot);
+                markDirty();
+            }
+
+            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+                return slot == 6 || itemStack.getItem() == QuantumItems.itemDarkMatterCell;
+            }
+
+            @Override
+            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+                if (!isItemValidForSlot(slot, stack)) {
+                    return stack;
+                }
+
+                return super.insertItem(slot, stack, simulate);
+            }
+        };
     }
 
     @Override
@@ -74,7 +87,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
             rotationYaw2 += 2;
             rotationYaw3 += 1;
 
-            ItemStack itemStack = getStackInSlot(6);
+            ItemStack itemStack = inventory.getStackInSlot(6);
 
             if (itemStack != null) {
                 itemStack = itemStack.copy();
@@ -97,14 +110,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        if (slot == 6) {
-            return true;
-        }
-
-        return itemStack.getItem() == QuantumItems.itemDarkMatterCell;
-    }
+    /*
 
     @Override
     public void openInventory(EntityPlayer player) {
@@ -112,14 +118,15 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
             Quantum.getPacketHandler().sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
         }
     }
+    */
 
     public boolean canProcess() {
-        ItemStack itemStack = getStackInSlot(6);
+        ItemStack itemStack = inventory.getStackInSlot(6);
 
         if (itemStack != null) {
             if (QuantumAssemblerRecipes.hasItemStack(itemStack)) {
                 for (int i = 0; i < 6; i++) {
-                    ItemStack slotItemStack = getStackInSlot(i);
+                    ItemStack slotItemStack = inventory.getStackInSlot(i);
 
                     if (slotItemStack == null) {
                         return false;
@@ -140,13 +147,13 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     // Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack.
     public void doProcess() {
         if (canProcess()) {
-            for (int i = 0; i < 6; i++) {
-                if (getStackInSlot(i) != null) {
-                    decrStackSize(i, 1);
+            for (int slot = 0; slot < 6; slot++) {
+                if (inventory.getStackInSlot(slot) != null) {
+                    InventoryUtility.decrStackSize(inventory, slot);
                 }
             }
 
-            ItemStack itemStack = getStackInSlot(6);
+            ItemStack itemStack = inventory.getStackInSlot(6);
 
             if (itemStack != null) {
                 itemStack.stackSize++;

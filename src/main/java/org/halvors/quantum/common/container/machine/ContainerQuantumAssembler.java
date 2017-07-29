@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.container.ContainerQuantum;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
@@ -16,13 +17,13 @@ public class ContainerQuantumAssembler extends ContainerQuantum {
 
         this.tile = tile;
 
-        addSlotToContainer(new Slot(tile, 0, 80, 40));
-        addSlotToContainer(new Slot(tile, 1, 53, 56));
-        addSlotToContainer(new Slot(tile, 2, 107, 56));
-        addSlotToContainer(new Slot(tile, 3, 53, 88));
-        addSlotToContainer(new Slot(tile, 4, 107, 88));
-        addSlotToContainer(new Slot(tile, 5, 80, 103));
-        addSlotToContainer(new Slot(tile, 6, 80, 72));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 80, 40));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 53, 56));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 107, 56));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 53, 88));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 4, 107, 88));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 5, 80, 103));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 6, 80, 72));
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
@@ -34,19 +35,20 @@ public class ContainerQuantumAssembler extends ContainerQuantum {
             addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 206));
         }
 
-        tile.openInventory(inventoryPlayer.player);
+        //tile.openInventory(inventoryPlayer.player);
     }
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return tile.isUsableByPlayer(player);
+        //return tile.isUsableByPlayer(player);
+        return true;
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {
         ItemStack copyStack = null;
-        Slot slot = (Slot) inventorySlots.get(slotId);
+        Slot slot = inventorySlots.get(slotId);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();

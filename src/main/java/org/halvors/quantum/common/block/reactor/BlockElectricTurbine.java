@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
-import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 
 import javax.annotation.Nonnull;

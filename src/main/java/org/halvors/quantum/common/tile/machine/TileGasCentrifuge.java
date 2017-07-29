@@ -1,8 +1,6 @@
 package org.halvors.quantum.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -12,6 +10,7 @@ import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
@@ -32,9 +31,39 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public float rotation = 0;
 
     public TileGasCentrifuge() {
-        super(4);
-
         energyStorage = new EnergyStorage(energy * 2);
+        inventory = new ItemStackHandler(4) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                super.onContentsChanged(slot);
+                markDirty();
+            }
+
+            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+                switch (slot) {
+                    case 0:
+                        // TODO: Implement this.
+                        //return CompatibilityModule.isHandler(itemStack.getItem());
+                        return true;
+                    case 1:
+                        return true;
+                    case 2:
+                    case 3:
+                        return itemStack.getItem() == QuantumItems.itemUranium;
+                }
+
+                return false;
+            }
+
+            @Override
+            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+                if (!isItemValidForSlot(slot, stack)) {
+                    return stack;
+                }
+
+                return super.insertItem(slot, stack, simulate);
+            }
+        };
     }
 
     @Override
@@ -110,14 +139,14 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        tank.readFromNBT(tag);
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag = super.writeToNBT(tag);
 
-        tag = tank.writeToNBT(tag);
+        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }
@@ -144,23 +173,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        switch (slot) {
-            case 0:
-                // TODO: Implement this.
-                //return CompatibilityModule.isHandler(itemStack.getItem());
-                return true;
-            case 1:
-                return true;
-            case 2:
-            case 3:
-                return itemStack.getItem() == QuantumItems.itemUranium;
-        }
-
-        return false;
-    }
-
+    /*
     @Override
     public void openInventory(EntityPlayer player) {
         if (!world.isRemote) {
@@ -182,6 +195,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public boolean canExtractItem(int slot, ItemStack itemstack, EnumFacing side) {
         return slot == 2 || slot == 3;
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -190,7 +204,8 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
 
         if (fluidStack != null) {
             if (fluidStack.amount >= ConfigurationManager.General.uraniumHexaflourideRatio) {
-                return isItemValidForSlot(2, new ItemStack(QuantumItems.itemUranium)) && isItemValidForSlot(3, new ItemStack(QuantumItems.itemUranium, 1, 1));
+                //return inventory.isItemValidForSlot(2, new ItemStack(QuantumItems.itemUranium)) && isItemValidForSlot(3, new ItemStack(QuantumItems.itemUranium, 1, 1));
+                return true;
             }
         }
 
@@ -202,9 +217,12 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
             tank.drain(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 
             if (world.rand.nextFloat() > 0.6) {
-                incrStackSize(2, new ItemStack(QuantumItems.itemUranium));
+                // TODO: setCount() for 1.12
+                //inventory.incrStackSize(2, new ItemStack(QuantumItems.itemUranium));
+                inventory.setStackInSlot(2, new ItemStack(QuantumItems.itemUranium));
             } else {
-                incrStackSize(3, new ItemStack(QuantumItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()));
+                //inventory.incrStackSize(3, new ItemStack(QuantumItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()));
+                inventory.setStackInSlot(3, new ItemStack(QuantumItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()));
             }
         }
     }

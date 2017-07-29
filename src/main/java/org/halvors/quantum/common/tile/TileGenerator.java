@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.tile.particle;
+package org.halvors.quantum.common.tile;
 
 import com.google.common.collect.Lists;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,7 +10,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
-import org.halvors.quantum.common.tile.TileQuantum;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;

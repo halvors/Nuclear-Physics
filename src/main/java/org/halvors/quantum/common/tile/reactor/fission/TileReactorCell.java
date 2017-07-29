@@ -4,10 +4,10 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -17,12 +17,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.common.Quantum;
@@ -40,7 +44,7 @@ import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.TileInventory;
+import org.halvors.quantum.common.tile.TileQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
@@ -49,7 +53,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileReactorCell extends TileInventory implements ITickable, IMultiBlockStructure<TileReactorCell>, IReactor, ITileNetwork {
+public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlockStructure<TileReactorCell>, IReactor, ITileNetwork {
     public static final int radius = 2;
     public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;
@@ -68,6 +72,31 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
     private int meltdownCounterMaximum = 1000;
 
     private MultiBlockHandler<TileReactorCell> multiBlock;
+
+    private final IItemHandlerModifiable inventory = new ItemStackHandler(1) {
+        @Override
+        protected void onContentsChanged(int slot) {
+            super.onContentsChanged(slot);
+            markDirty();
+        }
+
+        public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            if (getMultiBlock().isPrimary() && getMultiBlock().get().inventory.getStackInSlot(0) == null) {
+                return itemStack.getItem() instanceof IReactorComponent;
+            }
+
+            return false;
+        }
+
+        @Override
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            if (!isItemValidForSlot(slot, stack)) {
+                return stack;
+            }
+
+            return super.insertItem(slot, stack, simulate);
+        }
+    };
 
     public TileReactorCell() {
 
@@ -91,10 +120,10 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
 
         // Move fuel rod down into the primary cell block if possible.
         if (!getMultiBlock().isPrimary()) {
-            if (getStackInSlot(0) != null) {
-                if (getMultiBlock().get().getStackInSlot(0) == null) {
-                    getMultiBlock().get().setInventorySlotContents(0, getStackInSlot(0));
-                    setInventorySlotContents(0, null);
+            if (inventory.getStackInSlot(0) != null) {
+                if (getMultiBlock().get().inventory.getStackInSlot(0) == null) {
+                    getMultiBlock().get().inventory.insertItem(0, inventory.getStackInSlot(0).copy(), false);
+                    inventory.setStackInSlot(0, null);
                 }
             }
 
@@ -124,7 +153,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
             previousInternalEnergy = internalEnergy;
 
             // Handle cell rod interactions.
-            ItemStack fuelRod = getMultiBlock().get().getStackInSlot(0);
+            ItemStack fuelRod = getMultiBlock().get().inventory.getStackInSlot(0);
 
             if (fuelRod != null) {
                 if (fuelRod.getItem() instanceof IReactorComponent) {
@@ -133,7 +162,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
                     reactorComponent.onReact(fuelRod, this);
 
                     if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
-                        getMultiBlock().get().setInventorySlotContents(0, null);
+                        getMultiBlock().get().inventory.setStackInSlot(0, null);
                     }
 
                     // Emit radiation.
@@ -252,6 +281,23 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
         temperature = tag.getFloat("temperature");
         getMultiBlock().load(tag);
         tank.readFromNBT(tag);
+
+        if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
+            NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
+
+            for (int i = 0; i < tagList.tagCount(); i++) {
+                NBTTagCompound slotTag = (NBTTagCompound) tagList.get(i);
+                byte slot = slotTag.getByte("Slot");
+
+                if (slot < inventory.getSlots()) {
+                    inventory.setStackInSlot(slot, ItemStack.loadItemStackFromNBT(slotTag));
+                }
+            }
+
+            return;
+        }
+
+        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag("Slots"));
     }
 
     @Override
@@ -261,6 +307,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
         tag.setFloat("temperature", temperature);
         tag = getMultiBlock().save(tag);
         tag = tank.writeToNBT(tag);
+        tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
 
         return tag;
     }
@@ -351,6 +398,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /*
     @Override
     public int getInventoryStackLimit() {
         return 1;
@@ -374,6 +422,7 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
     public boolean canInsertItem(int slot, ItemStack itemStack, EnumFacing side) {
         return isItemValidForSlot(slot, itemStack);
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -437,18 +486,24 @@ public class TileReactorCell extends TileInventory implements ITickable, IMultiB
         reactorExplosion.explode();
     }
 
+    public IItemHandlerModifiable getInventory() {
+        return inventory;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return (T) getMultiBlock().get().inventory;
+        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return (T) getMultiBlock().get().tank;
         }
 

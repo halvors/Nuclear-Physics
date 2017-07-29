@@ -22,7 +22,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString(tile.getName(), 45, 6, 4210752);
+        fontRendererObj.drawString("TODO"/*getName()*/, 45, 6, 4210752);
 
         renderUniversalDisplay(8, 112, TileChemicalExtractor.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
@@ -46,13 +46,13 @@ public class GuiChemicalExtractor extends GuiContainerBase {
         }
 
         if (isPointInRegion(134, 49, 18, 18, mouseX, mouseY)) {
-            if (tile.getStackInSlot(4) == null) {
+            if (tile.inventory.getStackInSlot(4) == null) {
                 // drawTooltip(x - guiLeft, y - guiTop + 10, "Place empty cells.");
             }
         }
 
         if (isPointInRegion(52, 24, 18, 18, mouseX, mouseY)) {
-            if (tile.tank.getOutputTank().getFluidAmount() > 0 && tile.getStackInSlot(3) == null) {
+            if (tile.tank.getOutputTank().getFluidAmount() > 0 && tile.inventory.getStackInSlot(3) == null) {
                 drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "Input slot");
             }
         }

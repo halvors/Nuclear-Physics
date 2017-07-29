@@ -8,16 +8,12 @@ import org.halvors.quantum.common.network.packet.PacketTileEntity;
 
 import java.util.List;
 
-public class TileRotatable extends TileInventory implements ITileNetwork, ITileRotatable {
+public class TileRotatable extends TileQuantum implements ITileNetwork, ITileRotatable {
     /** The direction this block is facing. */
     public EnumFacing facing = EnumFacing.NORTH;
 
     public TileRotatable() {
 
-    }
-
-    public TileRotatable(int maxSlots) {
-        super(maxSlots);
     }
 
     @Override

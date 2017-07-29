@@ -4,13 +4,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.container.ContainerQuantum;
-import org.halvors.quantum.common.container.slot.SlotEnergyItem;
-import org.halvors.quantum.common.container.slot.SlotSpecific;
+import org.halvors.quantum.common.container.slot.SlotItemHandlerSpecificCapability;
+import org.halvors.quantum.common.container.slot.SlotItemHandlerSpecificItem;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 
 public class ContainerNuclearBoiler extends ContainerQuantum {
@@ -23,33 +25,34 @@ public class ContainerNuclearBoiler extends ContainerQuantum {
         this.tile = tile;
 
         // Battery
-        addSlotToContainer(new SlotEnergyItem(tile, 0, 56, 26));
+        addSlotToContainer(new SlotItemHandlerSpecificCapability(tile.getInventory(), 0, 56, 26, CapabilityEnergy.ENERGY));
 
         // Yellowcake Input
-        addSlotToContainer(new SlotSpecific(tile, 1, 81, 26, new ItemStack(QuantumItems.itemYellowCake), new ItemStack(QuantumBlocks.blockUraniumOre)));
+        addSlotToContainer(new SlotItemHandlerSpecificItem(tile.getInventory(), 1, 81, 26, new ItemStack(QuantumItems.itemYellowCake), new ItemStack(QuantumBlocks.blockUraniumOre)));
 
         // Fluid input fill
-        addSlotToContainer(new Slot(tile, 2, 25, 19));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 25, 19));
 
         // Fluid input drain
-        addSlotToContainer(new Slot(tile, 3, 25, 50));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 25, 50));
 
         // Fluid output drain
-        addSlotToContainer(new Slot(tile, 4, 135, 50));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 4, 135, 50));
 
         addPlayerInventory(inventoryPlayer.player);
     }
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return tile.isUsableByPlayer(player);
+        //return tile.inventory.isUsableByPlayer(player);
+        return true;
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {
         ItemStack copyStack = null;
-        Slot slot = (Slot) inventorySlots.get(slotId);
+        Slot slot = inventorySlots.get(slotId);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();

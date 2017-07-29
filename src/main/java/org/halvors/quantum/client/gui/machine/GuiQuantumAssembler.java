@@ -28,7 +28,7 @@ public class GuiQuantumAssembler extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString(tile.getName(), 65 - tile.getName().length(), 6, 4210752);
+        fontRendererObj.drawString("TODO"/*tile.getName()*/, 65 - "TODO"/*tile.getName()*/.length(), 6, 4210752);
 
         String displayText;
 

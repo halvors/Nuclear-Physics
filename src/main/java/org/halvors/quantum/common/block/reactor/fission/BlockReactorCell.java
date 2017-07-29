@@ -20,7 +20,6 @@ import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
-import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
@@ -82,26 +81,28 @@ public class BlockReactorCell extends BlockContainerQuantum {
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
         final TileReactorCell tile = (TileReactorCell) world.getTileEntity(pos);
 
-        if (player.inventory.getCurrentItem() != null) {
-            if (tile.getStackInSlot(0) == null) {
-                if (player.inventory.getCurrentItem().getItem() instanceof IReactorComponent) {
-                    //ItemStack itemStack = player.inventory.getCurrentItem().copy();
-                    itemStack.stackSize = 1;
-                    tile.setInventorySlotContents(0, itemStack);
-                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
+        if (tile != null) {
+            if (player.inventory.getCurrentItem() != null) {
+                if (tile.getInventory().getStackInSlot(0) == null) {
+                    if (player.inventory.getCurrentItem().getItem() instanceof IReactorComponent) {
+                        //ItemStack itemStack = player.inventory.getCurrentItem().copy();
+                        itemStack.stackSize = 1;
+                        tile.getInventory().setStackInSlot(0, itemStack);
+                        player.inventory.decrStackSize(player.inventory.currentItem, 1);
 
-                    return true;
+                        return true;
+                    }
                 }
+            } else if (player.isSneaking() && tile.getInventory().getStackInSlot(0) != null) {
+                InventoryUtility.dropItemStack(world, new Vector3(player), tile.getInventory().getStackInSlot(0), 0);
+                tile.getInventory().setStackInSlot(0, null);
+
+                return true;
+            } else {
+                player.openGui(Quantum.getInstance(), 0, world, tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ());
+
+                return true;
             }
-        } else if (player.isSneaking() && tile.getStackInSlot(0) != null) {
-            InventoryUtility.dropItemStack(world, new Vector3(player), tile.getStackInSlot(0), 0);
-            tile.setInventorySlotContents(0, null);
-
-            return true;
-        } else {
-            player.openGui(Quantum.getInstance(), 0, world, tile.getPos().getX(), tile.getPos().getY(), tile.getPos().getZ());
-
-            return true;
         }
 
         return false;

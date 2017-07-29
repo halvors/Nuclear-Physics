@@ -5,8 +5,8 @@ import net.minecraft.util.ITickable;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-import org.halvors.quantum.api.recipe.MachineRecipes;
 import org.halvors.quantum.api.recipe.RecipeResource;
+import org.halvors.quantum.common.utility.InventoryUtility;
 
 /*
  * General class for all machines that do traditional recipe processing.
@@ -19,12 +19,6 @@ public abstract class TileProcess extends TileMachine implements ITickable {
     protected int tankInputDrainSlot;
     protected int tankOutputFillSlot;
     protected int tankOutputDrainSlot;
-
-    protected String machineName;
-
-    public TileProcess(int maxSlots) {
-        super(maxSlots);
-    }
 
     @Override
     public void update() {
@@ -41,8 +35,8 @@ public abstract class TileProcess extends TileMachine implements ITickable {
      * Takes an fluid container item and try to fill the tank, dropping the remains in the output slot.
      */
     public void fillOrDrainTank(int containerInput, int containerOutput, FluidTank tank) {
-        ItemStack inputStack = getStackInSlot(containerInput);
-        ItemStack outputStack = getStackInSlot(containerOutput);
+        ItemStack inputStack = inventory.getStackInSlot(containerInput);
+        ItemStack outputStack = inventory.getStackInSlot(containerOutput);
 
         if (FluidContainerRegistry.isFilledContainer(inputStack)) {
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(inputStack);
@@ -50,8 +44,9 @@ public abstract class TileProcess extends TileMachine implements ITickable {
 
             if (result != null && tank.fill(fluidStack, false) >= fluidStack.amount && (outputStack == null || result.isItemEqual(outputStack))) {
                 tank.fill(fluidStack, true);
-                decrStackSize(containerInput, 1);
-                incrStackSize(containerOutput, result);
+
+                InventoryUtility.decrStackSize(inventory, containerInput);
+                inventory.insertItem(containerOutput, result, false);
             }
         } else if (FluidContainerRegistry.isEmptyContainer(inputStack)) {
             FluidStack avaliable = tank.getFluid();
@@ -61,8 +56,8 @@ public abstract class TileProcess extends TileMachine implements ITickable {
                 FluidStack filled = FluidContainerRegistry.getFluidForFilledItem(result);
 
                 if (result != null && filled != null && (outputStack == null || result.isItemEqual(outputStack))) {
-                    decrStackSize(containerInput, 1);
-                    incrStackSize(containerOutput, result);
+                    InventoryUtility.decrStackSize(inventory, containerInput);
+                    inventory.insertItem(containerOutput, result, false);
                     tank.drain(filled.amount, true);
                 }
             }
@@ -73,6 +68,7 @@ public abstract class TileProcess extends TileMachine implements ITickable {
      * Gets the current result of the input set up.
      */
     public RecipeResource[] getResults() {
+        /*
         ItemStack inputStack = getStackInSlot(inputSlot);
         RecipeResource[] mixedResult = MachineRecipes.INSTANCE.getOutput(machineName, inputStack, getInputTank().getFluid());
 
@@ -81,6 +77,9 @@ public abstract class TileProcess extends TileMachine implements ITickable {
         }
 
         return MachineRecipes.INSTANCE.getOutput(machineName, inputStack);
+        */
+
+        return null;
     }
 
     public boolean hasResult() {

@@ -22,7 +22,7 @@ public class GuiNuclearBoiler extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString(tile.getName(), 52, 6, 4210752);
+        fontRendererObj.drawString("TODO"/*tile.getName()*/, 52, 6, 4210752);
 
         renderUniversalDisplay(8, 112, TileNuclearBoiler.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(110, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);

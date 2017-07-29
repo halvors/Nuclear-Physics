@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.items.IItemHandler;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
@@ -22,6 +23,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryUtility {
+    public static void incrStackSize(IItemHandler itemHandler, int slot) {
+        ItemStack itemStack = itemHandler.getStackInSlot(slot).copy();
+        itemStack.stackSize++;
+
+        itemHandler.insertItem(slot, itemStack, false);
+    }
+
+    public static void decrStackSize(IItemHandler itemHandler, int slot) {
+        ItemStack itemStack = itemHandler.getStackInSlot(slot).copy();
+        itemStack.stackSize--;
+
+        itemHandler.insertItem(slot, itemStack, false);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Old code, maybe not used anymore. //////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public static IInventory checkChestInv(IInventory inv) {
         if (inv instanceof TileEntityChest) {
             TileEntityChest main = (TileEntityChest) inv;

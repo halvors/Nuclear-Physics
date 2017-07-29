@@ -1,22 +1,28 @@
 package org.halvors.quantum.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileConsumer;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileMachine extends TileConsumer implements ITileNetwork {
     // How many ticks has this item been processed for?
     public int timer = 0; // Synced
+    public IItemHandlerModifiable inventory;
 
     public TileMachine() {
 
-    }
-
-    public TileMachine(int maxSlots) {
-        super(maxSlots);
     }
 
     @Override
@@ -24,6 +30,23 @@ public class TileMachine extends TileConsumer implements ITileNetwork {
         super.readFromNBT(tag);
 
         timer = tag.getInteger("timer");
+
+        if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
+            NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
+
+            for (int i = 0; i < tagList.tagCount(); i++) {
+                NBTTagCompound slotTag = (NBTTagCompound) tagList.get(i);
+                byte slot = slotTag.getByte("Slot");
+
+                if (slot < inventory.getSlots()) {
+                    inventory.setStackInSlot(slot, ItemStack.loadItemStackFromNBT(slotTag));
+                }
+            }
+
+            return;
+        }
+
+        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag("Slots"));
     }
 
     @Override
@@ -31,8 +54,27 @@ public class TileMachine extends TileConsumer implements ITileNetwork {
         tag = super.writeToNBT(tag);
 
         tag.setInteger("timer", timer);
+        tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
 
         return tag;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return (T) inventory;
+        }
+
+        return super.getCapability(capability, facing);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,5 +95,11 @@ public class TileMachine extends TileConsumer implements ITileNetwork {
         objects.add(timer);
 
         return objects;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public IItemHandlerModifiable getInventory() {
+        return inventory;
     }
 }

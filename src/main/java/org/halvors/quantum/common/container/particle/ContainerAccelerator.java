@@ -3,8 +3,8 @@ package org.halvors.quantum.common.container.particle;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.container.ContainerQuantum;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
@@ -18,12 +18,15 @@ public class ContainerAccelerator extends ContainerQuantum {
         this.tile = tile;
 
         // Inputs
-        addSlotToContainer(new Slot(tile, 0, 132, 26));
-        addSlotToContainer(new Slot(tile, 1, 132, 51));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 132, 26));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 132, 51));
 
         // Output
-        addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 2, 132, 75));
-        addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 3, 106, 75));
+        //addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 2, 132, 75));
+        //addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 3, 106, 75));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 132, 75));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 106, 75));
+
         addPlayerInventory(inventoryPlayer.player);
     }
 
@@ -31,7 +34,7 @@ public class ContainerAccelerator extends ContainerQuantum {
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {
         ItemStack copyStack = null;
-        Slot slot = (Slot) inventorySlots.get(slotId);
+        Slot slot = inventorySlots.get(slotId);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();

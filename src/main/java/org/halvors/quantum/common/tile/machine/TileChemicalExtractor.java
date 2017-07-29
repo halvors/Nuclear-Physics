@@ -12,16 +12,18 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.RangedWrapper;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
-import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.fluid.tank.FluidTankInputOutput;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileChemicalExtractor extends TileProcess {
@@ -32,12 +34,47 @@ public class TileChemicalExtractor extends TileProcess {
     public float rotation = 0;
 
     public final FluidTankInputOutput tank = new FluidTankInputOutput(new FluidTank(Fluid.BUCKET_VOLUME * 10), new FluidTank(Fluid.BUCKET_VOLUME * 10));
-    private final ItemStackHandler itemStorage = new ItemStackHandler(7);
+    private IItemHandler top = new RangedWrapper(inventory, 2, 3);
+    private IItemHandler sides = new RangedWrapper(inventory, 0, 2);
 
     public TileChemicalExtractor() {
-        super(7);
-
         energyStorage = new EnergyStorage(energy * 2);
+        inventory = new ItemStackHandler(7) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                super.onContentsChanged(slot);
+                markDirty();
+            }
+
+            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+                switch (slot) {
+                    case 0: // Water input for machine.
+                        // TODO: Fix this.
+                        //return CompatibilityModule.isHandler(itemStack.getItem());
+                        return true;
+
+                    case 1:
+                        return OreDictionaryUtility.isWaterCell(itemStack);
+
+                    case 2: // Empty cell to be filled with deuterium or tritium.
+                        return OreDictionaryUtility.isDeuteriumCell(itemStack) || OreDictionaryUtility.isTritiumCell(itemStack);
+
+                    case 3: // Uranium to be extracted into yellowcake.
+                        return OreDictionaryUtility.isEmptyCell(itemStack) || OreDictionaryUtility.isUraniumOre(itemStack) || OreDictionaryUtility.isDeuteriumCell(itemStack);
+                }
+
+                return false;
+            }
+
+            @Override
+            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+                if (!isItemValidForSlot(slot, stack)) {
+                    return stack;
+                }
+
+                return super.insertItem(slot, stack, simulate);
+            }
+        };
 
         inputSlot = 1;
         outputSlot = 2;
@@ -50,7 +87,7 @@ public class TileChemicalExtractor extends TileProcess {
 
     @Override
     public void update() {
-        super.update();
+        //super.update();
 
         if (timer > 0) {
             rotation += 0.2;
@@ -136,48 +173,24 @@ public class TileChemicalExtractor extends TileProcess {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        switch (slot) {
-            case 0: // Water input for machine.
-                // TODO: Fix this.
-                //return CompatibilityModule.isHandler(itemStack.getItem());
-                return true;
-
-            case 1:
-                return OreDictionaryUtility.isWaterCell(itemStack);
-
-            case 2: // Empty cell to be filled with deuterium or tritium.
-                return OreDictionaryUtility.isDeuteriumCell(itemStack) || OreDictionaryUtility.isTritiumCell(itemStack);
-
-            case 3: // Uranium to be extracted into yellowcake.
-                return OreDictionaryUtility.isEmptyCell(itemStack) || OreDictionaryUtility.isUraniumOre(itemStack) || OreDictionaryUtility.isDeuteriumCell(itemStack);
-        }
-
-        return false;
-    }
-
+    /*
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
         return new int[] { 1, 2, 3 };
     }
 
     @Override
-    public boolean canInsertItem(int slot, ItemStack itemStack, EnumFacing side) {
-        return isItemValidForSlot(slot, itemStack);
-    }
-
-    @Override
     public boolean canExtractItem(int slot, ItemStack itemstack, EnumFacing side) {
         return slot == 2;
     }
+    */
 
-    @Override
+    //@Override
     public FluidTank getInputTank() {
         return tank.getInputTank();
     }
 
-    @Override
+    //@Override
     public FluidTank getOutputTank() {
         return tank.getOutputTank();
     }
@@ -188,10 +201,10 @@ public class TileChemicalExtractor extends TileProcess {
         FluidStack inputFluidStack = tank.getInputTank().getFluid();
 
         if (inputFluidStack != null) {
-            if (inputFluidStack.amount >= Fluid.BUCKET_VOLUME && OreDictionaryUtility.isUraniumOre(getStackInSlot(inputSlot))) {
-                if (isItemValidForSlot(outputSlot, new ItemStack(QuantumItems.itemYellowCake))) {
+            if (inputFluidStack.amount >= Fluid.BUCKET_VOLUME && OreDictionaryUtility.isUraniumOre(inventory.getStackInSlot(1))) { // inputSlot
+                //if (isItemValidForSlot(outputSlot, new ItemStack(QuantumItems.itemYellowCake))) {
                     return true;
-                }
+                //}
             }
 
             FluidTank outputTank = tank.getOutputTank();
@@ -221,10 +234,10 @@ public class TileChemicalExtractor extends TileProcess {
      */
     public boolean refineUranium() {
         if (canProcess()) {
-            if (OreDictionaryUtility.isUraniumOre(getStackInSlot(inputSlot))) {
+            if (OreDictionaryUtility.isUraniumOre(inventory.getStackInSlot(1))) { // inputSlot
                 tank.getInputTank().drain(Fluid.BUCKET_VOLUME, true);
-                incrStackSize(outputSlot, new ItemStack(QuantumItems.itemYellowCake, 3));
-                decrStackSize(inputSlot, 1);
+                //itemStorage.incrStackSize(outputSlot, new ItemStack(QuantumItems.itemYellowCake, 3));
+                //itemStorage.decrStackSize(inputSlot, 1);
 
                 return true;
             }
@@ -277,9 +290,23 @@ public class TileChemicalExtractor extends TileProcess {
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return (T) itemStorage;
+            if (facing == null) {
+                return (T) inventory;
+            }
+
+            switch (facing) {
+                case UP:
+                    return (T) top;
+
+                case DOWN:
+                    return null;
+
+                default:
+                    return (T) sides;
+            }
+
         } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return (T) tank;
         }

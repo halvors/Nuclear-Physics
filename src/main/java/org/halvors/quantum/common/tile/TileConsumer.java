@@ -15,10 +15,6 @@ public class TileConsumer extends TileRotatable {
 
     }
 
-    public TileConsumer(int maxSlots) {
-        super(maxSlots);
-    }
-
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);

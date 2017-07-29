@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
@@ -27,25 +28,13 @@ public class FluidTankInputOutput implements IFluidHandler {
     }
 
     public void readFromNBT(NBTTagCompound tag) {
-        NBTTagCompound inputTankTag = tag.getCompoundTag("inputTank");
-        inputTank.setFluid(FluidStack.loadFluidStackFromNBT(inputTankTag));
-
-        NBTTagCompound outputTankTag = tag.getCompoundTag("outputTank");
-        outputTank.setFluid(FluidStack.loadFluidStackFromNBT(outputTankTag));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(inputTank, null, tag.getTag("inputTank"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(outputTank, null, tag.getTag("outputTank"));
     }
 
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        if (inputTank.getFluid() != null) {
-            NBTTagCompound inputTankCompound = new NBTTagCompound();
-            inputTank.getFluid().writeToNBT(inputTankCompound);
-            tag.setTag("inputTank", inputTankCompound);
-        }
-
-        if (outputTank.getFluid() != null) {
-            NBTTagCompound outputTankTag = new NBTTagCompound();
-            outputTank.getFluid().writeToNBT(outputTankTag);
-            tag.setTag("outputTank", outputTankTag);
-        }
+        tag.setTag("inputTank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(inputTank, null));
+        tag.setTag("outputTank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(outputTank, null));
 
         return tag;
     }

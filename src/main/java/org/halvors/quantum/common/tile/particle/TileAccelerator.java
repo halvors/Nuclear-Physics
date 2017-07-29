@@ -8,6 +8,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.EnergyStorage;
+import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
@@ -17,6 +18,7 @@ import org.halvors.quantum.common.item.particle.ItemAntimatterCell;
 import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.machine.TileMachine;
+import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
@@ -48,9 +50,41 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
     private int acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
 
     public TileAccelerator() {
-        super(4);
-
         energyStorage = new EnergyStorage(acceleratorEnergyCostPerTick * 2, maxTransfer);
+        inventory = new ItemStackHandler(4) {
+            @Override
+            protected void onContentsChanged(int slot) {
+                super.onContentsChanged(slot);
+                markDirty();
+            }
+
+            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+                switch (slot) {
+                    case 0:
+                        return true;
+
+                    case 1:
+                        return OreDictionaryUtility.isEmptyCell(itemStack);
+
+                    case 2:
+                        return itemStack.getItem() instanceof ItemAntimatterCell;
+
+                    case 3:
+                        return itemStack.getItem() instanceof ItemDarkmatterCell;
+                }
+
+                return false;
+            }
+
+            @Override
+            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+                if (!isItemValidForSlot(slot, stack)) {
+                    return stack;
+                }
+
+                return super.insertItem(slot, stack, simulate);
+            }
+        };
     }
 
     @Override
@@ -61,11 +95,11 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
             outputAntimatter();
 
             // Check if redstone signal is currently being applied.
-            if (getStackInSlot(0) != null && world.isBlockIndirectlyGettingPowered(pos) > 0) {
+            if (inventory.getStackInSlot(0) != null && world.isBlockIndirectlyGettingPowered(pos) > 0) {
                 //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
-                        if (getStackInSlot(0) != null && lastSpawnTick >= 40) {
+                        if (inventory.getStackInSlot(0) != null && lastSpawnTick >= 40) {
                             Vector3 spawnAcceleratedParticle = new Vector3(this);
                             spawnAcceleratedParticle.translate(EnumFacing.NORTH); //getDirection().getOpposite());
                             spawnAcceleratedParticle.translate(0.5F);
@@ -81,7 +115,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
                                 calculateParticleDensity();
 
                                 // Decrease particle we want to collide.
-                                decrStackSize(0, 1);
+                                InventoryUtility.decrStackSize(inventory, 0);
                                 lastSpawnTick = 0;
                             }
                         }
@@ -90,7 +124,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
                             // On particle collision we roll the dice to see if dark-matter is generated.
                             if (entityParticle.didParticleCollide) {
                                 if (world.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
-                                    incrStackSize(3, new ItemStack(QuantumItems.itemDarkMatterCell));
+                                    inventory.insertItem(3, new ItemStack(QuantumItems.itemDarkMatterCell), false);
                                 }
                             }
 
@@ -194,6 +228,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /*
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
         return new int[] { 0, 1, 2, 3 };
@@ -208,25 +243,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
     public boolean canExtractItem(int index, ItemStack itemStack, EnumFacing direction) {
         return index == 2 || index == 3; // TODO: Convert int to enum.
     }
-
-    @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-        switch (slot) {
-            case 0:
-                return true;
-
-            case 1:
-                return OreDictionaryUtility.isEmptyCell(itemStack);
-
-            case 2:
-                return itemStack.getItem() instanceof ItemAntimatterCell;
-
-            case 3:
-                return itemStack.getItem() instanceof ItemDarkmatterCell;
-        }
-
-        return false;
-    }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -235,34 +252,34 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
      */
     private void outputAntimatter() {
         // Do we have an empty cell in slot one
-        if (OreDictionaryUtility.isEmptyCell(getStackInSlot(1)) && getStackInSlot(1).stackSize > 0) {
+        if (OreDictionaryUtility.isEmptyCell(inventory.getStackInSlot(1)) && inventory.getStackInSlot(1).stackSize > 0) {
             // Each cell can only hold 125mg of antimatter
             // TODO: maybe a config for this?
             if (antimatter >= 125) {
-                if (getStackInSlot(2) != null) {
+                if (inventory.getStackInSlot(2) != null) {
                     // If the output slot is not empty we must increase stack size
-                    if (getStackInSlot(2).getItem() == QuantumItems.itemAntimatterCell) {
-                        ItemStack newStack = getStackInSlot(2).copy();
+                    if (inventory.getStackInSlot(2).getItem() == QuantumItems.itemAntimatterCell) {
+                        ItemStack newStack = inventory.getStackInSlot(2).copy();
 
                         if (newStack.stackSize < newStack.getMaxStackSize()) {
-                            decrStackSize(1, 1);
+                            InventoryUtility.decrStackSize(inventory, 1);
                             antimatter -= 125;
                             newStack.stackSize++;
-                            setInventorySlotContents(2, newStack);
+                            inventory.setStackInSlot(2, newStack);
                         }
                     }
                 } else {
                     // Remove some of the internal reserves of anti-matter and use it to craft an individual item.
                     antimatter -= 125;
-                    decrStackSize(1, 1);
-                    setInventorySlotContents(2, new ItemStack(QuantumItems.itemAntimatterCell));
+                    InventoryUtility.decrStackSize(inventory, 1);
+                    inventory.setStackInSlot(2, new ItemStack(QuantumItems.itemAntimatterCell));
                 }
             }
         }
     }
 
     private void calculateParticleDensity() {
-        ItemStack itemToAccelerate = getStackInSlot(0);
+        ItemStack itemToAccelerate = inventory.getStackInSlot(0);
 
         if (itemToAccelerate != null) {
             // Calculate block density multiplier if ore dictionary block.

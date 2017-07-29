@@ -5,7 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.container.ContainerQuantum;
-import org.halvors.quantum.common.container.slot.SlotSpecific;
+import org.halvors.quantum.common.container.slot.SlotItemHandlerSpecificItem;
 import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
@@ -14,7 +14,7 @@ public class ContainerReactorCell extends ContainerQuantum {
     public ContainerReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {
         super(inventoryPlayer, tile);
 
-        addSlotToContainer(new SlotSpecific(tile, 0, 79, 17, ItemFissileFuel.class, ItemBreederFuel.class));
+        addSlotToContainer(new SlotItemHandlerSpecificItem(tile.getInventory(), 0, 79, 17, ItemFissileFuel.class, ItemBreederFuel.class));
 
         addPlayerInventory(inventoryPlayer.player);
     }
@@ -23,7 +23,7 @@ public class ContainerReactorCell extends ContainerQuantum {
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {
         ItemStack copyStack = null;
-        Slot slot = (Slot) inventorySlots.get(slotId);
+        Slot slot = inventorySlots.get(slotId);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();

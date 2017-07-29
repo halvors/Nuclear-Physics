@@ -3,11 +3,12 @@ package org.halvors.quantum.common.container.machine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.container.ContainerQuantum;
-import org.halvors.quantum.common.container.slot.SlotEnergyItem;
+import org.halvors.quantum.common.container.slot.SlotItemHandlerSpecificCapability;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
@@ -21,31 +22,34 @@ public class ContainerGasCentrifuge extends ContainerQuantum {
         this.tile = tile;
 
         // Electric Item
-        addSlotToContainer(new SlotEnergyItem(tile, 0, 131, 26));
+        addSlotToContainer(new SlotItemHandlerSpecificCapability(tile.getInventory(), 0, 131, 26, CapabilityEnergy.ENERGY));
 
         // Uranium Gas Tank
-        addSlotToContainer(new Slot(tile, 1, 25, 50));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 25, 50));
 
         // Output Uranium 235
-        addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 2, 81, 26));
+        //addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 2, 81, 26));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 81, 26));
 
         // Output Uranium 238
-        addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 3, 101, 26));
+        //addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 3, 101, 26));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 101, 26));
 
         addPlayerInventory(inventoryPlayer.player);
-        tile.openInventory(inventoryPlayer.player);
+        //tile.openInventory(inventoryPlayer.player);
     }
     
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return tile.isUsableByPlayer(player);
+        //return tile.isUsableByPlayer(player);
+        return true;
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {
         ItemStack copyStack = null;
-        Slot slot = (Slot) inventorySlots.get(slotId);
+        Slot slot = inventorySlots.get(slotId);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();

@@ -24,7 +24,6 @@ import org.halvors.quantum.common.item.block.ItemBlockMetadata;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
-import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;

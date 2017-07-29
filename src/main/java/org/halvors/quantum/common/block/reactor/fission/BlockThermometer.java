@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.item.block.ItemBlockSaved;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
-import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.WrenchUtility;

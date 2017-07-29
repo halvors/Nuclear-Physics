@@ -20,9 +20,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
-import org.halvors.quantum.common.block.machine.BlockMachine;
 import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
-import org.halvors.quantum.common.block.states.BlockStateMachine;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 
 import javax.annotation.Nonnull;

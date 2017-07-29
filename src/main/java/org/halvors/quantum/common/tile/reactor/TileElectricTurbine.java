@@ -19,7 +19,7 @@ import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.particle.TileGenerator;
+import org.halvors.quantum.common.tile.TileGenerator;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import javax.annotation.Nonnull;

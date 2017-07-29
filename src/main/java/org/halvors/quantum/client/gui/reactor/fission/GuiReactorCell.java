@@ -26,15 +26,15 @@ public class GuiReactorCell extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        fontRendererObj.drawString(tile.getName(), xSize / 2 - fontRendererObj.getStringWidth(tile.getName()) / 2, 6, 4210752);
+        fontRendererObj.drawString("TODO"/*tile.getName()*/, xSize / 2 - fontRendererObj.getStringWidth("TODO"/*tile.getName()*/) / 2, 6, 4210752);
 
-        if (tile.getStackInSlot(0) != null) {
+        if (tile.getInventory().getStackInSlot(0) != null) {
             // Test field for actual heat inside of reactor cell.
             fontRendererObj.drawString(LanguageUtility.localize("tooltip.temperature"), 9, 45, 4210752);
             fontRendererObj.drawString(String.valueOf((int) tile.getTemperature()) + "/" + String.valueOf(TileReactorCell.meltingPoint) + " K", 9, 58, 4210752);
 
             // Text field for total number of ticks remaining.
-            int secondsLeft = (tile.getStackInSlot(0).getMaxDamage() - tile.getStackInSlot(0).getMetadata());
+            int secondsLeft = (tile.getInventory().getStackInSlot(0).getMaxDamage() - tile.getInventory().getStackInSlot(0).getMetadata());
             fontRendererObj.drawString(LanguageUtility.localize("tooltip.remainingTime"), 100, 45, 4210752);
             fontRendererObj.drawString(secondsLeft + " seconds", 100, 58, 4210752);
         }
@@ -62,7 +62,7 @@ public class GuiReactorCell extends GuiContainerBase {
         drawSlot(78, 16);
         drawMeter(80, 36, tile.tank.getFluidAmount() / tile.tank.getCapacity(), tile.tank.getFluid());
 
-        if (tile.getStackInSlot(0) != null) {
+        if (tile.getInventory().getStackInSlot(0) != null) {
             // Progress bar of temperature inside of reactor.
             GL11.glPushMatrix();
             GL11.glTranslatef(32 * 2, 0, 0);
@@ -74,8 +74,8 @@ public class GuiReactorCell extends GuiContainerBase {
             GL11.glPushMatrix();
             GL11.glTranslatef(68 * 2, 0, 0);
             GL11.glScalef(0.5F, 1, 1);
-            float ticksLeft = (tile.getStackInSlot(0).getMaxDamage() - tile.getStackInSlot(0).getMetadata());
-            drawElectricity(70, 70, ticksLeft / tile.getStackInSlot(0).getMaxDamage());
+            float ticksLeft = (tile.getInventory().getStackInSlot(0).getMaxDamage() - tile.getInventory().getStackInSlot(0).getMetadata());
+            drawElectricity(70, 70, ticksLeft / tile.getInventory().getStackInSlot(0).getMaxDamage());
             GL11.glPopMatrix();
         }
     }

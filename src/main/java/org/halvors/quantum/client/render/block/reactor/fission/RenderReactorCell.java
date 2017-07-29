@@ -24,7 +24,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
     private static final OBJBakedModel modelMiddle = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_middle.obj"));
     private static final OBJBakedModel modelBottom = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_bottom.obj"));
 
-    private ResourceLocation textureFissile = new ResourceLocation(Reference.ID, "models/reactor_fissile_material.png");
+    private static final ResourceLocation textureFissile = new ResourceLocation(Reference.ID, "textures/models/reactor_fissile_material.png");
 
     @Override
     public void renderTileEntityAt(TileReactorCell tile, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -59,7 +59,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
         }
 
         // Render fissile fuel inside reactor.
-        ItemStack itemStackFuel = tile.getStackInSlot(0);
+        ItemStack itemStackFuel = tile.getInventory().getStackInSlot(0);
 
         if (itemStackFuel != null) {
             float height = tile.getHeight() * (((float) itemStackFuel.getMaxDamage() - itemStackFuel.getMetadata()) / (float) itemStackFuel.getMaxDamage());
