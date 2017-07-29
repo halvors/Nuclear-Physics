@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
@@ -34,9 +35,9 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
             if (world.getWorldTime() % 10 == 0) {
                 // Grab temperature from target or from ourselves.
                 if (trackCoordinate != null) {
-                    detectedTemperature = ThermalGrid.getTemperature(new VectorWorld(world, trackCoordinate));
+                    detectedTemperature = ThermalGrid.getTemperature(world, new BlockPos(trackCoordinate.getX(), trackCoordinate.getY(), trackCoordinate.getZ()));
                 } else {
-                    detectedTemperature = ThermalGrid.getTemperature(new VectorWorld(this));
+                    detectedTemperature = ThermalGrid.getTemperature(world, pos);
                 }
 
                 // Send update packet if temperature is different or over temperature threshold.

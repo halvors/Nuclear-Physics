@@ -51,7 +51,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
 
             if (!world.isRemote && PlayerUtility.isOp(player)) {
                 try {
-                    Vector3 position = new Vector3(location.getX(), location.getY(), location.getZ());
+                    Vector3 position = new Vector3(location.getPos().getX(), location.getPos().getY(), location.getPos().getZ());
 
                     if (message.size > 0) {
                         /*HashMap<Vector3, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.getFront(position.getBlock(world)), message.size);

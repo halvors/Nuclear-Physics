@@ -4,6 +4,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
@@ -104,7 +105,7 @@ public class GuiCreativeBuilder extends GuiContainerBase {
             }
 
             if (radius > 0) {
-                Quantum.getPacketHandler().sendToServer(new PacketCreativeBuilder(new Location(0, pos), mode, radius));
+                Quantum.getPacketHandler().sendToServer(new PacketCreativeBuilder(new Location(DimensionManager.getWorld(0), pos), mode, radius));
                 mc.player.closeScreen();
             }
         } else if (par1GuiButton.id == 1) {

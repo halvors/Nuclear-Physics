@@ -3,6 +3,8 @@ package org.halvors.quantum.common.network.packet;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -26,21 +28,21 @@ public class PacketLocation implements IMessage {
 		this(new Location(entity));
 	}
 
-	public PacketLocation(TileEntity tileEntity) {
-		this(new Location(tileEntity));
+	public PacketLocation(TileEntity tile) {
+		this(new Location(tile));
 	}
 
 	@Override
 	public void fromBytes(ByteBuf dataStream) {
-		this.location = new Location(dataStream.readInt(), dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
+		this.location = new Location(DimensionManager.getWorld(dataStream.readInt()), new BlockPos(dataStream.readInt(), dataStream.readInt(), dataStream.readInt()));
 	}
 
 	@Override
 	public void toBytes(ByteBuf dataStream) {
-		dataStream.writeInt(location.getDimensionId());
-		dataStream.writeInt(location.getX());
-		dataStream.writeInt(location.getY());
-		dataStream.writeInt(location.getZ());
+		dataStream.writeInt(location.getWorld().provider.getDimension());
+		dataStream.writeInt(location.getPos().getX());
+		dataStream.writeInt(location.getPos().getY());
+		dataStream.writeInt(location.getPos().getZ());
 	}
 
 	public Location getLocation() {

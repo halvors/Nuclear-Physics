@@ -35,13 +35,13 @@ public class Range {
 	}
 
 	public Range(Location location) {
-		this.dimensionId = location.getDimensionId();
-		this.minX = location.getX();
-		this.minY = location.getY();
-		this.minZ = location.getZ();
-		this.maxX = location.getX() + 1;
-		this.maxY = location.getY() + 1;
-		this.maxZ = location.getZ() + 1;
+		this.dimensionId = location.getWorld().provider.getDimension();
+		this.minX = location.getPos().getX();
+		this.minY = location.getPos().getY();
+		this.minZ = location.getPos().getZ();
+		this.maxX = location.getPos().getX() + 1;
+		this.maxY = location.getPos().getY() + 1;
+		this.maxZ = location.getPos().getZ() + 1;
 	}
 
 	public Range(Entity entity) {

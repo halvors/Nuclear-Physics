@@ -32,9 +32,9 @@ public class Chunk {
 	 * @param location - the Location object to get this Chunk from
 	 */
 	public Chunk(Location location) {
-		this.dimensionId = location.getDimensionId();
-		this.x = location.getX() >> 4;
-		this.z = location.getZ() >> 4;
+		this.dimensionId = location.getWorld().provider.getDimension();
+		this.x = location.getPos().getX() >> 4;
+		this.z = location.getPos().getZ() >> 4;
 	}
 
 	/**

@@ -40,7 +40,6 @@ import org.halvors.quantum.common.event.PlasmaEvent;
 import org.halvors.quantum.common.fluid.tank.FluidTankStrict;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
-import org.halvors.quantum.common.multiblock.IMultiBlock;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
@@ -48,8 +47,6 @@ import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
-import scala.actors.threadpool.Arrays;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -183,7 +180,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
             }
 
             // Update the temperature from the thermal grid.
-            temperature = ThermalGrid.getTemperature(new VectorWorld(this));
+            temperature = ThermalGrid.getTemperature(world, pos);
 
             // Only a small percentage of the internal energy is used for temperature.
             if ((internalEnergy - previousInternalEnergy) > 0) {
@@ -199,7 +196,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
                 }
 
                 // Add heat to surrounding blocks in the thermal grid.
-                ThermalGrid.addTemperature(new VectorWorld(this), deltaT);
+                ThermalGrid.addTemperature(world, pos, deltaT);
 
                 // Sound of lava flowing randomly plays when above temperature to boil water.
                 if (world.rand.nextInt(80) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {

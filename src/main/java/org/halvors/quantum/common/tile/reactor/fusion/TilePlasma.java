@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import org.halvors.quantum.common.event.PlasmaEvent;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 public class TilePlasma extends TileEntity implements ITickable {
@@ -16,18 +17,14 @@ public class TilePlasma extends TileEntity implements ITickable {
 
     @Override
     public void update() {
-        ThermalGrid.addTemperature(new VectorWorld(this), (temperature - ThermalGrid.getTemperature(new VectorWorld(this))) * 0.1F);
+        ThermalGrid.addTemperature(world, pos, (temperature - ThermalGrid.getTemperature(world, pos)) * 0.1F);
 
         if (world.getWorldTime() % 20 == 0) {
             temperature /= 1.5;
 
             if (temperature <= plasmaMaxTemperature / 10) {
                 // At this temperature, set block to fire.
-                world.setBlockState(pos, Blocks.FIRE.getDefaultState(), 3);
-
-                // TODO: Is this still needed?
-                // We manually trigger a block update, to avoid client glitches.
-                //world.markBlockForUpdate(xCoord, yCoord, zCoord);
+                world.setBlockState(pos, Blocks.FIRE.getDefaultState(), 2);
             } else {
                 for (EnumFacing side : EnumFacing.VALUES) {
                     // Randomize spread direction.
@@ -36,7 +33,7 @@ public class TilePlasma extends TileEntity implements ITickable {
                         final TileEntity tile = world.getTileEntity(spreadPos);
 
                         if (!(tile instanceof TilePlasma)) {
-                            MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, pos, temperature));
+                            MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, spreadPos, temperature));
                         }
                     }
                 }
