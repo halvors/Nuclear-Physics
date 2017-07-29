@@ -47,6 +47,7 @@ import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -180,7 +181,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
             }
 
             // Update the temperature from the thermal grid.
-            temperature = ThermalGrid.getTemperature(world, pos);
+            temperature = ThermalGrid.getTemperature(new VectorWorld(world, new Vector3(pos.getX(), pos.getY(), pos.getZ())));
 
             // Only a small percentage of the internal energy is used for temperature.
             if ((internalEnergy - previousInternalEnergy) > 0) {
@@ -196,7 +197,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
                 }
 
                 // Add heat to surrounding blocks in the thermal grid.
-                ThermalGrid.addTemperature(world, pos, deltaT);
+                ThermalGrid.addTemperature(new VectorWorld(world, new Vector3(pos.getX(), pos.getY(), pos.getZ())), deltaT);
 
                 // Sound of lava flowing randomly plays when above temperature to boil water.
                 if (world.rand.nextInt(80) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {

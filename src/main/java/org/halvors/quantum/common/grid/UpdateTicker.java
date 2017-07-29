@@ -74,7 +74,7 @@ public class UpdateTicker extends Thread {
 
                     updaters.removeAll(removeUpdaters);
                 } catch (Exception e) {
-                    System.out.println("Threaded Ticker: Failed while tcking updater. This is a bug! Clearing all tickers for self repair.");
+                    System.out.println("Threaded Ticker: Failed while ticking updater. This is a bug! Clearing all tickers for self repair.");
                     updaters.clear();
                     e.printStackTrace();
                 }

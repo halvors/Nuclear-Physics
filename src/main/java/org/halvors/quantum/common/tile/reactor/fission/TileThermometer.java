@@ -35,9 +35,9 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
             if (world.getWorldTime() % 10 == 0) {
                 // Grab temperature from target or from ourselves.
                 if (trackCoordinate != null) {
-                    detectedTemperature = ThermalGrid.getTemperature(world, new BlockPos(trackCoordinate.getX(), trackCoordinate.getY(), trackCoordinate.getZ()));
+                    detectedTemperature = ThermalGrid.getTemperature(new VectorWorld(world, trackCoordinate));
                 } else {
-                    detectedTemperature = ThermalGrid.getTemperature(world, pos);
+                    detectedTemperature = ThermalGrid.getTemperature(new VectorWorld(world, new Vector3(pos.getX(), pos.getY(), pos.getZ())));
                 }
 
                 // Send update packet if temperature is different or over temperature threshold.
