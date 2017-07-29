@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -86,7 +87,11 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             if (!world.isRemote) {
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
-                    //power += tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true).amount * energyPerSteam;
+                    FluidStack fluidStackSteam = tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
+
+                    if (fluidStackSteam != null) {
+                        power += fluidStackSteam.amount * energyPerSteam;
+                    }
                 }
 
                 // Set angular velocity based on power and torque.

@@ -94,8 +94,8 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
             clientEnergy = energyStorage.getEnergyStored();
             velocity = getParticleVelocity();
 
-            // TODO: Fix this.
-            //outputAntimatter();
+
+            outputAntimatter();
 
             // Check if redstone signal is currently being applied.
             if (inventory.getStackInSlot(0) != null && world.isBlockIndirectlyGettingPowered(pos) > 0) {
@@ -257,7 +257,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
         // Do we have an empty cell in slot one
         ItemStack itemStackEmptyCell = inventory.getStackInSlot(1);
 
-        if (OreDictionaryUtility.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.stackSize > 0) {
+        if (itemStackEmptyCell != null && OreDictionaryUtility.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.stackSize > 0) {
             // Each cell can only hold 125mg of antimatter
             // TODO: maybe a config for this?
             if (antimatter >= 125) {

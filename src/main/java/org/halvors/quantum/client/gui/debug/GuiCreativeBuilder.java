@@ -48,21 +48,21 @@ public class GuiCreativeBuilder extends GuiContainerBase {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString("Creative Builder", 60, 6, 4210752);
-        fontRendererObj.drawString("This is a creative only cheat", 9, 20, 4210752);
-        fontRendererObj.drawString("which allows you to auto build", 9, 30, 4210752);
-        fontRendererObj.drawString("structures for testing.", 9, 40, 4210752);
+        fontRendererObj.drawString("Creative Builder", 60, 6, 0x404040);
+        fontRendererObj.drawString("This is a creative only cheat", 9, 20, 0x404040);
+        fontRendererObj.drawString("which allows you to auto build", 9, 30, 0x404040);
+        fontRendererObj.drawString("structures for testing.", 9, 40, 0x404040);
 
-        fontRendererObj.drawString("Size: ", 9, 60, 4210752);
+        fontRendererObj.drawString("Size: ", 9, 60, 0x404040);
         textFieldSize.drawTextBox();
 
         (buttonList.get(1)).displayString = LanguageUtility.localize(BlockCreativeBuilder.getSchematic(mode).getName());
-        fontRendererObj.drawString("Mode: ", 9, 80, 4210752);
+        fontRendererObj.drawString("Mode: ", 9, 80, 0x404040);
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-        fontRendererObj.drawString("Warning!", 9, 130, 4210752);
-        fontRendererObj.drawString("This will replace blocks without", 9, 140, 4210752);
-        fontRendererObj.drawString("dropping it! You may lose items.", 9, 150, 4210752);
+        fontRendererObj.drawString("Warning!", 9, 130, 0x404040);
+        fontRendererObj.drawString("This will replace blocks without", 9, 140, 0x404040);
+        fontRendererObj.drawString("dropping it! You may lose items.", 9, 150, 0x404040);
     }
 
     @Override
