@@ -18,10 +18,6 @@ public class ContainerBase extends Container {
         this.slotCount = inventory.getSizeInventory();
     }
 
-    public ContainerBase(EntityPlayer player, IInventory inventory) {
-        this(inventory);
-    }
-
     // Called to transfer a stack from one inventory to the other eg. when shift clicking.
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {

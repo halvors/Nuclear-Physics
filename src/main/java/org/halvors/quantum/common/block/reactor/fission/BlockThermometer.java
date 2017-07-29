@@ -81,6 +81,7 @@ public class BlockThermometer extends BlockContainerQuantum {
         return world.setBlockToAir(pos);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean canProvidePower(IBlockState state) {
         return true;
