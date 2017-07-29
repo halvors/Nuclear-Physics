@@ -36,15 +36,15 @@ public class GuiChemicalExtractor extends GuiContainerBase {
 
         fontRendererObj.drawString(LanguageUtility.localize("container.inventory"), 8, ySize - 96 + 2, 0x404040);
 
-        if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.tank.getInputTank().getFluid() != null) {
-            if (tile.tank.getInputTank().getFluid() != null) {
-                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.tank.getInputTank().getFluid().getLocalizedName(), tile.tank.getInputTank().getFluid().amount + " L");
+        if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.getInputTank().getFluid() != null) {
+            if (tile.getInputTank().getFluid() != null) {
+                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.getInputTank().getFluid().getLocalizedName(), tile.getInputTank().getFluid().amount + " L");
             }
         }
 
-        if (isPointInRegion(154, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.tank.getOutputTank().getFluid() != null) {
-            if (tile.tank.getOutputTank().getFluid() != null) {
-                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.tank.getOutputTank().getFluid().getLocalizedName(), tile.tank.getOutputTank().getFluid().amount + " L");
+        if (isPointInRegion(154, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.getOutputTank().getFluid() != null) {
+            if (tile.getOutputTank().getFluid() != null) {
+                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.getOutputTank().getFluid().getLocalizedName(), tile.getOutputTank().getFluid().amount + " L");
             }
         }
 
@@ -55,7 +55,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
         }
 
         if (isPointInRegion(52, 24, 18, 18, mouseX, mouseY)) {
-            if (tile.tank.getOutputTank().getFluidAmount() > 0 && tile.inventory.getStackInSlot(3) == null) {
+            if (tile.getOutputTank().getFluidAmount() > 0 && tile.inventory.getStackInSlot(3) == null) {
                 drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "Input slot");
             }
         }
@@ -70,10 +70,10 @@ public class GuiChemicalExtractor extends GuiContainerBase {
         drawSlot(52, 24);
         drawSlot(106, 24);
         drawBar(75, 24, (float) tile.timer / (float) TileChemicalExtractor.tickTime);
-        drawMeter(8, 18, tile.tank.getInputTank().getFluidAmount() / tile.tank.getInputTank().getCapacity(), tile.tank.getInputTank().getFluid());
+        drawMeter(8, 18, tile.getInputTank().getFluidAmount() / tile.getInputTank().getCapacity(), tile.getInputTank().getFluid());
         drawSlot(24, 18, SlotType.LIQUID);
         drawSlot(24, 49, SlotType.LIQUID);
-        drawMeter(154, 18, tile.tank.getOutputTank().getFluidAmount() / tile.tank.getOutputTank().getCapacity(), tile.tank.getOutputTank().getFluid());
+        drawMeter(154, 18, tile.getOutputTank().getFluidAmount() / tile.getOutputTank().getCapacity(), tile.getOutputTank().getFluid());
         drawSlot(134, 18, SlotType.LIQUID);
         drawSlot(134, 49, SlotType.LIQUID);
     }
