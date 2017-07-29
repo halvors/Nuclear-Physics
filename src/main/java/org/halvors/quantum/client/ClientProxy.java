@@ -60,7 +60,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	public void preInit() {
 	    // Register our domain to OBJLoader.
 		OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
-		//OBJBakedModel.init();
+		//OBJModelContainer.init();
 	}
 
 	@Override

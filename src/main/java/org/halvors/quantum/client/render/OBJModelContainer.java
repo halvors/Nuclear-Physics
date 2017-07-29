@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
-public class OBJBakedModel {
+public class OBJModelContainer {
     private static Map<String, IBakedModel> loadedModels = Maps.newHashMap();
 
     private final Map<String, String> textureReplacements = Maps.newHashMap();
@@ -41,7 +41,7 @@ public class OBJBakedModel {
     private int cacheCount = 0;
     private IBakedModel cacheCopy;
 
-    public OBJBakedModel(ResourceLocation model) {
+    public OBJModelContainer(ResourceLocation model) {
         this.model = model;
         this.vertexFormat = DefaultVertexFormats.ITEM;
         this.state = null;
@@ -49,7 +49,7 @@ public class OBJBakedModel {
         this.key = computeKey();
     }
 
-    public OBJBakedModel(ResourceLocation model, List<String> parts) {
+    public OBJModelContainer(ResourceLocation model, List<String> parts) {
         this.model = model;
         this.vertexFormat = DefaultVertexFormats.ITEM;
         this.state = new OBJState(parts, true);
@@ -57,7 +57,7 @@ public class OBJBakedModel {
         this.key = computeKey();
     }
 
-    public OBJBakedModel(OBJBakedModel handle, String texChannel, String resloc) {
+    public OBJModelContainer(OBJModelContainer handle, String texChannel, String resloc) {
         this.model = handle.model;
         this.vertexFormat = handle.vertexFormat;
         this.state = handle.state;
@@ -67,7 +67,7 @@ public class OBJBakedModel {
         this.key = computeKey();
     }
 
-    public OBJBakedModel(OBJBakedModel handle, VertexFormat fmt) {
+    public OBJModelContainer(OBJModelContainer handle, VertexFormat fmt) {
         this.model = handle.model;
         this.vertexFormat = fmt;
         this.state = handle.state;
@@ -76,7 +76,7 @@ public class OBJBakedModel {
         this.key = computeKey();
     }
 
-    public OBJBakedModel(OBJBakedModel handle, IModelState state) {
+    public OBJModelContainer(OBJModelContainer handle, IModelState state) {
         this.model = handle.model;
         this.vertexFormat = handle.vertexFormat;
         this.state = state;
@@ -85,7 +85,7 @@ public class OBJBakedModel {
         this.key = computeKey();
     }
 
-    public OBJBakedModel(OBJBakedModel handle, boolean uvLock) {
+    public OBJModelContainer(OBJModelContainer handle, boolean uvLock) {
         this.model = handle.model;
         this.vertexFormat = handle.vertexFormat;
         this.state = handle.state;
@@ -115,12 +115,12 @@ public class OBJBakedModel {
         return b.toString();
     }
 
-    public OBJBakedModel replace(String texChannel, String resloc) {
+    public OBJModelContainer replace(String texChannel, String resloc) {
         if (textureReplacements.containsKey(texChannel) && textureReplacements.get(texChannel).equals(resloc)) {
             return this;
         }
 
-        return new OBJBakedModel(this, texChannel, resloc);
+        return new OBJModelContainer(this, texChannel, resloc);
     }
 
     public ResourceLocation getModel()
@@ -142,12 +142,12 @@ public class OBJBakedModel {
         return vertexFormat;
     }
 
-    public OBJBakedModel setVertexFormat(VertexFormat fmt) {
+    public OBJModelContainer setVertexFormat(VertexFormat fmt) {
         if (vertexFormat == fmt) {
             return this;
         }
 
-        return new OBJBakedModel(this, fmt);
+        return new OBJModelContainer(this, fmt);
     }
 
     @Nullable
@@ -156,12 +156,12 @@ public class OBJBakedModel {
         return state;
     }
 
-    public OBJBakedModel setState(IModelState newState) {
+    public OBJModelContainer setState(IModelState newState) {
         if (state == newState) {
             return this;
         }
 
-        return new OBJBakedModel(this, newState);
+        return new OBJModelContainer(this, newState);
     }
 
     public boolean isUvLocked()
@@ -169,12 +169,12 @@ public class OBJBakedModel {
         return uvLock;
     }
 
-    public OBJBakedModel setUvLocked(boolean uvLock) {
+    public OBJModelContainer setUvLocked(boolean uvLock) {
         if (this.uvLock == uvLock) {
             return this;
         }
 
-        return new OBJBakedModel(this, uvLock);
+        return new OBJModelContainer(this, uvLock);
     }
 
     public IBakedModel get() {
@@ -223,7 +223,7 @@ public class OBJBakedModel {
         tessellator.draw();
     }
 
-    private static IBakedModel loadModel(OBJBakedModel handle) {
+    private static IBakedModel loadModel(OBJModelContainer handle) {
         IBakedModel model = loadedModels.get(handle.getKey());
 
         if (model != null) {

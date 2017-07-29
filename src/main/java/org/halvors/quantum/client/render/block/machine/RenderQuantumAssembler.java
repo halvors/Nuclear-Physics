@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.render.OBJBakedModel;
+import org.halvors.quantum.client.render.OBJModelContainer;
 import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.utility.ResourceUtility;
@@ -19,11 +19,11 @@ import java.util.Collections;
 
 @SideOnly(Side.CLIENT)
 public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantumAssembler> {
-    private static final OBJBakedModel modelPartHands = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("BackArmLower", "BackArmUpper", "FrontArmLower", "FrontArmUpper", "LeftArmLower", "LeftArmUpper", "RightArmLower", "RightArmUpper"));
-    private static final OBJBakedModel modelPartArms = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("MiddleRotor", "MiddleRotorArmBase", "MiddleRotorFocusLaser", "MiddleRotorLowerArm", "MiddleRotorUpperArm"));
-    private static final OBJBakedModel modelPartLargeArms = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("BottomRotor", "BottomRotorArmBase", "BottomRotorLowerArm", "BottomRotorResonatorArm", "BottomRotorUpperArm"));
-    private static final OBJBakedModel modelPartResonanceCrystal = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Collections.singletonList("ResonanceCrystal"));
-    private static final OBJBakedModel modelAll = new OBJBakedModel(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("Circuit1", "Circuit2", "Circuit3", "Circuit4", "ControlPad", "ControlPadRibbonCable", "ControlPadRibbonConnector", "MaterialPlinthBase", "MaterialPlinthCore", "MaterialPlinthStand", "PlinthBasePlate", "PlinthBaseRibbonConnector", "Ram1", "Ram2", "Ram3", "Ram4", "ResonatorAssembly", "ResonatorUnit", "SafetyGlassBack", "SafetyGlassFront", "SafetyGlassLeft", "SafetyGlassRight", "SafetyGlassTop"));
+    private static final OBJModelContainer modelPartHands = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("BackArmLower", "BackArmUpper", "FrontArmLower", "FrontArmUpper", "LeftArmLower", "LeftArmUpper", "RightArmLower", "RightArmUpper"));
+    private static final OBJModelContainer modelPartArms = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("MiddleRotor", "MiddleRotorArmBase", "MiddleRotorFocusLaser", "MiddleRotorLowerArm", "MiddleRotorUpperArm"));
+    private static final OBJModelContainer modelPartLargeArms = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("BottomRotor", "BottomRotorArmBase", "BottomRotorLowerArm", "BottomRotorResonatorArm", "BottomRotorUpperArm"));
+    private static final OBJModelContainer modelPartResonanceCrystal = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Collections.singletonList("ResonanceCrystal"));
+    private static final OBJModelContainer modelAll = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("Circuit1", "Circuit2", "Circuit3", "Circuit4", "ControlPad", "ControlPadRibbonCable", "ControlPadRibbonConnector", "MaterialPlinthBase", "MaterialPlinthCore", "MaterialPlinthStand", "PlinthBasePlate", "PlinthBaseRibbonConnector", "Ram1", "Ram2", "Ram3", "Ram4", "ResonatorAssembly", "ResonatorUnit", "SafetyGlassBack", "SafetyGlassFront", "SafetyGlassLeft", "SafetyGlassRight", "SafetyGlassTop"));
 
     private static final Render<EntityItem> renderItem = Minecraft.getMinecraft().getRenderManager().getEntityClassRenderObject(EntityItem.class);
 
