@@ -10,6 +10,7 @@ import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.InventoryUtility;
+import org.halvors.quantum.common.utility.OreDictionaryHelper;
 
 public class TileQuantumAssembler extends TileMachine implements ITickable {
     public static final int tickTime = 20 * 120;
@@ -35,7 +36,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
             }
 
             private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-                return slot == 6 || itemStack.getItem() == QuantumItems.itemDarkMatterCell;
+                return slot == 6 || OreDictionaryHelper.isDarkmatterCell(itemStack);
             }
 
             @Override

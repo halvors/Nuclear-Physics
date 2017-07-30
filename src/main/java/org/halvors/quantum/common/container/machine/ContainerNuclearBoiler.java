@@ -4,15 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.items.SlotItemHandler;
-import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.QuantumFluids;
-import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.container.ContainerQuantum;
-import org.halvors.quantum.common.container.slot.SlotItemHandlerSpecificCapability;
-import org.halvors.quantum.common.container.slot.SlotItemHandlerSpecificItem;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
 
 public class ContainerNuclearBoiler extends ContainerQuantum {
@@ -25,10 +20,10 @@ public class ContainerNuclearBoiler extends ContainerQuantum {
         this.tile = tile;
 
         // Battery
-        addSlotToContainer(new SlotItemHandlerSpecificCapability(tile.getInventory(), 0, 56, 26, CapabilityEnergy.ENERGY));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 56, 26));
 
         // Yellowcake Input
-        addSlotToContainer(new SlotItemHandlerSpecificItem(tile.getInventory(), 1, 81, 26, new ItemStack(QuantumItems.itemYellowCake), new ItemStack(QuantumBlocks.blockUraniumOre)));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 81, 26));
 
         // Fluid input fill
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 25, 19));

@@ -4,13 +4,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.container.ContainerQuantum;
-import org.halvors.quantum.common.container.slot.SlotItemHandlerSpecificCapability;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
-import org.halvors.quantum.common.utility.OreDictionaryUtility;
+import org.halvors.quantum.common.utility.OreDictionaryHelper;
 
 public class ContainerGasCentrifuge extends ContainerQuantum {
     private static final int slotCount = 4;
@@ -22,7 +20,7 @@ public class ContainerGasCentrifuge extends ContainerQuantum {
         this.tile = tile;
 
         // Electric Item
-        addSlotToContainer(new SlotItemHandlerSpecificCapability(tile.getInventory(), 0, 131, 26, CapabilityEnergy.ENERGY));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 131, 26));
 
         // Uranium Gas Tank
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 25, 50));
@@ -62,7 +60,7 @@ public class ContainerGasCentrifuge extends ContainerQuantum {
                         if (!mergeItemStack(itemStack, 0, 1, false)) {
                             return null;
                         }
-                    } else if (OreDictionaryUtility.isUraniumOre(itemStack)) {
+                    } else if (OreDictionaryHelper.isUraniumOre(itemStack)) {
                         if (!mergeItemStack(itemStack, 1, 2, false)) {
                             return null;
                         }

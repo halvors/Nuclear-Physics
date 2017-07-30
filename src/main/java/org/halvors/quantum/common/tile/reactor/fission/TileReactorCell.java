@@ -77,14 +77,11 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
             markDirty();
         }
 
-        public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
             MultiBlockHandler<TileReactorCell> multiBlock = getMultiBlock();
 
-            if (multiBlock.isPrimary() && multiBlock.get().inventory.getStackInSlot(0) == null) {
-                return itemStack.getItem() instanceof IReactorComponent;
-            }
+            return multiBlock.isPrimary() && multiBlock.get().getInventory().getStackInSlot(0) == null && itemStack.getItem() instanceof IReactorComponent;
 
-            return false;
         }
 
         @Override
@@ -496,14 +493,14 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return (T) getMultiBlock().get().inventory;
         } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {

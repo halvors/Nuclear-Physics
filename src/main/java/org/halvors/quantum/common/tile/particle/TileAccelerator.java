@@ -19,7 +19,7 @@ import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.machine.TileMachine;
 import org.halvors.quantum.common.utility.InventoryUtility;
-import org.halvors.quantum.common.utility.OreDictionaryUtility;
+import org.halvors.quantum.common.utility.OreDictionaryHelper;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
@@ -64,7 +64,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
                         return true;
 
                     case 1:
-                        return OreDictionaryUtility.isEmptyCell(itemStack);
+                        return OreDictionaryHelper.isEmptyCell(itemStack);
 
                     case 2:
                         return itemStack.getItem() instanceof ItemAntimatterCell;
@@ -256,7 +256,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
         // Do we have an empty cell in slot one
         ItemStack itemStackEmptyCell = inventory.getStackInSlot(1);
 
-        if (itemStackEmptyCell != null && OreDictionaryUtility.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.stackSize > 0) {
+        if (itemStackEmptyCell != null && OreDictionaryHelper.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.stackSize > 0) {
             // Each cell can only hold 125mg of antimatter
             // TODO: maybe a config for this?
             if (antimatter >= 125) {

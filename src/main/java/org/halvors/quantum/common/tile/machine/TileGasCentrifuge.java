@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -19,6 +20,7 @@ import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.utility.OreDictionaryHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -56,15 +58,17 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
 
             private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
                 switch (slot) {
-                    case 0:
-                        // TODO: Implement this.
-                        //return CompatibilityModule.isHandler(itemStack.getItem());
-                        return true;
-                    case 1:
-                        return true;
-                    case 2:
-                    case 3:
-                        return itemStack.getItem() == QuantumItems.itemUranium;
+                    case 0: // Battery input slot.
+                        return itemStack.hasCapability(CapabilityEnergy.ENERGY, null);
+
+                    case 1: // Item input slot.
+                        return OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack);
+
+                    // TODO: Fix this.
+                    /*
+                    case 3: // Input tank slot.
+                        return OreDictionaryHelper.isUraniumHexaflouride(itemStack);
+                    */
                 }
 
                 return false;
@@ -85,6 +89,8 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public void update() {
         if (timer > 0) {
             rotation += 0.45;
+        } else {
+            rotation = 0;
         }
 
         if (!world.isRemote) {
@@ -249,14 +255,14 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
         return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return (T) tank;
         }

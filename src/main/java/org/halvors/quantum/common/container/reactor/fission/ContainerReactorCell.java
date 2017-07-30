@@ -4,17 +4,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.quantum.common.container.ContainerQuantum;
-import org.halvors.quantum.common.container.slot.SlotItemHandlerSpecificItem;
-import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
-import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 
 public class ContainerReactorCell extends ContainerQuantum {
     public ContainerReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {
         super(inventoryPlayer, tile);
 
-        addSlotToContainer(new SlotItemHandlerSpecificItem(tile.getInventory(), 0, 79, 17, ItemFissileFuel.class, ItemBreederFuel.class));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 79, 17));
 
         addPlayerInventory(inventoryPlayer.player);
     }

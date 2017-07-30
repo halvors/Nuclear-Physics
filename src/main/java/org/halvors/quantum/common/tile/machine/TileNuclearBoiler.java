@@ -12,7 +12,7 @@ import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.InventoryUtility;
-import org.halvors.quantum.common.utility.OreDictionaryUtility;
+import org.halvors.quantum.common.utility.OreDictionaryHelper;
 
 public class TileNuclearBoiler extends TileProcess {
     public static final int tickTime = 20 * 15;
@@ -32,7 +32,7 @@ public class TileNuclearBoiler extends TileProcess {
             private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
                 switch (slot) {
                     case 1:
-                        return OreDictionaryUtility.isWaterCell(itemStack);
+                        return OreDictionaryHelper.isWaterCell(itemStack);
 
                     case 3:
                         return itemStack.getItem() == QuantumItems.itemYellowCake;
@@ -96,6 +96,8 @@ public class TileNuclearBoiler extends TileProcess {
 
         if (timer > 0) {
             rotation += 0.1;
+        } else {
+            rotation = 0;
         }
 
         if (!world.isRemote) {
@@ -183,7 +185,7 @@ public class TileNuclearBoiler extends TileProcess {
                 ItemStack itemStack = inventory.getStackInSlot(1);
 
                 if (itemStack != null) {
-                    if (itemStack.getItem() == QuantumItems.itemYellowCake || OreDictionaryUtility.isUraniumOre(itemStack)) {
+                    if (itemStack.getItem() == QuantumItems.itemYellowCake || OreDictionaryHelper.isUraniumOre(itemStack)) {
                         FluidStack outputFluidStack = tankOutput.getFluid();
 
                         if (outputFluidStack != null && outputFluidStack.amount < tankOutput.getCapacity()) {

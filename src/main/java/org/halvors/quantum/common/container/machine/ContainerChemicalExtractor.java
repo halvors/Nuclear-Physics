@@ -1,13 +1,8 @@
 package org.halvors.quantum.common.container.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.SlotItemHandler;
-import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.container.ContainerQuantum;
-import org.halvors.quantum.common.container.slot.SlotItemHandlerSpecificCapability;
-import org.halvors.quantum.common.container.slot.SlotItemHandlerSpecificItem;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 
 public class ContainerChemicalExtractor extends ContainerQuantum {
@@ -15,10 +10,10 @@ public class ContainerChemicalExtractor extends ContainerQuantum {
         super(inventoryPlayer, tile);
 
         // Battery
-        addSlotToContainer(new SlotItemHandlerSpecificCapability(tile.getInventory(), 0, 80, 50, CapabilityEnergy.ENERGY));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 80, 50));
 
         // Process Input (Uranium)
-        addSlotToContainer(new SlotItemHandlerSpecificItem(tile.getInventory(), 1, 53, 25, new ItemStack(QuantumBlocks.blockUraniumOre)));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 53, 25));
 
         // Process Output
         //addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 2, 107, 25));
