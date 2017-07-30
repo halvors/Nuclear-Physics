@@ -101,6 +101,10 @@ public class PacketHandler {
 		sendToReceivers(message, new Range(tileEntity));
 	}
 
+	public static void handlePacket(Runnable runnable, EntityPlayer player) {
+		Quantum.getProxy().handlePacket(runnable, player);
+	}
+
 	public Packet getPacketFrom(IMessage message) {
 		return networkWrapper.getPacketFrom(message);
 	}

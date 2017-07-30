@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
@@ -138,6 +139,15 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 			return context.getServerHandler().playerEntity;
 		} else {
 			return Minecraft.getMinecraft().player;
+		}
+	}
+
+	@Override
+	public void handlePacket(Runnable runnable, EntityPlayer player) {
+		if (player == null || player.world.isRemote) {
+			Minecraft.getMinecraft().addScheduledTask(runnable);
+		} else {
+			((WorldServer) player.world).addScheduledTask(runnable); // Singleplayer
 		}
 	}
 }

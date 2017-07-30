@@ -105,7 +105,7 @@ public class GuiCreativeBuilder extends GuiContainerBase {
             }
 
             if (radius > 0) {
-                Quantum.getPacketHandler().sendToServer(new PacketCreativeBuilder(new Location(DimensionManager.getWorld(0), pos), mode, radius));
+                Quantum.getPacketHandler().sendToServer(new PacketCreativeBuilder(pos, mode, radius));
                 mc.player.closeScreen();
             }
         } else if (par1GuiButton.id == 1) {

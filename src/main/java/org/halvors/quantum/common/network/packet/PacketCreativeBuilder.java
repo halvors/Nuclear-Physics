@@ -2,13 +2,13 @@ package org.halvors.quantum.common.network.packet;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.utility.PlayerUtility;
-import org.halvors.quantum.common.utility.location.Location;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 public class PacketCreativeBuilder extends PacketLocation implements IMessage {
@@ -19,8 +19,8 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
 
     }
 
-    public PacketCreativeBuilder(Location location, int schematicId, int size) {
-        super(location);
+    public PacketCreativeBuilder(BlockPos pos, int schematicId, int size) {
+        super(pos);
 
         this.schematicId = schematicId;
         this.size = size;
@@ -45,27 +45,32 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
     public static class PacketCreativeBuilderMessage implements IMessageHandler<PacketCreativeBuilder, IMessage> {
         @Override
         public IMessage onMessage(PacketCreativeBuilder message, MessageContext messageContext) {
-            Location location = message.getLocation();
             EntityPlayer player = PacketHandler.getPlayer(messageContext);
-            World world = PacketHandler.getWorld(messageContext);
 
-            if (!world.isRemote && PlayerUtility.isOp(player)) {
-                try {
-                    Vector3 position = new Vector3(location.getPos().getX(), location.getPos().getY(), location.getPos().getZ());
+            if (player != null) {
+                PacketHandler.handlePacket(() -> {
+                    World world = PacketHandler.getWorld(messageContext);
+                    BlockPos pos = message.getPos();
 
-                    if (message.size > 0) {
-                        /*HashMap<Vector3, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.getFront(position.getBlock(world)), message.size);
+                    if (!world.isRemote && PlayerUtility.isOp(player)) {
+                        try {
+                            Vector3 position = new Vector3(pos.getX(), pos.getY(), pos.getZ());
 
-                        for (Map.Entry<Vector3, Pair<Block, Integer>> entry : map.entrySet()) {
-                            Vector3 placePos = entry.getKey().clone();
-                            placePos.translate(position);
-                            placePos.setBlock(world, entry.getValue().getLeft(), entry.getValue().getRight());
+                            if (message.size > 0) {
+                                /*HashMap<Vector3, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.getFront(position.getBlock(world)), message.size);
+
+                                for (Map.Entry<Vector3, Pair<Block, Integer>> entry : map.entrySet()) {
+                                    Vector3 placePos = entry.getKey().clone();
+                                    placePos.translate(position);
+                                    placePos.setBlock(world, entry.getValue().getLeft(), entry.getValue().getRight());
+                                }
+                                */
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                        */
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                }, player);
             }
 
             return null;
