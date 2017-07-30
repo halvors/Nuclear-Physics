@@ -54,6 +54,13 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
         ItemStack inputStack = inventory.getStackInSlot(containerInput);
         ItemStack outputStack = inventory.getStackInSlot(containerOutput);
 
+        if (inputStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+            IFluidHandler handler = inputStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+
+            // TODO...
+        }
+
+
         if (FluidContainerRegistry.isFilledContainer(inputStack)) {
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(inputStack);
             ItemStack result = inputStack.getItem().getContainerItem(inputStack);
