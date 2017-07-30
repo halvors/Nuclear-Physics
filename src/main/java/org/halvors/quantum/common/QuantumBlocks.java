@@ -2,6 +2,7 @@ package org.halvors.quantum.common;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.quantum.common.block.BlockQuantum;
@@ -65,15 +66,11 @@ public class QuantumBlocks {
         register(blockCreativeBuilder);
 
         for (EnumMachine type : EnumMachine.values()) {
-            String name = type.getTileClass().getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
-
-            GameRegistry.registerTileEntity(type.getTileClass(), name);
+            GameRegistry.registerTileEntity(type.getTileClass(), getNameFromClass(type.getTileClass()));
         }
 
         for (EnumMachineModel type : EnumMachineModel.values()) {
-            String name = type.getTileClass().getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
-
-            GameRegistry.registerTileEntity(type.getTileClass(), name);
+            GameRegistry.registerTileEntity(type.getTileClass(), getNameFromClass(type.getTileClass()));
         }
 
         GameRegistry.registerTileEntity(TileElectricTurbine.class, "tile_electric_turbine");
@@ -85,10 +82,15 @@ public class QuantumBlocks {
         GameRegistry.registerTileEntity(TileReactorCell.class, "tile_reactor_cell");
     }
 
+    private static String getNameFromClass(Class clazz) {
+        return clazz.getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
+    }
+
     private static <T extends Block> T register(T block, String name) {
+        register(block);
         OreDictionary.registerOre(name, block);
 
-        return register(block);
+        return block;
     }
 
     private static <T extends Block> T register(T block) {
