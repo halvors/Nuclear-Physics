@@ -10,31 +10,33 @@ import java.util.List;
 
 public class TileRotatable extends TileQuantum implements ITileNetwork, ITileRotatable {
     /** The direction this block is facing. */
-    public EnumFacing facing = EnumFacing.NORTH;
+    protected EnumFacing facing = EnumFacing.NORTH;
 
     public TileRotatable() {
 
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-        if (tagCompound.hasKey("facing")) {
-            facing = EnumFacing.getFront(tagCompound.getInteger("facing"));
+        if (tag.hasKey("facing")) {
+            facing = EnumFacing.getFront(tag.getInteger("facing"));
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        tag = super.writeToNBT(tag);
 
         if (facing != null) {
-            tagCompound.setInteger("facing", facing.ordinal());
+            tag.setInteger("facing", facing.ordinal());
         }
 
-        return tagCompound;
+        return tag;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {
@@ -49,6 +51,8 @@ public class TileRotatable extends TileQuantum implements ITileNetwork, ITileRot
 
         return objects;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public EnumFacing getFacing() {

@@ -10,17 +10,25 @@ import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 public class InventoryUtility {
     public static void incrStackSize(IItemHandler itemHandler, int slot) {
-        ItemStack itemStack = itemHandler.getStackInSlot(slot).copy();
-        itemStack.stackSize++;
+        ItemStack itemStack = itemHandler.getStackInSlot(slot);
 
-        itemHandler.insertItem(slot, itemStack, false);
+        if (itemStack != null) {
+            ItemStack newItemStack = itemStack.copy();
+            newItemStack.stackSize++;
+
+            itemHandler.insertItem(slot, newItemStack, false);
+        }
     }
 
     public static void decrStackSize(IItemHandler itemHandler, int slot) {
-        ItemStack itemStack = itemHandler.getStackInSlot(slot).copy();
-        itemStack.stackSize--;
+        ItemStack itemStack = itemHandler.getStackInSlot(slot);
 
-        itemHandler.insertItem(slot, itemStack, false);
+        if (itemStack != null) {
+            ItemStack newItemStack = itemStack.copy();
+            newItemStack.stackSize--;
+
+            itemHandler.insertItem(slot, newItemStack, false);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

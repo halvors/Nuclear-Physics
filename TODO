@@ -12,6 +12,8 @@ Porting to 1.10.2 from 1.7.10:
     - Fix reactor cell not handling items correctly, item stack of 0 items?
     - Handle inventory on destruction of block, drop in world or preserve in item block.
     - Dynamically override functions in fluid capability implementations like we do with inventory.
+    - Fix ore dictionary lookup.
+    - Fix all machines, and verify that they work.
 
 General:
 

@@ -1,10 +1,10 @@
 package org.halvors.quantum.common.utility;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class OreDictionaryUtility {
     public static boolean isItemStackOreDictionaryCompatible(ItemStack itemStack, String... names) {
-        /*
         if (itemStack != null && names != null && names.length > 0) {
             // TODO: Sort this out.
             String name = OreDictionary.getOreName(OreDictionary.getOreIDs(itemStack)[0]);
@@ -17,9 +17,6 @@ public class OreDictionaryUtility {
         }
 
         return false;
-        */
-
-        return true;
     }
 
     public static boolean isEmptyCell(ItemStack itemStack) {
@@ -27,7 +24,7 @@ public class OreDictionaryUtility {
     }
 
     public static boolean isWaterCell(ItemStack itemStack) {
-        return isItemStackOreDictionaryCompatible(itemStack, "water_cell.json");
+        return isItemStackOreDictionaryCompatible(itemStack, "cell");
     }
 
     public static boolean isUraniumOre(ItemStack itemStack) {
