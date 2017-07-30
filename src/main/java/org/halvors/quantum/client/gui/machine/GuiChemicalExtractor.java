@@ -36,18 +36,23 @@ public class GuiChemicalExtractor extends GuiContainerBase {
 
         fontRendererObj.drawString(LanguageUtility.localize("container.inventory"), 8, ySize - 96 + 2, 0x404040);
 
-        if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.getInputTank().getFluid() != null) {
+        if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY)) {
             if (tile.getInputTank().getFluid() != null) {
                 drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.getInputTank().getFluid().getLocalizedName(), tile.getInputTank().getFluid().amount + " L");
+            } else {
+                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "No Fluid");
             }
         }
 
-        if (isPointInRegion(154, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.getOutputTank().getFluid() != null) {
+        if (isPointInRegion(154, 18, meterWidth, meterHeight, mouseX, mouseY)) {
             if (tile.getOutputTank().getFluid() != null) {
                 drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.getOutputTank().getFluid().getLocalizedName(), tile.getOutputTank().getFluid().amount + " L");
+            } else {
+                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "No Fluid");
             }
         }
 
+        /*
         if (isPointInRegion(134, 49, 18, 18, mouseX, mouseY)) {
             if (tile.getInventory().getStackInSlot(4) == null) {
                 // drawTooltip(x - guiLeft, y - guiTop + 10, "Place empty cells.");
@@ -59,6 +64,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
                 drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "Input slot");
             }
         }
+        */
     }
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */
