@@ -4,6 +4,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemQuantum;
 import org.halvors.quantum.common.item.ItemRadioactive;
@@ -39,21 +40,34 @@ public class QuantumItems {
     // Register items.
     public static void register() {
         register(itemAntimatterCell);
-        register(itemBreederFuel);
-        register(itemCell);
-        register(itemDarkMatterCell);
-        register(itemDeuteriumCell);
-        register(itemFissileFuel);
-        register(itemTritiumCell);
-        register(itemWaterCell);
+        register(itemBreederFuel, "fuelBreeder");
+        register(itemCell, "cellEmpty");
+        register(itemDarkMatterCell, "cellDarkmatter");
+        register(itemDeuteriumCell, "cellDeuterium");
+        register(itemFissileFuel, "fuelFissile");
+        register(itemTritiumCell, "cellTritium");
+        register(itemWaterCell, "cellWater");
 
         register(itemUranium);
-        register(itemYellowCake);
+        register(itemYellowCake, "dustUranium");
 
         register(itemHazmatMask);
         register(itemHazmatBody);
         register(itemHazmatLeggings);
         register(itemHazmatBoots);
+
+        /*
+		OreDictionary.registerOre("ingotUranium", QuantumItems.itemUranium);
+		OreDictionary.registerOre("itemUranium", new ItemStack(QuantumItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()));
+		OreDictionary.registerOre("antimatterMilligram", new ItemStack(QuantumItems.itemAntimatterCell, 1, EnumAntimatterCell.MILLIGRAM.ordinal()));
+		OreDictionary.registerOre("antimatterGram", new ItemStack(QuantumItems.itemAntimatterCell, 1, EnumAntimatterCell.GRAM.ordinal()));
+        */
+    }
+
+    private static <T extends Item> T register(T item, String name) {
+        OreDictionary.registerOre(name, item);
+
+        return register(item);
     }
 
     private static <T extends Item> T register(T item) {

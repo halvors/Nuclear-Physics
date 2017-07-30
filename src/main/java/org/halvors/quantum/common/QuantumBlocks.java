@@ -3,7 +3,7 @@ package org.halvors.quantum.common;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import org.halvors.quantum.common.block.BlockContainerQuantum;
+import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
 import org.halvors.quantum.common.block.BlockUraniumOre;
@@ -56,10 +56,10 @@ public class QuantumBlocks {
         register(blockMachineModel, new ItemBlockMetadata(blockMachineModel));
         register(blockSiren);
         register(blockThermometer, new ItemBlockThermometer(blockThermometer));
-        register(blockUraniumOre);
+        register(blockUraniumOre, "oreUranium");
         //register(blockPlasma);
         //QuantumFluids.plasma.setBlock(blockPlasma);
-        register(blockRadioactiveGrass);
+        register(blockRadioactiveGrass, "blockRadioactiveGrass");
         register(blockReactorCell);
 
         register(blockCreativeBuilder);
@@ -70,7 +70,7 @@ public class QuantumBlocks {
             GameRegistry.registerTileEntity(type.getTileClass(), name);
         }
 
-        for (EnumMachineModel type : BlockMachineModel.EnumMachineModel.values()) {
+        for (EnumMachineModel type : EnumMachineModel.values()) {
             String name = type.getTileClass().getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
 
             GameRegistry.registerTileEntity(type.getTileClass(), name);
@@ -85,17 +85,10 @@ public class QuantumBlocks {
         GameRegistry.registerTileEntity(TileReactorCell.class, "tile_reactor_cell");
     }
 
-    private static <T extends Block> T register(T block, ItemBlock itemBlock) {
-        GameRegistry.register(block);
-        GameRegistry.register(itemBlock);
+    private static <T extends Block> T register(T block, String name) {
+        OreDictionary.registerOre(name, block);
 
-        if (block instanceof BlockQuantum) {
-            ((BlockQuantum) block).registerItemModel(itemBlock);
-        } else if (block instanceof BlockContainerQuantum) {
-            ((BlockContainerQuantum) block).registerItemModel(itemBlock);
-        }
-
-        return block;
+        return register(block);
     }
 
     private static <T extends Block> T register(T block) {
@@ -103,5 +96,16 @@ public class QuantumBlocks {
         itemBlock.setRegistryName(block.getRegistryName());
 
         return register(block, itemBlock);
+    }
+
+    private static <T extends Block> T register(T block, ItemBlock itemBlock) {
+        GameRegistry.register(block);
+        GameRegistry.register(itemBlock);
+
+        if (block instanceof BlockQuantum) {
+            ((BlockQuantum) block).registerItemModel(itemBlock);
+        }
+
+        return block;
     }
 }
