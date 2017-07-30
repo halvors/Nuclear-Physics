@@ -1,15 +1,13 @@
 package org.halvors.quantum.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -50,17 +48,50 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
     /*
      * Takes an fluid container item and try to fill the tank, dropping the remains in the output slot.
      */
-    public void fillOrDrainTank(int containerInput, int containerOutput, IFluidTank tank) {
+    private void fillOrDrainTank(int containerInput, int containerOutput, IFluidHandler tank) {
         ItemStack inputStack = inventory.getStackInSlot(containerInput);
-        ItemStack outputStack = inventory.getStackInSlot(containerOutput);
+        IFluidHandler fluidHandler = FluidUtil.getFluidHandler(inputStack);
 
-        if (inputStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
-            IFluidHandler handler = inputStack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+        if (fluidHandler != null) {
+            ItemStack emptiedStack = FluidUtil.tryEmptyContainer(inputStack, tank, 200, null, false);
 
-            // TODO...
+            if (emptiedStack != null) {
+                if (emptiedStack.stackSize > 0) {
+                    ItemStack resultStack = inputStack.getItem().getContainerItem(inputStack);
+
+                    if (FluidUtil.tryEmptyContainer(inputStack, tank, 200, null, true) != null) {
+                        InventoryUtility.decrStackSize(inventory, containerInput);
+                        inventory.insertItem(containerOutput, resultStack, false);
+                    }
+                } else {
+                    ItemStack resultStack = FluidUtil.tryFillContainer(inputStack, tank, 200, null, true);
+
+                    if (resultStack != null) {
+                        InventoryUtility.decrStackSize(inventory, containerInput);
+                        inventory.insertItem(containerOutput, resultStack, false);
+                    }
+
+                    /*
+                    //FluidStack avaliable = tank.getFluid();
+
+                    //if (avaliable != null) {
+                        //ItemStack result = FluidContainerRegistry.fillFluidContainer(avaliable, inputStack);
+                        FluidStack filled = FluidContainerRegistry.getFluidForFilledItem(result);
+
+                        if (result != null && filled != null && (outputStack == null || result.isItemEqual(outputStack))) {
+                            FluidUtil.tryFillContainer()
+
+                            InventoryUtility.decrStackSize(inventory, containerInput);
+                            inventory.insertItem(containerOutput, result, false);
+                            tank.drain(filled.amount, true);
+                        }
+                    //}
+                    */
+                }
+            }
         }
 
-
+        /*
         if (FluidContainerRegistry.isFilledContainer(inputStack)) {
             FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(inputStack);
             ItemStack result = inputStack.getItem().getContainerItem(inputStack);
@@ -71,11 +102,17 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
                 InventoryUtility.decrStackSize(inventory, containerInput);
                 inventory.insertItem(containerOutput, result, false);
             }
-        } else if (FluidContainerRegistry.isEmptyContainer(inputStack)) {
+        }
+        */
+
+        /*
+        else if (FluidContainerRegistry.isEmptyContainer(inputStack)) {
             FluidStack avaliable = tank.getFluid();
 
             if (avaliable != null) {
-                ItemStack result = FluidContainerRegistry.fillFluidContainer(avaliable, inputStack);
+                ItemStack result = FluidUtil.tryFillContainer(inputStack, tank, 200, null, true);
+
+                //ItemStack result = FluidContainerRegistry.fillFluidContainer(avaliable, inputStack);
                 FluidStack filled = FluidContainerRegistry.getFluidForFilledItem(result);
 
                 if (result != null && filled != null && (outputStack == null || result.isItemEqual(outputStack))) {
@@ -85,6 +122,7 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
                 }
             }
         }
+        */
     }
 
     /*
