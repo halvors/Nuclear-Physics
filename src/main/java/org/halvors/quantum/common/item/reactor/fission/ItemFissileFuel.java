@@ -77,7 +77,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
                 FluidStack fluid = QuantumFluids.fluidStackToxicWaste.copy();
                 fluid.amount = 1;
 
-                reactor.getTank().fill(fluid, true);
+                reactor.getTank().fillInternal(fluid, true);
             }
         }
     }

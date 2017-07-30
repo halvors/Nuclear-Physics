@@ -6,6 +6,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -15,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
-import org.halvors.quantum.common.fluid.tank.FluidTankStrict;
+import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
@@ -41,7 +42,13 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     protected final int energyPerSteam = 52000;
     protected final int defaultTorque = 5000;
     protected int torque = defaultTorque;
-    private final FluidTankStrict tank = new FluidTankStrict(QuantumFluids.fluidStackSteam, Fluid.BUCKET_VOLUME * 100, true, false);
+
+    private final FluidTankQuantum tank = new FluidTankQuantum(QuantumFluids.fluidStackSteam, Fluid.BUCKET_VOLUME * 100) {
+        @Override
+        public boolean canFill() {
+            return false;
+        }
+    };
 
     // Radius of large turbine?
     public int multiBlockRadius = 1;
@@ -123,7 +130,9 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 rotation = (float) ((rotation + angularVelocity / 20) % (Math.PI * 2));
             }
         } else if (tank.getFluidAmount() > 0) {
-            getMultiBlock().get().tank.fill(tank.drain(getMultiBlock().get().tank.fill(tank.getFluid(), false), true), true);
+            int amount = getMultiBlock().get().tank.fillInternal(tank.getFluid(), false);
+
+            getMultiBlock().get().tank.fillInternal(tank.drainInternal(amount, true), true);
         }
 
         if (!world.isRemote) {
@@ -137,7 +146,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         multiBlockRadius = tag.getInteger("multiBlockRadius");
         getMultiBlock().load(tag);
-        tank.readFromNBT(tag);
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
     }
 
     @Override
@@ -146,7 +155,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         tag.setInteger("multiBlockRadius", multiBlockRadius);
         tag = getMultiBlock().save(tag);
-        tag = tank.writeToNBT(tag);
+        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }
@@ -250,17 +259,17 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+        return capability == CapabilityEnergy.ENERGY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            if (facing == EnumFacing.DOWN) {
-                return (T) getMultiBlock().get().tank;
-            }
+        if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP) {
+            return  (T) getMultiBlock().get().energyStorage;
+        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == EnumFacing.DOWN) {
+            return (T) getMultiBlock().get().tank;
         }
 
         return super.getCapability(capability, facing);

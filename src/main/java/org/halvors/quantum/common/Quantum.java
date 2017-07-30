@@ -21,6 +21,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
+import org.halvors.quantum.common.block.debug.schematic.SchematicAccelerator;
+import org.halvors.quantum.common.block.debug.schematic.SchematicBreedingReactor;
+import org.halvors.quantum.common.block.debug.schematic.SchematicFissionReactor;
+import org.halvors.quantum.common.block.debug.schematic.SchematicFusionReactor;
 import org.halvors.quantum.common.entity.EntityParticle;
 import org.halvors.quantum.common.event.ExplosionEventHandler;
 import org.halvors.quantum.common.event.PlayerEventHandler;
@@ -28,10 +32,6 @@ import org.halvors.quantum.common.event.ThermalEventHandler;
 import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.network.PacketHandler;
-import org.halvors.quantum.common.block.debug.schematic.SchematicAccelerator;
-import org.halvors.quantum.common.block.debug.schematic.SchematicBreedingReactor;
-import org.halvors.quantum.common.block.debug.schematic.SchematicFissionReactor;
-import org.halvors.quantum.common.block.debug.schematic.SchematicFusionReactor;
 import org.halvors.quantum.common.tile.particle.FulminationHandler;
 
 /**

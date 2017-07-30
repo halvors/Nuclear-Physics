@@ -1,44 +1,26 @@
 package org.halvors.quantum.common.tile.machine;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
-import org.halvors.quantum.common.fluid.tank.FluidTankInputOutput;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-
-public class TileChemicalExtractor extends TileProcess implements IFluidHandler {
+public class TileChemicalExtractor extends TileProcess {
     public static final int tickTime = 20 * 14;
     private static final int extractSpeed = 100;
     public static final int energy = 20000;
 
     public float rotation = 0;
-
-    private final FluidTankQuantum tankInput = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 10);
-    private final FluidTankQuantum tankOutput = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 10);
 
     private IItemHandler top = new RangedWrapper(inventory, 2, 3);
     private IItemHandler sides = new RangedWrapper(inventory, 0, 2);
@@ -52,7 +34,7 @@ public class TileChemicalExtractor extends TileProcess implements IFluidHandler 
                 markDirty();
             }
 
-            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
                 switch (slot) {
                     case 0: // Water input for machine.
                         // TODO: Fix this.
@@ -81,6 +63,9 @@ public class TileChemicalExtractor extends TileProcess implements IFluidHandler 
                 return super.insertItem(slot, stack, simulate);
             }
         };
+
+        tankInput = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 10);
+        tankOutput = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 10);
 
         inputSlot = 1;
         outputSlot = 2;
@@ -141,70 +126,6 @@ public class TileChemicalExtractor extends TileProcess implements IFluidHandler 
         }
     }
 
-    @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInput, null, tag.getTag("tankInput"));
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankOutput, null, tag.getTag("tankOutput"));
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag = super.writeToNBT(tag);
-
-        tag.setTag("tankInput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInput, null));
-        tag.setTag("tankOutput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));
-
-        return tag;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public void handlePacketData(ByteBuf dataStream) {
-        super.handlePacketData(dataStream);
-
-        if (world.isRemote) {
-            tankInput.handlePacketData(dataStream);
-            tankOutput.handlePacketData(dataStream);
-        }
-    }
-
-    @Override
-    public List<Object> getPacketData(List<Object> objects) {
-        super.getPacketData(objects);
-
-        objects.addAll(tankInput.getPacketData(objects));
-        objects.addAll(tankOutput.getPacketData(objects));
-
-        return objects;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public IFluidTankProperties[] getTankProperties() {
-        return new IFluidTankProperties[] { new FluidTankPropertiesWrapper(tankInput), new FluidTankPropertiesWrapper(tankOutput) };
-    }
-
-    @Override
-    public int fill(FluidStack resource, boolean doFill) {
-        return tankInput.fill(resource, doFill);
-    }
-
-    @Nullable
-    @Override
-    public FluidStack drain(FluidStack resource, boolean doDrain) {
-        return tankOutput.drain(resource.amount, doDrain);
-    }
-
-    @Nullable
-    @Override
-    public FluidStack drain(int maxDrain, boolean doDrain) {
-        return tankOutput.drain(maxDrain, doDrain);
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*
@@ -218,16 +139,6 @@ public class TileChemicalExtractor extends TileProcess implements IFluidHandler 
         return slot == 2;
     }
     */
-
-    //@Override
-    public FluidTank getInputTank() {
-        return tankInput;
-    }
-
-    //@Override
-    public FluidTank getOutputTank() {
-        return tankOutput;
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -314,9 +225,10 @@ public class TileChemicalExtractor extends TileProcess implements IFluidHandler 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /*
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
@@ -339,10 +251,9 @@ public class TileChemicalExtractor extends TileProcess implements IFluidHandler 
                     return (T) sides;
             }
 
-        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return (T) this;
         }
 
         return super.getCapability(capability, facing);
     }
+    */
 }

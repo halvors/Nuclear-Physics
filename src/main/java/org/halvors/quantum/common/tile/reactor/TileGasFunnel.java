@@ -9,12 +9,18 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.fluid.tank.GasTank;
 
 import javax.annotation.Nonnull;
 
 public class TileGasFunnel extends TileEntity implements ITickable {
-    private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16);
+    private final GasTank tank = new GasTank(QuantumFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 16) {
+        @Override
+        public boolean canFill() {
+            return false;
+        }
+    };
 
     public TileGasFunnel() {
 
@@ -25,16 +31,13 @@ public class TileGasFunnel extends TileEntity implements ITickable {
         if (tank.getFluidAmount() > 0) {
             TileEntity tile = world.getTileEntity(pos.up());
 
-            if (tile instanceof IFluidHandler) {
-                IFluidHandler handler = (IFluidHandler) tile;
+            if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+                IFluidHandler fluidHandler = getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN);
+                FluidStack fluidStack = tank.drain(tank.getCapacity(), false);
 
-                //if (handler.canFill(EnumFacing.DOWN, tank.getFluid().getFluid())) {
-                    FluidStack drainedStack = tank.drain(tank.getCapacity(), false);
-
-                    if (drainedStack != null) {
-                        tank.drain(handler.fill(drainedStack, true), true);
-                    }
-                //}
+                if (fluidStack != null) {
+                    tank.drain(fluidHandler.fill(fluidStack, true), true);
+                }
             }
         }
     }
@@ -43,14 +46,14 @@ public class TileGasFunnel extends TileEntity implements ITickable {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        tank.readFromNBT(tag);
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag = super.writeToNBT(tag);
 
-        tag = tank.writeToNBT(tag);
+        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }

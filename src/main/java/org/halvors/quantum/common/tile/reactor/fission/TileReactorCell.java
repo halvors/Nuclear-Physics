@@ -20,8 +20,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -37,7 +37,7 @@ import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumRea
 import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.event.PlasmaEvent;
-import org.halvors.quantum.common.fluid.tank.FluidTankStrict;
+import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
@@ -47,7 +47,6 @@ import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -58,8 +57,6 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
     public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;
     private final float mass = ThermalPhysics.getMass(1000, 7);
-
-    public final FluidTankStrict tank = new FluidTankStrict(Fluid.BUCKET_VOLUME * 15, true, true, QuantumFluids.stackPlasma, QuantumFluids.fluidStackToxicWaste);
 
     private float temperature = ThermalPhysics.roomTemperature; // Synced
     private float previousTemperature = temperature;
@@ -100,6 +97,26 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
         }
     };
 
+    private final FluidTankQuantum tank = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 15) {
+        @Override
+        public int fill(FluidStack resource, boolean doFill) {
+            if (resource.isFluidEqual(QuantumFluids.stackPlasma)) {
+                return super.fill(resource, doFill);
+            }
+
+            return 0;
+        }
+
+        @Override
+        public FluidStack drain(FluidStack resource, boolean doDrain) {
+            if (resource.isFluidEqual(QuantumFluids.fluidStackToxicWaste)) {
+                return super.drain(resource, doDrain);
+            }
+
+            return null;
+        }
+    };
+
     public TileReactorCell() {
 
     }
@@ -131,13 +148,13 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
 
             // Move fluid down into blocks below.
             if (tank.getFluidAmount() > 0) {
-                getMultiBlock().get().tank.fill(tank.drain(tank.getCapacity(), true), true);
+                getMultiBlock().get().tank.fillInternal(tank.drainInternal(tank.getCapacity(), true), true);
             }
         }
 
         if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().getFluid() == QuantumFluids.plasma) {
             // Spawn plasma.
-            FluidStack drain = tank.drain(Fluid.BUCKET_VOLUME, false);
+            FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
 
             if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
                 EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
@@ -148,7 +165,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
 
                 if (world.isAirBlock(pos)) {
                     MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, pos, TilePlasma.plasmaMaxTemperature));
-                    tank.drain(Fluid.BUCKET_VOLUME, true);
+                    tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                 }
             }
         } else {
@@ -250,11 +267,11 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
 
                 if (block == Blocks.GRASS) {
                     world.setBlockState(leakPos, QuantumBlocks.blockRadioactiveGrass.getDefaultState());
-                    tank.drain(Fluid.BUCKET_VOLUME, true);
+                    tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                 } else if (block == Blocks.AIR || block.isReplaceable(world, leakPos)) {
                     if (tank.getFluid() != null) {
                         world.setBlockState(leakPos, tank.getFluid().getFluid().getBlock().getDefaultState());
-                        tank.drain(Fluid.BUCKET_VOLUME, true);
+                        tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                     }
                 }
             }
@@ -300,6 +317,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
         }
 
         CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag("Slots"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
     }
 
     @Override
@@ -310,6 +328,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
         tag = getMultiBlock().save(tag);
         tag = tank.writeToNBT(tag);
         tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
+        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }
@@ -394,7 +413,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
     }
 
     @Override
-    public IFluidHandler getTank() {
+    public FluidTank getTank() {
         return tank;
     }
 

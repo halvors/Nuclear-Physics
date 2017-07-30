@@ -49,13 +49,13 @@ public class GuiChemicalExtractor extends GuiContainerBase {
         }
 
         if (isPointInRegion(134, 49, 18, 18, mouseX, mouseY)) {
-            if (tile.inventory.getStackInSlot(4) == null) {
+            if (tile.getInventory().getStackInSlot(4) == null) {
                 // drawTooltip(x - guiLeft, y - guiTop + 10, "Place empty cells.");
             }
         }
 
         if (isPointInRegion(52, 24, 18, 18, mouseX, mouseY)) {
-            if (tile.getOutputTank().getFluidAmount() > 0 && tile.inventory.getStackInSlot(3) == null) {
+            if (tile.getOutputTank().getFluidAmount() > 0 && tile.getInventory().getStackInSlot(3) == null) {
                 drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "Input slot");
             }
         }

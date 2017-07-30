@@ -4,7 +4,6 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
-import org.halvors.quantum.common.block.machine.BlockMachine;
 import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.LanguageUtility;
@@ -43,8 +42,8 @@ public class GuiReactorCell extends GuiContainerBase {
         }
 
         if (isPointInRegion(80, 40, meterWidth, meterHeight, x, y)) {
-            if (tile.tank.getFluid() != null) {
-                drawTooltip(x - guiLeft, y - guiTop + 10, tile.tank.getFluid().getLocalizedName(), UnitDisplay.getDisplay(tile.tank.getFluidAmount(), Unit.LITER));
+            if (tile.getTank().getFluid() != null) {
+                drawTooltip(x - guiLeft, y - guiTop + 10, tile.getTank().getFluid().getLocalizedName(), UnitDisplay.getDisplay(tile.getTank().getFluidAmount(), Unit.LITER));
             } else {
                 drawTooltip(x - guiLeft, y - guiTop + 10, "No Fluid");
             }
@@ -63,7 +62,7 @@ public class GuiReactorCell extends GuiContainerBase {
         super.drawGuiContainerBackgroundLayer(par1, x, y);
 
         drawSlot(78, 16);
-        drawMeter(80, 36, tile.tank.getFluidAmount() / tile.tank.getCapacity(), tile.tank.getFluid());
+        drawMeter(80, 36, tile.getTank().getFluidAmount() / tile.getTank().getCapacity(), tile.getTank().getFluid());
 
         if (tile.getInventory().getStackInSlot(0) != null) {
             // Progress bar of temperature inside of reactor.

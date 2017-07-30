@@ -19,7 +19,8 @@ import java.util.List;
 public class TileMachine extends TileConsumer implements ITileNetwork {
     // How many ticks has this item been processed for?
     public int timer = 0; // Synced
-    public IItemHandlerModifiable inventory;
+
+    protected IItemHandlerModifiable inventory;
 
     public TileMachine() {
 

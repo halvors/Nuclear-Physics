@@ -38,6 +38,7 @@ public class BlockMachineModel extends BlockInventory {
         super("machine_model", Material.IRON);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @Nonnull
     @SideOnly(Side.CLIENT)

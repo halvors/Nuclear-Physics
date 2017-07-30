@@ -9,13 +9,14 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
-import org.halvors.quantum.common.fluid.tank.FluidTankStrict;
+import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 
@@ -26,7 +27,21 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 
-    public final FluidTankStrict tank = new FluidTankStrict(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5, true, false); // Synced
+    private final FluidTankQuantum tank = new FluidTankQuantum(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
+        @Override
+        public int fill(FluidStack resource, boolean doFill) {
+            if (resource.isFluidEqual(QuantumFluids.fluidStackUraniumHexaflouride)) {
+                return super.fill(resource, doFill);
+            }
+
+            return 0;
+        }
+
+        @Override
+        public boolean canDrain() {
+            return false;
+        }
+    };
 
     public float rotation = 0;
 
@@ -39,7 +54,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
                 markDirty();
             }
 
-            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
                 switch (slot) {
                     case 0:
                         // TODO: Implement this.
@@ -171,6 +186,10 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
         return objects;
     }
 
+    public IFluidTank getTank() {
+        return tank;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*
@@ -214,7 +233,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
 
     public void doProcess() {
         if (canProcess()) {
-            tank.drain(ConfigurationManager.General.uraniumHexaflourideRatio, true);
+            tank.drainInternal(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 
             if (world.rand.nextFloat() > 0.6) {
                 // TODO: setCount() for 1.12

@@ -34,7 +34,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
                 markDirty();
             }
 
-            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
                 return slot == 6 || itemStack.getItem() == QuantumItems.itemDarkMatterCell;
             }
 

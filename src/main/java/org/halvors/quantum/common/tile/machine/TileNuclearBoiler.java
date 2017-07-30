@@ -1,33 +1,22 @@
 package org.halvors.quantum.common.tile.machine;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
-import org.halvors.quantum.common.fluid.tank.FluidTankInputOutputStrict;
+import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.OreDictionaryUtility;
 
-import javax.annotation.Nonnull;
-import java.util.List;
-
 public class TileNuclearBoiler extends TileProcess {
     public static final int tickTime = 20 * 15;
     public static final int energy = 21000;
-
-    public final FluidTankInputOutputStrict tank = new FluidTankInputOutputStrict(new FluidTank(QuantumFluids.fluidStackWater.copy(), Fluid.BUCKET_VOLUME * 5), new FluidTank(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5));
 
     public float rotation = 0;
 
@@ -40,7 +29,7 @@ public class TileNuclearBoiler extends TileProcess {
                 markDirty();
             }
 
-            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
                 switch (slot) {
                     case 1:
                         return OreDictionaryUtility.isWaterCell(itemStack);
@@ -59,6 +48,38 @@ public class TileNuclearBoiler extends TileProcess {
                 }
 
                 return super.insertItem(slot, stack, simulate);
+            }
+        };
+
+        tankInput = new FluidTankQuantum(QuantumFluids.fluidStackWater.copy(),Fluid.BUCKET_VOLUME * 5) {
+            @Override
+            public int fill(FluidStack resource, boolean doFill) {
+                if (resource.isFluidEqual(QuantumFluids.fluidStackWater)) {
+                    return super.fill(resource, doFill);
+                }
+
+                return 0;
+            }
+
+            @Override
+            public boolean canDrain() {
+                return false;
+            }
+        };
+
+        tankOutput = new FluidTankQuantum(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
+            @Override
+            public boolean canFill() {
+                return false;
+            }
+
+            @Override
+            public FluidStack drain(FluidStack resource, boolean doDrain) {
+                if (resource.isFluidEqual(QuantumFluids.fluidStackUraniumHexaflouride)) {
+                    return drain(resource.amount, doDrain);
+                }
+
+                return null;
             }
         };
 
@@ -94,7 +115,7 @@ public class TileNuclearBoiler extends TileProcess {
                                 setInventorySlotContents(1, resultingContainer);
                             }
 
-                            waterTank.fill(liquid, true);
+                            tankInput.fillInternal(liquid, true);
                         }
                     }
                 }
@@ -137,54 +158,6 @@ public class TileNuclearBoiler extends TileProcess {
         }
     }
 
-    @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-
-        tank.readFromNBT(tag);
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag = super.writeToNBT(tag);
-
-        tag = tank.writeToNBT(tag);
-
-        return tag;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public void handlePacketData(ByteBuf dataStream) {
-        super.handlePacketData(dataStream);
-
-        if (world.isRemote) {
-            tank.handlePacketData(dataStream);
-        }
-    }
-
-    @Override
-    public List<Object> getPacketData(List<Object> objects) {
-        super.getPacketData(objects);
-
-        objects.addAll(tank.getPacketData(objects));
-
-        return objects;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public FluidTank getInputTank() {
-        return tank.getInputTank();
-    }
-
-    @Override
-    public FluidTank getOutputTank() {
-        return tank.getOutputTank();
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*
@@ -203,7 +176,7 @@ public class TileNuclearBoiler extends TileProcess {
 
     // Check all conditions and see if we can start smelting
     public boolean canProcess() {
-        FluidStack inputFluidStack = tank.getInputTank().getFluid();
+        FluidStack inputFluidStack = tankInput.getFluid();
 
         if (inputFluidStack != null) {
             if (inputFluidStack.amount >= Fluid.BUCKET_VOLUME) {
@@ -211,9 +184,9 @@ public class TileNuclearBoiler extends TileProcess {
 
                 if (itemStack != null) {
                     if (itemStack.getItem() == QuantumItems.itemYellowCake || OreDictionaryUtility.isUraniumOre(itemStack)) {
-                        FluidStack outputFluidStack = tank.getOutputTank().getFluid();
+                        FluidStack outputFluidStack = tankOutput.getFluid();
 
-                        if (outputFluidStack != null && outputFluidStack.amount < tank.getOutputTank().getCapacity()) {
+                        if (outputFluidStack != null && outputFluidStack.amount < tankOutput.getCapacity()) {
                             return true;
                         }
                     }
@@ -227,29 +200,11 @@ public class TileNuclearBoiler extends TileProcess {
     // Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack.
     public void doProcess() {
         if (canProcess()) {
-            tank.getInputTank().drain(Fluid.BUCKET_VOLUME, true);
+            tankInput.drainInternal(Fluid.BUCKET_VOLUME, true);
             FluidStack liquid = QuantumFluids.fluidStackUraniumHexaflouride.copy();
             liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
-            tank.getOutputTank().fill(liquid, true);
+            tankOutput.fillInternal(liquid, true);
             InventoryUtility.decrStackSize(inventory, 1);
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return (T) tank;
-        }
-
-        return super.getCapability(capability, facing);
     }
 }

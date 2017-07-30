@@ -1,7 +1,7 @@
 package org.halvors.quantum.api.tile;
 
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.FluidTank;
 
 public interface IReactor {
     void heat(long energy);
@@ -10,7 +10,7 @@ public interface IReactor {
 
     boolean isOverToxic();
 
-    IFluidHandler getTank();
+    FluidTank getTank();
 
     World getWorld();
 }

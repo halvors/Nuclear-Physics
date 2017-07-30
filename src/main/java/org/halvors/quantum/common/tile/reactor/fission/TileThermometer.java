@@ -11,7 +11,6 @@ import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 import java.util.List;
 
