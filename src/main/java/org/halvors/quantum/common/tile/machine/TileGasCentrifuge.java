@@ -181,7 +181,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
-        objects.addAll(tank.getPacketData(objects));
+        tank.getPacketData(objects);
 
         return objects;
     }

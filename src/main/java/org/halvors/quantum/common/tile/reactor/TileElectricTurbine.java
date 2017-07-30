@@ -238,7 +238,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public List<Object> getPacketData(List<Object> objects) {
         objects.add(tier);
         objects.add(angularVelocity);
-        objects.addAll(tank.getPacketData(objects));
+        tank.getPacketData(objects);
 
         return objects;
     }

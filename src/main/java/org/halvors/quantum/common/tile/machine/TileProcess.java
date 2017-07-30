@@ -138,8 +138,8 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
     public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
-        objects.addAll(tankInput.getPacketData(objects));
-        objects.addAll(tankOutput.getPacketData(objects));
+        tankInput.getPacketData(objects);
+        tankOutput.getPacketData(objects);
 
         return objects;
     }

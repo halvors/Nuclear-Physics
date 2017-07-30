@@ -78,7 +78,7 @@ public class TileChemicalExtractor extends TileProcess {
 
     @Override
     public void update() {
-        //super.update();
+        super.update();
 
         if (timer > 0) {
             rotation += 0.2;
@@ -142,18 +142,18 @@ public class TileChemicalExtractor extends TileProcess {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public boolean canProcess() {;
+    public boolean canProcess() {
         FluidStack inputFluidStack = tankInput.getFluid();
 
         if (inputFluidStack != null) {
-            if (inputFluidStack.amount >= Fluid.BUCKET_VOLUME && OreDictionaryUtility.isUraniumOre(inventory.getStackInSlot(1))) { // inputSlot
-                //if (isItemValidForSlot(outputSlot, new ItemStack(QuantumItems.itemYellowCake))) {
+            if (inputFluidStack.amount >= Fluid.BUCKET_VOLUME && OreDictionaryUtility.isUraniumOre(inventory.getStackInSlot(inputSlot))) {
+                //if (isItemValidForSlot(outputSlot, new ItemStack(QuantumItems.itemYellowCake))) {;
                     return true;
                 //}
             }
 
-            if (tankInput.getFluidAmount() < tankInput.getCapacity()) {
-                FluidStack outputFluidStack = tankInput.getFluid();
+            if (tankOutput.getFluidAmount() < tankOutput.getCapacity()) {
+                FluidStack outputFluidStack = tankOutput.getFluid();
 
                 if (inputFluidStack.isFluidEqual(QuantumFluids.fluidStackDeuterium) && inputFluidStack.amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
                     if (outputFluidStack == null || outputFluidStack.getFluid() == QuantumFluids.gasTritium) {
@@ -195,8 +195,8 @@ public class TileChemicalExtractor extends TileProcess {
             FluidStack drain = tankInput.drain(waterUsage * extractSpeed, false);
 
             if (drain != null && drain.amount >= 1 && drain.getFluid() == FluidRegistry.WATER) {
-                if (tankOutput.fill(new FluidStack(QuantumFluids.gasDeuterium, extractSpeed), true) >= extractSpeed) {
-                    tankInput.drain(waterUsage * extractSpeed, true);
+                if (tankOutput.fillInternal(new FluidStack(QuantumFluids.gasDeuterium, extractSpeed), true) >= extractSpeed) {
+                    tankInput.drainInternal(waterUsage * extractSpeed, true);
 
                     return true;
                 }

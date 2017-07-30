@@ -392,7 +392,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
     @Override
     public List<Object> getPacketData(List<Object> objects) {
         objects.add(temperature);
-        objects.addAll(tank.getPacketData(objects));
+        tank.getPacketData(objects);
 
         return objects;
     }

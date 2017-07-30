@@ -100,9 +100,9 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
-        objects.addAll(tankInputDeuterium.getPacketData(objects));
-        objects.addAll(tankInputTritium.getPacketData(objects));
-        objects.addAll(tankOutput.getPacketData(objects));
+        tankInputDeuterium.getPacketData(objects);
+        tankInputTritium.getPacketData(objects);
+        tankOutput.getPacketData(objects);
 
         return objects;
     }
