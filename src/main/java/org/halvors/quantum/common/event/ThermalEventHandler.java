@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.QuantumBlocks;
+import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.quantum.common.grid.IUpdate;
 import org.halvors.quantum.common.grid.UpdateTicker;
@@ -79,7 +80,7 @@ public class ThermalEventHandler {
             }
         }
 
-        world.setBlockState(pos, QuantumBlocks.blockPlasma.getDefaultState());
+        world.setBlockState(pos, QuantumFluids.plasma.getBlock().getDefaultState());
 
         TileEntity tile = world.getTileEntity(pos);
 
