@@ -2,14 +2,17 @@ package org.halvors.quantum.common.utility;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 public class InventoryUtility {
-    public static void incrStackSize(IItemHandler itemHandler, int slot) {
+    public static void incrStackSize(IItemHandlerModifiable itemHandler, int slot) {
         ItemStack itemStack = itemHandler.getStackInSlot(slot);
 
         if (itemStack != null) {
@@ -20,14 +23,14 @@ public class InventoryUtility {
         }
     }
 
-    public static void decrStackSize(IItemHandler itemHandler, int slot) {
+    public static void decrStackSize(IItemHandlerModifiable itemHandler, int slot) {
         ItemStack itemStack = itemHandler.getStackInSlot(slot);
 
         if (itemStack != null) {
-            ItemStack newItemStack = itemStack.copy();
-            newItemStack.stackSize--;
+            itemHandler.extractItem(slot, 1, false);
 
-            itemHandler.insertItem(slot, newItemStack, false);
+            //itemHandler.setStackInSlot(slot, newItemStack);
+            //itemHandler.insertItem(slot, newItemStack, false);
         }
     }
 
