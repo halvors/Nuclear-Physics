@@ -12,6 +12,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.utility.InventoryUtility;
 
@@ -53,41 +54,40 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
         IFluidHandler fluidHandler = FluidUtil.getFluidHandler(inputStack);
 
         if (fluidHandler != null) {
-            ItemStack emptiedStack = FluidUtil.tryEmptyContainer(inputStack, tank, 200, null, false);
+            //ItemStack emptiedStack = FluidUtil.tryEmptyContainer(inputStack, tank, Integer.MAX_VALUE, null, false);
+            FluidStack stack = FluidUtil.getFluidContained(inputStack);
 
-            if (emptiedStack != null) {
-                if (emptiedStack.stackSize > 0) {
+            if (stack != null && stack.amount > 0) {
+                if (FluidUtil.tryEmptyContainer(inputStack, tank, 200, null, true) != null) {
                     ItemStack resultStack = inputStack.getItem().getContainerItem(inputStack);
 
-                    if (FluidUtil.tryEmptyContainer(inputStack, tank, 200, null, true) != null) {
-                        InventoryUtility.decrStackSize(inventory, containerInput);
-                        inventory.insertItem(containerOutput, resultStack, false);
-                    }
-                } else {
-                    ItemStack resultStack = FluidUtil.tryFillContainer(inputStack, tank, 200, null, true);
-
-                    if (resultStack != null) {
-                        InventoryUtility.decrStackSize(inventory, containerInput);
-                        inventory.insertItem(containerOutput, resultStack, false);
-                    }
-
-                    /*
-                    //FluidStack avaliable = tank.getFluid();
-
-                    //if (avaliable != null) {
-                        //ItemStack result = FluidContainerRegistry.fillFluidContainer(avaliable, inputStack);
-                        FluidStack filled = FluidContainerRegistry.getFluidForFilledItem(result);
-
-                        if (result != null && filled != null && (outputStack == null || result.isItemEqual(outputStack))) {
-                            FluidUtil.tryFillContainer()
-
-                            InventoryUtility.decrStackSize(inventory, containerInput);
-                            inventory.insertItem(containerOutput, result, false);
-                            tank.drain(filled.amount, true);
-                        }
-                    //}
-                    */
+                    InventoryUtility.decrStackSize(inventory, containerInput);
+                    inventory.insertItem(containerOutput, resultStack, false);
                 }
+            } else {
+                ItemStack resultStack = FluidUtil.tryFillContainer(inputStack, tank, 200, null, true);
+
+                if (resultStack != null) {
+                    InventoryUtility.decrStackSize(inventory, containerInput);
+                    inventory.insertItem(containerOutput, resultStack, false);
+                }
+
+                /*
+                //FluidStack avaliable = tank.getFluid();
+
+                //if (avaliable != null) {
+                    //ItemStack result = FluidContainerRegistry.fillFluidContainer(avaliable, inputStack);
+                    FluidStack filled = FluidContainerRegistry.getFluidForFilledItem(result);
+
+                    if (result != null && filled != null && (outputStack == null || result.isItemEqual(outputStack))) {
+                        FluidUtil.tryFillContainer()
+
+                        InventoryUtility.decrStackSize(inventory, containerInput);
+                        inventory.insertItem(containerOutput, result, false);
+                        tank.drain(filled.amount, true);
+                    }
+                //}
+                */
             }
         }
 

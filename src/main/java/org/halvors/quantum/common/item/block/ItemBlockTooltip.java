@@ -37,5 +37,4 @@ public class ItemBlockTooltip extends ItemBlockQuantum {
             list.add(LanguageUtility.localize("info.recipes.tooltip").replace("%0", Color.AQUA.toString()).replace("%1", Color.GREY.toString()));
         }
     }
-
 }

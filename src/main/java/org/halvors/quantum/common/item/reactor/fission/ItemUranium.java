@@ -38,10 +38,9 @@ public class ItemUranium extends ItemRadioactive {
         list.add(LanguageUtility.localize(getUnlocalizedName(itemStack) + ".tooltip"));
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, List list) {
+    public void getSubItems(Item item, CreativeTabs tabs, List<ItemStack> list) {
         for (EnumUranium type : EnumUranium.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }

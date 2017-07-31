@@ -4,6 +4,7 @@
 itemGroup.quantum=Quantum
 
 // Fluids.
+fluid.empty=Empty
 fluid.deuterium=Deuterium
 fluid.uranium_hexafluoride=Uranium Hexafluoride
 fluid.plasma=Plasma
@@ -59,10 +60,7 @@ tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
 // Items.
 // Cells.
-item.empty_cell.0.name=Empty Cell
-item.water_cell.0.name=Water Cell
-item.deuterium_cell.0.name=Deuterium Cell
-item.tritium_cell.0.name=Tritium Cell
+item.cell.name=Cell
 item.darkmatter_cell.0.name=Dark Matter
 item.antimatter_cell.0.name=Antimatter
 item.antimatter_cell.0.tooltip=125 Milligrams

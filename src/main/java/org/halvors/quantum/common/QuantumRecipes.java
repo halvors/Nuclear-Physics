@@ -27,7 +27,7 @@ public class QuantumRecipes {
         GameRegistry.addRecipe(new ShapedOreRecipe(QuantumItems.itemFissileFuel, "CUC", "CUC", "CUC", 'U', "ingotUranium", 'C', "cellEmpty"));
 
         // Water Cell
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(QuantumItems.itemWaterCell), "cellEmpty", Items.WATER_BUCKET));
+        //GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(QuantumItems.itemWaterCell), "cellEmpty", Items.WATER_BUCKET));
 
         // Hazmat
         //GameRegistry.addRecipe(new ShapedOreRecipe(itemHazmatMask, "SSS", "BAB", "SCS", 'A', Items.leather_helmet, 'C', UniversalRecipe.CIRCUIT_T1.get(Settings.allowAlternateRecipes), 'S', Blocks.cloth }));

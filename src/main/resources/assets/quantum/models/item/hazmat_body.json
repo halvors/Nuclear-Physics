@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "quantum:items/hazmatBody"
+    "layer0": "quantum:items/hazmat_body"
   }
 }

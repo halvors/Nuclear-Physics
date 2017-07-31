@@ -15,7 +15,6 @@ import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.entity.EntityParticle;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell;
-import org.halvors.quantum.common.item.particle.ItemDarkmatterCell;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.machine.TileMachine;
 import org.halvors.quantum.common.utility.InventoryUtility;
@@ -70,7 +69,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
                         return itemStack.getItem() instanceof ItemAntimatterCell;
 
                     case 3:
-                        return itemStack.getItem() instanceof ItemDarkmatterCell;
+                        return OreDictionaryHelper.isDarkmatterCell(itemStack);
                 }
 
                 return false;

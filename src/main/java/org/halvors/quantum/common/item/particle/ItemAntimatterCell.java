@@ -8,12 +8,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.item.ItemCell;
+import org.halvors.quantum.common.item.ItemMetadata;
 import org.halvors.quantum.common.utility.LanguageUtility;
 
 import java.util.List;
 
-public class ItemAntimatterCell extends ItemCell {
+public class ItemAntimatterCell extends ItemMetadata {
     public ItemAntimatterCell() {
         super("antimatter_cell");
 
@@ -39,10 +39,9 @@ public class ItemAntimatterCell extends ItemCell {
         list.add(LanguageUtility.localize(getUnlocalizedName(itemStack) + ".tooltip"));
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, List list) {
+    public void getSubItems(Item item, CreativeTabs tabs, List<ItemStack> list) {
         for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }

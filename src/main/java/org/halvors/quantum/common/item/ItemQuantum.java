@@ -12,7 +12,7 @@ import org.halvors.quantum.common.Reference;
 public class ItemQuantum extends Item {
 	protected final String name;
 
-	protected ItemQuantum(String name) {
+	public ItemQuantum(String name) {
 		this.name = name;
 
 		setUnlocalizedName(name);

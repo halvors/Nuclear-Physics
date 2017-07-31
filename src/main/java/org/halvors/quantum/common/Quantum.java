@@ -31,6 +31,7 @@ import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.event.ThermalEventHandler;
 import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
+import org.halvors.quantum.common.item.ItemCell.EnumCell;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell.EnumAntimatterCell;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.quantum.common.network.PacketHandler;
@@ -121,12 +122,6 @@ public class Quantum {
 		if (ConfigurationManager.General.allowOreDictionaryCompatibility) {
 
 		}
-
-		OreDictionary.registerOre("ingotUranium", QuantumItems.itemUranium);
-		OreDictionary.registerOre("itemUranium", new ItemStack(QuantumItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()));
-
-		OreDictionary.registerOre("antimatterMilligram", new ItemStack(QuantumItems.itemAntimatterCell, 1, EnumAntimatterCell.MILLIGRAM.ordinal()));
-		OreDictionary.registerOre("antimatterGram", new ItemStack(QuantumItems.itemAntimatterCell, 1, EnumAntimatterCell.GRAM.ordinal()));
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, (tickets, world) -> {
             for (Ticket ticket : tickets) {

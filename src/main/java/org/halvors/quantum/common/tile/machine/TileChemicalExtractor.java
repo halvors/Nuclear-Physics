@@ -64,11 +64,15 @@ public class TileChemicalExtractor extends TileProcess {
                     case 1: // Item input slot.
                         return OreDictionaryHelper.isUraniumOre(itemStack);
 
-                    case 3: // Input tank slot.
+                    case 3: // Input tank fill slot.
+                    case 4: // Input tank drain slot.
                         return OreDictionaryHelper.isEmptyCell(itemStack) || OreDictionaryHelper.isWaterCell(itemStack) || OreDictionaryHelper.isDeuteriumCell(itemStack);
 
-                    case 5: // Output tank slot.
+                    case 5: // Output tank fill slot.
                         return OreDictionaryHelper.isEmptyCell(itemStack);
+
+                    case 6: // Output tank drain slot.
+                        return OreDictionaryHelper.isWaterCell(itemStack) || OreDictionaryHelper.isDeuteriumCell(itemStack);
                 }
 
                 return false;

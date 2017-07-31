@@ -6,10 +6,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.halvors.quantum.common.QuantumItems;
+import org.halvors.quantum.common.item.ItemCell;
 
 /**
  * Fluid interactions.
@@ -17,6 +21,20 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
  * @author DarkCow, Calclavia
  */
 public class FluidUtility {
+    public static ItemStack getFilledCell(Fluid fluid) {
+        return getFilledContainer(new ItemStack(QuantumItems.itemCell), new FluidStack(fluid, ItemCell.capacity));
+    }
+
+    public static ItemStack getFilledContainer(ItemStack stack, FluidStack fluidStack) {
+        IFluidHandler fluidHandler = FluidUtil.getFluidHandler(stack);
+
+        if (fluidHandler != null) {
+            fluidHandler.fill(fluidStack, true);
+        }
+
+        return stack;
+    }
+
     // Does all the work needed to fill or drain an item of fluid when a player clicks on the block.
     public static boolean playerActivatedFluidItem(World world, BlockPos pos, EntityPlayer entityplayer, EnumFacing side) {
         TileEntity tile = world.getTileEntity(pos);
