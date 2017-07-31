@@ -103,17 +103,13 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
                         if (lastSpawnTick >= 40) {
-                            Vector3 spawnAcceleratedParticle = new Vector3(this);
-                            spawnAcceleratedParticle.translate(facing.getOpposite());
-                            spawnAcceleratedParticle.translate(0.5F);
-
-                            BlockPos spawnAcceleratedParticlePos = new BlockPos(spawnAcceleratedParticle.getX(), spawnAcceleratedParticle.getY(), spawnAcceleratedParticle.getZ());
+                            BlockPos spawnAcceleratedParticlePos = pos.offset(facing.getOpposite());
 
                             // Only render the particle if container within the proper environment for it.
                             if (EntityParticle.canSpawnParticle(world, spawnAcceleratedParticlePos)) {
                                 // Spawn the particle.
                                 totalEnergyConsumed = 0;
-                                entityParticle = new EntityParticle(world, spawnAcceleratedParticle, new Vector3(this), facing.getOpposite());
+                                entityParticle = new EntityParticle(world, spawnAcceleratedParticlePos, pos, facing.getOpposite());
                                 world.spawnEntity(entityParticle);
 
                                 // Grabs input block hardness if available, otherwise defaults are used.

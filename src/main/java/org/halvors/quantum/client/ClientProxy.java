@@ -68,6 +68,9 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	    // Register our domain to OBJLoader.
 		OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
 		//OBJModelContainer.init();
+
+		// Register entity renderer.
+		RenderingRegistry.registerEntityRenderingHandler(EntityParticle.class, RenderParticle::new);
 	}
 
 	@Override
@@ -80,9 +83,6 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
         ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
-
-        // Register entity renderer.
-		RenderingRegistry.registerEntityRenderingHandler(EntityParticle.class, RenderParticle::new);
 	}
 
 	@Override

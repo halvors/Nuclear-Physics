@@ -1,10 +1,8 @@
 package org.halvors.quantum.common.entity;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -20,10 +18,9 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.block.machine.BlockMachine;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.location.Position;
 
 import java.util.List;
 
@@ -35,8 +32,6 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     public ForgeChunkManager.Ticket updateTicket;
     public boolean didParticleCollide = false;
     private int lastTurn = 60;
-    private Vector3 movementVector = new Vector3();
-    //private EnumFacing movementDirection = EnumFacing.NORTH;
 
     private BlockPos movementPos;
     private EnumFacing movementDirection;
@@ -50,13 +45,13 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         setSize(0.3F, 0.3F);
     }
 
-    public EntityParticle(World world, Vector3 position, Vector3 movementVector, EnumFacing movementDirection) {
+    public EntityParticle(World world, BlockPos pos, BlockPos movementPos, EnumFacing movementDirection) {
         this(world);
 
-        this.movementVector = movementVector;
+        this.movementPos = movementPos;
         this.movementDirection = movementDirection;
 
-        setPosition(position.x, position.y, position.z);
+        setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
     }
 
     /**
@@ -89,10 +84,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
      * @return true if the location contains an active electromagnet block
      */
     public static boolean isElectromagnet(World world, BlockPos pos, EnumFacing direction) {
-        Vector3 vector = new Vector3(pos.getX(), pos.getY(), pos.getZ()).clone().translate(direction);
-        BlockPos checkPos = new BlockPos(vector.getX(), vector.getY(), vector.getZ());
-
-        //BlockPos checkPos = pos.offset(direction);
+        BlockPos checkPos = pos.offset(direction);
         TileEntity tile = world.getTileEntity(checkPos);
 
         return tile instanceof IElectromagnet && ((IElectromagnet) tile).isRunning();
@@ -100,21 +92,21 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     @Override
     public void writeSpawnData(ByteBuf data) {
-        data.writeInt(movementVector.intX());
-        data.writeInt(movementVector.intY());
-        data.writeInt(movementVector.intZ());
+        data.writeInt(movementPos.getX());
+        data.writeInt(movementPos.getY());
+        data.writeInt(movementPos.getZ());
         data.writeInt(movementDirection.ordinal());
     }
 
     @Override
     public void readSpawnData(ByteBuf data) {
-        movementVector = new Vector3(data.readInt(), data.readInt(), data.readInt());
+        movementPos = new BlockPos(data.readInt(), data.readInt(), data.readInt());
         movementDirection = EnumFacing.getFront(data.readInt());
     }
 
     @Override
     public void onUpdate() {
-        TileEntity tile = world.getTileEntity(new BlockPos(movementVector.intX(), movementVector.intY(), movementVector.intZ()));
+        TileEntity tile = world.getTileEntity(movementPos);
 
         if (tile instanceof TileAccelerator) {
             TileAccelerator tileAccelerator = (TileAccelerator) tile;
@@ -164,12 +156,12 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 return;
             }
 
-            Vector3 dongLi = new Vector3();
-            dongLi.translate(movementDirection);
-            dongLi.scale(acceleration);
-            motionX = Math.min(dongLi.x + motionX, antimatterCreationSpeed);
-            motionY = Math.min(dongLi.y + motionY, antimatterCreationSpeed);
-            motionZ = Math.min(dongLi.z + motionZ, antimatterCreationSpeed);
+            Position accelerationPos = new Position(new BlockPos(0, 0, 0).offset(movementDirection));
+            accelerationPos.scale(acceleration);
+
+            motionX = Math.min(accelerationPos.getX() + motionX, antimatterCreationSpeed);
+            motionY = Math.min(accelerationPos.getY() + motionY, antimatterCreationSpeed);
+            motionZ = Math.min(accelerationPos.getZ() + motionZ, antimatterCreationSpeed);
             isAirBorne = true;
 
             lastTickPosX = posX;
@@ -212,13 +204,15 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     @Override
     protected void readEntityFromNBT(NBTTagCompound tag) {
-        movementVector = new Vector3(tag.getCompoundTag("vector"));
+        movementPos = new BlockPos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z"));
         movementDirection = EnumFacing.getFront(tag.getByte("direction"));
     }
 
     @Override
     protected void writeEntityToNBT(NBTTagCompound tag) {
-        tag.setTag("vector", movementVector.writeToNBT(new NBTTagCompound()));
+        tag.setInteger("x", movementPos.getX());
+        tag.setInteger("y", movementPos.getY());
+        tag.setInteger("z", movementPos.getZ());
         tag.setByte("direction", (byte) movementDirection.ordinal());
     }
 
@@ -242,17 +236,18 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     private double turn() {
         // TODO: Rewrite to allow for up and down turning
         int[][] RELATIVE_MATRIX = new int[][] { new int[] { 3, 2, 1, 0, 5, 4 }, new int[] { 4, 5, 0, 1, 2, 3}, new int[] { 0, 1, 3, 2, 4, 5 }, new int[] { 0, 1, 2, 3, 5, 4}, new int[] { 0, 1, 5, 4, 3, 2 }, new int[] { 0, 1, 4, 5, 2, 3 } };
-        EnumFacing zuoFangXiang = EnumFacing.getFront(RELATIVE_MATRIX[movementDirection.ordinal()][EnumFacing.EAST.ordinal()]);
-        Vector3 zuoBian = new Vector3(this).floor();
-        zuoBian.translate(zuoFangXiang);
-        EnumFacing youFangXiang = EnumFacing.getFront(RELATIVE_MATRIX[movementDirection.ordinal()][EnumFacing.WEST.ordinal()]);
-        Vector3 youBian = new Vector3(this).floor();
-        youBian.translate(youFangXiang);
 
-        if (zuoBian.getBlock(world) == Blocks.AIR) {
-            movementDirection = zuoFangXiang;
-        } else if (youBian.getBlock(world) == Blocks.AIR) {
-            movementDirection = youFangXiang;
+        BlockPos pos = new BlockPos(posX, posY, posZ);
+
+        EnumFacing leftDirection = EnumFacing.getFront(RELATIVE_MATRIX[movementDirection.ordinal()][EnumFacing.EAST.ordinal()]);
+        BlockPos leftPos = pos.offset(leftDirection);
+        EnumFacing rightDirection = EnumFacing.getFront(RELATIVE_MATRIX[movementDirection.ordinal()][EnumFacing.WEST.ordinal()]);
+        BlockPos rightPos = pos.offset(rightDirection);
+
+        if (world.isAirBlock(leftPos)) {
+            movementDirection = leftDirection;
+        } else if (world.isAirBlock(rightPos)) {
+            movementDirection = rightDirection;
         } else {
             setDead();
 
@@ -269,7 +264,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
         if (!world.isRemote) {
             if (getParticleVelocity() > antimatterCreationSpeed / 2) {
-                float radius = 1F;
+                float radius = 1;
                 AxisAlignedBB bounds = new AxisAlignedBB(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius);
                 List<EntityParticle> entitiesNearby = world.getEntitiesWithinAABB(EntityParticle.class, bounds);
 
