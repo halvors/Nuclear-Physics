@@ -1,11 +1,10 @@
 package org.halvors.quantum.common.block.debug.schematic;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.type.Pair;
 
 import java.util.HashMap;
 
@@ -16,15 +15,15 @@ public class SchematicFissionReactor implements ISchematic {
     }
 
     @Override
-    public HashMap<Vector3, Pair<Block, Integer>> getStructure(EnumFacing direction, int size) {
-        HashMap<Vector3, Pair<Block, Integer>> map = new HashMap<>();
+    public HashMap<Vector3, IBlockState> getStructure(EnumFacing direction, int size) {
+        HashMap<Vector3, IBlockState> map = new HashMap<>();
         int radius = 2;
 
         if (size <= 1) {
             for (int x = -radius; x <= radius; x++) {
                 for (int z = -radius; z <= radius; z++) {
                     Vector3 targetPosition = new Vector3(x, 0, z);
-                    map.put(targetPosition, new Pair<>(Blocks.WATER, 0));
+                    map.put(targetPosition, Blocks.WATER.getDefaultState());
                 }
             }
 
@@ -34,18 +33,19 @@ public class SchematicFissionReactor implements ISchematic {
             for (int x = -radius; x <= radius; x++) {
                 for (int z = -radius; z <= radius; z++) {
                     Vector3 targetPosition = new Vector3(x, 1, z);
-                    map.put(targetPosition, new Pair<>(QuantumBlocks.blockElectricTurbine, 0));
+                    map.put(targetPosition, QuantumBlocks.blockElectricTurbine.getDefaultState());
 
                     if (!(x == -radius || x == radius && z == -radius || z == radius) && new Vector3(x, 0, z).getMagnitude() <= 1) {
-                        map.put(new Vector3(x, -1, z), new Pair<>(QuantumBlocks.blockControlRod, 0));
-                        map.put(new Vector3(x, -2, z), new Pair<>(Blocks.STICKY_PISTON, 1));
+                        map.put(new Vector3(x, -1, z), QuantumBlocks.blockControlRod.getDefaultState());
+                        //map.put(new Vector3(x, -2, z), new Pair<>(Blocks.STICKY_PISTON, 1));
+                        map.put(new Vector3(x, -2, z), Blocks.STICKY_PISTON.getDefaultState());
                     }
                 }
             }
 
-            map.put(new Vector3(0, -3, 0), new Pair<>(QuantumBlocks.blockSiren, 0));
-            map.put(new Vector3(0, -2, 0), new Pair<>(Blocks.REDSTONE_WIRE, 0));
-            map.put(new Vector3(), new Pair<>(QuantumBlocks.blockReactorCell, 0));
+            map.put(new Vector3(0, -3, 0), QuantumBlocks.blockSiren.getDefaultState());
+            map.put(new Vector3(0, -2, 0), Blocks.REDSTONE_WIRE.getDefaultState());
+            map.put(new Vector3(), QuantumBlocks.blockReactorCell.getDefaultState());
         } else {
             for (int y = 0; y < size; y++) {
                 for (int x = -radius; x <= radius; x++) {
@@ -55,7 +55,7 @@ public class SchematicFissionReactor implements ISchematic {
 
                         if (y < size - 1) {
                             if (targetPosition.distance(leveledPosition) == 2) {
-                                map.put(targetPosition, new Pair<>(QuantumBlocks.blockControlRod, 0));
+                                map.put(targetPosition, QuantumBlocks.blockControlRod.getDefaultState());
 
                                 // Place piston base to push control rods in.
                                 int rotationMetadata = 0;
@@ -67,16 +67,16 @@ public class SchematicFissionReactor implements ISchematic {
                                     }
                                 }
 
-                                map.put(targetPosition.clone().translate(offset), new Pair<Block, Integer>(Blocks.STICKY_PISTON, rotationMetadata));
+                                map.put(targetPosition.clone().translate(offset), Blocks.STICKY_PISTON.getStateFromMeta(rotationMetadata));
                             } else if (x == -radius || x == radius || z == -radius || z == radius) {
-                                map.put(targetPosition, new Pair<>(Blocks.GLASS, 0));
+                                map.put(targetPosition, Blocks.GLASS.getDefaultState());
                             } else if (x == 0 && z == 0) {
-                                map.put(targetPosition, new Pair<>(QuantumBlocks.blockReactorCell, 0));
+                                map.put(targetPosition, QuantumBlocks.blockReactorCell.getDefaultState());
                             } else {
-                                map.put(targetPosition, new Pair<>(Blocks.WATER, 0));
+                                map.put(targetPosition, Blocks.WATER.getDefaultState());
                             }
                         } else if (targetPosition.distance(leveledPosition) < 2) {
-                            map.put(targetPosition, new Pair<>(QuantumBlocks.blockElectricTurbine, 0));
+                            map.put(targetPosition, QuantumBlocks.blockElectricTurbine.getDefaultState());
                         }
                     }
                 }

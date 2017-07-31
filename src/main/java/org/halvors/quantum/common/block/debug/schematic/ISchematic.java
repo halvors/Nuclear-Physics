@@ -1,9 +1,8 @@
 package org.halvors.quantum.common.block.debug.schematic;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.type.Pair;
 
 import java.util.HashMap;
 
@@ -20,5 +19,5 @@ public interface ISchematic {
      *
      * @param size - The size multiplier.
      * @return A Hashmap of positions and block IDs with metadata. */
-    HashMap<Vector3, Pair<Block, Integer>> getStructure(EnumFacing direction, int size);
+    HashMap<Vector3, IBlockState> getStructure(EnumFacing direction, int size);
 }

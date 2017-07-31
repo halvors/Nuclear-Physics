@@ -1,11 +1,11 @@
 package org.halvors.quantum.common.block.debug.schematic;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import org.halvors.quantum.common.QuantumBlocks;
+import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.type.Pair;
 
 import java.util.HashMap;
 
@@ -16,8 +16,8 @@ public class SchematicFusionReactor implements ISchematic {
     }
 
     @Override
-    public HashMap<Vector3, Pair<Block, Integer>> getStructure(EnumFacing direction, int size) {
-        HashMap<Vector3, Pair<Block, Integer>> map = new HashMap<>();
+    public HashMap<Vector3, IBlockState> getStructure(EnumFacing direction, int size) {
+        HashMap<Vector3, IBlockState> map = new HashMap<>();
 
         // Fusion Torus.
         int radius = size + 2;
@@ -29,7 +29,7 @@ public class SchematicFusionReactor implements ISchematic {
                     double magnitude = Math.sqrt(x * x + z * z);
 
                     if (!map.containsKey(position)) {
-                        map.put(position, new Pair<>(Blocks.AIR, 0));
+                        map.put(position, Blocks.AIR.getDefaultState());
                     }
 
                     if (magnitude <= radius) {
@@ -38,10 +38,10 @@ public class SchematicFusionReactor implements ISchematic {
                                 double yDeviation = (y == 0 ? size / 3 : -size / 3) + (y == 0 ? -1 : 1) * Math.sin(magnitude / radius * Math.PI) * size / 2;
                                 Vector3 newPos = position.clone().translate(0, yDeviation, 0);
 
-                                map.put(newPos.round(), new Pair<>(QuantumBlocks.blockElectromagnet, 1));
+                                map.put(newPos.round(), QuantumBlocks.blockElectromagnet.getStateFromMeta(BlockElectromagnet.EnumElectromagnet.GLASS.ordinal()));
                             }
                         } else if (magnitude > radius - 1) {
-                            map.put(position, new Pair<>(QuantumBlocks.blockElectromagnet, 0));
+                            map.put(position, QuantumBlocks.blockElectromagnet.getDefaultState());
                         }
                     }
                 }
@@ -50,14 +50,14 @@ public class SchematicFusionReactor implements ISchematic {
 
         // Fusion Core
         for (int y = 0; y < size; y++) {
-            map.put(new Vector3(0, y, 0), new Pair<>(QuantumBlocks.blockReactorCell, 0));
-            map.put(new Vector3(1, y, 0), new Pair<>(QuantumBlocks.blockElectromagnet, 0));
-            map.put(new Vector3(0, y, 1), new Pair<>(QuantumBlocks.blockElectromagnet, 0));
-            map.put(new Vector3(0, y, -1), new Pair<>(QuantumBlocks.blockElectromagnet, 0));
-            map.put(new Vector3(-1, y, 0), new Pair<>(QuantumBlocks.blockElectromagnet, 0));
+            map.put(new Vector3(0, y, 0), QuantumBlocks.blockReactorCell.getDefaultState());
+            map.put(new Vector3(1, y, 0), QuantumBlocks.blockElectromagnet.getDefaultState());
+            map.put(new Vector3(0, y, 1), QuantumBlocks.blockElectromagnet.getDefaultState());
+            map.put(new Vector3(0, y, -1), QuantumBlocks.blockElectromagnet.getDefaultState());
+            map.put(new Vector3(-1, y, 0), QuantumBlocks.blockElectromagnet.getDefaultState());
         }
 
-        map.put(new Vector3(0, 0, 0), new Pair<>(QuantumBlocks.blockReactorCell, 0));
+        map.put(new Vector3(0, 0, 0), QuantumBlocks.blockReactorCell.getDefaultState());
 
         return map;
     }

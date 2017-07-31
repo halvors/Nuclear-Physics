@@ -1,15 +1,20 @@
 package org.halvors.quantum.common.network.packet;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.network.PacketHandler;
-import org.halvors.quantum.common.utility.PlayerUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 public class PacketCreativeBuilder extends PacketLocation implements IMessage {
     public int schematicId;
@@ -52,19 +57,20 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
                     World world = PacketHandler.getWorld(messageContext);
                     BlockPos pos = message.getPos();
 
-                    if (!world.isRemote && PlayerUtility.isOp(player)) {
+                    if (!world.isRemote) {// && PlayerUtility.isOp(player)) {
                         try {
                             Vector3 position = new Vector3(pos.getX(), pos.getY(), pos.getZ());
 
                             if (message.size > 0) {
-                                /*HashMap<Vector3, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.getFront(position.getBlock(world)), message.size);
+                                // TODO: Implement dynamic facing, not just NORTH.
+                                HashMap<Vector3, IBlockState> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.NORTH, message.size);
 
-                                for (Map.Entry<Vector3, Pair<Block, Integer>> entry : map.entrySet()) {
+                                for (Entry<Vector3, IBlockState> entry : map.entrySet()) {
                                     Vector3 placePos = entry.getKey().clone();
                                     placePos.translate(position);
-                                    placePos.setBlock(world, entry.getValue().getLeft(), entry.getValue().getRight());
+
+                                    world.setBlockState(new BlockPos(placePos.getX(), placePos.getY(), placePos.getZ()), entry.getValue());
                                 }
-                                */
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
