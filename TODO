@@ -8,8 +8,8 @@ Porting to 1.10.2 from 1.7.10:
     - Render fluid in qui.
     - Fix fire not vanishing after a while.
     - Fix reactor explosion not destroying blocks.
-    - Handle inventory on destruction of block, drop in world or preserve in item block.
-    - Fix all machines, and verify that they work.
+    - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
+    - Fix all machines, and verify that they work. (Mostly done, Nuclear Boiler is still buggy).
 
 General:
 
