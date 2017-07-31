@@ -142,10 +142,6 @@ public class TileNuclearBoiler extends TileProcess {
                 //discharge(getStackInSlot(0));
 
                 if (energyStorage.extractEnergy(energy, true) >= energy) {
-                    Quantum.getLogger().info("Has enough energy.");
-                }
-
-                if (energyStorage.extractEnergy(energy, true) >= energy) {
                     if (timer == 0) {
                         timer = tickTime;
                     }

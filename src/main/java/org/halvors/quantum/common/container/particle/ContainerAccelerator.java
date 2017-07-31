@@ -22,8 +22,6 @@ public class ContainerAccelerator extends ContainerQuantum {
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 132, 51));
 
         // Output
-        //addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 2, 132, 75));
-        //addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 3, 106, 75));
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 132, 75));
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 106, 75));
 

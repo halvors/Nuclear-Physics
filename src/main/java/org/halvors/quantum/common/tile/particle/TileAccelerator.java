@@ -96,20 +96,24 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
             outputAntimatter();
 
             // Check if redstone signal is currently being applied.
-            if (inventory.getStackInSlot(0) != null && world.isBlockIndirectlyGettingPowered(pos) > 0) {
+            ItemStack itemStack = inventory.getStackInSlot(0);
+
+            //if (itemStack != null && world.isBlockIndirectlyGettingPowered(pos) > 0) {
                 //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
-                        if (inventory.getStackInSlot(0) != null && lastSpawnTick >= 40) {
+                        if (lastSpawnTick >= 40) {
                             Vector3 spawnAcceleratedParticle = new Vector3(this);
-                            spawnAcceleratedParticle.translate(EnumFacing.NORTH); //getDirection().getOpposite());
+                            spawnAcceleratedParticle.translate(facing.getOpposite());
                             spawnAcceleratedParticle.translate(0.5F);
 
+                            BlockPos spawnAcceleratedParticlePos = new BlockPos(spawnAcceleratedParticle.getX(), spawnAcceleratedParticle.getY(), spawnAcceleratedParticle.getZ());
+
                             // Only render the particle if container within the proper environment for it.
-                            if (EntityParticle.canSpawnParticle(world, spawnAcceleratedParticle)) {
+                            if (EntityParticle.canSpawnParticle(world, spawnAcceleratedParticlePos)) {
                                 // Spawn the particle.
                                 totalEnergyConsumed = 0;
-                                entityParticle = new EntityParticle(world, spawnAcceleratedParticle, new Vector3(this), EnumFacing.NORTH); //getDirection().getOpposite());
+                                entityParticle = new EntityParticle(world, spawnAcceleratedParticle, new Vector3(this), facing.getOpposite());
                                 world.spawnEntity(entityParticle);
 
                                 // Grabs input block hardness if available, otherwise defaults are used.
@@ -159,7 +163,6 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
 
                     entityParticle = null;
                 }
-                */
             } else {
                 if (entityParticle != null) {
                     entityParticle.setDead();
@@ -167,9 +170,11 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
 
                 entityParticle = null;
             }
+            */
 
             if (world.getWorldTime() % 5 == 0) {
-                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
+                //Quantum.getPacketHandler().sendTo(new PacketTileEntity(this), getPlayersUsing());
+                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
 
             lastSpawnTick++;
@@ -290,6 +295,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
             // Calculate block density multiplier if ore dictionary block.
             acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
 
+            /*
             Block potentialBlock = Block.getBlockFromItem(itemToAccelerate.getItem());
 
             if (potentialBlock != null) {
@@ -304,6 +310,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
                     acceleratorAntimatterDensityMultiplyer = 1000 * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
                 }
             }
+            */
         }
     }
 

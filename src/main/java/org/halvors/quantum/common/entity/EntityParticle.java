@@ -6,6 +6,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
@@ -17,6 +20,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.block.machine.BlockMachine;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
@@ -25,14 +29,17 @@ import java.util.List;
 
 public class EntityParticle extends Entity implements IEntityAdditionalSpawnData {
     // Speed by which a particle will turn into anitmatter.
-    public static final float antimatterCreationSpeed = 0.9F;
-    private static final int movementDirectionDataWatcherId = 20;
+    private static final float antimatterCreationSpeed = 0.9F;
+    private static final DataParameter<EnumFacing> movementDirectionDataManager = EntityDataManager.createKey(EntityParticle.class, DataSerializers.FACING);
 
     public ForgeChunkManager.Ticket updateTicket;
     public boolean didParticleCollide = false;
     private int lastTurn = 60;
     private Vector3 movementVector = new Vector3();
-    private EnumFacing movementDirection = EnumFacing.NORTH;
+    //private EnumFacing movementDirection = EnumFacing.NORTH;
+
+    private BlockPos movementPos;
+    private EnumFacing movementDirection;
 
     public EntityParticle(World world) {
         super(world);
@@ -55,19 +62,15 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     /**
      * Checks to see if a new particle can be spawned at the location.
      * @param world - world to check in
-     * @param position - location to check
+     * @param pos - location to check
      * @return true if the spawn location is clear and 2 electromagnets are next to the location
      */
-    public static boolean canSpawnParticle(World world, Vector3 position) {
-        Block block = position.getBlock(world);
-
-        if (block == null || world.isAirBlock(new BlockPos(position.intX(), position.intY(), position.intZ()))) {
+    public static boolean canSpawnParticle(World world, BlockPos pos) {
+        if (world.isAirBlock(pos)) {
             int electromagnetCount = 0;
 
-            for (int side = 0; side <= 6; side++) {
-                EnumFacing direction = EnumFacing.getFront(side);
-
-                if (isElectromagnet(world, position, direction)) {
+            for (EnumFacing side : EnumFacing.VALUES) {
+                if (isElectromagnet(world, pos, side)) {
                     electromagnetCount++;
                 }
             }
@@ -81,13 +84,16 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     /**
      * Checks to see if the block is an instance of IElectromagnet and is turned on
      * @param world - world to check in
-     * @param position - position to look for the block/tile
+     * @param pos - position to look for the block/tile
      * @param direction - direction to check in
      * @return true if the location contains an active electromagnet block
      */
-    public static boolean isElectromagnet(World world, Vector3 position, EnumFacing direction) {
-        Vector3 checkPos = position.clone().translate(direction);
-        TileEntity tile = checkPos.getTileEntity(world);
+    public static boolean isElectromagnet(World world, BlockPos pos, EnumFacing direction) {
+        Vector3 vector = new Vector3(pos.getX(), pos.getY(), pos.getZ()).clone().translate(direction);
+        BlockPos checkPos = new BlockPos(vector.getX(), vector.getY(), vector.getZ());
+
+        //BlockPos checkPos = pos.offset(direction);
+        TileEntity tile = world.getTileEntity(checkPos);
 
         return tile instanceof IElectromagnet && ((IElectromagnet) tile).isRunning();
     }
@@ -110,7 +116,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     public void onUpdate() {
         TileEntity tile = world.getTileEntity(new BlockPos(movementVector.intX(), movementVector.intY(), movementVector.intZ()));
 
-        if (tile != null && tile instanceof TileAccelerator) {
+        if (tile instanceof TileAccelerator) {
             TileAccelerator tileAccelerator = (TileAccelerator) tile;
             double acceleration = 0.0006;
 
@@ -124,7 +130,6 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 tileAccelerator.entityParticle = this;
             }
 
-
             // Force load chunks.
             // TODO: Calculate direction so to only load two chunks instead of 5.
             for (int x = -1; x < 1; x++) {
@@ -133,18 +138,16 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 }
             }
 
-            /*
             // Update data watcher.
             if (!world.isRemote) {
-                dataManager.set
-
-                dataWatcher.updateObject(movementDirectionDataWatcherId, (byte) movementDirection.ordinal());
+                dataManager.set(movementDirectionDataManager, movementDirection);
             } else {
-                movementDirection = EnumFacing.getFront(dataWatcher.getWatchableObjectByte(movementDirectionDataWatcherId));
+                movementDirection = dataManager.get(movementDirectionDataManager);
             }
-            */
 
-            if ((!isElectromagnet(world, new Vector3(this), movementDirection.rotateAround(EnumFacing.UP.getAxis())) || !isElectromagnet(world, new Vector3(this), movementDirection.rotateAround(EnumFacing.DOWN.getAxis()))) && lastTurn <= 0) {
+            BlockPos pos = new BlockPos(posX, posY, posZ);
+
+            if ((!isElectromagnet(world, pos, movementDirection.rotateAround(EnumFacing.UP.getAxis())) || !isElectromagnet(world, pos, movementDirection.rotateAround(EnumFacing.DOWN.getAxis()))) && lastTurn <= 0) {
                 acceleration = turn();
                 motionX = 0;
                 motionY = 0;
@@ -155,7 +158,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             lastTurn--;
 
             // Checks if the current block condition allows the particle to exist.
-            if (!canSpawnParticle(world, new Vector3(this)) || isCollided) {
+            if (!canSpawnParticle(world, pos) || isCollided) {
                 handleCollisionWithEntity();
 
                 return;
@@ -173,7 +176,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             lastTickPosY = posY;
             lastTickPosZ = posZ;
 
-            //moveEntity(motionX, motionY, motionZ);
+            move(motionX, motionY, motionZ);
             setPosition(posX, posY, posZ);
 
             if (lastTickPosX == posX && lastTickPosY == posY && lastTickPosZ == posZ && getParticleVelocity() <= 0 && lastTurn <= 0) {
@@ -189,7 +192,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             List<Entity> entitiesNearby = world.getEntitiesWithinAABB(Entity.class, bounds);
 
             if (entitiesNearby.size() > 1) {
-                handleCollisionWithEntity();
+                applyEntityCollision(this);
             }
         } else {
             setDead();
@@ -198,7 +201,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     @Override
     protected void entityInit() {
-        //dataWatcher.addObject(movementDirectionDataWatcherId, (byte) 3);
+        dataManager.register(movementDirectionDataManager, EnumFacing.NORTH);
 
         if (updateTicket == null) {
             updateTicket = ForgeChunkManager.requestTicket(Quantum.getInstance(), world, ForgeChunkManager.Type.ENTITY);
@@ -208,15 +211,15 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound nbt) {
-        movementVector = new Vector3(nbt.getCompoundTag("vector"));
-        EnumFacing.getFront(nbt.getByte("direction"));
+    protected void readEntityFromNBT(NBTTagCompound tag) {
+        movementVector = new Vector3(tag.getCompoundTag("vector"));
+        movementDirection = EnumFacing.getFront(tag.getByte("direction"));
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound nbt) {
-        nbt.setTag("vector", movementVector.writeToNBT(new NBTTagCompound()));
-        nbt.setByte("direction", (byte) movementDirection.ordinal());
+    protected void writeEntityToNBT(NBTTagCompound tag) {
+        tag.setTag("vector", movementVector.writeToNBT(new NBTTagCompound()));
+        tag.setByte("direction", (byte) movementDirection.ordinal());
     }
 
     @Override
@@ -226,9 +229,9 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     @Override
     public void setDead() {
-        ForgeChunkManager.releaseTicket(updateTicket);
-
         super.setDead();
+
+        ForgeChunkManager.releaseTicket(updateTicket);
     }
 
     /**
