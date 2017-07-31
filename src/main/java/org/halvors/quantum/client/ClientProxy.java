@@ -3,6 +3,8 @@ package org.halvors.quantum.client;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,6 +16,8 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -34,10 +38,12 @@ import org.halvors.quantum.client.render.block.machine.RenderQuantumAssembler;
 import org.halvors.quantum.client.render.block.reactor.RenderElectricTurbine;
 import org.halvors.quantum.client.render.block.reactor.fission.RenderReactorCell;
 import org.halvors.quantum.client.render.block.reactor.fission.RenderThermometer;
+import org.halvors.quantum.client.render.entity.RenderParticle;
 import org.halvors.quantum.common.CommonProxy;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.block.machine.BlockMachineModel;
+import org.halvors.quantum.common.entity.EntityParticle;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
 import org.halvors.quantum.common.tile.machine.TileNuclearBoiler;
@@ -76,24 +82,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
 
         // Register entity renderer.
-		//RenderingRegistry.registerEntityRenderingHandler(EntityParticle.class, new RenderParticle());
-	}
-
-	@SubscribeEvent
-	public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
-	    final TextureMap textureMap = event.getMap();
-
-	    for (BlockMachineModel.EnumMachineModel type : BlockMachineModel.EnumMachineModel.values()) {
-            textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, type.getName()));
-        }
-
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electric_turbine_large"));
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electric_turbine_small"));
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_bottom"));
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_middle"));
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_top"));
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_top"));
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_fissile_material.png"));
+		RenderingRegistry.registerEntityRenderingHandler(EntityParticle.class, RenderParticle::new);
 	}
 
 	@Override

@@ -21,6 +21,7 @@ Known bugs:
     - Electromagnet Glass have wrong material and footstep sound? As well as break sound.
     - Reactor Cell top model is missing glass texture from one edge.
     - Turbine multi block construction is not synced properly.
+    - Optimize syncing of machines etc, only sync when gui is open etc.
 
 Known features not implemented:
     - Display tooltip to all items.

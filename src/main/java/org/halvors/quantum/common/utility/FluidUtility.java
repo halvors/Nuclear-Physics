@@ -35,7 +35,7 @@ public class FluidUtility {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Does all the work needed to fill or drain an item of fluid when a player clicks on the block.
-    public static boolean playerActivatedFluidItem(World world, BlockPos pos, EntityPlayer entityplayer, EnumFacing side) {
+    public static boolean playerActivatedFluidItem(World world, BlockPos pos, EntityPlayer player, EnumFacing side) {
         /*
         TileEntity tile = world.getTileEntity(pos);
         ItemStack current = entityplayer.inventory.getCurrentItem();
