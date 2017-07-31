@@ -1,18 +1,18 @@
 package org.halvors.quantum.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.utility.InventoryUtility;

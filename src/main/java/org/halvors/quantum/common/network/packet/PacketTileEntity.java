@@ -8,10 +8,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.utility.location.Location;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -13,7 +13,6 @@ import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileConsumer;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileMachine extends TileConsumer implements ITileNetwork {

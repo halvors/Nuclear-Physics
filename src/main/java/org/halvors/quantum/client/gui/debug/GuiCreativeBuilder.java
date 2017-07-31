@@ -4,7 +4,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
@@ -15,7 +14,6 @@ import org.halvors.quantum.common.container.ContainerDummy;
 import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.ResourceUtility;
-import org.halvors.quantum.common.utility.location.Location;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
