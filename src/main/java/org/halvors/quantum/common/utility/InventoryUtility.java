@@ -2,12 +2,10 @@ package org.halvors.quantum.common.utility;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
@@ -16,10 +14,7 @@ public class InventoryUtility {
         ItemStack itemStack = itemHandler.getStackInSlot(slot);
 
         if (itemStack != null) {
-            ItemStack newItemStack = itemStack.copy();
-            newItemStack.stackSize++;
-
-            itemHandler.insertItem(slot, newItemStack, false);
+            itemHandler.insertItem(slot, ItemHandlerHelper.copyStackWithSize(itemStack, itemStack.stackSize++), false);
         }
     }
 
@@ -28,9 +23,6 @@ public class InventoryUtility {
 
         if (itemStack != null) {
             itemHandler.extractItem(slot, 1, false);
-
-            //itemHandler.setStackInSlot(slot, newItemStack);
-            //itemHandler.insertItem(slot, newItemStack, false);
         }
     }
 

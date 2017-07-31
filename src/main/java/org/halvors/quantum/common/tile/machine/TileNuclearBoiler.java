@@ -9,7 +9,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumFluids;
-import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.InventoryUtility;
@@ -69,17 +68,23 @@ public class TileNuclearBoiler extends TileProcess {
                 return 0;
             }
 
+            // TODO: Only allow internal draining?
+            /*
             @Override
             public boolean canDrain() {
-                return false;
+                return true;
             }
+            */
         };
 
         tankOutput = new FluidTankQuantum(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
+            // TODO: Only allow internal filling?
+            /*
             @Override
             public boolean canFill() {
                 return false;
             }
+            */
 
             @Override
             public FluidStack drain(FluidStack resource, boolean doDrain) {
@@ -137,6 +142,10 @@ public class TileNuclearBoiler extends TileProcess {
                 //discharge(getStackInSlot(0));
 
                 if (energyStorage.extractEnergy(energy, true) >= energy) {
+                    Quantum.getLogger().info("Has enough energy.");
+                }
+
+                if (energyStorage.extractEnergy(energy, true) >= energy) {
                     if (timer == 0) {
                         timer = tickTime;
                     }
@@ -184,7 +193,7 @@ public class TileNuclearBoiler extends TileProcess {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // Check all conditions and see if we can start smelting
+    // Check all conditions and see if we can start processing
     public boolean canProcess() {
         FluidStack inputFluidStack = tankInput.getFluid();
 

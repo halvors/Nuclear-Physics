@@ -6,7 +6,6 @@ import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
@@ -91,8 +90,25 @@ public class TileChemicalExtractor extends TileProcess {
             }
         };
 
-        tankInput = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 10);
-        tankOutput = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 10);
+        tankInput = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 10) {
+            // TODO: Only allow internal draining?
+            /*
+            @Override
+            public boolean canDrain() {
+                return true;
+            }
+            */
+        };
+
+        tankOutput = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 10) {
+            // TODO: Only allow internal filling?
+            /*
+            @Override
+            public boolean canFill() {
+                return false;
+            }
+            */
+        };
 
         inputSlot = 1;
         outputSlot = 2;

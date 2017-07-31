@@ -2,15 +2,12 @@ package org.halvors.quantum.common.utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.item.ItemCell;
@@ -35,11 +32,13 @@ public class FluidUtility {
         return stack;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     // Does all the work needed to fill or drain an item of fluid when a player clicks on the block.
     public static boolean playerActivatedFluidItem(World world, BlockPos pos, EntityPlayer entityplayer, EnumFacing side) {
+        /*
         TileEntity tile = world.getTileEntity(pos);
         ItemStack current = entityplayer.inventory.getCurrentItem();
-
 
         if (current != null && tile != null) {
             if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null))  {
@@ -65,7 +64,6 @@ public class FluidUtility {
                         fluid = FluidContainerRegistry.getFluidForFilledItem(filled);
 
                         if (fluid != null) {
-                            /*
                             if (!entityplayer.capabilities.isCreativeMode) {
                                 if (current.stackSize > 1) {
                                     if (!entityplayer.inventory.addItemStackToInventory(filled)) {
@@ -78,7 +76,6 @@ public class FluidUtility {
                                     entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, filled);
                                 }
                             }
-                            */
 
                             tank.drain(fluid.amount, true);
 
@@ -88,6 +85,7 @@ public class FluidUtility {
                 }
             }
         }
+        */
 
         return false;
     }
