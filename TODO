@@ -7,12 +7,8 @@ Porting to 1.10.2 from 1.7.10:
     - Make plasma not behave like a liquid. Should be a block.
     - Render fluid in qui.
     - Fix fire not vanishing after a while.
-    - Implement fluid capability for Plasma Heater, 3 tanks?
     - Fix reactor explosion not destroying blocks.
-    - Fix reactor cell not handling items correctly, item stack of 0 items?
     - Handle inventory on destruction of block, drop in world or preserve in item block.
-    - Fix ore dictionary lookup.
-    - Implement cells as fluid containers.
     - Fix all machines, and verify that they work.
 
 General:
@@ -82,10 +78,6 @@ New features to add:
         How a fusion reactor works: https://www.youtube.com/watch?v=Vwgy6w8ExHE
 
         https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
-
-        Minecraft 1.6.4 to 1.7.10 porting:
-            - https://github.com/Spoutcraft/Spoutcraft/blob/master/conf/methods.csv https://github.com/Spoutcraft/Spoutcraft/blob/master/conf/fields.csv
-            - https://github.com/ntzrmtthihu777/CreepyPastaCraft/blob/master/gradle/methods.csv https://github.com/ntzrmtthihu777/CreepyPastaCraft/blob/master/gradle/fields.csv
 
         ConnectedTextures in json: https://github.com/baileyholl/Aura-Cascade/blob/MC188/src/main/resources/assets/aura/blockstates/fortifiedStone.json
         http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/modification-development/2726011-is-it-possible-to-draw-parts-of-a-json-model-in

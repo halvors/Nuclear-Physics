@@ -61,14 +61,12 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
                     case 0: // Battery input slot.
                         return itemStack.hasCapability(CapabilityEnergy.ENERGY, null);
 
-                    case 1: // Item input slot.
-                        return OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack);
+                    case 1: // Input tank drain slot.
+                        return OreDictionaryHelper.isEmptyCell(itemStack); // TODO: Add uranium hexaflouride container here.
 
-                    // TODO: Fix this.
-                    /*
-                    case 3: // Input tank slot.
-                        return OreDictionaryHelper.isUraniumHexaflouride(itemStack);
-                    */
+                    case 2: // Item output slot.
+                    case 3: // Item output slot.
+                        return OreDictionaryHelper.isUranium(itemStack);
                 }
 
                 return false;
@@ -242,12 +240,9 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
             tank.drainInternal(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 
             if (world.rand.nextFloat() > 0.6) {
-                // TODO: setCount() for 1.12
-                //inventory.incrStackSize(2, new ItemStack(QuantumItems.itemUranium));
-                inventory.setStackInSlot(2, new ItemStack(QuantumItems.itemUranium));
+                inventory.insertItem(2, new ItemStack(QuantumItems.itemUranium), false);
             } else {
-                //inventory.incrStackSize(3, new ItemStack(QuantumItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()));
-                inventory.setStackInSlot(3, new ItemStack(QuantumItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()));
+                inventory.insertItem(3, new ItemStack(QuantumItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()), false);
             }
         }
     }

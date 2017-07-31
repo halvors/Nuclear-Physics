@@ -14,6 +14,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
+import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.utility.InventoryUtility;
 
 import javax.annotation.Nonnull;
@@ -50,79 +51,24 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
      * Takes an fluid container item and try to fill the tank, dropping the remains in the output slot.
      */
     private void fillOrDrainTank(int containerInput, int containerOutput, IFluidHandler tank) {
-        ItemStack inputStack = inventory.getStackInSlot(containerInput);
-        IFluidHandler fluidHandler = FluidUtil.getFluidHandler(inputStack);
+        ItemStack itemStack = inventory.getStackInSlot(containerInput);
+        IFluidHandler container = FluidUtil.getFluidHandler(itemStack);
 
-        if (fluidHandler != null) {
-            //ItemStack emptiedStack = FluidUtil.tryEmptyContainer(inputStack, tank, Integer.MAX_VALUE, null, false);
-            FluidStack stack = FluidUtil.getFluidContained(inputStack);
+        if (container != null) {
+            ItemStack resultStack;
+            FluidStack stack = FluidUtil.getFluidContained(itemStack);
 
             if (stack != null && stack.amount > 0) {
-                if (FluidUtil.tryEmptyContainer(inputStack, tank, 200, null, true) != null) {
-                    ItemStack resultStack = inputStack.getItem().getContainerItem(inputStack);
-
-                    InventoryUtility.decrStackSize(inventory, containerInput);
-                    inventory.insertItem(containerOutput, resultStack, false);
-                }
+                resultStack = FluidUtil.tryEmptyContainer(itemStack, tank, ItemCell.capacity, null, true);
             } else {
-                ItemStack resultStack = FluidUtil.tryFillContainer(inputStack, tank, 200, null, true);
-
-                if (resultStack != null) {
-                    InventoryUtility.decrStackSize(inventory, containerInput);
-                    inventory.insertItem(containerOutput, resultStack, false);
-                }
-
-                /*
-                //FluidStack avaliable = tank.getFluid();
-
-                //if (avaliable != null) {
-                    //ItemStack result = FluidContainerRegistry.fillFluidContainer(avaliable, inputStack);
-                    FluidStack filled = FluidContainerRegistry.getFluidForFilledItem(result);
-
-                    if (result != null && filled != null && (outputStack == null || result.isItemEqual(outputStack))) {
-                        FluidUtil.tryFillContainer()
-
-                        InventoryUtility.decrStackSize(inventory, containerInput);
-                        inventory.insertItem(containerOutput, result, false);
-                        tank.drain(filled.amount, true);
-                    }
-                //}
-                */
+                resultStack = FluidUtil.tryFillContainer(itemStack, tank, ItemCell.capacity, null, true);
             }
-        }
 
-        /*
-        if (FluidContainerRegistry.isFilledContainer(inputStack)) {
-            FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(inputStack);
-            ItemStack result = inputStack.getItem().getContainerItem(inputStack);
-
-            if (result != null && tank.fill(fluidStack, false) >= fluidStack.amount && (outputStack == null || result.isItemEqual(outputStack))) {
-                tank.fill(fluidStack, true);
-
+            if (resultStack != null) {
                 InventoryUtility.decrStackSize(inventory, containerInput);
-                inventory.insertItem(containerOutput, result, false);
+                inventory.insertItem(containerOutput, resultStack, false);
             }
         }
-        */
-
-        /*
-        else if (FluidContainerRegistry.isEmptyContainer(inputStack)) {
-            FluidStack avaliable = tank.getFluid();
-
-            if (avaliable != null) {
-                ItemStack result = FluidUtil.tryFillContainer(inputStack, tank, 200, null, true);
-
-                //ItemStack result = FluidContainerRegistry.fillFluidContainer(avaliable, inputStack);
-                FluidStack filled = FluidContainerRegistry.getFluidForFilledItem(result);
-
-                if (result != null && filled != null && (outputStack == null || result.isItemEqual(outputStack))) {
-                    InventoryUtility.decrStackSize(inventory, containerInput);
-                    inventory.insertItem(containerOutput, result, false);
-                    tank.drain(filled.amount, true);
-                }
-            }
-        }
-        */
     }
 
     /*

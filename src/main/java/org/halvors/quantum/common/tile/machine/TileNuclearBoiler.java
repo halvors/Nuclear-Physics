@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.tile.machine;
 
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -31,11 +32,18 @@ public class TileNuclearBoiler extends TileProcess {
 
             private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
                 switch (slot) {
-                    case 1:
-                        return OreDictionaryHelper.isWaterCell(itemStack);
+                    case 0: // Battery input slot.
+                        return itemStack.hasCapability(CapabilityEnergy.ENERGY, null);
 
-                    case 3:
-                        return itemStack.getItem() == QuantumItems.itemYellowCake;
+                    case 1: // Item input slot.
+                        return OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack);
+
+                    case 2: // Input tank fill slot.
+                    case 3: // Input tank drain slot.
+                        return OreDictionaryHelper.isEmptyCell(itemStack) || OreDictionaryHelper.isWaterCell(itemStack);
+
+                    case 4: // Output tank drain slot.
+                        return OreDictionaryHelper.isEmptyCell(itemStack); // TODO: Add uranium hexaflouride container here.
                 }
 
                 return false;
@@ -83,7 +91,7 @@ public class TileNuclearBoiler extends TileProcess {
             }
         };
 
-        outputSlot = 1;
+        inputSlot = 1;
 
         tankInputFillSlot = 2;
         tankInputDrainSlot = 3;
@@ -180,17 +188,15 @@ public class TileNuclearBoiler extends TileProcess {
     public boolean canProcess() {
         FluidStack inputFluidStack = tankInput.getFluid();
 
-        if (inputFluidStack != null) {
-            if (inputFluidStack.amount >= Fluid.BUCKET_VOLUME) {
-                ItemStack itemStack = inventory.getStackInSlot(1);
+        if (inputFluidStack != null && inputFluidStack.amount >= Fluid.BUCKET_VOLUME) {
+            ItemStack itemStack = inventory.getStackInSlot(inputSlot);
 
-                if (itemStack != null) {
-                    if (itemStack.getItem() == QuantumItems.itemYellowCake || OreDictionaryHelper.isUraniumOre(itemStack)) {
-                        FluidStack outputFluidStack = tankOutput.getFluid();
+            if (itemStack != null) {
+                if (OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack)) {
+                    FluidStack outputFluidStack = tankOutput.getFluid();
 
-                        if (outputFluidStack != null && outputFluidStack.amount < tankOutput.getCapacity()) {
-                            return true;
-                        }
+                    if (outputFluidStack != null && outputFluidStack.amount < tankOutput.getCapacity()) {
+                        return true;
                     }
                 }
             }
@@ -206,7 +212,7 @@ public class TileNuclearBoiler extends TileProcess {
             FluidStack liquid = QuantumFluids.fluidStackUraniumHexaflouride.copy();
             liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
             tankOutput.fillInternal(liquid, true);
-            InventoryUtility.decrStackSize(inventory, 1);
+            InventoryUtility.decrStackSize(inventory, inputSlot);
         }
     }
 }

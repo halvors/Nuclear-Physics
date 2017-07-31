@@ -37,6 +37,10 @@ public class OreDictionaryHelper {
         return hasOreName(itemStack, "dustUranium");
     }
 
+    public static boolean isUranium(ItemStack itemStack) {
+        return hasOreName(itemStack, "ingotUranium") || hasOreName(itemStack, "itemUranium");
+    }
+
     // Blocks
     public static boolean isUraniumOre(ItemStack itemStack) {
         return hasOreName(itemStack, "oreUranium");
