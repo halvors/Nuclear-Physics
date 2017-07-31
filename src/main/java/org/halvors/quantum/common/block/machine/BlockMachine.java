@@ -33,6 +33,7 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void registerItemModel(ItemBlock itemBlock) {
         for (EnumMachine type : EnumMachine.values()) {
             Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "facing=north,type=" + type.getName());

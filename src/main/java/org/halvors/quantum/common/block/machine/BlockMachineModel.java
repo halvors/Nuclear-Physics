@@ -46,13 +46,6 @@ public class BlockMachineModel extends BlockInventory {
         return state.getValue(BlockStateMachineModel.typeProperty).getRenderType();
     }
 
-    @Override
-    public void registerItemModel(ItemBlock itemBlock) {
-        for (EnumMachineModel type : EnumMachineModel.values()) {
-            Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "facing=north,type=" + type.getName());
-        }
-    }
-
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
