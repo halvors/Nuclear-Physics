@@ -34,6 +34,7 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public void registerItemModel(ItemBlock itemBlock) {
         for (EnumElectromagnet type : EnumElectromagnet.values()) {
             Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "type=" + type.getName());
@@ -109,6 +110,11 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
         world.setBlockState(pos, state.withProperty(BlockStateElectromagnet.typeProperty, EnumElectromagnet.values()[itemStack.getItemDamage()]), 2);
+    }
+
+    @Override
+    public boolean isSideSolid(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
+        return state.getValue(BlockStateElectromagnet.typeProperty) == EnumElectromagnet.NORMAL;
     }
 
     @Override
