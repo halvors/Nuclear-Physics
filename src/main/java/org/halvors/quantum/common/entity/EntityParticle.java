@@ -9,12 +9,15 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.Quantum;
@@ -25,12 +28,13 @@ import org.halvors.quantum.common.utility.location.Position;
 import java.util.List;
 
 public class EntityParticle extends Entity implements IEntityAdditionalSpawnData {
+    private static final DataParameter<EnumFacing> movementDirectionParameter = EntityDataManager.createKey(EntityParticle.class, DataSerializers.FACING);
+
     // Speed by which a particle will turn into anitmatter.
     private static final float antimatterCreationSpeed = 0.9F;
-    private static final DataParameter<EnumFacing> movementDirectionDataManager = EntityDataManager.createKey(EntityParticle.class, DataSerializers.FACING);
 
-    public ForgeChunkManager.Ticket updateTicket;
-    public boolean didParticleCollide = false;
+    public Ticket updateTicket;
+    public boolean didParticleCollide;
     private int lastTurn = 60;
 
     private BlockPos movementPos;
@@ -132,14 +136,15 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
             // Update data watcher.
             if (!world.isRemote) {
-                dataManager.set(movementDirectionDataManager, movementDirection);
+                dataManager.set(movementDirectionParameter, movementDirection);
             } else {
-                movementDirection = dataManager.get(movementDirectionDataManager);
+                movementDirection = dataManager.get(movementDirectionParameter);
             }
 
             BlockPos pos = new BlockPos(posX, posY, posZ);
 
-            if ((!isElectromagnet(world, pos, movementDirection.rotateAround(EnumFacing.UP.getAxis())) || !isElectromagnet(world, pos, movementDirection.rotateAround(EnumFacing.DOWN.getAxis()))) && lastTurn <= 0) {
+            if ((!isElectromagnet(world, pos, movementDirection.rotateAround(Axis.Y)) ||
+                 !isElectromagnet(world, pos, movementDirection.getOpposite().rotateAround(Axis.Y))) && lastTurn <= 0) {
                 acceleration = turn();
                 motionX = 0;
                 motionY = 0;
@@ -193,10 +198,10 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     @Override
     protected void entityInit() {
-        dataManager.register(movementDirectionDataManager, EnumFacing.NORTH);
+        dataManager.register(movementDirectionParameter, EnumFacing.SOUTH);
 
         if (updateTicket == null) {
-            updateTicket = ForgeChunkManager.requestTicket(Quantum.getInstance(), world, ForgeChunkManager.Type.ENTITY);
+            updateTicket = ForgeChunkManager.requestTicket(Quantum.getInstance(), world, Type.ENTITY);
             updateTicket.getModData();
             updateTicket.bindEntity(this);
         }
@@ -235,19 +240,15 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
      */
     private double turn() {
         // TODO: Rewrite to allow for up and down turning
-        int[][] RELATIVE_MATRIX = new int[][] { new int[] { 3, 2, 1, 0, 5, 4 }, new int[] { 4, 5, 0, 1, 2, 3}, new int[] { 0, 1, 3, 2, 4, 5 }, new int[] { 0, 1, 2, 3, 5, 4}, new int[] { 0, 1, 5, 4, 3, 2 }, new int[] { 0, 1, 4, 5, 2, 3 } };
-
         BlockPos pos = new BlockPos(posX, posY, posZ);
 
-        EnumFacing leftDirection = EnumFacing.getFront(RELATIVE_MATRIX[movementDirection.ordinal()][EnumFacing.EAST.ordinal()]);
-        BlockPos leftPos = pos.offset(leftDirection);
-        EnumFacing rightDirection = EnumFacing.getFront(RELATIVE_MATRIX[movementDirection.ordinal()][EnumFacing.WEST.ordinal()]);
-        BlockPos rightPos = pos.offset(rightDirection);
+        EnumFacing rightDirection = movementDirection.rotateAround(Axis.Y);
+        EnumFacing leftDirection = movementDirection.getOpposite().rotateAround(Axis.Y);
 
-        if (world.isAirBlock(leftPos)) {
-            movementDirection = leftDirection;
-        } else if (world.isAirBlock(rightPos)) {
+        if (world.isAirBlock(pos.offset(rightDirection))) {
             movementDirection = rightDirection;
+        } else if (world.isAirBlock(pos.offset(leftDirection))) {
+            movementDirection = leftDirection;
         } else {
             setDead();
 

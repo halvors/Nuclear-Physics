@@ -9,7 +9,6 @@ Porting to 1.10.2 from 1.7.10:
     - Fix fire not vanishing after a while.
     - Fix reactor explosion not destroying blocks.
     - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
-    - Fix all machines, and verify that they work. (Mostly done, Nuclear Boiler is still buggy).
 
 General:
 
@@ -43,6 +42,7 @@ New features to add:
         - Make accelerator GUI show energy usage per 5 mg antimatter, as a measure of efficiency.
         - Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
         - Make toxic waste denser than water, so that it is replaced by toxic waste.
+        - Add support for vertical particle accelerators.
 
     Rendering:
         - Make the whole multi block reactor cell share GUI.

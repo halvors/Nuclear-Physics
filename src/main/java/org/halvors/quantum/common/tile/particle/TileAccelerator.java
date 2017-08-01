@@ -1,10 +1,8 @@
 package org.halvors.quantum.common.tile.particle;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.EnergyStorage;
@@ -19,7 +17,6 @@ import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.machine.TileMachine;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.OreDictionaryHelper;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.List;
 
@@ -92,13 +89,12 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
             clientEnergy = energyStorage.getEnergyStored();
             velocity = getParticleVelocity();
 
-
             outputAntimatter();
 
             // Check if redstone signal is currently being applied.
             ItemStack itemStack = inventory.getStackInSlot(0);
 
-            //if (itemStack != null && world.isBlockIndirectlyGettingPowered(pos) > 0) {
+            if (itemStack != null && world.isBlockIndirectlyGettingPowered(pos) > 0) {
                 //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
@@ -150,8 +146,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
                         }
                     }
 
-                totalEnergyConsumed += energyStorage.extractEnergy(maxTransfer, false);
-                /*
+                    totalEnergyConsumed += energyStorage.extractEnergy(maxTransfer, false);
                 } else {
                     if (entityParticle != null) {
                         entityParticle.setDead();
@@ -159,6 +154,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
 
                     entityParticle = null;
                 }
+                /*
             } else {
                 if (entityParticle != null) {
                     entityParticle.setDead();
