@@ -20,13 +20,14 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.block.BlockInventory;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;
 
-public class BlockReactorCell extends BlockContainerQuantum {
+public class BlockReactorCell extends BlockInventory {
     public BlockReactorCell() {
         super("reactor_cell", Material.IRON);
 
@@ -80,6 +81,8 @@ public class BlockReactorCell extends BlockContainerQuantum {
         if (tile instanceof TileReactorCell) {
             ((TileReactorCell) tile).updatePositionStatus();
         }
+
+        super.onBlockPlacedBy(world, pos, state, entity, itemStack);
     }
 
     @Override

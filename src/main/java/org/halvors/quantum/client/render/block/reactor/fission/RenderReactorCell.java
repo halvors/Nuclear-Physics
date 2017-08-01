@@ -9,6 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.render.ModelCube;
 import org.halvors.quantum.client.render.OBJModelContainer;
+import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
@@ -35,13 +36,16 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
         GlStateManager.translate(x, y, z);
         GlStateManager.disableRescaleNormal();
 
+        // Rotate block based on direction.
+        RenderUtility.rotateBlockBasedOnDirection(tile.getFacing());
+
         EnumReactorCell type = tile.getWorld().getBlockState(tile.getPos()).getValue(BlockStateReactorCell.typeProperty);
         boolean hasBelow = tile.getWorld().getTileEntity(tile.getPos().down()) instanceof TileReactorCell;
 
         switch (type) {
             case TOP:
                 if (hasBelow) {
-                    GlStateManager.translate(0, -0.163, 0); //-0.125
+                    GlStateManager.translate(0, -0.163, 0);
                     modelTopBelow.render();
                 } else {
                     modelTop.render();

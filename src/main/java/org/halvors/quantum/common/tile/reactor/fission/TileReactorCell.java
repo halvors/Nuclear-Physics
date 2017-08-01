@@ -33,7 +33,6 @@ import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
-import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
@@ -46,6 +45,7 @@ import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileQuantum;
+import org.halvors.quantum.common.tile.TileRotatable;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
@@ -53,7 +53,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlockStructure<TileReactorCell>, IReactor, ITileNetwork {
+public class TileReactorCell extends TileRotatable implements ITickable, IMultiBlockStructure<TileReactorCell>, IReactor {
     public static final int radius = 2;
     public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;
@@ -131,8 +131,6 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
 
     @Override
     public void update() {
-        meltDown();
-
         if (world.getTotalWorldTime() == 0) {
             updatePositionStatus();
         }
@@ -478,7 +476,6 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
     private void meltDown() {
         // Make sure the reactor block is destroyed.
         world.setBlockToAir(pos);
-        // TODO: Set temperature to room temperature, so tha the air block is not hot after explosion.
 
         // No need to destroy reactor cell since explosion will do that for us.
         ReactorExplosion reactorExplosion = new ReactorExplosion(world, null, pos, 9);
