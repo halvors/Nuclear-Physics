@@ -1,15 +1,17 @@
 package org.halvors.quantum.common.effect.explosion;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import org.halvors.quantum.common.QuantumBlocks;
 
 import java.util.Random;
 
 public class ReactorExplosion extends Explosion {
-    private Random explosionRAND = new Random();
     private World world;
+    private Random explosionRAND = new Random();
 
     public ReactorExplosion(World world, Entity entity, BlockPos pos, float size) {
         super(world, entity, pos.getX(), pos.getY(), pos.getZ(), size, true, false);
@@ -26,21 +28,12 @@ public class ReactorExplosion extends Explosion {
     public void doExplosionB(boolean flag) {
         super.doExplosionB(flag);
 
-        for (BlockPos affectedBlockPosition : getAffectedBlockPositions()) {
-            //ChunkPos chunkPos = new ChunkPos(affectedBlockPosition);
+        for (BlockPos pos : getAffectedBlockPositions()) {
+            IBlockState stateUnder = world.getBlockState(pos.down());
 
-            /*
-            ChunkPosition chunkPosition = (ChunkPosition) affectedBlockPosition;
-            int x = chunkPosition.chunkPosX;
-            int y = chunkPosition.chunkPosY;
-            int z = chunkPosition.chunkPosZ;
-            Block block = world.getBlock(x, y, z);
-            Block blockUnder = world.getBlock(x, y - 1, z);
-
-            if (block == Blocks.AIR && blockUnder.getDefaultState().isOpaqueCube() && explosionRAND.nextInt(3) == 0) {
+            if (world.isAirBlock(pos) && stateUnder.isOpaqueCube() && explosionRAND.nextInt(3) == 0) {
                 world.setBlockState(pos, QuantumBlocks.blockRadioactiveGrass.getDefaultState());
             }
-            */
         }
     }
 }
