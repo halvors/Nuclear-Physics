@@ -33,6 +33,7 @@ import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
+import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
@@ -130,6 +131,8 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
 
     @Override
     public void update() {
+        meltDown();
+
         if (world.getTotalWorldTime() == 0) {
             updatePositionStatus();
         }
@@ -155,13 +158,10 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
 
             if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
                 EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
-                Vector3 spawnPos = new Vector3(this).translate(spawnDir, 2);
-                spawnPos.translate(0, Math.max(world.rand.nextInt(getHeight()) - 1, 0), 0);
+                BlockPos spawnPos = pos.offset(spawnDir, 2).up(Math.max(world.rand.nextInt(getHeight()) - 1, 0));
 
-                BlockPos pos = new BlockPos(spawnPos.intX(), spawnPos.intY(), spawnPos.intZ());
-
-                if (world.isAirBlock(pos)) {
-                    MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, pos, TilePlasma.plasmaMaxTemperature));
+                if (world.isAirBlock(spawnPos)) {
+                    MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, spawnPos, TilePlasma.plasmaMaxTemperature));
                     tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                 }
             }
@@ -169,7 +169,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
             previousInternalEnergy = internalEnergy;
 
             // Handle cell rod interactions.
-            ItemStack fuelRod = getMultiBlock().get().inventory.getStackInSlot(0);
+            ItemStack fuelRod = getMultiBlock().get().getInventory().getStackInSlot(0);
 
             if (fuelRod != null) {
                 if (fuelRod.getItem() instanceof IReactorComponent) {
@@ -178,7 +178,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
                     reactorComponent.onReact(fuelRod, this);
 
                     if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
-                        getMultiBlock().get().inventory.setStackInSlot(0, null);
+                        getMultiBlock().get().getInventory().setStackInSlot(0, null);
                     }
 
                     // Emit radiation.
@@ -202,10 +202,10 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
                 float deltaT = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
 
                 // Check control rods.
-                for (int side = 2; side < 6; side++) {
-                    Vector3 checkAdjacent = new Vector3(this).translate(EnumFacing.getFront(side));
+                for (EnumFacing side : EnumFacing.HORIZONTALS) {
+                    BlockPos checkPos = pos.offset(side);
 
-                    if (checkAdjacent.getBlock(world) == QuantumBlocks.blockControlRod) {
+                    if (world.getBlockState(checkPos).getBlock() == QuantumBlocks.blockControlRod) {
                         deltaT /= 1.1;
                     }
                 }
@@ -265,7 +265,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
                 if (block == Blocks.GRASS) {
                     world.setBlockState(leakPos, QuantumBlocks.blockRadioactiveGrass.getDefaultState());
                     tank.drainInternal(Fluid.BUCKET_VOLUME, true);
-                } else if (block == Blocks.AIR || block.isReplaceable(world, leakPos)) {
+                } else if (world.isAirBlock(leakPos) || block.isReplaceable(world, leakPos)) {
                     if (tank.getFluid() != null) {
                         world.setBlockState(leakPos, tank.getFluid().getFluid().getBlock().getDefaultState());
                         tank.drainInternal(Fluid.BUCKET_VOLUME, true);
@@ -296,7 +296,6 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
 
         temperature = tag.getFloat("temperature");
         getMultiBlock().load(tag);
-        tank.readFromNBT(tag);
 
         if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
             NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
@@ -324,7 +323,6 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
 
         tag.setFloat("temperature", temperature);
         tag = getMultiBlock().save(tag);
-        tag = tank.writeToNBT(tag);
         tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
         tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
@@ -464,8 +462,8 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
         tile.getMultiBlock().deconstruct();
         tile.getMultiBlock().construct();
 
-        boolean top = new Vector3(this).add(new Vector3(0, 1, 0)).getTileEntity(world) instanceof TileReactorCell;
-        boolean bottom = new Vector3(this).add(new Vector3(0, -1, 0)).getTileEntity(world) instanceof TileReactorCell;
+        boolean top = world.getTileEntity(pos.up()) instanceof TileReactorCell;
+        boolean bottom = world.getTileEntity(pos.down()) instanceof TileReactorCell;
         IBlockState state = world.getBlockState(pos);
 
         if (top && bottom) {
@@ -483,7 +481,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
         // TODO: Set temperature to room temperature, so tha the air block is not hot after explosion.
 
         // No need to destroy reactor cell since explosion will do that for us.
-        ReactorExplosion reactorExplosion = new ReactorExplosion(world, null, pos, 9.0F);
+        ReactorExplosion reactorExplosion = new ReactorExplosion(world, null, pos, 9);
         reactorExplosion.explode();
     }
 
@@ -503,9 +501,9 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
     @Nonnull
     public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return (T) getMultiBlock().get().inventory;
+            return (T) getMultiBlock().get().getInventory();
         } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return (T) getMultiBlock().get().tank;
+            return (T) getMultiBlock().get().getTank();
         }
 
         return super.getCapability(capability, facing);
