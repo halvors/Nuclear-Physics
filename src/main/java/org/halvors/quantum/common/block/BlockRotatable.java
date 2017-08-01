@@ -16,7 +16,7 @@ import org.halvors.quantum.common.tile.ITileRotatable;
 import javax.annotation.Nonnull;
 
 public abstract class BlockRotatable extends BlockContainerQuantum {
-    public BlockRotatable(String name, Material material) {
+    protected BlockRotatable(String name, Material material) {
         super(name, material);
 
         setDefaultState(blockState.getBaseState().withProperty(BlockStateFacing.facingProperty, EnumFacing.NORTH));
@@ -30,6 +30,7 @@ public abstract class BlockRotatable extends BlockContainerQuantum {
 
     @SuppressWarnings("deprecation")
     @Override
+    @Nonnull
     public IBlockState getStateFromMeta(int metadata) {
         return getDefaultState();
     }
@@ -41,6 +42,7 @@ public abstract class BlockRotatable extends BlockContainerQuantum {
 
     @SuppressWarnings("deprecation")
     @Override
+    @Nonnull
     public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
         TileEntity tile = world.getTileEntity(pos);
 

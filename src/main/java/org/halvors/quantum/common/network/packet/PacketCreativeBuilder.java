@@ -11,7 +11,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.common.network.PacketHandler;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -59,17 +58,12 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
 
                     if (!world.isRemote) {// && PlayerUtility.isOp(player)) {
                         try {
-                            Vector3 position = new Vector3(pos.getX(), pos.getY(), pos.getZ());
-
                             if (message.size > 0) {
                                 // TODO: Implement dynamic facing, not just NORTH.
-                                HashMap<Vector3, IBlockState> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.NORTH, message.size);
+                                HashMap<BlockPos, IBlockState> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.NORTH, message.size);
 
-                                for (Entry<Vector3, IBlockState> entry : map.entrySet()) {
-                                    Vector3 placePos = entry.getKey().clone();
-                                    placePos.translate(position);
-
-                                    world.setBlockState(new BlockPos(placePos.getX(), placePos.getY(), placePos.getZ()), entry.getValue());
+                                for (Entry<BlockPos, IBlockState> entry : map.entrySet()) {
+                                    world.setBlockState(entry.getKey().add(pos), entry.getValue());
                                 }
                             }
                         } catch (Exception e) {

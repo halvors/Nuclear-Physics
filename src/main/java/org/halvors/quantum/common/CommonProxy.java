@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -54,10 +55,10 @@ public class CommonProxy implements IGuiHandler {
 
 		if (tile instanceof TileAccelerator) {
 			return new ContainerAccelerator(player.inventory, (TileAccelerator) tile);
-		} else if (tile instanceof TileGasCentrifuge) {
-			return new ContainerGasCentrifuge(player.inventory, (TileGasCentrifuge) tile);
 		} else if (tile instanceof TileChemicalExtractor) {
 			return new ContainerChemicalExtractor(player.inventory, (TileChemicalExtractor) tile);
+		} else if (tile instanceof TileGasCentrifuge) {
+			return new ContainerGasCentrifuge(player.inventory, (TileGasCentrifuge) tile);
 		} else if (tile instanceof TileNuclearBoiler) {
 			return new ContainerNuclearBoiler(player.inventory, (TileNuclearBoiler) tile);
 		} else if (tile instanceof TileQuantumAssembler) {

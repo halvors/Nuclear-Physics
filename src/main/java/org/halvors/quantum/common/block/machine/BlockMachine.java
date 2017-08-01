@@ -35,7 +35,6 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public void registerItemModel(ItemBlock itemBlock) {
         for (EnumMachine type : EnumMachine.values()) {
             Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "facing=north,type=" + type.getName());
@@ -69,9 +68,9 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
-        super.onBlockPlacedBy(world, pos, state, entity, itemStack);
+        world.setBlockState(pos, state.withProperty(BlockStateMachine.typeProperty, EnumMachine.values()[itemStack.getItemDamage()]));
 
-        world.setBlockState(pos, state.withProperty(BlockStateMachine.typeProperty, EnumMachine.values()[itemStack.getItemDamage()]), 2);
+        super.onBlockPlacedBy(world, pos, state, entity, itemStack);
     }
 
     @Override

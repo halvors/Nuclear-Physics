@@ -88,10 +88,10 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
 		if (tile instanceof TileAccelerator) {
 			return new GuiAccelerator(player.inventory, (TileAccelerator) tile);
-		} else if (tile instanceof TileGasCentrifuge) {
-			return new GuiGasCentrifuge(player.inventory, (TileGasCentrifuge) tile);
 		} else if (tile instanceof TileChemicalExtractor) {
 			return new GuiChemicalExtractor(player.inventory, (TileChemicalExtractor) tile);
+		} else if (tile instanceof TileGasCentrifuge) {
+			return new GuiGasCentrifuge(player.inventory, (TileGasCentrifuge) tile);
 		} else if (tile instanceof TileNuclearBoiler) {
 			return new GuiNuclearBoiler(player.inventory, (TileNuclearBoiler) tile);
 		} else if (tile instanceof TileQuantumAssembler) {
