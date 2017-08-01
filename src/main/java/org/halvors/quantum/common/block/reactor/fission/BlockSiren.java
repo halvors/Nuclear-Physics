@@ -33,7 +33,7 @@ public class BlockSiren extends BlockContainerQuantum {
 
             metadata = Math.max(metadata % 16, 0);
 
-            world.setBlockState(pos, state.getBlock().getStateFromMeta(metadata), 2);
+            world.setBlockState(pos, state.getBlock().getStateFromMeta(metadata));
 
             return true;
         }

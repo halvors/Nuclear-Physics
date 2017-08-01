@@ -32,7 +32,6 @@ import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.QuantumFluids;
-import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
 import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.effect.explosion.ReactorExplosion;

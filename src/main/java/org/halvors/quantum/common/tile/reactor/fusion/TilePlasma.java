@@ -22,7 +22,7 @@ public class TilePlasma extends TileEntity implements ITickable {
 
             if (temperature <= plasmaMaxTemperature / 10) {
                 // At this temperature, set block to fire.
-                world.setBlockState(pos, Blocks.FIRE.getDefaultState(), 2);
+                world.setBlockState(pos, Blocks.FIRE.getDefaultState());
             } else {
                 for (EnumFacing side : EnumFacing.VALUES) {
                     // Randomize spread direction.
