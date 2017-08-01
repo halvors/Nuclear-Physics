@@ -34,6 +34,7 @@ import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
 import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
+import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.event.PlasmaEvent;
@@ -318,6 +319,7 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
     }
 
     @Override
+    @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag = super.writeToNBT(tag);
 
@@ -468,11 +470,11 @@ public class TileReactorCell extends TileQuantum implements ITickable, IMultiBlo
         IBlockState state = world.getBlockState(pos);
 
         if (top && bottom) {
-            world.setBlockState(pos, state.withProperty(BlockReactorCell.type, EnumReactorCell.MIDDLE), 3);
+            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.MIDDLE));
         } else if (top) {
-            world.setBlockState(pos, state.withProperty(BlockReactorCell.type, EnumReactorCell.BOTTOM), 3);
+            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.BOTTOM));
         } else {
-            world.setBlockState(pos, state.withProperty(BlockReactorCell.type, EnumReactorCell.TOP), 3);
+            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.TOP));
         }
     }
 

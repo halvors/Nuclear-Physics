@@ -30,7 +30,6 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     public BlockElectromagnet() {
         super("electromagnet", Material.IRON);
 
-
         setResistance(20);
         setDefaultState(blockState.getBaseState().withProperty(BlockStateElectromagnet.typeProperty, EnumElectromagnet.NORMAL));
     }

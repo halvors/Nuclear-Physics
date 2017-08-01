@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
@@ -20,6 +21,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.block.states.BlockStateMachineModel;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.PlayerUtility;
@@ -27,15 +29,20 @@ import org.halvors.quantum.common.utility.PlayerUtility;
 import javax.annotation.Nonnull;
 
 public class BlockReactorCell extends BlockContainerQuantum {
-    public static final PropertyEnum<EnumReactorCell> type = PropertyEnum.create("type", EnumReactorCell.class);
-
     public BlockReactorCell() {
         super("reactor_cell", Material.IRON);
 
-        //setTextureName(Reference.PREFIX + "machine");
         setHardness(1.0F);
         setResistance(1.0F);
         setDefaultState(blockState.getBaseState().withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.TOP));
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @Nonnull
+    @SideOnly(Side.CLIENT)
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @SuppressWarnings("deprecation")
