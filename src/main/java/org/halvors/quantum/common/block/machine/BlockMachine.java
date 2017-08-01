@@ -30,6 +30,8 @@ import java.util.List;
 public class BlockMachine extends BlockInventory {
     public BlockMachine() {
         super("machine", Material.IRON);
+
+        setDefaultState(blockState.getBaseState().withProperty(BlockStateMachine.typeProperty, EnumMachine.ACCELERATOR));
     }
 
     @Override

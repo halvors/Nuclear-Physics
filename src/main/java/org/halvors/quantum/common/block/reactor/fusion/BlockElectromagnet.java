@@ -30,7 +30,9 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     public BlockElectromagnet() {
         super("electromagnet", Material.IRON);
 
+
         setResistance(20);
+        setDefaultState(blockState.getBaseState().withProperty(BlockStateElectromagnet.typeProperty, EnumElectromagnet.NORMAL));
     }
 
     @Override
@@ -38,14 +40,6 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     public void registerItemModel(ItemBlock itemBlock) {
         for (EnumElectromagnet type : EnumElectromagnet.values()) {
             Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "type=" + type.getName());
-        }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
-        for (EnumElectromagnet type : EnumElectromagnet.values()) {
-            list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
 
@@ -72,14 +66,14 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     @Override
     @SideOnly(Side.CLIENT)
     public boolean isOpaqueCube(IBlockState state) {
-        return false;
+        return state.getValue(BlockStateElectromagnet.typeProperty) != EnumElectromagnet.GLASS;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public boolean isFullCube(IBlockState state) {
-        return false;
+        return state.getValue(BlockStateElectromagnet.typeProperty) != EnumElectromagnet.GLASS;
     }
 
     @SuppressWarnings("deprecation")
@@ -91,6 +85,14 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
+        for (EnumElectromagnet type : EnumElectromagnet.values()) {
+            list.add(new ItemStack(item, 1, type.ordinal()));
+        }
+    }
+
+    @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
         return new BlockStateElectromagnet(this);
@@ -98,6 +100,7 @@ public class BlockElectromagnet extends BlockContainerQuantum {
 
     @SuppressWarnings("deprecation")
     @Override
+    @Nonnull
     public IBlockState getStateFromMeta(int metadata) {
         return getDefaultState().withProperty(BlockStateElectromagnet.typeProperty, EnumElectromagnet.values()[metadata]);
     }

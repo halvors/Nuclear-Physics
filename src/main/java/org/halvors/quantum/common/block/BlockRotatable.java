@@ -6,9 +6,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
 import org.halvors.quantum.common.block.states.BlockStateFacing;
 import org.halvors.quantum.common.tile.ITileRotatable;
 
@@ -17,6 +19,8 @@ import javax.annotation.Nonnull;
 public abstract class BlockRotatable extends BlockContainerQuantum {
     public BlockRotatable(String name, Material material) {
         super(name, material);
+
+        setDefaultState(blockState.getBaseState().withProperty(BlockStateFacing.facingProperty, EnumFacing.NORTH));
     }
 
     @Override
@@ -58,7 +62,6 @@ public abstract class BlockRotatable extends BlockContainerQuantum {
             ITileRotatable tileRotatable = (ITileRotatable) tile;
 
             tileRotatable.setFacing(placer.getHorizontalFacing().getOpposite());
-            //world.markBlockRangeForRenderUpdate(pos, pos.add(1,1,1));
         }
     }
 }
