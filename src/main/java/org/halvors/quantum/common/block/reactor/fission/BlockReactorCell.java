@@ -46,13 +46,6 @@ public class BlockReactorCell extends BlockInventory {
 
     @SuppressWarnings("deprecation")
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EnumFacing side) {
-        return false;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
@@ -75,6 +68,17 @@ public class BlockReactorCell extends BlockInventory {
     }
 
     @Override
+    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+        final TileEntity tile = world.getTileEntity(pos);
+
+        if (tile instanceof TileReactorCell) {
+            ((TileReactorCell) tile).updatePositionStatus();
+        }
+
+        super.onBlockAdded(world, pos, state);
+    }
+
+    @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
         final TileEntity tile = world.getTileEntity(pos);
 
@@ -87,10 +91,12 @@ public class BlockReactorCell extends BlockInventory {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        final TileReactorCell tile = (TileReactorCell) world.getTileEntity(pos);
+        final TileEntity tile = world.getTileEntity(pos);
 
-        if (tile != null) {
-            IItemHandlerModifiable inventory = tile.getInventory();
+        if (tile instanceof TileReactorCell) {
+            TileReactorCell tileReactorCell = (TileReactorCell) tile;
+
+            IItemHandlerModifiable inventory = tileReactorCell.getMultiBlock().get().getInventory();
             ItemStack itemStackInSlot = inventory.getStackInSlot(0);
 
             if (itemStack != null) {
