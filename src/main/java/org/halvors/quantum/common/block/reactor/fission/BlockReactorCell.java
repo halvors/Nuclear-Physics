@@ -21,6 +21,8 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.block.BlockInventory;
+import org.halvors.quantum.common.block.machine.BlockMachineModel;
+import org.halvors.quantum.common.block.states.BlockStateMachineModel;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.PlayerUtility;
@@ -60,6 +62,13 @@ public class BlockReactorCell extends BlockInventory {
     @Nonnull
     public BlockStateContainer createBlockState() {
         return new BlockStateReactorCell(this);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @Nonnull
+    public IBlockState getStateFromMeta(int metadata) {
+        return getDefaultState().withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.values()[metadata]);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.block.reactor;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,11 +15,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.block.BlockRotatable;
+import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
+import org.halvors.quantum.common.block.states.BlockStateFacing;
+import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 
 import javax.annotation.Nonnull;
 
-public class BlockElectricTurbine extends BlockContainerQuantum {
+public class BlockElectricTurbine extends BlockRotatable {
     public BlockElectricTurbine() {
         super("electric_turbine", Material.IRON);
     }
@@ -53,7 +58,7 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
             final TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
 
             if (player.isSneaking()) {
-                // TODO: Need to sync this between client and server in order for clients to be updated as well.
+                // TODO: Need to sync this between client and server in order for other clients to be updated as well.
                 //if (!world.isRemote) {
                     return tileTurbine.getMultiBlock().toggleConstruct();
                 //}
@@ -64,7 +69,7 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
     }
 
     @Override
-    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void breakBlock(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileElectricTurbine) {
