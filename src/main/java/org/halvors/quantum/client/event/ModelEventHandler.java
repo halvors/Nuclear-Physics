@@ -39,8 +39,10 @@ public class ModelEventHandler {
 	public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
 		final TextureMap textureMap = event.getMap();
 
+		textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electric_turbine_large"));
 		textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_middle"));
 		textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_bottom"));
+		textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_fissile_material"));
 	}
 
 	/**

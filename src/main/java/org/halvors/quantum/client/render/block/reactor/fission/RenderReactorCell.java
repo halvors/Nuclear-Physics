@@ -10,6 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.render.ModelCube;
 import org.halvors.quantum.client.render.OBJModelContainer;
 import org.halvors.quantum.client.utility.RenderUtility;
+import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
@@ -24,7 +25,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
     private static final OBJModelContainer modelTop = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_top.obj"), Arrays.asList("BackLeftSpike", "BackRightSpike", "Base", "BaseDepth", "BaseWidth", "BottomPad", "FrontLeftSpike", "FrontRightSpike", "HatCover", "HatDepth", "HatMiddle", "HatTop", "HatWidth", "MiddleBackLeft", "MiddleBackRight", "MiddleFrontLeft", "MiddleFrontRight", "MiddlePBack", "MiddlePFront", "MiddlePLeft", "MiddlePRight", "OPBackLeft", "OPBackRight", "OPFrontLeft", "OPFrontRight", "OPLeftBack", "OPLeftFront1", "OPLeftFront2", "OPRightBack", "TopBase", "TopBaseDepth", "TopBaseWidth"));
     private static final OBJModelContainer modelMiddle = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_middle.obj"));
     private static final OBJModelContainer modelBottom = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_bottom.obj"));
-    private static final ResourceLocation textureFissileMaterial = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_fissile_material.png");
+    private static final ResourceLocation textureFissileMaterial = new ResourceLocation(Reference.ID, "textures/models/reactor_fissile_material.png");
 
     @Override
     public void renderTileEntityAt(TileReactorCell tile, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -62,7 +63,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
         }
 
         // Render fissile fuel inside reactor.
-        ItemStack itemStackFuel = tile.getInventory().getStackInSlot(0);
+        ItemStack itemStackFuel = tile.getMultiBlock().get().getInventory().getStackInSlot(0);
 
         if (itemStackFuel != null) {
             float height = tile.getHeight() * (((float) itemStackFuel.getMaxDamage() - itemStackFuel.getMetadata()) / (float) itemStackFuel.getMaxDamage());

@@ -5,9 +5,6 @@
       "flip-v": true
     },
     "model": "quantum:electric_turbine_small.obj",
-    "textures": {
-      "#None": "quantum:models/electric_turbine_small"
-    },
     "transform": "forge:default-block"
   },
   "variants": {
