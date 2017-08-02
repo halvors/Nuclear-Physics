@@ -10,6 +10,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
+import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TileGenerator extends TileQuantum implements ITickable {
+public class TileGenerator extends TileRotatable implements ITickable {
     private final List<BlockPos> mTargets = Lists.newArrayList();
     private final Map<BlockPos, EnumFacing> mFacings = new HashMap<>();
     private int mTargetStartingIndex;
@@ -65,17 +66,15 @@ public class TileGenerator extends TileQuantum implements ITickable {
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return capability == CapabilityEnergy.ENERGY || super.hasCapability(capability, facing);
+        return (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY) {
-            if (getExtractingDirections().contains(facing)) {
-                return (T) energyStorage;
-            }
+        if (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) {
+            return (T) energyStorage;
         }
 
         return super.getCapability(capability, facing);
