@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TileGenerator extends TileRotatable implements ITickable {
+public class TileGenerator extends TileQuantum implements ITickable {
     private final List<BlockPos> mTargets = Lists.newArrayList();
     private final Map<BlockPos, EnumFacing> mFacings = new HashMap<>();
     private int mTargetStartingIndex;

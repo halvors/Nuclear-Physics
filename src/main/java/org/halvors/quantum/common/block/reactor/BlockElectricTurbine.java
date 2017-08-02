@@ -23,7 +23,7 @@ import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 
 import javax.annotation.Nonnull;
 
-public class BlockElectricTurbine extends BlockRotatable {
+public class BlockElectricTurbine extends BlockContainerQuantum {
     public BlockElectricTurbine() {
         super("electric_turbine", Material.IRON);
     }
@@ -59,6 +59,7 @@ public class BlockElectricTurbine extends BlockRotatable {
 
             if (player.isSneaking()) {
                 // TODO: Need to sync this between client and server in order for other clients to be updated as well.
+                // TODO: Why do we need to run this on client side as well?
                 //if (!world.isRemote) {
                     return tileTurbine.getMultiBlock().toggleConstruct();
                 //}

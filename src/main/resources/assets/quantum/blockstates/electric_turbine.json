@@ -13,12 +13,6 @@
     ],
     "inventory": [
       {}
-    ],
-    "facing": {
-      "north": {},
-      "south": {},
-      "west": {},
-      "east": {}
-    }
+    ]
   }
 }

@@ -19,6 +19,7 @@ import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
+import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileGenerator;
@@ -138,6 +139,10 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         }
 
         if (!world.isRemote) {
+            if (world.getTotalWorldTime() % 60 == 0) {
+                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            }
+
             power = 0;
         }
     }
@@ -206,7 +211,11 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public void onMultiBlockChanged() {
-        world.notifyNeighborsOfStateChange(pos, getBlockType());
+        if (!world.isRemote) {
+            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+        }
+
+        //world.notifyNeighborsOfStateChange(pos, getBlockType());
 
         // TODO: Update render?
         //world.markBlockForUpdate(xCoord, yCoord, zCoord);
@@ -235,6 +244,8 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             tier = dataStream.readInt();
             angularVelocity = dataStream.readFloat();
             tank.handlePacketData(dataStream);
+
+            getMultiBlock().load(PacketHandler.readNBT(dataStream));
         }
     }
 
@@ -243,6 +254,8 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         objects.add(tier);
         objects.add(angularVelocity);
         tank.getPacketData(objects);
+
+        objects.add(getMultiBlock().save(new NBTTagCompound()));
 
         return objects;
     }
