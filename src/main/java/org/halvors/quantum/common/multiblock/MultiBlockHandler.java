@@ -1,12 +1,16 @@
 package org.halvors.quantum.common.multiblock;
 
+import io.netty.buffer.ByteBuf;
+import javafx.geometry.Pos;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.api.nbt.ISaveObject;
+import org.halvors.quantum.common.utility.location.Position;
+import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 /** A reference-based multiblock structure uses a central block as the "primary block" and have all
@@ -18,7 +22,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     /** The main block used for reference */
     protected WeakReference<W> prim = null;
     /** The relative primary block position to be loaded in once the tile is initiated. */
-    protected Vector3 newPrimary = null;
+    protected Position newPrimary = null;
     protected final W self;
     protected Class<? extends W> wrapperClass;
 
@@ -29,7 +33,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
     public void update() {
         if (self.getWorldObject() != null && newPrimary != null) {
-            W checkWrapper = getWrapperAt(newPrimary.clone().translate(self.getPosition()));
+            W checkWrapper = getWrapperAt(newPrimary.clone().add(self.getPosition()));
 
             if (checkWrapper != null) {
                 newPrimary = null;
@@ -55,10 +59,10 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
      * @return Null if structure cannot be created. */
     public Set<W> getStructure() {
         Set<W> structure = new LinkedHashSet<>();
-        Vector3[] vectors = self.getMultiBlockVectors();
+        Position[] positions = self.getMultiBlockVectors();
 
-        for (Vector3 vector : vectors) {
-            W checkWrapper = getWrapperAt(vector.translate(self.getPosition()));
+        for (Position position : positions) {
+            W checkWrapper = getWrapperAt(position.add(self.getPosition()));
 
             if (checkWrapper != null) {
                 structure.add(checkWrapper);
@@ -129,7 +133,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     }
 
 
-    public W getWrapperAt(Vector3 position) {
+    public W getWrapperAt(Position position) {
         TileEntity tile = position.getTileEntity(self.getWorldObject());
 
         if (tile != null && wrapperClass.isAssignableFrom(tile.getClass())) {
@@ -158,9 +162,9 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
     /** Only the primary wrapper of the multiblock saves and loads data. */
     @Override
-    public void load(NBTTagCompound tag) {
+    public void readFromNBT(NBTTagCompound tag) {
         if (tag.hasKey("primaryMultiBlock")) {
-            newPrimary = new Vector3(tag.getCompoundTag("primaryMultiBlock"));
+            newPrimary = new Position(tag.getCompoundTag("primaryMultiBlock"));
             update();
         } else {
             prim = null;
@@ -168,11 +172,31 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     }
 
     @Override
-    public NBTTagCompound save(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         if (isConstructed()) {
             tag.setTag("primaryMultiBlock", getPrimary().getPosition().subtract(self.getPosition()).writeToNBT(new NBTTagCompound()));
         }
 
         return tag;
+    }
+
+    public void handlePacketData(ByteBuf dataStream) {
+        if (dataStream.readBoolean()) {
+            newPrimary = new Position(dataStream);
+            update();
+        } else {
+            prim = null;
+        }
+    }
+
+    public List<Object> getPacketData(List<Object> objects) {
+        if (isConstructed()) {
+            objects.add(true);
+            getPrimary().getPosition().subtract(self.getPosition()).getPacketData(objects);
+        } else {
+            objects.add(false);
+        }
+
+        return objects;
     }
 }

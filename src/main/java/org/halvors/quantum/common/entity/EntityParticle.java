@@ -25,6 +25,7 @@ import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.utility.location.Position;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class EntityParticle extends Entity implements IEntityAdditionalSpawnData {
@@ -161,8 +162,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 return;
             }
 
-            Position accelerationPos = new Position(new BlockPos(0, 0, 0).offset(movementDirection));
-            accelerationPos.scale(acceleration);
+            Position accelerationPos = new Position().offset(movementDirection).scale(acceleration);
 
             motionX = Math.min(accelerationPos.getX() + motionX, antimatterCreationSpeed);
             motionY = Math.min(accelerationPos.getY() + motionY, antimatterCreationSpeed);
@@ -208,13 +208,13 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound tag) {
+    protected void readEntityFromNBT(@Nonnull NBTTagCompound tag) {
         movementPos = new BlockPos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z"));
         movementDirection = EnumFacing.getFront(tag.getByte("direction"));
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound tag) {
+    protected void writeEntityToNBT(@Nonnull NBTTagCompound tag) {
         tag.setInteger("x", movementPos.getX());
         tag.setInteger("y", movementPos.getY());
         tag.setInteger("z", movementPos.getZ());

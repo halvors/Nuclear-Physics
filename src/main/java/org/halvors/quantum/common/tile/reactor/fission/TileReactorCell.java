@@ -47,6 +47,7 @@ import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileQuantum;
 import org.halvors.quantum.common.tile.TileRotatable;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
+import org.halvors.quantum.common.utility.location.Position;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import javax.annotation.Nonnull;
@@ -293,7 +294,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         super.readFromNBT(tag);
 
         temperature = tag.getFloat("temperature");
-        getMultiBlock().load(tag);
+        getMultiBlock().readFromNBT(tag);
 
         if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
             NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
@@ -320,7 +321,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         tag = super.writeToNBT(tag);
 
         tag.setFloat("temperature", temperature);
-        tag = getMultiBlock().save(tag);
+        tag = getMultiBlock().writeToNBT(tag);
         tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
         tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
@@ -330,23 +331,24 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public Vector3[] getMultiBlockVectors() {
-        List<Vector3> vectors = new ArrayList<>();
-        Vector3 checkPosition = new Vector3(this);
+    public Position[] getMultiBlockVectors() {
+        List<Position> positions = new ArrayList<>();
+        Position checkPosition = new Position(this);
 
         while (true) {
             TileEntity tileEntity = checkPosition.getTileEntity(world);
 
             if (tileEntity instanceof TileReactorCell) {
-                vectors.add(checkPosition.clone().subtract(getPosition()));
+                positions.add(checkPosition.clone().subtract(getPosition()));
             } else {
                 break;
             }
 
-            checkPosition.y++;
+            //checkPosition.y++;
+            checkPosition = checkPosition.offset(EnumFacing.UP, 1);
         }
 
-        return vectors.toArray(new Vector3[0]);
+        return positions.toArray(new Position[0]);
     }
 
     @Override
@@ -360,8 +362,8 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     }
 
     @Override
-    public Vector3 getPosition() {
-        return new Vector3(this);
+    public Position getPosition() {
+        return new Position(this);
     }
 
     @Override

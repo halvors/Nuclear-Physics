@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.tile.reactor;
 
 import io.netty.buffer.ByteBuf;
+import javafx.geometry.Pos;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -23,6 +24,7 @@ import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileGenerator;
+import org.halvors.quantum.common.utility.location.Position;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import javax.annotation.Nonnull;
@@ -121,6 +123,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             if (angularVelocity != 0) {
                 if (world.getWorldTime() % 26 == 0) {
                     double maxVelocity = (getMaxPower() / torque) * 4;
+
                     float percentage = angularVelocity * 4 / (float) maxVelocity;
 
                     // TODO: Is this working?
@@ -139,7 +142,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         }
 
         if (!world.isRemote) {
-            if (world.getTotalWorldTime() % 60 == 0) {
+            if (world.getTotalWorldTime() % 60 == 0 && getMultiBlock().isConstructed()) {
                 Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
 
@@ -152,7 +155,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         super.readFromNBT(tag);
 
         multiBlockRadius = tag.getInteger("multiBlockRadius");
-        getMultiBlock().load(tag);
+        getMultiBlock().readFromNBT(tag);
         CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
     }
 
@@ -161,32 +164,17 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         tag = super.writeToNBT(tag);
 
         tag.setInteger("multiBlockRadius", multiBlockRadius);
-        tag = getMultiBlock().save(tag);
+        tag = getMultiBlock().writeToNBT(tag);
         tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }
 
-    /*
-    @Override
-    public boolean canConnectEnergy(EnumFacing from) {
-        return getMultiBlock().isPrimary() && from == EnumFacing.UP;
-    }
-    */
-
-    /*
-    @Override
-    public EnumSet<EnumFacing> getExtractingDirections()
-    {
-        return EnumSet.of(EnumFacing.UP);
-    }
-    */
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public Vector3[] getMultiBlockVectors() {
-        Set<Vector3> vectors = new HashSet<>();
+    public Position[] getMultiBlockVectors() {
+        Set<Position> positions = new HashSet<>();
 
         EnumFacing dir = EnumFacing.UP;
         int xMulti = dir.getFrontOffsetX() != 0 ? 0 : 1;
@@ -196,12 +184,12 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         for (int x = -multiBlockRadius; x <= multiBlockRadius; x++) {
             for (int y = -multiBlockRadius; y <= multiBlockRadius; y++) {
                 for (int z = -multiBlockRadius; z <= multiBlockRadius; z++) {
-                    vectors.add(new Vector3(x * xMulti, y * yMulti, z * zMulti));
+                    positions.add(new Position(x * xMulti, y * yMulti, z * zMulti));
                 }
             }
         }
 
-        return vectors.toArray(new Vector3[0]);
+        return positions.toArray(new Position[0]);
     }
 
     @Override
@@ -222,9 +210,8 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     }
 
     @Override
-    public Vector3 getPosition()
-    {
-        return new Vector3(this);
+    public Position getPosition() {
+        return new Position(this);
     }
 
     @Override
@@ -241,21 +228,19 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     @Override
     public void handlePacketData(ByteBuf dataStream) {
         if (world.isRemote) {
+            getMultiBlock().handlePacketData(dataStream);
             tier = dataStream.readInt();
             angularVelocity = dataStream.readFloat();
             tank.handlePacketData(dataStream);
-
-            getMultiBlock().load(PacketHandler.readNBT(dataStream));
         }
     }
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
+        getMultiBlock().getPacketData(objects);
         objects.add(tier);
         objects.add(angularVelocity);
         tank.getPacketData(objects);
-
-        objects.add(getMultiBlock().save(new NBTTagCompound()));
 
         return objects;
     }
