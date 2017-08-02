@@ -11,10 +11,10 @@ public class ElectricTurbineMultiBlockHandler extends MultiBlockHandler<TileElec
 
     @Override
     public TileElectricTurbine getWrapperAt(Vector3 position) {
-        TileEntity tileEntity = position.getTileEntity(self.getWorld());
+        TileEntity tile = position.getTileEntity(self.getWorldObject());
 
-        if (tileEntity != null && wrapperClass.isAssignableFrom(tileEntity.getClass())) {
-            TileElectricTurbine tileTurbine = (TileElectricTurbine) tileEntity;
+        if (tile != null && wrapperClass.isAssignableFrom(tile.getClass())) {
+            TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
 
             if (tileTurbine.tier == self.tier) {
                 return tileTurbine;

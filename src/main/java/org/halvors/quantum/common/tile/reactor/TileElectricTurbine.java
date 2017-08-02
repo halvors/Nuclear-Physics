@@ -44,10 +44,12 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     protected int torque = defaultTorque;
 
     private final FluidTankQuantum tank = new FluidTankQuantum(QuantumFluids.fluidStackSteam, Fluid.BUCKET_VOLUME * 100) {
+        /*
         @Override
         public boolean canFill() {
             return false;
         }
+        */
     };
 
     // Radius of large turbine?
@@ -167,11 +169,13 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     }
     */
 
+    /*
     @Override
     public EnumSet<EnumFacing> getExtractingDirections()
     {
         return EnumSet.of(EnumFacing.UP);
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -179,10 +183,10 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public Vector3[] getMultiBlockVectors() {
         Set<Vector3> vectors = new HashSet<>();
 
-        EnumFacing facing = EnumFacing.NORTH;
-        int xMulti = facing.getFrontOffsetX() != 0 ? 0 : 1;
-        int yMulti = facing.getFrontOffsetY() != 0 ? 0 : 1;
-        int zMulti = facing.getFrontOffsetZ() != 0 ? 0 : 1;
+        EnumFacing dir = EnumFacing.UP;
+        int xMulti = dir.getFrontOffsetX() != 0 ? 0 : 1;
+        int yMulti = dir.getFrontOffsetY() != 0 ? 0 : 1;
+        int zMulti = dir.getFrontOffsetZ() != 0 ? 0 : 1;
 
         for (int x = -multiBlockRadius; x <= multiBlockRadius; x++) {
             for (int y = -multiBlockRadius; y <= multiBlockRadius; y++) {
@@ -243,6 +247,8 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         return objects;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private int getMaxPower() {
         if (getMultiBlock().isConstructed()) {
             return maxPower * getArea();
@@ -259,17 +265,21 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return capability == CapabilityEnergy.ENERGY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+        return (capability == CapabilityEnergy.ENERGY && getMultiBlock().isPrimary() && facing == EnumFacing.UP) || (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && getMultiBlock().isPrimary() && facing == EnumFacing.DOWN) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP) {
-            return  (T) getMultiBlock().get().energyStorage;
-        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == EnumFacing.DOWN) {
-            return (T) getMultiBlock().get().tank;
+        if (capability == CapabilityEnergy.ENERGY) {
+            if (getMultiBlock().isPrimary() && facing == EnumFacing.UP) {
+                return (T) getMultiBlock().get().getEnergyStorage();
+            }
+        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            if (getMultiBlock().isPrimary() && facing == EnumFacing.DOWN) {
+                return (T) getMultiBlock().get().tank;
+            }
         }
 
         return super.getCapability(capability, facing);
