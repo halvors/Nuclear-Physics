@@ -58,13 +58,6 @@ public class BlockMachineModel extends BlockInventory {
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-        return false;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @SideOnly(Side.CLIENT)
     public boolean isFullCube(IBlockState state) {
         return false;
     }

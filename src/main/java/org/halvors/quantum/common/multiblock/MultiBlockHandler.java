@@ -9,21 +9,27 @@ import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-/** A reference-based multiblock structure uses a central block as the "primary block" and have all
+/**
+ * A reference-based multiblock structure uses a central block as the "primary block" and have all
  * the blocks around it be "dummy blocks". This handler should be extended. Every single block will
  * have a reference of this object.
  *
- * @author Calclavia */
+ * @author Calclavia
+ */
 public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveObject {
-    /** The main block used for reference */
-    protected WeakReference<W> prim = null;
-    /** The relative primary block position to be loaded in once the tile is initiated. */
-    protected Vector3 newPrimary = null;
     protected final W self;
+    /**
+     * The main block used for reference
+     */
+    protected WeakReference<W> prim = null;
+    /**
+     * The relative primary block position to be loaded in once the tile is initiated.
+     */
+    protected Vector3 newPrimary = null;
     protected Class<? extends W> wrapperClass;
 
     public MultiBlockHandler(W wrapper) {
-        self = wrapper;
+        this.self = wrapper;
         wrapperClass = (Class<? extends W>) wrapper.getClass();
     }
 
@@ -42,19 +48,26 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
         }
     }
 
-    /** Try to construct the structure, otherwise, deconstruct it.
+    /**
+     * Try to construct the structure, otherwise, deconstruct it.
      *
-     * @return True if operation is successful. */
+     * @return True if operation is successful.
+     */
     public boolean toggleConstruct() {
-        return construct() || deconstruct();
+        if (!construct()) {
+            return deconstruct();
+        }
 
+        return true;
     }
 
-    /** Gets the structure blocks of the multiblock.
+    /**
+     * Gets the structure blocks of the multiblock.
      *
-     * @return Null if structure cannot be created. */
+     * @return Null if structure cannot be created.
+     */
     public Set<W> getStructure() {
-        Set<W> structure = new LinkedHashSet<>();
+        Set<W> structure = new LinkedHashSet<W>();
         Vector3[] vectors = self.getMultiBlockVectors();
 
         for (Vector3 vector : vectors) {
@@ -64,7 +77,6 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
                 structure.add(checkWrapper);
             } else {
                 structure.clear();
-
                 return null;
             }
         }
@@ -72,19 +84,20 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
         return structure;
     }
 
-    /** Called to construct the multiblock structure. Example: Wrenching the center block or checking
+    /**
+     * Called to construct the multiblock structure. Example: Wrenching the center block or checking
      * if a placement was done correct. Note that this block will become the PRIMARY block.
      *
-     * @return True if the construction was successful. */
+     * @return True if the construction was successful.
+     */
     public boolean construct() {
         if (!isConstructed()) {
             Set<W> structures = getStructure();
 
             if (structures != null) {
                 for (W structure : structures) {
-                    if (structure.getMultiBlock().isConstructed()) {
+                    if (structure.getMultiBlock().isConstructed())
                         return false;
-                    }
                 }
 
                 prim = new WeakReference<>(self);
@@ -128,7 +141,6 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
         return false;
     }
 
-
     public W getWrapperAt(Vector3 position) {
         TileEntity tile = position.getTileEntity(self.getWorldObject());
 
@@ -151,12 +163,13 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
         return prim == null ? null : prim.get();
     }
 
-    public W get()
-    {
+    public W get() {
         return getPrimary() != null ? getPrimary() : self;
     }
 
-    /** Only the primary wrapper of the multiblock saves and loads data. */
+    /**
+     * Only the primary wrapper of the multiblock saves and loads data.
+     */
     @Override
     public void load(NBTTagCompound tag) {
         if (tag.hasKey("primaryMultiBlock")) {
@@ -175,4 +188,5 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
         return tag;
     }
+
 }

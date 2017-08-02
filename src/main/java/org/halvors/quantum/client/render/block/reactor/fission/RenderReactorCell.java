@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.render.ModelCube;
-import org.halvors.quantum.client.render.OBJModelContainer;
+import org.halvors.quantum.client.render.block.ModelCube;
+import org.halvors.quantum.client.render.block.OBJModelContainer;
 import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
@@ -63,20 +63,22 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
         }
 
         // Render fissile fuel inside reactor.
-        ItemStack itemStackFuel = tile.getMultiBlock().get().getInventory().getStackInSlot(0);
+        if (tile.getMultiBlock().isPrimary()) {
+            ItemStack itemStackFuel = tile.getMultiBlock().get().getInventory().getStackInSlot(0);
 
-        if (itemStackFuel != null) {
-            float height = tile.getHeight() * (((float) itemStackFuel.getMaxDamage() - itemStackFuel.getMetadata()) / (float) itemStackFuel.getMaxDamage());
+            if (itemStackFuel != null) {
+                float height = tile.getHeight() * (((float) itemStackFuel.getMaxDamage() - itemStackFuel.getMetadata()) / (float) itemStackFuel.getMaxDamage());
 
-            bindTexture(textureFissileMaterial);
+                bindTexture(textureFissileMaterial);
 
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(0.5, 0, 0.5);
-            GlStateManager.scale(0.4, 1.6 * height, 0.4);
-            GlStateManager.disableLighting();
-            ModelCube.getInstance().render();
-            GlStateManager.enableLighting();
-            GlStateManager.popMatrix();
+                GlStateManager.pushMatrix();
+                GlStateManager.translate(0.5, 0, 0.5);
+                GlStateManager.scale(0.4, 1.6 * height, 0.4);
+                GlStateManager.disableLighting();
+                ModelCube.getInstance().render();
+                GlStateManager.enableLighting();
+                GlStateManager.popMatrix();
+            }
         }
 
         GlStateManager.popMatrix();

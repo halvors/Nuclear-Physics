@@ -1,4 +1,4 @@
-package org.halvors.quantum.client.render;
+package org.halvors.quantum.client.render.block;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

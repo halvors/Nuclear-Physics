@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.render.OBJModelContainer;
+import org.halvors.quantum.client.render.block.OBJModelContainer;
 import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.utility.ResourceUtility;

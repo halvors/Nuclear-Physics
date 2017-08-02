@@ -1,4 +1,4 @@
-package org.halvors.quantum.client.render;
+package org.halvors.quantum.client.render.block;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
