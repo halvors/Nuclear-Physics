@@ -58,16 +58,32 @@ tile.fluid.tritium.name=Tritium
 tile.fluid.toxic_waste.name=Toxic Waste
 tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
+// Component items.
+item.screwdriver.name=Screwdriver
+item.motor.name=Motor
+item.circuit_basic.name=Basic Circuit
+item.circuit_advanced.name=Advanced Circuit
+item.circuit_elite.name=Elite Circuit
+item.plate_copper.name=Copper Plate
+item.plate_tin.name=Tin Plate
+item.plate_bronze.name=Bronze Plate
+item.plate_steel.name=Steel Plate
+item.plate_iron.name=Iron Plate
+item.plate_gold.name=Gold Plate
+item.ingot_copper.name=Copper Ingot
+item.ingot_tin.name=Tin Ingot
+item.ingot_bronze.name=Bronze Ingot
+item.ingot_steel.name=Steel Ingot
+item.dust_bronze.name=Bronze Dust
+item.dust_steel.name=Steel Dust
+
 // Items.
-// Cells.
 item.cell.name=Cell
 item.darkmatter_cell.0.name=Dark Matter
 item.antimatter_cell.0.name=Antimatter
 item.antimatter_cell.0.tooltip=125 Milligrams
 item.antimatter_cell.1.name=Antimatter
 item.antimatter_cell.1.tooltip=1 Gram
-
-// Uranium
 item.yellowcake.name=Yellowcake
 item.uranium.0.name=Uranium-235
 item.uranium.0.tooltip=Enriched Uranium
@@ -78,7 +94,6 @@ item.fissile_fuel.tooltip=The primary fuel source for fission reactors.
 item.breeder_fuel.name=Breeder Fuel Rod
 item.breeder_fuel.tooltip=The fuel source for re-breeding decayed fissile fuels.
 
-// Hazmat
 item.hazmat_mask.name=Hazmat Mask
 item.hazmat_body.name=Hazmat Body
 item.hazmat_leggings.name=Hazmat Leggings

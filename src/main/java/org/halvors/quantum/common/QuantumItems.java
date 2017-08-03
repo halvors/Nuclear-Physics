@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemQuantum;
+import org.halvors.quantum.common.item.ItemQuantumComponents;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.item.armor.ItemArmorHazmat;
 import org.halvors.quantum.common.item.armor.ItemArmorQuantum;
@@ -19,18 +20,33 @@ import org.halvors.quantum.common.item.reactor.fission.ItemUranium;
 import org.halvors.quantum.common.utility.FluidUtility;
 
 public class QuantumItems {
-    // Cells
+    // Basic Components
+    public static Item itemScrewdriver = new ItemQuantumComponents("screwdriver");
+    public static Item itemMotor = new ItemQuantumComponents("motor");
+    public static Item itemCircuitBasic = new ItemQuantumComponents("circuit_basic");
+    public static Item itemCircuitAdvanced = new ItemQuantumComponents("circuit_advanced");
+    public static Item itemCircuitElite = new ItemQuantumComponents("circuit_elite");
+    public static Item itemPlateCopper = new ItemQuantumComponents("plate_copper");
+    public static Item itemPlateTin = new ItemQuantumComponents("plate_tin");
+    public static Item itemPlateBronze = new ItemQuantumComponents("plate_bronze");
+    public static Item itemPlateSteel = new ItemQuantumComponents("plate_steel");
+    public static Item itemPlateIron = new ItemQuantumComponents("plate_iron");
+    public static Item itemPlateGold = new ItemQuantumComponents("plate_gold");
+    public static Item itemIngotCopper = new ItemQuantumComponents("ingot_copper");
+    public static Item itemIngotTin = new ItemQuantumComponents("ingot_tin");
+    public static Item itemIngotSteel = new ItemQuantumComponents("ingot_steel");
+    public static Item itemIngotBronze = new ItemQuantumComponents("ingot_bronze");
+    public static Item itemDustSteel = new ItemQuantumComponents("dust_steel");
+    public static Item itemDustBronze = new ItemQuantumComponents("dust_bronze");
+
     public static Item itemAntimatterCell = new ItemAntimatterCell();
     public static Item itemBreederFuel = new ItemBreederFuel();
     public static Item itemCell = new ItemCell();
     public static Item itemDarkMatterCell = new ItemQuantum("darkmatter_cell");
     public static Item itemFissileFuel = new ItemFissileFuel();
-
-    // Uranium
     public static Item itemUranium = new ItemUranium();
     public static Item itemYellowCake = new ItemRadioactive("yellowcake");
 
-    // Hazmat
     public static ItemArmor itemHazmatMask = new ItemArmorHazmat("hazmat_mask", EntityEquipmentSlot.HEAD);
     public static ItemArmor itemHazmatBody = new ItemArmorHazmat("hazmat_body", EntityEquipmentSlot.CHEST);
     public static ItemArmor itemHazmatLeggings = new ItemArmorHazmat("hazmat_leggings", EntityEquipmentSlot.LEGS);
@@ -38,12 +54,30 @@ public class QuantumItems {
 
     // Register items.
     public static void register() {
+        // Basic Components
+        register(itemScrewdriver);
+        register(itemMotor);
+        register(itemCircuitBasic, "circuitBasic");
+        register(itemCircuitAdvanced, "circuitAdvanced");
+        register(itemCircuitElite, "circuitElite");
+        register(itemPlateCopper, "plateCopper");
+        register(itemPlateTin, "plateTin");
+        register(itemPlateBronze, "plateBronze");
+        register(itemPlateSteel, "plateSteel");
+        register(itemPlateIron, "plateIron");
+        register(itemPlateGold, "plateGold");
+        register(itemIngotCopper, "ingotCopper");
+        register(itemIngotTin, "ingotTin");
+        register(itemIngotSteel, "ingotSteel");
+        register(itemIngotBronze, "ingotBronze");
+        register(itemDustSteel, "dustSteel");
+        register(itemDustBronze, "dustBronze");
+
         register(itemAntimatterCell);
         register(itemBreederFuel, "fuelBreeder");
         register(itemCell, "cellEmpty");
         register(itemDarkMatterCell, "cellDarkmatter");
         register(itemFissileFuel, "fuelFissile");
-
         register(itemUranium);
         register(itemYellowCake, "dustUranium");
 

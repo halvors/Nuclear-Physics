@@ -1,5 +1,6 @@
 package org.halvors.quantum.common;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
@@ -31,6 +32,8 @@ import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.tile.particle.FulminationHandler;
+import org.halvors.quantum.common.creative.CreativeTabQuantum;
+import org.halvors.quantum.common.creative.CreativeTabQuantumComponents;
 
 /**
  * This is the Quantum class, which is the main class of this mod.
@@ -62,7 +65,8 @@ public class Quantum {
 	private static final Logger logger = LogManager.getLogger(Reference.ID);
 
 	// Creative Tab
-	private static final CreativeTabQuantum creativeTab = new CreativeTabQuantum();
+	private static final CreativeTabs creativeTab = new CreativeTabQuantum();
+	private static final CreativeTabs creativeComponentsTab = new CreativeTabQuantumComponents();
 
 	// Grids
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
@@ -170,7 +174,10 @@ public class Quantum {
 		return logger;
 	}
 
-	public static CreativeTabQuantum getCreativeTab() {
+	public static CreativeTabs getCreativeTab() {
 		return creativeTab;
+	}
+	public static CreativeTabs getCreativeComponentsTab() {
+		return creativeComponentsTab;
 	}
 }

@@ -31,6 +31,11 @@ import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 
 public class QuantumBlocks {
+    // Basic Components
+    public static Block blockOreCopper;
+    public static Block blockOreTin;
+    public static Block blockCreativeBuilder = new BlockCreativeBuilder();
+
     public static Block blockControlRod = new BlockControlRod();
     public static Block blockElectricTurbine = new BlockElectricTurbine();
     public static Block blockElectromagnet = new BlockElectromagnet();
@@ -44,10 +49,11 @@ public class QuantumBlocks {
     public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
     public static Block blockReactorCell = new BlockReactorCell();
 
-    public static Block blockCreativeBuilder = new BlockCreativeBuilder();
-
     // Register blocks.
     public static void register() {
+        // Basic Components
+        register(blockCreativeBuilder);
+
         register(blockControlRod);
         register(blockElectricTurbine);
         register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
@@ -61,8 +67,6 @@ public class QuantumBlocks {
         //QuantumFluids.plasma.setBlock(blockPlasma);
         register(blockRadioactiveGrass, "blockRadioactiveGrass");
         register(blockReactorCell);
-
-        register(blockCreativeBuilder);
 
         for (EnumMachine type : EnumMachine.values()) {
             GameRegistry.registerTileEntity(type.getTileClass(), getNameFromClass(type.getTileClass()));
