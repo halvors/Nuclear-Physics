@@ -19,19 +19,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class BlockElectromagnet extends BlockContainerQuantum {
+public class BlockElectromagnet extends BlockConnectedTexture {
     public BlockElectromagnet() {
         super("electromagnet", Material.IRON);
 
         setResistance(20);
-        setDefaultState(blockState.getBaseState().withProperty(BlockStateElectromagnet.typeProperty, EnumElectromagnet.NORMAL));
+        setDefaultState(blockState.getBaseState().withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.NORMAL));
     }
 
     @Override
@@ -50,8 +49,8 @@ public class BlockElectromagnet extends BlockContainerQuantum {
         Block neighborBlock = neighborBlockState.getBlock();
 
         if (neighborBlock == this) {
-            EnumElectromagnet neighborBlockType = neighborBlockState.getValue(BlockStateElectromagnet.typeProperty);
-            EnumElectromagnet blockType = state.getValue(BlockStateElectromagnet.typeProperty);
+            EnumElectromagnet neighborBlockType = neighborBlockState.getValue(BlockStateElectromagnet.TYPE);
+            EnumElectromagnet blockType = state.getValue(BlockStateElectromagnet.TYPE);
 
             if (blockType == neighborBlockType && neighborBlockType == EnumElectromagnet.GLASS) {
                 return false;
@@ -65,14 +64,14 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     @Override
     @SideOnly(Side.CLIENT)
     public boolean isOpaqueCube(IBlockState state) {
-        return state.getValue(BlockStateElectromagnet.typeProperty) != EnumElectromagnet.GLASS;
+        return state.getValue(BlockStateElectromagnet.TYPE) != EnumElectromagnet.GLASS;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public boolean isFullCube(IBlockState state) {
-        return state.getValue(BlockStateElectromagnet.typeProperty) != EnumElectromagnet.GLASS;
+        return state.getValue(BlockStateElectromagnet.TYPE) != EnumElectromagnet.GLASS;
     }
 
     @SuppressWarnings("deprecation")
@@ -101,22 +100,22 @@ public class BlockElectromagnet extends BlockContainerQuantum {
     @Override
     @Nonnull
     public IBlockState getStateFromMeta(int metadata) {
-        return getDefaultState().withProperty(BlockStateElectromagnet.typeProperty, EnumElectromagnet.values()[metadata]);
+        return getDefaultState().withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.values()[metadata]);
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(BlockStateElectromagnet.typeProperty).ordinal();
+        return state.getValue(BlockStateElectromagnet.TYPE).ordinal();
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
-        world.setBlockState(pos, state.withProperty(BlockStateElectromagnet.typeProperty, EnumElectromagnet.values()[itemStack.getItemDamage()]), 2);
+        world.setBlockState(pos, state.withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.values()[itemStack.getItemDamage()]), 2);
     }
 
     @Override
     public boolean isSideSolid(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
-        return state.getValue(BlockStateElectromagnet.typeProperty) == EnumElectromagnet.NORMAL;
+        return state.getValue(BlockStateElectromagnet.TYPE) == EnumElectromagnet.NORMAL;
     }
 
     @Override

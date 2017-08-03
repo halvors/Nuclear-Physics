@@ -1,0 +1,13 @@
+{
+    "__comment": "Model for when two adgacent sides are connected.",
+	"parent": "quantum:block/cube",
+    "textures": {
+		"particle": "#normal",
+		"down": "#lr_top",
+		"up": "#lr_top",
+		"north": "#lr",
+		"south": "#lr",
+		"west": "#udlr",
+		"east": "#udlr"
+    }
+}

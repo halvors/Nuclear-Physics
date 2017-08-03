@@ -1,0 +1,13 @@
+{
+    "__comment": "Model for when only one side is connected.",
+	"parent": "quantum:block/cube",
+    "textures": {
+		"particle": "#normal",
+        "down": "#top",
+		"up": "#udlr",
+		"north": "#u",
+		"south": "#u",
+		"west": "#u",
+		"east": "#u"
+    }
+}

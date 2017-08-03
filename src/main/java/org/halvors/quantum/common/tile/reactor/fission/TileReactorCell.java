@@ -467,11 +467,11 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         IBlockState state = world.getBlockState(pos);
 
         if (top && bottom) {
-            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.MIDDLE));
+            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.TYPE, EnumReactorCell.MIDDLE));
         } else if (top) {
-            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.BOTTOM));
+            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.TYPE, EnumReactorCell.BOTTOM));
         } else {
-            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.TOP));
+            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.TYPE, EnumReactorCell.TOP));
         }
     }
 

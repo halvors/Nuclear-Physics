@@ -5,10 +5,10 @@ import net.minecraft.block.state.BlockStateContainer;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 
-public class BlockStateElectromagnet extends BlockStateContainer {
-    public static final PropertyEnum<EnumElectromagnet> typeProperty = PropertyEnum.create("type", EnumElectromagnet.class);
+public class BlockStateElectromagnet extends BlockStateConnectedTexture {
+    public static final PropertyEnum<EnumElectromagnet> TYPE = PropertyEnum.create("type", EnumElectromagnet.class);
 
     public BlockStateElectromagnet(BlockElectromagnet block) {
-        super(block, typeProperty);
+        super(block, TYPE);
     }
 }

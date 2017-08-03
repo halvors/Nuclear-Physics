@@ -1,0 +1,29 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all",
+    "uvlock": true
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {}
+    ],
+    "type": {
+      "normal": {
+        "textures": {
+          "all": "quantum:blocks/electromagnet",
+          "down": "quantum:blocks/electromagnet_top",
+          "up": "quantum:blocks/electromagnet_top"
+        }
+      },
+      "glass": {
+        "textures": {
+          "all": "quantum:blocks/electromagnet_glass"
+        }
+      }
+    }
+  }
+}

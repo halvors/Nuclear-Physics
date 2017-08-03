@@ -35,7 +35,7 @@ public class BlockReactorCell extends BlockInventory {
 
         setHardness(1.0F);
         setResistance(1.0F);
-        setDefaultState(blockState.getBaseState().withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.TOP));
+        setDefaultState(blockState.getBaseState().withProperty(BlockStateReactorCell.TYPE, EnumReactorCell.TOP));
     }
 
     @SuppressWarnings("deprecation")
@@ -68,12 +68,12 @@ public class BlockReactorCell extends BlockInventory {
     @Override
     @Nonnull
     public IBlockState getStateFromMeta(int metadata) {
-        return getDefaultState().withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.values()[metadata]);
+        return getDefaultState().withProperty(BlockStateReactorCell.TYPE, EnumReactorCell.values()[metadata]);
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(BlockStateReactorCell.typeProperty).ordinal();
+        return state.getValue(BlockStateReactorCell.TYPE).ordinal();
     }
 
     @Override
