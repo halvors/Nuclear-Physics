@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.block.reactor.fusion;
+package org.halvors.quantum.common.block;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -65,19 +65,19 @@ public class BlockConnectedTexture extends BlockContainerQuantum {
      * @return Whether or not the side is connectable.
      */
     private boolean isSideConnectable(IBlockAccess world, BlockPos pos, EnumFacing side) {
-        final IBlockState original = world.getBlockState(pos);
-        final IBlockState connected = world.getBlockState(pos.offset(side));
+        final IBlockState originalState = world.getBlockState(pos);
+        final IBlockState connectedState = world.getBlockState(pos.offset(side));
 
-        return canConnect(original, connected);
+        return canConnect(originalState, connectedState);
     }
 
     /**
      * Checks if this block should connect to another block
-     * @param original BlockState to check
-     * @param connected BlockState to check
+     * @param originalState BlockState to check
+     * @param connectedState BlockState to check
      * @return True if the block is valid to connect
      */
-    private boolean canConnect(@Nonnull IBlockState original, @Nonnull IBlockState connected) {
-        return original.getBlock() == connected.getBlock();
+    protected boolean canConnect(@Nonnull IBlockState originalState, @Nonnull IBlockState connectedState) {
+        return originalState.getBlock() == connectedState.getBlock();
     }
 }

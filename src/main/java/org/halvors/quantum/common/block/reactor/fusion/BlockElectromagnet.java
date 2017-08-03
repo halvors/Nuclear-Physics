@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.block.BlockConnectedTexture;
 import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 
@@ -37,7 +38,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     @SideOnly(Side.CLIENT)
     public void registerItemModel(ItemBlock itemBlock) {
         for (EnumElectromagnet type : EnumElectromagnet.values()) {
-            Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "type=" + type.getName());
+            Quantum.getProxy().registerItemRenderer(itemBlock, type.ordinal(), type.getName() + "_" + name);
         }
     }
 
@@ -136,6 +137,18 @@ public class BlockElectromagnet extends BlockConnectedTexture {
         return true;
     }
     */
+
+    @Override
+    protected boolean canConnect(@Nonnull IBlockState originalState, @Nonnull IBlockState connectedState) {
+        if (originalState.getBlock() == connectedState.getBlock()) {
+            EnumElectromagnet originalType = originalState.getValue(BlockStateElectromagnet.TYPE);
+            EnumElectromagnet connectedType = connectedState.getValue(BlockStateElectromagnet.TYPE);
+
+            return originalType == connectedType;
+        }
+
+        return super.canConnect(originalState, connectedState);
+    }
 
     @Override
     @Nonnull

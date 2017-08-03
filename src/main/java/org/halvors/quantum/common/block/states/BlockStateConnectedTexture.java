@@ -3,7 +3,7 @@ package org.halvors.quantum.common.block.states;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
-import org.halvors.quantum.common.block.reactor.fusion.BlockConnectedTexture;
+import org.halvors.quantum.common.block.BlockConnectedTexture;
 
 public class BlockStateConnectedTexture extends BlockStateContainer {
     public static final PropertyBool CONNECTED_DOWN = PropertyBool.create("connected_down");
