@@ -1,12 +1,9 @@
 package org.halvors.quantum.client;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
-import net.minecraft.client.renderer.block.statemap.StateMap;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -38,10 +35,8 @@ import org.halvors.quantum.client.render.block.reactor.fission.RenderReactorCell
 import org.halvors.quantum.client.render.block.reactor.fission.RenderThermometer;
 import org.halvors.quantum.client.render.entity.RenderParticle;
 import org.halvors.quantum.common.CommonProxy;
-import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
 import org.halvors.quantum.common.entity.EntityParticle;
 import org.halvors.quantum.common.tile.machine.TileChemicalExtractor;
 import org.halvors.quantum.common.tile.machine.TileGasCentrifuge;
@@ -51,8 +46,6 @@ import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
-
-import java.sql.Ref;
 
 /**
  * This is the client proxy used only by the client.

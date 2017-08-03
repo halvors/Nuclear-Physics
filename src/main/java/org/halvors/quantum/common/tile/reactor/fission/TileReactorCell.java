@@ -43,8 +43,6 @@ import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.TileQuantum;
 import org.halvors.quantum.common.tile.TileRotatable;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.location.Position;

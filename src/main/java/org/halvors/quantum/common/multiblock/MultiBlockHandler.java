@@ -1,12 +1,10 @@
 package org.halvors.quantum.common.multiblock;
 
 import io.netty.buffer.ByteBuf;
-import javafx.geometry.Pos;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.quantum.api.nbt.ISaveObject;
 import org.halvors.quantum.common.utility.location.Position;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;

@@ -1,7 +1,5 @@
 package org.halvors.quantum.common.block.reactor.fusion;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -18,11 +16,9 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.block.BlockConnectedTexture;
 import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
@@ -41,7 +37,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
     @Override
     public void registerBlockModel() {
-        Quantum.getProxy().registerBlockRenderer(this, (new StateMap.Builder()).withName(BlockStateElectromagnet.TYPE).withSuffix("_electromagnet").build());
+        Quantum.getProxy().registerBlockRenderer(this, (new StateMap.Builder()).withName(BlockStateElectromagnet.TYPE).withSuffix("_" + name).build());
     }
 
     @Override
@@ -59,7 +55,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
             return layer == BlockRenderLayer.CUTOUT;
         }
 
-        return super.canRenderInLayer(state, layer);
+        return layer == BlockRenderLayer.SOLID;
     }
 
     @SuppressWarnings("deprecation")

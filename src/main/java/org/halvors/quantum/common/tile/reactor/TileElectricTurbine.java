@@ -1,7 +1,6 @@
 package org.halvors.quantum.common.tile.reactor;
 
 import io.netty.buffer.ByteBuf;
-import javafx.geometry.Pos;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -20,15 +19,12 @@ import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
-import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
 import org.halvors.quantum.common.tile.TileGenerator;
 import org.halvors.quantum.common.utility.location.Position;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import javax.annotation.Nonnull;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

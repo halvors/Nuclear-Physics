@@ -1,7 +1,6 @@
 package org.halvors.quantum.common.block.states;
 
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 
