@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -69,9 +70,6 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
 		// Register entity renderer.
 		RenderingRegistry.registerEntityRenderingHandler(EntityParticle.class, RenderParticle::new);
-
-		// Register custom state mapper.
-		ModelLoader.setCustomStateMapper(QuantumBlocks.blockElectromagnet, (new StateMap.Builder()).withName(BlockStateElectromagnet.TYPE).withSuffix("_electromagnet").build());
 	}
 
 	@Override
@@ -111,6 +109,11 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		}
 
 		return null;
+	}
+
+	@Override
+	public void registerBlockRenderer(Block block, IStateMapper mapper) {
+		ModelLoader.setCustomStateMapper(block, mapper);
 	}
 
 	@Override

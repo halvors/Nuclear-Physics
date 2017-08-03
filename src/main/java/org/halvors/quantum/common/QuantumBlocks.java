@@ -1,6 +1,5 @@
 package org.halvors.quantum.common;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -31,20 +30,20 @@ import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 
 public class QuantumBlocks {
-    public static Block blockControlRod = new BlockControlRod();
-    public static Block blockElectricTurbine = new BlockElectricTurbine();
-    public static Block blockElectromagnet = new BlockElectromagnet();
-    public static Block blockFulmination = new BlockFulmination();
-    public static Block blockMachine = new BlockMachine();
-    public static Block blockMachineModel = new BlockMachineModel();
-    public static Block blockSiren = new BlockSiren();
-    public static Block blockThermometer = new BlockThermometer();
-    public static Block blockUraniumOre = new BlockUraniumOre();
-    public static Block blockPlasma = new BlockPlasma();
-    public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
-    public static Block blockReactorCell = new BlockReactorCell();
+    public static BlockQuantum blockControlRod = new BlockControlRod();
+    public static BlockQuantum blockElectricTurbine = new BlockElectricTurbine();
+    public static BlockQuantum blockElectromagnet = new BlockElectromagnet();
+    public static BlockQuantum blockFulmination = new BlockFulmination();
+    public static BlockQuantum blockMachine = new BlockMachine();
+    public static BlockQuantum blockMachineModel = new BlockMachineModel();
+    public static BlockQuantum blockSiren = new BlockSiren();
+    public static BlockQuantum blockThermometer = new BlockThermometer();
+    public static BlockQuantum blockUraniumOre = new BlockUraniumOre();
+    public static BlockQuantum blockPlasma = new BlockPlasma();
+    public static BlockQuantum blockRadioactiveGrass = new BlockRadioactiveGrass();
+    public static BlockQuantum blockReactorCell = new BlockReactorCell();
 
-    public static Block blockCreativeBuilder = new BlockCreativeBuilder();
+    public static BlockQuantum blockCreativeBuilder = new BlockCreativeBuilder();
 
     // Register blocks.
     public static void register() {
@@ -85,27 +84,26 @@ public class QuantumBlocks {
         return clazz.getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
     }
 
-    private static <T extends Block> T register(T block, String name) {
+    private static <T extends BlockQuantum> T register(T block, String name) {
         register(block);
         OreDictionary.registerOre(name, block);
 
         return block;
     }
 
-    private static <T extends Block> T register(T block) {
+    private static <T extends BlockQuantum> T register(T block) {
         ItemBlock itemBlock = new ItemBlock(block);
         itemBlock.setRegistryName(block.getRegistryName());
 
         return register(block, itemBlock);
     }
 
-    private static <T extends Block> T register(T block, ItemBlock itemBlock) {
+    private static <T extends BlockQuantum> T register(T block, ItemBlock itemBlock) {
         GameRegistry.register(block);
         GameRegistry.register(itemBlock);
 
-        if (block instanceof BlockQuantum) {
-            ((BlockQuantum) block).registerItemModel(itemBlock);
-        }
+        block.registerItemModel(itemBlock);
+        block.registerBlockModel();
 
         return block;
     }
