@@ -1,7 +1,41 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "quantum:connected/connected"
+    "model": "quantum:connected/connected",
+    "textures": {
+      "normal": "quantum:blocks/connected/electromagnet/normal",
+      "top": "quantum:blocks/connected/electromagnet/top",
+      "u": "quantum:blocks/connected/electromagnet/u_normal",
+      "u_top": "quantum:blocks/connected/electromagnet/u_top",
+      "d": "quantum:blocks/connected/electromagnet/d_normal",
+      "d_top": "quantum:blocks/connected/electromagnet/d_top",
+      "l": "quantum:blocks/connected/electromagnet/l_normal",
+      "l_top": "quantum:blocks/connected/electromagnet/l_top",
+      "r": "quantum:blocks/connected/electromagnet/r_normal",
+      "r_top": "quantum:blocks/connected/electromagnet/r_top",
+      "ud": "quantum:blocks/connected/electromagnet/ud_normal",
+      "ud_top": "quantum:blocks/connected/electromagnet/ud_top",
+      "ul": "quantum:blocks/connected/electromagnet/ul_normal",
+      "ul_top": "quantum:blocks/connected/electromagnet/ul_top",
+      "ur": "quantum:blocks/connected/electromagnet/ur_normal",
+      "ur_top": "quantum:blocks/connected/electromagnet/ur_top",
+      "dl": "quantum:blocks/connected/electromagnet/dl_normal",
+      "dl_top": "quantum:blocks/connected/electromagnet/dl_top",
+      "dr": "quantum:blocks/connected/electromagnet/dr_normal",
+      "dr_top": "quantum:blocks/connected/electromagnet/dr_top",
+      "lr": "quantum:blocks/connected/electromagnet/lr_normal",
+      "lr_top": "quantum:blocks/connected/electromagnet/lr_top",
+      "udr": "quantum:blocks/connected/electromagnet/udr_normal",
+      "udr_top": "quantum:blocks/connected/electromagnet/udr_top",
+      "udl": "quantum:blocks/connected/electromagnet/udl_normal",
+      "udl_top": "quantum:blocks/connected/electromagnet/udl_top",
+      "ulr": "quantum:blocks/connected/electromagnet/ulr_normal",
+      "ulr_top": "quantum:blocks/connected/electromagnet/ulr_top",
+      "dlr": "quantum:blocks/connected/electromagnet/dlr_normal",
+      "dlr_top": "quantum:blocks/connected/electromagnet/dlr_top",
+      "udlr": "quantum:blocks/connected/electromagnet/udlr_normal",
+      "udlr_top": "quantum:blocks/connected/electromagnet/udlr_top"
+    }
   },
   "variants": {
     "normal": [
@@ -11,78 +45,8 @@
       {}
     ],
     "type": {
-      "normal": {
-        "textures": {
-          "normal": "quantum:blocks/connected/electromagnet/normal",
-          "top": "quantum:blocks/connected/electromagnet/top",
-          "u": "quantum:blocks/connected/electromagnet/u_normal",
-          "u_top": "quantum:blocks/connected/electromagnet/u_top",
-          "d": "quantum:blocks/connected/electromagnet/d_normal",
-          "d_top": "quantum:blocks/connected/electromagnet/d_top",
-          "l": "quantum:blocks/connected/electromagnet/l_normal",
-          "l_top": "quantum:blocks/connected/electromagnet/l_top",
-          "r": "quantum:blocks/connected/electromagnet/r_normal",
-          "r_top": "quantum:blocks/connected/electromagnet/r_top",
-          "ud": "quantum:blocks/connected/electromagnet/ud_normal",
-          "ud_top": "quantum:blocks/connected/electromagnet/ud_top",
-          "ul": "quantum:blocks/connected/electromagnet/ul_normal",
-          "ul_top": "quantum:blocks/connected/electromagnet/ul_top",
-          "ur": "quantum:blocks/connected/electromagnet/ur_normal",
-          "ur_top": "quantum:blocks/connected/electromagnet/ur_top",
-          "dl": "quantum:blocks/connected/electromagnet/dl_normal",
-          "dl_top": "quantum:blocks/connected/electromagnet/dl_top",
-          "dr": "quantum:blocks/connected/electromagnet/dr_normal",
-          "dr_top": "quantum:blocks/connected/electromagnet/dr_top",
-          "lr": "quantum:blocks/connected/electromagnet/lr_normal",
-          "lr_top": "quantum:blocks/connected/electromagnet/lr_top",
-          "udr": "quantum:blocks/connected/electromagnet/udr_normal",
-          "udr_top": "quantum:blocks/connected/electromagnet/udr_top",
-          "udl": "quantum:blocks/connected/electromagnet/udl_normal",
-          "udl_top": "quantum:blocks/connected/electromagnet/udl_top",
-          "ulr": "quantum:blocks/connected/electromagnet/ulr_normal",
-          "ulr_top": "quantum:blocks/connected/electromagnet/ulr_top",
-          "dlr": "quantum:blocks/connected/electromagnet/dlr_normal",
-          "dlr_top": "quantum:blocks/connected/electromagnet/dlr_top",
-          "udlr": "quantum:blocks/connected/electromagnet/udlr_normal",
-          "udlr_top": "quantum:blocks/connected/electromagnet/udlr_top"
-        }
-      },
-      "glass": {
-        "textures": {
-          "normal": "quantum:blocks/connected/electromagnet/normal",
-          "top": "quantum:blocks/connected/electromagnet/top",
-          "u": "quantum:blocks/connected/electromagnet/u_normal",
-          "u_top": "quantum:blocks/connected/electromagnet/u_top",
-          "d": "quantum:blocks/connected/electromagnet/d_normal",
-          "d_top": "quantum:blocks/connected/electromagnet/d_top",
-          "l": "quantum:blocks/connected/electromagnet/l_normal",
-          "l_top": "quantum:blocks/connected/electromagnet/l_top",
-          "r": "quantum:blocks/connected/electromagnet/r_normal",
-          "r_top": "quantum:blocks/connected/electromagnet/r_top",
-          "ud": "quantum:blocks/connected/electromagnet/ud_normal",
-          "ud_top": "quantum:blocks/connected/electromagnet/ud_top",
-          "ul": "quantum:blocks/connected/electromagnet/ul_normal",
-          "ul_top": "quantum:blocks/connected/electromagnet/ul_top",
-          "ur": "quantum:blocks/connected/electromagnet/ur_normal",
-          "ur_top": "quantum:blocks/connected/electromagnet/ur_top",
-          "dl": "quantum:blocks/connected/electromagnet/dl_normal",
-          "dl_top": "quantum:blocks/connected/electromagnet/dl_top",
-          "dr": "quantum:blocks/connected/electromagnet/dr_normal",
-          "dr_top": "quantum:blocks/connected/electromagnet/dr_top",
-          "lr": "quantum:blocks/connected/electromagnet/lr_normal",
-          "lr_top": "quantum:blocks/connected/electromagnet/lr_top",
-          "udr": "quantum:blocks/connected/electromagnet/udr_normal",
-          "udr_top": "quantum:blocks/connected/electromagnet/udr_top",
-          "udl": "quantum:blocks/connected/electromagnet/udl_normal",
-          "udl_top": "quantum:blocks/connected/electromagnet/udl_top",
-          "ulr": "quantum:blocks/connected/electromagnet/ulr_normal",
-          "ulr_top": "quantum:blocks/connected/electromagnet/ulr_top",
-          "dlr": "quantum:blocks/connected/electromagnet/dlr_normal",
-          "dlr_top": "quantum:blocks/connected/electromagnet/dlr_top",
-          "udlr": "quantum:blocks/connected/electromagnet/udlr_normal",
-          "udlr_top": "quantum:blocks/connected/electromagnet/udlr_top"
-        }
-      }
+      "normal": {},
+      "glass": {}
     },
     "connected_down=false,connected_east=false,connected_north=false,connected_south=false,connected_up=false,connected_west=false": {
       "model": "quantum:connected/connected"

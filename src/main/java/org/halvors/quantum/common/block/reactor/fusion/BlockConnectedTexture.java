@@ -68,7 +68,7 @@ public class BlockConnectedTexture extends BlockContainerQuantum {
         final IBlockState original = world.getBlockState(pos);
         final IBlockState connected = world.getBlockState(pos.offset(side));
 
-        return original != null && connected != null && canConnect(original, connected);
+        return canConnect(original, connected);
     }
 
     /**
