@@ -57,6 +57,7 @@ public class BlockMachine extends BlockInventory {
 
     @SuppressWarnings("deprecation")
     @Override
+    @Nonnull
     public IBlockState getStateFromMeta(int metadata) {
         return getDefaultState().withProperty(BlockStateMachine.TYPE, EnumMachine.values()[metadata]);
     }
@@ -95,8 +96,7 @@ public class BlockMachine extends BlockInventory {
     }
 
     public enum EnumMachine implements IStringSerializable {
-        ACCELERATOR("accelerator", TileAccelerator.class),
-        GAS_FUNNEL("gas_funnel", TileGasFunnel.class);
+        ACCELERATOR("accelerator", TileAccelerator.class);
 
         private String name;
         private Class<? extends TileEntity> tileClass;

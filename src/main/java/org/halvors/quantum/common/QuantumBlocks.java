@@ -1,6 +1,7 @@
 package org.halvors.quantum.common;
 
 import net.minecraft.item.ItemBlock;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.quantum.common.block.BlockQuantum;
@@ -13,6 +14,7 @@ import org.halvors.quantum.common.block.machine.BlockMachineModel;
 import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.quantum.common.block.particle.BlockFulmination;
 import org.halvors.quantum.common.block.reactor.BlockElectricTurbine;
+import org.halvors.quantum.common.block.reactor.BlockGasFunnel;
 import org.halvors.quantum.common.block.reactor.fission.BlockControlRod;
 import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
 import org.halvors.quantum.common.block.reactor.fission.BlockSiren;
@@ -23,6 +25,7 @@ import org.halvors.quantum.common.item.block.ItemBlockMetadata;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
+import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
@@ -34,6 +37,7 @@ public class QuantumBlocks {
     public static BlockQuantum blockElectricTurbine = new BlockElectricTurbine();
     public static BlockQuantum blockElectromagnet = new BlockElectromagnet();
     public static BlockQuantum blockFulmination = new BlockFulmination();
+    public static BlockQuantum blockGasFunnel = new BlockGasFunnel();
     public static BlockQuantum blockMachine = new BlockMachine();
     public static BlockQuantum blockMachineModel = new BlockMachineModel();
     public static BlockQuantum blockSiren = new BlockSiren();
@@ -51,6 +55,7 @@ public class QuantumBlocks {
         register(blockElectricTurbine);
         register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
         register(blockFulmination);
+        register(blockGasFunnel);
         register(blockMachine, new ItemBlockMetadata(blockMachine));
         register(blockMachineModel, new ItemBlockMetadata(blockMachineModel));
         register(blockSiren);
@@ -64,24 +69,21 @@ public class QuantumBlocks {
         register(blockCreativeBuilder);
 
         for (EnumMachine type : EnumMachine.values()) {
-            GameRegistry.registerTileEntity(type.getTileClass(), getNameFromClass(type.getTileClass()));
+            registerTile(type.getTileClass());
         }
 
         for (EnumMachineModel type : EnumMachineModel.values()) {
-            GameRegistry.registerTileEntity(type.getTileClass(), getNameFromClass(type.getTileClass()));
+            registerTile(type.getTileClass());
         }
 
-        GameRegistry.registerTileEntity(TileElectricTurbine.class, "tile_electric_turbine");
-        GameRegistry.registerTileEntity(TileElectromagnet.class, "tile_electromagnet");
-        GameRegistry.registerTileEntity(TileFulmination.class, "tile_fulmination");
-        GameRegistry.registerTileEntity(TileSiren.class, "tile_siren");
-        GameRegistry.registerTileEntity(TileThermometer.class, "tile_thermometer");
-        GameRegistry.registerTileEntity(TilePlasma.class, "tile_plasma");
-        GameRegistry.registerTileEntity(TileReactorCell.class, "tile_reactor_cell");
-    }
-
-    private static String getNameFromClass(Class clazz) {
-        return clazz.getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
+        registerTile(TileElectricTurbine.class);
+        registerTile(TileElectromagnet.class);
+        registerTile(TileFulmination.class);
+        registerTile(TileGasFunnel.class);
+        registerTile(TileSiren.class);
+        registerTile(TileThermometer.class);
+        registerTile(TilePlasma.class);
+        registerTile(TileReactorCell.class);
     }
 
     private static <T extends BlockQuantum> T register(T block, String name) {
@@ -106,5 +108,13 @@ public class QuantumBlocks {
         block.registerBlockModel();
 
         return block;
+    }
+
+    private static Class<? extends TileEntity> registerTile(Class<? extends TileEntity> tileClass) {
+        String name = tileClass.getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
+
+        GameRegistry.registerTileEntity(tileClass, name);
+
+        return tileClass;
     }
 }
