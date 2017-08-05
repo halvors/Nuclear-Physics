@@ -40,8 +40,7 @@ import org.halvors.quantum.common.tile.particle.FulminationHandler;
 @Mod(modid = Reference.ID,
      name = Reference.NAME,
      version = Reference.VERSION,
-     dependencies = "after:CoFHCore;" +
-                    "after:Mekanism",
+     dependencies = "after:Mekanism",
      guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
 public class Quantum {
 	// The instance of your mod that Forge uses.
@@ -67,10 +66,6 @@ public class Quantum {
 	// Grids
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
 
-	static {
-		FluidRegistry.enableUniversalBucket(); // Must be called before preInit
-	}
-
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		// Initialize configuration.
@@ -80,7 +75,6 @@ public class Quantum {
 		ConfigurationManager.loadConfiguration(configuration);
 
 		// Mod integration.
-		logger.log(Level.INFO, "CoFHCore integration is " + (Integration.isCoFHCoreEnabled ? "enabled" : "disabled") + ".");
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
 		// Call functions for adding blocks, items, etc.
