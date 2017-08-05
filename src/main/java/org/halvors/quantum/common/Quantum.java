@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,6 +32,7 @@ import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.tile.particle.FulminationHandler;
+import org.halvors.quantum.common.world.WorldGenerator;
 
 /**
  * This is the Quantum class, which is the main class of this mod.
@@ -101,11 +103,8 @@ public class Quantum {
 		// Register event buses. TODO: Move this to a custom event handler?
 		MinecraftForge.EVENT_BUS.register(FulminationHandler.INSTANCE);
 
-		// Adde schematics to the creative builder.
-		BlockCreativeBuilder.registerSchematic(new SchematicAccelerator());
-		BlockCreativeBuilder.registerSchematic(new SchematicBreedingReactor());
-		BlockCreativeBuilder.registerSchematic(new SchematicFissionReactor());
-		BlockCreativeBuilder.registerSchematic(new SchematicFusionReactor());
+		//Register the mod's world generators
+		GameRegistry.registerWorldGenerator(new WorldGenerator(), 1);
 
 		// TODO: Add support for this? Make sure to return something in OreDictionaryHelper still if disabled.
 		if (ConfigurationManager.General.allowOreDictionaryCompatibility) {
