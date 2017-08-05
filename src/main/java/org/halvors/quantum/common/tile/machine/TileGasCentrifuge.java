@@ -3,6 +3,7 @@ package org.halvors.quantum.common.tile.machine;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
@@ -12,6 +13,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
@@ -20,6 +22,7 @@ import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.utility.FluidUtility;
 import org.halvors.quantum.common.utility.OreDictionaryHelper;
 
 import javax.annotation.Nonnull;
@@ -93,30 +96,11 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
 
         if (!world.isRemote) {
             // TODO: Fix this?
-            /*
             if (world.getWorldTime() % 20 == 0) {
-                for (int side = 0; side < 6; side++) {
-                    EnumFacing direction = EnumFacing.getFront(side);
-                    TileEntity tileEntity = VectorHelper.getTileEntityFromSide(world, new Vector3(this), direction);
-
-                    if (tileEntity instanceof IFluidHandler && tileEntity.getClass() != getClass()) {
-                        IFluidHandler fluidHandler = (IFluidHandler) tileEntity;
-
-                        FluidStack requestFluid = QuantumFluids.fluidStackUraniumHexaflouride.copy();
-                        requestFluid.amount = (tank.getCapacity() - tank.getFluid().amount);
-                        FluidStack receiveFluid = fluidHandler.drain(direction.getOpposite(), requestFluid, true);
-
-                        if (receiveFluid != null) {
-                            if (receiveFluid.amount > 0) {
-                                if (tank.fill(receiveFluid, false) > 0) {
-                                    tank.fill(receiveFluid, true);
-                                }
-                            }
-                        }
-                    }
-                }
+                FluidUtility.transferFluidToNeighbors(world, pos, tank, QuantumFluids.fluidStackUraniumHexaflouride.copy());
             }
-            */
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             if (canProcess()) {
                 // TODO: Implement this.
