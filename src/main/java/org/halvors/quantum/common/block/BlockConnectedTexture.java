@@ -28,6 +28,7 @@ public class BlockConnectedTexture extends BlockContainerQuantum {
                                                  .withProperty(BlockStateConnectedTexture.CONNECTED_WEST,  Boolean.FALSE));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @Nonnull
     public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos position) {

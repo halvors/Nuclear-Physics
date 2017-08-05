@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.container.ContainerQuantum;
@@ -60,7 +60,7 @@ public class ContainerNuclearBoiler extends ContainerQuantum {
                         if (!mergeItemStack(itemStack, 0, 1, false)) {
                             return null;
                         }
-                    } else if (QuantumFluids.fluidStackWater.isFluidEqual(FluidContainerRegistry.getFluidForFilledItem(itemStack))) {
+                    } else if (QuantumFluids.fluidStackWater.isFluidEqual(FluidUtil.getFluidContained(itemStack))) {
                         if (!mergeItemStack(itemStack, 1, 2, false)) {
                             return null;
                         }
