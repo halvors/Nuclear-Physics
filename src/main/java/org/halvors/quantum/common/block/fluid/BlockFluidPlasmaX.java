@@ -17,24 +17,18 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockFluidPlasma extends Block implements IFluidBlock {
-    private Fluid fluid;
-
-    public BlockFluidPlasma(final Fluid fluid, final Material material) {
-        super(material);
+public class BlockFluidPlasmaX extends BlockFluidBase implements ITileEntityProvider {
+    public BlockFluidPlasmaX(final Fluid fluid, final Material material) {
+        super(fluid, material);
         // TODO: Check if material should be lava.
         //super("plasma", Material.LAVA);
-
-        this.fluid = fluid;
     }
 
     @Override
@@ -85,35 +79,20 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     }
 
     @Override
+    public int getQuantaValue(IBlockAccess world, BlockPos pos) {
+        return 210;
+    }
+
+    @Override
     public boolean canCollideCheck(IBlockState state, boolean fullHit) {
         return false;
     }
 
     @Override
-    public boolean hasTileEntity(IBlockState state) {
-        return true;
+    public int getMaxRenderHeightMeta() {
+        return 0;
     }
 
-    @Override
-    @Nonnull
-    public TileEntity createTileEntity(@Nonnull World world, IBlockState state) {
-        return new TilePlasma();
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public Fluid getFluid() {
-        return fluid;
-    }
-
-    @Override
-    public FluidStack drain(World world, BlockPos pos, boolean doDrain) {
-        return null;
-    }
-
-    /*
     @Override
     public FluidStack drain(World world, BlockPos pos, boolean doDrain) {
         final FluidStack fluidStack = new FluidStack(getFluid(), MathHelper.floor(getQuantaPercentage(world, pos) * Fluid.BUCKET_VOLUME));
@@ -124,15 +103,15 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
 
         return fluidStack;
     }
-    */
 
     @Override
     public boolean canDrain(World world, BlockPos pos) {
-        return false;
+        return true;
     }
 
     @Override
-    public float getFilledPercentage(World world, BlockPos pos) {
-        return 0;
+    @Nonnull
+    public TileEntity createNewTileEntity(@Nonnull World world, int metadata) {
+        return new TilePlasma();
     }
 }
