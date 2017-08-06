@@ -6,7 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
-import org.halvors.quantum.common.block.machine.BlockMachine.EnumMachine;
 
 public class QuantumRecipes {
     public static void register() {

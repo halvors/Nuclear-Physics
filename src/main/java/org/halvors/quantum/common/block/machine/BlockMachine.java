@@ -21,7 +21,6 @@ import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockInventory;
 import org.halvors.quantum.common.block.states.BlockStateMachine;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
-import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
 import org.halvors.quantum.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;

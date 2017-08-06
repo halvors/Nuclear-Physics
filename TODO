@@ -5,7 +5,6 @@ Porting to 1.10.2 from 1.7.10:
     - Make plasma not behave like a liquid. Should be a block.
     - Render fluid in qui.
     - Fix fire not vanishing after a while.
-    - Fix reactor explosion not destroying blocks.
     - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
     - Check if auto transferring of fluids between machines is working.
 

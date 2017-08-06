@@ -1,6 +1,5 @@
 package org.halvors.quantum.common.utility;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -14,7 +13,6 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.QuantumItems;
 import org.halvors.quantum.common.item.ItemCell;
 
