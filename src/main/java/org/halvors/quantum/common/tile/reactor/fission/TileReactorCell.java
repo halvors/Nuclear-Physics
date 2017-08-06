@@ -97,7 +97,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     private final FluidTankQuantum tank = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 15) {
         @Override
         public int fill(FluidStack resource, boolean doFill) {
-            if (resource.isFluidEqual(QuantumFluids.stackPlasma)) {
+            if (resource.isFluidEqual(QuantumFluids.plasmaStack)) {
                 return super.fill(resource, doFill);
             }
 

@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import org.halvors.quantum.common.block.fluid.BlockFluidPlasma;
 import org.halvors.quantum.common.block.fluid.BlockFluidToxicWaste;
+import org.halvors.quantum.common.item.block.ItemBlockTooltip;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -56,7 +57,7 @@ public class QuantumFluids {
 
     public static final FluidStack fluidStackDeuterium = new FluidStack(FluidRegistry.getFluid("deuterium"), 0);
     public static final FluidStack fluidStackUraniumHexaflouride = new FluidStack(FluidRegistry.getFluid("uranium_hexafluoride"), 0);
-    public static final FluidStack stackPlasma = new FluidStack(FluidRegistry.getFluid("plasma"), 0);
+    public static final FluidStack plasmaStack = new FluidStack(FluidRegistry.getFluid("plasma"), 0);
     public static final FluidStack fluidStackSteam = new FluidStack(FluidRegistry.getFluid("steam"), 0);
     public static final FluidStack fluidStackTritium = new FluidStack(FluidRegistry.getFluid("tritium"), 0);
     public static final FluidStack fluidStackToxicWaste = new FluidStack(FluidRegistry.getFluid("toxic_waste"), 0);
@@ -131,11 +132,7 @@ public class QuantumFluids {
             final IForgeRegistry<Item> registry = event.getRegistry();
 
             for (final IFluidBlock fluidBlock : fluidBlocks) {
-                final Block block = (Block) fluidBlock;
-                final ItemBlock itemBlock = new ItemBlock(block);
-                itemBlock.setRegistryName(block.getRegistryName());
-
-                registry.register(itemBlock);
+                registry.register(new ItemBlockTooltip((Block) fluidBlock));
             }
 
             registerFluidContainers();

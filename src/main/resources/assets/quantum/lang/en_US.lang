@@ -35,7 +35,6 @@ tile.electromagnet.0.name=Electromagnet
 tile.electromagnet.0.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
 tile.electromagnet.1.name=Electromagnet Glass
 tile.electromagnet.1.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
-tile.electromagnet.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
 tile.electric_turbine.name=Electric Turbine
 tile.electric_turbine.tooltip=Transform the kinetic energy from moving steam into electrical energy.
 tile.fulmination.name=Fulmination Generator

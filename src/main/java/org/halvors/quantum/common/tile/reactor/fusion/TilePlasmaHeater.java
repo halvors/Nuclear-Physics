@@ -28,7 +28,7 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
 
     private final GasTank tankInputDeuterium = new GasTank(QuantumFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
     private final GasTank tankInputTritium = new GasTank(QuantumFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
-    private final GasTank tankOutput = new GasTank(QuantumFluids.stackPlasma.copy(), Fluid.BUCKET_VOLUME * 10);
+    private final GasTank tankOutput = new GasTank(QuantumFluids.plasmaStack.copy(), Fluid.BUCKET_VOLUME * 10);
 
     public float rotation = 0;
     private final int maxTransfer = (int) power / 20;

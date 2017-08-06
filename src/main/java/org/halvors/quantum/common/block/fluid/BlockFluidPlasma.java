@@ -28,6 +28,8 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     public BlockFluidPlasma(final Fluid fluid, final Material material) {
         super(material);
 
+        fluid.setBlock(this);
+
         this.fluid = fluid;
     }
 
@@ -114,6 +116,6 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
 
     @Override
     public float getFilledPercentage(World world, BlockPos pos) {
-        return 0;
+        return Fluid.BUCKET_VOLUME;
     }
 }

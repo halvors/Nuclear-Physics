@@ -2,20 +2,21 @@ package org.halvors.quantum.common.event;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.api.tile.IElectromagnet;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.QuantumBlocks;
 import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
@@ -80,7 +81,9 @@ public class ThermalEventHandler {
             }
         }
 
-        world.setBlockState(pos, QuantumFluids.plasma.getBlock().getDefaultState());
+        if (block.isReplaceable(world, pos)) {
+            world.setBlockState(pos, QuantumFluids.plasma.getBlock().getDefaultState());
+        }
 
         TileEntity tile = world.getTileEntity(pos);
 
