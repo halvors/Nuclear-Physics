@@ -20,9 +20,9 @@ import org.halvors.quantum.common.block.reactor.fission.BlockReactorCell;
 import org.halvors.quantum.common.block.reactor.fission.BlockSiren;
 import org.halvors.quantum.common.block.reactor.fission.BlockThermometer;
 import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
-import org.halvors.quantum.common.block.reactor.fusion.BlockPlasma;
 import org.halvors.quantum.common.item.block.ItemBlockMetadata;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
+import org.halvors.quantum.common.item.block.ItemBlockTooltip;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
 import org.halvors.quantum.common.tile.reactor.TileGasFunnel;
@@ -43,7 +43,6 @@ public class QuantumBlocks {
     public static BlockQuantum blockSiren = new BlockSiren();
     public static BlockQuantum blockThermometer = new BlockThermometer();
     public static BlockQuantum blockUraniumOre = new BlockUraniumOre();
-    public static BlockQuantum blockPlasma = new BlockPlasma();
     public static BlockQuantum blockRadioactiveGrass = new BlockRadioactiveGrass();
     public static BlockQuantum blockReactorCell = new BlockReactorCell();
 
@@ -61,8 +60,6 @@ public class QuantumBlocks {
         register(blockSiren);
         register(blockThermometer, new ItemBlockThermometer(blockThermometer));
         register(blockUraniumOre, "oreUranium");
-        //register(blockPlasma);
-        //QuantumFluids.plasma.setBlock(blockPlasma);
         register(blockRadioactiveGrass, "blockRadioactiveGrass");
         register(blockReactorCell);
 
@@ -94,10 +91,7 @@ public class QuantumBlocks {
     }
 
     private static <T extends BlockQuantum> T register(T block) {
-        ItemBlock itemBlock = new ItemBlock(block);
-        itemBlock.setRegistryName(block.getRegistryName());
-
-        return register(block, itemBlock);
+        return register(block, new ItemBlockTooltip(block));
     }
 
     private static <T extends BlockQuantum> T register(T block, ItemBlock itemBlock) {

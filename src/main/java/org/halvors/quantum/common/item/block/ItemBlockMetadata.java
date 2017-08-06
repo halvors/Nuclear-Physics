@@ -4,7 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import org.halvors.quantum.common.utility.LanguageUtility;
 
-public class ItemBlockMetadata extends ItemBlockQuantum {
+import javax.annotation.Nonnull;
+
+public class ItemBlockMetadata extends ItemBlockTooltip {
 	public ItemBlockMetadata(Block block) {
 		super(block);
 
@@ -13,26 +15,8 @@ public class ItemBlockMetadata extends ItemBlockQuantum {
 	}
 
 	@Override
-	public int getMetadata(int metadata) {
-		return metadata;
-	}
-
-	@Override
+	@Nonnull
 	public String getUnlocalizedName(ItemStack itemStack) {
 		return LanguageUtility.localize(getUnlocalizedName() + "." + itemStack.getMetadata());
 	}
-
-	// TODO: Only add index to name if there is more than to items of that very same block.
-	/*
-	@Override
-	public String getUnlocalizedName(ItemStack itemStack) {
-		String localized = LanguageUtility.localize(getUnlocalizedName() + "." + itemStack.getMetadata() + ".name");
-
-		if (localized != null && !localized.isEmpty()) {
-			return getUnlocalizedName() + "." + itemStack.getMetadata();
-		}
-
-		return getUnlocalizedName();
-	}
-	*/
 }
