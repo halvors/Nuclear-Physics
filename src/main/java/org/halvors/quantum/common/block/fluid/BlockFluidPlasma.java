@@ -27,12 +27,23 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
 
     public BlockFluidPlasma(final Fluid fluid, final Material material) {
         super(material);
-        // TODO: Check if material should be lava.
-        //super("plasma", Material.LAVA);
 
         this.fluid = fluid;
     }
 
+    @Override
+    public boolean canRenderInLayer(IBlockState state, @Nonnull BlockRenderLayer layer) {
+        return layer == BlockRenderLayer.TRANSLUCENT;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
+    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
@@ -40,18 +51,6 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
 
         return neighborBlock != this && super.shouldSideBeRendered(state, world, pos, side);
 
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
     }
 
     @Override
@@ -71,6 +70,11 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     }
 
     @Override
+    public boolean canCollideCheck(IBlockState state, boolean fullHit) {
+        return false;
+    }
+
+    @Override
     public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
         entity.attackEntityFrom(DamageSource.inFire, 100);
     }
@@ -81,21 +85,15 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     }
 
     @Override
-    public boolean canCollideCheck(IBlockState state, boolean fullHit) {
-        return false;
-    }
-
-    @Override
     public boolean hasTileEntity(IBlockState state) {
         return true;
     }
 
     @Override
     @Nonnull
-    public TileEntity createTileEntity(@Nonnull World world, IBlockState state) {
+    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
         return new TilePlasma();
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -108,19 +106,6 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     public FluidStack drain(World world, BlockPos pos, boolean doDrain) {
         return null;
     }
-
-    /*
-    @Override
-    public FluidStack drain(World world, BlockPos pos, boolean doDrain) {
-        final FluidStack fluidStack = new FluidStack(getFluid(), MathHelper.floor(getQuantaPercentage(world, pos) * Fluid.BUCKET_VOLUME));
-
-        if (doDrain) {
-            world.setBlockToAir(pos);
-        }
-
-        return fluidStack;
-    }
-    */
 
     @Override
     public boolean canDrain(World world, BlockPos pos) {

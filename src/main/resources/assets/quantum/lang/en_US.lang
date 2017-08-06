@@ -12,6 +12,16 @@ fluid.steam=Steam
 fluid.tritium=Tritium
 fluid.toxic_waste=Toxic Waste
 
+// Fluid blocks.
+tile.fluid.deuterium.name=Deuterium
+tile.fluid.uranium_hexafluoride.name=Uranium Hexafluoride
+tile.fluid.plasma.name=Plasma
+tile.fluid.plasma.tooltip=Generates extreme heat for boiling water.
+tile.fluid.steam.name=Steam
+tile.fluid.tritium.name=Tritium
+tile.fluid.toxic_waste.name=Toxic Waste
+tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
+
 // Blocks.
 tile.machine.0.name=Particle Accelerator
 tile.machine.0.tooltip=Accelerates particles and creates antimatter and dark matter.
@@ -22,7 +32,9 @@ tile.control_rod.tooltip=Suppresses fission reaction in adjacent reactor cells.
 tile.creative_builder.name=Creative Builder
 tile.creative_builder.tooltip=
 tile.electromagnet.0.name=Electromagnet
+tile.electromagnet.0.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
 tile.electromagnet.1.name=Electromagnet Glass
+tile.electromagnet.1.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
 tile.electromagnet.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
 tile.electric_turbine.name=Electric Turbine
 tile.electric_turbine.tooltip=Transform the kinetic energy from moving steam into electrical energy.
@@ -36,8 +48,6 @@ tile.machine_model.2.name=Nuclear Boiler
 tile.machine_model.2.tooltip=Boils yellowcake into uranium hexaflouride gas.
 tile.uranium_ore.name=Uranium Ore
 tile.uranium_ore.tooltip=A precious and useful ore used for fission reactions.
-tile.plasma.name=Plasma
-tile.plasma.tooltip=Generates extreme heat for boiling water.
 tile.machine_model.4.name=Plasma Heater
 tile.machine_model.4.tooltip=A plasma heater is used to heat deuterium and tritium to plasma state for fusion power. Plasma must be moved into the reactor cell.
 tile.machine_model.3.name=Quantum Assembler
@@ -50,13 +60,6 @@ tile.siren.name=Siren
 tile.siren.tooltip=Creates an alarm with customizable pitch and volume with a Redstone signal.
 tile.thermometer.name=Thermometer
 tile.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-right click to lock the reading to a specific coordinate.
-tile.fluid.deuterium.name=Deuterium
-tile.fluid.uranium_hexafluoride.name=Uranium Hexafluoride
-tile.fluid.plasma.name=Plasma
-tile.fluid.steam.name=Steam
-tile.fluid.tritium.name=Tritium
-tile.fluid.toxic_waste.name=Toxic Waste
-tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
 // Items.
 // Cells.
@@ -106,10 +109,7 @@ gui.configuration.category.client=Client
 gui.configuration.category.client.tooltip=Client-specific settings
 
 // Tooltip
-tooltip.download=Download
-tooltip.clickToDownload=Click to download the latest version.
-tooltip.newVersionAvailable=A new version is available
-
+tooltip.noShift=Hold %0shift %1For more Information
 tooltip.energy=Energy
 tooltip.temperature=Temperature
 tooltip.remainingTime=Remaining Time

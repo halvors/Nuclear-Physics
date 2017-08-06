@@ -18,6 +18,7 @@ import org.halvors.quantum.common.utility.NBTUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.Color;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemBlockThermometer extends ItemBlockSaved {
@@ -30,7 +31,7 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag) {
+    public void addInformation(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, @Nonnull List<String> list, boolean flag) {
         super.addInformation(itemStack, player, list, flag);
 
         Vector3 coord = getSavedCoord(itemStack);
@@ -65,7 +66,8 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    @Nonnull
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if (!world.isRemote) {
             setSavedCoords(itemStack, null);
             player.sendMessage(new TextComponentString("Cleared tracking coordinate."));
@@ -77,6 +79,7 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     }
 
     @Override
+    @Nonnull
     public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if (player.isSneaking()) {
             setSavedCoords(itemStack, new Vector3(pos.getX(), pos.getY(), pos.getZ()));
