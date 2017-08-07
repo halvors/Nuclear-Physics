@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.QuantumFluids;
+import org.halvors.quantum.common.init.QuantumFluids;
 import org.halvors.quantum.common.fluid.tank.GasTank;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.machine.TileMachine;

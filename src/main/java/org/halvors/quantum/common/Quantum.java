@@ -24,6 +24,10 @@ import org.halvors.quantum.common.event.PlayerEventHandler;
 import org.halvors.quantum.common.event.ThermalEventHandler;
 import org.halvors.quantum.common.grid.UpdateTicker;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
+import org.halvors.quantum.common.init.QuantumBlocks;
+import org.halvors.quantum.common.init.QuantumEntities;
+import org.halvors.quantum.common.init.QuantumItems;
+import org.halvors.quantum.common.init.QuantumRecipes;
 import org.halvors.quantum.common.network.PacketHandler;
 import org.halvors.quantum.common.tile.particle.FulminationHandler;
 import org.halvors.quantum.common.world.WorldGenerator;
@@ -74,8 +78,6 @@ public class Quantum {
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
 		// Call functions for adding blocks, items, etc.
-		QuantumBlocks.register();
-		QuantumItems.register();
 		QuantumEntities.register();
 		QuantumRecipes.register();
 

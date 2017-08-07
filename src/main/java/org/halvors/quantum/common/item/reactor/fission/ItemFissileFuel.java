@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.QuantumFluids;
+import org.halvors.quantum.common.init.QuantumFluids;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 

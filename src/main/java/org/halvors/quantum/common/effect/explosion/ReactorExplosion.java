@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.QuantumBlocks;
+import org.halvors.quantum.common.init.QuantumBlocks;
 
 import java.util.Random;
 

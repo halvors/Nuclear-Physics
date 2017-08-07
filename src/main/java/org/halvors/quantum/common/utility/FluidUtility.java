@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.halvors.quantum.common.QuantumItems;
+import org.halvors.quantum.common.init.QuantumItems;
 import org.halvors.quantum.common.item.ItemCell;
 
 /**

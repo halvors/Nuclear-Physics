@@ -1,4 +1,4 @@
-package org.halvors.quantum.common;
+package org.halvors.quantum.common.init;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

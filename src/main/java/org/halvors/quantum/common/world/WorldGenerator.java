@@ -10,7 +10,7 @@ import net.minecraft.world.gen.ChunkProviderEnd;
 import net.minecraft.world.gen.ChunkProviderHell;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import org.halvors.quantum.common.QuantumBlocks;
+import org.halvors.quantum.common.init.QuantumBlocks;
 
 import java.util.Random;
 

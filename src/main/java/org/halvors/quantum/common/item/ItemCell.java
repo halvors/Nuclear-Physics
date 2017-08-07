@@ -12,7 +12,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimpl
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.QuantumItems;
+import org.halvors.quantum.common.init.QuantumItems;
 import org.halvors.quantum.common.utility.FluidUtility;
 import org.halvors.quantum.common.utility.LanguageUtility;
 

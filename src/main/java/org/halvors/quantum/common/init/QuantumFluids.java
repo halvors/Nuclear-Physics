@@ -1,4 +1,4 @@
-package org.halvors.quantum.common;
+package org.halvors.quantum.common.init;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
@@ -11,6 +11,8 @@ import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
+import org.halvors.quantum.common.Quantum;
+import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.fluid.BlockFluidPlasma;
 import org.halvors.quantum.common.block.fluid.BlockFluidToxicWaste;
 import org.halvors.quantum.common.item.block.ItemBlockTooltip;

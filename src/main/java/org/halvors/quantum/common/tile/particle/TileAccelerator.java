@@ -10,7 +10,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.QuantumItems;
+import org.halvors.quantum.common.init.QuantumItems;
 import org.halvors.quantum.common.entity.EntityParticle;
 import org.halvors.quantum.common.item.particle.ItemAntimatterCell;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
