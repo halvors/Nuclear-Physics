@@ -20,20 +20,8 @@ public class WorldGenerator implements IWorldGenerator {
         if (!(chunkGenerator instanceof ChunkProviderHell) && !(chunkGenerator instanceof ChunkProviderEnd)) {
             for (int i = 0; i < 9; i++) {
                 BlockPos pos = new BlockPos(chunkX * 16 + random.nextInt(16), random.nextInt(25), (chunkZ * 16) + random.nextInt(16));
-                new WorldGenMinable(QuantumBlocks.blockUraniumOre.getDefaultState(), 8, BlockMatcher.forBlock(Blocks.STONE)).generate(world, random, pos);
+                new WorldGenMinable(QuantumBlocks.blockUraniumOre.getDefaultState(), 3, BlockMatcher.forBlock(Blocks.STONE)).generate(world, random, pos);
             }
-
-            /*
-            for(int i = 0; i < general.copperPerChunk; i++) {
-                BlockPos pos = new BlockPos(chunkX*16 + random.nextInt(16), random.nextInt(60), (chunkZ*16) + random.nextInt(16));
-                new WorldGenMinable(MekanismBlocks.OreBlock.getStateFromMeta(1), 8, BlockMatcher.forBlock(Blocks.STONE)).generate(world, random, pos);
-            }
-
-            for(int i = 0; i < general.tinPerChunk; i++) {
-                BlockPos pos = new BlockPos(chunkX*16 + random.nextInt(16), random.nextInt(60), (chunkZ*16) + random.nextInt(16));
-                new WorldGenMinable(MekanismBlocks.OreBlock.getStateFromMeta(2), 8, BlockMatcher.forBlock(Blocks.STONE)).generate(world, random, pos);
-            }
-            */
         }
     }
 }
