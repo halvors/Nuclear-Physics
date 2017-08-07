@@ -30,7 +30,7 @@ public class GuiQuantumAssembler extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = LanguageUtility.localize("tile.machine_model." + EnumMachineModel.QUANTUM_ASSEMBLER.ordinal() + ".name");
+        String name = LanguageUtility.transelate("tile.machine_model." + EnumMachineModel.QUANTUM_ASSEMBLER.ordinal() + ".name");
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 

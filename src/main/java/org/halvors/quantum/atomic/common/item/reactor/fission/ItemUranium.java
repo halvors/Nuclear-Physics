@@ -1,21 +1,21 @@
 package org.halvors.quantum.atomic.common.item.reactor.fission;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.atomic.common.Quantum;
 import org.halvors.quantum.atomic.common.item.ItemRadioactive;
-import org.halvors.quantum.atomic.common.utility.LanguageUtility;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemUranium extends ItemRadioactive {
     public ItemUranium() {
         super("uranium");
 
+        setHasSubtypes(true);
         setMaxDamage(0);
     }
 
@@ -27,20 +27,8 @@ public class ItemUranium extends ItemRadioactive {
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack itemStack) {
-        return LanguageUtility.localize(getUnlocalizedName() + "." + itemStack.getMetadata());
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag) {
-        list.add(LanguageUtility.localize(getUnlocalizedName(itemStack) + ".tooltip"));
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, List<ItemStack> list) {
+    public void getSubItems(@Nonnull Item item, CreativeTabs tabs, List<ItemStack> list) {
         for (EnumUranium type : EnumUranium.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }

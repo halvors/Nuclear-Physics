@@ -5,8 +5,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
-import org.halvors.quantum.atomic.common.QuantumItems;
 import org.halvors.quantum.atomic.common.container.ContainerQuantum;
+import org.halvors.quantum.atomic.common.init.QuantumItems;
 import org.halvors.quantum.atomic.common.tile.machine.TileQuantumAssembler;
 
 public class ContainerQuantumAssembler extends ContainerQuantum {

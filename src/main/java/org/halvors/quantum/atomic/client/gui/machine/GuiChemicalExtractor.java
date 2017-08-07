@@ -23,7 +23,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = LanguageUtility.localize("tile.machine_model." + EnumMachineModel.CHEMICAL_EXTRACTOR.ordinal() + ".name");
+        String name = LanguageUtility.transelate("tile.machine_model." + EnumMachineModel.CHEMICAL_EXTRACTOR.ordinal() + ".name");
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
@@ -34,7 +34,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
         fontRendererObj.drawString("uranium, deuterium and tritium.", 8, 85, 0x404040);
         fontRendererObj.drawString("Place them in the input slot.", 8, 95, 0x404040);
 
-        fontRendererObj.drawString(LanguageUtility.localize("container.inventory"), 8, ySize - 96 + 2, 0x404040);
+        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, ySize - 96 + 2, 0x404040);
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY)) {
             if (tile.getInputTank().getFluid() != null) {

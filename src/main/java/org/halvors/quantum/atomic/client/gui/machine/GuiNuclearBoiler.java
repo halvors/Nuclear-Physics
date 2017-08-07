@@ -1,7 +1,6 @@
 package org.halvors.quantum.atomic.client.gui.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.atomic.client.gui.GuiContainerBase;
@@ -24,7 +23,7 @@ public class GuiNuclearBoiler extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = LanguageUtility.localize("tile.machine_model." + EnumMachineModel.NUCLEAR_BOILER.ordinal() + ".name");
+        String name = LanguageUtility.transelate("tile.machine_model." + EnumMachineModel.NUCLEAR_BOILER.ordinal() + ".name");
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
@@ -35,7 +34,7 @@ public class GuiNuclearBoiler extends GuiContainerBase {
         fontRendererObj.drawString("yellow cake into uranium", 8, 85, 0x404040);
         fontRendererObj.drawString("hexafluoride gas to be refined.", 8, 95, 0x404040);
 
-        fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 0x404040);
+        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, this.ySize - 96 + 2, 0x404040);
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.getInputTank().getFluid() != null) {
             drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.getInputTank().getFluid().getLocalizedName(), tile.getInputTank().getFluid().amount + " L");

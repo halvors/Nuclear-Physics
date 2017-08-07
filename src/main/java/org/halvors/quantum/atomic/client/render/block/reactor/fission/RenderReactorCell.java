@@ -40,7 +40,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
         // Rotate block based on direction.
         RenderUtility.rotateBlockBasedOnDirection(tile.getFacing());
 
-        EnumReactorCell type = tile.getWorld().getBlockState(tile.getPos()).getValue(BlockStateReactorCell.typeProperty);
+        EnumReactorCell type = tile.getWorld().getBlockState(tile.getPos()).getValue(BlockStateReactorCell.TYPE);
         boolean hasBelow = tile.getWorld().getTileEntity(tile.getPos().down()) instanceof TileReactorCell;
 
         switch (type) {

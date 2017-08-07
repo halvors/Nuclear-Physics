@@ -26,18 +26,18 @@ public class GuiReactorCell extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        String name = LanguageUtility.localize("tile.reactor_cell.name");
+        String name = LanguageUtility.transelate("tile.reactor_cell.name");
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
         if (tile.getInventory().getStackInSlot(0) != null) {
             // Test field for actual heat inside of reactor cell.
-            fontRendererObj.drawString(LanguageUtility.localize("tooltip.temperature"), 9, 45, 0x404040);
+            fontRendererObj.drawString(LanguageUtility.transelate("tooltip.temperature"), 9, 45, 0x404040);
             fontRendererObj.drawString(String.valueOf((int) tile.getTemperature()) + "/" + String.valueOf(TileReactorCell.meltingPoint) + " K", 9, 58, 0x404040);
 
             // Text field for total number of ticks remaining.
             int secondsLeft = (tile.getInventory().getStackInSlot(0).getMaxDamage() - tile.getInventory().getStackInSlot(0).getMetadata());
-            fontRendererObj.drawString(LanguageUtility.localize("tooltip.remainingTime"), 100, 45, 0x404040);
+            fontRendererObj.drawString(LanguageUtility.transelate("tooltip.remainingTime"), 100, 45, 0x404040);
             fontRendererObj.drawString(secondsLeft + " seconds", 100, 58, 0x404040);
         }
 
@@ -49,7 +49,7 @@ public class GuiReactorCell extends GuiContainerBase {
             }
         }
 
-        List<String> desc = LanguageUtility.splitStringPerWord(LanguageUtility.localize("tile.reactorCell.tooltip"), 5);
+        List<String> desc = LanguageUtility.splitStringPerWord(LanguageUtility.transelate("tile.reactorCell.tooltip"), 5);
 
         for (int i = 0; i < desc.size(); i++) {
             fontRendererObj.drawString(desc.get(i), 9, 85 + i * 9, 0x404040);

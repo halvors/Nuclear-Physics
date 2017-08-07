@@ -1,5 +1,7 @@
 package org.halvors.quantum.atomic.common;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -37,6 +39,10 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	public void postInit() {
+
+	}
+
+	public void registerBlockRenderer(Block block, IStateMapper mapper) {
 
 	}
 

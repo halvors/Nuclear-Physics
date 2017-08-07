@@ -5,9 +5,9 @@ import org.halvors.quantum.atomic.common.block.reactor.fission.BlockReactorCell;
 import org.halvors.quantum.atomic.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
 
 public class BlockStateReactorCell extends BlockStateFacing {
-    public static final PropertyEnum<EnumReactorCell> typeProperty = PropertyEnum.create("type", EnumReactorCell.class);
+    public static final PropertyEnum<EnumReactorCell> TYPE = PropertyEnum.create("type", EnumReactorCell.class);
 
     public BlockStateReactorCell(BlockReactorCell block) {
-        super(block, typeProperty);
+        super(block, TYPE);
     }
 }

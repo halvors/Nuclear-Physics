@@ -10,9 +10,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.api.explosion.ExplosionEvent;
 import org.halvors.quantum.api.explosion.IExplosion;
 import org.halvors.quantum.atomic.common.Quantum;
-import org.halvors.quantum.atomic.common.QuantumItems;
 import org.halvors.quantum.atomic.common.effect.explosion.AntimatterExplosion;
 import org.halvors.quantum.atomic.common.effect.poison.PoisonRadiation;
+import org.halvors.quantum.atomic.common.init.QuantumItems;
 
 import java.util.List;
 

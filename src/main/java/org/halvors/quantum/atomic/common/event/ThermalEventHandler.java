@@ -16,12 +16,13 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.api.tile.IElectromagnet;
-import org.halvors.quantum.atomic.common.QuantumBlocks;
-import org.halvors.quantum.atomic.common.QuantumFluids;
+import org.halvors.quantum.atomic.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.quantum.atomic.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.quantum.atomic.common.grid.IUpdate;
 import org.halvors.quantum.atomic.common.grid.UpdateTicker;
 import org.halvors.quantum.atomic.common.grid.thermal.ThermalPhysics;
+import org.halvors.quantum.atomic.common.init.QuantumBlocks;
+import org.halvors.quantum.atomic.common.init.QuantumFluids;
 import org.halvors.quantum.atomic.common.tile.reactor.fusion.TilePlasma;
 
 public class ThermalEventHandler {
@@ -57,7 +58,7 @@ public class ThermalEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlasmaSpawnEvent(PlasmaEvent.PlasmaSpawnEvent event) {
+    public void onPlasmaSpawnEvent(PlasmaSpawnEvent event) {
         final World world = event.getWorld();
         final BlockPos pos = event.getPos();
         final Block block = world.getBlockState(pos).getBlock();
@@ -80,7 +81,9 @@ public class ThermalEventHandler {
             }
         }
 
-        world.setBlockState(pos, QuantumFluids.plasma.getBlock().getDefaultState());
+        if (block.isReplaceable(world, pos)) {
+            world.setBlockState(pos, QuantumFluids.plasma.getBlock().getDefaultState());
+        }
 
         TileEntity tile = world.getTileEntity(pos);
 

@@ -27,7 +27,7 @@ public class GuiAccelerator extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        String name = LanguageUtility.localize("tile.machine." + EnumMachine.ACCELERATOR.ordinal() + ".name");
+        String name = LanguageUtility.transelate("tile.machine." + EnumMachine.ACCELERATOR.ordinal() + ".name");
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 

@@ -18,6 +18,7 @@ import org.halvors.quantum.atomic.common.utility.NBTUtility;
 import org.halvors.quantum.atomic.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.atomic.common.utility.type.Color;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemBlockThermometer extends ItemBlockSaved {
@@ -30,17 +31,17 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag) {
+    public void addInformation(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, @Nonnull List<String> list, boolean flag) {
         super.addInformation(itemStack, player, list, flag);
 
         Vector3 coord = getSavedCoord(itemStack);
 
         if (coord != null) {
-            list.add(LanguageUtility.localize("tooltip.trackingTemperature"));
+            list.add(LanguageUtility.transelate("tooltip.trackingTemperature"));
             list.add("X: " + coord.intX() + ", Y: " + coord.intY() + ", Z: " + coord.intZ());
             // TODO: Add client side temperature.
         } else {
-            list.add(Color.DARK_RED + LanguageUtility.localize("tooltip.notTrackingTemperature"));
+            list.add(Color.DARK_RED + LanguageUtility.transelate("tooltip.notTrackingTemperature"));
         }
     }
 
@@ -65,7 +66,8 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    @Nonnull
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if (!world.isRemote) {
             setSavedCoords(itemStack, null);
             player.sendMessage(new TextComponentString("Cleared tracking coordinate."));
@@ -77,6 +79,7 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     }
 
     @Override
+    @Nonnull
     public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if (player.isSneaking()) {
             setSavedCoords(itemStack, new Vector3(pos.getX(), pos.getY(), pos.getZ()));

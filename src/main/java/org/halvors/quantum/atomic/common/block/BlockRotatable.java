@@ -19,7 +19,7 @@ public abstract class BlockRotatable extends BlockContainerQuantum {
     protected BlockRotatable(String name, Material material) {
         super(name, material);
 
-        setDefaultState(blockState.getBaseState().withProperty(BlockStateFacing.facingProperty, EnumFacing.NORTH));
+        setDefaultState(blockState.getBaseState().withProperty(BlockStateFacing.FACING, EnumFacing.NORTH));
     }
 
     @Override
@@ -49,7 +49,7 @@ public abstract class BlockRotatable extends BlockContainerQuantum {
         if (tile instanceof ITileRotatable) {
             ITileRotatable tileRotatable = (ITileRotatable) tile;
 
-            state = state.withProperty(BlockStateFacing.facingProperty, tileRotatable.getFacing());
+            state = state.withProperty(BlockStateFacing.FACING, tileRotatable.getFacing());
         }
 
         return state;

@@ -4,7 +4,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.atomic.common.QuantumItems;
 import org.halvors.quantum.atomic.common.Reference;
 import org.halvors.quantum.core.init.ComponentItems;
 

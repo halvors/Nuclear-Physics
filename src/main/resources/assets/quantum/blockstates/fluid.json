@@ -20,9 +20,11 @@
     ],
     "plasma": [
       {
-        "custom": {
-          "fluid": "plasma"
-        }
+        "model": "cube_all",
+        "textures": {
+          "all": "quantum:fluids/plasma_still"
+        },
+        "uvlock": true
       }
     ],
     "steam": [

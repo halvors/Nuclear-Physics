@@ -1,6 +1,5 @@
 package org.halvors.quantum.atomic.common.utility;
 
-import mekanism.api.IMekWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,24 +21,15 @@ public class WrenchUtility {
 		if (itemStack != null) {
 			Item item = itemStack.getItem();
 
-			if (Integration.isCoFHCoreEnabled) {
-				// Check if item is a CoFH wrench.
-				/*
-				if (item instanceof IToolHammer) {
-					IToolHammer wrench = (IToolHammer) item;
-
-					return wrench.isUsable(itemStack, player, x, y, z);
-				}
-				*/
-			}
-
 			if (Integration.isMekanismEnabled) {
 				// Check if item is a Mekanism wrench.
+				/*
 				if (item instanceof IMekWrench) {
 					IMekWrench wrench = (IMekWrench) item;
 
 					return wrench.canUseWrench(player, pos.getX(), pos.getY(), pos.getZ());
 				}
+				*/
 			}
 		}
 

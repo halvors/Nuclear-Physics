@@ -36,7 +36,7 @@ public class BlockMachineModel extends BlockInventory {
     public BlockMachineModel() {
         super("machine_model", Material.IRON);
 
-        setDefaultState(blockState.getBaseState().withProperty(BlockStateMachineModel.typeProperty, EnumMachineModel.CHEMICAL_EXTRACTOR));
+        setDefaultState(blockState.getBaseState().withProperty(BlockStateMachineModel.TYPE, EnumMachineModel.CHEMICAL_EXTRACTOR));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class BlockMachineModel extends BlockInventory {
     @Nonnull
     @SideOnly(Side.CLIENT)
     public EnumBlockRenderType getRenderType(IBlockState state) {
-        return state.getValue(BlockStateMachineModel.typeProperty).getRenderType();
+        return state.getValue(BlockStateMachineModel.TYPE).getRenderType();
     }
 
     @SuppressWarnings("deprecation")
@@ -85,17 +85,17 @@ public class BlockMachineModel extends BlockInventory {
     @SuppressWarnings("deprecation")
     @Override
     public IBlockState getStateFromMeta(int metadata) {
-        return getDefaultState().withProperty(BlockStateMachineModel.typeProperty, EnumMachineModel.values()[metadata]);
+        return getDefaultState().withProperty(BlockStateMachineModel.TYPE, EnumMachineModel.values()[metadata]);
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(BlockStateMachineModel.typeProperty).ordinal();
+        return state.getValue(BlockStateMachineModel.TYPE).ordinal();
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
-        world.setBlockState(pos, state.withProperty(BlockStateMachineModel.typeProperty, EnumMachineModel.values()[itemStack.getItemDamage()]));
+        world.setBlockState(pos, state.withProperty(BlockStateMachineModel.TYPE, EnumMachineModel.values()[itemStack.getItemDamage()]));
 
         super.onBlockPlacedBy(world, pos, state, entity, itemStack);
     }
@@ -122,7 +122,7 @@ public class BlockMachineModel extends BlockInventory {
 
     @Override
     public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
-        EnumMachineModel type = state.getValue(BlockStateMachineModel.typeProperty);
+        EnumMachineModel type = state.getValue(BlockStateMachineModel.TYPE);
 
         return type.getTileAsInstance();
     }

@@ -4,12 +4,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import org.halvors.quantum.atomic.common.block.BlockContainerQuantum;
+import org.halvors.quantum.atomic.common.block.BlockConnectedTexture;
 import org.halvors.quantum.atomic.common.tile.particle.TileFulmination;
 
 import javax.annotation.Nonnull;
 
-public class BlockFulmination extends BlockContainerQuantum {
+public class BlockFulmination extends BlockConnectedTexture {
     public BlockFulmination() {
         super("fulmination", Material.IRON);
 

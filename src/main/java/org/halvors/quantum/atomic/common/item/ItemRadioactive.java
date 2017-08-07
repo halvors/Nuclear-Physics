@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.halvors.quantum.atomic.common.effect.poison.PoisonRadiation;
 
-public class ItemRadioactive extends ItemQuantum {
+public class ItemRadioactive extends ItemTooltip {
     public ItemRadioactive(String name) {
         super(name);
     }

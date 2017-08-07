@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.translation.I18n;
+import org.halvors.quantum.atomic.common.utility.LanguageUtility;
 
 public class CustomDamageSource extends DamageSource {
     private Object damageSource;
@@ -62,14 +62,14 @@ public class CustomDamageSource extends DamageSource {
         String machineKillTranslation = deathTranslation + ".machine";
 
         if (damageSource instanceof TileEntity) {
-            if (I18n.canTranslate(machineKillTranslation)) {
+            if (LanguageUtility.canTranselate(machineKillTranslation)) {
                 return new TextComponentTranslation(machineKillTranslation, victum.getCommandSenderEntity().getDisplayName());
             }
         } else if (attacker != null) {
-            if (I18n.canTranslate(playerKillTranslation)) {
+            if (LanguageUtility.canTranselate(playerKillTranslation)) {
                 return new TextComponentTranslation(playerKillTranslation, victum.getCommandSenderEntity().getDisplayName(), attacker.getCommandSenderEntity().getDisplayName());
             }
-        } else if (I18n.canTranslate(deathTranslation)) {
+        } else if (LanguageUtility.canTranselate(deathTranslation)) {
             return new TextComponentTranslation(deathTranslation, victum.getCommandSenderEntity().getDisplayName());
         }
 

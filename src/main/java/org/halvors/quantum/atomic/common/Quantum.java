@@ -6,7 +6,6 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -15,23 +14,21 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.halvors.quantum.atomic.common.ConfigurationManager.Integration;
-import org.halvors.quantum.atomic.common.block.debug.BlockCreativeBuilder;
-import org.halvors.quantum.atomic.common.block.debug.schematic.SchematicAccelerator;
-import org.halvors.quantum.atomic.common.block.debug.schematic.SchematicBreedingReactor;
-import org.halvors.quantum.atomic.common.block.debug.schematic.SchematicFissionReactor;
-import org.halvors.quantum.atomic.common.block.debug.schematic.SchematicFusionReactor;
 import org.halvors.quantum.atomic.common.entity.EntityParticle;
 import org.halvors.quantum.atomic.common.event.ExplosionEventHandler;
 import org.halvors.quantum.atomic.common.event.PlayerEventHandler;
 import org.halvors.quantum.atomic.common.event.ThermalEventHandler;
 import org.halvors.quantum.atomic.common.grid.UpdateTicker;
 import org.halvors.quantum.atomic.common.grid.thermal.ThermalGrid;
+import org.halvors.quantum.atomic.common.init.QuantumEntities;
+import org.halvors.quantum.atomic.common.init.QuantumRecipes;
 import org.halvors.quantum.atomic.common.network.PacketHandler;
 import org.halvors.quantum.atomic.common.tile.particle.FulminationHandler;
+import org.halvors.quantum.atomic.common.world.WorldGenerator;
 import org.halvors.quantum.core.CreativeTabComponents;
 
 /**
@@ -42,8 +39,7 @@ import org.halvors.quantum.core.CreativeTabComponents;
 @Mod(modid = Reference.ID,
      name = Reference.NAME,
      version = Reference.VERSION,
-     dependencies = "after:CoFHCore;" +
-                    "after:Mekanism",
+     dependencies = "after:Mekanism",
      guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
 public class Quantum {
 	// The instance of your mod that Forge uses.
@@ -70,10 +66,6 @@ public class Quantum {
 	// Grids
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
 
-	static {
-		FluidRegistry.enableUniversalBucket(); // Must be called before preInit
-	}
-
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		// Initialize configuration.
@@ -83,12 +75,9 @@ public class Quantum {
 		ConfigurationManager.loadConfiguration(configuration);
 
 		// Mod integration.
-		logger.log(Level.INFO, "CoFHCore integration is " + (Integration.isCoFHCoreEnabled ? "enabled" : "disabled") + ".");
-		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
+		logger.log(Level.INFO, "Mekanism integration is " + (ConfigurationManager.Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
 		// Call functions for adding blocks, items, etc.
-		QuantumBlocks.register();
-		QuantumItems.register();
 		QuantumEntities.register();
 		QuantumRecipes.register();
 
@@ -110,11 +99,8 @@ public class Quantum {
 		// Register event buses. TODO: Move this to a custom event handler?
 		MinecraftForge.EVENT_BUS.register(FulminationHandler.INSTANCE);
 
-		// Adde schematics to the creative builder.
-		BlockCreativeBuilder.registerSchematic(new SchematicAccelerator());
-		BlockCreativeBuilder.registerSchematic(new SchematicBreedingReactor());
-		BlockCreativeBuilder.registerSchematic(new SchematicFissionReactor());
-		BlockCreativeBuilder.registerSchematic(new SchematicFusionReactor());
+		//Register the mod's world generators
+		GameRegistry.registerWorldGenerator(new WorldGenerator(), 1);
 
 		// TODO: Add support for this? Make sure to return something in OreDictionaryHelper still if disabled.
 		if (ConfigurationManager.General.allowOreDictionaryCompatibility) {

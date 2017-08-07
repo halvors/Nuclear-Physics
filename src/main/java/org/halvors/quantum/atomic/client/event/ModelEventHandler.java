@@ -15,9 +15,9 @@ import net.minecraftforge.fluids.IFluidBlock;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import org.halvors.quantum.atomic.common.QuantumFluids;
 import org.halvors.quantum.atomic.common.Reference;
 import org.halvors.quantum.atomic.common.fluid.MeshDefinitionFix;
+import org.halvors.quantum.atomic.common.init.QuantumFluids;
 import org.halvors.quantum.atomic.common.utility.ResourceUtility;
 import org.halvors.quantum.atomic.common.utility.type.ResourceType;
 

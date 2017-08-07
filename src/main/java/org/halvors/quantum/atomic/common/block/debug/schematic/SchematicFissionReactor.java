@@ -4,7 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import org.halvors.quantum.atomic.common.QuantumBlocks;
+import org.halvors.quantum.atomic.common.init.QuantumBlocks;
 import org.halvors.quantum.atomic.common.utility.transform.vector.Vector3;
 
 import java.util.HashMap;

@@ -29,6 +29,6 @@ public class CategoryEntryGeneral extends GuiConfigEntries.CategoryEntry {
                 category,
                 false,
                 false,
-                Reference.NAME + " - " + LanguageUtility.localize("gui.configuration.category." + category));
+                Reference.NAME + " - " + LanguageUtility.transelate("gui.configuration.category." + category));
     }
 }

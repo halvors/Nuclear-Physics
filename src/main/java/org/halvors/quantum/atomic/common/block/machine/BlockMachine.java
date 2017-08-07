@@ -21,7 +21,6 @@ import org.halvors.quantum.atomic.common.Quantum;
 import org.halvors.quantum.atomic.common.block.BlockInventory;
 import org.halvors.quantum.atomic.common.block.states.BlockStateMachine;
 import org.halvors.quantum.atomic.common.tile.particle.TileAccelerator;
-import org.halvors.quantum.atomic.common.tile.reactor.TileGasFunnel;
 import org.halvors.quantum.atomic.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;
@@ -31,7 +30,7 @@ public class BlockMachine extends BlockInventory {
     public BlockMachine() {
         super("machine", Material.IRON);
 
-        setDefaultState(blockState.getBaseState().withProperty(BlockStateMachine.typeProperty, EnumMachine.ACCELERATOR));
+        setDefaultState(blockState.getBaseState().withProperty(BlockStateMachine.TYPE, EnumMachine.ACCELERATOR));
     }
 
     @Override
@@ -57,18 +56,19 @@ public class BlockMachine extends BlockInventory {
 
     @SuppressWarnings("deprecation")
     @Override
+    @Nonnull
     public IBlockState getStateFromMeta(int metadata) {
-        return getDefaultState().withProperty(BlockStateMachine.typeProperty, EnumMachine.values()[metadata]);
+        return getDefaultState().withProperty(BlockStateMachine.TYPE, EnumMachine.values()[metadata]);
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(BlockStateMachine.typeProperty).ordinal();
+        return state.getValue(BlockStateMachine.TYPE).ordinal();
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
-        world.setBlockState(pos, state.withProperty(BlockStateMachine.typeProperty, EnumMachine.values()[itemStack.getItemDamage()]));
+        world.setBlockState(pos, state.withProperty(BlockStateMachine.TYPE, EnumMachine.values()[itemStack.getItemDamage()]));
 
         super.onBlockPlacedBy(world, pos, state, entity, itemStack);
     }
@@ -91,12 +91,11 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
-        return state.getValue(BlockStateMachine.typeProperty).getTileAsInstance();
+        return state.getValue(BlockStateMachine.TYPE).getTileAsInstance();
     }
 
     public enum EnumMachine implements IStringSerializable {
-        ACCELERATOR("accelerator", TileAccelerator.class),
-        GAS_FUNNEL("gas_funnel", TileGasFunnel.class);
+        ACCELERATOR("accelerator", TileAccelerator.class);
 
         private String name;
         private Class<? extends TileEntity> tileClass;

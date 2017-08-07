@@ -14,11 +14,11 @@ import java.util.Set;
 /** A reference-based multiblock structure uses a central block as the "primary block" and have all
  * the blocks around it be "dummy blocks". This handler should be extended. Every single block will
  * have a reference of this object.
- *
- * @author Calclavia */
+ */
 public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveObject {
     /** The main block used for reference */
     protected WeakReference<W> prim = null;
+
     /** The relative primary block position to be loaded in once the tile is initiated. */
     protected Position newPrimary = null;
     protected final W self;

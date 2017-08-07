@@ -2,14 +2,18 @@ package org.halvors.quantum.atomic.common.utility;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.halvors.quantum.atomic.common.QuantumItems;
+import org.halvors.quantum.atomic.common.init.QuantumItems;
 import org.halvors.quantum.atomic.common.item.ItemCell;
 
 /**
@@ -30,6 +34,27 @@ public class FluidUtility {
         }
 
         return stack;
+    }
+
+    public static void transferFluidToNeighbors(IBlockAccess world, BlockPos pos, IFluidTank tank, FluidStack requestFluidStack) {
+        if (tank != null && requestFluidStack != null && tank.getFluid() != null) {
+            requestFluidStack.amount = (tank.getCapacity() - tank.getFluid().amount);
+
+            for (EnumFacing side : EnumFacing.VALUES) {
+                TileEntity tile = world.getTileEntity(pos.offset(side));
+
+                if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite())) {
+                    IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+                    FluidStack receiveFluidStack = fluidHandler.drain(requestFluidStack, true);
+
+                    if (receiveFluidStack != null && receiveFluidStack.amount > 0) {
+                        if (tank.fill(receiveFluidStack, false) > 0) {
+                            tank.fill(receiveFluidStack, true);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

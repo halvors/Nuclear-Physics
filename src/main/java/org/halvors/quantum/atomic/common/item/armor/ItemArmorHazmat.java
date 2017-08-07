@@ -10,6 +10,8 @@ import net.minecraftforge.common.util.EnumHelper;
 import org.halvors.quantum.api.item.armor.IAntiPoisonArmor;
 import org.halvors.quantum.atomic.common.Reference;
 
+import javax.annotation.Nonnull;
+
 public class ItemArmorHazmat extends ItemArmorQuantum implements IAntiPoisonArmor {
     private static final ArmorMaterial material = EnumHelper.addArmorMaterial("hazmat" , "hazmat", 0, new int[] { 0, 0, 0, 0 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 
@@ -20,6 +22,7 @@ public class ItemArmorHazmat extends ItemArmorQuantum implements IAntiPoisonArmo
     }
 
     @Override
+    @Nonnull
     public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
         return Reference.PREFIX + "textures/models/hazmat.png";
     }
@@ -41,11 +44,7 @@ public class ItemArmorHazmat extends ItemArmorQuantum implements IAntiPoisonArmo
 
     @Override
     public boolean isPartOfSet(ItemStack armorStack, ItemStack compareStack) {
-        if (armorStack != null && compareStack != null) {
-            return armorStack.getItem() == compareStack.getItem();
-        }
-
-        return false;
+        return armorStack != null && compareStack != null && armorStack.getItem() == compareStack.getItem();
     }
 
     @Override

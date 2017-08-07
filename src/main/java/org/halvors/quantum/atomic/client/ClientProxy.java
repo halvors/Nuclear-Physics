@@ -3,6 +3,7 @@ package org.halvors.quantum.atomic.client;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -101,6 +102,11 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		}
 
 		return null;
+	}
+
+	@Override
+	public void registerBlockRenderer(Block block, IStateMapper mapper) {
+		ModelLoader.setCustomStateMapper(block, mapper);
 	}
 
 	@Override

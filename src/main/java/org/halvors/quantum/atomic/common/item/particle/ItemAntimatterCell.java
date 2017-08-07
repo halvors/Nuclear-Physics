@@ -1,22 +1,21 @@
 package org.halvors.quantum.atomic.common.item.particle;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.atomic.common.Quantum;
-import org.halvors.quantum.atomic.common.item.ItemMetadata;
-import org.halvors.quantum.atomic.common.utility.LanguageUtility;
+import org.halvors.quantum.atomic.common.item.ItemTooltip;
 
 import java.util.List;
 
-public class ItemAntimatterCell extends ItemMetadata {
+public class ItemAntimatterCell extends ItemTooltip {
     public ItemAntimatterCell() {
         super("antimatter_cell");
 
+        setHasSubtypes(true);
         setMaxDamage(0);
     }
 
@@ -28,23 +27,16 @@ public class ItemAntimatterCell extends ItemMetadata {
     }
 
     @Override
-    public int getEntityLifespan(ItemStack itemStack, World world) {
-        return 160;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag) {
-        list.add(LanguageUtility.localize(getUnlocalizedName(itemStack) + ".tooltip"));
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tabs, List<ItemStack> list) {
         for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
+    }
+
+    @Override
+    public int getEntityLifespan(ItemStack itemStack, World world) {
+        return 160;
     }
 
     public enum EnumAntimatterCell {

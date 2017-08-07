@@ -30,16 +30,16 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.atomic.common.Quantum;
-import org.halvors.quantum.atomic.common.QuantumBlocks;
-import org.halvors.quantum.atomic.common.QuantumFluids;
 import org.halvors.quantum.atomic.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
 import org.halvors.quantum.atomic.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.atomic.common.effect.explosion.ReactorExplosion;
 import org.halvors.quantum.atomic.common.effect.poison.PoisonRadiation;
-import org.halvors.quantum.atomic.common.event.PlasmaEvent;
+import org.halvors.quantum.atomic.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.quantum.atomic.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.atomic.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.atomic.common.grid.thermal.ThermalPhysics;
+import org.halvors.quantum.atomic.common.init.QuantumBlocks;
+import org.halvors.quantum.atomic.common.init.QuantumFluids;
 import org.halvors.quantum.atomic.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.atomic.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.atomic.common.network.packet.PacketTileEntity;
@@ -97,7 +97,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     private final FluidTankQuantum tank = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 15) {
         @Override
         public int fill(FluidStack resource, boolean doFill) {
-            if (resource.isFluidEqual(QuantumFluids.stackPlasma)) {
+            if (resource.isFluidEqual(QuantumFluids.plasmaStack)) {
                 return super.fill(resource, doFill);
             }
 
@@ -158,7 +158,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 BlockPos spawnPos = pos.offset(spawnDir, 2).up(Math.max(world.rand.nextInt(getHeight()) - 1, 0));
 
                 if (world.isAirBlock(spawnPos)) {
-                    MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, spawnPos, TilePlasma.plasmaMaxTemperature));
+                    MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(world, spawnPos, TilePlasma.plasmaMaxTemperature));
                     tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                 }
             }
@@ -465,11 +465,11 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         IBlockState state = world.getBlockState(pos);
 
         if (top && bottom) {
-            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.MIDDLE));
+            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.TYPE, EnumReactorCell.MIDDLE));
         } else if (top) {
-            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.BOTTOM));
+            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.TYPE, EnumReactorCell.BOTTOM));
         } else {
-            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.typeProperty, EnumReactorCell.TOP));
+            world.setBlockState(pos, state.withProperty(BlockStateReactorCell.TYPE, EnumReactorCell.TOP));
         }
     }
 

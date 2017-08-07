@@ -46,7 +46,6 @@ public class ConfigurationManager {
 
     public static class Integration {
         public static boolean isVersionCheckerEnabled;
-        public static boolean isCoFHCoreEnabled;
         public static boolean isMekanismEnabled;
     }
 
@@ -88,7 +87,6 @@ public class ConfigurationManager {
 
         // Integration.
         Integration.isVersionCheckerEnabled = configuration.get(CATEGORY_INTEGRATION, "VersionChecker", Loader.isModLoaded("VersionChecker")).getBoolean();
-        Integration.isCoFHCoreEnabled = configuration.get(CATEGORY_INTEGRATION, "CoFHCore", Loader.isModLoaded("CoFHCore")).getBoolean();
         Integration.isMekanismEnabled = configuration.get(CATEGORY_INTEGRATION, "Mekanism", Loader.isModLoaded("Mekanism")).getBoolean();
 
         // Client.
@@ -133,7 +131,6 @@ public class ConfigurationManager {
 
         // Integration.
         Integration.isVersionCheckerEnabled = dataStream.readBoolean();
-        Integration.isCoFHCoreEnabled = dataStream.readBoolean();
         Integration.isMekanismEnabled = dataStream.readBoolean();
 
         // Client.
@@ -174,7 +171,6 @@ public class ConfigurationManager {
 
         // Integration.
         objects.add(Integration.isVersionCheckerEnabled);
-        objects.add(Integration.isCoFHCoreEnabled);
         objects.add(Integration.isMekanismEnabled);
 
         // Client.

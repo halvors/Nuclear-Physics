@@ -13,8 +13,8 @@ import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.halvors.quantum.atomic.common.Quantum;
-import org.halvors.quantum.atomic.common.QuantumFluids;
 import org.halvors.quantum.atomic.common.fluid.tank.GasTank;
+import org.halvors.quantum.atomic.common.init.QuantumFluids;
 import org.halvors.quantum.atomic.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.atomic.common.tile.machine.TileMachine;
 
@@ -28,7 +28,7 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
 
     private final GasTank tankInputDeuterium = new GasTank(QuantumFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
     private final GasTank tankInputTritium = new GasTank(QuantumFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
-    private final GasTank tankOutput = new GasTank(QuantumFluids.stackPlasma.copy(), Fluid.BUCKET_VOLUME * 10);
+    private final GasTank tankOutput = new GasTank(QuantumFluids.plasmaStack.copy(), Fluid.BUCKET_VOLUME * 10);
 
     public float rotation = 0;
     private final int maxTransfer = (int) power / 20;
@@ -177,19 +177,19 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     @Override
     public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
         if (energy != null) {
-            map.put(LanguageUtility.localize("tooltip.energy") + ": " + UnitDisplay.getDisplay(energy.getEnergy(), Unit.JOULES), 0xFFFFFF);
+            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getDisplay(energy.getEnergy(), Unit.JOULES), 0xFFFFFF);
         }
 
         if (tankInputDeuterium.getFluidAmount() > 0) {
-            map.put(LanguageUtility.localize("fluid.deuterium") + ": " + tankInputDeuterium.getFluidAmount() + " L", 0xFFFFFF);
+            map.put(LanguageUtility.transelate("fluid.deuterium") + ": " + tankInputDeuterium.getFluidAmount() + " L", 0xFFFFFF);
         }
 
         if (tankInputTritium.getFluidAmount() > 0) {
-            map.put(LanguageUtility.localize("fluid.tritium") + ": " + tankInputTritium.getFluidAmount() + " L", 0xFFFFFF);
+            map.put(LanguageUtility.transelate("fluid.tritium") + ": " + tankInputTritium.getFluidAmount() + " L", 0xFFFFFF);
         }
 
         if (tankOutput.getFluidAmount() > 0) {
-            map.put(LanguageUtility.localize("fluid.plasma") + ": " + tankOutput.getFluidAmount() + " L", 0xFFFFFF);
+            map.put(LanguageUtility.transelate("fluid.plasma") + ": " + tankOutput.getFluidAmount() + " L", 0xFFFFFF);
         }
 
         return 1.5f;

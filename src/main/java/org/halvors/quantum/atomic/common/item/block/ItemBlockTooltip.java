@@ -9,6 +9,7 @@ import org.halvors.quantum.atomic.common.utility.LanguageUtility;
 import org.halvors.quantum.atomic.common.utility.type.Color;
 import org.lwjgl.input.Keyboard;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemBlockTooltip extends ItemBlockQuantum {
@@ -16,25 +17,17 @@ public class ItemBlockTooltip extends ItemBlockQuantum {
         super(block);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag) {
-        String tooltip = LanguageUtility.localize(getUnlocalizedName(itemStack) + ".tooltip");
+    public void addInformation(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, @Nonnull List<String> list, boolean flag) {
+        String tooltip = getUnlocalizedName(itemStack) + ".tooltip";
 
-        if (tooltip != null && tooltip.length() > 0) {
+        if (LanguageUtility.canTranselate(tooltip)) {
             if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                list.add(LanguageUtility.localize("tooltip.noShift").replace("%0", Color.AQUA.toString()).replace("%1", Color.GREY.toString()));
+                list.add(LanguageUtility.transelate("tooltip.noShift", Color.AQUA.toString(), Color.GREY.toString()));
             } else {
-                list.addAll(LanguageUtility.splitStringPerWord(tooltip, 5));
+                list.addAll(LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tooltip), 5));
             }
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_J)) {
-            // TODO: Fix this.
-            //TooltipUtilityX.addTooltip(itemStack, list);
-        } else {
-            list.add(LanguageUtility.localize("info.recipes.tooltip").replace("%0", Color.AQUA.toString()).replace("%1", Color.GREY.toString()));
         }
     }
 }

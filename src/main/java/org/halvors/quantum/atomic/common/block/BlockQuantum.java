@@ -18,6 +18,10 @@ public class BlockQuantum extends Block {
         setCreativeTab(Quantum.getCreativeTab());
     }
 
+    public void registerBlockModel() {
+
+    }
+
     public void registerItemModel(ItemBlock itemBlock) {
         Quantum.getProxy().registerItemRenderer(itemBlock, 0, name);
     }

@@ -9,8 +9,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.halvors.quantum.atomic.common.QuantumFluids;
 import org.halvors.quantum.atomic.common.fluid.tank.GasTank;
+import org.halvors.quantum.atomic.common.init.QuantumFluids;
 
 import javax.annotation.Nonnull;
 
@@ -50,6 +50,7 @@ public class TileGasFunnel extends TileEntity implements ITickable {
     }
 
     @Override
+    @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         tag = super.writeToNBT(tag);
 

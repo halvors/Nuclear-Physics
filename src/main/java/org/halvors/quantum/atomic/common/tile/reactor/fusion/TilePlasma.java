@@ -6,7 +6,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
-import org.halvors.quantum.atomic.common.event.PlasmaEvent;
+import org.halvors.quantum.atomic.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.quantum.atomic.common.grid.thermal.ThermalGrid;
 
 public class TilePlasma extends TileEntity implements ITickable {
@@ -31,7 +31,7 @@ public class TilePlasma extends TileEntity implements ITickable {
                         final TileEntity tile = world.getTileEntity(spreadPos);
 
                         if (!(tile instanceof TilePlasma)) {
-                            MinecraftForge.EVENT_BUS.post(new PlasmaEvent.PlasmaSpawnEvent(world, spreadPos, temperature));
+                            MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(world, spreadPos, temperature));
                         }
                     }
                 }

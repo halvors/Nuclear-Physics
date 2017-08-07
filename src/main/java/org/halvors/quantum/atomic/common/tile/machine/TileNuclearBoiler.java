@@ -8,8 +8,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.atomic.common.ConfigurationManager;
 import org.halvors.quantum.atomic.common.Quantum;
-import org.halvors.quantum.atomic.common.QuantumFluids;
 import org.halvors.quantum.atomic.common.fluid.tank.FluidTankQuantum;
+import org.halvors.quantum.atomic.common.init.QuantumFluids;
 import org.halvors.quantum.atomic.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.atomic.common.utility.InventoryUtility;
 import org.halvors.quantum.atomic.common.utility.OreDictionaryHelper;
@@ -114,29 +114,6 @@ public class TileNuclearBoiler extends TileProcess {
         }
 
         if (!world.isRemote) {
-            // Put water as liquid
-            /*
-            if (getStackInSlot(1) != null) {
-                if (FluidContainerRegistry.isFilledContainer(getStackInSlot(1))) {
-                    FluidStack liquid = FluidContainerRegistry.getFluidForFilledItem(getStackInSlot(1));
-
-                    if (liquid.isFluidEqual(Quantum.fluidStackWater)) {
-                        if (fill(ForgeDirection.UNKNOWN, liquid, false) > 0) {
-                            ItemStack resultingContainer = getStackInSlot(1).getItem().getContainerItem(getStackInSlot(1));
-
-                            if (resultingContainer == null && getStackInSlot(1).stackSize > 1) {
-                                getStackInSlot(1).stackSize--;
-                            } else {
-                                setInventorySlotContents(1, resultingContainer);
-                            }
-
-                            tankInput.fillInternal(liquid, true);
-                        }
-                    }
-                }
-            }
-            */
-
             if (canProcess()) {
                 // TODO: Implement this.
                 //discharge(getStackInSlot(0));

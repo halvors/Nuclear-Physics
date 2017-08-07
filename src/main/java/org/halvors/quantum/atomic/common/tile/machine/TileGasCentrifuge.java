@@ -15,11 +15,12 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.atomic.common.ConfigurationManager;
 import org.halvors.quantum.atomic.common.Quantum;
-import org.halvors.quantum.atomic.common.QuantumFluids;
-import org.halvors.quantum.atomic.common.QuantumItems;
 import org.halvors.quantum.atomic.common.fluid.tank.FluidTankQuantum;
+import org.halvors.quantum.atomic.common.init.QuantumFluids;
+import org.halvors.quantum.atomic.common.init.QuantumItems;
 import org.halvors.quantum.atomic.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.quantum.atomic.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.atomic.common.utility.FluidUtility;
 import org.halvors.quantum.atomic.common.utility.OreDictionaryHelper;
 
 import javax.annotation.Nonnull;
@@ -93,30 +94,11 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
 
         if (!world.isRemote) {
             // TODO: Fix this?
-            /*
             if (world.getWorldTime() % 20 == 0) {
-                for (int side = 0; side < 6; side++) {
-                    EnumFacing direction = EnumFacing.getFront(side);
-                    TileEntity tileEntity = VectorHelper.getTileEntityFromSide(world, new Vector3(this), direction);
-
-                    if (tileEntity instanceof IFluidHandler && tileEntity.getClass() != getClass()) {
-                        IFluidHandler fluidHandler = (IFluidHandler) tileEntity;
-
-                        FluidStack requestFluid = QuantumFluids.fluidStackUraniumHexaflouride.copy();
-                        requestFluid.amount = (tank.getCapacity() - tank.getFluid().amount);
-                        FluidStack receiveFluid = fluidHandler.drain(direction.getOpposite(), requestFluid, true);
-
-                        if (receiveFluid != null) {
-                            if (receiveFluid.amount > 0) {
-                                if (tank.fill(receiveFluid, false) > 0) {
-                                    tank.fill(receiveFluid, true);
-                                }
-                            }
-                        }
-                    }
-                }
+                FluidUtility.transferFluidToNeighbors(world, pos, tank, QuantumFluids.fluidStackUraniumHexaflouride.copy());
             }
-            */
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             if (canProcess()) {
                 // TODO: Implement this.

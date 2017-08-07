@@ -1,29 +1,20 @@
 Porting to 1.10.2 from 1.7.10:
-    - Fix particle texture when breaking TESR rendered blocks. Only working when facing north.
-    - In EntityParticle use dataManager instead of dataWatcher, see: https://github.com/aidancbrady/Mekanism/blob/f277f49b92cd15764dd72f74f1ad6401d58fc364/src/main/java/mekanism/common/entity/EntityBalloon.java
-    - Fix reactor cell rendering.
+    - Fix particle texture when breaking TESR rendered blocks. Only working when facing north. (https://github.com/sinkillerj/ProjectE/blob/master/src/main/resources/assets/projecte/models/block/dummy.json)
     - Fix particle texture for every block, and make metadata blocks have different.
-    - Implement connected edge texture for Gas funnel, Electromagnet and Fulmination Generator.
-    - Make plasma not behave like a liquid. Should be a block.
     - Render fluid in qui.
     - Fix fire not vanishing after a while.
-    - Fix reactor explosion not destroying blocks.
     - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
+    - Check if auto transferring of fluids between machines is working.
 
 General:
 
 Known bugs:
     - Should not be possible to inject fuel into each of the reactor cell multiblocks...
     - Quantum Assembler render incorrectly.
-    - Fluid levels in machines is not always synced properly to the client. (Needs retesting, likely solved).
-    - When plasma is released into the world and causes block damage, block change is not properly synced to the client.
     - Electromagnet Glass have wrong material and footstep sound? As well as break sound.
-    - Turbine multi block construction is not synced properly.
     - Optimize syncing of machines etc, only sync when gui is open etc.
 
 Known features not implemented:
-    - Display tooltip to all items.
-    - Make slots in machines only accept valid items.
     - Add support for batteries in machines etc.
 
 New features to add:
