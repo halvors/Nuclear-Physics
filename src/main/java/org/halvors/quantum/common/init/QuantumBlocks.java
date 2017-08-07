@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -68,7 +68,7 @@ public class QuantumBlocks {
          * @param event The event
          */
         @SubscribeEvent
-        public static void registerBlocks(final RegistryEvent.Register<Block> event) {
+        public static void registerBlocks(final Register<Block> event) {
             final IForgeRegistry<Block> registry = event.getRegistry();
 
             final Block[] blocks = {
@@ -96,21 +96,21 @@ public class QuantumBlocks {
          * @param event The event
          */
         @SubscribeEvent
-        public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
+        public static void registerItemBlocks(final Register<Item> event) {
             final ItemBlock[] items = {
-                new ItemBlockTooltip(blockControlRod),
-                new ItemBlockTooltip(blockElectricTurbine),
-                new ItemBlockMetadata(blockElectromagnet),
-                new ItemBlockTooltip(blockFulmination),
-                new ItemBlockTooltip(blockGasFunnel),
-                new ItemBlockMetadata(blockMachine),
-                new ItemBlockMetadata(blockMachineModel),
-                new ItemBlockTooltip(blockSiren),
-                new ItemBlockThermometer(blockThermometer),
-                new ItemBlockTooltip(blockUraniumOre),
-                new ItemBlockTooltip(blockRadioactiveGrass),
-                new ItemBlockTooltip(blockReactorCell),
-                new ItemBlockTooltip(blockCreativeBuilder)
+                    new ItemBlockTooltip(blockControlRod),
+                    new ItemBlockTooltip(blockElectricTurbine),
+                    new ItemBlockMetadata(blockElectromagnet),
+                    new ItemBlockTooltip(blockFulmination),
+                    new ItemBlockTooltip(blockGasFunnel),
+                    new ItemBlockMetadata(blockMachine),
+                    new ItemBlockMetadata(blockMachineModel),
+                    new ItemBlockTooltip(blockSiren),
+                    new ItemBlockThermometer(blockThermometer),
+                    new ItemBlockTooltip(blockUraniumOre),
+                    new ItemBlockTooltip(blockRadioactiveGrass),
+                    new ItemBlockTooltip(blockReactorCell),
+                    new ItemBlockTooltip(blockCreativeBuilder)
             };
 
             final IForgeRegistry<Item> registry = event.getRegistry();

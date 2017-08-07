@@ -37,14 +37,14 @@ public class QuantumRecipes {
         GameRegistry.addRecipe(new ShapedOreRecipe(QuantumItems.itemPlateSteel, "SS ", "SS ", 'S', "ingotSteel"));
 
         // Basic circuit.
-        GameRegistry.addRecipe(new ShapedOreRecipe(QuantumItems.itemCircuitBasic, "WRW", "RPR", "WRW", 'W', QuantumItems.itemCopperWire, 'R', Items.REDSTONE, 'P', QuantumItems.itemPlateBronze));
-        GameRegistry.addRecipe(new ShapedOreRecipe(QuantumItems.itemCircuitBasic, "WRW", "RPR", "WRW", 'W', QuantumItems.itemCopperWire, 'R', Items.REDSTONE, 'P', QuantumItems.itemPlateSteel));
+        GameRegistry.addRecipe(new ShapedOreRecipe(QuantumItems.itemCircuitBasic, "WRW", "RPR", "WRW", 'W', QuantumItems.itemCopperWire, 'R', Items.REDSTONE, 'P', "plateBronze"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(QuantumItems.itemCircuitBasic, "WRW", "RPR", "WRW", 'W', QuantumItems.itemCopperWire, 'R', Items.REDSTONE, 'P', "plateSteel"));
 
         // Advanced circuit.
-        GameRegistry.addRecipe(new ShapedOreRecipe(QuantumItems.itemCircuitAdvanced, "RRR", "CDC", "RRR", 'W', 'R', Items.REDSTONE, 'C', QuantumItems.itemCircuitBasic, 'D', Items.DIAMOND));
+        GameRegistry.addRecipe(new ShapedOreRecipe(QuantumItems.itemCircuitAdvanced, "RRR", "CDC", "RRR", 'R', Items.REDSTONE, 'C', "circuitBasic", 'D', Items.DIAMOND));
 
         // Elite circuit.
-        GameRegistry.addRecipe(new ShapedOreRecipe(QuantumItems.itemCircuitElite, "GGG", "CLC", "GGG", 'W', 'G', Items.GOLD_INGOT, 'C', QuantumItems.itemCircuitAdvanced, 'L', Blocks.LAPIS_BLOCK));
+        GameRegistry.addRecipe(new ShapedOreRecipe(QuantumItems.itemCircuitElite, "GGG", "CLC", "GGG", 'G', Items.GOLD_INGOT, 'C', "circuitAdvanced", 'L', Blocks.LAPIS_BLOCK));
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -40,14 +40,14 @@ import org.halvors.quantum.common.world.WorldGenerator;
      name = Reference.NAME,
      version = Reference.VERSION,
      dependencies = "after:Mekanism",
-     guiFactory = "org.halvors." + Reference.ID + ".atomic.client.gui.configuration.GuiConfiguationFactory")
+     guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
 public class Quantum {
 	// The instance of your mod that Forge uses.
 	@Instance(Reference.ID)
 	private static Quantum instance;
 
 	// Says where the client and server 'proxy' code is loaded.
-	@SidedProxy(clientSide = "org.halvors." + Reference.ID + ".atomic.client.ClientProxy", serverSide = "org.halvors." + Reference.ID + ".atomic.common.CommonProxy")
+	@SidedProxy(clientSide = "org.halvors." + Reference.ID + ".client.ClientProxy", serverSide = "org.halvors." + Reference.ID + ".common.CommonProxy")
 	private static CommonProxy proxy;
 
 	// ConfigurationManager

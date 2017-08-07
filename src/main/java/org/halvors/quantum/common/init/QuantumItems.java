@@ -66,28 +66,28 @@ public class QuantumItems {
         @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> event) {
             final Item[] items = {
-                itemWrench,
-                itemCopperWire,
-                itemMotor,
+                    itemWrench,
+                    itemCopperWire,
+                    itemMotor,
 
-                itemPlateBronze,
-                itemPlateSteel,
+                    itemPlateBronze,
+                    itemPlateSteel,
 
-                itemCircuitBasic,
-                itemCircuitAdvanced,
-                itemCircuitElite,
+                    itemCircuitBasic,
+                    itemCircuitAdvanced,
+                    itemCircuitElite,
 
-                itemAntimatterCell,
-                itemBreederFuel,
-                itemCell,
-                itemDarkMatterCell,
-                itemFissileFuel,
-                itemUranium,
-                itemYellowCake,
-                itemHazmatMask,
-                itemHazmatBody,
-                itemHazmatLeggings,
-                itemHazmatBoots
+                    itemAntimatterCell,
+                    itemBreederFuel,
+                    itemCell,
+                    itemDarkMatterCell,
+                    itemFissileFuel,
+                    itemUranium,
+                    itemYellowCake,
+                    itemHazmatMask,
+                    itemHazmatBody,
+                    itemHazmatLeggings,
+                    itemHazmatBoots
             };
 
             final IForgeRegistry<Item> registry = event.getRegistry();
