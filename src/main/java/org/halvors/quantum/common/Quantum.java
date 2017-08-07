@@ -74,8 +74,6 @@ public class Quantum {
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
 		// Call functions for adding blocks, items, etc.
-		QuantumBlocks.register();
-		QuantumItems.register();
 		QuantumEntities.register();
 		QuantumRecipes.register();
 

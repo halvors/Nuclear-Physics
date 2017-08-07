@@ -42,9 +42,9 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
-        subItems.add(new ItemStack(item));
-        subItems.add(new ItemStack(item, 1, getMaxDamage() - 1));
+    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
+        items.add(new ItemStack(this));
+        items.add(new ItemStack(this, 1, getMaxDamage() - 1));
     }
 
     @Override

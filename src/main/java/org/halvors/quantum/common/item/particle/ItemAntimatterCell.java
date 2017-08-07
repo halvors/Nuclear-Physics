@@ -30,9 +30,9 @@ public class ItemAntimatterCell extends ItemTooltip {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
         for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
-            subItems.add(new ItemStack(item, 1, type.ordinal()));
+            items.add(new ItemStack(this, 1, type.ordinal()));
         }
     }
 

@@ -1,9 +1,18 @@
 package org.halvors.quantum.common;
 
+import com.google.common.base.Preconditions;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistry;
 import org.halvors.quantum.common.block.BlockQuantum;
 import org.halvors.quantum.common.block.BlockRadioactiveGrass;
 import org.halvors.quantum.common.block.BlockUraniumOre;
@@ -32,6 +41,9 @@ import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class QuantumBlocks {
     public static BlockQuantum blockControlRod = new BlockControlRod();
     public static BlockQuantum blockElectricTurbine = new BlockElectricTurbine();
@@ -48,23 +60,83 @@ public class QuantumBlocks {
 
     public static BlockQuantum blockCreativeBuilder = new BlockCreativeBuilder();
 
-    // Register blocks.
-    public static void register() {
-        register(blockControlRod);
-        register(blockElectricTurbine);
-        register(blockElectromagnet, new ItemBlockMetadata(blockElectromagnet));
-        register(blockFulmination);
-        register(blockGasFunnel);
-        register(blockMachine, new ItemBlockMetadata(blockMachine));
-        register(blockMachineModel, new ItemBlockMetadata(blockMachineModel));
-        register(blockSiren);
-        register(blockThermometer, new ItemBlockThermometer(blockThermometer));
-        register(blockUraniumOre, "oreUranium");
-        register(blockRadioactiveGrass, "blockRadioactiveGrass");
-        register(blockReactorCell);
+    @EventBusSubscriber
+    public static class RegistrationHandler {
+        public static final Set<ItemBlock> ITEM_BLOCKS = new HashSet<>();
 
-        register(blockCreativeBuilder);
+        /**
+         * Register this mod's {@link Block}s.
+         *
+         * @param event The event
+         */
+        @SubscribeEvent
+        public static void registerBlocks(final RegistryEvent.Register<Block> event) {
+            final IForgeRegistry<Block> registry = event.getRegistry();
 
+            final Block[] blocks = {
+                    blockControlRod,
+                    blockElectricTurbine,
+                    blockElectromagnet,
+                    blockFulmination,
+                    blockGasFunnel,
+                    blockMachine,
+                    blockMachineModel,
+                    blockSiren,
+                    blockThermometer,
+                    blockUraniumOre,
+                    blockRadioactiveGrass,
+                    blockReactorCell,
+                    blockCreativeBuilder
+            };
+
+            registry.registerAll(blocks);
+        }
+
+        /**
+         * Register this mod's {@link ItemBlock}s.
+         *
+         * @param event The event
+         */
+        @SubscribeEvent
+        public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
+            final ItemBlock[] items = {
+                    new ItemBlockTooltip(blockControlRod),
+                    new ItemBlockTooltip(blockElectricTurbine),
+                    new ItemBlockMetadata(blockElectromagnet),
+                    new ItemBlockTooltip(blockFulmination),
+                    new ItemBlockTooltip(blockGasFunnel),
+                    new ItemBlockMetadata(blockMachine),
+                    new ItemBlockMetadata(blockMachineModel),
+                    new ItemBlockTooltip(blockSiren),
+                    new ItemBlockThermometer(blockThermometer),
+                    new ItemBlockTooltip(blockUraniumOre),
+                    new ItemBlockTooltip(blockRadioactiveGrass),
+                    new ItemBlockTooltip(blockReactorCell),
+                    new ItemBlockTooltip(blockCreativeBuilder)
+            };
+
+            final IForgeRegistry<Item> registry = event.getRegistry();
+
+            for (final ItemBlock item : items) {
+                final BlockQuantum block = (BlockQuantum) item.getBlock();
+                //final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
+                //registry.register(item.setRegistryName(registryName));
+                registry.register(item);
+
+                block.registerItemModel(item);
+                block.registerBlockModel();
+
+                ITEM_BLOCKS.add(item);
+            }
+
+            registerTileEntities();
+
+            OreDictionary.registerOre("oreUranium", blockUraniumOre);
+            OreDictionary.registerOre("blockRadioactiveGrass", blockRadioactiveGrass);
+        }
+    }
+
+    private static void registerTileEntities() {
         for (EnumMachine type : EnumMachine.values()) {
             registerTile(type.getTileClass());
         }
@@ -83,32 +155,9 @@ public class QuantumBlocks {
         registerTile(TileReactorCell.class);
     }
 
-    private static <T extends BlockQuantum> T register(T block, String name) {
-        register(block);
-        OreDictionary.registerOre(name, block);
-
-        return block;
-    }
-
-    private static <T extends BlockQuantum> T register(T block) {
-        return register(block, new ItemBlockTooltip(block));
-    }
-
-    private static <T extends BlockQuantum> T register(T block, ItemBlock itemBlock) {
-        GameRegistry.register(block);
-        GameRegistry.register(itemBlock);
-
-        block.registerItemModel(itemBlock);
-        block.registerBlockModel();
-
-        return block;
-    }
-
-    private static Class<? extends TileEntity> registerTile(Class<? extends TileEntity> tileClass) {
+    private static void registerTile(Class<? extends TileEntity> tileClass) {
         String name = tileClass.getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
 
-        GameRegistry.registerTileEntity(tileClass, name);
-
-        return tileClass;
+        GameRegistry.registerTileEntity(tileClass, Reference.PREFIX + name);
     }
 }

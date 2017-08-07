@@ -103,9 +103,10 @@ public class BlockThermometer extends BlockContainerQuantum {
     }
     */
 
+    @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
+    public List<ItemStack> getDrops(@Nonnull IBlockAccess world, @Nonnull BlockPos pos, @Nonnull IBlockState state, int fortune) {
         return new ArrayList<>();
     }
 

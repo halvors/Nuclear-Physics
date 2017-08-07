@@ -5,7 +5,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.quantum.common.QuantumBlocks;
-import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
+import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
+import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
 
 import java.util.HashMap;
 
@@ -49,7 +50,7 @@ public class SchematicAccelerator implements ISchematic {
                 for (int y = -1; y <= 1; y++) {
                     if (x == -radius || x == radius - 1 || z == -radius || z == radius - 1) {
                         if (y == -1 || y == 1) {
-                            map.put(new BlockPos(x, y, z), QuantumBlocks.blockElectromagnet.getStateFromMeta(BlockElectromagnet.EnumElectromagnet.GLASS.ordinal()));
+                            map.put(new BlockPos(x, y, z), QuantumBlocks.blockElectromagnet.getDefaultState().withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.GLASS));
                         } else {
                             map.put(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
                         }

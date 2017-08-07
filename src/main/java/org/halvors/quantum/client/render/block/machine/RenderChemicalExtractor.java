@@ -19,7 +19,7 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer<TileChemi
     private static final OBJModelContainer modelAll = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "chemical_extractor.obj"), Arrays.asList("CornerSupport1", "CornerSupport2", "CornerSupport3", "CornerSupport4", "EnergyPlug", "Keyboard", "KeyboardSupport", "MainBase", "SupportBeam1", "SupportBeam2"));
 
     @Override
-    public void renderTileEntityAt(TileChemicalExtractor tile, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileChemicalExtractor tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         GlStateManager.pushMatrix();

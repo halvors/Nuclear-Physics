@@ -4,9 +4,13 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.registries.IForgeRegistry;
 import org.halvors.quantum.common.item.ItemCell;
 import org.halvors.quantum.common.item.ItemQuantum;
 import org.halvors.quantum.common.item.ItemRadioactive;
@@ -17,6 +21,9 @@ import org.halvors.quantum.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium;
 import org.halvors.quantum.common.utility.FluidUtility;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class QuantumItems {
     // Cells
@@ -36,50 +43,61 @@ public class QuantumItems {
     public static ItemArmor itemHazmatLeggings = new ItemArmorHazmat("hazmat_leggings", EntityEquipmentSlot.LEGS);
     public static ItemArmor itemHazmatBoots = new ItemArmorHazmat("hazmat_boots", EntityEquipmentSlot.FEET);
 
-    // Register items.
-    public static void register() {
-        register(itemAntimatterCell);
-        register(itemBreederFuel, "fuelBreeder");
-        register(itemCell, "cellEmpty");
-        register(itemDarkMatterCell, "cellDarkmatter");
-        register(itemFissileFuel, "fuelFissile");
+    @EventBusSubscriber
+    public static class RegistrationHandler {
+        public static final Set<Item> ITEMS = new HashSet<>();
 
-        register(itemUranium);
-        register(itemYellowCake, "dustUranium");
+        /**
+         * Register this mod's {@link Item}s.
+         *
+         * @param event The event
+         */
+        @SubscribeEvent
+        public static void registerItems(final RegistryEvent.Register<Item> event) {
+            final Item[] items = {
+                itemAntimatterCell,
+                itemBreederFuel,
+                itemCell,
+                itemDarkMatterCell,
+                itemFissileFuel,
+                itemUranium,
+                itemYellowCake,
+                itemHazmatMask,
+                itemHazmatBody,
+                itemHazmatLeggings,
+                itemHazmatBoots
+            };
 
-        register(itemHazmatMask);
-        register(itemHazmatBody);
-        register(itemHazmatLeggings);
-        register(itemHazmatBoots);
+            final IForgeRegistry<Item> registry = event.getRegistry();
 
-        OreDictionary.registerOre("cellDeuterium", FluidUtility.getFilledCell(FluidRegistry.getFluid("deuterium")));
-        OreDictionary.registerOre("cellTritium", FluidUtility.getFilledCell(FluidRegistry.getFluid("tritium")));
-        OreDictionary.registerOre("cellWater", FluidUtility.getFilledCell(FluidRegistry.WATER));
+            for (final Item item : items) {
+                registry.register(item);
 
-        OreDictionary.registerOre("ingotUranium", QuantumItems.itemUranium);
-        OreDictionary.registerOre("itemUranium", new ItemStack(QuantumItems.itemUranium, 1, ItemUranium.EnumUranium.URANIUM_238.ordinal()));
+                if (item instanceof ItemQuantum) {
+                    ((ItemQuantum) item).registerItemModel();
+                } else if (item instanceof ItemArmorQuantum) {
+                    ((ItemArmorQuantum) item).registerItemModel();
+                }
 
-        OreDictionary.registerOre("antimatterMilligram", new ItemStack(QuantumItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.MILLIGRAM.ordinal()));
-        OreDictionary.registerOre("antimatterGram", new ItemStack(QuantumItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.GRAM.ordinal()));
-    }
+                ITEMS.add(item);
+            }
 
-    private static <T extends Item> T register(T item, String name) {
-        item = register(item);
+            OreDictionary.registerOre("fuelBreeder", itemBreederFuel);
+            OreDictionary.registerOre("cellEmpty", itemCell);
+            OreDictionary.registerOre("cellDarkmatter", itemDarkMatterCell);
+            OreDictionary.registerOre("fuelFissile", itemFissileFuel);
 
-        OreDictionary.registerOre(name, item);
+            OreDictionary.registerOre("dustUranium", itemYellowCake);
 
-        return item;
-    }
+            OreDictionary.registerOre("cellDeuterium", FluidUtility.getFilledCell(FluidRegistry.getFluid("deuterium")));
+            OreDictionary.registerOre("cellTritium", FluidUtility.getFilledCell(FluidRegistry.getFluid("tritium")));
+            OreDictionary.registerOre("cellWater", FluidUtility.getFilledCell(FluidRegistry.WATER));
 
-    private static <T extends Item> T register(T item) {
-        GameRegistry.register(item);
+            OreDictionary.registerOre("ingotUranium", QuantumItems.itemUranium);
+            OreDictionary.registerOre("itemUranium", new ItemStack(QuantumItems.itemUranium, 1, ItemUranium.EnumUranium.URANIUM_238.ordinal()));
 
-        if (item instanceof ItemQuantum) {
-            ((ItemQuantum) item).registerItemModel();
-        } else if (item instanceof ItemArmorQuantum) {
-            ((ItemArmorQuantum) item).registerItemModel();
+            OreDictionary.registerOre("antimatterMilligram", new ItemStack(QuantumItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.MILLIGRAM.ordinal()));
+            OreDictionary.registerOre("antimatterGram", new ItemStack(QuantumItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.GRAM.ordinal()));
         }
-
-        return item;
     }
 }

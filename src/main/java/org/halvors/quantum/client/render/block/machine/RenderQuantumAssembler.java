@@ -28,7 +28,7 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
     private static final Render<EntityItem> renderItem = Minecraft.getMinecraft().getRenderManager().getEntityClassRenderObject(EntityItem.class);
 
     @Override
-    public void renderTileEntityAt(TileQuantumAssembler tile, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileQuantumAssembler tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         GlStateManager.pushMatrix();

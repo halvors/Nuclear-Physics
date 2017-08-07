@@ -10,7 +10,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
 import org.halvors.quantum.common.block.fluid.BlockFluidPlasma;
 import org.halvors.quantum.common.block.fluid.BlockFluidToxicWaste;
 import org.halvors.quantum.common.item.block.ItemBlockTooltip;
@@ -137,12 +137,12 @@ public class QuantumFluids {
 
             registerFluidContainers();
         }
-    }
 
-    public static void registerFluidContainers() {
-        for (final Fluid fluid : fluids) {
-            if (!fluid.isGaseous()) {
-                FluidRegistry.addBucketForFluid(fluid);
+        private static void registerFluidContainers() {
+            for (final Fluid fluid : fluids) {
+                if (!fluid.isGaseous()) {
+                    FluidRegistry.addBucketForFluid(fluid);
+                }
             }
         }
     }

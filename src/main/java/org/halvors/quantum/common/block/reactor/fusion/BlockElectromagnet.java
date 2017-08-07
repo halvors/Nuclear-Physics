@@ -86,9 +86,9 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+    public void getSubBlocks(CreativeTabs item, NonNullList<ItemStack> items) {
         for (EnumElectromagnet type : EnumElectromagnet.values()) {
-            list.add(new ItemStack(item, 1, type.ordinal()));
+            items.add(new ItemStack(this, 1, type.ordinal()));
         }
     }
 
@@ -126,6 +126,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
         return 255;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean isSideSolid(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
         return state.getValue(BlockStateElectromagnet.TYPE) == EnumElectromagnet.NORMAL;

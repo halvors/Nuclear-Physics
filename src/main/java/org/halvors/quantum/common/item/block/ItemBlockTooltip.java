@@ -1,8 +1,10 @@
 package org.halvors.quantum.common.item.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.utility.LanguageUtility;
@@ -10,6 +12,7 @@ import org.halvors.quantum.common.utility.type.Color;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemBlockTooltip extends ItemBlockQuantum {
@@ -19,7 +22,7 @@ public class ItemBlockTooltip extends ItemBlockQuantum {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, @Nonnull List<String> list, boolean flag) {
+    public void addInformation(@Nonnull ItemStack itemStack, @Nullable World world, @Nonnull List<String> list, @Nonnull ITooltipFlag flag) {
         String tooltip = getUnlocalizedName(itemStack) + ".tooltip";
 
         if (LanguageUtility.canTranselate(tooltip)) {

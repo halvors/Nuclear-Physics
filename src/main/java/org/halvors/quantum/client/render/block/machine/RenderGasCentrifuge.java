@@ -19,7 +19,7 @@ public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentri
     private static final OBJModelContainer modelAll = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "gas_centrifuge.obj"), Arrays.asList("A", "B", "D", "E", "F", "G", "H", "I"));
 
     @Override
-    public void renderTileEntityAt(TileGasCentrifuge tile, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileGasCentrifuge tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         GlStateManager.pushMatrix();

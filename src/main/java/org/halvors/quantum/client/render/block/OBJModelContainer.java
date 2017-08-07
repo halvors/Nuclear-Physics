@@ -3,8 +3,8 @@ package org.halvors.quantum.client.render.block;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -14,8 +14,9 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.*;
-import net.minecraftforge.client.model.obj.OBJModel;
+import net.minecraftforge.client.model.IModel;
+import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJModel.OBJState;
 import net.minecraftforge.common.model.IModelState;
 import net.minecraftforge.fml.relauncher.Side;
@@ -213,11 +214,11 @@ public class OBJModelContainer {
 
     private static void renderModel(IBakedModel model, VertexFormat fmt) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexBuffer = tessellator.getBuffer();
-        vertexBuffer.begin(GL11.GL_QUADS, fmt);
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        bufferBuilder.begin(GL11.GL_QUADS, fmt);
 
         for (BakedQuad bakedquad : model.getQuads(null, null, 0)) {
-            vertexBuffer.addVertexData(bakedquad.getVertexData());
+            bufferBuilder.addVertexData(bakedquad.getVertexData());
         }
 
         tessellator.draw();
@@ -231,8 +232,9 @@ public class OBJModelContainer {
         }
 
         try {
-            IModel mod = ((OBJModel) ModelLoaderRegistry.getModel(handle.getModel())).process(ImmutableMap.of("flip-v", "true"));
+            IModel mod = ModelLoaderRegistry.getModel(handle.getModel()).process(ImmutableMap.of("flip-v", "true"));
 
+            /*
             if (mod instanceof IRetexturableModel && handle.getTextureReplacements().size() > 0) {
                 IRetexturableModel rtm = (IRetexturableModel) mod;
                 mod = rtm.retexture(ImmutableMap.copyOf(handle.getTextureReplacements()));
@@ -242,6 +244,7 @@ public class OBJModelContainer {
                 IModelUVLock uvl = (IModelUVLock) mod;
                 mod = uvl.uvlock(true);
             }
+            */
 
             IModelState state = handle.getState();
 

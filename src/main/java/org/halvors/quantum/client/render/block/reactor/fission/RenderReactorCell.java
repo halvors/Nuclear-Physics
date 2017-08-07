@@ -28,7 +28,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
     private static final ResourceLocation textureFissileMaterial = new ResourceLocation(Reference.ID, "textures/models/reactor_fissile_material.png");
 
     @Override
-    public void renderTileEntityAt(TileReactorCell tile, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileReactorCell tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         GlStateManager.pushMatrix();

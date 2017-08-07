@@ -1,12 +1,13 @@
 package org.halvors.quantum.client.render.entity;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.renderer.vertex.VertexBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,7 +26,7 @@ public class RenderParticle extends Render<EntityParticle> {
     @Override
     public void doRender(@Nonnull EntityParticle entity, double x, double y, double z, float entityYaw, float partialTicks) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexBuffer = tessellator.getBuffer();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
 
         float age = entity.ticksExisted;
 
@@ -67,12 +68,12 @@ public class RenderParticle extends Render<EntityParticle> {
             float f2 = random.nextFloat() * 20 + 5 + f1 * 10;
             float f3 = random.nextFloat() * 2 + 1 + f1 * 2;
 
-            vertexBuffer.begin(6, DefaultVertexFormats.POSITION_COLOR);
-            vertexBuffer.pos(0, 0, 0).color(255, 255, 255, (int) (255 * (1 - f1))).endVertex();
-            vertexBuffer.pos(-0.866 * f3, f2, -0.5 * f3).color(255, 255, 255, 0).endVertex();
-            vertexBuffer.pos(0.866 * f3, f2, -0.5 * f3).color(255, 255, 255, 0).endVertex();
-            vertexBuffer.pos(0,  f2, 1 * f3).color(255, 255, 255, 0).endVertex();
-            vertexBuffer.pos(-0.866 * f3, f2, -0.5 * f3).color(255, 255, 255, 0).endVertex();
+            bufferBuilder.begin(6, DefaultVertexFormats.POSITION_COLOR);
+            bufferBuilder.pos(0, 0, 0).color(255, 255, 255, (int) (255 * (1 - f1))).endVertex();
+            bufferBuilder.pos(-0.866 * f3, f2, -0.5 * f3).color(255, 255, 255, 0).endVertex();
+            bufferBuilder.pos(0.866 * f3, f2, -0.5 * f3).color(255, 255, 255, 0).endVertex();
+            bufferBuilder.pos(0,  f2, 1 * f3).color(255, 255, 255, 0).endVertex();
+            bufferBuilder.pos(-0.866 * f3, f2, -0.5 * f3).color(255, 255, 255, 0).endVertex();
 
             tessellator.draw();
         }
@@ -90,7 +91,7 @@ public class RenderParticle extends Render<EntityParticle> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityParticle entity) {
+    protected ResourceLocation getEntityTexture(@Nonnull EntityParticle entity) {
         return null;
     }
 }

@@ -25,7 +25,7 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer<TileElectri
     private static final OBJModelContainer modelSmallAll = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "electric_turbine_small.obj"), Arrays.asList("Axis", "Head", "Plug", "Support"));
 
     @Override
-    public void renderTileEntityAt(TileElectricTurbine tile, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileElectricTurbine tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         if (tile.getMultiBlock().isPrimary()) {
             bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 

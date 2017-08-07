@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.item.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,6 +20,7 @@ import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.Color;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemBlockThermometer extends ItemBlockSaved {
@@ -28,12 +30,10 @@ public class ItemBlockThermometer extends ItemBlockSaved {
         super(block);
     }
 
-    @SuppressWarnings("unchecked")
+
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, @Nonnull List<String> list, boolean flag) {
-        super.addInformation(itemStack, player, list, flag);
-
+    public void addInformation(@Nonnull ItemStack itemStack, @Nullable World world, @Nonnull List<String> list, @Nonnull ITooltipFlag flag) {
         Vector3 coord = getSavedCoord(itemStack);
 
         if (coord != null) {
@@ -81,6 +81,7 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     }
 
     @Override
+    @Nonnull
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if (player.isSneaking()) {
             ItemStack itemStack = player.getHeldItemMainhand();
