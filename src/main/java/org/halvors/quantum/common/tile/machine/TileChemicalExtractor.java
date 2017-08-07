@@ -38,24 +38,6 @@ public class TileChemicalExtractor extends TileProcess {
             }
 
             private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-                /*
-                switch (slot) {
-                    case 0: // Water input for machine.
-                        // TODO: Fix this.
-                        //return CompatibilityModule.isHandler(itemStack.getItem());
-                        return true;
-
-                    case 1:
-                        return OreDictionaryHelper.isWaterCell(itemStack);
-
-                    case 2: // Empty cell to be filled with deuterium or tritium.
-                        return OreDictionaryHelper.isDeuteriumCell(itemStack) || OreDictionaryHelper.isTritiumCell(itemStack);
-
-                    case 3: // Uranium to be extracted into yellowcake.
-                        return OreDictionaryHelper.isEmptyCell(itemStack) || OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isDeuteriumCell(itemStack);
-                }
-                */
-
                 switch (slot) {
                     case 0: // Battery input slot.
                         return itemStack.hasCapability(CapabilityEnergy.ENERGY, null);

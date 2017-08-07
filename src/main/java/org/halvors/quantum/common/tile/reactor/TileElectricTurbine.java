@@ -3,6 +3,7 @@ package org.halvors.quantum.common.tile.reactor;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -17,6 +18,7 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.init.QuantumFluids;
+import org.halvors.quantum.common.init.QuantumSoundEvents;
 import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
@@ -119,13 +121,9 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             if (angularVelocity != 0) {
                 if (world.getWorldTime() % 26 == 0) {
                     double maxVelocity = (getMaxPower() / torque) * 4;
-
                     float percentage = angularVelocity * 4 / (float) maxVelocity;
 
-                    // TODO: Is this working?
-                    //world.playSound(pos.getX(), pos.getY(), pos.getZ(), new SoundEvent(new ResourceLocation(Reference.PREFIX + "tile.electricTurbine")), SoundCategory.AMBIENT, percentage, 1);
-
-                    //world.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.electricTurbine", percentage, 1);
+                    world.playSound(null, pos, QuantumSoundEvents.ELECTRIC_TURBINE, SoundCategory.BLOCKS, percentage, 1);
                 }
 
                 // Update rotation.
@@ -198,11 +196,6 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         if (!world.isRemote) {
             Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
-
-        //world.notifyNeighborsOfStateChange(pos, getBlockType());
-
-        // TODO: Update render?
-        //world.markBlockForUpdate(xCoord, yCoord, zCoord);
     }
 
     @Override

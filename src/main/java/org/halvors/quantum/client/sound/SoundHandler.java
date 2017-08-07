@@ -2,21 +2,19 @@ package org.halvors.quantum.client.sound;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class SoundHandler {
-	private static final Minecraft game = Minecraft.getMinecraft();
-
 	public static void playSound(ISound sound) {
-		game.getSoundHandler().playSound(sound);
+		Minecraft.getMinecraft().getSoundHandler().playSound(sound);
 	}
 
-	/*
-	public static void playSound(String sound) {
-		playSound(PositionedSoundRecord.createPositionedSoundRecord(ResourceUtility.getResource(ResourceType.SOUND, sound), 1));
+	public static void playSound(SoundEvent sound) {
+		playSound(PositionedSoundRecord.getMasterRecord(sound, 1));
 	}
-	*/
 }
 

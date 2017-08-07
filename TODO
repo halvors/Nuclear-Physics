@@ -33,6 +33,7 @@ New features to add:
         - Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
         - Make toxic waste denser than water, so that it is replaced by toxic waste.
         - Add support for vertical particle accelerators.
+        - Amplify sirens, with sort of multi block structure, also add pitch support for the multi block.
 
     Rendering:
         - Make the whole multi block reactor cell share GUI.

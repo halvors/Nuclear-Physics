@@ -1,10 +1,12 @@
 package org.halvors.quantum.common.tile.reactor.fission;
 
 import io.netty.buffer.ByteBuf;
+import javafx.geometry.Pos;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -12,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -40,6 +43,7 @@ import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
 import org.halvors.quantum.common.init.QuantumBlocks;
 import org.halvors.quantum.common.init.QuantumFluids;
+import org.halvors.quantum.common.init.QuantumSoundEvents;
 import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
 import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
@@ -213,19 +217,20 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 // Sound of lava flowing randomly plays when above temperature to boil water.
                 if (world.rand.nextInt(80) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     // TODO: Only do this is there is a water block nearby.
-                    //world.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lava", 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
+                    world.playSound(null, pos, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
                 }
 
                 // Sounds of lava popping randomly plays when above temperature to boil water.
                 if (world.rand.nextInt(40) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     // TODO: Only do this is there is a water block nearby.
-                    //world.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, "liquid.lavapop", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+                    world.playSound(null, pos, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
                 }
 
                 // Reactor cell plays random idle noises while operating and above temperature to boil water.
                 if (world.getWorldTime() % 100 == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     float percentage = Math.min(getTemperature() / meltingPoint, 1.0F);
-                    //world.playSoundEffect(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5, Reference.PREFIX + "tile.reactorCell", percentage, 1.0F);
+
+                    world.playSound(null, pos, QuantumSoundEvents.REACTOR_CELL, SoundCategory.BLOCKS, percentage, 1);
                 }
 
                 if (previousTemperature != temperature && !shouldUpdate) {
@@ -342,8 +347,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 break;
             }
 
-            //checkPosition.y++;
-            checkPosition = checkPosition.offset(EnumFacing.UP, 1);
+            checkPosition = checkPosition.offset(EnumFacing.UP);
         }
 
         return positions.toArray(new Position[0]);
@@ -425,12 +429,12 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     public int getHeight() {
         int height = 0;
         TileEntity tile = this;
-        Vector3 checkPosition = new Vector3(this);
+        Position checkPosition = new Position(this);
+        //Vector3 checkPosition = new Vector3(this);
 
         while (tile instanceof TileReactorCell) {
             height++;
-            checkPosition.y++;
-            tile = checkPosition.getTileEntity(world);
+            tile = checkPosition.offset(EnumFacing.UP).getTileEntity(world);
         }
 
         return height;
@@ -438,7 +442,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
 
     public TileReactorCell getLowest() {
         TileReactorCell lowest = this;
-        Vector3 checkPosition = new Vector3(this);
+        Position checkPosition = new Position(this);
 
         while (true) {
             TileEntity tile = checkPosition.getTileEntity(world);
@@ -449,7 +453,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 break;
             }
 
-            checkPosition.y--;
+            checkPosition = checkPosition.offset(EnumFacing.DOWN);
         }
 
         return lowest;

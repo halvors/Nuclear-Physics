@@ -29,7 +29,7 @@ public class TileSiren extends TileEntity implements ITickable {
                     }
                 }
 
-                world.playSound(pos.getX(), pos.getY(), pos.getZ(), QuantumSoundEvents.SIREN, SoundCategory.BLOCKS, volume, 1F - 0.18F * (pitch / 15F), true);
+                world.playSound(null, pos, QuantumSoundEvents.SIREN, SoundCategory.BLOCKS, volume, 1F - 0.18F * (pitch / 15F));
             }
         }
     }

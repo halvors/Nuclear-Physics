@@ -138,7 +138,7 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
 
         // TODO: Is this a correct replacement in 1.10.2?
         //world.markBlockForUpdate(xCoord, yCoord, zCoord);
-        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 2);
+        //world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos));
     }
 
     public float getDetectedTemperature() {

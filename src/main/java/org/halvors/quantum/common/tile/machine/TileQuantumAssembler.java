@@ -3,11 +3,13 @@ package org.halvors.quantum.common.tile.machine;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundCategory;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.quantum.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.init.QuantumItems;
+import org.halvors.quantum.common.init.QuantumSoundEvents;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.OreDictionaryHelper;
@@ -76,12 +78,13 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
 
             if (world.getWorldTime() % 10 == 0) {
                 if (!world.isRemote) {
-                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
+                    //Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
+                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
         } else if (timer > 0) {
             if (world.getWorldTime() % 600 == 0) {
-                //world.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.assembler", 0.7F, 1F);
+                world.playSound(null, pos, QuantumSoundEvents.ASSEMBLER, SoundCategory.BLOCKS, 0.7F, 1);
             }
 
             rotationYaw1 += 3;
@@ -146,7 +149,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     }
 
     // Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack.
-    public void doProcess() {
+    private void doProcess() {
         if (canProcess()) {
             for (int slot = 0; slot < 6; slot++) {
                 if (inventory.getStackInSlot(slot) != null) {

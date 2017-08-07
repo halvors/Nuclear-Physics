@@ -1,6 +1,5 @@
 package org.halvors.quantum.common.init;
 
-import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent.Register;
@@ -10,7 +9,13 @@ import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import org.halvors.quantum.common.Reference;
 
 public class QuantumSoundEvents {
-    public static final SoundEvent SIREN = createSoundEvent("tile.siren");
+    public static final SoundEvent ACCELERATOR = createSoundEvent("block.accelerator");
+    public static final SoundEvent ANTIMATTER = createSoundEvent("block.antimatter");
+    public static final SoundEvent ASSEMBLER = createSoundEvent("block.assembler");
+    public static final SoundEvent ELECTRIC_TURBINE = createSoundEvent("block.electric_turbine");
+    public static final SoundEvent REACTOR_CELL = createSoundEvent("block.reactor_cell");
+    public static final SoundEvent SIREN = createSoundEvent("block.siren");
+
 
     /**
      * Create a {@link SoundEvent}.
@@ -31,6 +36,11 @@ public class QuantumSoundEvents {
             final IForgeRegistry<SoundEvent> registry = event.getRegistry();
 
             final SoundEvent[] soundEvents = {
+                    ACCELERATOR,
+                    ANTIMATTER,
+                    ASSEMBLER,
+                    ELECTRIC_TURBINE,
+                    REACTOR_CELL,
                     SIREN
             };
 

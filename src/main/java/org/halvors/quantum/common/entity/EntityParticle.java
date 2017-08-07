@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
+import org.halvors.quantum.common.init.QuantumSoundEvents;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.utility.position.Position;
 
@@ -119,7 +121,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
             // Play sound effects.
             if (ticksExisted % 10 == 0) {
-                //world.playSoundAtEntity(this, Reference.PREFIX + "tile.accelerator", 1, (float) (0.6 + (0.4 * (getParticleVelocity() / TileAccelerator.clientParticleVelocity))));
+                world.playSound(posX, posY, posZ, QuantumSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1, (float) (0.6 + (0.4 * (getParticleVelocity() / TileAccelerator.clientParticleVelocity))), true);
             }
 
             // Sanity check
@@ -261,7 +263,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     private void handleCollisionWithEntity() {
-        //world.playSoundAtEntity(this, Reference.PREFIX + "tile.antimatter", 1.5F, 1F - world.rand.nextFloat() * 0.3F);
+        world.playSound(posX, posY, posZ, QuantumSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, 1F - world.rand.nextFloat() * 0.3F, true);
 
         if (!world.isRemote) {
             if (getParticleVelocity() > antimatterCreationSpeed / 2) {

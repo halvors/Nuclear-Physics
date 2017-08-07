@@ -56,9 +56,6 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
         }
 
         if (world.getWorldTime() % 80 == 0) {
-            // TODO: Is this still needed?
-            //world.markBlockForUpdate(xCoord, yCoord, zCoord);
-
             Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
     }
@@ -157,24 +154,6 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
 
     /*
     @Override
-    public void read(ByteBuf data, EntityPlayer player, PacketType) {
-        try {
-            readFromNBT(PacketHandler.readNBTTagCompound(data));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public Packet getDescriptionPacket() {
-        NBTTagCompound tagCompound = new NBTTagCompound();
-        writeToNBT(tagCompound);
-
-        //return ResonantInduction.PACKET_TILE.getPacket(this, nbt);
-        return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, tagCompound);
-    }
-
-    @Override
     public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
         if (energy != null) {
             map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getDisplay(energy.getEnergy(), Unit.JOULES), 0xFFFFFF);
@@ -193,41 +172,6 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
         }
 
         return 1.5f;
-    }
-    */
-
-    /*
-    @Override
-    public int fill(EnumFacing from, FluidStack resource, boolean doFill) {
-        if (resource.isFluidEqual(QuantumFluids.fluidStackDeuterium)) {
-            return tankInputDeuterium.fill(resource, doFill);
-        }
-
-        if (resource.isFluidEqual(QuantumFluids.fluidStackTritium)) {
-            return tankInputTritium.fill(resource, doFill);
-        }
-
-        return 0;
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, FluidStack resource, boolean doDrain) {
-        return drain(from, resource.amount, doDrain);
-    }
-
-    @Override
-    public FluidStack drain(EnumFacing from, int maxDrain, boolean doDrain) {
-        return tankOutput.drain(maxDrain, doDrain);
-    }
-
-    @Override
-    public boolean canFill(EnumFacing from, Fluid fluid) {
-        return fluid.equals(QuantumFluids.gasDeuterium) || fluid.equals(QuantumFluids.gasTritium);
-    }
-
-    @Override
-    public boolean canDrain(EnumFacing from, Fluid fluid) {
-        return fluid.equals(QuantumFluids.plasma);
     }
     */
 }

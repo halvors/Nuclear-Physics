@@ -1,5 +1,5 @@
 {
-  "tile.accelerator": {
+  "block.accelerator": {
     "category": "block",
     "sounds": [
       {
@@ -8,7 +8,7 @@
       }
     ]
   },
-  "tile.antimatter": {
+  "block.antimatter": {
     "category": "block",
     "sounds": [
       {
@@ -17,7 +17,7 @@
       }
     ]
   },
-  "tile.assembler": {
+  "block.assembler": {
     "category": "block",
     "sounds": [
       {
@@ -26,7 +26,7 @@
       }
     ]
   },
-  "tile.electricTurbine": {
+  "block.electric_turbine": {
     "category": "block",
     "sounds": [
       {
@@ -35,7 +35,7 @@
       }
     ]
   },
-  "tile.reactorCell": {
+  "block.reactor_cell": {
     "category": "block",
     "sounds": [
       {
@@ -44,7 +44,7 @@
       }
     ]
   },
-  "tile.siren": {
+  "block.siren": {
     "category": "block",
     "sounds": [
       {
