@@ -49,7 +49,7 @@ public class BlockCreativeBuilder extends BlockQuantum {
 
     // Called when the block is right clicked by the player.
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (schematicRegistry.size() > 0) {
             PlayerUtility.openGui(player, world, pos);
 

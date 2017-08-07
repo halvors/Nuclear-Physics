@@ -4,6 +4,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -45,9 +46,9 @@ public class ItemCell extends ItemTooltip {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull Item item, CreativeTabs tabs, List<ItemStack> list) {
+    public void getSubItems(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
         for (EnumCell type : EnumCell.values()) {
-            list.add(type == EnumCell.EMPTY ? new ItemStack(item) : FluidUtility.getFilledCell(FluidRegistry.getFluid(type.getName())));
+            subItems.add(type == EnumCell.EMPTY ? new ItemStack(item) : FluidUtility.getFilledCell(FluidRegistry.getFluid(type.getName())));
         }
     }
 

@@ -54,7 +54,7 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
 
     public Vector3(Vec3d par1)
     {
-        this(par1.xCoord, par1.yCoord, par1.zCoord);
+        this(par1.x, par1.y, par1.z);
     }
 
     public Vector3(EnumFacing direction)

@@ -40,28 +40,28 @@ public class GuiCreativeBuilder extends GuiContainerBase {
     public void initGui() {
         super.initGui();
 
-        textFieldSize = new GuiTextField(0, fontRendererObj, 45, 58, 50, 12);
+        textFieldSize = new GuiTextField(0, fontRenderer, 45, 58, 50, 12);
         buttonList.add(new GuiButton(0, width / 2 - 80, height / 2 - 10, 58, 20, "Build"));
         buttonList.add(new GuiButton(1, width / 2 - 50, height / 2 - 35, 120, 20, "Mode"));
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString("Creative Builder", 60, 6, 0x404040);
-        fontRendererObj.drawString("This is a creative only cheat", 9, 20, 0x404040);
-        fontRendererObj.drawString("which allows you to auto build", 9, 30, 0x404040);
-        fontRendererObj.drawString("structures for testing.", 9, 40, 0x404040);
+        fontRenderer.drawString("Creative Builder", 60, 6, 0x404040);
+        fontRenderer.drawString("This is a creative only cheat", 9, 20, 0x404040);
+        fontRenderer.drawString("which allows you to auto build", 9, 30, 0x404040);
+        fontRenderer.drawString("structures for testing.", 9, 40, 0x404040);
 
-        fontRendererObj.drawString("Size: ", 9, 60, 0x404040);
+        fontRenderer.drawString("Size: ", 9, 60, 0x404040);
         textFieldSize.drawTextBox();
 
         (buttonList.get(1)).displayString = LanguageUtility.transelate(BlockCreativeBuilder.getSchematic(mode).getName());
-        fontRendererObj.drawString("Mode: ", 9, 80, 0x404040);
+        fontRenderer.drawString("Mode: ", 9, 80, 0x404040);
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-        fontRendererObj.drawString("Warning!", 9, 130, 0x404040);
-        fontRendererObj.drawString("This will replace blocks without", 9, 140, 0x404040);
-        fontRendererObj.drawString("dropping it! You may lose items.", 9, 150, 0x404040);
+        fontRenderer.drawString("Warning!", 9, 130, 0x404040);
+        fontRenderer.drawString("This will replace blocks without", 9, 140, 0x404040);
+        fontRenderer.drawString("dropping it! You may lose items.", 9, 150, 0x404040);
     }
 
     @Override

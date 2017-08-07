@@ -29,7 +29,7 @@ public class GuiAccelerator extends GuiContainerBase {
     public void drawGuiContainerForegroundLayer(int x, int y) {
         String name = LanguageUtility.transelate("tile.machine." + EnumMachine.ACCELERATOR.ordinal() + ".name");
 
-        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
+        fontRenderer.drawString(name, (xSize / 2) - (fontRenderer.getStringWidth(name) / 2), 6, 0x404040);
 
         Vector3 position = new Vector3(tile);
         position.translate(tile.getFacing().getOpposite());
@@ -45,16 +45,16 @@ public class GuiAccelerator extends GuiContainerBase {
             status = Color.DARK_GREEN + "Idle";
         }
 
-        fontRendererObj.drawString("Velocity: " + Math.round((tile.velocity / TileAccelerator.clientParticleVelocity) * 100) + "%", 8, 27, 0x404040);
-        fontRendererObj.drawString("Energy Used:", 8, 38, 0x404040);
-        fontRendererObj.drawString(UnitDisplay.getDisplay(tile.totalEnergyConsumed, UnitDisplay.Unit.JOULES), 8, 49, 0x404040);
-        fontRendererObj.drawString(UnitDisplay.getDisplay(tile.acceleratorEnergyCostPerTick * 20, UnitDisplay.Unit.WATT), 8, 60, 0x404040);
-        //fontRendererObj.drawString(UnitDisplay.getDisplay(tile.getVoltageInput(null), UnitDisplay.Unit.VOLTAGE), 8, 70, 0x404040);
-        fontRendererObj.drawString("Antimatter: " + tile.antimatter + " mg", 8, 80, 0x404040);
-        fontRendererObj.drawString("Status:", 8, 90, 0x404040);
-        fontRendererObj.drawString(status, 8, 100, 0x404040);
-        fontRendererObj.drawString("Buffer: " + UnitDisplay.getDisplayShort(tile.getEnergyStorage().getEnergyStored(), UnitDisplay.Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(tile.getEnergyStorage().getMaxEnergyStored(), UnitDisplay.Unit.JOULES), 8, 110, 0x404040);
-        fontRendererObj.drawString("Facing: " + tile.getFacing().toString().toUpperCase(), 100, 123, 0x404040);
+        fontRenderer.drawString("Velocity: " + Math.round((tile.velocity / TileAccelerator.clientParticleVelocity) * 100) + "%", 8, 27, 0x404040);
+        fontRenderer.drawString("Energy Used:", 8, 38, 0x404040);
+        fontRenderer.drawString(UnitDisplay.getDisplay(tile.totalEnergyConsumed, UnitDisplay.Unit.JOULES), 8, 49, 0x404040);
+        fontRenderer.drawString(UnitDisplay.getDisplay(tile.acceleratorEnergyCostPerTick * 20, UnitDisplay.Unit.WATT), 8, 60, 0x404040);
+        //fontRenderer.drawString(UnitDisplay.getDisplay(tile.getVoltageInput(null), UnitDisplay.Unit.VOLTAGE), 8, 70, 0x404040);
+        fontRenderer.drawString("Antimatter: " + tile.antimatter + " mg", 8, 80, 0x404040);
+        fontRenderer.drawString("Status:", 8, 90, 0x404040);
+        fontRenderer.drawString(status, 8, 100, 0x404040);
+        fontRenderer.drawString("Buffer: " + UnitDisplay.getDisplayShort(tile.getEnergyStorage().getEnergyStored(), UnitDisplay.Unit.JOULES) + "/" + UnitDisplay.getDisplayShort(tile.getEnergyStorage().getMaxEnergyStored(), UnitDisplay.Unit.JOULES), 8, 110, 0x404040);
+        fontRenderer.drawString("Facing: " + tile.getFacing().toString().toUpperCase(), 100, 123, 0x404040);
     }
 
     /** Draw the background layer for the GuiContainer (everything behind the items) */

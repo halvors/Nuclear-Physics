@@ -252,21 +252,21 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
         // Do we have an empty cell in slot one
         ItemStack itemStackEmptyCell = inventory.getStackInSlot(1);
 
-        if (itemStackEmptyCell != null && OreDictionaryHelper.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.stackSize > 0) {
+        if (OreDictionaryHelper.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.getCount() > 0) {
             // Each cell can only hold 125mg of antimatter
             // TODO: maybe a config for this?
             if (antimatter >= 125) {
                 ItemStack itemStack = inventory.getStackInSlot(2);
 
-                if (itemStack != null) {
+                if (itemStack.isEmpty()) {
                     // If the output slot is not empty we must increase stack size
                     if (itemStack.getItem() == QuantumItems.itemAntimatterCell) {
                         ItemStack newStack = itemStack.copy();
 
-                        if (newStack.stackSize < newStack.getMaxStackSize()) {
+                        if (newStack.getCount() < newStack.getMaxStackSize()) {
                             InventoryUtility.decrStackSize(inventory, 1);
                             antimatter -= 125;
-                            newStack.stackSize++;
+                            newStack.setCount(newStack.getCount() + 1);
                             inventory.setStackInSlot(2, newStack);
                         }
                     }
@@ -283,7 +283,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
     private void calculateParticleDensity() {
         ItemStack itemToAccelerate = inventory.getStackInSlot(0);
 
-        if (itemToAccelerate != null) {
+        if (!itemToAccelerate.isEmpty()) {
             // Calculate block density multiplier if ore dictionary block.
             acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
 

@@ -90,13 +90,13 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
 
             ItemStack itemStack = inventory.getStackInSlot(6);
 
-            if (itemStack != null) {
+            if (!itemStack.isEmpty()) {
                 itemStack = itemStack.copy();
-                itemStack.stackSize = 1;
+                itemStack.setCount(1);
 
                 if (entityItem == null) {
                     entityItem = new EntityItem(world, 0, 0, 0, itemStack);
-                } else if (!itemStack.isItemEqual(entityItem.getEntityItem())) {
+                } else if (!itemStack.isItemEqual(entityItem.getItem())) {
                     entityItem = new EntityItem(world, 0, 0, 0, itemStack);
                 }
 
@@ -124,12 +124,12 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     public boolean canProcess() {
         ItemStack itemStack = inventory.getStackInSlot(6);
 
-        if (itemStack != null) {
+        if (!itemStack.isEmpty()) {
             if (QuantumAssemblerRecipes.hasItemStack(itemStack)) {
                 for (int i = 0; i < 6; i++) {
                     ItemStack slotItemStack = inventory.getStackInSlot(i);
 
-                    if (slotItemStack == null) {
+                    if (slotItemStack.isEmpty()) {
                         return false;
                     }
 
@@ -139,7 +139,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
                 }
             }
 
-            return itemStack.stackSize < 64;
+            return itemStack.getCount() < 64;
         }
 
         return false;
@@ -149,15 +149,15 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     public void doProcess() {
         if (canProcess()) {
             for (int slot = 0; slot < 6; slot++) {
-                if (inventory.getStackInSlot(slot) != null) {
+                if (!inventory.getStackInSlot(slot).isEmpty()) {
                     InventoryUtility.decrStackSize(inventory, slot);
                 }
             }
 
             ItemStack itemStack = inventory.getStackInSlot(6);
 
-            if (itemStack != null) {
-                itemStack.stackSize++;
+            if (!itemStack.isEmpty()) {
+                itemStack.setCount(itemStack.getCount() + 1);
             }
         }
     }

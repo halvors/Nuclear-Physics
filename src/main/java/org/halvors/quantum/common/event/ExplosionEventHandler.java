@@ -20,30 +20,27 @@ public class ExplosionEventHandler {
     @SubscribeEvent
     public void onItemExpireEvent(ItemExpireEvent event) {
         if (event.getEntityItem() != null) {
-            ItemStack itemStack = event.getEntityItem().getEntityItem();
+            ItemStack itemStack = event.getEntityItem().getItem();
+            EntityItem entityItem = event.getEntityItem();
 
-            if (itemStack != null) {
-                EntityItem entityItem = event.getEntityItem();
+            if (itemStack.getItem() == QuantumItems.itemAntimatterCell) {
+                //event.getEntityItem().getEntityWorld().playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, Reference.PREFIX + "antimatter", 3F, 1F - entityItem.getEntityWorld().rand.nextFloat() * 0.3F);
 
-                if (itemStack.getItem() == QuantumItems.itemAntimatterCell) {
-                    //event.getEntityItem().getEntityWorld().playSoundEffect(entityItem.posX, entityItem.posY, entityItem.posZ, Reference.PREFIX + "antimatter", 3F, 1F - entityItem.getEntityWorld().rand.nextFloat() * 0.3F);
+                if (!entityItem.getEntityWorld().isRemote) {
+                    //if (!FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(event.entityItem.worldObj, Atomic.BAN_ANTIMATTER_POWER, "true", new Vector3(event.entityItem))) {
+                        IExplosion explosive = new AntimatterExplosion(event.getEntity().getEntityWorld(), entityItem, entityItem.posX, entityItem.posY, entityItem.posZ, 4, itemStack.getMetadata());
+                        MinecraftForge.EVENT_BUS.post(new ExplosionEvent.DoExplosionEvent(entityItem.getEntityWorld(), explosive));
+                        entityItem.getEntityWorld().createExplosion(entityItem, entityItem.posX, entityItem.posY, entityItem.posZ, explosive.getRadius(), true);
+                        Quantum.getLogger().info("Antimatter cell detonated at: " + entityItem.posX + ", " + entityItem.posY + ", " + entityItem.posZ);
 
-                    if (!entityItem.getEntityWorld().isRemote) {
-                        //if (!FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(event.entityItem.worldObj, Atomic.BAN_ANTIMATTER_POWER, "true", new Vector3(event.entityItem))) {
-                            IExplosion explosive = new AntimatterExplosion(event.getEntity().getEntityWorld(), entityItem, entityItem.posX, entityItem.posY, entityItem.posZ, 4, itemStack.getMetadata());
-                            MinecraftForge.EVENT_BUS.post(new ExplosionEvent.DoExplosionEvent(entityItem.getEntityWorld(), explosive));
-                            entityItem.getEntityWorld().createExplosion(entityItem, entityItem.posX, entityItem.posY, entityItem.posZ, explosive.getRadius(), true);
-                            Quantum.getLogger().info("Antimatter cell detonated at: " + entityItem.posX + ", " + entityItem.posY + ", " + entityItem.posZ);
+                        int radius = 20;
+                        AxisAlignedBB bounds = new AxisAlignedBB(entityItem.posX - radius, entityItem.posY - radius, entityItem.posZ - radius, entityItem.posX + radius, entityItem.posY + radius, entityItem.posZ + radius);
+                        List<EntityLiving> entitiesNearby = entityItem.getEntityWorld().getEntitiesWithinAABB(EntityLiving.class, bounds);
 
-                            int radius = 20;
-                            AxisAlignedBB bounds = new AxisAlignedBB(entityItem.posX - radius, entityItem.posY - radius, entityItem.posZ - radius, entityItem.posX + radius, entityItem.posY + radius, entityItem.posZ + radius);
-                            List<EntityLiving> entitiesNearby = entityItem.getEntityWorld().getEntitiesWithinAABB(EntityLiving.class, bounds);
-
-                            for (EntityLiving entity : entitiesNearby) {
-                                PoisonRadiation.getInstance().poisonEntity(entity.getPosition(), entity);
-                            }
-                        //}
-                    }
+                        for (EntityLiving entity : entitiesNearby) {
+                            PoisonRadiation.getInstance().poisonEntity(entity.getPosition(), entity);
+                        }
+                    //}
                 }
             }
         }

@@ -122,7 +122,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	@Override
 	public EntityPlayer getPlayer(MessageContext context) {
 		if (context.side.isServer()) {
-			return context.getServerHandler().playerEntity;
+			return context.getServerHandler().player;
 		} else {
 			return Minecraft.getMinecraft().player;
 		}

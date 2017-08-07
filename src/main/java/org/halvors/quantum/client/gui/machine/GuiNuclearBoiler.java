@@ -25,16 +25,16 @@ public class GuiNuclearBoiler extends GuiContainerBase {
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String name = LanguageUtility.transelate("tile.machine_model." + EnumMachineModel.NUCLEAR_BOILER.ordinal() + ".name");
 
-        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
+        fontRenderer.drawString(name, (xSize / 2) - (fontRenderer.getStringWidth(name) / 2), 6, 0x404040);
 
         renderUniversalDisplay(8, 112, TileNuclearBoiler.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(110, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
-        fontRendererObj.drawString("The nuclear boiler can boil", 8, 75, 0x404040);
-        fontRendererObj.drawString("yellow cake into uranium", 8, 85, 0x404040);
-        fontRendererObj.drawString("hexafluoride gas to be refined.", 8, 95, 0x404040);
+        fontRenderer.drawString("The nuclear boiler can boil", 8, 75, 0x404040);
+        fontRenderer.drawString("yellow cake into uranium", 8, 85, 0x404040);
+        fontRenderer.drawString("hexafluoride gas to be refined.", 8, 95, 0x404040);
 
-        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, this.ySize - 96 + 2, 0x404040);
+        fontRenderer.drawString(LanguageUtility.transelate("container.inventory"), 8, this.ySize - 96 + 2, 0x404040);
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.getInputTank().getFluid() != null) {
             drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.getInputTank().getFluid().getLocalizedName(), tile.getInputTank().getFluid().amount + " L");

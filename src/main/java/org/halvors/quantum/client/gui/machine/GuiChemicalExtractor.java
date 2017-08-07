@@ -25,16 +25,16 @@ public class GuiChemicalExtractor extends GuiContainerBase {
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String name = LanguageUtility.transelate("tile.machine_model." + EnumMachineModel.CHEMICAL_EXTRACTOR.ordinal() + ".name");
 
-        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
+        fontRenderer.drawString(name, (xSize / 2) - (fontRenderer.getStringWidth(name) / 2), 6, 0x404040);
 
         renderUniversalDisplay(8, 112, TileChemicalExtractor.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
-        fontRendererObj.drawString("The extractor can extract", 8, 75, 0x404040);
-        fontRendererObj.drawString("uranium, deuterium and tritium.", 8, 85, 0x404040);
-        fontRendererObj.drawString("Place them in the input slot.", 8, 95, 0x404040);
+        fontRenderer.drawString("The extractor can extract", 8, 75, 0x404040);
+        fontRenderer.drawString("uranium, deuterium and tritium.", 8, 85, 0x404040);
+        fontRenderer.drawString("Place them in the input slot.", 8, 95, 0x404040);
 
-        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, ySize - 96 + 2, 0x404040);
+        fontRenderer.drawString(LanguageUtility.transelate("container.inventory"), 8, ySize - 96 + 2, 0x404040);
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY)) {
             if (tile.getInputTank().getFluid() != null) {

@@ -272,7 +272,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
 
             if (world.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
                 shouldUpdate = false;
-                world.notifyNeighborsOfStateChange(pos, blockType);
+                world.notifyNeighborsOfStateChange(pos, blockType, false); // TODO!
 
                 Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
@@ -302,7 +302,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 byte slot = slotTag.getByte("Slot");
 
                 if (slot < inventory.getSlots()) {
-                    inventory.setStackInSlot(slot, ItemStack.loadItemStackFromNBT(slotTag));
+                    inventory.setStackInSlot(slot, new ItemStack(slotTag));
                 }
             }
 

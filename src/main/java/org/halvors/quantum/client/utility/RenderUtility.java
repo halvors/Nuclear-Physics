@@ -81,7 +81,7 @@ public class RenderUtility {
         GlStateManager.translate(displayWidth / 2, 1F, displayHeight / 2);
         GlStateManager.rotate(-90, 1, 0, 0);
 
-        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
         int requiredWidth = Math.max(fontRenderer.getStringWidth(text), 1);
         int requiredHeight = fontRenderer.FONT_HEIGHT + 2;

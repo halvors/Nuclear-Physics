@@ -26,7 +26,7 @@ public class BlockFluidToxicWaste extends BlockFluidClassic {
     @Override
     public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
         if (entity instanceof EntityLivingBase) {
-            entity.attackEntityFrom(DamageSource.wither, 3);
+            entity.attackEntityFrom(DamageSource.WITHER, 3);
             PoisonRadiation.getInstance().poisonEntity(pos, (EntityLivingBase) entity, 4);
         }
     }

@@ -10,10 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -70,7 +67,7 @@ public class BlockMachineModel extends BlockInventory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
+    public void getSubBlocks(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
         for (EnumMachineModel type : EnumMachineModel.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
@@ -106,11 +103,11 @@ public class BlockMachineModel extends BlockInventory {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TilePlasmaHeater) {
-            return FluidUtility.playerActivatedFluidItem(world, pos, player, side);
+            return FluidUtility.playerActivatedFluidItem(world, pos, player, facing);
         } else if (!player.isSneaking()) {
             PlayerUtility.openGui(player, world, pos);
 

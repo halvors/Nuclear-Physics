@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidUtil;
@@ -55,18 +56,20 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
         IFluidHandler container = FluidUtil.getFluidHandler(itemStack);
 
         if (container != null) {
-            ItemStack resultStack;
+            FluidActionResult result;
+
+            //ItemStack resultStack;
             FluidStack stack = FluidUtil.getFluidContained(itemStack);
 
             if (stack != null && stack.amount > 0) {
-                resultStack = FluidUtil.tryEmptyContainer(itemStack, tank, ItemCell.capacity, null, true);
+                result = FluidUtil.tryEmptyContainer(itemStack, tank, ItemCell.capacity, null, true);
             } else {
-                resultStack = FluidUtil.tryFillContainer(itemStack, tank, ItemCell.capacity, null, true);
+                result = FluidUtil.tryFillContainer(itemStack, tank, ItemCell.capacity, null, true);
             }
 
-            if (resultStack != null) {
+            if (result.isSuccess()) {
                 InventoryUtility.decrStackSize(inventory, containerInput);
-                inventory.insertItem(containerOutput, resultStack, false);
+                inventory.insertItem(containerOutput, result.getResult(), false);
             }
         }
     }

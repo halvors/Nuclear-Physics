@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.api.block.IAntiPoisonBlock;
@@ -48,15 +49,17 @@ public abstract class Poison {
         if (entity instanceof EntityPlayer) {
             EntityPlayer entityPlayer = (EntityPlayer) entity;
 
-            for (int i = 0; i < entityPlayer.inventory.armorInventory.length; i++) {
-                if (entityPlayer.inventory.armorInventory[i] != null) {
-                    if ((entityPlayer.inventory.armorInventory[i].getItem() instanceof IAntiPoisonArmor)) {
-                        IAntiPoisonArmor armor = (IAntiPoisonArmor)entityPlayer.inventory.armorInventory[i].getItem();
+            for (int i = 0; i < entityPlayer.inventory.armorInventory.size(); i++) {
+                ItemStack itemStack = entityPlayer.inventory.armorInventory.get(i);
 
-                        if (armor.isProtectedFromPoison(entityPlayer.inventory.armorInventory[i], entity, getName())) {
+                if (!itemStack.isEmpty()) {
+                    if ((itemStack.getItem() instanceof IAntiPoisonArmor)) {
+                        IAntiPoisonArmor armor = (IAntiPoisonArmor) itemStack.getItem();
+
+                        if (armor.isProtectedFromPoison(itemStack, entity, getName())) {
                             armorWorn.add(EntityEquipmentSlot.values()[(armor.getArmorType().ordinal() % EntityEquipmentSlot.values().length)]);
 
-                            armor.onProtectFromPoison(entityPlayer.inventory.armorInventory[i], entity, getName());
+                            armor.onProtectFromPoison(itemStack, entity, getName());
                         }
                     }
                 }

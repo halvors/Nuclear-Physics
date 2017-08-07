@@ -21,7 +21,7 @@ public class BlockSiren extends BlockContainerQuantum {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (WrenchUtility.hasUsableWrench(player, pos)) {
             int metadata = state.getBlock().getMetaFromState(state);
 

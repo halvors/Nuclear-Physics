@@ -39,25 +39,25 @@ public abstract class BlockInventory extends BlockRotatable {
                     for (int i = 0; i < inventory.getSlots(); i++) {
                         final ItemStack itemStack = inventory.getStackInSlot(i);
 
-                        if (itemStack != null) {
+                        if (!itemStack.isEmpty()) {
                             Random random = new Random();
                             float var8 = random.nextFloat() * 0.8F + 0.1F;
                             float var9 = random.nextFloat() * 0.8F + 0.1F;
                             float var10 = random.nextFloat() * 0.8F + 0.1F;
 
-                            while (itemStack.stackSize > 0) {
+                            while (!itemStack.isEmpty()) {
                                 int var11 = random.nextInt(21) + 10;
 
-                                if (var11 > itemStack.stackSize) {
-                                    var11 = itemStack.stackSize;
+                                if (var11 > itemStack.getCount()) {
+                                    var11 = itemStack.getCount();
                                 }
 
-                                itemStack.stackSize -= var11;
+                                itemStack.setCount(itemStack.getCount() - var11);
 
                                 EntityItem entityItem = new EntityItem(world, pos.getX() + var8, pos.getY() + var9, pos.getZ() + var10, new ItemStack(itemStack.getItem(), var11, itemStack.getMetadata()));
 
                                 if (itemStack.hasTagCompound()) {
-                                    entityItem.getEntityItem().setTagCompound(itemStack.getTagCompound().copy());
+                                    entityItem.getItem().setTagCompound(itemStack.getTagCompound().copy());
                                 }
 
                                 float var13 = 0.05F;
@@ -66,8 +66,8 @@ public abstract class BlockInventory extends BlockRotatable {
                                 entityItem.motionZ = random.nextGaussian() * var13;
                                 world.spawnEntity(entityItem);
 
-                                if (itemStack.stackSize <= 0) {
-                                    inventory.setStackInSlot(i, null);
+                                if (itemStack.getCount() <= 0) {
+                                    inventory.setStackInSlot(i, ItemStack.EMPTY);
                                 }
                             }
                         }

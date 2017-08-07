@@ -34,10 +34,10 @@ public class GuiComponentContainerInventoryScreen extends GuiContainer implement
 	}
 
 	public void renderScaledText(String text, int x, int y, int color, int maxX) {
-		int length = fontRendererObj.getStringWidth(text);
+		int length = fontRenderer.getStringWidth(text);
 
 		if (length <= maxX) {
-			fontRendererObj.drawString(text, x, y, color);
+			fontRenderer.drawString(text, x, y, color);
 		} else {
 			float scale = (float) maxX / length;
 			float reverse = 1 / scale;
@@ -46,7 +46,7 @@ public class GuiComponentContainerInventoryScreen extends GuiContainer implement
 			GL11.glPushMatrix();
 
 			GL11.glScalef(scale, scale, scale);
-			fontRendererObj.drawString(text, (int) (x * reverse), (int) ((y * reverse) + yAdd), color);
+			fontRenderer.drawString(text, (int) (x * reverse), (int) ((y * reverse) + yAdd), color);
 
 			GL11.glPopMatrix();
 		}
@@ -81,7 +81,7 @@ public class GuiComponentContainerInventoryScreen extends GuiContainer implement
 		int guiWidth = (width - xSize) / 2;
 		int guiHeight = (height - ySize) / 2;
 
-		drawString(tileEntity.getBlockType().getLocalizedName(), (xSize / 2) - (fontRendererObj.getStringWidth(tileEntity.getBlockType().getLocalizedName()) / 2), guiHeight + 6);
+		drawString(tileEntity.getBlockType().getLocalizedName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getBlockType().getLocalizedName()) / 2), guiHeight + 6);
 		drawString("Inventory", 8, (ySize - 96) + 2);
 
 		int xAxis = mouseX - guiWidth;
@@ -169,12 +169,12 @@ public class GuiComponentContainerInventoryScreen extends GuiContainer implement
 
 	@Override
 	public void drawString(String text, int x, int y) {
-		fontRendererObj.drawString(text, x, y, 0x404040);
+		fontRenderer.drawString(text, x, y, 0x404040);
 	}
 
 	@Override
 	public void displayTooltip(String text, int x, int y) {
-		drawCreativeTabHoveringText(text, x, y);
+		drawHoveringText(text, x, y);
 	}
 
 	@Override
@@ -184,6 +184,6 @@ public class GuiComponentContainerInventoryScreen extends GuiContainer implement
 
 	@Override
 	public FontRenderer getFontRenderer() {
-		return fontRendererObj;
+		return fontRenderer;
 	}
 }

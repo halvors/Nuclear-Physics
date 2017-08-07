@@ -20,6 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockFluidPlasma extends Block implements IFluidBlock {
@@ -60,14 +61,10 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
         return 7;
     }
 
-    @Override
-    public boolean isBlockSolid(IBlockAccess access, @Nonnull BlockPos pos, EnumFacing side) {
-        return false;
-    }
-
     @SuppressWarnings("deprecation")
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
+    @Nullable
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
         return NULL_AABB;
     }
 
@@ -78,7 +75,7 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
 
     @Override
     public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
-        entity.attackEntityFrom(DamageSource.inFire, 100);
+        entity.attackEntityFrom(DamageSource.IN_FIRE, 100);
     }
 
     @Override
@@ -102,6 +99,11 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     @Override
     public Fluid getFluid() {
         return fluid;
+    }
+
+    @Override
+    public int place(World world, BlockPos pos, @Nonnull FluidStack fluidStack, boolean doPlace) {
+        return 0;
     }
 
     @Override

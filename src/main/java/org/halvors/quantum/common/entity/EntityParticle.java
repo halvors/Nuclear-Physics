@@ -3,6 +3,7 @@ package org.halvors.quantum.common.entity;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -173,7 +174,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             lastTickPosY = posY;
             lastTickPosZ = posZ;
 
-            move(motionX, motionY, motionZ);
+            move(MoverType.SELF, motionX, motionY, motionZ);
             setPosition(posX, posY, posZ);
 
             if (lastTickPosX == posX && lastTickPosY == posY && lastTickPosZ == posZ && getParticleVelocity() <= 0 && lastTurn <= 0) {

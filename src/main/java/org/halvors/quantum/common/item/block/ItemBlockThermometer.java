@@ -67,7 +67,9 @@ public class ItemBlockThermometer extends ItemBlockSaved {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
+        ItemStack itemStack = player.getHeldItemMainhand();
+
         if (!world.isRemote) {
             setSavedCoords(itemStack, null);
             player.sendMessage(new TextComponentString("Cleared tracking coordinate."));
@@ -79,9 +81,9 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     }
 
     @Override
-    @Nonnull
-    public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if (player.isSneaking()) {
+            ItemStack itemStack = player.getHeldItemMainhand();
             setSavedCoords(itemStack, new Vector3(pos.getX(), pos.getY(), pos.getZ()));
             player.sendMessage(new TextComponentString("Tracking coordinate: " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()));
 

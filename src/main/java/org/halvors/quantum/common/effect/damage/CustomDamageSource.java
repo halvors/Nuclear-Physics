@@ -8,6 +8,9 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import org.halvors.quantum.common.utility.LanguageUtility;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 public class CustomDamageSource extends DamageSource {
     private Object damageSource;
 
@@ -18,34 +21,54 @@ public class CustomDamageSource extends DamageSource {
 
     public CustomDamageSource(String damageType, Object damageSource) {
         this(damageType);
+
         this.damageSource = damageSource;
     }
 
+    @Override
+    @Nonnull
     public CustomDamageSource setDamageBypassesArmor() {
         super.setDamageBypassesArmor();
 
         return this;
     }
 
+    @Override
+    @Nonnull
     public CustomDamageSource setDamageAllowedInCreativeMode() {
         super.setDamageAllowedInCreativeMode();
 
         return this;
     }
 
+    @Override
+    @Nonnull
     public CustomDamageSource setFireDamage() {
         super.setFireDamage();
 
         return this;
     }
 
+    @Override
+    @Nonnull
     public CustomDamageSource setProjectile() {
         super.setProjectile();
 
         return this;
     }
 
+    @Nullable
     @Override
+    public Entity getImmediateSource() {
+        return getEntity();
+    }
+
+    @Nullable
+    @Override
+    public Entity getTrueSource() {
+        return getEntity();
+    }
+
     public Entity getEntity() {
         return damageSource instanceof Entity ? (Entity) damageSource : null;
     }
@@ -55,6 +78,7 @@ public class CustomDamageSource extends DamageSource {
     }
 
     @Override
+    @Nonnull
     public ITextComponent getDeathMessage(EntityLivingBase victum) {
         EntityLivingBase attacker = victum.getAttackingEntity();
         String deathTranslation = "death.attack." + this.damageType;

@@ -96,7 +96,7 @@ public class BlockReactorCell extends BlockInventory {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileReactorCell) {
@@ -104,9 +104,10 @@ public class BlockReactorCell extends BlockInventory {
 
             IItemHandlerModifiable inventory = tileReactorCell.getMultiBlock().get().getInventory();
             ItemStack itemStackInSlot = inventory.getStackInSlot(0);
+            ItemStack itemStack = player.getHeldItemMainhand();
 
-            if (itemStack != null) {
-                if (itemStackInSlot == null) {
+            if (!itemStack.isEmpty()) {
+                if (itemStackInSlot.isEmpty()) {
                     if (itemStack.getItem() instanceof IReactorComponent) {
                         inventory.insertItem(0, itemStack.copy(), false);
                         player.inventory.decrStackSize(player.inventory.currentItem, 1);
@@ -114,8 +115,8 @@ public class BlockReactorCell extends BlockInventory {
                         return true;
                     }
                 }
-            } else if (player.isSneaking() && itemStackInSlot != null) {
-                inventory.setStackInSlot(0, null);
+            } else if (player.isSneaking() && !itemStackInSlot.isEmpty()) {
+                inventory.setStackInSlot(0, ItemStack.EMPTY);
                 ItemHandlerHelper.giveItemToPlayer(player, itemStackInSlot.copy());
 
                 return true;

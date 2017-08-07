@@ -3,6 +3,7 @@ package org.halvors.quantum.common.container.machine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.SlotItemHandler;
@@ -52,7 +53,7 @@ public class ContainerNuclearBoiler extends ContainerQuantum {
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();
 
-            if (itemStack != null) {
+            if (!itemStack.isEmpty()) {
                 copyStack = itemStack.copy();
 
                 if (slotId >= slotCount) {
@@ -79,17 +80,17 @@ public class ContainerNuclearBoiler extends ContainerQuantum {
                     return null;
                 }
 
-                if (itemStack.stackSize == 0) {
-                    slot.putStack(null);
+                if (itemStack.isEmpty()) {
+                    slot.putStack(ItemStack.EMPTY);
                 } else {
                     slot.onSlotChanged();
                 }
 
-                if (itemStack.stackSize == copyStack.stackSize) {
+                if (itemStack.getCount() == copyStack.getCount()) {
                     return null;
                 }
 
-                slot.onPickupFromSlot(player, itemStack);
+                slot.onTake(player, itemStack);
             }
         }
 

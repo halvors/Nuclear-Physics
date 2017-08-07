@@ -39,7 +39,7 @@ public class TileMachine extends TileConsumer implements ITileNetwork {
                 byte slot = slotTag.getByte("Slot");
 
                 if (slot < inventory.getSlots()) {
-                    inventory.setStackInSlot(slot, ItemStack.loadItemStackFromNBT(slotTag));
+                    inventory.setStackInSlot(slot, new ItemStack(slotTag));
                 }
             }
 

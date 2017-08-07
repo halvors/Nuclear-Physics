@@ -43,7 +43,7 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
                 if (detectedTemperature != previousDetectedTemperature || isProvidingPower != isOverThreshold()) {
                     previousDetectedTemperature = detectedTemperature;
                     isProvidingPower = isOverThreshold();
-                    world.notifyNeighborsOfStateChange(pos, getBlockType());
+                    world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
 
                     Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }

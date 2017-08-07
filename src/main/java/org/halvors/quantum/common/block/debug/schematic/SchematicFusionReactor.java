@@ -5,7 +5,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.quantum.common.QuantumBlocks;
-import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
+import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
+import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
 
 import java.util.HashMap;
 
@@ -36,7 +37,7 @@ public class SchematicFusionReactor implements ISchematic {
                         if (y == 0 || y == size) {
                             if (magnitude >= 1) {
                                 double yDeviation = (y == 0 ? size / 3 : -size / 3) + (y == 0 ? -1 : 1) * Math.sin(magnitude / radius * Math.PI) * size / 2;
-                                map.put(pos.add(0, yDeviation, 0), QuantumBlocks.blockElectromagnet.getStateFromMeta(BlockElectromagnet.EnumElectromagnet.GLASS.ordinal()));
+                                map.put(pos.add(0, yDeviation, 0), QuantumBlocks.blockElectromagnet.getDefaultState().withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.GLASS));
                             }
                         } else if (magnitude > radius - 1) {
                             map.put(pos, QuantumBlocks.blockElectromagnet.getDefaultState());

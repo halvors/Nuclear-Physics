@@ -3,12 +3,14 @@ package org.halvors.quantum.common.item.particle;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.item.ItemTooltip;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemAntimatterCell extends ItemTooltip {
@@ -28,9 +30,9 @@ public class ItemAntimatterCell extends ItemTooltip {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, List<ItemStack> list) {
+    public void getSubItems(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
         for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
-            list.add(new ItemStack(item, 1, type.ordinal()));
+            subItems.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
 

@@ -79,17 +79,17 @@ public class ContainerGasCentrifuge extends ContainerQuantum {
                     return null;
                 }
 
-                if (itemStack.stackSize == 0) {
-                    slot.putStack(null);
+                if (itemStack.isEmpty()) {
+                    slot.putStack(ItemStack.EMPTY);
                 } else {
                     slot.onSlotChanged();
                 }
 
-                if (itemStack.stackSize == copyStack.stackSize) {
+                if (itemStack.getCount() == copyStack.getCount()) {
                     return null;
                 }
 
-                slot.onPickupFromSlot(player, itemStack);
+                slot.onTake(player, itemStack);
             }
         }
 

@@ -36,8 +36,8 @@ public class ContainerBase extends Container {
                 return null;
             }
 
-            if (slot_stack.stackSize == 0) {
-                slot.putStack(null);
+            if (slot_stack.isEmpty()) {
+                slot.putStack(ItemStack.EMPTY);
             } else {
                 slot.onSlotChanged();
             }

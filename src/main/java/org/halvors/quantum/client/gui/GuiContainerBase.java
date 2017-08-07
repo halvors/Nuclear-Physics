@@ -139,7 +139,7 @@ public class GuiContainerBase extends GuiContainer {
         // GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
         // TODO: Fix item rendering.
-        //itemRenderer.renderItemAndEffectIntoGUI(fontRendererObj, mc.renderEngine, itemStack, x, y);
+        //itemRenderer.renderItemAndEffectIntoGUI(fontRenderer, mc.renderEngine, itemStack, x, y);
 
         // GL11.glDisable(GL11.GL_BLEND);
     }
@@ -151,7 +151,7 @@ public class GuiContainerBase extends GuiContainer {
     protected void drawTextWithTooltip(String textName, String format, int x, int y, int mouseX, int mouseY, int color) {
         String name = LanguageUtility.transelate("gui." + textName + ".name");
         String text = format.replaceAll("%1", name);
-        this.fontRendererObj.drawString(text, x, y, color);
+        this.fontRenderer.drawString(text, x, y, color);
 
         String tooltip = LanguageUtility.transelate("gui." + textName + ".tooltip");
 
@@ -303,7 +303,7 @@ public class GuiContainerBase extends GuiContainer {
 
         this.lastChangeFrameTime--;
 
-        this.fontRendererObj.drawString(display, x, y, 4210752);
+        this.fontRenderer.drawString(display, x, y, 4210752);
     }
 
     public void renderUniversalDisplay(int x, int y, float energy, int mouseX, int mouseY, UnitDisplay.Unit unit, boolean small) {
@@ -343,7 +343,7 @@ public class GuiContainerBase extends GuiContainer {
 
         this.lastChangeFrameTime--;
 
-        this.fontRendererObj.drawString(display, x, y, 4210752);
+        this.fontRenderer.drawString(display, x, y, 4210752);
     }
 
     public void drawTooltip(int x, int y, String... toolTips) {
@@ -357,7 +357,7 @@ public class GuiContainerBase extends GuiContainer {
                 int var7;
 
                 for (var6 = 0; var6 < toolTips.length; ++var6) {
-                    var7 = this.fontRendererObj.getStringWidth(toolTips[var6]);
+                    var7 = this.fontRenderer.getStringWidth(toolTips[var6]);
 
                     if (var7 > var5) {
                         var5 = var7;
@@ -394,7 +394,7 @@ public class GuiContainerBase extends GuiContainer {
                 for (int var13 = 0; var13 < toolTips.length; ++var13) {
                     String var14 = toolTips[var13];
 
-                    fontRendererObj.drawStringWithShadow(var14, var6, var7, -1);
+                    fontRenderer.drawStringWithShadow(var14, var6, var7, -1);
                     var7 += 10;
                 }
 

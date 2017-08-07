@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -41,9 +42,9 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull Item item, CreativeTabs tabs, List<ItemStack> list) {
-        list.add(new ItemStack(item));
-        list.add(new ItemStack(item, 1, getMaxDamage() - 1));
+    public void getSubItems(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
+        subItems.add(new ItemStack(item));
+        subItems.add(new ItemStack(item, 1, getMaxDamage() - 1));
     }
 
     @Override

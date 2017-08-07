@@ -13,17 +13,11 @@ public class InventoryUtility {
     public static void incrStackSize(IItemHandlerModifiable itemHandler, int slot) {
         ItemStack itemStack = itemHandler.getStackInSlot(slot);
 
-        if (itemStack != null) {
-            itemHandler.insertItem(slot, ItemHandlerHelper.copyStackWithSize(itemStack, itemStack.stackSize++), false);
-        }
+        itemHandler.insertItem(slot, ItemHandlerHelper.copyStackWithSize(itemStack, itemStack.getCount() + 1), false);
     }
 
     public static void decrStackSize(IItemHandlerModifiable itemHandler, int slot) {
-        ItemStack itemStack = itemHandler.getStackInSlot(slot);
-
-        if (itemStack != null) {
-            itemHandler.extractItem(slot, 1, false);
-        }
+        itemHandler.extractItem(slot, 1, false);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +46,7 @@ public class InventoryUtility {
             EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
 
             if (itemStack.hasTagCompound()) {
-                entityItem.getEntityItem().setTagCompound(itemStack.getTagCompound().copy());
+                entityItem.getItem().setTagCompound(itemStack.getTagCompound().copy());
             }
 
             entityItem.setPickupDelay(delay);
@@ -63,16 +57,16 @@ public class InventoryUtility {
     public static void consumeHeldItem(EntityPlayer player) {
         ItemStack stack = player.inventory.getCurrentItem();
 
-        if (stack != null) {
+        if (!stack.isEmpty()) {
             stack = stack.copy();
 
             if (stack.getItem().hasContainerItem(stack)) {
-                if (stack.stackSize == 1) {
+                if (stack.getCount() == 1) {
                     stack = stack.getItem().getContainerItem(stack);
                 } else {
                     player.inventory.addItemStackToInventory(stack.getItem().getContainerItem(stack.splitStack(1)));
                 }
-            } else if (stack.stackSize == 1) {
+            } else if (stack.getCount() == 1) {
                 stack = null;
             } else {
                 stack.splitStack(1);

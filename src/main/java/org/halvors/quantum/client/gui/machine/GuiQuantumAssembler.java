@@ -32,7 +32,7 @@ public class GuiQuantumAssembler extends GuiContainerBase {
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String name = LanguageUtility.transelate("tile.machine_model." + EnumMachineModel.QUANTUM_ASSEMBLER.ordinal() + ".name");
 
-        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
+        fontRenderer.drawString(name, (xSize / 2) - (fontRenderer.getStringWidth(name) / 2), 6, 0x404040);
 
         String displayText;
 
@@ -44,7 +44,7 @@ public class GuiQuantumAssembler extends GuiContainerBase {
             displayText = "Idle";
         }
 
-        fontRendererObj.drawString(displayText, 9, ySize - 106, 4210752);
+        fontRenderer.drawString(displayText, 9, ySize - 106, 4210752);
         //renderUniversalDisplay(100, ySize - 94, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
         renderUniversalDisplay(8, ySize - 95, TileQuantumAssembler.tickTime, mouseX, mouseY, UnitDisplay.Unit.WATT);
     }

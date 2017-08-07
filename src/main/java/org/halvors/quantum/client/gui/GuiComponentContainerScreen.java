@@ -64,7 +64,7 @@ public abstract class GuiComponentContainerScreen extends GuiScreen implements I
 	}
 
 	public float getNeededScale(String text, int maxX) {
-		int length = fontRendererObj.getStringWidth(text);
+		int length = fontRenderer.getStringWidth(text);
 
 		if (length <= maxX) {
 			return 1;
@@ -74,10 +74,10 @@ public abstract class GuiComponentContainerScreen extends GuiScreen implements I
 	}
 
 	public void renderScaledText(String text, int x, int y, int color, int maxX) {
-		int length = fontRendererObj.getStringWidth(text);
+		int length = fontRenderer.getStringWidth(text);
 
 		if (length <= maxX) {
-			fontRendererObj.drawString(text, x, y, color);
+			fontRenderer.drawString(text, x, y, color);
 		} else {
 			float scale = (float) maxX / length;
 			float reverse = 1 / scale;
@@ -86,7 +86,7 @@ public abstract class GuiComponentContainerScreen extends GuiScreen implements I
 			GL11.glPushMatrix();
 
 			GL11.glScalef(scale, scale, scale);
-			fontRendererObj.drawString(text, (int) (x * reverse), (int) ((y * reverse) + yAdd), color);
+			fontRenderer.drawString(text, (int) (x * reverse), (int) ((y * reverse) + yAdd), color);
 
 			GL11.glPopMatrix();
 		}
@@ -117,7 +117,7 @@ public abstract class GuiComponentContainerScreen extends GuiScreen implements I
 		int guiWidth = (width - xSize) / 2;
 		int guiHeight = (height - ySize) / 2;
 
-		drawString(tileEntity.getBlockType().getLocalizedName(), (xSize / 2) - (fontRendererObj.getStringWidth(tileEntity.getBlockType().getLocalizedName()) / 2), 6);
+		drawString(tileEntity.getBlockType().getLocalizedName(), (xSize / 2) - (fontRenderer.getStringWidth(tileEntity.getBlockType().getLocalizedName()) / 2), 6);
 
 		int xAxis = mouseX - guiWidth;
 		int yAxis = mouseY - guiHeight;
@@ -198,12 +198,12 @@ public abstract class GuiComponentContainerScreen extends GuiScreen implements I
 
 	@Override
 	public void drawString(String text, int x, int y) {
-		fontRendererObj.drawString(text, x, y, 0x404040);
+		fontRenderer.drawString(text, x, y, 0x404040);
 	}
 
 	@Override
 	public void displayTooltip(String text, int x, int y) {
-		drawCreativeTabHoveringText(text, x, y);
+		drawHoveringText(text, x, y);
 	}
 
 	@Override
@@ -213,6 +213,6 @@ public abstract class GuiComponentContainerScreen extends GuiScreen implements I
 
 	@Override
 	public FontRenderer getFontRenderer() {
-		return fontRendererObj;
+		return fontRenderer;
 	}
 }

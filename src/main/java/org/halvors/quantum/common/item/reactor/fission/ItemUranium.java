@@ -3,6 +3,7 @@ package org.halvors.quantum.common.item.reactor.fission;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.Quantum;
@@ -28,9 +29,9 @@ public class ItemUranium extends ItemRadioactive {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull Item item, CreativeTabs tabs, List<ItemStack> list) {
+    public void getSubItems(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> subItems) {
         for (EnumUranium type : EnumUranium.values()) {
-            list.add(new ItemStack(item, 1, type.ordinal()));
+            subItems.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
 

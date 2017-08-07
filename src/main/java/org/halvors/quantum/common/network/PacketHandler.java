@@ -72,7 +72,7 @@ public class PacketHandler {
 	public void sendToCuboid(IMessage message, AxisAlignedBB cuboid, int dimensionId) {
 		if (cuboid != null) {
 			for (EntityPlayerMP player : PlayerUtility.getPlayers()) {
-				if (player.dimension == dimensionId && cuboid.isVecInside(new Vec3d(player.posX, player.posY, player.posZ))) {
+				if (player.dimension == dimensionId && cuboid.contains(new Vec3d(player.posX, player.posY, player.posZ))) {
 					sendTo(message, player);
 				}
 			}

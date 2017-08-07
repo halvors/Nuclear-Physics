@@ -26,7 +26,7 @@ public class GuiGasCentrifuge extends GuiContainerBase {
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String name = LanguageUtility.transelate("tile.machine_model." + EnumMachineModel.GAS_CENTRIFUGE.ordinal() + ".name");
 
-        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
+        fontRenderer.drawString(name, (xSize / 2) - (fontRenderer.getStringWidth(name) / 2), 6, 0x404040);
 
         String displayText;
 
@@ -38,16 +38,16 @@ public class GuiGasCentrifuge extends GuiContainerBase {
             displayText = "Idle";
         }
 
-        fontRendererObj.drawString("Status: " + displayText, 70, 50, 0x404040);
+        fontRenderer.drawString("Status: " + displayText, 70, 50, 0x404040);
 
         renderUniversalDisplay(8, 112, TileNuclearBoiler.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
-        fontRendererObj.drawString("The centrifuge spins", 8, 75, 0x404040);
-        fontRendererObj.drawString("uranium hexafluoride gas into", 8, 85, 0x404040);
-        fontRendererObj.drawString("enriched uranium for fission.", 8, 95, 0x404040);
+        fontRenderer.drawString("The centrifuge spins", 8, 75, 0x404040);
+        fontRenderer.drawString("uranium hexafluoride gas into", 8, 85, 0x404040);
+        fontRenderer.drawString("enriched uranium for fission.", 8, 95, 0x404040);
 
-        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, ySize - 96 + 2, 0x404040);
+        fontRenderer.drawString(LanguageUtility.transelate("container.inventory"), 8, ySize - 96 + 2, 0x404040);
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.getTank().getFluid() != null) {
             drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.getTank().getFluid().getLocalizedName(), tile.getTank().getFluid().amount + " L");
