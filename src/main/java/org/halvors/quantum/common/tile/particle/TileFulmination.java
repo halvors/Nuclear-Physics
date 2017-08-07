@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.tile.particle;
 
 import net.minecraft.util.EnumFacing;
+import org.halvors.quantum.common.event.handler.FulminationHandler;
 import org.halvors.quantum.common.tile.TileGenerator;
 
 import java.util.EnumSet;

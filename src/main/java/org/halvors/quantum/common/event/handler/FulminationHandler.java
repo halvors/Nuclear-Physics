@@ -1,7 +1,10 @@
-package org.halvors.quantum.common.tile.particle;
+package org.halvors.quantum.common.event.handler;
 
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.api.explosion.ExplosionEvent;
+import org.halvors.quantum.common.init.QuantumBlocks;
+import org.halvors.quantum.common.tile.particle.TileFulmination;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.ArrayList;
@@ -50,7 +53,8 @@ public class FulminationHandler {
                 final float maxEnergyPerGenerator = totalEnergy / avaliableGenerators.size();
 
                 for (TileFulmination tile : avaliableGenerators) {
-                    float density = 0; //event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBoxFromPool(event.world, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
+                    //float density = event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tile.getPos()));
+                    float density = 0;
                     double juLi = new Vector3(tile).distance(new Vector3(event.x, event.y, event.z));
                     long energy = (long) Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (juLi / event.iExplosion.getRadius()));
                     energy = (long) Math.max((1 - density) * energy, 0);
