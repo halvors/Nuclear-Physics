@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.atomic.common.Reference;
-import org.halvors.quantum.core.init.ComponentsItems;
+import org.halvors.quantum.core.init.QuantumComponentsItems;
 
 /**
  * This is a custom creative tab used only by this mod.
@@ -20,6 +20,6 @@ public class CreativeTabComponents extends CreativeTabs {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Item getTabIconItem() {
-		return ComponentsItems.itemMotor;
+		return QuantumComponentsItems.itemMotor;
 	}
 }

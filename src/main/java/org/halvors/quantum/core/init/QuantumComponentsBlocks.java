@@ -14,7 +14,7 @@ import org.halvors.quantum.atomic.common.item.block.ItemBlockTooltip;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ComponentsBlocks {
+public class QuantumComponentsBlocks {
     //public static BlockQuantum blockOreCopper;
     //public static BlockQuantum blockOreTin;
     public static BlockQuantum blockCreativeBuilder = new BlockCreativeBuilder();

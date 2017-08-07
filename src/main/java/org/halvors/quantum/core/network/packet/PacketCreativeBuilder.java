@@ -1,4 +1,4 @@
-package org.halvors.quantum.atomic.common.network.packet;
+package org.halvors.quantum.core.network.packet;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.quantum.atomic.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.atomic.common.network.PacketHandler;
+import org.halvors.quantum.atomic.common.network.packet.PacketLocation;
 
 import java.util.HashMap;
 import java.util.Map.Entry;

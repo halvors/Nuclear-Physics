@@ -13,7 +13,7 @@ import org.halvors.quantum.core.item.ItemComponents;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ComponentsItems {
+public class QuantumComponentsItems {
     public static Item itemScrewdriver = new ItemComponents("screwdriver");
     public static Item itemMotor = new ItemComponents("motor");
     public static Item itemCircuitBasic = new ItemComponents("circuit_basic");

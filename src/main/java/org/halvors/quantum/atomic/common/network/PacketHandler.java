@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.halvors.quantum.atomic.common.Quantum;
 import org.halvors.quantum.atomic.common.Reference;
 import org.halvors.quantum.atomic.common.network.packet.PacketConfiguration;
-import org.halvors.quantum.atomic.common.network.packet.PacketCreativeBuilder;
+import org.halvors.quantum.core.network.packet.PacketCreativeBuilder;
 import org.halvors.quantum.atomic.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.atomic.common.utility.PlayerUtility;
 import org.halvors.quantum.atomic.common.utility.location.Range;

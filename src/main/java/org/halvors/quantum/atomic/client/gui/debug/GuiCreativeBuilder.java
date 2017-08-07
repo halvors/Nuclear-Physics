@@ -11,7 +11,7 @@ import org.halvors.quantum.atomic.client.utility.RenderUtility;
 import org.halvors.quantum.atomic.common.Quantum;
 import org.halvors.quantum.atomic.common.block.debug.BlockCreativeBuilder;
 import org.halvors.quantum.atomic.common.container.ContainerDummy;
-import org.halvors.quantum.atomic.common.network.packet.PacketCreativeBuilder;
+import org.halvors.quantum.core.network.packet.PacketCreativeBuilder;
 import org.halvors.quantum.atomic.common.utility.LanguageUtility;
 import org.halvors.quantum.atomic.common.utility.ResourceUtility;
 import org.halvors.quantum.atomic.common.utility.type.ResourceType;
