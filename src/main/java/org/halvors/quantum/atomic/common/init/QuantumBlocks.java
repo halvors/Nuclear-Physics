@@ -56,8 +56,6 @@ public class QuantumBlocks {
     public static BlockQuantum blockRadioactiveGrass = new BlockRadioactiveGrass();
     public static BlockQuantum blockReactorCell = new BlockReactorCell();
 
-    public static BlockQuantum blockCreativeBuilder = new BlockCreativeBuilder();
-
     @EventBusSubscriber
     public static class RegistrationHandler {
         public static final Set<ItemBlock> ITEM_BLOCKS = new HashSet<>();
@@ -83,8 +81,7 @@ public class QuantumBlocks {
                     blockThermometer,
                     blockUraniumOre,
                     blockRadioactiveGrass,
-                    blockReactorCell,
-                    blockCreativeBuilder
+                    blockReactorCell
             };
 
             registry.registerAll(blocks);
@@ -109,8 +106,7 @@ public class QuantumBlocks {
                     new ItemBlockThermometer(blockThermometer),
                     new ItemBlockTooltip(blockUraniumOre),
                     new ItemBlockTooltip(blockRadioactiveGrass),
-                    new ItemBlockTooltip(blockReactorCell),
-                    new ItemBlockTooltip(blockCreativeBuilder)
+                    new ItemBlockTooltip(blockReactorCell)
             };
 
             final IForgeRegistry<Item> registry = event.getRegistry();

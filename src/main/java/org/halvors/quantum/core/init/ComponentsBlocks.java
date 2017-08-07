@@ -15,8 +15,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ComponentsBlocks {
-    public static BlockQuantum blockOreCopper;
-    public static BlockQuantum blockOreTin;
+    //public static BlockQuantum blockOreCopper;
+    //public static BlockQuantum blockOreTin;
     public static BlockQuantum blockCreativeBuilder = new BlockCreativeBuilder();
 
     @Mod.EventBusSubscriber
@@ -33,8 +33,8 @@ public class ComponentsBlocks {
             final IForgeRegistry<Block> registry = event.getRegistry();
 
             final Block[] blocks = {
-                    blockOreCopper,
-                    blockOreTin,
+                    //blockOreCopper,
+                    //blockOreTin,
                     blockCreativeBuilder
             };
 
@@ -49,8 +49,8 @@ public class ComponentsBlocks {
         @SubscribeEvent
         public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
             final ItemBlock[] items = {
-                    new ItemBlockTooltip(blockOreCopper),
-                    new ItemBlockTooltip(blockOreTin),
+                    //new ItemBlockTooltip(blockOreCopper),
+                    //new ItemBlockTooltip(blockOreTin),
                     new ItemBlockTooltip(blockCreativeBuilder)
             };
 
