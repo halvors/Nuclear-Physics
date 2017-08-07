@@ -37,11 +37,11 @@ public class ItemBlockThermometer extends ItemBlockSaved {
         Vector3 coord = getSavedCoord(itemStack);
 
         if (coord != null) {
-            list.add(LanguageUtility.localize("tooltip.trackingTemperature"));
+            list.add(LanguageUtility.transelate("tooltip.trackingTemperature"));
             list.add("X: " + coord.intX() + ", Y: " + coord.intY() + ", Z: " + coord.intZ());
             // TODO: Add client side temperature.
         } else {
-            list.add(Color.DARK_RED + LanguageUtility.localize("tooltip.notTrackingTemperature"));
+            list.add(Color.DARK_RED + LanguageUtility.transelate("tooltip.notTrackingTemperature"));
         }
     }
 

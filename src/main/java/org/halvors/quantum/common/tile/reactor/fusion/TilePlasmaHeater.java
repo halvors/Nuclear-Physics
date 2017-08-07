@@ -177,19 +177,19 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     @Override
     public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
         if (energy != null) {
-            map.put(LanguageUtility.localize("tooltip.energy") + ": " + UnitDisplay.getDisplay(energy.getEnergy(), Unit.JOULES), 0xFFFFFF);
+            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getDisplay(energy.getEnergy(), Unit.JOULES), 0xFFFFFF);
         }
 
         if (tankInputDeuterium.getFluidAmount() > 0) {
-            map.put(LanguageUtility.localize("fluid.deuterium") + ": " + tankInputDeuterium.getFluidAmount() + " L", 0xFFFFFF);
+            map.put(LanguageUtility.transelate("fluid.deuterium") + ": " + tankInputDeuterium.getFluidAmount() + " L", 0xFFFFFF);
         }
 
         if (tankInputTritium.getFluidAmount() > 0) {
-            map.put(LanguageUtility.localize("fluid.tritium") + ": " + tankInputTritium.getFluidAmount() + " L", 0xFFFFFF);
+            map.put(LanguageUtility.transelate("fluid.tritium") + ": " + tankInputTritium.getFluidAmount() + " L", 0xFFFFFF);
         }
 
         if (tankOutput.getFluidAmount() > 0) {
-            map.put(LanguageUtility.localize("fluid.plasma") + ": " + tankOutput.getFluidAmount() + " L", 0xFFFFFF);
+            map.put(LanguageUtility.transelate("fluid.plasma") + ": " + tankOutput.getFluidAmount() + " L", 0xFFFFFF);
         }
 
         return 1.5f;

@@ -46,7 +46,7 @@ public enum Color {
 	 * @return localized name
 	 */
 	public String getLocalizedName() {
-		return LanguageUtility.localize("color." + name);
+		return LanguageUtility.transelate("color." + name);
 	}
 
 	/**

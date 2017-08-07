@@ -36,6 +36,6 @@ public class GuiConfiguration extends GuiConfig {
     }
 
     private static void register(String category, Class<? extends GuiConfigEntries.IConfigEntry> configEntryClass) {
-        configElements.add(new DummyConfigElement.DummyCategoryElement(LanguageUtility.localize("gui.configuration.category." + category), "gui.configuration.category." + category, configEntryClass));
+        configElements.add(new DummyConfigElement.DummyCategoryElement(LanguageUtility.transelate("gui.configuration.category." + category), "gui.configuration.category." + category, configEntryClass));
     }
 }

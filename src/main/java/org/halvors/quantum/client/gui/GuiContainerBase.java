@@ -149,11 +149,11 @@ public class GuiContainerBase extends GuiContainer {
     }
 
     protected void drawTextWithTooltip(String textName, String format, int x, int y, int mouseX, int mouseY, int color) {
-        String name = LanguageUtility.localize("gui." + textName + ".name");
+        String name = LanguageUtility.transelate("gui." + textName + ".name");
         String text = format.replaceAll("%1", name);
         this.fontRendererObj.drawString(text, x, y, color);
 
-        String tooltip = LanguageUtility.localize("gui." + textName + ".tooltip");
+        String tooltip = LanguageUtility.transelate("gui." + textName + ".tooltip");
 
         if (tooltip != null && !tooltip.equals("")) {
             if (isPointInRegion(x, y, (int) (text.length() * 4.8), 12, mouseX, mouseY)) {

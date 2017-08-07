@@ -30,7 +30,6 @@ tile.machine_model.0.tooltip=Extracts uranium ores to yellowcake, water to deute
 tile.control_rod.name=Control Rod
 tile.control_rod.tooltip=Suppresses fission reaction in adjacent reactor cells.
 tile.creative_builder.name=Creative Builder
-tile.creative_builder.tooltip=
 tile.electromagnet.0.name=Electromagnet
 tile.electromagnet.0.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
 tile.electromagnet.1.name=Electromagnet Glass
@@ -63,7 +62,8 @@ tile.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-
 // Items.
 // Cells.
 item.cell.name=Cell
-item.darkmatter_cell.0.name=Dark Matter
+item.darkmatter_cell.name=Dark Matter
+item.darkmatter_cell.name=Dark Matter
 item.antimatter_cell.0.name=Antimatter
 item.antimatter_cell.0.tooltip=125 Milligrams
 item.antimatter_cell.1.name=Antimatter
@@ -108,7 +108,7 @@ gui.configuration.category.client=Client
 gui.configuration.category.client.tooltip=Client-specific settings
 
 // Tooltip
-tooltip.noShift=Hold %0shift %1For more Information
+tooltip.noShift=Hold %dshift %dfor more information
 tooltip.energy=Energy
 tooltip.temperature=Temperature
 tooltip.remainingTime=Remaining Time

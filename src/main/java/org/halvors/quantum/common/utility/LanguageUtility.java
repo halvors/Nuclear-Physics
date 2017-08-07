@@ -1,26 +1,24 @@
 package org.halvors.quantum.common.utility;
 
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LanguageUtility {
-	/**
-	 * Get the translation for the current text.
-	 *
-	 * @param text the text that we want to localize.
-	 * @return text
-	 */
-	public static String localize(String text) {
-		return I18n.translateToLocal(text);
+	public static boolean canTranselate(String text) {
+		return I18n.hasKey(text);
 	}
 
-	public static List<String> splitStringPerWord(String string, int wordsPerLine) {
-		String[] words = string.split(" ");
+	public static String transelate(String text, Object... parameters) {
+		return I18n.format(text, parameters);
+	}
+
+	public static List<String> splitStringPerWord(String text, int wordsPerLine) {
+		String[] words = text.split("\\s+");
 		List<String> lines = new ArrayList<>();
 
-		for (int lineCount = 0; lineCount < Math.ceil(words.length / wordsPerLine); lineCount++) {
+		for (int lineCount = 0; lineCount < Math.ceil((float) words.length / (float) wordsPerLine); lineCount++) {
 			StringBuilder stringInLine = new StringBuilder();
 
 			for (int i = lineCount * wordsPerLine; i < Math.min(wordsPerLine + lineCount * wordsPerLine, words.length); i++) {

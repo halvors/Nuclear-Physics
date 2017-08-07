@@ -1,7 +1,6 @@
 package org.halvors.quantum.client.gui.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
@@ -25,7 +24,7 @@ public class GuiGasCentrifuge extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = LanguageUtility.localize("tile.machine_model." + EnumMachineModel.GAS_CENTRIFUGE.ordinal() + ".name");
+        String name = LanguageUtility.transelate("tile.machine_model." + EnumMachineModel.GAS_CENTRIFUGE.ordinal() + ".name");
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
@@ -48,7 +47,7 @@ public class GuiGasCentrifuge extends GuiContainerBase {
         fontRendererObj.drawString("uranium hexafluoride gas into", 8, 85, 0x404040);
         fontRendererObj.drawString("enriched uranium for fission.", 8, 95, 0x404040);
 
-        fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 0x404040);
+        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, ySize - 96 + 2, 0x404040);
 
         if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.getTank().getFluid() != null) {
             drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.getTank().getFluid().getLocalizedName(), tile.getTank().getFluid().amount + " L");

@@ -16,6 +16,7 @@ import org.halvors.quantum.common.QuantumFluids;
 import org.halvors.quantum.common.item.ItemRadioactive;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemFissileFuel extends ItemRadioactive implements IReactorComponent {
@@ -36,6 +37,13 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
         setMaxStackSize(1);
         setMaxDamage(decay);
         setNoRepair();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(@Nonnull Item item, CreativeTabs tabs, List<ItemStack> list) {
+        list.add(new ItemStack(item));
+        list.add(new ItemStack(item, 1, getMaxDamage() - 1));
     }
 
     @Override
@@ -80,14 +88,5 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
                 reactor.getTank().fillInternal(fluid, true);
             }
         }
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tabs, List<ItemStack> list) {
-        super.getSubItems(item, tabs, list);
-
-        list.add(new ItemStack(item, 1, getMaxDamage() - 1));
     }
 }

@@ -19,7 +19,7 @@ import org.halvors.quantum.common.utility.LanguageUtility;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ItemCell extends ItemQuantum {
+public class ItemCell extends ItemTooltip {
     public static final int capacity = 200;
 
     public ItemCell() {
@@ -38,9 +38,9 @@ public class ItemCell extends ItemQuantum {
     @SideOnly(Side.CLIENT)
     public String getItemStackDisplayName(@Nonnull ItemStack itemStack) {
         FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
-        String fluidName = fluidStack != null ? fluidStack.getLocalizedName() : LanguageUtility.localize("fluid.empty");
+        String fluidName = fluidStack != null ? fluidStack.getLocalizedName() : LanguageUtility.transelate("fluid.empty");
 
-        return fluidName + " " + LanguageUtility.localize(getUnlocalizedName() + ".name");
+        return fluidName + " " + LanguageUtility.transelate(getUnlocalizedName() + ".name");
     }
 
     @Override
