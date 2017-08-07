@@ -15,6 +15,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.NBTUtility;
+import org.halvors.quantum.common.utility.position.Position;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.Color;
 
@@ -32,20 +33,20 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, @Nonnull List<String> list, boolean flag) {
-        super.addInformation(itemStack, player, list, flag);
+        Position position = getSavedCoordinate(itemStack);
 
-        Vector3 coord = getSavedCoord(itemStack);
-
-        if (coord != null) {
+        if (position != null) {
             list.add(LanguageUtility.transelate("tooltip.trackingTemperature"));
-            list.add("X: " + coord.intX() + ", Y: " + coord.intY() + ", Z: " + coord.intZ());
+            list.add("X: " + position.getX() + ", Y: " + position.getY() + ", Z: " + position.getZ());
             // TODO: Add client side temperature.
         } else {
             list.add(Color.DARK_RED + LanguageUtility.transelate("tooltip.notTrackingTemperature"));
         }
+
+        super.addInformation(itemStack, player, list, flag);
     }
 
-    public void setSavedCoords(ItemStack itemStack, Vector3 position) {
+    public void setSavedCoordinate(ItemStack itemStack, Position position) {
         NBTTagCompound tagCompound = NBTUtility.getNBTTagCompound(itemStack);
 
         if (position != null) {
@@ -55,11 +56,11 @@ public class ItemBlockThermometer extends ItemBlockSaved {
         }
     }
 
-    public Vector3 getSavedCoord(ItemStack itemStack) {
-        NBTTagCompound tagCompound = NBTUtility.getNBTTagCompound(itemStack);
+    public Position getSavedCoordinate(ItemStack itemStack) {
+        NBTTagCompound tag = NBTUtility.getNBTTagCompound(itemStack);
 
-        if (tagCompound.hasKey("trackCoordinate")) {
-            return new Vector3(tagCompound.getCompoundTag("trackCoordinate"));
+        if (tag.hasKey("trackCoordinate")) {
+            return new Position(tag.getCompoundTag("trackCoordinate"));
         }
 
         return null;
@@ -69,7 +70,7 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     @Nonnull
     public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
         if (!world.isRemote) {
-            setSavedCoords(itemStack, null);
+            setSavedCoordinate(itemStack, null);
             player.sendMessage(new TextComponentString("Cleared tracking coordinate."));
 
             return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
@@ -82,7 +83,7 @@ public class ItemBlockThermometer extends ItemBlockSaved {
     @Nonnull
     public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
         if (player.isSneaking()) {
-            setSavedCoords(itemStack, new Vector3(pos.getX(), pos.getY(), pos.getZ()));
+            setSavedCoordinate(itemStack, new Position(pos));
             player.sendMessage(new TextComponentString("Tracking coordinate: " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()));
 
             return EnumActionResult.SUCCESS;

@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TileQuantum extends TileEntity {
+    protected String name;
+
     /** The players currently using this block. */
     private final Set<EntityPlayer> playersUsing = new HashSet<>();
 
@@ -22,6 +24,18 @@ public class TileQuantum extends TileEntity {
 
     public Set<EntityPlayer> getPlayersUsing() {
         return playersUsing;
+    }
+
+    public TileQuantum() {
+
+    }
+
+    public TileQuantum(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

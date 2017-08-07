@@ -141,7 +141,7 @@ public class BlockReactorCell extends BlockInventory {
     @Override
     @Nonnull
     public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
-        return new TileReactorCell();
+        return new TileReactorCell(name);
     }
 
     public enum EnumReactorCell implements IStringSerializable {

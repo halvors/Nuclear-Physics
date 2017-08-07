@@ -65,7 +65,7 @@ public class BlockThermometer extends BlockContainerQuantum {
         if (tile instanceof TileThermometer) {
             final TileThermometer tileThermometer = (TileThermometer) tile;
             final ItemBlockThermometer itemBlockThermometer = (ItemBlockThermometer) itemStack.getItem();
-            tileThermometer.setTrackCoordinate(itemBlockThermometer.getSavedCoord(itemStack));
+            tileThermometer.setTrackCoordinate(itemBlockThermometer.getSavedCoordinate(itemStack));
         }
 
         super.onBlockPlacedBy(world, pos, state, entity, itemStack);

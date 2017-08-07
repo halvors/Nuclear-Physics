@@ -26,7 +26,7 @@ public class GuiReactorCell extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        String name = LanguageUtility.transelate("tile.reactor_cell.name");
+        String name = LanguageUtility.transelate("tile." + tile.getName() + ".name");
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
@@ -49,7 +49,7 @@ public class GuiReactorCell extends GuiContainerBase {
             }
         }
 
-        List<String> desc = LanguageUtility.splitStringPerWord(LanguageUtility.transelate("tile.reactorCell.tooltip"), 5);
+        List<String> desc = LanguageUtility.splitStringPerWord(LanguageUtility.transelate("tile." + tile.getName() + ".tooltip"), 5);
 
         for (int i = 0; i < desc.size(); i++) {
             fontRendererObj.drawString(desc.get(i), 9, 85 + i * 9, 0x404040);

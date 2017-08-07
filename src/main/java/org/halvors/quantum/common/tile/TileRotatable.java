@@ -16,6 +16,10 @@ public class TileRotatable extends TileQuantum implements ITileNetwork, ITileRot
 
     }
 
+    public TileRotatable(String name) {
+        this.name = name;
+    }
+
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);

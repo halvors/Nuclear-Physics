@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.api.block.IAntiPoisonBlock;
@@ -14,14 +15,11 @@ import java.util.EnumSet;
 import java.util.HashMap;
 
 public abstract class Poison {
-    private final HashMap<String, Poison> poisons = new HashMap<>();
-
-    protected String name;
-    protected EnumSet<EntityEquipmentSlot> armorRequired = EnumSet.of(EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.FEET);
+    private static final EnumSet<EntityEquipmentSlot> armorRequired = EnumSet.of(EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.FEET);
+    private String name;
 
     public Poison(String name) {
         this.name = name;
-        this.poisons.put(name, this);
     }
 
     public String getName() {
@@ -49,14 +47,16 @@ public abstract class Poison {
             EntityPlayer entityPlayer = (EntityPlayer) entity;
 
             for (int i = 0; i < entityPlayer.inventory.armorInventory.length; i++) {
-                if (entityPlayer.inventory.armorInventory[i] != null) {
-                    if ((entityPlayer.inventory.armorInventory[i].getItem() instanceof IAntiPoisonArmor)) {
-                        IAntiPoisonArmor armor = (IAntiPoisonArmor)entityPlayer.inventory.armorInventory[i].getItem();
+                ItemStack itemStack = entityPlayer.inventory.armorInventory[i];
 
-                        if (armor.isProtectedFromPoison(entityPlayer.inventory.armorInventory[i], entity, getName())) {
+                if (itemStack != null) {
+                    if ((itemStack.getItem() instanceof IAntiPoisonArmor)) {
+                        IAntiPoisonArmor armor = (IAntiPoisonArmor) itemStack.getItem();
+
+                        if (armor.isProtectedFromPoison(itemStack, entity, name)) {
                             armorWorn.add(EntityEquipmentSlot.values()[(armor.getArmorType().ordinal() % EntityEquipmentSlot.values().length)]);
 
-                            armor.onProtectFromPoison(entityPlayer.inventory.armorInventory[i], entity, getName());
+                            armor.onProtectFromPoison(itemStack, entity, name);
                         }
                     }
                 }
@@ -76,7 +76,7 @@ public abstract class Poison {
             while (targetPosition.distance(endingPosition) <= totalDistance) {
                 Block block = targetPosition.getBlock(world);
                 if (block instanceof IAntiPoisonBlock) {
-                    if (((IAntiPoisonBlock) block).isPoisonPrevention(world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), getName())) {
+                    if (((IAntiPoisonBlock) block).isPoisonPrevention(world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), name)) {
                         count++;
                     }
                 }

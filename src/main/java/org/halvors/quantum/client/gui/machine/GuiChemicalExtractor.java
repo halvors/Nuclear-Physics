@@ -40,7 +40,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
             if (tile.getInputTank().getFluid() != null) {
                 drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.getInputTank().getFluid().getLocalizedName(), tile.getInputTank().getFluid().amount + " L");
             } else {
-                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "No Fluid");
+                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "No Fluid"); // TODO: Localize this.
             }
         }
 
@@ -48,7 +48,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
             if (tile.getOutputTank().getFluid() != null) {
                 drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.getOutputTank().getFluid().getLocalizedName(), tile.getOutputTank().getFluid().amount + " L");
             } else {
-                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "No Fluid");
+                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "No Fluid"); // TODO: Localize this.
             }
         }
 

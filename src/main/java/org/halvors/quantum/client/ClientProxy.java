@@ -53,7 +53,6 @@ import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
  * @author halvors
  */
 @SideOnly(Side.CLIENT)
-@EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy implements IGuiHandler {
 	@Override
 	public void preInit() {

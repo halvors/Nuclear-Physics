@@ -22,7 +22,7 @@ public class RenderThermometer extends TileEntitySpecialRenderer<TileThermometer
             RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.DARK_BLUE) + "Threshold: " + (tile.getThershold()) + " K", side, 1, x, y - 0.1, z);
 
             if (tile.getTrackCoordinate() != null) {
-                RenderUtility.renderText(tile.getTrackCoordinate().intX() + ", " + tile.getTrackCoordinate().intY() + ", " + tile.getTrackCoordinate().intZ(), side, 0.5F, x, y - 0.3, z);
+                RenderUtility.renderText(tile.getTrackCoordinate().getX() + ", " + tile.getTrackCoordinate().getY() + ", " + tile.getTrackCoordinate().getZ(), side, 0.5F, x, y - 0.3, z);
             }
         }
 

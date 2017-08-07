@@ -5,6 +5,7 @@ Porting to 1.10.2 from 1.7.10:
     - Fix fire not vanishing after a while. (Seems like fire doesn't persist re-login?)
     - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
     - Check if auto transferring of fluids between machines is working.
+    - Make thermometer emit redstone when threshold is reached.
 
 General:
 

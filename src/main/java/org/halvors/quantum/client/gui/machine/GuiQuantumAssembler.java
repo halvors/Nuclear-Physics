@@ -53,7 +53,7 @@ public class GuiQuantumAssembler extends GuiContainerBase {
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY) {
         mc.renderEngine.bindTexture(texture);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GL11.glColor4f(1, 1, 1, 1);
 
         int containerWidth = (width - xSize) / 2;
         int containerHeight = (height - ySize) / 2;

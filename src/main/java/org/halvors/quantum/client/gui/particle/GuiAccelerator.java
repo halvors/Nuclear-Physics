@@ -1,7 +1,6 @@
 package org.halvors.quantum.client.gui.particle;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
@@ -11,7 +10,7 @@ import org.halvors.quantum.common.entity.EntityParticle;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.energy.UnitDisplay;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.position.Position;
 import org.halvors.quantum.common.utility.type.Color;
 
 @SideOnly(Side.CLIENT)
@@ -31,13 +30,11 @@ public class GuiAccelerator extends GuiContainerBase {
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
-        Vector3 position = new Vector3(tile);
-        position.translate(tile.getFacing().getOpposite());
-
+        Position position = new Position(tile);
+        position.offset(tile.getFacing().getOpposite());
         String status;
-        BlockPos pos = new BlockPos(position.getX(), position.getY(), position.getZ());
 
-        if (!EntityParticle.canSpawnParticle(tile.getWorld(), pos)) {
+        if (!EntityParticle.canSpawnParticle(tile.getWorld(), position.getPos())) {
             status = Color.DARK_RED + "Fail to emit; try rotating.";
         } else if (tile.entityParticle != null && tile.velocity > 0) {
             status = Color.ORANGE + "Accelerating";

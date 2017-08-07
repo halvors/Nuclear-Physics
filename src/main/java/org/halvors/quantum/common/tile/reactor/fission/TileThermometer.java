@@ -10,15 +10,17 @@ import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.ITileNetwork;
+import org.halvors.quantum.common.utility.position.Position;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class TileThermometer extends TileEntity implements ITickable, ITileNetwork {
     private static final int maxThreshold = 5000;
     private float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
     private float previousDetectedTemperature = detectedTemperature; // Synced
-    private Vector3 trackCoordinate; // Synced
+    private Position trackCoordinate; // Synced
     private int threshold = 1000; // Synced
     public boolean isProvidingPower = false; // Synced
 
@@ -52,29 +54,29 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-        threshold = tagCompound.getInteger("threshold");
+        threshold = tag.getInteger("threshold");
 
-        if (tagCompound.hasKey("trackCoordinate")) {
-            trackCoordinate = new Vector3(tagCompound.getCompoundTag("trackCoordinate"));
+        if (tag.hasKey("trackCoordinate")) {
+            trackCoordinate = new Position(tag.getCompoundTag("trackCoordinate"));
         } else {
             trackCoordinate = null;
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
-
-        tagCompound.setInteger("threshold", threshold);
+    @Nonnull
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        tag = super.writeToNBT(tag);
+        tag.setInteger("threshold", threshold);
 
         if (trackCoordinate != null) {
-            tagCompound.setTag("trackCoordinate", trackCoordinate.writeToNBT(new NBTTagCompound()));
+            tag.setTag("trackCoordinate", trackCoordinate.writeToNBT(new NBTTagCompound()));
         }
 
-        return tagCompound;
+        return tag;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +87,7 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
         previousDetectedTemperature = dataStream.readFloat();
 
         if (dataStream.readBoolean()) {
-            trackCoordinate = new Vector3(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
+            trackCoordinate = new Position(dataStream);
         }
 
         threshold = dataStream.readInt();
@@ -99,9 +101,7 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
 
         if (trackCoordinate != null) {
             objects.add(true);
-            objects.add(trackCoordinate.intX());
-            objects.add(trackCoordinate.intY());
-            objects.add(trackCoordinate.intZ());
+            objects = trackCoordinate.getPacketData(objects);
         } else {
             objects.add(false);
         }
@@ -114,11 +114,11 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Vector3 getTrackCoordinate() {
+    public Position getTrackCoordinate() {
         return trackCoordinate;
     }
 
-    public void setTrackCoordinate(Vector3 trackCoordinate) {
+    public void setTrackCoordinate(Position trackCoordinate) {
         this.trackCoordinate = trackCoordinate;
 
         // Update the server side with this new coordinate.
@@ -135,10 +135,6 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
         if (threshold <= 0) {
             this.threshold = maxThreshold;
         }
-
-        // TODO: Is this a correct replacement in 1.10.2?
-        //world.markBlockForUpdate(xCoord, yCoord, zCoord);
-        //world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos));
     }
 
     public float getDetectedTemperature() {
