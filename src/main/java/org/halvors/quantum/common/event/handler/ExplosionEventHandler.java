@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.event;
+package org.halvors.quantum.common.event.handler;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;

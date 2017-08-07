@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.event;
+package org.halvors.quantum.common.event.handler;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -16,6 +16,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.api.tile.IElectromagnet;
+import org.halvors.quantum.common.event.BoilEvent;
 import org.halvors.quantum.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.quantum.common.grid.IUpdate;

@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.event;
+package org.halvors.quantum.common.event.handler;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
