@@ -6,6 +6,7 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -64,6 +65,10 @@ public class Quantum {
 
 	// Grids
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
+
+	static {
+		FluidRegistry.enableUniversalBucket(); // Must be called before preInit
+	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

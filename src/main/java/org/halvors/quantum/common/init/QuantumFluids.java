@@ -65,10 +65,6 @@ public class QuantumFluids {
     public static final FluidStack fluidStackToxicWaste = new FluidStack(FluidRegistry.getFluid("toxic_waste"), 0);
     public static final FluidStack fluidStackWater = new FluidStack(FluidRegistry.WATER, 0);
 
-    static {
-        FluidRegistry.enableUniversalBucket(); // Must be called before preInit
-    }
-
     /**
      * Create a {@link Fluid} and its {@link IFluidBlock}, or use the existing ones if a fluid has already been registered with the same name.
      *
