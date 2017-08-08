@@ -4,7 +4,7 @@
     "custom": {
       "flip-v": true
     },
-    "model": "quantum:reactor_cell_top.obj",
+    "model": "quantum:reactor_cell.obj",
     "transform": "forge:default-block"
   },
   "variants": {
@@ -21,6 +21,7 @@
       "east": {}
     },
     "type": {
+      "normal": {},
       "top": {},
       "middle": {},
       "bottom": {}

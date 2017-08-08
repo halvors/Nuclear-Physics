@@ -21,8 +21,8 @@ import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell> {
-    private static final OBJModelContainer modelTopBelow = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_top.obj"), Arrays.asList("BackLeftSpike", "BackRightSpike", "FrontLeftSpike", "FrontRightSpike", "HatCover", "HatDepth", "HatMiddle", "HatTop", "HatWidth", "MiddleBackLeft", "MiddleBackRight", "MiddleFrontLeft", "MiddleFrontRight", "MiddlePBack", "MiddlePFront", "MiddlePLeft", "MiddlePRight", "OPBackLeft", "OPBackRight", "OPFrontLeft", "OPFrontRight", "OPLeftBack", "OPLeftFront1", "OPLeftFront2", "OPRightBack", "TopBase", "TopBaseDepth", "TopBaseWidth"));
-    private static final OBJModelContainer modelTop = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_top.obj"), Arrays.asList("BackLeftSpike", "BackRightSpike", "Base", "BaseDepth", "BaseWidth", "BottomPad", "FrontLeftSpike", "FrontRightSpike", "HatCover", "HatDepth", "HatMiddle", "HatTop", "HatWidth", "MiddleBackLeft", "MiddleBackRight", "MiddleFrontLeft", "MiddleFrontRight", "MiddlePBack", "MiddlePFront", "MiddlePLeft", "MiddlePRight", "OPBackLeft", "OPBackRight", "OPFrontLeft", "OPFrontRight", "OPLeftBack", "OPLeftFront1", "OPLeftFront2", "OPRightBack", "TopBase", "TopBaseDepth", "TopBaseWidth"));
+    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell.obj"), Arrays.asList("BackLeftSpike", "BackRightSpike", "Base", "BaseDepth", "BaseWidth", "BottomPad", "FrontLeftSpike", "FrontRightSpike", "HatCover", "HatDepth", "HatMiddle", "HatTop", "HatWidth", "MiddleBackLeft", "MiddleBackRight", "MiddleFrontLeft", "MiddleFrontRight", "MiddlePBack", "MiddlePFront", "MiddlePLeft", "MiddlePRight", "OPBackLeft", "OPBackRight", "OPFrontLeft", "OPFrontRight", "OPLeftBack", "OPLeftFront1", "OPLeftFront2", "OPRightBack", "TopBase", "TopBaseDepth", "TopBaseWidth"));
+    private static final OBJModelContainer modelTop = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_top.obj"), Arrays.asList("BackLeftSpike", "BackRightSpike", "FrontLeftSpike", "FrontRightSpike", "HatCover", "HatDepth", "HatMiddle", "HatTop", "HatWidth", "MiddleBackLeft", "MiddleBackRight", "MiddleFrontLeft", "MiddleFrontRight", "MiddlePBack", "MiddlePFront", "MiddlePLeft", "MiddlePRight", "OPBackLeft", "OPBackRight", "OPFrontLeft", "OPFrontRight", "OPLeftBack", "OPLeftFront1", "OPLeftFront2", "OPRightBack", "TopBase", "TopBaseDepth", "TopBaseWidth"));
     private static final OBJModelContainer modelMiddle = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_middle.obj"));
     private static final OBJModelContainer modelBottom = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell_bottom.obj"));
     private static final ResourceLocation textureFissileMaterial = new ResourceLocation(Reference.ID, "textures/models/reactor_fissile_material.png");
@@ -41,16 +41,14 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
         RenderUtility.rotateBlockBasedOnDirection(tile.getFacing());
 
         EnumReactorCell type = tile.getWorld().getBlockState(tile.getPos()).getValue(BlockStateReactorCell.TYPE);
-        boolean hasBelow = tile.getWorld().getTileEntity(tile.getPos().down()) instanceof TileReactorCell;
 
         switch (type) {
+            case NORMAL:
+                model.render();
+                break;
+
             case TOP:
-                if (hasBelow) {
-                    GlStateManager.translate(0, -0.163, 0);
-                    modelTopBelow.render();
-                } else {
-                    modelTop.render();
-                }
+                modelTop.render();
                 break;
 
             case MIDDLE:

@@ -165,6 +165,7 @@ public class BlockReactorCell extends BlockInventory {
     }
 
     public enum EnumReactorCell implements IStringSerializable {
+        NORMAL("normal"),
         TOP("top"),
         MIDDLE("middle"),
         BOTTOM("bottom");
