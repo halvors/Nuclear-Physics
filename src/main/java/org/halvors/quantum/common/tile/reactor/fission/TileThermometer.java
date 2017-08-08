@@ -2,21 +2,19 @@ package org.halvors.quantum.common.tile.reactor.fission;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.grid.thermal.ThermalPhysics;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.tile.ITileNetwork;
+import org.halvors.quantum.common.tile.TileRotatable;
 import org.halvors.quantum.common.utility.position.Position;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileThermometer extends TileEntity implements ITickable, ITileNetwork {
+public class TileThermometer extends TileRotatable implements ITickable {
     private static final int maxThreshold = 5000;
     private float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
     private float previousDetectedTemperature = detectedTemperature; // Synced
@@ -83,6 +81,8 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
         detectedTemperature = dataStream.readFloat();
         previousDetectedTemperature = dataStream.readFloat();
 
@@ -96,6 +96,8 @@ public class TileThermometer extends TileEntity implements ITickable, ITileNetwo
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
+        super.getPacketData(objects);
+
         objects.add(detectedTemperature);
         objects.add(previousDetectedTemperature);
 

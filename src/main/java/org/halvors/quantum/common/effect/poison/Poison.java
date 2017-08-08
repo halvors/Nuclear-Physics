@@ -12,7 +12,6 @@ import org.halvors.quantum.api.item.armor.IAntiPoisonArmor;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import java.util.EnumSet;
-import java.util.HashMap;
 
 public abstract class Poison {
     private static final EnumSet<EntityEquipmentSlot> armorRequired = EnumSet.of(EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.FEET);

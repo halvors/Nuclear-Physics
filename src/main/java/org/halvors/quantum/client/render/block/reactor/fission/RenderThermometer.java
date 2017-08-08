@@ -2,7 +2,6 @@ package org.halvors.quantum.client.render.block.reactor.fission;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.utility.RenderUtility;
@@ -16,14 +15,11 @@ public class RenderThermometer extends TileEntitySpecialRenderer<TileThermometer
         GlStateManager.pushMatrix();
         RenderUtility.enableLightmap();
 
-        // TODO: Replacement for this...
-        for (EnumFacing side : EnumFacing.HORIZONTALS) {
-            RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.BLACK) + Integer.toString(Math.round(tile.getDetectedTemperature())) + " K", side, 0.8F, x, y + 0.1, z);
-            RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.DARK_BLUE) + "Threshold: " + (tile.getThershold()) + " K", side, 1, x, y - 0.1, z);
+        RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.BLACK) + Integer.toString(Math.round(tile.getDetectedTemperature())) + " K", tile.getFacing(), 0.8F, x, y + 0.1, z);
+        RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.DARK_BLUE) + "Threshold: " + (tile.getThershold()) + " K", tile.getFacing(), 1, x, y - 0.1, z);
 
-            if (tile.getTrackCoordinate() != null) {
-                RenderUtility.renderText(tile.getTrackCoordinate().getX() + ", " + tile.getTrackCoordinate().getY() + ", " + tile.getTrackCoordinate().getZ(), side, 0.5F, x, y - 0.3, z);
-            }
+        if (tile.getTrackCoordinate() != null) {
+            RenderUtility.renderText(tile.getTrackCoordinate().getX() + ", " + tile.getTrackCoordinate().getY() + ", " + tile.getTrackCoordinate().getZ(), tile.getFacing(), 0.5F, x, y - 0.3, z);
         }
 
         GlStateManager.popMatrix();

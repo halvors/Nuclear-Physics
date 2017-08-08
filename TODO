@@ -35,7 +35,6 @@ New features to add:
         - Make toxic waste denser than water, so that it is replaced by toxic waste.
         - Add support for vertical particle accelerators.
         - Amplify sirens, with sort of multi block structure, also add pitch support for the multi block.
-        - Make thermometer only render on one side based on facing.
 
     Rendering:
         - Make the whole multi block reactor cell share GUI.

@@ -11,20 +11,18 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import org.halvors.quantum.common.block.BlockContainerQuantum;
+import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.item.block.ItemBlockSaved;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.WrenchUtility;
-import org.halvors.quantum.common.utility.position.Position;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockThermometer extends BlockContainerQuantum {
+public class BlockThermometer extends BlockRotatable {
     public BlockThermometer() {
         super("thermometer", Material.PISTON);
     }

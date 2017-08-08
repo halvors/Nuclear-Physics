@@ -1,16 +1,11 @@
 package org.halvors.quantum.common.utility;
 
-import javafx.geometry.Pos;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
-import org.halvors.quantum.common.utility.position.Position;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
-import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
 public class InventoryUtility {
     public static void incrStackSize(IItemHandlerModifiable itemHandler, int slot) {

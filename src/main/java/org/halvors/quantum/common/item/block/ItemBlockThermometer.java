@@ -16,7 +16,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.NBTUtility;
 import org.halvors.quantum.common.utility.position.Position;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.type.Color;
 
 import javax.annotation.Nonnull;

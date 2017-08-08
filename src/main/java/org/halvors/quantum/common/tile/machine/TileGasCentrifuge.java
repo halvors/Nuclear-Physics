@@ -20,7 +20,6 @@ import org.halvors.quantum.common.init.QuantumFluids;
 import org.halvors.quantum.common.init.QuantumItems;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.utility.FluidUtility;
 import org.halvors.quantum.common.utility.OreDictionaryHelper;
 
 import javax.annotation.Nonnull;

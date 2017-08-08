@@ -1,12 +1,7 @@
 package org.halvors.quantum.client.gui.component;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.Sound;
-import net.minecraft.client.audio.SoundEventAccessor;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.IGui;
@@ -15,8 +10,6 @@ import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Client;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.utility.energy.EnergyUnit;
-
-import javax.annotation.Nullable;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnergyUnitType extends GuiComponentBase implements IGuiComponent {

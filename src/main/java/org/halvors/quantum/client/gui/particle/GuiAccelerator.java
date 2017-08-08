@@ -11,7 +11,6 @@ import org.halvors.quantum.common.entity.EntityParticle;
 import org.halvors.quantum.common.tile.particle.TileAccelerator;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.energy.UnitDisplay;
-import org.halvors.quantum.common.utility.position.Position;
 import org.halvors.quantum.common.utility.type.Color;
 
 @SideOnly(Side.CLIENT)

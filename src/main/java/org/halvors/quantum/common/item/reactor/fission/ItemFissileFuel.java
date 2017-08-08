@@ -5,7 +5,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,7 +14,6 @@ import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.init.QuantumFluids;
 import org.halvors.quantum.common.item.ItemRadioactive;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import javax.annotation.Nonnull;
 import java.util.List;

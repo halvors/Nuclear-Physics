@@ -13,8 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
-import org.halvors.quantum.common.block.reactor.fusion.BlockElectromagnet;
-import org.halvors.quantum.common.block.states.BlockStateElectromagnet;
 import org.halvors.quantum.common.block.states.BlockStateSiren;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
 import org.halvors.quantum.common.utility.WrenchUtility;

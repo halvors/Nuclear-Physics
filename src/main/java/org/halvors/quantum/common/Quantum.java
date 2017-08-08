@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import org.halvors.quantum.common.ConfigurationManager.Integration;
 import org.halvors.quantum.common.entity.EntityParticle;
 import org.halvors.quantum.common.event.handler.ExplosionEventHandler;
+import org.halvors.quantum.common.event.handler.FulminationHandler;
 import org.halvors.quantum.common.event.handler.PlayerEventHandler;
 import org.halvors.quantum.common.event.handler.ThermalEventHandler;
 import org.halvors.quantum.common.grid.UpdateTicker;
@@ -28,7 +29,6 @@ import org.halvors.quantum.common.grid.thermal.ThermalGrid;
 import org.halvors.quantum.common.init.QuantumEntities;
 import org.halvors.quantum.common.init.QuantumRecipes;
 import org.halvors.quantum.common.network.PacketHandler;
-import org.halvors.quantum.common.event.handler.FulminationHandler;
 import org.halvors.quantum.common.world.WorldGenerator;
 
 /**

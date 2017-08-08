@@ -5,7 +5,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
-import org.halvors.quantum.common.Reference;
 import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.quantum.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;

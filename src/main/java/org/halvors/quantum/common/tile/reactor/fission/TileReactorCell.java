@@ -1,7 +1,6 @@
 package org.halvors.quantum.common.tile.reactor.fission;
 
 import io.netty.buffer.ByteBuf;
-import javafx.geometry.Pos;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
@@ -50,7 +49,6 @@ import org.halvors.quantum.common.network.packet.PacketTileEntity;
 import org.halvors.quantum.common.tile.TileRotatable;
 import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.position.Position;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -385,6 +383,8 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
         if (world.isRemote) {
             temperature = dataStream.readFloat();
             tank.handlePacketData(dataStream);
@@ -393,6 +393,8 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
+        super.getPacketData(objects);
+
         objects.add(temperature);
         tank.getPacketData(objects);
 
