@@ -14,7 +14,6 @@ Known bugs:
     - Should not be possible to inject fuel into each of the reactor cell multiblocks...
     - Quantum Assembler render incorrectly.
     - Electromagnet Glass have wrong material and footstep sound? As well as break sound.
-    - Optimize syncing of machines etc, only sync when gui is open etc.
 
 Known features not implemented:
     - Add support for batteries in machines etc.
@@ -36,6 +35,7 @@ New features to add:
         - Make toxic waste denser than water, so that it is replaced by toxic waste.
         - Add support for vertical particle accelerators.
         - Amplify sirens, with sort of multi block structure, also add pitch support for the multi block.
+        - Make thermometer only render on one side based on facing.
 
     Rendering:
         - Make the whole multi block reactor cell share GUI.
@@ -44,13 +44,14 @@ New features to add:
         - Render TESR's with FastTESR.
 
     Networking:
+        - Optimize syncing of machines etc, only sync when gui is open etc.
 
     Energy:
         Chemical Extractor: (Done)
             128 MJ ~= 20000 RF = 27 Yellowcake (OK, but needs high throughput cables).
 
         Nuclear Boiler:
-            128 MJ ~= 20000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride
+            128 MJ ~= 20000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride (OK, but needs high throughput cables).
 
         Centrifuge:
             128 MJ ~= 20000 = 2 Refined/Breading Uranium

@@ -1,6 +1,7 @@
 package org.halvors.quantum.common.grid.thermal;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -12,7 +13,7 @@ import org.halvors.quantum.common.grid.IUpdate;
 import org.halvors.quantum.common.utility.type.Pair;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map.Entry;
 
 public class ThermalGrid implements IUpdate {
     private static final HashMap<Pair<World, BlockPos>, Float> thermalSource = new HashMap<>();
@@ -48,7 +49,7 @@ public class ThermalGrid implements IUpdate {
 
     @Override
     public void update() {
-        for (Map.Entry<Pair<World, BlockPos>, Float> entry : new HashMap<>(thermalSource).entrySet()) { // Use thermalSource HashMap directly without new?
+        for (Entry<Pair<World, BlockPos>, Float> entry : new HashMap<>(thermalSource).entrySet()) { // Use thermalSource HashMap directly without new?
             // Distribute temperature
             World world = entry.getKey().getLeft();
             BlockPos pos = entry.getKey().getRight();
@@ -88,7 +89,7 @@ public class ThermalGrid implements IUpdate {
     }
 
     public boolean canUpdate() {
-        return true;
+        return !Minecraft.getMinecraft().isGamePaused();
     }
 
     public boolean continueUpdate() {
