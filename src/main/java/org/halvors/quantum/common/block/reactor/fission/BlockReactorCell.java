@@ -11,6 +11,7 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.quantum.api.item.IReactorComponent;
+import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockInventory;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
@@ -45,14 +47,32 @@ public class BlockReactorCell extends BlockInventory {
 
     @SuppressWarnings("deprecation")
     @Override
+    @SideOnly(Side.CLIENT)
     public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
+    @SideOnly(Side.CLIENT)
     public boolean isFullCube(IBlockState state) {
         return false;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @SideOnly(Side.CLIENT)
+    @Nonnull
+    public AxisAlignedBB getBoundingBox(@Nonnull IBlockState state, @Nonnull IBlockAccess access, @Nonnull BlockPos pos) {
+        TileEntity tile = access.getTileEntity(pos);
+
+        if (tile instanceof TileReactorCell) {
+            TileReactorCell tileReactorCell = ((TileReactorCell) tile);
+
+            return new AxisAlignedBB(0, -tileReactorCell.getHeightIndex(), 0, 1, tileReactorCell.getHeight(), 1);
+        }
+
+        return super.getBoundingBox(state, access, pos);
     }
 
     @Override
