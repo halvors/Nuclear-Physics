@@ -10,12 +10,14 @@ import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineMod
 import org.halvors.quantum.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
 import org.halvors.quantum.common.utility.LanguageUtility;
+import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.energy.UnitDisplay;
+import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuantumAssembler extends GuiContainerBase {
-    public static final ResourceLocation texture = new ResourceLocation(Reference.PREFIX + "textures/gui/gui_atomic_assembler.png");
+    public static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.GUI, "gui_quantum_assembler.png");
 
     private TileQuantumAssembler tile;
 
