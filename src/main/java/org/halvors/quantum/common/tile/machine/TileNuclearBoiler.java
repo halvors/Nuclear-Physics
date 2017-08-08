@@ -16,9 +16,7 @@ import org.halvors.quantum.common.utility.OreDictionaryHelper;
 
 public class TileNuclearBoiler extends TileProcess {
     public static final int tickTime = 20 * 15;
-    public static final int energy = 21000;
-
-    public float rotation = 0;
+    public static final int energy = 20000;
 
     public TileNuclearBoiler() {
         energyStorage = new EnergyStorage(energy * 2);

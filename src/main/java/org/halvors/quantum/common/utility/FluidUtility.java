@@ -40,7 +40,7 @@ public class FluidUtility {
         if (tank != null && requestFluidStack != null && tank.getFluid() != null) {
             requestFluidStack.amount = (tank.getCapacity() - tank.getFluid().amount);
 
-            for (EnumFacing side : EnumFacing.VALUES) {
+            for (EnumFacing side : EnumFacing.HORIZONTALS) {
                 TileEntity tile = world.getTileEntity(pos.offset(side));
 
                 if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite())) {

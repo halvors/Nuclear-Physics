@@ -122,6 +122,10 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
 
     }
 
+    public TileReactorCell(String name) {
+        super(name);
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public AxisAlignedBB getRenderBoundingBox() {

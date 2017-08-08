@@ -23,8 +23,6 @@ public class TileChemicalExtractor extends TileProcess {
     private static final int extractSpeed = 100;
     public static final int energy = 20000;
 
-    public float rotation = 0;
-
     private IItemHandler top = new RangedWrapper(inventory, 2, 3);
     private IItemHandler sides = new RangedWrapper(inventory, 0, 2);
 

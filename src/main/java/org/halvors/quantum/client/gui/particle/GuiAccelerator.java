@@ -1,6 +1,7 @@
 package org.halvors.quantum.client.gui.particle;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
@@ -30,11 +31,10 @@ public class GuiAccelerator extends GuiContainerBase {
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
-        Position position = new Position(tile);
-        position.offset(tile.getFacing().getOpposite());
+        BlockPos pos = tile.getPos().offset(tile.getFacing().getOpposite());
         String status;
 
-        if (!EntityParticle.canSpawnParticle(tile.getWorld(), position.getPos())) {
+        if (!EntityParticle.canSpawnParticle(tile.getWorld(), pos)) {
             status = Color.DARK_RED + "Fail to emit; try rotating.";
         } else if (tile.entityParticle != null && tile.velocity > 0) {
             status = Color.ORANGE + "Accelerating";

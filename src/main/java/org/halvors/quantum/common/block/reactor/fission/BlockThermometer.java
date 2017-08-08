@@ -17,6 +17,7 @@ import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.WrenchUtility;
+import org.halvors.quantum.common.utility.position.Position;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
 import javax.annotation.Nonnull;
@@ -75,7 +76,7 @@ public class BlockThermometer extends BlockContainerQuantum {
     public boolean removedByPlayer(@Nonnull IBlockState state, World world, @Nonnull BlockPos pos, @Nonnull EntityPlayer player, boolean willHarvest) {
         if (!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
             ItemStack itemStack = ItemBlockSaved.getItemStackWithNBT(state, world, pos);
-            InventoryUtility.dropItemStack(world, new Vector3(pos.getX(), pos.getY(), pos.getZ()), itemStack);
+            InventoryUtility.dropItemStack(world, pos, itemStack);
         }
 
         return world.setBlockToAir(pos);

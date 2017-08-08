@@ -12,5 +12,5 @@ public interface IReactor {
 
     FluidTank getTank();
 
-    World getWorld();
+    World getWorldObject();
 }

@@ -95,7 +95,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
         if (!world.isRemote) {
             // TODO: Fix this?
             if (world.getWorldTime() % 20 == 0) {
-                FluidUtility.transferFluidToNeighbors(world, pos, tank, QuantumFluids.fluidStackUraniumHexaflouride.copy());
+                //FluidUtility.transferFluidToNeighbors(world, pos, tank, QuantumFluids.fluidStackUraniumHexaflouride.copy());
             }
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -44,7 +44,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     protected final int defaultTorque = 5000;
     protected int torque = defaultTorque;
 
-    private final FluidTankQuantum tank = new FluidTankQuantum(QuantumFluids.fluidStackSteam, Fluid.BUCKET_VOLUME * 100) {
+    private final FluidTankQuantum tank = new FluidTankQuantum(QuantumFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 100) {
         /*
         @Override
         public boolean canFill() {
@@ -113,6 +113,8 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 }
 
                 if (power > 0) {
+                    Quantum.getLogger().info("Power is more than zero.");
+
                     energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
                     generateEnergy();
                 }
@@ -245,7 +247,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     }
 
     private int getArea() {
-        return (int) (((multiBlockRadius + 0.5) * 2) * ((multiBlockRadius + 0.5) * 2));
+        return (int) ((multiBlockRadius + 0.5) * 2 * (multiBlockRadius + 0.5) * 2);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

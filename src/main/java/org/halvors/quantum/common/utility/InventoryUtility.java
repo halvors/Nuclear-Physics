@@ -1,11 +1,14 @@
 package org.halvors.quantum.common.utility;
 
+import javafx.geometry.Pos;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.halvors.quantum.common.utility.position.Position;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
 
@@ -30,16 +33,12 @@ public class InventoryUtility {
     /// Old code, maybe not used anymore. //////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void dropItemStack(VectorWorld position, ItemStack itemStack) {
-        dropItemStack(position.world, position, itemStack);
+    public static void dropItemStack(World world, BlockPos pos, ItemStack itemStack) {
+        dropItemStack(world, pos, itemStack, 10);
     }
 
-    public static void dropItemStack(World world, Vector3 position, ItemStack itemStack) {
-        dropItemStack(world, position, itemStack, 10);
-    }
-
-    public static void dropItemStack(World world, Vector3 position, ItemStack itemStack, int delay) {
-        dropItemStack(world, position.getX(), position.getY(), position.getZ(), itemStack, delay);
+    public static void dropItemStack(World world, BlockPos pos, ItemStack itemStack, int delay) {
+        dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemStack, delay);
     }
 
     public static void dropItemStack(World world, double x, double y, double z, ItemStack itemStack, int delay) {
@@ -57,28 +56,6 @@ public class InventoryUtility {
 
             entityItem.setPickupDelay(delay);
             world.spawnEntity(entityItem);
-        }
-    }
-
-    public static void consumeHeldItem(EntityPlayer player) {
-        ItemStack stack = player.inventory.getCurrentItem();
-
-        if (stack != null) {
-            stack = stack.copy();
-
-            if (stack.getItem().hasContainerItem(stack)) {
-                if (stack.stackSize == 1) {
-                    stack = stack.getItem().getContainerItem(stack);
-                } else {
-                    player.inventory.addItemStackToInventory(stack.getItem().getContainerItem(stack.splitStack(1)));
-                }
-            } else if (stack.stackSize == 1) {
-                stack = null;
-            } else {
-                stack.splitStack(1);
-            }
-
-            player.inventory.setInventorySlotContents(player.inventory.currentItem, stack);
         }
     }
 }

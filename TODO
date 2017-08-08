@@ -45,14 +45,14 @@ New features to add:
     Networking:
 
     Energy:
-        Centrifuge:
-            128 MJ ~= 20000 = 2 Refined/Breading Uranium
-
         Chemical Extractor: (Done)
-            128 MJ ~= 20000 RF = 27 Yellowcake
+                    128 MJ ~= 20000 RF = 27 Yellowcake (OK, but needs high throughput cables).
 
         Nuclear Boiler:
-            128 MJ ~= 21000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride
+            128 MJ ~= 20000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride
+
+        Centrifuge:
+            128 MJ ~= 20000 = 2 Refined/Breading Uranium
 
         Turbine:
             Fission Reactor with 4 Control Rods: (Generated from one Turbine)

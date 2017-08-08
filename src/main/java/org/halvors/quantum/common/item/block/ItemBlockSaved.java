@@ -13,6 +13,8 @@ import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.NBTUtility;
 import org.halvors.quantum.common.utility.transform.vector.Vector3;
 
+import javax.annotation.Nonnull;
+
 /**
  * An item that can store a block's tile data.
  */
@@ -26,7 +28,7 @@ public class ItemBlockSaved extends ItemBlockTooltip {
     }
 
     @Override
-    public boolean placeBlockAt(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState state) {
+    public boolean placeBlockAt(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, World world, @Nonnull BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, @Nonnull IBlockState state) {
         TileEntity tile = world.getTileEntity(pos);
 
         if (tile != null) {
@@ -82,7 +84,7 @@ public class ItemBlockSaved extends ItemBlockTooltip {
             ItemStack itemStack = getItemStackWithNBT(state, world, pos);
 
             if (itemStack != null) {
-                InventoryUtility.dropItemStack(world, new Vector3(pos.getX(), pos.getY(), pos.getZ()), itemStack);
+                InventoryUtility.dropItemStack(world, pos, itemStack);
             }
         }
     }

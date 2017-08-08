@@ -9,8 +9,8 @@ public class ItemBreederFuel extends ItemRadioactive implements IReactorComponen
     public ItemBreederFuel() {
         super("breeder_fuel");
 
-        setMaxDamage(ItemFissileFuel.decay);
         setMaxStackSize(1);
+        setMaxDamage(ItemFissileFuel.decay);
         setNoRepair();
     }
 
@@ -18,7 +18,7 @@ public class ItemBreederFuel extends ItemRadioactive implements IReactorComponen
     public void onReact(ItemStack itemStack, IReactor reactor) {
         reactor.heat(ItemFissileFuel.energyPerTick / 2);
 
-        if (reactor.getWorld().getWorldTime() % 20 == 0) {
+        if (reactor.getWorldObject().getWorldTime() % 20 == 0) {
             itemStack.setItemDamage(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDamage()));
         }
     }

@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
+import org.halvors.quantum.common.utility.WrenchUtility;
 
 import javax.annotation.Nonnull;
 
@@ -51,12 +52,8 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
         if (tile instanceof TileElectricTurbine) {
             final TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
 
-            if (player.isSneaking()) {
-                // TODO: Need to sync this between client and server in order for other clients to be updated as well.
-                // TODO: Why do we need to run this on client side as well?
-                //if (!world.isRemote) {
-                    return tileTurbine.getMultiBlock().toggleConstruct();
-                //}
+            if (WrenchUtility.hasUsableWrench(player, pos)) {
+                return tileTurbine.getMultiBlock().toggleConstruct();
             }
         }
 

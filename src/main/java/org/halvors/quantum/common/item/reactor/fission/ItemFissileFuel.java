@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -48,16 +49,15 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
 
     @Override
     public void onReact(ItemStack itemStack, IReactor reactor) {
-        TileEntity tileEntity = (TileEntity) reactor;
-        World world = tileEntity.getWorld();
+        TileEntity tile = (TileEntity) reactor;
+        World world = tile.getWorld();
         int reactors = 0;
 
-        for (int side = 0; side < 6; side++) {
-            Vector3 checkPos = new Vector3(tileEntity).translate(EnumFacing.getFront(side));
-            TileEntity tile = checkPos.getTileEntity(world);
+        for (EnumFacing side : EnumFacing.VALUES) {
+            TileEntity checkTile = world.getTileEntity(tile.getPos().offset(side));
 
             // Check that the other reactors not only exist but also are running.
-            if (tile instanceof IReactor && ((IReactor) tile).getTemperature() > breedingTemp) {
+            if (checkTile instanceof IReactor && ((IReactor) checkTile).getTemperature() > breedingTemp) {
                 reactors++;
             }
         }
@@ -76,7 +76,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
             reactor.heat(energyPerTick);
 
             // Consume fuel.
-            if (reactor.getWorld().getWorldTime() % 20 == 0) {
+            if (world.getWorldTime() % 20 == 0) {
                 itemStack.setItemDamage(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDamage()));
             }
 

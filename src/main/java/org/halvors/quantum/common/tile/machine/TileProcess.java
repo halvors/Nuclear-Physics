@@ -28,6 +28,8 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
     protected FluidTankQuantum tankInput;
     protected FluidTankQuantum tankOutput;
 
+    public float rotation = 0;
+
     protected int inputSlot;
     protected int outputSlot;
 
