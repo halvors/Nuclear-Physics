@@ -17,7 +17,7 @@ import java.util.Set;
  */
 public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveObject {
     /** The main block used for reference */
-    protected WeakReference<W> prim = null;
+    protected WeakReference<W> primary = null;
 
     /** The relative primary block position to be loaded in once the tile is initiated. */
     protected Position newPrimary = null;
@@ -37,7 +37,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
                 newPrimary = null;
 
                 if (checkWrapper != getPrimary()) {
-                    prim = new WeakReference<>(checkWrapper);
+                    primary = new WeakReference<>(checkWrapper);
                     self.onMultiBlockChanged();
                 }
             }
@@ -89,10 +89,10 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
                     }
                 }
 
-                prim = new WeakReference<>(self);
+                primary = new WeakReference<>(self);
 
                 for (W structure : structures) {
-                    structure.getMultiBlock().prim = prim;
+                    structure.getMultiBlock().primary = primary;
                 }
 
                 for (W structure : structures) {
@@ -113,7 +113,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
                 if (structures != null) {
                     for (W structure : structures) {
-                        structure.getMultiBlock().prim = null;
+                        structure.getMultiBlock().primary = null;
                     }
 
                     for (W structure : structures) {
@@ -142,7 +142,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     }
 
     public boolean isConstructed() {
-        return prim != null;
+        return primary != null;
     }
 
     public boolean isPrimary() {
@@ -150,7 +150,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     }
 
     public W getPrimary() {
-        return prim == null ? null : prim.get();
+        return primary == null ? null : primary.get();
     }
 
     public W get()
@@ -165,7 +165,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
             newPrimary = new Position(tag.getCompoundTag("primaryMultiBlock"));
             update();
         } else {
-            prim = null;
+            primary = null;
         }
     }
 
@@ -183,7 +183,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
             newPrimary = new Position(dataStream);
             update();
         } else {
-            prim = null;
+            primary = null;
         }
     }
 

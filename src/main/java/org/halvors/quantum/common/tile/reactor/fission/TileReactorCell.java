@@ -51,6 +51,7 @@ import org.halvors.quantum.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.quantum.common.utility.position.Position;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,6 +127,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
 
     @Override
     @SideOnly(Side.CLIENT)
+    @Nonnull
     public AxisAlignedBB getRenderBoundingBox() {
         if (getMultiBlock().isPrimary() && getMultiBlock().isConstructed()) {
             return INFINITE_EXTENT_AABB;
@@ -143,15 +145,15 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         // Move fuel rod down into the primary cell block if possible.
         if (!getMultiBlock().isPrimary()) {
             if (inventory.getStackInSlot(0) != null) {
-                if (getMultiBlock().get().inventory.getStackInSlot(0) == null) {
-                    getMultiBlock().get().inventory.insertItem(0, inventory.getStackInSlot(0).copy(), false);
+                if (getMultiBlock().get().getInventory().getStackInSlot(0) == null) {
+                    getMultiBlock().get().getInventory().insertItem(0, inventory.getStackInSlot(0).copy(), false);
                     inventory.setStackInSlot(0, null);
                 }
             }
 
             // Move fluid down into blocks below.
             if (tank.getFluidAmount() > 0) {
-                getMultiBlock().get().tank.fillInternal(tank.drainInternal(tank.getCapacity(), true), true);
+                getMultiBlock().get().getTank().fillInternal(tank.drainInternal(tank.getCapacity(), true), true);
             }
         }
 
@@ -270,8 +272,10 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                     world.setBlockState(leakPos, QuantumBlocks.blockRadioactiveGrass.getDefaultState());
                     tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                 } else if (world.isAirBlock(leakPos) || block.isReplaceable(world, leakPos)) {
-                    if (tank.getFluid() != null) {
-                        world.setBlockState(leakPos, tank.getFluid().getFluid().getBlock().getDefaultState());
+                    FluidStack fluidStack = tank.getFluid();
+
+                    if (fluidStack != null) {
+                        world.setBlockState(leakPos, fluidStack.getFluid().getBlock().getDefaultState());
                         tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                     }
                 }
@@ -284,7 +288,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
 
-            if (world.isRemote) {
+            if (world.isRemote && fuelRod != null) {
                 // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
                 if (world.rand.nextInt(5) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextInt(2), pos.getY() + 1, pos.getZ() + world.rand.nextInt(2), 0.0D, 0.1D, 0.0D);
@@ -344,7 +348,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
             TileEntity tileEntity = checkPosition.getTileEntity(world);
 
             if (tileEntity instanceof TileReactorCell) {
-                positions.add(checkPosition.clone().subtract(getPosition()));
+                positions.add(checkPosition.subtract(getPosition()));
             } else {
                 break;
             }
@@ -354,6 +358,28 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
 
         return positions.toArray(new Position[0]);
     }
+
+    /*
+    @Override
+    public Position[] getMultiBlockVectors() {
+        List<Position> positions = new ArrayList<>();
+        Position checkPosition = new Position(this);
+
+        while (true) {
+            TileEntity tileEntity = checkPosition.getTileEntity(world);
+
+            if (tileEntity instanceof TileReactorCell) {
+                positions.add(checkPosition.subtract(getPosition()));
+            } else {
+                break;
+            }
+
+            checkPosition = checkPosition.offset(EnumFacing.UP);
+        }
+
+        return positions.toArray(new Position[0]);
+    }
+    */
 
     @Override
     public World getWorldObject() {
@@ -436,14 +462,18 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         int height = 0;
         TileEntity tile = this;
         Position checkPosition = new Position(this);
-        //Vector3 checkPosition = new Vector3(this);
 
         while (tile instanceof TileReactorCell) {
             height++;
-            tile = checkPosition.offset(EnumFacing.UP).getTileEntity(world);
+            checkPosition = checkPosition.offset(EnumFacing.UP);
+            tile = checkPosition.getTileEntity(world);
         }
 
         return height;
+    }
+
+    public int getHeightIndex() {
+        return pos.getY() - getLowest().getPos().getY();
     }
 
     public TileReactorCell getLowest() {
@@ -499,14 +529,14 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return (T) getMultiBlock().get().getInventory();
         } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {

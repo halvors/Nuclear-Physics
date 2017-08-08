@@ -7,6 +7,7 @@ Porting to 1.10.2 from 1.7.10:
     - Check if auto transferring of fluids between machines is working.
     - Make thermometer emit redstone when threshold is reached.
     - Reactor spawning water bubbles even if there is not water adjacent.
+    - Fix reactor cell multi block NPE. Happens when trying to save to NBT.
 
 General:
 

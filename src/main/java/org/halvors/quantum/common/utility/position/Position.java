@@ -143,11 +143,7 @@ public class Position {
     }
 
     public Position offset(EnumFacing side, double amount) {
-        if (side != null && amount > 0) {
-            return new Position(x + (side.getFrontOffsetX() * amount), y + (side.getFrontOffsetY() * amount), z + (side.getFrontOffsetZ() * amount));
-        }
-
-        return this;
+        return new Position(x + (side.getFrontOffsetX() * amount), y + (side.getFrontOffsetY() * amount), z + (side.getFrontOffsetZ() * amount));
     }
 
     public Position offset(EnumFacing side) {

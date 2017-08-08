@@ -72,8 +72,8 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
                 bindTexture(textureFissileMaterial);
 
                 GlStateManager.pushMatrix();
-                GlStateManager.translate(0.5, 0, 0.5);
-                GlStateManager.scale(0.4, 1.6 * height, 0.4);
+                GlStateManager.translate(0.5, (height / 2) - 0.075, 0.5);
+                GlStateManager.scale(0.4, height - 0.15, 0.4);
                 GlStateManager.disableLighting();
                 ModelCube.getInstance().render();
                 GlStateManager.enableLighting();
