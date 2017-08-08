@@ -67,7 +67,7 @@ public class TileThermometer extends TileRotatable implements ITickable {
     @Override
     @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag = super.writeToNBT(tag);
+        super.writeToNBT(tag);
         tag.setInteger("threshold", threshold);
 
         if (trackCoordinate != null) {

@@ -157,10 +157,10 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag = super.writeToNBT(tag);
+        super.writeToNBT(tag);
 
         tag.setInteger("multiBlockRadius", multiBlockRadius);
-        tag = getMultiBlock().writeToNBT(tag);
+        getMultiBlock().writeToNBT(tag);
         tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;

@@ -52,7 +52,7 @@ public class TileGasFunnel extends TileEntity implements ITickable {
     @Override
     @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag = super.writeToNBT(tag);
+        super.writeToNBT(tag);
 
         tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 

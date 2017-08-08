@@ -107,7 +107,7 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag = super.writeToNBT(tag);
+        super.writeToNBT(tag);
 
         tag.setTag("tankInput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInput, null));
         tag.setTag("tankOutput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));

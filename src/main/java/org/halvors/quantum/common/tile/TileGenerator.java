@@ -54,7 +54,7 @@ public class TileGenerator extends TileQuantum implements ITickable {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag = super.writeToNBT(tag);
+        super.writeToNBT(tag);
 
         if (energyStorage != null) {
             tag.setTag("storedEnergy", CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));

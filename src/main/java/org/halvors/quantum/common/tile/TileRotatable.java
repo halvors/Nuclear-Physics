@@ -31,7 +31,7 @@ public class TileRotatable extends TileQuantum implements ITileNetwork, ITileRot
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag = super.writeToNBT(tag);
+        super.writeToNBT(tag);
 
         if (facing != null) {
             tag.setInteger("facing", facing.ordinal());

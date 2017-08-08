@@ -63,11 +63,12 @@ public class VectorWorld extends Vector3 implements IVectorWorld {
         return new VectorWorld(this.world, this.x, this.y, this.z);
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        super.writeToNBT(nbt);
-        nbt.setInteger("d", this.world.provider.getDimension());
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
 
-        return nbt;
+        tag.setInteger("d", this.world.provider.getDimension());
+
+        return tag;
     }
 
     public TileEntity getTileEntity() {

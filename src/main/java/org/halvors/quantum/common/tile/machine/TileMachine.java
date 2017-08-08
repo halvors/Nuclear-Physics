@@ -51,7 +51,7 @@ public class TileMachine extends TileConsumer implements ITileNetwork {
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag = super.writeToNBT(tag);
+        super.writeToNBT(tag);
 
         tag.setInteger("timer", timer);
         tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));

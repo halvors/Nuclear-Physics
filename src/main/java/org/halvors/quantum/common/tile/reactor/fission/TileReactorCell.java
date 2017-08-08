@@ -327,10 +327,10 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     @Override
     @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        tag = super.writeToNBT(tag);
+        super.writeToNBT(tag);
 
         tag.setFloat("temperature", temperature);
-        tag = getMultiBlock().writeToNBT(tag);
+        getMultiBlock().writeToNBT(tag);
         tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
         tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 

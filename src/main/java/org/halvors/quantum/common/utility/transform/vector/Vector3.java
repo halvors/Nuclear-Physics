@@ -160,12 +160,12 @@ public class Vector3 implements Cloneable, IVector3, Comparable<IVector3> {
         return clone().difference(target).toAngle();
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
-        nbt.setDouble("x", this.x);
-        nbt.setDouble("y", this.y);
-        nbt.setDouble("z", this.z);
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        tag.setDouble("x", this.x);
+        tag.setDouble("y", this.y);
+        tag.setDouble("z", this.z);
 
-        return nbt;
+        return tag;
     }
 
     public EnumFacing toEnumFacing() {

@@ -176,21 +176,21 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
-        super.readFromNBT(tagCompound);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
 
-        totalEnergyConsumed = tagCompound.getFloat("totalEnergyConsumed");
-        antimatter = tagCompound.getInteger("antimatter");
+        totalEnergyConsumed = tag.getFloat("totalEnergyConsumed");
+        antimatter = tag.getInteger("antimatter");
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
-        super.writeToNBT(tagCompound);
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
 
-        tagCompound.setFloat("totalEnergyConsumed", totalEnergyConsumed);
-        tagCompound.setInteger("antimatter", antimatter);
+        tag.setFloat("totalEnergyConsumed", totalEnergyConsumed);
+        tag.setInteger("antimatter", antimatter);
 
-        return tagCompound;
+        return tag;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
