@@ -6,6 +6,7 @@ Porting to 1.10.2 from 1.7.10:
     - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
     - Check if auto transferring of fluids between machines is working.
     - Make thermometer emit redstone when threshold is reached.
+    - Reactor spawning water bubbles even if there is not water adjacent.
 
 General:
 
@@ -46,7 +47,7 @@ New features to add:
 
     Energy:
         Chemical Extractor: (Done)
-                    128 MJ ~= 20000 RF = 27 Yellowcake (OK, but needs high throughput cables).
+            128 MJ ~= 20000 RF = 27 Yellowcake (OK, but needs high throughput cables).
 
         Nuclear Boiler:
             128 MJ ~= 20000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride

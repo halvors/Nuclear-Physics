@@ -59,24 +59,14 @@ tile.siren.tooltip=Creates an alarm with customizable pitch and volume with a Re
 tile.thermometer.name=Thermometer
 tile.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-right click to lock the reading to a specific coordinate.
 
-// Component items.
-item.screwdriver.name=Screwdriver
+item.wrench.name=Wrench
+item.copper_wire.name=Copper Wire
 item.motor.name=Motor
 item.circuit_basic.name=Basic Circuit
 item.circuit_advanced.name=Advanced Circuit
 item.circuit_elite.name=Elite Circuit
-item.plate_copper.name=Copper Plate
-item.plate_tin.name=Tin Plate
 item.plate_bronze.name=Bronze Plate
 item.plate_steel.name=Steel Plate
-item.plate_iron.name=Iron Plate
-item.plate_gold.name=Gold Plate
-item.ingot_copper.name=Copper Ingot
-item.ingot_tin.name=Tin Ingot
-item.ingot_bronze.name=Bronze Ingot
-item.ingot_steel.name=Steel Ingot
-item.dust_bronze.name=Bronze Dust
-item.dust_steel.name=Steel Dust
 
 // Items.
 item.cell.name=Cell

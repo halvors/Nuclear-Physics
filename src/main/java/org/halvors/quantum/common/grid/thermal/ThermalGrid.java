@@ -9,14 +9,13 @@ import net.minecraftforge.common.MinecraftForge;
 import org.halvors.quantum.api.tile.IReactor;
 import org.halvors.quantum.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.quantum.common.grid.IUpdate;
-import org.halvors.quantum.common.utility.location.Location;
-import org.halvors.quantum.common.utility.transform.vector.VectorWorld;
+import org.halvors.quantum.common.utility.type.Pair;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
+import java.util.Map;
 
 public class ThermalGrid implements IUpdate {
-    private static final HashMap<VectorWorld, Float> thermalSource = new HashMap<>();
+    private static final HashMap<Pair<World, BlockPos>, Float> thermalSource = new HashMap<>();
 
     private final float spread = 1 / 7F;
     //private final float loss = 0.1F;
@@ -29,19 +28,19 @@ public class ThermalGrid implements IUpdate {
 
     public static void addTemperature(World world, BlockPos pos, float deltaTemperature) {
         float defaultTemperature = getDefaultTemperature(world, pos);
-        float original = thermalSource.getOrDefault(new VectorWorld(world, pos.getX(), pos.getY(), pos.getZ()), defaultTemperature);
+        float original = thermalSource.getOrDefault(new Pair<>(world, pos), defaultTemperature);
         float newTemperature = original + deltaTemperature;
 
         if (Math.abs(newTemperature - defaultTemperature) > 0.4) {
-            thermalSource.put(new VectorWorld(world, pos.getX(), pos.getY(), pos.getZ()), original + deltaTemperature);
+            thermalSource.put(new Pair<>(world, pos), original + deltaTemperature);
         } else {
-            thermalSource.remove(new VectorWorld(world, pos.getX(), pos.getY(), pos.getZ()));
+            thermalSource.remove(new Pair<>(world, pos));
         }
     }
 
     public static float getTemperature(World world, BlockPos pos) {
-        if (thermalSource.containsKey(new VectorWorld(world, pos.getX(), pos.getY(), pos.getZ()))) {
-            return thermalSource.get(new VectorWorld(world, pos.getX(), pos.getY(), pos.getZ()));
+        if (thermalSource.containsKey(new Pair<>(world, pos))) {
+            return thermalSource.get(new Pair<>(world, pos));
         }
 
         return ThermalPhysics.getTemperatureForCoordinate(world, pos);
@@ -49,48 +48,39 @@ public class ThermalGrid implements IUpdate {
 
     @Override
     public void update() {
-        for (Entry<VectorWorld, Float> entry : new HashMap<>(thermalSource).entrySet()) { // Use thermalSource HashMap directly without new?
+        for (Map.Entry<Pair<World, BlockPos>, Float> entry : new HashMap<>(thermalSource).entrySet()) { // Use thermalSource HashMap directly without new?
             // Distribute temperature
-            VectorWorld pos = entry.getKey();
-            Location location = new Location(pos.getWorld(), new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
+            World world = entry.getKey().getLeft();
+            BlockPos pos = entry.getKey().getRight();
 
-            /** Deal with different block types */
-            float currentTemperature = getTemperature(location.getWorld(), location.getPos());
+            // Deal with different block types.
+            float currentTemperature = getTemperature(world, pos);
 
             if (currentTemperature < 0) {
-                thermalSource.remove(pos);
+                thermalSource.remove(new Pair<>(world, pos));
             } else {
-                float deltaFromEquilibrium = getDefaultTemperature(location.getWorld(), location.getPos()) - currentTemperature;
+                float deltaFromEquilibrium = getDefaultTemperature(world, pos) - currentTemperature;
 
-                TileEntity tile = location.getTileEntity();
+                TileEntity tile = world.getTileEntity(pos);
                 boolean isReactor = tile != null && tile instanceof IReactor;
 
-                ThermalUpdateEvent event = new ThermalUpdateEvent(location.getWorld(), location.getPos(), currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
+                ThermalUpdateEvent event = new ThermalUpdateEvent(world, pos, currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
                 MinecraftForge.EVENT_BUS.post(event);
 
                 float loss = event.heatLoss;
-                addTemperature(location.getWorld(), location.getPos(), (deltaFromEquilibrium > 0 ? 1 : -1) * Math.min(Math.abs(deltaFromEquilibrium), Math.abs(loss)));
+                addTemperature(world, pos, (deltaFromEquilibrium > 0 ? 1 : -1) * Math.min(Math.abs(deltaFromEquilibrium), Math.abs(loss)));
 
                 // Spread heat to surrounding.
                 for (EnumFacing side : EnumFacing.VALUES) {
-                    // TODO: Convert to Location.
-                    VectorWorld adjacent = (VectorWorld) pos.clone().translate(side);
+                    BlockPos adjacentPos = pos.offset(side);
 
-                    /*
-                    double x = pos.getX() + dir.getFrontOffsetX() * dir.getFrontOffsetX();
-                    double y = pos.getY() + dir.getFrontOffsetY() * dir.getFrontOffsetY();
-                    double z = pos.getZ() + dir.getFrontOffsetZ() * dir.getFrontOffsetZ();
-
-                    Location adjacent = new Location(pos.getWorld(), new BlockPos(x, y, z));
-                    */
-
-                    float deltaTemperature = getTemperature(location.getWorld(), location.getPos()) - getTemperature(adjacent.getWorld(), new BlockPos(adjacent.getX(), adjacent.getY(), adjacent.getZ()));
-                    Material adjacentMaterial = adjacent.getBlock(adjacent.world).getBlockState().getBaseState().getMaterial();
+                    float deltaTemperature = getTemperature(world, pos) - getTemperature(world, adjacentPos);
+                    Material adjacentMaterial = world.getBlockState(adjacentPos).getBlock().getBlockState().getBaseState().getMaterial();
                     float spread = (adjacentMaterial.isSolid() ? this.spread : this.spread / 2) * deltaTime;
 
                     if (deltaTemperature > 0) {
-                        addTemperature(adjacent.getWorld(), new BlockPos(adjacent.getX(), adjacent.getY(), adjacent.getZ()), deltaTemperature * spread);
-                        addTemperature(location.getWorld(), location.getPos(), -deltaTemperature * spread);
+                        addTemperature(world, adjacentPos, deltaTemperature * spread);
+                        addTemperature(world, pos, -deltaTemperature * spread);
                     }
                 }
             }
