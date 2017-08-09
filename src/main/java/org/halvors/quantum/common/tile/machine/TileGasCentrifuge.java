@@ -20,6 +20,7 @@ import org.halvors.quantum.common.init.QuantumFluids;
 import org.halvors.quantum.common.init.QuantumItems;
 import org.halvors.quantum.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.utility.EnergyUtility;
 import org.halvors.quantum.common.utility.OreDictionaryHelper;
 
 import javax.annotation.Nonnull;
@@ -100,8 +101,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             if (canProcess()) {
-                // TODO: Implement this.
-                //discharge(getStackInSlot(0));
+                EnergyUtility.discharge(0, this);
 
                 if (energyStorage.extractEnergy(energy, true) >= energy) {
                     if (timer == 0) {

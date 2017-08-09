@@ -8,6 +8,7 @@ Porting to 1.10.2 from 1.7.10:
     - Reactor spawning water bubbles even if there is not water adjacent.
     - Fix reactor cell multi block NPE. Happens when trying to save to NBT.
     - Check if auto transferring of fluids between machines is working.
+    - Make reactor cell spawn particles based on temperature, use Math.getExponent().
 
 General:
 
@@ -36,6 +37,7 @@ New features to add:
         - Make toxic waste denser than water, so that it is replaced by toxic waste.
         - Add support for vertical particle accelerators.
         - Amplify sirens, with sort of multi block structure, also add pitch support for the multi block.
+        - Add metal break sound to machines etc?
 
     Rendering:
         - Make the whole multi block reactor cell share GUI.

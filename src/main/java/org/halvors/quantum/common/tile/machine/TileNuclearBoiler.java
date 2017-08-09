@@ -11,6 +11,7 @@ import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
 import org.halvors.quantum.common.init.QuantumFluids;
 import org.halvors.quantum.common.network.packet.PacketTileEntity;
+import org.halvors.quantum.common.utility.EnergyUtility;
 import org.halvors.quantum.common.utility.InventoryUtility;
 import org.halvors.quantum.common.utility.OreDictionaryHelper;
 
@@ -113,8 +114,7 @@ public class TileNuclearBoiler extends TileProcess {
 
         if (!world.isRemote) {
             if (canProcess()) {
-                // TODO: Implement this.
-                //discharge(getStackInSlot(0));
+                EnergyUtility.discharge(0, this);
 
                 if (energyStorage.extractEnergy(energy, true) >= energy) {
                     if (timer == 0) {

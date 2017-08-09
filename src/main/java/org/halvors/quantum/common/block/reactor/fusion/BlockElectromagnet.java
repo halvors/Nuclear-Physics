@@ -34,7 +34,6 @@ public class BlockElectromagnet extends BlockConnectedTexture {
         super("electromagnet", Material.IRON);
 
         setResistance(20);
-        // TODO: Add glass step sound?
         setDefaultState(blockState.getBaseState().withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.NORMAL));
     }
 
