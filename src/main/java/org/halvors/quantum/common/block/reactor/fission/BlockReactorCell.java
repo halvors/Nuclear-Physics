@@ -60,6 +60,7 @@ public class BlockReactorCell extends BlockInventory {
         return false;
     }
 
+    /*
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
@@ -75,6 +76,7 @@ public class BlockReactorCell extends BlockInventory {
 
         return super.getBoundingBox(state, access, pos);
     }
+    */
 
     @Override
     @Nonnull
@@ -117,6 +119,17 @@ public class BlockReactorCell extends BlockInventory {
     }
 
     @Override
+    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
+        final TileEntity tile = world.getTileEntity(pos);
+
+        if (tile instanceof TileReactorCell) {
+            ((TileReactorCell) tile).updatePositionStatus();
+        }
+
+        super.onNeighborChange(world, pos, neighbor);
+    }
+
+    @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
         final TileEntity tile = world.getTileEntity(pos);
 
@@ -150,15 +163,6 @@ public class BlockReactorCell extends BlockInventory {
         }
 
         return false;
-    }
-
-    @Override
-    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighborPos) {
-        final TileEntity tile = world.getTileEntity(pos);
-
-        if (tile instanceof TileReactorCell) {
-            ((TileReactorCell) tile).updatePositionStatus();
-        }
     }
 
     @Override
