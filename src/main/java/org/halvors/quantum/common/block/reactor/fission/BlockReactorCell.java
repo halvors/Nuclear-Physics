@@ -23,6 +23,7 @@ import org.halvors.quantum.api.item.IReactorComponent;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockInventory;
 import org.halvors.quantum.common.block.states.BlockStateReactorCell;
+import org.halvors.quantum.common.multiblock.MultiBlockHandler;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.PlayerUtility;
 
@@ -121,28 +122,30 @@ public class BlockReactorCell extends BlockInventory {
 
         if (tile instanceof TileReactorCell) {
             TileReactorCell tileReactorCell = (TileReactorCell) tile;
+            MultiBlockHandler<TileReactorCell> multiBlockHandler = tileReactorCell.getMultiBlock();
 
-            IItemHandlerModifiable inventory = tileReactorCell.getMultiBlock().get().getInventory();
-            ItemStack itemStackInSlot = inventory.getStackInSlot(0);
+            // Insert fuel rod only in the primary multi-block.
+            if (multiBlockHandler.isConstructed()) {
+                IItemHandlerModifiable inventory = multiBlockHandler.getPrimary().getInventory();
+                ItemStack itemStackInSlot = inventory.getStackInSlot(0);
 
-            if (itemStack != null) {
-                if (itemStackInSlot == null) {
+                if (itemStack != null && itemStackInSlot == null) {
                     if (itemStack.getItem() instanceof IReactorComponent) {
                         inventory.insertItem(0, itemStack.copy(), false);
                         player.inventory.decrStackSize(player.inventory.currentItem, 1);
 
                         return true;
                     }
+                } else if (player.isSneaking() && itemStackInSlot != null) {
+                    inventory.setStackInSlot(0, null);
+                    ItemHandlerHelper.giveItemToPlayer(player, itemStackInSlot.copy());
+
+                    return true;
+                } else {
+                    PlayerUtility.openGui(player, world, pos);
+
+                    return true;
                 }
-            } else if (player.isSneaking() && itemStackInSlot != null) {
-                inventory.setStackInSlot(0, null);
-                ItemHandlerHelper.giveItemToPlayer(player, itemStackInSlot.copy());
-
-                return true;
-            } else {
-                PlayerUtility.openGui(player, world, pos);
-
-                return true;
             }
         }
 
@@ -178,7 +181,7 @@ public class BlockReactorCell extends BlockInventory {
 
         @Override
         public String getName() {
-            return name.toLowerCase();
+            return name;
         }
     }
 }
