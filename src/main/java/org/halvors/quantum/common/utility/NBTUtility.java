@@ -7,10 +7,6 @@ import net.minecraft.nbt.NBTTagCompound;
  * Utility that manages common NBT save and load methods
  */
 public class NBTUtility {
-    /** Gets a compound from an itemStack.
-     *
-     * @param itemStack
-     * @return */
     public static NBTTagCompound getNBTTagCompound(ItemStack itemStack) {
         if (itemStack != null) {
             if (itemStack.getTagCompound() == null) {

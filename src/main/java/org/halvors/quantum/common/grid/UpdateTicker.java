@@ -19,10 +19,7 @@ public class UpdateTicker extends Thread {
     // For queuing Forge events to be invoked the next tick.
     private final Queue<Event> queuedEvents = new ConcurrentLinkedQueue<>();
 
-    private boolean pause = false;
-
-    // The time in milliseconds between successive updates.
-    private long deltaTime;
+    private boolean paused = false;
 
     public UpdateTicker() {
         setName(Reference.NAME);
@@ -47,12 +44,7 @@ public class UpdateTicker extends Thread {
 
     @Override
     public void run() {
-        long last = System.currentTimeMillis();
-
-        while (!pause) {
-            long current = System.currentTimeMillis();
-            deltaTime = current - last;
-
+        while (!paused) {
             // Tick all updaters.
             synchronized (updaters) {
                 Set<IUpdate> removeUpdaters = Collections.newSetFromMap(new WeakHashMap<IUpdate, Boolean>());
@@ -85,8 +77,6 @@ public class UpdateTicker extends Thread {
                     MinecraftForge.EVENT_BUS.post(queuedEvents.poll());
                 }
             }
-
-            last = current;
 
             try {
                 Thread.sleep(50L);
