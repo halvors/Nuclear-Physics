@@ -146,7 +146,7 @@ public class BlockMachineModel extends BlockInventory {
 
         @Override
         public String getName() {
-            return name.toLowerCase();
+            return name;
         }
 
         public Class<? extends TileEntity> getTileClass() {

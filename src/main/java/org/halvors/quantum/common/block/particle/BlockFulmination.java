@@ -17,20 +17,6 @@ public class BlockFulmination extends BlockConnectedTexture {
         setResistance(25000);
     }
 
-    /*
-    @Override
-    @SideOnly(Side.CLIENT)
-    public int getRenderBlockPass() {
-        return 0;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public ISimpleBlockRenderer getRenderer() {
-        return new ConnectedTextureRenderer(this, Reference.PREFIX + "atomic_edge");
-    }
-    */
-
     @Override
     @Nonnull
     public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {

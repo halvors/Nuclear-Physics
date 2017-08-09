@@ -151,20 +151,6 @@ public class BlockElectromagnet extends BlockConnectedTexture {
         return getMetaFromState(state);
     }
 
-    /*
-    @Override
-    @SideOnly(Side.CLIENT)
-    public ISimpleBlockRenderer getRenderer() {
-        return new ConnectedTextureRenderer(this, Reference.PREFIX + "atomic_edge");
-    }
-
-    @Override
-    public boolean canRenderInLayer(BlockRenderLayer layer) {
-        //return layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.TRANSLUCENT;
-        return true;
-    }
-    */
-
     @Override
     protected boolean canConnect(@Nonnull IBlockState originalState, @Nonnull IBlockState connectedState) {
         if (originalState.getBlock() == connectedState.getBlock()) {
@@ -195,7 +181,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
         @Override
         public String getName() {
-            return name.toLowerCase();
+            return name;
         }
     }
 }
