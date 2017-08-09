@@ -79,12 +79,15 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     @SideOnly(Side.CLIENT)
+    @Nonnull
     public AxisAlignedBB getRenderBoundingBox() {
-        return new AxisAlignedBB(pos.getX() - multiBlockRadius, pos.getY() - multiBlockRadius, pos.getZ() - multiBlockRadius, pos.getX() + 1 + multiBlockRadius, pos.getY() + 1 + multiBlockRadius, pos.getZ() + 1 + multiBlockRadius);
+        return new AxisAlignedBB(pos.getX() - multiBlockRadius, pos.getY() - multiBlockRadius, pos.getZ() - multiBlockRadius, pos.getX() + multiBlockRadius, pos.getY() + multiBlockRadius, pos.getZ() + multiBlockRadius);
     }
 
     @Override
     public void update() {
+        super.update();
+
         if (getMultiBlock().isConstructed()) {
             torque = defaultTorque * 500 * getArea();
         } else {
@@ -113,8 +116,6 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 }
 
                 if (power > 0) {
-                    Quantum.getLogger().info("Power is more than zero.");
-
                     energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
                     generateEnergy();
                 }
@@ -150,7 +151,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        multiBlockRadius = tag.getInteger("multiBlockRadius");
+        //multiBlockRadius = tag.getInteger("multiBlockRadius");
         getMultiBlock().readFromNBT(tag);
         CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
     }
@@ -159,7 +160,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("multiBlockRadius", multiBlockRadius);
+        //tag.setInteger("multiBlockRadius", multiBlockRadius);
         getMultiBlock().writeToNBT(tag);
         tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 

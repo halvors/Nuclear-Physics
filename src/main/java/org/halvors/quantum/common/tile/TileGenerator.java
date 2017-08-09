@@ -10,6 +10,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
+import org.halvors.quantum.common.Quantum;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
@@ -63,6 +64,8 @@ public class TileGenerator extends TileQuantum implements ITickable {
         return tag;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
         return (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
@@ -78,6 +81,8 @@ public class TileGenerator extends TileQuantum implements ITickable {
 
         return super.getCapability(capability, facing);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public EnumSet<EnumFacing> getExtractingDirections() {
         return EnumSet.noneOf(EnumFacing.class);

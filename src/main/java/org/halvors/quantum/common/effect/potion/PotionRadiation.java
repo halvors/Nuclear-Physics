@@ -4,6 +4,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import org.halvors.quantum.common.effect.poison.PoisonRadiation;
 
+import javax.annotation.Nonnull;
+
 public class PotionRadiation extends CustomPotion {
     private static final PotionRadiation instance = new PotionRadiation(true, 0x4e9331, "radiation");
 
@@ -14,7 +16,7 @@ public class PotionRadiation extends CustomPotion {
     }
 
     @Override
-    public void performEffect(EntityLivingBase entity, int amplifier) {
+    public void performEffect(@Nonnull EntityLivingBase entity, int amplifier) {
         if (entity.getEntityWorld().rand.nextFloat() > 0.9D - amplifier * 0.07D) {
             entity.attackEntityFrom(PoisonRadiation.getDamageSource(), 1.0F);
 
