@@ -18,7 +18,7 @@ import java.util.Map.Entry;
 public class ThermalGrid implements IUpdate {
     private static final HashMap<Pair<World, BlockPos>, Float> thermalSource = new HashMap<>();
 
-    public static final float spread = 1 / 7F;
+    private static final float spread = 1 / 7F;
     private static final float deltaTime = 1 / 20F;
 
     public static float getDefaultTemperature(World world, BlockPos pos) {
@@ -75,11 +75,11 @@ public class ThermalGrid implements IUpdate {
 
                     float deltaTemperature = getTemperature(world, pos) - getTemperature(world, adjacentPos);
                     Material adjacentMaterial = world.getBlockState(adjacentPos).getBlock().getBlockState().getBaseState().getMaterial();
-                    float spread = (adjacentMaterial.isSolid() ? this.spread : this.spread / 2) * deltaTime;
+                    float deltaSpread = (adjacentMaterial.isSolid() ? spread : spread / 2) * deltaTime;
 
                     if (deltaTemperature > 0) {
-                        addTemperature(world, adjacentPos, deltaTemperature * spread);
-                        addTemperature(world, pos, -deltaTemperature * spread);
+                        addTemperature(world, adjacentPos, deltaTemperature * deltaSpread);
+                        addTemperature(world, pos, -deltaTemperature * deltaSpread);
                     }
                 }
             }
