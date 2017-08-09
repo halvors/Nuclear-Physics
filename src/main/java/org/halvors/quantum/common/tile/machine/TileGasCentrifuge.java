@@ -60,7 +60,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
             private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
                 switch (slot) {
                     case 0: // Battery input slot.
-                        return itemStack.hasCapability(CapabilityEnergy.ENERGY, null);
+                        return EnergyUtility.canBeDischarged(itemStack);
 
                     case 1: // Input tank drain slot.
                         return OreDictionaryHelper.isEmptyCell(itemStack); // TODO: Add uranium hexaflouride container here.

@@ -158,160 +158,158 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
             if (tank.getFluidAmount() > 0) {
                 getMultiBlock().get().getTank().fillInternal(tank.drainInternal(tank.getCapacity(), true), true);
             }
-        } else {
-            if (tank.getFluid() != null && tank.getFluid().getFluid() == QuantumFluids.plasma) {
-                // Spawn plasma.
-                FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
+        }
 
-                if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
-                    EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
-                    BlockPos spawnPos = pos.offset(spawnDir, 2).up(Math.max(world.rand.nextInt(getHeight()) - 1, 0));
+        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().getFluid() == QuantumFluids.plasma) {
+            // Spawn plasma.
+            FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
 
-                    if (world.isAirBlock(spawnPos)) {
-                        MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(world, spawnPos, TilePlasma.plasmaMaxTemperature));
-                        tank.drainInternal(Fluid.BUCKET_VOLUME, true);
-                    }
+            if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
+                EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
+                BlockPos spawnPos = pos.offset(spawnDir, 2).up(Math.max(world.rand.nextInt(getHeight()) - 1, 0));
+
+                if (world.isAirBlock(spawnPos)) {
+                    MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(world, spawnPos, TilePlasma.plasmaMaxTemperature));
+                    tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                 }
-            } else {
-                Quantum.getLogger().info("Height is: " + getHeightIndex());
+            }
+        } else {
+            previousInternalEnergy = internalEnergy;
 
-                previousInternalEnergy = internalEnergy;
+            // Handle cell rod interactions.
+            ItemStack fuelRod = getMultiBlock().get().getInventory().getStackInSlot(0);
 
-                // Handle cell rod interactions.
-                ItemStack fuelRod = getMultiBlock().get().getInventory().getStackInSlot(0);
+            if (fuelRod != null) {
+                if (fuelRod.getItem() instanceof IReactorComponent) {
+                    // Activate rods.
+                    IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
+                    reactorComponent.onReact(fuelRod, this);
 
-                if (fuelRod != null) {
-                    if (fuelRod.getItem() instanceof IReactorComponent) {
-                        // Activate rods.
-                        IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
-                        reactorComponent.onReact(fuelRod, this);
+                    if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
+                        getMultiBlock().get().getInventory().setStackInSlot(0, null);
+                    }
 
-                        if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
-                            getMultiBlock().get().getInventory().setStackInSlot(0, null);
-                        }
+                    // Emit radiation.
+                    if (world.getTotalWorldTime() % 20 == 0) {
+                        if (world.rand.nextFloat() > 0.65) {
+                            List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - radius * 2, pos.getY() - radius * 2, pos.getZ() - radius * 2, pos.getX() + radius * 2, pos.getY() + radius * 2, pos.getZ() + radius * 2));
 
-                        // Emit radiation.
-                        if (world.getTotalWorldTime() % 20 == 0) {
-                            if (world.rand.nextFloat() > 0.65) {
-                                List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - radius * 2, pos.getY() - radius * 2, pos.getZ() - radius * 2, pos.getX() + radius * 2, pos.getY() + radius * 2, pos.getZ() + radius * 2));
-
-                                for (EntityLiving entity : entities) {
-                                    PoisonRadiation.getInstance().poisonEntity(pos, entity);
-                                }
+                            for (EntityLiving entity : entities) {
+                                PoisonRadiation.getInstance().poisonEntity(pos, entity);
                             }
                         }
                     }
                 }
+            }
 
-                // Update the temperature from the thermal grid.
-                temperature = ThermalGrid.getTemperature(world, pos);
+            // Update the temperature from the thermal grid.
+            temperature = ThermalGrid.getTemperature(world, pos);
 
-                // Only a small percentage of the internal energy is used for temperature.
-                if ((internalEnergy - previousInternalEnergy) > 0) {
-                    float deltaT = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
+            // Only a small percentage of the internal energy is used for temperature.
+            if ((internalEnergy - previousInternalEnergy) > 0) {
+                float deltaT = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
 
-                    // Check control rods.
-                    for (EnumFacing side : EnumFacing.HORIZONTALS) {
-                        BlockPos checkPos = pos.offset(side);
+                // Check control rods.
+                for (EnumFacing side : EnumFacing.HORIZONTALS) {
+                    BlockPos checkPos = pos.offset(side);
 
-                        if (world.getBlockState(checkPos).getBlock() == QuantumBlocks.blockControlRod) {
-                            deltaT /= 1.1;
-                        }
+                    if (world.getBlockState(checkPos).getBlock() == QuantumBlocks.blockControlRod) {
+                        deltaT /= 1.1;
                     }
+                }
 
-                    // Add heat to surrounding blocks in the thermal grid.
-                    ThermalGrid.addTemperature(world, pos, deltaT);
+                // Add heat to surrounding blocks in the thermal grid.
+                ThermalGrid.addTemperature(world, pos, deltaT);
 
-                    // Sound of lava flowing randomly plays when above temperature to boil water.
-                    if (world.rand.nextInt(80) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                        // TODO: Only do this is there is a water block nearby.
-                        world.playSound(null, pos, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
-                    }
+                // Sound of lava flowing randomly plays when above temperature to boil water.
+                if (world.rand.nextInt(80) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                    // TODO: Only do this is there is a water block nearby.
+                    world.playSound(null, pos, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
+                }
 
-                    // Sounds of lava popping randomly plays when above temperature to boil water.
-                    if (world.rand.nextInt(40) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                        // TODO: Only do this is there is a water block nearby.
-                        world.playSound(null, pos, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
-                    }
+                // Sounds of lava popping randomly plays when above temperature to boil water.
+                if (world.rand.nextInt(40) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                    // TODO: Only do this is there is a water block nearby.
+                    world.playSound(null, pos, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+                }
 
-                    // Reactor cell plays random idle noises while operating and above temperature to boil water.
-                    if (world.getWorldTime() % 100 == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                        float percentage = Math.min(getTemperature() / meltingPoint, 1.0F);
+                // Reactor cell plays random idle noises while operating and above temperature to boil water.
+                if (world.getWorldTime() % 100 == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                    float percentage = Math.min(getTemperature() / meltingPoint, 1.0F);
 
-                        world.playSound(null, pos, QuantumSoundEvents.REACTOR_CELL, SoundCategory.BLOCKS, percentage, 1);
-                    }
+                    world.playSound(null, pos, QuantumSoundEvents.REACTOR_CELL, SoundCategory.BLOCKS, percentage, 1);
+                }
 
-                    if (previousTemperature != temperature && !shouldUpdate) {
+                if (previousTemperature != temperature && !shouldUpdate) {
+                    shouldUpdate = true;
+                    previousTemperature = temperature;
+                }
+
+                // If temperature is over the melting point of the reactor, either increase counter or melt down.
+                if (previousTemperature >= meltingPoint) {
+                    if (meltdownCounter < meltdownCounterMaximum) {
                         shouldUpdate = true;
-                        previousTemperature = temperature;
-                    }
+                        meltdownCounter++;
+                    } else if (meltdownCounter >= meltdownCounterMaximum) {
+                        meltdownCounter = 0;
+                        meltDown();
 
-                    // If temperature is over the melting point of the reactor, either increase counter or melt down.
-                    if (previousTemperature >= meltingPoint) {
-                        if (meltdownCounter < meltdownCounterMaximum) {
-                            shouldUpdate = true;
-                            meltdownCounter++;
-                        } else if (meltdownCounter >= meltdownCounterMaximum) {
-                            meltdownCounter = 0;
-                            meltDown();
-
-                            return;
-                        }
-                    }
-
-                    // If reactor temperature is below meltingPoint and meltdownCounter is over 0, decrease it.
-                    if (previousTemperature < meltingPoint && meltdownCounter > 0) {
-                        meltdownCounter--;
+                        return;
                     }
                 }
 
-                internalEnergy = 0;
+                // If reactor temperature is below meltingPoint and meltdownCounter is over 0, decrease it.
+                if (previousTemperature < meltingPoint && meltdownCounter > 0) {
+                    meltdownCounter--;
+                }
+            }
 
-                if (isOverToxic()) {
-                    // Randomly leak toxic waste when it is too toxic.
-                    BlockPos leakPos = pos.add(world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10);
-                    Block block = world.getBlockState(leakPos).getBlock();
+            internalEnergy = 0;
 
-                    if (block == Blocks.GRASS) {
-                        world.setBlockState(leakPos, QuantumBlocks.blockRadioactiveGrass.getDefaultState());
+            if (isOverToxic()) {
+                // Randomly leak toxic waste when it is too toxic.
+                BlockPos leakPos = pos.add(world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10);
+                Block block = world.getBlockState(leakPos).getBlock();
+
+                if (block == Blocks.GRASS) {
+                    world.setBlockState(leakPos, QuantumBlocks.blockRadioactiveGrass.getDefaultState());
+                    tank.drainInternal(Fluid.BUCKET_VOLUME, true);
+                } else if (world.isAirBlock(leakPos) || block.isReplaceable(world, leakPos)) {
+                    FluidStack fluidStack = tank.getFluid();
+
+                    if (fluidStack != null) {
+                        world.setBlockState(leakPos, fluidStack.getFluid().getBlock().getDefaultState());
                         tank.drainInternal(Fluid.BUCKET_VOLUME, true);
-                    } else if (world.isAirBlock(leakPos) || block.isReplaceable(world, leakPos)) {
-                        FluidStack fluidStack = tank.getFluid();
-
-                        if (fluidStack != null) {
-                            world.setBlockState(leakPos, fluidStack.getFluid().getBlock().getDefaultState());
-                            tank.drainInternal(Fluid.BUCKET_VOLUME, true);
-                        }
                     }
                 }
+            }
 
-                if (world.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
-                    shouldUpdate = false;
-                    world.notifyNeighborsOfStateChange(pos, blockType);
+            if (world.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
+                shouldUpdate = false;
+                world.notifyNeighborsOfStateChange(pos, blockType);
 
-                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
-                }
+                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            }
 
-                if (world.isRemote && fuelRod != null) {
-                    // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
-                    if (getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                        if (world.rand.nextInt(5) == 0) {
-                            world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextInt(2), pos.getY() + 1, pos.getZ() + world.rand.nextInt(2), 0, 0.1, 0);
+            if (world.isRemote && fuelRod != null) {
+                // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
+                if (getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                    if (world.rand.nextInt(5) == 0) {
+                        world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextInt(2), pos.getY() + 1, pos.getZ() + world.rand.nextInt(2), 0, 0.1, 0);
 
-                            // Only show particle effects when there is water block nearby.
-                            for (int x = -radius; x <= radius; x++) {
-                                for (int z = -radius; z <= radius; z++) {
-                                    BlockPos spawnPos = pos.add(x, 0, z);
-                                    IBlockState state = world.getBlockState(spawnPos);
+                        // Only show particle effects when there is water block nearby.
+                        for (int x = -radius; x <= radius; x++) {
+                            for (int z = -radius; z <= radius; z++) {
+                                BlockPos spawnPos = pos.add(x, 0, z);
+                                IBlockState state = world.getBlockState(spawnPos);
 
-                                    if (state == Blocks.WATER.getDefaultState()) {
-                                        if (world.rand.nextInt(10) == 0 && world.isAirBlock(pos.up())) {
-                                            world.spawnParticle(EnumParticleTypes.CLOUD, spawnPos.getX() + world.rand.nextFloat(), spawnPos.getY() + 1, spawnPos.getZ() + world.rand.nextFloat(), 0, 0.05, 0);
-                                        }
+                                if (state == Blocks.WATER.getDefaultState()) {
+                                    if (world.rand.nextInt(10) == 0 && world.isAirBlock(pos.up())) {
+                                        world.spawnParticle(EnumParticleTypes.CLOUD, spawnPos.getX() + world.rand.nextFloat(), spawnPos.getY() + 1, spawnPos.getZ() + world.rand.nextFloat(), 0, 0.05, 0);
+                                    }
 
-                                        if (world.rand.nextInt(5) == 0) {
-                                            world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, spawnPos.getX() + world.rand.nextFloat(), spawnPos.getY() + 0.5, spawnPos.getZ() + world.rand.nextFloat(), 0, 0.05, 0);
-                                        }
+                                    if (world.rand.nextInt(5) == 0) {
+                                        world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, spawnPos.getX() + world.rand.nextFloat(), spawnPos.getY() + 0.5, spawnPos.getZ() + world.rand.nextFloat(), 0, 0.05, 0);
                                     }
                                 }
                             }

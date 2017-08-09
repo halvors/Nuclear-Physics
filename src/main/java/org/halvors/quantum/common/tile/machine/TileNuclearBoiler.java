@@ -31,7 +31,7 @@ public class TileNuclearBoiler extends TileProcess {
             private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
                 switch (slot) {
                     case 0: // Battery input slot.
-                        return itemStack.hasCapability(CapabilityEnergy.ENERGY, null);
+                        return EnergyUtility.canBeDischarged(itemStack);
 
                     case 1: // Item input slot.
                         return OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack);

@@ -10,6 +10,9 @@ Porting to 1.10.2 from 1.7.10:
     - Check if auto transferring of fluids between machines is working.
     - Make reactor cell spawn particles based on temperature, use Math.getExponent().
 
+    - Debug and sort out how reactor multi-blocks actually work.
+    - Make sure only one tile entity in the multi-block structure is running at the same time.
+
 General:
 
 Known bugs:
