@@ -1,7 +1,11 @@
 package org.halvors.quantum.common.utility;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -21,6 +25,46 @@ public class InventoryUtility {
 
         if (itemStack != null) {
             itemHandler.extractItem(slot, 1, false);
+        }
+    }
+
+    public static NBTTagCompound getNBTTagCompound(ItemStack itemStack) {
+        if (itemStack != null) {
+            if (itemStack.getTagCompound() == null) {
+                itemStack.setTagCompound(new NBTTagCompound());
+            }
+
+            return itemStack.getTagCompound();
+        }
+
+        return null;
+    }
+
+    public static ItemStack getItemStackWithNBT(IBlockState state, World world, BlockPos pos) {
+        if (state != null) {
+            Block block = state.getBlock();
+            ItemStack dropStack = new ItemStack(block, block.quantityDropped(state, 0, world.rand), block.damageDropped(state));
+            TileEntity tile = world.getTileEntity(pos);
+
+            if (tile != null) {
+                NBTTagCompound tag = new NBTTagCompound();
+                tile.writeToNBT(tag);
+                dropStack.setTagCompound(tag);
+            }
+
+            return dropStack;
+        }
+
+        return null;
+    }
+
+    public static void dropBlockWithNBT(IBlockState state, World world, BlockPos pos) {
+        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops")) {
+            ItemStack itemStack = getItemStackWithNBT(state, world, pos);
+
+            if (itemStack != null) {
+                InventoryUtility.dropItemStack(world, pos, itemStack);
+            }
         }
     }
 

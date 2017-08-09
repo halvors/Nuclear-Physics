@@ -104,6 +104,18 @@ public class Position {
         return z;
     }
 
+    public int getIntX() {
+        return (int) Math.floor(x);
+    }
+
+    public int getIntY() {
+        return (int) Math.floor(y);
+    }
+
+    public int getIntZ() {
+        return (int) Math.floor(z);
+    }
+
     public BlockPos getPos() {
         return new BlockPos(x, y, z);
     }

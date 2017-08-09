@@ -18,7 +18,7 @@ public class TileThermometer extends TileRotatable implements ITickable {
     private static final int maxThreshold = 5000;
     private float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
     private float previousDetectedTemperature = detectedTemperature; // Synced
-    private Position trackCoordinate; // Synced
+    private Position trackCoordinate = null; // Synced
     private int threshold = 1000; // Synced
     public boolean isProvidingPower = false; // Synced
 
@@ -34,7 +34,7 @@ public class TileThermometer extends TileRotatable implements ITickable {
             if (world.getWorldTime() % 10 == 0) {
                 // Grab temperature from target or from ourselves.
                 if (trackCoordinate != null) {
-                    detectedTemperature = ThermalGrid.getTemperature(world, new BlockPos(trackCoordinate.getX(), trackCoordinate.getY(), trackCoordinate.getZ()));
+                    detectedTemperature = ThermalGrid.getTemperature(world, trackCoordinate.getPos());
                 } else {
                     detectedTemperature = ThermalGrid.getTemperature(world, pos);
                 }
@@ -59,8 +59,6 @@ public class TileThermometer extends TileRotatable implements ITickable {
 
         if (tag.hasKey("trackCoordinate")) {
             trackCoordinate = new Position(tag.getCompoundTag("trackCoordinate"));
-        } else {
-            trackCoordinate = null;
         }
     }
 
@@ -68,6 +66,7 @@ public class TileThermometer extends TileRotatable implements ITickable {
     @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
+
         tag.setInteger("threshold", threshold);
 
         if (trackCoordinate != null) {
@@ -83,15 +82,17 @@ public class TileThermometer extends TileRotatable implements ITickable {
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
-        detectedTemperature = dataStream.readFloat();
-        previousDetectedTemperature = dataStream.readFloat();
+        if (world.isRemote) {
+            detectedTemperature = dataStream.readFloat();
+            previousDetectedTemperature = dataStream.readFloat();
 
-        if (dataStream.readBoolean()) {
-            trackCoordinate = new Position(dataStream);
+            if (dataStream.readBoolean()) {
+                trackCoordinate = new Position(dataStream);
+            }
+
+            threshold = dataStream.readInt();
+            isProvidingPower = dataStream.readBoolean();
         }
-
-        threshold = dataStream.readInt();
-        isProvidingPower = dataStream.readBoolean();
     }
 
     @Override
@@ -103,7 +104,7 @@ public class TileThermometer extends TileRotatable implements ITickable {
 
         if (trackCoordinate != null) {
             objects.add(true);
-            objects = trackCoordinate.getPacketData(objects);
+            trackCoordinate.getPacketData(objects);
         } else {
             objects.add(false);
         }
@@ -122,9 +123,6 @@ public class TileThermometer extends TileRotatable implements ITickable {
 
     public void setTrackCoordinate(Position trackCoordinate) {
         this.trackCoordinate = trackCoordinate;
-
-        // Update the server side with this new coordinate.
-        Quantum.getPacketHandler().sendToServer(new PacketTileEntity(this));
     }
 
     public int getThershold() {

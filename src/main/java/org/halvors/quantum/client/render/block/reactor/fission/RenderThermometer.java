@@ -6,6 +6,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
+import org.halvors.quantum.common.utility.position.Position;
 import org.halvors.quantum.common.utility.type.Color;
 
 @SideOnly(Side.CLIENT)
@@ -18,8 +19,10 @@ public class RenderThermometer extends TileEntitySpecialRenderer<TileThermometer
         RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.BLACK) + Integer.toString(Math.round(tile.getDetectedTemperature())) + " K", tile.getFacing(), 0.8F, x, y + 0.1, z);
         RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.DARK_BLUE) + "Threshold: " + (tile.getThershold()) + " K", tile.getFacing(), 1, x, y - 0.1, z);
 
+        Position trackCoordinate = tile.getTrackCoordinate();
+
         if (tile.getTrackCoordinate() != null) {
-            RenderUtility.renderText(tile.getTrackCoordinate().getX() + ", " + tile.getTrackCoordinate().getY() + ", " + tile.getTrackCoordinate().getZ(), tile.getFacing(), 0.5F, x, y - 0.3, z);
+            RenderUtility.renderText(trackCoordinate.getIntX() + ", " + trackCoordinate.getIntY() + ", " + trackCoordinate.getIntZ(), tile.getFacing(), 0.5F, x, y - 0.3, z);
         }
 
         GlStateManager.popMatrix();
