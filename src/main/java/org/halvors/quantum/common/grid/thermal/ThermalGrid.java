@@ -18,8 +18,8 @@ import java.util.Map.Entry;
 public class ThermalGrid implements IUpdate {
     private static final HashMap<Pair<World, BlockPos>, Float> thermalSource = new HashMap<>();
 
-    private final float spread = 1 / 7;
-    private final float deltaTime = 1 / 20;
+    public static final float spread = 1 / 7F;
+    private static final float deltaTime = 1 / 20F;
 
     public static float getDefaultTemperature(World world, BlockPos pos) {
         return ThermalPhysics.getTemperatureForCoordinate(world, pos);
