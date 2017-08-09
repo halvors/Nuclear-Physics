@@ -81,7 +81,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     @SideOnly(Side.CLIENT)
     @Nonnull
     public AxisAlignedBB getRenderBoundingBox() {
-        return new AxisAlignedBB(pos.getX() - multiBlockRadius, pos.getY(), pos.getZ() - multiBlockRadius, pos.getX() + 1 + multiBlockRadius, pos.getY(), pos.getZ() + 1 + multiBlockRadius);
+        return new AxisAlignedBB(pos.getX() - multiBlockRadius, pos.getY(), pos.getZ() - multiBlockRadius, pos.getX() + 1 + multiBlockRadius, pos.getY() + 1, pos.getZ() + 1 + multiBlockRadius);
     }
 
     @Override
