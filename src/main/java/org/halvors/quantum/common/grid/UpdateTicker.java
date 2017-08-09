@@ -50,7 +50,6 @@ public class UpdateTicker extends Thread {
         long last = System.currentTimeMillis();
 
         while (!pause) {
-            // theProfiler.profilingEnabled = true;
             long current = System.currentTimeMillis();
             deltaTime = current - last;
 
