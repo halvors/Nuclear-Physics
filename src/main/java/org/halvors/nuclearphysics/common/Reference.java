@@ -9,7 +9,7 @@ public class Reference {
 	/**
 	 * The official name of the mod.
 	 */
-	public static final String ID = "nuclear-physics";
+	public static final String ID = "nuclearphysics";
 	public static final String NAME = "Nuclear Physics";
 	public static final String VERSION = "@version";
 
