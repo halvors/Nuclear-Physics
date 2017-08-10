@@ -67,7 +67,7 @@ public class SchematicFissionReactor implements ISchematic {
                                     }
                                 }
 
-                                map.put(new BlockPos(targetPosition.clone().translate(offset).getX(), targetPosition.clone().translate(offset).getY(), targetPosition.clone().translate(offset).getZ()), Blocks.STICKY_PISTON.getStateFromMeta(rotationMetadata));
+                                map.put(new BlockPos(targetPosition.translate(offset).getX(), targetPosition.translate(offset).getY(), targetPosition.translate(offset).getZ()), Blocks.STICKY_PISTON.getStateFromMeta(rotationMetadata));
                             } else if (x == -radius || x == radius || z == -radius || z == radius) {
                                 map.put(targetPos, Blocks.GLASS.getDefaultState());
                             } else if (x == 0 && z == 0) {

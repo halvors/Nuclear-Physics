@@ -9,35 +9,37 @@ import org.halvors.quantum.common.utility.LanguageUtility;
  * @author aidanBrady
  */
 public enum Color {
-	BLACK("\u00a70", "black", new int[] { 0, 0, 0 }, 0),
-	DARK_BLUE("\u00a71", "darkBlue", new int[] { 0, 0, 170 }, 4),
-	DARK_GREEN("\u00a72", "darkGreen", new int[] { 0, 170, 0 }, 2),
-	DARK_AQUA("\u00a73", "darkAqua", new int[] { 0, 255, 255 }, 6),
-	DARK_RED("\u00a74", "darkRed", new int[] { 170, 0, 0 }, -1),
-	PURPLE("\u00a75", "purple", new int[] { 170, 0, 170 }, 5),
-	ORANGE("\u00a76", "orange", new int[] { 255, 170, 0 }, 14),
-	GREY("\u00a77", "grey", new int[] { 170, 170, 170 }, 7),
-	DARK_GREY("\u00a78", "darkGrey", new int[] { 85, 85, 85 }, 8),
-	INDIGO("\u00a79", "indigo", new int[] { 85, 85, 255 }, 12),
-	BRIGHT_GREEN("\u00a7a", "brightGreen", new int[] { 85, 255, 85 }, 10),
-	AQUA("\u00a7b", "aqua", new int[] { 85, 255, 255 }, -1),
-	RED("\u00a7c", "red", new int[] { 255, 0, 0 }, 1),
-	PINK("\u00a7d", "pink", new int[] { 255, 85, 255 }, 13),
-	YELLOW("\u00a7e", "yellow", new int[] { 255, 255, 85 }, 11),
-	WHITE("\u00a7f", "white", new int[] { 255, 255, 255 }, 15),
+	BLACK(	     "\u00a70", "black",       new int[] { 0,   0,   0 },   0x000000, 0),
+	DARK_BLUE(   "\u00a71", "darkBlue",    new int[] { 0,   0,   170 }, 0x0000AA, 4),
+	DARK_GREEN(  "\u00a72", "darkGreen",   new int[] { 0,   170, 0 },   0x00AA00, 2),
+	DARK_AQUA(   "\u00a73", "darkAqua",    new int[] { 0,   255, 255 }, 0x00FFFF, 6),
+	DARK_RED(    "\u00a74", "darkRed",     new int[] { 170, 0,   0 },   0xAA0000, -1),
+	PURPLE(      "\u00a75", "purple",      new int[] { 170, 0,   170 }, 0xAA00AA, 5),
+	ORANGE(      "\u00a76", "orange",      new int[] { 255, 170, 0 },   0xFFAA00, 14),
+	GREY(        "\u00a77", "grey",        new int[] { 170, 170, 170 }, 0xAAAAAA, 7),
+	DARK_GREY(   "\u00a78", "darkGrey",    new int[] { 85,  85,  85 },  0x555555, 8),
+	INDIGO(		 "\u00a79", "indigo",      new int[] { 85,  85,  255 }, 0x5555FF, 12),
+	BRIGHT_GREEN("\u00a7a", "brightGreen", new int[] { 85,  255, 85 },  0x55FF55, 10),
+	AQUA(		 "\u00a7b", "aqua", 	   new int[] { 85,  255, 255 }, 0x55FFFF, -1),
+	RED(		 "\u00a7c", "red", 		   new int[] { 255, 0,   0 },   0xFF0000, 1),
+	PINK(		 "\u00a7d", "pink", 	   new int[] { 255, 85,  255 }, 0xFF55FF, 13),
+	YELLOW(		 "\u00a7e", "yellow", 	   new int[] { 255, 255, 85 },  0xFFFF55, 11),
+	WHITE(		 "\u00a7f", "white", 	   new int[] { 255, 255, 255 }, 0xFFFFFF, 15),
 	//Extras for dye-completeness
-	BROWN("\u00a76", "brown", new int[] { 150, 75, 0 }, 3),
-	BRIGHT_PINK("\u00a7d", "brightPink", new int[] { 255, 192, 203 }, 9);
+	BROWN(		 "\u00a76", "brown", 	   new int[] { 150, 75,  0 },   0x964B00, 3),
+	BRIGHT_PINK( "\u00a7d", "brightPink",  new int[] { 255, 192, 203 }, 0xFFC0CB, 9);
 
 	private final String code;
 	private final String name;
 	private final int[] rgbCode;
+	private final int hex;
 	private final int meta;
 
-	Color(String code, String name, int[] rgbCode, int meta) {
+	Color(String code, String name, int[] rgbCode, int hex, int meta) {
 		this.code = code;
 		this.name = name;
 		this.rgbCode = rgbCode;
+		this.hex = hex;
 		this.meta = meta;
 	}
 
@@ -65,6 +67,11 @@ public enum Color {
 	public float getColor(int index) {
 		return (float) rgbCode[index] / 255F;
 	}
+
+	public int getHex() {
+		return hex;
+	}
+
 	/**
 	 * Gets the value of this color mapped to MC in-game item colors present in dyes and wool.
 	 * @return mc meta value

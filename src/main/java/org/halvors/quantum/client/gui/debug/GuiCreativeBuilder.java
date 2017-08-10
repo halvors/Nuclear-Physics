@@ -11,10 +11,12 @@ import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.debug.BlockCreativeBuilder;
+import org.halvors.quantum.common.block.machine.BlockMachineModel;
 import org.halvors.quantum.common.container.ContainerDummy;
 import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.ResourceUtility;
+import org.halvors.quantum.common.utility.type.Color;
 import org.halvors.quantum.common.utility.type.ResourceType;
 
 import java.io.IOException;
@@ -41,13 +43,16 @@ public class GuiCreativeBuilder extends GuiContainerBase {
         super.initGui();
 
         textFieldSize = new GuiTextField(0, fontRendererObj, 45, 58, 50, 12);
+
         buttonList.add(new GuiButton(0, width / 2 - 80, height / 2 - 10, 58, 20, "Build"));
         buttonList.add(new GuiButton(1, width / 2 - 50, height / 2 - 35, 120, 20, "Mode"));
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString("Creative Builder", 60, 6, 0x404040);
+        String name = "Creative Builder";
+
+        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
         fontRendererObj.drawString("This is a creative only cheat", 9, 20, 0x404040);
         fontRendererObj.drawString("which allows you to auto build", 9, 30, 0x404040);
         fontRendererObj.drawString("structures for testing.", 9, 40, 0x404040);
@@ -59,9 +64,9 @@ public class GuiCreativeBuilder extends GuiContainerBase {
         fontRendererObj.drawString("Mode: ", 9, 80, 0x404040);
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-        fontRendererObj.drawString("Warning!", 9, 130, 0x404040);
-        fontRendererObj.drawString("This will replace blocks without", 9, 140, 0x404040);
-        fontRendererObj.drawString("dropping it! You may lose items.", 9, 150, 0x404040);
+        fontRendererObj.drawString("Warning!", 9, 130, Color.DARK_RED.getHex());
+        fontRendererObj.drawString("This will replace blocks without", 9, 140, Color.DARK_RED.getHex());
+        fontRendererObj.drawString("dropping it! You may lose items.", 9, 150, Color.DARK_RED.getHex());
     }
 
     @Override
