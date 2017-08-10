@@ -22,7 +22,7 @@
       {
         "model": "cube_all",
         "textures": {
-          "all": "nuclear-physics:fluids/plasma_still"
+          "all": "nuclearphysics:fluids/plasma_still"
         },
         "uvlock": true
       }

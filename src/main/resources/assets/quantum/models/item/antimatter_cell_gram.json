@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nuclear-physics:items/antimatter_cell_gram"
+    "layer0": "nuclearphysics:items/antimatter_cell_gram"
   }
 }

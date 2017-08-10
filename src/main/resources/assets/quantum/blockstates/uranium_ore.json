@@ -3,7 +3,7 @@
   "defaults": {
     "model": "cube_all",
     "textures": {
-      "all": "nuclear-physics:blocks/uranium_ore"
+      "all": "nuclearphysics:blocks/uranium_ore"
     },
     "uvlock": true
   },

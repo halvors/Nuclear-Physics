@@ -1,9 +1,9 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "nuclear-physics:control_rod",
+    "model": "nuclearphysics:control_rod",
     "textures": {
-      "all": "nuclear-physics:models/control_rod"
+      "all": "nuclearphysics:models/control_rod"
     },
     "transform": "forge:default-block",
     "uvlock": true

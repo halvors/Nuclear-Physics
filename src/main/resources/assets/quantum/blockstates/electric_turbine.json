@@ -4,7 +4,7 @@
     "custom": {
       "flip-v": true
     },
-    "model": "nuclear-physics:electric_turbine_small.obj",
+    "model": "nuclearphysics:electric_turbine_small.obj",
     "transform": "forge:default-block"
   },
   "variants": {

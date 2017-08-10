@@ -1,6 +1,6 @@
 {
     "__comment": "Model for when two adgacent sides are connected.",
-	"parent": "nuclear-physics:block/connected/cube",
+	"parent": "nuclearphysics:block/connected/cube",
     "textures": {
 		"particle": "#normal",
 		"down": "#dlr_top",

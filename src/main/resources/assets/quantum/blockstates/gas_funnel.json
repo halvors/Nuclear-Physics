@@ -1,40 +1,40 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "nuclear-physics:connected/connected",
+    "model": "nuclearphysics:connected/connected",
     "textures": {
-      "normal": "nuclear-physics:blocks/connected/gas_funnel/normal",
-      "normal_top": "nuclear-physics:blocks/connected/gas_funnel/normal_top",
-      "u": "nuclear-physics:blocks/connected/gas_funnel/u",
-      "u_top": "nuclear-physics:blocks/connected/gas_funnel/u_top",
-      "d": "nuclear-physics:blocks/connected/gas_funnel/d",
-      "d_top": "nuclear-physics:blocks/connected/gas_funnel/d_top",
-      "l": "nuclear-physics:blocks/connected/gas_funnel/l",
-      "l_top": "nuclear-physics:blocks/connected/gas_funnel/l_top",
-      "r": "nuclear-physics:blocks/connected/gas_funnel/r",
-      "r_top": "nuclear-physics:blocks/connected/gas_funnel/r_top",
-      "ud": "nuclear-physics:blocks/connected/gas_funnel/ud",
-      "ud_top": "nuclear-physics:blocks/connected/gas_funnel/ud_top",
-      "ul": "nuclear-physics:blocks/connected/gas_funnel/ul",
-      "ul_top": "nuclear-physics:blocks/connected/gas_funnel/ul_top",
-      "ur": "nuclear-physics:blocks/connected/gas_funnel/ur",
-      "ur_top": "nuclear-physics:blocks/connected/gas_funnel/ur_top",
-      "dl": "nuclear-physics:blocks/connected/gas_funnel/dl",
-      "dl_top": "nuclear-physics:blocks/connected/gas_funnel/dl_top",
-      "dr": "nuclear-physics:blocks/connected/gas_funnel/dr",
-      "dr_top": "nuclear-physics:blocks/connected/gas_funnel/dr_top",
-      "lr": "nuclear-physics:blocks/connected/gas_funnel/lr",
-      "lr_top": "nuclear-physics:blocks/connected/gas_funnel/lr_top",
-      "udr": "nuclear-physics:blocks/connected/gas_funnel/udr",
-      "udr_top": "nuclear-physics:blocks/connected/gas_funnel/udr_top",
-      "udl": "nuclear-physics:blocks/connected/gas_funnel/udl",
-      "udl_top": "nuclear-physics:blocks/connected/gas_funnel/udl_top",
-      "ulr": "nuclear-physics:blocks/connected/gas_funnel/ulr",
-      "ulr_top": "nuclear-physics:blocks/connected/gas_funnel/ulr_top",
-      "dlr": "nuclear-physics:blocks/connected/gas_funnel/dlr",
-      "dlr_top": "nuclear-physics:blocks/connected/gas_funnel/dlr_top",
-      "udlr": "nuclear-physics:blocks/connected/gas_funnel/udlr",
-      "udlr_top": "nuclear-physics:blocks/connected/gas_funnel/udlr_top"
+      "normal": "nuclearphysics:blocks/connected/gas_funnel/normal",
+      "normal_top": "nuclearphysics:blocks/connected/gas_funnel/normal_top",
+      "u": "nuclearphysics:blocks/connected/gas_funnel/u",
+      "u_top": "nuclearphysics:blocks/connected/gas_funnel/u_top",
+      "d": "nuclearphysics:blocks/connected/gas_funnel/d",
+      "d_top": "nuclearphysics:blocks/connected/gas_funnel/d_top",
+      "l": "nuclearphysics:blocks/connected/gas_funnel/l",
+      "l_top": "nuclearphysics:blocks/connected/gas_funnel/l_top",
+      "r": "nuclearphysics:blocks/connected/gas_funnel/r",
+      "r_top": "nuclearphysics:blocks/connected/gas_funnel/r_top",
+      "ud": "nuclearphysics:blocks/connected/gas_funnel/ud",
+      "ud_top": "nuclearphysics:blocks/connected/gas_funnel/ud_top",
+      "ul": "nuclearphysics:blocks/connected/gas_funnel/ul",
+      "ul_top": "nuclearphysics:blocks/connected/gas_funnel/ul_top",
+      "ur": "nuclearphysics:blocks/connected/gas_funnel/ur",
+      "ur_top": "nuclearphysics:blocks/connected/gas_funnel/ur_top",
+      "dl": "nuclearphysics:blocks/connected/gas_funnel/dl",
+      "dl_top": "nuclearphysics:blocks/connected/gas_funnel/dl_top",
+      "dr": "nuclearphysics:blocks/connected/gas_funnel/dr",
+      "dr_top": "nuclearphysics:blocks/connected/gas_funnel/dr_top",
+      "lr": "nuclearphysics:blocks/connected/gas_funnel/lr",
+      "lr_top": "nuclearphysics:blocks/connected/gas_funnel/lr_top",
+      "udr": "nuclearphysics:blocks/connected/gas_funnel/udr",
+      "udr_top": "nuclearphysics:blocks/connected/gas_funnel/udr_top",
+      "udl": "nuclearphysics:blocks/connected/gas_funnel/udl",
+      "udl_top": "nuclearphysics:blocks/connected/gas_funnel/udl_top",
+      "ulr": "nuclearphysics:blocks/connected/gas_funnel/ulr",
+      "ulr_top": "nuclearphysics:blocks/connected/gas_funnel/ulr_top",
+      "dlr": "nuclearphysics:blocks/connected/gas_funnel/dlr",
+      "dlr_top": "nuclearphysics:blocks/connected/gas_funnel/dlr_top",
+      "udlr": "nuclearphysics:blocks/connected/gas_funnel/udlr",
+      "udlr_top": "nuclearphysics:blocks/connected/gas_funnel/udlr_top"
     }
   },
   "variants": {
@@ -45,196 +45,196 @@
       {}
     ],
     "connected_down=false,connected_east=false,connected_north=false,connected_south=false,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected"
+      "model": "nuclearphysics:connected/connected"
     },
     "connected_down=false,connected_east=false,connected_north=false,connected_south=false,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_u"
+      "model": "nuclearphysics:connected/connected_u"
     },
     "connected_down=true,connected_east=false,connected_north=false,connected_south=false,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_d"
+      "model": "nuclearphysics:connected/connected_d"
     },
     "connected_down=false,connected_east=false,connected_north=true,connected_south=false,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_n"
+      "model": "nuclearphysics:connected/connected_n"
     },
     "connected_down=false,connected_east=false,connected_north=false,connected_south=true,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_s"
+      "model": "nuclearphysics:connected/connected_s"
     },
     "connected_down=false,connected_east=true,connected_north=false,connected_south=false,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_e"
+      "model": "nuclearphysics:connected/connected_e"
     },
     "connected_down=false,connected_east=false,connected_north=false,connected_south=false,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_w"
+      "model": "nuclearphysics:connected/connected_w"
     },
     "connected_down=false,connected_east=true,connected_north=false,connected_south=false,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_ue"
+      "model": "nuclearphysics:connected/connected_ue"
     },
     "connected_down=false,connected_east=false,connected_north=false,connected_south=false,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_uw"
+      "model": "nuclearphysics:connected/connected_uw"
     },
     "connected_down=true,connected_east=true,connected_north=false,connected_south=false,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_de"
+      "model": "nuclearphysics:connected/connected_de"
     },
     "connected_down=true,connected_east=false,connected_north=false,connected_south=false,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_dw"
+      "model": "nuclearphysics:connected/connected_dw"
     },
     "connected_down=false,connected_east=false,connected_north=true,connected_south=false,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_un"
+      "model": "nuclearphysics:connected/connected_un"
     },
     "connected_down=false,connected_east=false,connected_north=false,connected_south=true,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_us"
+      "model": "nuclearphysics:connected/connected_us"
     },
     "connected_down=true,connected_east=false,connected_north=true,connected_south=false,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_dn"
+      "model": "nuclearphysics:connected/connected_dn"
     },
     "connected_down=true,connected_east=false,connected_north=false,connected_south=true,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_ds"
+      "model": "nuclearphysics:connected/connected_ds"
     },
     "connected_down=false,connected_east=true,connected_north=true,connected_south=false,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_ne"
+      "model": "nuclearphysics:connected/connected_ne"
     },
     "connected_down=false,connected_east=true,connected_north=false,connected_south=true,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_se"
+      "model": "nuclearphysics:connected/connected_se"
     },
     "connected_down=false,connected_east=false,connected_north=true,connected_south=false,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_nw"
+      "model": "nuclearphysics:connected/connected_nw"
     },
     "connected_down=false,connected_east=false,connected_north=false,connected_south=true,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_sw"
+      "model": "nuclearphysics:connected/connected_sw"
     },
     "connected_down=true,connected_east=false,connected_north=false,connected_south=false,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_ud"
+      "model": "nuclearphysics:connected/connected_ud"
     },
     "connected_down=false,connected_east=true,connected_north=false,connected_south=false,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_we"
+      "model": "nuclearphysics:connected/connected_we"
     },
     "connected_down=false,connected_east=false,connected_north=true,connected_south=true,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_ns"
+      "model": "nuclearphysics:connected/connected_ns"
     },
     "connected_down=true,connected_east=false,connected_north=true,connected_south=false,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_udn"
+      "model": "nuclearphysics:connected/connected_udn"
     },
     "connected_down=true,connected_east=false,connected_north=false,connected_south=true,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_uds"
+      "model": "nuclearphysics:connected/connected_uds"
     },
     "connected_down=true,connected_east=true,connected_north=false,connected_south=false,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_ude"
+      "model": "nuclearphysics:connected/connected_ude"
     },
     "connected_down=true,connected_east=false,connected_north=false,connected_south=false,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_udw"
+      "model": "nuclearphysics:connected/connected_udw"
     },
     "connected_down=false,connected_east=false,connected_north=true,connected_south=true,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_nsw"
+      "model": "nuclearphysics:connected/connected_nsw"
     },
     "connected_down=false,connected_east=true,connected_north=true,connected_south=true,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_nse"
+      "model": "nuclearphysics:connected/connected_nse"
     },
     "connected_down=false,connected_east=true,connected_north=false,connected_south=false,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_uew"
+      "model": "nuclearphysics:connected/connected_uew"
     },
     "connected_down=false,connected_east=true,connected_north=false,connected_south=true,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_sew"
+      "model": "nuclearphysics:connected/connected_sew"
     },
     "connected_down=true,connected_east=true,connected_north=false,connected_south=false,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_dew"
+      "model": "nuclearphysics:connected/connected_dew"
     },
     "connected_down=false,connected_east=true,connected_north=true,connected_south=false,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_new"
+      "model": "nuclearphysics:connected/connected_new"
     },
     "connected_down=false,connected_east=false,connected_north=true,connected_south=true,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_uns"
+      "model": "nuclearphysics:connected/connected_uns"
     },
     "connected_down=true,connected_east=false,connected_north=true,connected_south=true,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_dns"
+      "model": "nuclearphysics:connected/connected_dns"
     },
     "connected_down=false,connected_east=true,connected_north=false,connected_south=true,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_use"
+      "model": "nuclearphysics:connected/connected_use"
     },
     "connected_down=false,connected_east=false,connected_north=false,connected_south=true,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_usw"
+      "model": "nuclearphysics:connected/connected_usw"
     },
     "connected_down=false,connected_east=true,connected_north=true,connected_south=false,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_une"
+      "model": "nuclearphysics:connected/connected_une"
     },
     "connected_down=true,connected_east=true,connected_north=true,connected_south=false,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_dne"
+      "model": "nuclearphysics:connected/connected_dne"
     },
     "connected_down=true,connected_east=true,connected_north=false,connected_south=true,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_dse"
+      "model": "nuclearphysics:connected/connected_dse"
     },
     "connected_down=true,connected_east=false,connected_north=false,connected_south=true,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_dsw"
+      "model": "nuclearphysics:connected/connected_dsw"
     },
     "connected_down=true,connected_east=false,connected_north=true,connected_south=false,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_dnw"
+      "model": "nuclearphysics:connected/connected_dnw"
     },
     "connected_down=false,connected_east=false,connected_north=true,connected_south=false,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_unw"
+      "model": "nuclearphysics:connected/connected_unw"
     },
     "connected_down=true,connected_east=true,connected_north=false,connected_south=false,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_udew"
+      "model": "nuclearphysics:connected/connected_udew"
     },
     "connected_down=false,connected_east=true,connected_north=true,connected_south=true,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_nsew"
+      "model": "nuclearphysics:connected/connected_nsew"
     },
     "connected_down=true,connected_east=false,connected_north=true,connected_south=true,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_udns"
+      "model": "nuclearphysics:connected/connected_udns"
     },
     "connected_down=true,connected_east=false,connected_north=true,connected_south=false,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_udnw"
+      "model": "nuclearphysics:connected/connected_udnw"
     },
     "connected_down=true,connected_east=false,connected_north=true,connected_south=true,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_dnsw"
+      "model": "nuclearphysics:connected/connected_dnsw"
     },
     "connected_down=false,connected_east=false,connected_north=true,connected_south=true,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_unsw"
+      "model": "nuclearphysics:connected/connected_unsw"
     },
     "connected_down=true,connected_east=false,connected_north=false,connected_south=true,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_udsw"
+      "model": "nuclearphysics:connected/connected_udsw"
     },
     "connected_down=true,connected_east=true,connected_north=true,connected_south=false,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_udne"
+      "model": "nuclearphysics:connected/connected_udne"
     },
     "connected_down=true,connected_east=true,connected_north=false,connected_south=true,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_udse"
+      "model": "nuclearphysics:connected/connected_udse"
     },
     "connected_down=false,connected_east=true,connected_north=true,connected_south=true,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_unse"
+      "model": "nuclearphysics:connected/connected_unse"
     },
     "connected_down=true,connected_east=true,connected_north=true,connected_south=true,connected_up=false,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_dnse"
+      "model": "nuclearphysics:connected/connected_dnse"
     },
     "connected_down=false,connected_east=true,connected_north=false,connected_south=true,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_usew"
+      "model": "nuclearphysics:connected/connected_usew"
     },
     "connected_down=true,connected_east=true,connected_north=false,connected_south=true,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_dsew"
+      "model": "nuclearphysics:connected/connected_dsew"
     },
     "connected_down=false,connected_east=true,connected_north=true,connected_south=false,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_unew"
+      "model": "nuclearphysics:connected/connected_unew"
     },
     "connected_down=true,connected_east=true,connected_north=true,connected_south=false,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_dnew"
+      "model": "nuclearphysics:connected/connected_dnew"
     },
     "connected_down=true,connected_east=true,connected_north=true,connected_south=true,connected_up=false,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_dnsew"
+      "model": "nuclearphysics:connected/connected_dnsew"
     },
     "connected_down=true,connected_east=true,connected_north=false,connected_south=true,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_udsew"
+      "model": "nuclearphysics:connected/connected_udsew"
     },
     "connected_down=true,connected_east=false,connected_north=true,connected_south=true,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_udnsw"
+      "model": "nuclearphysics:connected/connected_udnsw"
     },
     "connected_down=true,connected_east=true,connected_north=true,connected_south=true,connected_up=true,connected_west=false": {
-      "model": "nuclear-physics:connected/connected_udnse"
+      "model": "nuclearphysics:connected/connected_udnse"
     },
     "connected_down=true,connected_east=true,connected_north=true,connected_south=false,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_udnew"
+      "model": "nuclearphysics:connected/connected_udnew"
     },
     "connected_down=false,connected_east=true,connected_north=true,connected_south=true,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_unsew"
+      "model": "nuclearphysics:connected/connected_unsew"
     },
     "connected_down=true,connected_east=true,connected_north=true,connected_south=true,connected_up=true,connected_west=true": {
-      "model": "nuclear-physics:connected/connected_udnsew"
+      "model": "nuclearphysics:connected/connected_udnsew"
     }
   }
 }

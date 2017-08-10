@@ -3,7 +3,7 @@
   "defaults": {
     "model": "cube_all",
     "textures": {
-      "all": "nuclear-physics:blocks/creative_builder"
+      "all": "nuclearphysics:blocks/creative_builder"
     },
     "uvlock": true
   },

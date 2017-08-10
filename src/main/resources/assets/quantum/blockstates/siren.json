@@ -3,7 +3,7 @@
   "defaults": {
     "model": "cube_all",
     "textures": {
-      "all": "nuclear-physics:blocks/siren"
+      "all": "nuclearphysics:blocks/siren"
     },
     "uvlock": true
   },

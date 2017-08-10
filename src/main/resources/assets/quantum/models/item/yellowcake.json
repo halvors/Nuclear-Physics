@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "nuclear-physics:items/yellowcake"
+    "layer0": "nuclearphysics:items/yellowcake"
   }
 }

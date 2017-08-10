@@ -1,6 +1,6 @@
 [
 	{
-  		"modid": "nuclear-physics",
+  		"modid": "nuclearphysics",
   		"name": "Nuclear Physics",
   		"description": "Nuclear Physics is a mod that brings in realistic, world-based technological advancement experience into Minecraft.",
   		"version": "${version}",
