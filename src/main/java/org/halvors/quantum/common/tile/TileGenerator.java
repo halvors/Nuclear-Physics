@@ -91,12 +91,6 @@ public class TileGenerator extends TileQuantum implements ITickable {
         return 20;
     }
 
-    protected void generateEnergy() {
-        if (energyGeneration > 0) {
-            energyStorage.receiveEnergy(energyGeneration, false);
-        }
-    }
-
     protected void searchTargets() {
         mTargets.clear();
 

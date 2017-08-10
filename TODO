@@ -14,6 +14,8 @@ Porting to 1.10.2 from 1.7.10:
     - Make sure only one tile entity in the multi-block structure is running at the same time.
     - Slow down client side temperature update of reactor cell.
 
+    - Fix fulmination generator power generation.
+
 General:
 
 Known bugs:

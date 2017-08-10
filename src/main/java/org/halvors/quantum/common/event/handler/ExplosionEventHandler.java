@@ -27,27 +27,25 @@ public class ExplosionEventHandler {
         if (entityItem != null) {
             ItemStack itemStack = entityItem.getEntityItem();
 
-            if (itemStack != null) {
-                if (itemStack.getItem() == QuantumItems.itemAntimatterCell) {
-                    World world = entityItem.getEntityWorld();
-                    world.playSound(entityItem.posX, entityItem.posY, entityItem.posZ, QuantumSoundEvents.ANTIMATTER, SoundCategory.NEUTRAL, 3, 1 - world.rand.nextFloat() * 0.3F, false);
+            if (itemStack.getItem() == QuantumItems.itemAntimatterCell) {
+                World world = entityItem.getEntityWorld();
+                world.playSound(entityItem.posX, entityItem.posY, entityItem.posZ, QuantumSoundEvents.ANTIMATTER, SoundCategory.NEUTRAL, 3, 1 - world.rand.nextFloat() * 0.3F, false);
 
-                    if (!entityItem.getEntityWorld().isRemote) {
-                        //if (!FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(event.entityItem.worldObj, Atomic.BAN_ANTIMATTER_POWER, "true", new Vector3(event.entityItem))) {
-                            IExplosion explosive = new AntimatterExplosion(event.getEntity().getEntityWorld(), entityItem, entityItem.posX, entityItem.posY, entityItem.posZ, 4, itemStack.getMetadata());
-                            MinecraftForge.EVENT_BUS.post(new DoExplosionEvent(world, explosive));
-                            world.createExplosion(entityItem, entityItem.posX, entityItem.posY, entityItem.posZ, explosive.getRadius(), true);
-                            Quantum.getLogger().info("Antimatter cell detonated at: " + entityItem.posX + ", " + entityItem.posY + ", " + entityItem.posZ);
+                if (!entityItem.getEntityWorld().isRemote) {
+                    //if (!FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(event.entityItem.worldObj, Atomic.BAN_ANTIMATTER_POWER, "true", new Vector3(event.entityItem))) {
+                        IExplosion explosive = new AntimatterExplosion(event.getEntity().getEntityWorld(), entityItem, entityItem.posX, entityItem.posY, entityItem.posZ, 4, itemStack.getMetadata());
+                        MinecraftForge.EVENT_BUS.post(new DoExplosionEvent(world, explosive));
+                        world.createExplosion(entityItem, entityItem.posX, entityItem.posY, entityItem.posZ, explosive.getRadius(), true);
+                        Quantum.getLogger().info("Antimatter cell detonated at: " + entityItem.posX + ", " + entityItem.posY + ", " + entityItem.posZ);
 
-                            int radius = 20;
-                            AxisAlignedBB bounds = new AxisAlignedBB(entityItem.posX - radius, entityItem.posY - radius, entityItem.posZ - radius, entityItem.posX + radius, entityItem.posY + radius, entityItem.posZ + radius);
-                            List<EntityLiving> entitiesNearby = world.getEntitiesWithinAABB(EntityLiving.class, bounds);
+                        int radius = 20;
+                        AxisAlignedBB bounds = new AxisAlignedBB(entityItem.posX - radius, entityItem.posY - radius, entityItem.posZ - radius, entityItem.posX + radius, entityItem.posY + radius, entityItem.posZ + radius);
+                        List<EntityLiving> entitiesNearby = world.getEntitiesWithinAABB(EntityLiving.class, bounds);
 
-                            for (EntityLiving entity : entitiesNearby) {
-                                PoisonRadiation.getInstance().poisonEntity(entity.getPosition(), entity);
-                            }
-                        //}
-                    }
+                        for (EntityLiving entity : entitiesNearby) {
+                            PoisonRadiation.getInstance().poisonEntity(entity.getPosition(), entity);
+                        }
+                    //}
                 }
             }
         }

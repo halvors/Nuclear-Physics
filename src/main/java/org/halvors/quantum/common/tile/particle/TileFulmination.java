@@ -24,7 +24,8 @@ public class TileFulmination extends TileGenerator {
             FulminationHandler.INSTANCE.register(this);
         }
 
-        generateEnergy();
+        // TODO: Fix generation output.
+        //generateEnergy();
 
         // Slowly lose energy.
         energyStorage.extractEnergy(1, false);
