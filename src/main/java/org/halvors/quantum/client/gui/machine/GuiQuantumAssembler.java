@@ -1,10 +1,12 @@
 package org.halvors.quantum.client.gui.machine;
 
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.GuiContainerBase;
+import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.quantum.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.quantum.common.tile.machine.TileQuantumAssembler;
@@ -12,7 +14,6 @@ import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.energy.UnitDisplay;
 import org.halvors.quantum.common.utility.type.ResourceType;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuantumAssembler extends GuiContainerBase {
@@ -53,8 +54,9 @@ public class GuiQuantumAssembler extends GuiContainerBase {
     /** Draw the background layer for the GuiContainer (everything behind the items) */
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY) {
-        mc.renderEngine.bindTexture(texture);
-        GL11.glColor4f(1, 1, 1, 1);
+        RenderUtility.bindTexture(texture);
+
+        GlStateManager.color(1, 1, 1, 1);
 
         int containerWidth = (width - xSize) / 2;
         int containerHeight = (height - ySize) / 2;

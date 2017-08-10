@@ -3,6 +3,7 @@ package org.halvors.quantum.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -12,7 +13,6 @@ import org.halvors.quantum.common.tile.component.IComponent;
 import org.halvors.quantum.common.tile.component.IComponentContainer;
 import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
-import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 import java.util.List;
@@ -52,13 +52,13 @@ public abstract class GuiComponentContainerScreen extends GuiScreen implements I
 	public void drawScreen(int mouseX, int mouseY, float partialTick) {
 		drawDefaultBackground();
 
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1, 1, 1, 1);
 
 		drawGuiScreenBackgroundLayer(partialTick, mouseX, mouseY);
 
 		super.drawScreen(mouseX, mouseY, partialTick);
 
-		GL11.glTranslatef(guiLeft, guiTop, 0);
+		GlStateManager.translate(guiLeft, guiTop, 0);
 
 		drawGuiScreenForegroundLayer(mouseX, mouseY);
 	}
@@ -83,19 +83,17 @@ public abstract class GuiComponentContainerScreen extends GuiScreen implements I
 			float reverse = 1 / scale;
 			float yAdd = 4 - (scale * 8) / 2F;
 
-			GL11.glPushMatrix();
-
-			GL11.glScalef(scale, scale, scale);
+			GlStateManager.pushMatrix();
+			GlStateManager.scale(scale, scale, scale);
 			fontRendererObj.drawString(text, (int) (x * reverse), (int) ((y * reverse) + yAdd), color);
-
-			GL11.glPopMatrix();
+			GlStateManager.popMatrix();
 		}
 	}
 
     protected void drawGuiScreenBackgroundLayer(float partialTick, int mouseX, int mouseY) {
         game.renderEngine.bindTexture(defaultResource);
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1, 1, 1, 1);
 
         int guiWidth = (width - xSize) / 2;
         int guiHeight = (height - ySize) / 2;

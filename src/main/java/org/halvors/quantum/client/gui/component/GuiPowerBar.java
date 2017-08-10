@@ -5,6 +5,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.IGui;
+import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.utility.energy.EnergyUtils;
 
 @SideOnly(Side.CLIENT)
@@ -41,7 +42,7 @@ public class GuiPowerBar extends GuiComponentBase implements IGuiComponent {
 
 	@Override
 	public void renderBackground(int xAxis, int yAxis, int xOrigin, int yOrigin, int guiWidthSize, int guiHeightSize) {
-		game.renderEngine.bindTexture(resource);
+		RenderUtility.bindTexture(resource);
 		gui.drawTexturedRect(xOrigin + x, yOrigin + y, 0, 0, width, height);
 
 		if (powerInfoHandler.getLevel() > 0) {
@@ -55,7 +56,7 @@ public class GuiPowerBar extends GuiComponentBase implements IGuiComponent {
 
 	@Override
 	public void renderForeground(int xAxis, int yAxis, int xSize, int ySize) {
-		game.renderEngine.bindTexture(resource);
+		RenderUtility.bindTexture(resource);
 
 		if (powerInfoHandler.getTooltip() != null && xAxis >= x && xAxis <= x + width && yAxis >= y && yAxis <= y + height) {
 			displayTooltip(powerInfoHandler.getTooltip(), xAxis, yAxis);

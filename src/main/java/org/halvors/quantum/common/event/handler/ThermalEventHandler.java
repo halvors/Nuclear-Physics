@@ -2,6 +2,7 @@ package org.halvors.quantum.common.event.handler;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -13,7 +14,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.api.tile.IElectromagnet;
 import org.halvors.quantum.common.event.BoilEvent;
@@ -32,16 +33,12 @@ public class ThermalEventHandler {
         for (int height = 1; height <= event.getMaxSpread(); height++) {
             final TileEntity tile = event.getWorld().getTileEntity(event.getPos().up(height));
 
-            // TODO: Add custom capability?
             if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
-                final IFluidHandler handler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN);
-                //final IBoilHandler handler = (IBoilHandler) tileEntity;
-                final FluidStack fluid = event.getRemainForSpread(height);
+                final IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN);
+                final FluidStack fluidStack = event.getRemainForSpread(height);
 
-                if (fluid.amount > 0) {
-                    //if (handler.canFill(EnumFacing.DOWN, fluid.getFluid())) {
-                        fluid.amount -= handler.fill(fluid, true);
-                    //}
+                if (fluidStack.amount > 0 && fluidHandler.fill(fluidStack, false) > 0) {
+                    fluidStack.amount -= fluidHandler.fill(fluidStack, true);
                 }
             }
         }
@@ -55,19 +52,20 @@ public class ThermalEventHandler {
         }
         */
 
-        event.setResult(Event.Result.DENY);
+        event.setResult(Result.DENY);
     }
 
     @SubscribeEvent
     public void onPlasmaSpawnEvent(PlasmaSpawnEvent event) {
         final World world = event.getWorld();
         final BlockPos pos = event.getPos();
-        final Block block = world.getBlockState(pos).getBlock();
+        final IBlockState state = world.getBlockState(pos);
+        final Block block = state.getBlock();
 
-        if (block != null) {
+        if (state != null) {
             final TileEntity tile = world.getTileEntity(pos);
 
-            if (block == Blocks.BEDROCK || block == Blocks.IRON_BLOCK) {
+            if (state == Blocks.BEDROCK || state == Blocks.IRON_BLOCK) {
                 return;
             }
 
@@ -95,21 +93,21 @@ public class ThermalEventHandler {
 
     @SubscribeEvent
     public void onThermalUpdateEvent(ThermalUpdateEvent event) {
-        final BlockPos pos = event.getPos();
         final World world = (World) event.getWorld();
-        final Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
+        final BlockPos pos = event.getPos();
+        final IBlockState state = world.getBlockState(pos);
 
-        if (block == QuantumBlocks.blockElectromagnet) {
+        if (state == QuantumBlocks.blockElectromagnet) {
             event.heatLoss = event.deltaTemperature * 0.6F;
         }
 
         // TODO: Synchronized maybe not reqiured for all the following code?
         synchronized (world) {
-            if (block.getDefaultState().getMaterial().equals(Material.AIR)) {
+            if (state.getMaterial().equals(Material.AIR)) {
                 event.heatLoss = 0.15F;
             }
 
-            if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
+            if (state == Blocks.WATER || state == Blocks.FLOWING_WATER) {
                 if (event.temperature >= ThermalPhysics.waterBoilTemperature) {
                     Fluid fluidSteam = FluidRegistry.getFluid("steam");
 
@@ -125,7 +123,7 @@ public class ThermalEventHandler {
                 }
             }
 
-            if (block == Blocks.ICE || block == Blocks.PACKED_ICE) {
+            if (state == Blocks.ICE || state == Blocks.PACKED_ICE) {
                 if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override
@@ -148,7 +146,7 @@ public class ThermalEventHandler {
                 event.heatLoss = 0.4F;
             }
 
-            if (block == Blocks.SNOW || block == Blocks.SNOW_LAYER) {
+            if (state == Blocks.SNOW || state == Blocks.SNOW_LAYER) {
                 if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override

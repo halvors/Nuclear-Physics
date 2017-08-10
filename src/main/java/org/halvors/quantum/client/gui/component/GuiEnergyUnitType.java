@@ -6,6 +6,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.IGui;
 import org.halvors.quantum.client.sound.SoundHandler;
+import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.ConfigurationManager;
 import org.halvors.quantum.common.ConfigurationManager.Client;
 import org.halvors.quantum.common.Quantum;
@@ -19,7 +20,7 @@ public class GuiEnergyUnitType extends GuiComponentBase implements IGuiComponent
 
 	@Override
 	public void renderBackground(int xAxis, int yAxis, int xOrigin, int yOrigin, int guiWidth, int guiHeight) {
-		game.renderEngine.bindTexture(resource);
+		RenderUtility.bindTexture(resource);
 		gui.drawTexturedRect(xOrigin + guiWidth, yOrigin + 2, 0, 0, 26, 26);
 
         int x = guiWidth + 4;
@@ -37,7 +38,7 @@ public class GuiEnergyUnitType extends GuiComponentBase implements IGuiComponent
 
 	@Override
 	public void renderForeground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-		game.renderEngine.bindTexture(resource);
+		RenderUtility.bindTexture(resource);
 
         int x = guiWidth + 4;
         int y = 2 + 5;

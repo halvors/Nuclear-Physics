@@ -1,22 +1,20 @@
 package org.halvors.quantum.client.gui.component;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.IGui;
+import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
-import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiComponentBase implements IGuiComponent {
 	private final ResourceLocation defaultResource;
-
-	static final Minecraft game = Minecraft.getMinecraft();
 
 	final ResourceLocation resource;
 	final IGui gui;
@@ -29,12 +27,12 @@ public abstract class GuiComponentBase implements IGuiComponent {
 
 	@Override
 	public void renderBackground(int xAxis, int yAxis, int xOrigin, int yOrigin, int guiWidthSize, int guiHeightSize) {
-		game.renderEngine.bindTexture(defaultResource);
+		RenderUtility.bindTexture(defaultResource);
 	}
 
 	@Override
 	public void renderForeground(int xAxis, int yAxis, int xSize, int ySize) {
-		game.renderEngine.bindTexture(defaultResource);
+		RenderUtility.bindTexture(defaultResource);
 	}
 
 	void displayTooltip(String text, int xAxis, int yAxis) {
@@ -55,12 +53,10 @@ public abstract class GuiComponentBase implements IGuiComponent {
 			float reverse = 1 / scale;
 			float yAdd = 4 - (scale * 8) / 2F;
 
-			GL11.glPushMatrix();
-
-			GL11.glScalef(scale, scale, scale);
+			GlStateManager.pushMatrix();
+			GlStateManager.scale(scale, scale, scale);
 			getFontRenderer().drawString(text, (int) (x * reverse), (int) ((y * reverse) + yAdd), color);
-
-			GL11.glPopMatrix();
+			GlStateManager.popMatrix();
 		}
 	}
 

@@ -1,15 +1,16 @@
 package org.halvors.quantum.client.gui.reactor.fission;
 
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 import org.halvors.quantum.client.gui.GuiContainerBase;
 import org.halvors.quantum.common.container.reactor.fission.ContainerReactorCell;
 import org.halvors.quantum.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.energy.UnitDisplay;
 import org.halvors.quantum.common.utility.energy.UnitDisplay.Unit;
-import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
@@ -26,17 +27,18 @@ public class GuiReactorCell extends GuiContainerBase {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
+        IItemHandler inventory = tile.getInventory();
         String name = LanguageUtility.transelate("tile." + tile.getName() + ".name");
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
-        if (tile.getInventory().getStackInSlot(0) != null) {
+        if (inventory.getStackInSlot(0) != null) {
             // Test field for actual heat inside of reactor cell.
             fontRendererObj.drawString(LanguageUtility.transelate("tooltip.temperature"), 9, 45, 0x404040);
-            fontRendererObj.drawString(String.valueOf((int) tile.getTemperature()) + "/" + String.valueOf(TileReactorCell.meltingPoint) + " K", 9, 58, 0x404040);
+            fontRendererObj.drawString((int) Math.floor(tile.getTemperature()) + "/" + (int) Math.floor(TileReactorCell.meltingPoint) + " K", 9, 58, 0x404040);
 
             // Text field for total number of ticks remaining.
-            int secondsLeft = (tile.getInventory().getStackInSlot(0).getMaxDamage() - tile.getInventory().getStackInSlot(0).getMetadata());
+            int secondsLeft = (inventory.getStackInSlot(0).getMaxDamage() - inventory.getStackInSlot(0).getMetadata());
             fontRendererObj.drawString(LanguageUtility.transelate("tooltip.remainingTime"), 100, 45, 0x404040);
             fontRendererObj.drawString(secondsLeft + " seconds", 100, 58, 0x404040);
         }
@@ -64,21 +66,23 @@ public class GuiReactorCell extends GuiContainerBase {
         drawSlot(78, 16);
         drawMeter(80, 36, tile.getTank().getFluidAmount() / tile.getTank().getCapacity(), tile.getTank().getFluid());
 
-        if (tile.getInventory().getStackInSlot(0) != null) {
+        IItemHandler inventory = tile.getInventory();
+
+        if (inventory.getStackInSlot(0) != null) {
             // Progress bar of temperature inside of reactor.
-            GL11.glPushMatrix();
-            GL11.glTranslatef(32 * 2, 0, 0);
-            GL11.glScalef(0.5f, 1, 1);
+            GlStateManager.pushMatrix();
+            GlStateManager.translate((32 * 2) + 11, 0, 0);
+            GlStateManager.scale(0.5, 1, 1);
             drawForce(20, 70, (tile.getTemperature()) / (TileReactorCell.meltingPoint));
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
 
             // Progress bar of remaining burn time on reactor cell.
-            GL11.glPushMatrix();
-            GL11.glTranslatef(68 * 2, 0, 0);
-            GL11.glScalef(0.5F, 1, 1);
-            float ticksLeft = (tile.getInventory().getStackInSlot(0).getMaxDamage() - tile.getInventory().getStackInSlot(0).getMetadata());
-            drawElectricity(70, 70, ticksLeft / tile.getInventory().getStackInSlot(0).getMaxDamage());
-            GL11.glPopMatrix();
+            GlStateManager.pushMatrix();
+            GlStateManager.translate((68 * 2) + 5, 0, 0);
+            GlStateManager.scale(0.5F, 1, 1);
+            float ticksLeft = (inventory.getStackInSlot(0).getMaxDamage() - inventory.getStackInSlot(0).getMetadata());
+            drawElectricity(70, 70, ticksLeft / inventory.getStackInSlot(0).getMaxDamage());
+            GlStateManager.popMatrix();
         }
     }
 }

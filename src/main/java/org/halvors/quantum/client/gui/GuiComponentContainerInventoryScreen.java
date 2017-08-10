@@ -1,8 +1,8 @@
 package org.halvors.quantum.client.gui;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -11,19 +11,17 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.component.IGuiComponent;
+import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.tile.component.IComponent;
 import org.halvors.quantum.common.tile.component.IComponentContainer;
 import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
-import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiComponentContainerInventoryScreen extends GuiContainer implements IComponentContainer, IGui {
-	private static final Minecraft game = Minecraft.getMinecraft();
-
     protected final ResourceLocation defaultResource = ResourceUtility.getResource(ResourceType.GUI, "Container.png");
     protected final TileEntity tileEntity;
 
@@ -43,20 +41,18 @@ public class GuiComponentContainerInventoryScreen extends GuiContainer implement
 			float reverse = 1 / scale;
 			float yAdd = 4 - (scale * 8) / 2F;
 
-			GL11.glPushMatrix();
-
-			GL11.glScalef(scale, scale, scale);
+			GlStateManager.pushMatrix();
+			GlStateManager.scale(scale, scale, scale);
 			fontRendererObj.drawString(text, (int) (x * reverse), (int) ((y * reverse) + yAdd), color);
-
-			GL11.glPopMatrix();
+			GlStateManager.popMatrix();
 		}
 	}
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY) {
-        game.renderEngine.bindTexture(defaultResource);
+		RenderUtility.bindTexture(defaultResource);
 
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		GlStateManager.color(1, 1, 1, 1);
 
         int guiWidth = (width - xSize) / 2;
         int guiHeight = (height - ySize) / 2;

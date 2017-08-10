@@ -2,6 +2,7 @@ package org.halvors.quantum.client.gui.debug;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,7 +16,6 @@ import org.halvors.quantum.common.network.packet.PacketCreativeBuilder;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.type.ResourceType;
-import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 
@@ -70,7 +70,7 @@ public class GuiCreativeBuilder extends GuiContainerBase {
         containerHeight = (height - ySize) / 2;
 
         RenderUtility.bindTexture(baseTexture);
-        GL11.glColor4f(1, 1, 1, 1);
+        GlStateManager.color(1, 1, 1, 1);
 
         drawTexturedModalRect(containerWidth, containerHeight, 0, 0, xSize, ySize);
     }

@@ -4,6 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.client.gui.IGui;
+import org.halvors.quantum.client.utility.RenderUtility;
 
 @SideOnly(Side.CLIENT)
 public class GuiOwnerInfo extends GuiComponentBase implements IGuiComponent {
@@ -17,7 +18,7 @@ public class GuiOwnerInfo extends GuiComponentBase implements IGuiComponent {
 
 	@Override
 	public void renderBackground(int xAxis, int yAxis, int xOrigin, int yOrigin, int guiWidth, int guiHeight) {
-		game.renderEngine.bindTexture(resource);
+		RenderUtility.bindTexture(resource);
 		gui.drawTexturedRect(xOrigin - 26, yOrigin + 2, 0, 0, 26, 26);
 
 		super.renderBackground(xAxis, yAxis, xOrigin, yOrigin, guiWidth, guiHeight);
