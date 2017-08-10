@@ -2,14 +2,12 @@ package org.halvors.quantum.client.gui;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.client.utility.RenderUtility;
 import org.halvors.quantum.common.container.ContainerDummy;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.ResourceUtility;
@@ -19,6 +17,8 @@ import org.halvors.quantum.common.utility.transform.vector.Vector2;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -96,40 +96,43 @@ public class GuiContainerBase extends GuiContainer {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
-        containerWidth = (width - xSize) / 2;
-        containerHeight = (height - ySize) / 2;
+    protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY)
+    {
+        this.containerWidth = (width - xSize) / 2;
+        this.containerHeight = (height - ySize) / 2;
 
-        RenderUtility.bindTexture(baseTexture);
-        GlStateManager.color(1, 1, 1, 1);
+        this.mc.renderEngine.bindTexture(baseTexture);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        drawTexturedModalRect(containerWidth, containerHeight, 0, 0, xSize, ySize);
+        this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, xSize, ySize);
     }
 
     protected void drawBulb(int x, int y, boolean isOn) {
-        RenderUtility.bindTexture(baseTexture);
-        GlStateManager.color(1, 1, 1, 1);
+        this.mc.renderEngine.bindTexture(this.baseTexture);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         if (isOn) {
             drawTexturedModalRect(containerWidth + x, containerHeight + y, 161, 0, 6, 6);
+
         } else {
             drawTexturedModalRect(containerWidth + x, containerHeight + y, 161, 4, 6, 6);
         }
     }
 
-    protected void drawSlot(int x, int y, ItemStack itemStack) {
-        RenderUtility.bindTexture(baseTexture);
-        GlStateManager.color(1, 1, 1, 1);
+    protected void drawSlot(int x, int y, ItemStack itemStack)
+    {
+        this.mc.renderEngine.bindTexture(this.baseTexture);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-        drawTexturedModalRect(containerWidth + x, containerHeight + y, 0, 0, 18, 18);
+        this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 0, 0, 18, 18);
 
-        drawItemStack(itemStack, containerWidth + x, containerHeight + y);
+        this.drawItemStack(itemStack, this.containerWidth + x, this.containerHeight + y);
     }
 
     protected void drawItemStack(ItemStack itemStack, int x, int y) {
-        x++;
-        y++;
-        GlStateManager.translate(0, 0, 32);
+        x ++;
+        y ++;
+        GL11.glTranslatef(0.0F, 0.0F, 32.0F);
 
         // drawTexturedModelRectFromIcon
         // GL11.glEnable(GL11.GL_BLEND);
@@ -142,13 +145,13 @@ public class GuiContainerBase extends GuiContainer {
     }
 
     protected void drawTextWithTooltip(String textName, String format, int x, int y, int mouseX, int mouseY) {
-        drawTextWithTooltip(textName, format, x, y, mouseX, mouseY, 0x404040);
+        this.drawTextWithTooltip(textName, format, x, y, mouseX, mouseY, 4210752);
     }
 
     protected void drawTextWithTooltip(String textName, String format, int x, int y, int mouseX, int mouseY, int color) {
         String name = LanguageUtility.transelate("gui." + textName + ".name");
         String text = format.replaceAll("%1", name);
-        fontRendererObj.drawString(text, x, y, color);
+        this.fontRendererObj.drawString(text, x, y, color);
 
         String tooltip = LanguageUtility.transelate("gui." + textName + ".tooltip");
 
@@ -160,99 +163,102 @@ public class GuiContainerBase extends GuiContainer {
     }
 
     protected void drawTextWithTooltip(String textName, int x, int y, int mouseX, int mouseY) {
-        drawTextWithTooltip(textName, "%1", x, y, mouseX, mouseY);
+        this.drawTextWithTooltip(textName, "%1", x, y, mouseX, mouseY);
     }
 
     protected void drawSlot(int x, int y, SlotType type, float r, float g, float b) {
-        RenderUtility.bindTexture(GUI_COMPONENTS);
-        GlStateManager.color(r, g, b, 1);
+        this.mc.renderEngine.bindTexture(GUI_COMPONENTS);
+        GL11.glColor4f(r, g, b, 1.0F);
 
-        drawTexturedModalRect(containerWidth + x, containerHeight + y, 0, 0, 18, 18);
+        this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 0, 0, 18, 18);
 
         if (type != SlotType.NONE) {
-            drawTexturedModalRect(containerWidth + x, containerHeight + y, 0, 18 * type.ordinal(), 18, 18);
+            this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 0, 18 * type.ordinal(), 18, 18);
         }
     }
 
     protected void drawSlot(int x, int y, SlotType type) {
-        drawSlot(x, y, type, 1, 1, 1);
+        this.drawSlot(x, y, type, 1, 1, 1);
     }
 
     protected void drawSlot(int x, int y) {
-        drawSlot(x, y, SlotType.NONE);
+        this.drawSlot(x, y, SlotType.NONE);
     }
 
     protected void drawBar(int x, int y, float scale) {
-        RenderUtility.bindTexture(GUI_COMPONENTS);
-        GlStateManager.color(1, 1, 1, 1);
+        this.mc.renderEngine.bindTexture(GUI_COMPONENTS);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         /** Draw background progress bar/ */
-        this.drawTexturedModalRect(containerWidth + x, containerHeight + y, 18, 0, 22, 15);
+        this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 18, 0, 22, 15);
 
-        if (scale > 0) {
+        if (scale > 0)
+        {
             /** Draw white color actual progress. */
-            drawTexturedModalRect(containerWidth + x, containerHeight + y, 18, 15, 22 - (int) (scale * 22), 15);
+            this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 18, 15, 22 - (int) (scale * 22), 15);
         }
     }
 
     protected void drawForce(int x, int y, float scale) {
-        RenderUtility.bindTexture(GUI_COMPONENTS);
-        GlStateManager.color(1, 1, 1, 1);
+        this.mc.renderEngine.bindTexture(GUI_COMPONENTS);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         /** Draw background progress bar/ */
-        drawTexturedModalRect(containerWidth + x, containerHeight + y, 54, 0, 107, 11);
+        this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 54, 0, 107, 11);
 
-        if (scale > 0) {
+        if (scale > 0)
+        {
             /** Draw white color actual progress. */
-            drawTexturedModalRect(containerWidth + x, containerHeight + y, meterX, 11, (int) (scale * 107), 11);
+            this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, meterX, 11, (int) (scale * 107), 11);
         }
     }
 
     protected void drawElectricity(int x, int y, float scale) {
-        RenderUtility.bindTexture(GUI_COMPONENTS);
-        GlStateManager.color(1, 1, 1, 1);
+        this.mc.renderEngine.bindTexture(GUI_COMPONENTS);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         /** Draw background progress bar/ */
-        drawTexturedModalRect(containerWidth + x, containerHeight + y, 54, 0, 107, 11);
+        this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 54, 0, 107, 11);
 
-        if (scale > 0) {
+        if (scale > 0)
+        {
             /** Draw white color actual progress. */
-            drawTexturedModalRect(containerWidth + x, containerHeight + y, 54, 22, (int) (scale * 107), 11);
+            this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 54, 22, (int) (scale * 107), 11);
         }
     }
 
     protected void drawMeter(int x, int y, float scale, float r, float g, float b) {
-        RenderUtility.bindTexture(GUI_COMPONENTS);
-        GlStateManager.color(1, 1, 1, 1);
+        this.mc.renderEngine.bindTexture(GUI_COMPONENTS);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         /** Draw the background meter. */
-        drawTexturedModalRect(containerWidth + x, containerHeight + y, 40, 0, meterWidth, meterHeight);
+        this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 40, 0, this.meterWidth, this.meterHeight);
 
         /** Draw liquid/gas inside */
-        GlStateManager.color(r, g, b, 1);
-        int actualScale = (int) ((meterHeight - 1) * scale);
-        drawTexturedModalRect(containerWidth + x, containerHeight + y + (meterHeight - 1 - actualScale), 40, 49, meterHeight - 1, actualScale);
+        GL11.glColor4f(r, g, b, 1.0F);
+        int actualScale = (int) ((this.meterHeight - 1) * scale);
+        this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y + (this.meterHeight - 1 - actualScale), 40, 49, this.meterHeight - 1, actualScale);
 
-        GlStateManager.color(1, 1, 1, 1);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         /** Draw measurement lines */
-        drawTexturedModalRect(containerWidth + x, containerHeight + y, 40, 49 * 2, meterWidth, meterHeight);
+        this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 40, 49 * 2, this.meterWidth, this.meterHeight);
     }
 
     protected void drawMeter(int x, int y, float scale, FluidStack liquidStack) {
-        RenderUtility.bindTexture(GUI_COMPONENTS);
-        GlStateManager.color(1, 1, 1, 1);
+        this.mc.renderEngine.bindTexture(GUI_COMPONENTS);
+
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         /** Draw the background meter. */
-        drawTexturedModalRect(containerWidth + x, containerHeight + y, 40, 0, meterWidth, meterHeight);
+        this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 40, 0, meterWidth, meterHeight);
 
         /** Draw liquid/gas inside */
-        if (liquidStack != null) {
-            //this.displayGauge(this.containerWidth + x, this.containerHeight + y, -10, 1, 12, (int) ((meterHeight - 1) * scale), liquidStack);
-        }
+        if (liquidStack != null)
+        //this.displayGauge(this.containerWidth + x, this.containerHeight + y, -10, 1, 12, (int) ((meterHeight - 1) * scale), liquidStack);
 
         /** Draw measurement lines */
-        RenderUtility.bindTexture(GUI_COMPONENTS);
-        drawTexturedModalRect(containerWidth + x, containerHeight + y, 40, 49 * 2, meterWidth, meterHeight);
+            this.mc.renderEngine.bindTexture(GUI_COMPONENTS);
+        this.drawTexturedModalRect(this.containerWidth + x, this.containerHeight + y, 40, 49 * 2, meterWidth, meterHeight);
     }
 
     public void renderUniversalDisplay(int x, int y, float energy, int mouseX, int mouseY, UnitDisplay.Unit unit) {
@@ -262,15 +268,18 @@ public class GuiContainerBase extends GuiContainer {
     public void renderUniversalDisplay(int x, int y, float energy, float maxEnergy, int mouseX, int mouseY, UnitDisplay.Unit unit, boolean small) {
         String displaySuffix = "";
 
-        if (unit == UnitDisplay.Unit.WATT) {
+        if (unit == UnitDisplay.Unit.WATT)
+        {
             displaySuffix = "/s";
         }
 
         String display = UnitDisplay.getDisplay(energy, unit, 2, small) + "/" + UnitDisplay.getDisplay(maxEnergy, unit, 2, small);
 
         // Check different energy system types.
-        if (unit == UnitDisplay.Unit.WATT || unit == UnitDisplay.Unit.JOULES) {
-            switch (energyType) {
+        if (unit == UnitDisplay.Unit.WATT || unit == UnitDisplay.Unit.JOULES)
+        {
+            switch (energyType)
+            {
                 case 1:
                     //display = UnitDisplay.roundDecimals(energy * CompatibilityType.BUILDCRAFT.ratio) + " MJ" + "/" + displaySuffix + UnitDisplay.roundDecimals(maxEnergy * CompatibilityType.BUILDCRAFT.ratio) + " MJ" + displaySuffix;
                     break;
@@ -283,18 +292,18 @@ public class GuiContainerBase extends GuiContainer {
             }
         }
 
-        if (isPointInRegion(x, y, display.length() * 5, 9, mouseX, mouseY)) {
-            if (Mouse.isButtonDown(0) && lastChangeFrameTime <= 0) {
+        if (this.isPointInRegion(x, y, display.length() * 5, 9, mouseX, mouseY)) {
+            if (Mouse.isButtonDown(0) && this.lastChangeFrameTime <= 0) {
                 energyType = (energyType + 1) % 4;
-                lastChangeFrameTime = 60;
+                this.lastChangeFrameTime = 60;
             } else {
-                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "Click to change unit.");
+                this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, "Click to change unit.");
             }
         }
 
-        lastChangeFrameTime--;
+        this.lastChangeFrameTime--;
 
-        fontRendererObj.drawString(display, x, y, 4210752);
+        this.fontRendererObj.drawString(display, x, y, 4210752);
     }
 
     public void renderUniversalDisplay(int x, int y, float energy, int mouseX, int mouseY, UnitDisplay.Unit unit, boolean small) {
@@ -324,31 +333,31 @@ public class GuiContainerBase extends GuiContainer {
         }
 
         if (this.isPointInRegion(x, y, display.length() * 5, 9, mouseX, mouseY)) {
-            if (Mouse.isButtonDown(0) && lastChangeFrameTime <= 0) {
+            if (Mouse.isButtonDown(0) && this.lastChangeFrameTime <= 0) {
                 energyType = (energyType + 1) % 4;
-                lastChangeFrameTime = 60;
+                this.lastChangeFrameTime = 60;
             } else {
-                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "Click to change unit.");
+                this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, "Click to change unit.");
             }
         }
 
-        lastChangeFrameTime--;
+        this.lastChangeFrameTime--;
 
-        fontRendererObj.drawString(display, x, y, 4210752);
+        this.fontRendererObj.drawString(display, x, y, 4210752);
     }
 
     public void drawTooltip(int x, int y, String... toolTips) {
         if (!GuiScreen.isShiftKeyDown()) {
             if (toolTips != null) {
-                GlStateManager.enableRescaleNormal();
-                GlStateManager.enableDepth();
+                GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+                GL11.glDisable(GL11.GL_DEPTH_TEST);
 
                 int var5 = 0;
                 int var6;
                 int var7;
 
                 for (var6 = 0; var6 < toolTips.length; ++var6) {
-                    var7 = fontRendererObj.getStringWidth(toolTips[var6]);
+                    var7 = this.fontRendererObj.getStringWidth(toolTips[var6]);
 
                     if (var7 > var5) {
                         var5 = var7;
@@ -364,33 +373,35 @@ public class GuiContainerBase extends GuiContainer {
                     var9 += 2 + (toolTips.length - 1) * 10;
                 }
 
-                if (guiTop + var7 + var9 + 6 > height) {
-                    var7 = height - var9 - guiTop - 6;
+                if (this.guiTop + var7 + var9 + 6 > this.height) {
+                    var7 = this.height - var9 - this.guiTop - 6;
                 }
 
-                zLevel = 300;
+                this.zLevel = 300;
                 int var10 = -267386864;
-                drawGradientRect(var6 - 3, var7 - 4, var6 + var5 + 3, var7 - 3, var10, var10);
-                drawGradientRect(var6 - 3, var7 + var9 + 3, var6 + var5 + 3, var7 + var9 + 4, var10, var10);
-                drawGradientRect(var6 - 3, var7 - 3, var6 + var5 + 3, var7 + var9 + 3, var10, var10);
-                drawGradientRect(var6 - 4, var7 - 3, var6 - 3, var7 + var9 + 3, var10, var10);
-                drawGradientRect(var6 + var5 + 3, var7 - 3, var6 + var5 + 4, var7 + var9 + 3, var10, var10);
+                this.drawGradientRect(var6 - 3, var7 - 4, var6 + var5 + 3, var7 - 3, var10, var10);
+                this.drawGradientRect(var6 - 3, var7 + var9 + 3, var6 + var5 + 3, var7 + var9 + 4, var10, var10);
+                this.drawGradientRect(var6 - 3, var7 - 3, var6 + var5 + 3, var7 + var9 + 3, var10, var10);
+                this.drawGradientRect(var6 - 4, var7 - 3, var6 - 3, var7 + var9 + 3, var10, var10);
+                this.drawGradientRect(var6 + var5 + 3, var7 - 3, var6 + var5 + 4, var7 + var9 + 3, var10, var10);
                 int var11 = 1347420415;
                 int var12 = (var11 & 16711422) >> 1 | var11 & -16777216;
-                drawGradientRect(var6 - 3, var7 - 3 + 1, var6 - 3 + 1, var7 + var9 + 3 - 1, var11, var12);
-                drawGradientRect(var6 + var5 + 2, var7 - 3 + 1, var6 + var5 + 3, var7 + var9 + 3 - 1, var11, var12);
-                drawGradientRect(var6 - 3, var7 - 3, var6 + var5 + 3, var7 - 3 + 1, var11, var11);
-                drawGradientRect(var6 - 3, var7 + var9 + 2, var6 + var5 + 3, var7 + var9 + 3, var12, var12);
+                this.drawGradientRect(var6 - 3, var7 - 3 + 1, var6 - 3 + 1, var7 + var9 + 3 - 1, var11, var12);
+                this.drawGradientRect(var6 + var5 + 2, var7 - 3 + 1, var6 + var5 + 3, var7 + var9 + 3 - 1, var11, var12);
+                this.drawGradientRect(var6 - 3, var7 - 3, var6 + var5 + 3, var7 - 3 + 1, var11, var11);
+                this.drawGradientRect(var6 - 3, var7 + var9 + 2, var6 + var5 + 3, var7 + var9 + 3, var12, var12);
 
-                for (String var14 : toolTips) {
+                for (int var13 = 0; var13 < toolTips.length; ++var13) {
+                    String var14 = toolTips[var13];
+
                     fontRendererObj.drawStringWithShadow(var14, var6, var7, -1);
                     var7 += 10;
                 }
 
                 zLevel = 0;
 
-                GlStateManager.enableDepth();
-                GlStateManager.enableRescaleNormal();
+                GL11.glEnable(GL11.GL_DEPTH_TEST);
+                GL11.glEnable(GL12.GL_RESCALE_NORMAL);
             }
         }
     }

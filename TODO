@@ -42,6 +42,7 @@ New features to add:
         - Add support for vertical particle accelerators.
         - Amplify sirens, with sort of multi block structure, also add pitch support for the multi block.
         - Add metal break sound to machines etc?
+        - Rework GUI system.
 
     Rendering:
         - Make the whole multi block reactor cell share GUI.
