@@ -5,7 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.quantum.common.init.QuantumBlocks;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.position.Position;
 
 import java.util.HashMap;
 
@@ -34,7 +34,7 @@ public class SchematicFissionReactor implements ISchematic {
                 for (int z = -radius; z <= radius; z++) {
                     map.put(new BlockPos(x, 1, z), QuantumBlocks.blockElectricTurbine.getDefaultState());
 
-                    if (!(x == -radius || x == radius && z == -radius || z == radius) && new Vector3(x, 0, z).getMagnitude() <= 1) {
+                    if (!(x == -radius || x == radius && z == -radius || z == radius) && new Position(x, 0, z).getMagnitude() <= 1) {
                         map.put(new BlockPos(x, -1, z), QuantumBlocks.blockControlRod.getDefaultState());
                         //map.put(new Vector3(x, -2, z), new Pair<>(Blocks.STICKY_PISTON, 1));
                         map.put(new BlockPos(x, -2, z), Blocks.STICKY_PISTON.getDefaultState());
@@ -49,8 +49,8 @@ public class SchematicFissionReactor implements ISchematic {
             for (int y = 0; y < size; y++) {
                 for (int x = -radius; x <= radius; x++) {
                     for (int z = -radius; z <= radius; z++) {
-                        Vector3 targetPosition = new Vector3(x, y, z);
-                        Vector3 leveledPosition = new Vector3(0, y, 0);
+                        Position targetPosition = new Position(x, y, z);
+                        Position leveledPosition = new Position(0, y, 0);
                         BlockPos targetPos = new BlockPos(targetPosition.getX(), targetPosition.getY(), targetPosition.getZ());
 
                         if (y < size - 1) {
@@ -59,10 +59,10 @@ public class SchematicFissionReactor implements ISchematic {
 
                                 // Place piston base to push control rods in.
                                 int rotationMetadata = 0;
-                                Vector3 offset = new Vector3(x, 0, z).normalize();
+                                Position offset = new Position(x, 0, z).normalize();
 
                                 for (EnumFacing checkDir : EnumFacing.VALUES) {
-                                    if (offset.x == checkDir.getFrontOffsetX() && offset.y == checkDir.getFrontOffsetY() && offset.z == checkDir.getFrontOffsetZ()) {
+                                    if (offset.getX() == checkDir.getFrontOffsetX() && offset.getY() == checkDir.getFrontOffsetY() && offset.getZ() == checkDir.getFrontOffsetZ()) {
                                         rotationMetadata = checkDir.getOpposite().ordinal();
                                     }
                                 }

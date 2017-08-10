@@ -15,7 +15,6 @@ import org.halvors.quantum.common.block.BlockRotatable;
 import org.halvors.quantum.common.item.block.ItemBlockThermometer;
 import org.halvors.quantum.common.tile.reactor.fission.TileThermometer;
 import org.halvors.quantum.common.utility.InventoryUtility;
-import org.halvors.quantum.common.utility.WrenchUtility;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class BlockThermometer extends BlockRotatable {
         if (tile instanceof TileThermometer) {
             final TileThermometer tileThermometer = (TileThermometer) tile;
 
-            if (WrenchUtility.hasUsableWrench(player, pos)) {
+            if (InventoryUtility.hasUsableWrench(player, pos)) {
                 if (player.isSneaking()) {
                     tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
                 } else {

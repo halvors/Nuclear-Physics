@@ -15,7 +15,7 @@ import org.halvors.quantum.common.Quantum;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.block.states.BlockStateSiren;
 import org.halvors.quantum.common.tile.reactor.fission.TileSiren;
-import org.halvors.quantum.common.utility.WrenchUtility;
+import org.halvors.quantum.common.utility.InventoryUtility;
 
 import javax.annotation.Nonnull;
 
@@ -51,7 +51,7 @@ public class BlockSiren extends BlockContainerQuantum {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (WrenchUtility.hasUsableWrench(player, pos)) {
+        if (InventoryUtility.hasUsableWrench(player, pos)) {
             int pitch = state.getValue(BlockStateSiren.PITCH);
 
             if (player.isSneaking()) {

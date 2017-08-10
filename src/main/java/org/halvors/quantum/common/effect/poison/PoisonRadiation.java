@@ -5,7 +5,7 @@ import net.minecraft.util.math.BlockPos;
 import org.halvors.quantum.common.effect.damage.CustomDamageSource;
 import org.halvors.quantum.common.effect.potion.CustomPotionEffect;
 import org.halvors.quantum.common.effect.potion.PotionRadiation;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.position.Position;
 
 public class PoisonRadiation extends Poison {
     private static final PoisonRadiation instance = new PoisonRadiation("radiation");
@@ -17,7 +17,7 @@ public class PoisonRadiation extends Poison {
 
     @Override
     public boolean isEntityProtected(BlockPos pos, EntityLivingBase entity, int amplifier) {
-        return pos != null && getAntiPoisonBlockCount(entity.getEntityWorld(), new Vector3(pos.getX(), pos.getY(), pos.getZ()), new Vector3(entity)) <= amplifier && super.isEntityProtected(pos, entity, amplifier);
+        return pos != null && getAntiPoisonBlockCount(entity.getEntityWorld(), new Position(pos), new Position(entity)) <= amplifier && super.isEntityProtected(pos, entity, amplifier);
     }
 
     @Override

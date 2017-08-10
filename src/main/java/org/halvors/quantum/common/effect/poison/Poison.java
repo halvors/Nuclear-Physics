@@ -1,5 +1,6 @@
 package org.halvors.quantum.common.effect.poison;
 
+import javafx.geometry.Pos;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.quantum.api.block.IAntiPoisonBlock;
 import org.halvors.quantum.api.item.armor.IAntiPoisonArmor;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.position.Position;
 
 import java.util.EnumSet;
 
@@ -65,22 +66,22 @@ public abstract class Poison {
         return armorWorn.containsAll(armorRequired);
     }
 
-    public int getAntiPoisonBlockCount(World world, Vector3 startingPosition, Vector3 endingPosition) {
-        Vector3 delta = endingPosition.clone().subtract(startingPosition).normalize();
-        Vector3 targetPosition = startingPosition.clone();
+    public int getAntiPoisonBlockCount(World world, Position startingPosition, Position endingPosition) {
+        Position delta = endingPosition.subtract(startingPosition).normalize();
+        //Position targetPosition = startingPosition.clone();
         double totalDistance = startingPosition.distance(endingPosition);
 
         int count = 0;
         if (totalDistance > 1.0D) {
-            while (targetPosition.distance(endingPosition) <= totalDistance) {
-                Block block = targetPosition.getBlock(world);
+            while (startingPosition.distance(endingPosition) <= totalDistance) {
+                Block block = startingPosition.getBlock(world);
                 if (block instanceof IAntiPoisonBlock) {
-                    if (((IAntiPoisonBlock) block).isPoisonPrevention(world, targetPosition.intX(), targetPosition.intY(), targetPosition.intZ(), name)) {
+                    if (((IAntiPoisonBlock) block).isPoisonPrevention(world, startingPosition.getIntX(), startingPosition.getIntY(), startingPosition.getIntZ(), name)) {
                         count++;
                     }
                 }
 
-                targetPosition.add(delta);
+                startingPosition.add(delta);
             }
         }
 

@@ -3,7 +3,7 @@ package org.halvors.quantum.common.event.handler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.quantum.api.explosion.ExplosionEvent;
 import org.halvors.quantum.common.tile.particle.TileFulmination;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.position.Position;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,9 +32,9 @@ public class FulminationHandler {
                 for (TileFulmination tileEntity : FulminationHandler.list) {
                     if (tileEntity != null) {
                         if (!tileEntity.isInvalid()) {
-                            Vector3 tileDiDian = new Vector3(tileEntity);
+                            Position tileDiDian = new Position(tileEntity);
                             tileDiDian.translate(0.5f);
-                            double juLi = tileDiDian.distance(new Vector3(event.x, event.y, event.z));
+                            double juLi = tileDiDian.distance(event.x, event.y, event.z);
 
                             if (juLi <= event.iExplosion.getRadius() && juLi > 0) {
                                 float miDu = 0; //event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
@@ -53,7 +53,7 @@ public class FulminationHandler {
                 for (TileFulmination tile : avaliableGenerators) {
                     //float density = event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tile.getPos()));
                     float density = 0;
-                    double juLi = new Vector3(tile).distance(new Vector3(event.x, event.y, event.z));
+                    double juLi = new Position(tile).distance(event.x, event.y, event.z);
                     long energy = (long) Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (juLi / event.iExplosion.getRadius()));
                     energy = (long) Math.max((1 - density) * energy, 0);
 

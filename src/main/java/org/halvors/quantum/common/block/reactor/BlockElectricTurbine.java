@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.quantum.common.block.BlockContainerQuantum;
 import org.halvors.quantum.common.tile.reactor.TileElectricTurbine;
-import org.halvors.quantum.common.utility.WrenchUtility;
+import org.halvors.quantum.common.utility.InventoryUtility;
 
 import javax.annotation.Nonnull;
 
@@ -52,7 +52,7 @@ public class BlockElectricTurbine extends BlockContainerQuantum {
         if (tile instanceof TileElectricTurbine) {
             final TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
 
-            if (WrenchUtility.hasUsableWrench(player, pos)) {
+            if (InventoryUtility.hasUsableWrench(player, pos)) {
                 return tileTurbine.getMultiBlock().toggleConstruct();
             }
         }

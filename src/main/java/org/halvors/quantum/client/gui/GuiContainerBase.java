@@ -12,15 +12,12 @@ import org.halvors.quantum.common.container.ContainerDummy;
 import org.halvors.quantum.common.utility.LanguageUtility;
 import org.halvors.quantum.common.utility.ResourceUtility;
 import org.halvors.quantum.common.utility.energy.UnitDisplay;
-import org.halvors.quantum.common.utility.transform.vector.Rectangle;
-import org.halvors.quantum.common.utility.transform.vector.Vector2;
 import org.halvors.quantum.common.utility.type.ResourceType;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
@@ -53,8 +50,6 @@ public class GuiContainerBase extends GuiContainer {
     protected static int energyType = 0;
 
     public String tooltip = "";
-    protected HashMap<Rectangle, String> tooltips = new HashMap<Rectangle, String>();
-
     protected int containerWidth;
     protected int containerHeight;
     private float lastChangeFrameTime;
@@ -78,16 +73,9 @@ public class GuiContainerBase extends GuiContainer {
         super.onGuiClosed();
     }
 
+
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-
-        for (Map.Entry<Rectangle, String> entry : tooltips.entrySet()) {
-            if (entry.getKey().isIn(new Vector2(mouseX - guiLeft, mouseY - guiTop))) {
-                tooltip = entry.getValue();
-                break;
-            }
-        }
-
         if (tooltip != null && !tooltip.equals("")) {
             drawTooltip(mouseX - guiLeft, mouseY - guiTop, LanguageUtility.splitStringPerWord(tooltip, 5).toArray(new String[] {}));
         }
@@ -96,8 +84,7 @@ public class GuiContainerBase extends GuiContainer {
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY)
-    {
+    protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
         this.containerWidth = (width - xSize) / 2;
         this.containerHeight = (height - ySize) / 2;
 

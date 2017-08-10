@@ -5,7 +5,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.quantum.common.init.QuantumBlocks;
-import org.halvors.quantum.common.utility.transform.vector.Vector3;
+import org.halvors.quantum.common.utility.position.Position;
 
 import java.util.HashMap;
 
@@ -31,7 +31,7 @@ public class SchematicBreedingReactor implements ISchematic {
 
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
-                Vector3 position = new Vector3(x, 0, z);
+                Position position = new Position(x, 0, z);
 
                 if (position.getMagnitude() <= 2) {
                     if (!((x == -radius || x == radius) && (z == -radius || z == radius))) {

@@ -134,16 +134,28 @@ public class Position {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Position add(double x, double y, double z) {
+    public Position translate(double x, double y, double z) {
         return new Position(this.x + x, this.y + y, this.z + z);
     }
 
+    public Position translate(double addition) {
+        return translate(addition, addition, addition);
+    }
+
+    public Position translate(Position position) {
+        return translate(position.getX(), position.getY(), position.getZ());
+    }
+
+    public Position add(double x, double y, double z) {
+        return translate(x, y, z);
+    }
+
     public Position add(Position position) {
-        return add(position.getX(), position.getY(), position.getZ());
+        return translate(position);
     }
 
     public Position subtract(double x, double y, double z) {
-        return new Position(this.x - x, this.y - y, this.z - z);
+        return translate(-x, -y, -z);
     }
 
     public Position subtract(Position position) {
@@ -160,6 +172,34 @@ public class Position {
 
     public Position offset(EnumFacing side) {
         return offset(side, 1);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public double getMagnitude() {
+        return Math.sqrt(getMagnitudeSquared());
+    }
+
+    public double getMagnitudeSquared() {
+        return x * x + y * y + z * z;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public double distance(double x, double y, double z) {
+        return subtract(x, y, z).getMagnitude();
+    }
+
+    public double distance(Position compare) {
+        return distance(compare.getX(), compare.getY(), compare.getZ());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public Position normalize() {
+        double magnitude = getMagnitude();
+
+        return scale(magnitude != 0 ? 1 / magnitude : 0);
     }
 
     /**
