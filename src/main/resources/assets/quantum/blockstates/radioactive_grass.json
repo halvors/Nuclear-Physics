@@ -3,13 +3,13 @@
   "defaults": {
     "model": "cube_all",
     "textures": {
-      "particle": "quantum:blocks/radioactive_grass",
-      "down": "quantum:blocks/radioactive_grass_bottom",
-      "up": "quantum:blocks/radioactive_grass_top",
-      "north": "quantum:blocks/radioactive_grass",
-      "east": "quantum:blocks/radioactive_grass",
-      "south": "quantum:blocks/radioactive_grass",
-      "west": "quantum:blocks/radioactive_grass"
+      "particle": "nuclear-physics:blocks/radioactive_grass",
+      "down": "nuclear-physics:blocks/radioactive_grass_bottom",
+      "up": "nuclear-physics:blocks/radioactive_grass_top",
+      "north": "nuclear-physics:blocks/radioactive_grass",
+      "east": "nuclear-physics:blocks/radioactive_grass",
+      "south": "nuclear-physics:blocks/radioactive_grass",
+      "west": "nuclear-physics:blocks/radioactive_grass"
     },
     "uvlock": true
   },

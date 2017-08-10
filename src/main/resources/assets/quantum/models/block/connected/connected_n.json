@@ -1,6 +1,6 @@
 {
     "__comment": "Model for when only one side is connected.",
-	"parent": "quantum:block/connected/cube",
+	"parent": "nuclear-physics:block/connected/cube",
     "textures": {
 		"particle": "#normal",
         "down": "#d_top",

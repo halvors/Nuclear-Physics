@@ -27,21 +27,21 @@
     },
     "type": {
       "chemical_extractor": {
-        "model": "quantum:chemical_extractor.obj"
+        "model": "nuclear-physics:chemical_extractor.obj"
       },
       "gas_centrifuge": {
-        "model": "quantum:gas_centrifuge.obj"
+        "model": "nuclear-physics:gas_centrifuge.obj"
       },
       "nuclear_boiler": {
-        "model": "quantum:nuclear_boiler.obj"
+        "model": "nuclear-physics:nuclear_boiler.obj"
       },
       "quantum_assembler": {
-        "model": "quantum:quantum_assembler.obj"
+        "model": "nuclear-physics:quantum_assembler.obj"
       },
       "plasma_heater": {
-        "model": "quantum:plasma_heater.obj",
+        "model": "nuclear-physics:plasma_heater.obj",
         "textures": {
-          "#None": "quantum:models/plasma_heater"
+          "#None": "nuclear-physics:models/plasma_heater"
         }
       }
     }

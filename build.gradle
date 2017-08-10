@@ -36,8 +36,8 @@ configFile.withReader {
 }
 
 version = config.minecraft_version + "-" + config.mod_version
-group = "org.halvors.quantum"
-archivesBaseName = "quantum"
+group = "org.halvors.nuclearphysics"
+archivesBaseName = "nuclearphysics"
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 

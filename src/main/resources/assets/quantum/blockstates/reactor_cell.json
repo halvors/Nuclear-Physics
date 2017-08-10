@@ -4,7 +4,7 @@
     "custom": {
       "flip-v": true
     },
-    "model": "quantum:reactor_cell.obj",
+    "model": "nuclear-physics:reactor_cell.obj",
     "transform": "forge:default-block"
   },
   "variants": {

@@ -3,13 +3,13 @@
   "defaults": {
     "model": "cube_all",
     "textures": {
-      "particle": "quantum:blocks/machine",
-      "down": "quantum:blocks/machine",
-      "up": "quantum:blocks/thermometer",
-      "north": "quantum:blocks/machine",
-      "east": "quantum:blocks/machine",
-      "south": "quantum:blocks/machine",
-      "west": "quantum:blocks/machine"
+      "particle": "nuclear-physics:blocks/machine",
+      "down": "nuclear-physics:blocks/machine",
+      "up": "nuclear-physics:blocks/thermometer",
+      "north": "nuclear-physics:blocks/machine",
+      "east": "nuclear-physics:blocks/machine",
+      "south": "nuclear-physics:blocks/machine",
+      "west": "nuclear-physics:blocks/machine"
     },
     "uvlock": true
   },

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "quantum:items/plate_bronze"
+    "layer0": "nuclear-physics:items/plate_bronze"
   }
 }

@@ -4,9 +4,9 @@
     "inventory": {
       "model": "forge:forgebucket",
       "textures": {
-        "base": "quantum:items/cell_base",
-        "fluid": "quantum:items/cell_fluid",
-        "cover": "quantum:items/cell_cover"
+        "base": "nuclear-physics:items/cell_base",
+        "fluid": "nuclear-physics:items/cell_fluid",
+        "cover": "nuclear-physics:items/cell_cover"
       },
       "transform": "forge:default-item"
     }

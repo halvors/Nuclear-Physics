@@ -26,14 +26,14 @@
     "type": {
       "accelerator": {
         "textures": {
-          "all": "quantum:blocks/accelerator"
+          "all": "nuclear-physics:blocks/accelerator"
         }
       },
       "gas_funnel": {
         "textures": {
-          "all": "quantum:blocks/gas_funnel",
-          "down": "quantum:blocks/gas_funnel_top",
-          "up": "quantum:blocks/gas_funnel_top"
+          "all": "nuclear-physics:blocks/gas_funnel",
+          "down": "nuclear-physics:blocks/gas_funnel_top",
+          "up": "nuclear-physics:blocks/gas_funnel_top"
         }
       }
     }

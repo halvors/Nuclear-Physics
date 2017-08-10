@@ -3,7 +3,7 @@
     "category": "block",
     "sounds": [
       {
-        "name": "quantum:accelerator",
+        "name": "nuclear-physics:accelerator",
         "stream": false
       }
     ]
@@ -12,7 +12,7 @@
     "category": "block",
     "sounds": [
       {
-        "name": "quantum:antimatter",
+        "name": "nuclear-physics:antimatter",
         "stream": false
       }
     ]
@@ -21,7 +21,7 @@
     "category": "block",
     "sounds": [
       {
-        "name": "quantum:assembler",
+        "name": "nuclear-physics:assembler",
         "stream": false
       }
     ]
@@ -30,7 +30,7 @@
     "category": "block",
     "sounds": [
       {
-        "name": "quantum:electric_turbine",
+        "name": "nuclear-physics:electric_turbine",
         "stream": false
       }
     ]
@@ -39,7 +39,7 @@
     "category": "block",
     "sounds": [
       {
-        "name": "quantum:reactor_cell",
+        "name": "nuclear-physics:reactor_cell",
         "stream": false
       }
     ]
@@ -48,7 +48,7 @@
     "category": "block",
     "sounds": [
       {
-        "name": "quantum:siren",
+        "name": "nuclear-physics:siren",
         "stream": false
       }
     ]

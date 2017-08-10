@@ -5,4 +5,4 @@ newmtl None
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
 d 1.000000
-map_Kd quantum:models/chemical_extractor
+map_Kd nuclear-physics:models/chemical_extractor

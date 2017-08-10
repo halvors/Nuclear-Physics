@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "quantum:items/fissile_fuel"
+    "layer0": "nuclear-physics:items/fissile_fuel"
   }
 }

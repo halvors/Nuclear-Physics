@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "quantum:items/breeder_fuel"
+    "layer0": "nuclear-physics:items/breeder_fuel"
   }
 }

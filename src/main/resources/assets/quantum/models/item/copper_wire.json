@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "quantum:items/copper_wire"
+    "layer0": "nuclear-physics:items/copper_wire"
   }
 }
