@@ -108,7 +108,7 @@ public class ThermalEventHandler {
                 event.heatLoss = 0.15F;
             }
 
-            if (state == Blocks.WATER.getDefaultState() || state == Blocks.FLOWING_WATER.getDefaultState()) {
+            if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
                 if (event.temperature >= ThermalPhysics.waterBoilTemperature) {
                     Fluid fluidSteam = FluidRegistry.getFluid("steam");
 
@@ -123,7 +123,7 @@ public class ThermalEventHandler {
                 }
             }
 
-            if (state == Blocks.ICE.getDefaultState() || state == Blocks.PACKED_ICE.getDefaultState()) {
+            if (block == Blocks.ICE || block == Blocks.PACKED_ICE) {
                 if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override
@@ -146,7 +146,7 @@ public class ThermalEventHandler {
                 event.heatLoss = 0.4F;
             }
 
-            if (state.getBlock() == Blocks.SNOW || state.getBlock() == Blocks.SNOW_LAYER) {
+            if (block == Blocks.SNOW || block == Blocks.SNOW_LAYER) {
                 if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override
