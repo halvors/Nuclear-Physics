@@ -17,7 +17,7 @@ public class PoisonRadiation extends Poison {
 
     @Override
     public boolean isEntityProtected(BlockPos pos, EntityLivingBase entity, int amplifier) {
-        return pos != null && getAntiPoisonBlockCount(entity.getEntityWorld(), new Position(pos), new Position(entity)) <= amplifier && super.isEntityProtected(pos, entity, amplifier);
+        return pos != null && super.isEntityProtected(pos, entity, amplifier);
     }
 
     @Override

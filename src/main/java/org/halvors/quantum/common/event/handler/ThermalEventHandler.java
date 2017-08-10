@@ -62,10 +62,10 @@ public class ThermalEventHandler {
         final IBlockState state = world.getBlockState(pos);
         final Block block = state.getBlock();
 
-        if (state != null) {
+        if (block != null) {
             final TileEntity tile = world.getTileEntity(pos);
 
-            if (state == Blocks.BEDROCK || state == Blocks.IRON_BLOCK) {
+            if (block == Blocks.BEDROCK || block == Blocks.IRON_BLOCK) {
                 return;
             }
 
@@ -96,8 +96,9 @@ public class ThermalEventHandler {
         final World world = (World) event.getWorld();
         final BlockPos pos = event.getPos();
         final IBlockState state = world.getBlockState(pos);
+        final Block block = state.getBlock();
 
-        if (state == QuantumBlocks.blockElectromagnet) {
+        if (block == QuantumBlocks.blockElectromagnet) {
             event.heatLoss = event.deltaTemperature * 0.6F;
         }
 
@@ -107,13 +108,12 @@ public class ThermalEventHandler {
                 event.heatLoss = 0.15F;
             }
 
-            if (state == Blocks.WATER || state == Blocks.FLOWING_WATER) {
+            if (state == Blocks.WATER.getDefaultState() || state == Blocks.FLOWING_WATER.getDefaultState()) {
                 if (event.temperature >= ThermalPhysics.waterBoilTemperature) {
                     Fluid fluidSteam = FluidRegistry.getFluid("steam");
 
                     if (fluidSteam != null) {
-                        // TODO: INCORRECT!
-                        int steamMultiplier = 1; // Add this as configuration option?
+                        int steamMultiplier = 1; // TODO: Add this as configuration option?
                         int volume = (int) (Fluid.BUCKET_VOLUME * (event.temperature / ThermalPhysics.waterBoilTemperature) * steamMultiplier);
 
                         MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(fluidSteam, volume), 2, event.isReactor));
@@ -123,7 +123,7 @@ public class ThermalEventHandler {
                 }
             }
 
-            if (state == Blocks.ICE || state == Blocks.PACKED_ICE) {
+            if (state == Blocks.ICE.getDefaultState() || state == Blocks.PACKED_ICE.getDefaultState()) {
                 if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override
@@ -146,7 +146,7 @@ public class ThermalEventHandler {
                 event.heatLoss = 0.4F;
             }
 
-            if (state == Blocks.SNOW || state == Blocks.SNOW_LAYER) {
+            if (state.getBlock() == Blocks.SNOW || state.getBlock() == Blocks.SNOW_LAYER) {
                 if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override

@@ -29,6 +29,7 @@ New features to add:
         - Fluid output is not transferred to neighbor machine accepting it as input.
         - Add electromagnetic cell, a cell capable of holding antimatter.
         - Not poison players in creative mode?
+        - Implement IAntiPoisonBlock and add make radiation resistant blocks.
 
     Enhancement:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.

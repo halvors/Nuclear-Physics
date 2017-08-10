@@ -66,27 +66,5 @@ public abstract class Poison {
         return armorWorn.containsAll(armorRequired);
     }
 
-    public int getAntiPoisonBlockCount(World world, Position startingPosition, Position endingPosition) {
-        Position delta = endingPosition.subtract(startingPosition).normalize();
-        //Position targetPosition = startingPosition.clone();
-        double totalDistance = startingPosition.distance(endingPosition);
-
-        int count = 0;
-        if (totalDistance > 1.0D) {
-            while (startingPosition.distance(endingPosition) <= totalDistance) {
-                Block block = startingPosition.getBlock(world);
-                if (block instanceof IAntiPoisonBlock) {
-                    if (((IAntiPoisonBlock) block).isPoisonPrevention(world, startingPosition.getIntX(), startingPosition.getIntY(), startingPosition.getIntZ(), name)) {
-                        count++;
-                    }
-                }
-
-                startingPosition.add(delta);
-            }
-        }
-
-        return count;
-    }
-
     protected abstract void doPoisonEntity(BlockPos pos, EntityLivingBase entity, int amplifier);
 }

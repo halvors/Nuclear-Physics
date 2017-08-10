@@ -47,7 +47,7 @@ public class ThermalGrid implements IUpdate {
 
     @Override
     public void update() {
-        for (Entry<Pair<World, BlockPos>, Float> entry : new HashMap<>(thermalSource).entrySet()) { // Use thermalSource HashMap directly without new?
+        for (Entry<Pair<World, BlockPos>, Float> entry : new HashMap<>(thermalSource).entrySet()) {
             // Distribute temperature
             World world = entry.getKey().getLeft();
             BlockPos pos = entry.getKey().getRight();
