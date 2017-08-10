@@ -1,4 +1,4 @@
-package org.halvors.quantum.common.tile.reactor;
+package org.halvors.nuclearphysics.common.tile.reactor;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,17 +14,17 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.quantum.common.ConfigurationManager;
-import org.halvors.quantum.common.Quantum;
-import org.halvors.quantum.common.fluid.tank.FluidTankQuantum;
-import org.halvors.quantum.common.init.QuantumFluids;
-import org.halvors.quantum.common.init.QuantumSoundEvents;
-import org.halvors.quantum.common.multiblock.ElectricTurbineMultiBlockHandler;
-import org.halvors.quantum.common.multiblock.IMultiBlockStructure;
-import org.halvors.quantum.common.network.packet.PacketTileEntity;
-import org.halvors.quantum.common.tile.ITileNetwork;
-import org.halvors.quantum.common.tile.TileGenerator;
-import org.halvors.quantum.common.utility.position.Position;
+import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.fluid.tank.FluidTankQuantum;
+import org.halvors.nuclearphysics.common.init.QuantumFluids;
+import org.halvors.nuclearphysics.common.init.QuantumSoundEvents;
+import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHandler;
+import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;
+import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
+import org.halvors.nuclearphysics.common.tile.ITileNetwork;
+import org.halvors.nuclearphysics.common.tile.TileGenerator;
+import org.halvors.nuclearphysics.common.utility.position.Position;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
@@ -38,9 +38,7 @@ import java.util.Set;
  * The front of the turbine is where the output is.
  */
 public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, ITileNetwork {
-    // Amount of energy per liter of steam. Boil Water Energy = 327600 + 2260000 = 2587600
-    //protected final int energyPerSteam = 2647600 / 1000;
-    protected final int energyPerSteam = 52000;
+    protected final int energyPerSteam = 50; // 52000
     protected final int defaultTorque = 5000;
     protected int torque = defaultTorque;
 
@@ -65,7 +63,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public int tier = 0; // Synced
 
     // Max power in watts.
-    protected int maxPower = 5000000;
+    protected int maxPower = 5000;
     protected float angularVelocity = 0; // Synced
     protected float previousAngularVelocity = 0;
 
@@ -73,7 +71,6 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     private ElectricTurbineMultiBlockHandler multiBlock;
 
     public TileElectricTurbine() {
-        energyGeneration = maxPower * 20;
         energyStorage = new EnergyStorage(maxPower * 20);
     }
 
@@ -107,17 +104,18 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                     }
                 }
 
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                 // Set angular velocity based on power and torque.
                 angularVelocity = (power * 4) / torque;
 
                 if (world.getWorldTime() % 3 == 0 && previousAngularVelocity != angularVelocity) {
-                    Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+                    NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                     previousAngularVelocity = angularVelocity;
                 }
 
                 if (power > 0) {
                     energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
-                    generateEnergy();
                 }
             }
 
@@ -140,7 +138,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         if (!world.isRemote) {
             if (world.getTotalWorldTime() % 60 == 0 && getMultiBlock().isConstructed()) {
-                Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
 
             power = 0;
@@ -197,7 +195,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     @Override
     public void onMultiBlockChanged() {
         if (!world.isRemote) {
-            Quantum.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
     }
 
