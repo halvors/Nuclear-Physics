@@ -81,9 +81,7 @@ public class ThermalEventHandler {
             }
         }
 
-        if (block.isReplaceable(world, pos)) {
-            world.setBlockState(pos, QuantumFluids.plasma.getBlock().getDefaultState());
-        }
+        world.setBlockState(pos, QuantumFluids.plasma.getBlock().getDefaultState());
 
         TileEntity tile = world.getTileEntity(pos);
 
