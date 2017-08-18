@@ -32,11 +32,10 @@ public class TileGasFunnel extends TileEntity implements ITickable {
             TileEntity tile = world.getTileEntity(pos.up());
 
             if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
-                IFluidHandler fluidHandler = getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN);
                 FluidStack fluidStack = tank.drain(tank.getCapacity(), false);
 
                 if (fluidStack != null) {
-                    tank.drain(fluidHandler.fill(fluidStack, true), true);
+                    tank.drain(tank.fill(fluidStack, true), true);
                 }
             }
         }

@@ -1,7 +1,7 @@
-# Quantum Language Properties
+# Nuclear Physics Language Properties
 
 // Creative tab.
-itemGroup.quantum=Quantum
+itemGroup.nuclearphysics=Nuclear Physics
 
 // Fluids.
 fluid.empty=Empty
