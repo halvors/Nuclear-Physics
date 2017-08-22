@@ -63,30 +63,32 @@ public class ThermalEventHandler {
         final IBlockState state = world.getBlockState(pos);
         final Block block = state.getBlock();
 
-        if (block != null) {
-            final TileEntity tile = world.getTileEntity(pos);
-
-            if (block == Blocks.BEDROCK || block == Blocks.IRON_BLOCK) {
-                return;
-            }
-
-            if (tile instanceof TilePlasma) {
-                ((TilePlasma) tile).setTemperature(event.getTemperature());
-
-                return;
-            }
-
-            if (tile instanceof IElectromagnet) {
-                return;
-            }
+        if (block == Blocks.BEDROCK || block == Blocks.IRON_BLOCK) {
+            return;
         }
-
-        world.setBlockState(pos, QuantumFluids.plasma.getBlock().getDefaultState());
 
         TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TilePlasma) {
-            ((TilePlasma) tile).setTemperature(event.getTemperature());
+            TilePlasma tilePlasma = (TilePlasma) tile;
+            tilePlasma.setTemperature(event.getTemperature());
+
+            return;
+        }
+
+        if (tile instanceof IElectromagnet) {
+            return;
+        }
+
+        // Replacing block with plasma.
+        world.setBlockState(pos, QuantumFluids.plasma.getBlock().getDefaultState());
+
+        // We need to update the tile entity with the one from the plasma block that didn't exist before.
+        tile = world.getTileEntity(pos);
+
+        if (tile instanceof TilePlasma) {
+            TilePlasma tilePlasma = (TilePlasma) tile;
+            tilePlasma.setTemperature(event.getTemperature());
         }
     }
 
