@@ -63,7 +63,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public int tier = 0; // Synced
 
     // Max power in watts.
-    protected int maxPower = 5000;
+    protected int maxPower = 128000;
     protected float angularVelocity = 0; // Synced
     protected float previousAngularVelocity = 0;
 
