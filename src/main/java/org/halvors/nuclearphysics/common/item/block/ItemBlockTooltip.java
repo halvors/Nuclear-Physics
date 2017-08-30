@@ -12,7 +12,7 @@ import org.lwjgl.input.Keyboard;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ItemBlockTooltip extends ItemBlockQuantum {
+public class ItemBlockTooltip extends ItemBlockNuclearPhysics {
     public ItemBlockTooltip(Block block) {
         super(block);
     }

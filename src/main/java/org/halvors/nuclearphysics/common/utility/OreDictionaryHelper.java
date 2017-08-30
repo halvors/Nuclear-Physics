@@ -5,8 +5,16 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class OreDictionaryHelper {
     // Items
+    public static boolean isFissileFuel(ItemStack itemStack) {
+        return hasOreName(itemStack, "fuelFissile");
+    }
+
     public static boolean isBreederFuel(ItemStack itemStack) {
         return hasOreName(itemStack, "fuelBreeder");
+    }
+
+    public static boolean isFuel(ItemStack itemStack) {
+        return isFissileFuel(itemStack) || isBreederFuel(itemStack);
     }
 
     public static boolean isEmptyCell(ItemStack itemStack) {
@@ -19,10 +27,6 @@ public class OreDictionaryHelper {
 
     public static boolean isDeuteriumCell(ItemStack itemStack) {
         return hasOreName(itemStack, "cellDeuterium");
-    }
-
-    public static boolean isFissileFuel(ItemStack itemStack) {
-        return hasOreName(itemStack, "fuelFissile");
     }
 
     public static boolean isTritiumCell(ItemStack itemStack) {

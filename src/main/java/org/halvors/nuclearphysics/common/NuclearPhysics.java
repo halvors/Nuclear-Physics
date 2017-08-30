@@ -96,12 +96,10 @@ public class NuclearPhysics {
 		MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ExplosionEventHandler());
+		MinecraftForge.EVENT_BUS.register(new FulminationHandler());
 
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
-
-		// Register event buses. TODO: Move this to a custom event handler?
-		MinecraftForge.EVENT_BUS.register(FulminationHandler.INSTANCE);
 
 		//Register the mod's world generators
 		GameRegistry.registerWorldGenerator(new WorldGenerator(), 1);
