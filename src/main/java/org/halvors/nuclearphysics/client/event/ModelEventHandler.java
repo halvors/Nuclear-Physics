@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.fluid.MeshDefinitionFix;
-import org.halvors.nuclearphysics.common.init.QuantumFluids;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 
@@ -50,7 +50,7 @@ public class ModelEventHandler {
 	 * Register this mod's {@link Fluid} models.
 	 */
 	private void registerFluidModels() {
-		for (final IFluidBlock fluid : QuantumFluids.fluidBlocks) {
+		for (final IFluidBlock fluid : ModFluids.fluidBlocks) {
 			registerFluidModel(fluid);
 		}
 	}

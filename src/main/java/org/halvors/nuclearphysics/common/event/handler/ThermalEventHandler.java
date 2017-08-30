@@ -24,8 +24,8 @@ import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.nuclearphysics.common.grid.IUpdate;
 import org.halvors.nuclearphysics.common.grid.UpdateTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
-import org.halvors.nuclearphysics.common.init.QuantumBlocks;
-import org.halvors.nuclearphysics.common.init.QuantumFluids;
+import org.halvors.nuclearphysics.common.init.ModBlocks;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 
 public class ThermalEventHandler {
@@ -81,7 +81,7 @@ public class ThermalEventHandler {
         }
 
         // Replacing block with plasma.
-        world.setBlockState(pos, QuantumFluids.plasma.getBlock().getDefaultState());
+        world.setBlockState(pos, ModFluids.plasma.getBlock().getDefaultState());
 
         // We need to update the tile entity with the one from the plasma block that didn't exist before.
         tile = world.getTileEntity(pos);
@@ -99,7 +99,7 @@ public class ThermalEventHandler {
         final IBlockState state = world.getBlockState(pos);
         final Block block = state.getBlock();
 
-        if (block == QuantumBlocks.blockElectromagnet) {
+        if (block == ModBlocks.blockElectromagnet) {
             event.heatLoss = event.deltaTemperature * 0.6F;
         }
 

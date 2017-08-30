@@ -21,6 +21,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateReactorCell;
+import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.multiblock.MultiBlockHandler;
 import org.halvors.nuclearphysics.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
@@ -140,20 +141,22 @@ public class BlockReactorCell extends BlockInventory {
                 IItemHandlerModifiable inventory = multiBlockHandler.getPrimary().getInventory();
                 ItemStack itemStackInSlot = inventory.getStackInSlot(0);
 
-                if (itemStack != null && itemStackInSlot == null) {
-                    if (itemStack.getItem() instanceof IReactorComponent) {
-                        inventory.insertItem(0, itemStack.copy(), false);
-                        player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                if (player.isSneaking()) {
+                    if (itemStack == null && itemStackInSlot != null) {
+                        ItemHandlerHelper.giveItemToPlayer(player, itemStackInSlot.copy());
+                        inventory.setStackInSlot(0, null);
 
                         return true;
                     }
-                } else if (player.isSneaking() && itemStackInSlot != null) {
-                    inventory.setStackInSlot(0, null);
-                    ItemHandlerHelper.giveItemToPlayer(player, itemStackInSlot.copy());
-
-                    return true;
                 } else {
-                    PlayerUtility.openGui(player, world, pos);
+                    if (itemStack != null && itemStackInSlot == null && itemStack.getItem() == ModItems.itemFissileFuel) {//&& OreDictionaryHelper.isFuel(itemStack)) {
+                        if (itemStack.getItem() instanceof IReactorComponent) {
+                            inventory.insertItem(0, itemStack.copy(), false);
+                            player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                        }
+                    } else {
+                        PlayerUtility.openGui(player, world, pos);
+                    }
 
                     return true;
                 }

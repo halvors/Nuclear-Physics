@@ -8,7 +8,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.fluid.tank.FluidTankQuantum;
-import org.halvors.nuclearphysics.common.init.QuantumFluids;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
@@ -56,10 +56,10 @@ public class TileNuclearBoiler extends TileProcess {
             }
         };
 
-        tankInput = new FluidTankQuantum(QuantumFluids.fluidStackWater.copy(),Fluid.BUCKET_VOLUME * 5) {
+        tankInput = new FluidTankQuantum(ModFluids.fluidStackWater.copy(),Fluid.BUCKET_VOLUME * 5) {
             @Override
             public int fill(FluidStack resource, boolean doFill) {
-                if (resource.isFluidEqual(QuantumFluids.fluidStackWater)) {
+                if (resource.isFluidEqual(ModFluids.fluidStackWater)) {
                     return super.fill(resource, doFill);
                 }
 
@@ -75,7 +75,7 @@ public class TileNuclearBoiler extends TileProcess {
             */
         };
 
-        tankOutput = new FluidTankQuantum(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
+        tankOutput = new FluidTankQuantum(ModFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
             // TODO: Only allow internal filling?
             /*
             @Override
@@ -86,7 +86,7 @@ public class TileNuclearBoiler extends TileProcess {
 
             @Override
             public FluidStack drain(FluidStack resource, boolean doDrain) {
-                if (resource.isFluidEqual(QuantumFluids.fluidStackUraniumHexaflouride)) {
+                if (resource.isFluidEqual(ModFluids.fluidStackUraniumHexaflouride)) {
                     return drain(resource.amount, doDrain);
                 }
 
@@ -188,7 +188,7 @@ public class TileNuclearBoiler extends TileProcess {
     public void doProcess() {
         if (canProcess()) {
             tankInput.drainInternal(Fluid.BUCKET_VOLUME, true);
-            FluidStack liquid = QuantumFluids.fluidStackUraniumHexaflouride.copy();
+            FluidStack liquid = ModFluids.fluidStackUraniumHexaflouride.copy();
             liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
             tankOutput.fillInternal(liquid, true);
             InventoryUtility.decrStackSize(inventory, inputSlot);

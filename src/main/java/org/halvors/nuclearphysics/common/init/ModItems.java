@@ -24,7 +24,7 @@ import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import java.util.HashSet;
 import java.util.Set;
 
-public class QuantumItems {
+public class ModItems {
     // Basic Components
     public static Item itemWrench = new ItemQuantum("wrench");
     public static Item itemCopperWire = new ItemQuantum("copper_wire");
@@ -124,11 +124,11 @@ public class QuantumItems {
             OreDictionary.registerOre("cellTritium", FluidUtility.getFilledCell(FluidRegistry.getFluid("tritium")));
             OreDictionary.registerOre("cellWater", FluidUtility.getFilledCell(FluidRegistry.WATER));
 
-            OreDictionary.registerOre("ingotUranium", QuantumItems.itemUranium);
-            OreDictionary.registerOre("itemUranium", new ItemStack(QuantumItems.itemUranium, 1, ItemUranium.EnumUranium.URANIUM_238.ordinal()));
+            OreDictionary.registerOre("ingotUranium", ModItems.itemUranium);
+            OreDictionary.registerOre("itemUranium", new ItemStack(ModItems.itemUranium, 1, ItemUranium.EnumUranium.URANIUM_238.ordinal()));
 
-            OreDictionary.registerOre("antimatterMilligram", new ItemStack(QuantumItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.MILLIGRAM.ordinal()));
-            OreDictionary.registerOre("antimatterGram", new ItemStack(QuantumItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.GRAM.ordinal()));
+            OreDictionary.registerOre("antimatterMilligram", new ItemStack(ModItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.MILLIGRAM.ordinal()));
+            OreDictionary.registerOre("antimatterGram", new ItemStack(ModItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.GRAM.ordinal()));
         }
     }
 }

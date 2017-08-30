@@ -14,8 +14,8 @@ import org.halvors.nuclearphysics.api.explosion.IExplosion;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.effect.explosion.AntimatterExplosion;
 import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
-import org.halvors.nuclearphysics.common.init.QuantumItems;
-import org.halvors.nuclearphysics.common.init.QuantumSoundEvents;
+import org.halvors.nuclearphysics.common.init.ModItems;
+import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 
 import java.util.List;
 
@@ -27,9 +27,9 @@ public class ExplosionEventHandler {
         if (entityItem != null) {
             ItemStack itemStack = entityItem.getEntityItem();
 
-            if (itemStack.getItem() == QuantumItems.itemAntimatterCell) {
+            if (itemStack.getItem() == ModItems.itemAntimatterCell) {
                 World world = entityItem.getEntityWorld();
-                world.playSound(entityItem.posX, entityItem.posY, entityItem.posZ, QuantumSoundEvents.ANTIMATTER, SoundCategory.NEUTRAL, 3, 1 - world.rand.nextFloat() * 0.3F, false);
+                world.playSound(entityItem.posX, entityItem.posY, entityItem.posZ, ModSoundEvents.ANTIMATTER, SoundCategory.NEUTRAL, 3, 1 - world.rand.nextFloat() * 0.3F, false);
 
                 if (!entityItem.getEntityWorld().isRemote) {
                     //if (!FlagRegistry.getModFlag(FlagRegistry.DEFAULT_NAME).containsValue(event.entityItem.worldObj, Atomic.BAN_ANTIMATTER_POWER, "true", new Vector3(event.entityItem))) {

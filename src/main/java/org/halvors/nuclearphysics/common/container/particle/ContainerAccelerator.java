@@ -6,7 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.nuclearphysics.common.container.ContainerQuantum;
-import org.halvors.nuclearphysics.common.init.QuantumItems;
+import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
 
 public class ContainerAccelerator extends ContainerQuantum {
@@ -41,7 +41,7 @@ public class ContainerAccelerator extends ContainerQuantum {
                 copyStack = itemStack.copy();
 
                 if (slotId > 2) {
-                    if (itemStack.getItem() == QuantumItems.itemCell) {
+                    if (itemStack.getItem() == ModItems.itemCell) {
                         if (!mergeItemStack(itemStack, 1, 2, false)) {
                             return null;
                         }

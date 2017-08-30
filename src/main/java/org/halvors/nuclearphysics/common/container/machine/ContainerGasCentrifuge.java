@@ -6,7 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.nuclearphysics.common.container.ContainerQuantum;
-import org.halvors.nuclearphysics.common.init.QuantumItems;
+import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
@@ -64,7 +64,7 @@ public class ContainerGasCentrifuge extends ContainerQuantum {
                         if (!mergeItemStack(itemStack, 1, 2, false)) {
                             return null;
                         }
-                    } else if (itemStack.getItem() == QuantumItems.itemCell) {
+                    } else if (itemStack.getItem() == ModItems.itemCell) {
                         if (!mergeItemStack(itemStack, 3, 4, false)) {
                             return null;
                         }

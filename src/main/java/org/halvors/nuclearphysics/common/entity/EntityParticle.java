@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
-import org.halvors.nuclearphysics.common.init.QuantumSoundEvents;
+import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
 import org.halvors.nuclearphysics.common.utility.position.Position;
 
@@ -121,7 +121,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
             // Play sound effects.
             if (ticksExisted % 10 == 0) {
-                world.playSound(posX, posY, posZ, QuantumSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1, (float) (0.6 + (0.4 * (getParticleVelocity() / TileAccelerator.clientParticleVelocity))), true);
+                world.playSound(posX, posY, posZ, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1, (float) (0.6 + (0.4 * (getParticleVelocity() / TileAccelerator.clientParticleVelocity))), true);
             }
 
             // Sanity check
@@ -263,7 +263,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     private void handleCollisionWithEntity() {
-        world.playSound(posX, posY, posZ, QuantumSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, 1F - world.rand.nextFloat() * 0.3F, true);
+        world.playSound(posX, posY, posZ, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, 1F - world.rand.nextFloat() * 0.3F, true);
 
         if (!world.isRemote) {
             if (getParticleVelocity() > antimatterCreationSpeed / 2) {

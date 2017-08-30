@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import org.halvors.nuclearphysics.common.init.QuantumBlocks;
+import org.halvors.nuclearphysics.common.init.ModBlocks;
 
 import java.util.Random;
 
@@ -32,7 +32,7 @@ public class ReactorExplosion extends Explosion {
             IBlockState stateUnder = world.getBlockState(pos.down());
 
             if (world.isAirBlock(pos) && stateUnder.isOpaqueCube() && explosionRAND.nextInt(3) == 0) {
-                world.setBlockState(pos, QuantumBlocks.blockRadioactiveGrass.getDefaultState());
+                world.setBlockState(pos, ModBlocks.blockRadioactiveGrass.getDefaultState());
             }
         }
     }

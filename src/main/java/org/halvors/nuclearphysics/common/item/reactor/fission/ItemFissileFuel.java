@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
-import org.halvors.nuclearphysics.common.init.QuantumFluids;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 
 import javax.annotation.Nonnull;
@@ -80,7 +80,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
 
             // Create toxic waste.
             if (ConfigurationManager.General.allowToxicWaste && world.rand.nextFloat() > 0.5) {
-                FluidStack fluid = QuantumFluids.fluidStackToxicWaste.copy();
+                FluidStack fluid = ModFluids.fluidStackToxicWaste.copy();
                 fluid.amount = 1;
 
                 reactor.getTank().fillInternal(fluid, true);

@@ -42,7 +42,7 @@ import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 import java.util.HashSet;
 import java.util.Set;
 
-public class QuantumBlocks {
+public class ModBlocks {
     public static BlockQuantum blockControlRod = new BlockControlRod();
     public static BlockQuantum blockElectricTurbine = new BlockElectricTurbine();
     public static BlockQuantum blockElectromagnet = new BlockElectromagnet();

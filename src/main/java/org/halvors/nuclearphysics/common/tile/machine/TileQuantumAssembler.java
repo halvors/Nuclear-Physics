@@ -8,8 +8,8 @@ import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.init.QuantumItems;
-import org.halvors.nuclearphysics.common.init.QuantumSoundEvents;
+import org.halvors.nuclearphysics.common.init.ModItems;
+import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
@@ -84,7 +84,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
             }
         } else if (timer > 0) {
             if (world.getWorldTime() % 600 == 0) {
-                world.playSound(null, pos, QuantumSoundEvents.ASSEMBLER, SoundCategory.BLOCKS, 0.7F, 1);
+                world.playSound(null, pos, ModSoundEvents.ASSEMBLER, SoundCategory.BLOCKS, 0.7F, 1);
             }
 
             rotationYaw1 += 3;
@@ -136,7 +136,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
                         return false;
                     }
 
-                    if (slotItemStack.getItem() != QuantumItems.itemDarkMatterCell) {
+                    if (slotItemStack.getItem() != ModItems.itemDarkMatterCell) {
                         return false;
                     }
                 }

@@ -14,6 +14,7 @@ Porting to 1.10.2 from 1.7.10:
     - Slow down client side temperature update of reactor cell.
 
     - Fix fulmination generator power generation.
+    - Fix that fuel is not recognized in the OreDictionaryHelper.
 
 General:
 

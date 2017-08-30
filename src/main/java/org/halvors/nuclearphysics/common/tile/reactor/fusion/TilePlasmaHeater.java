@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.fluid.tank.GasTank;
-import org.halvors.nuclearphysics.common.init.QuantumFluids;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.machine.TileMachine;
 
@@ -26,9 +26,9 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     public static long power = 10000000000L;
     public static int plasmaHeatAmount = 100; //@Config
 
-    private final GasTank tankInputDeuterium = new GasTank(QuantumFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
-    private final GasTank tankInputTritium = new GasTank(QuantumFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
-    private final GasTank tankOutput = new GasTank(QuantumFluids.plasmaStack.copy(), Fluid.BUCKET_VOLUME * 10);
+    private final GasTank tankInputDeuterium = new GasTank(ModFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
+    private final GasTank tankInputTritium = new GasTank(ModFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
+    private final GasTank tankOutput = new GasTank(ModFluids.plasmaStack.copy(), Fluid.BUCKET_VOLUME * 10);
 
     public float rotation = 0;
     private final int maxTransfer = (int) power / 20;
@@ -47,7 +47,7 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
                     if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= plasmaHeatAmount) {
                         tankInputDeuterium.drainInternal(plasmaHeatAmount, true);
                         tankInputTritium.drainInternal(plasmaHeatAmount, true);
-                        tankOutput.fillInternal(new FluidStack(QuantumFluids.plasma, plasmaHeatAmount), true);
+                        tankOutput.fillInternal(new FluidStack(ModFluids.plasma, plasmaHeatAmount), true);
 
                         energyStorage.extractEnergy(maxTransfer, false);
                     }
@@ -113,9 +113,9 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
 
     @Override
     public int fill(FluidStack resource, boolean doFill) {
-        if (resource.isFluidEqual(QuantumFluids.fluidStackDeuterium)) {
+        if (resource.isFluidEqual(ModFluids.fluidStackDeuterium)) {
             tankInputDeuterium.fill(resource, doFill);
-        } else if (resource.isFluidEqual(QuantumFluids.fluidStackTritium)) {
+        } else if (resource.isFluidEqual(ModFluids.fluidStackTritium)) {
             tankInputTritium.fill(resource, doFill);
         }
 

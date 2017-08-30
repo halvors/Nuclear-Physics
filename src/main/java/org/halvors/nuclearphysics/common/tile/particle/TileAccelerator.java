@@ -12,8 +12,8 @@ import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
-import org.halvors.nuclearphysics.common.init.QuantumItems;
-import org.halvors.nuclearphysics.common.init.QuantumSoundEvents;
+import org.halvors.nuclearphysics.common.init.ModItems;
+import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.machine.TileMachine;
@@ -123,14 +123,14 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
                             // On particle collision we roll the dice to see if dark-matter is generated.
                             if (entityParticle.didParticleCollide) {
                                 if (world.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
-                                    inventory.insertItem(3, new ItemStack(QuantumItems.itemDarkMatterCell), false);
+                                    inventory.insertItem(3, new ItemStack(ModItems.itemDarkMatterCell), false);
                                 }
                             }
 
                             entityParticle = null;
                         } else if (velocity > clientParticleVelocity) {
                             // Play sound of anti-matter being created.
-                            world.playSound(null, pos, QuantumSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 2, 1 - world.rand.nextFloat() * 0.3F);
+                            world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 2, 1 - world.rand.nextFloat() * 0.3F);
 
                             // Create anti-matter in the internal reserve.
                             int generatedAntimatter = 5 + world.rand.nextInt(acceleratorAntimatterDensityMultiplyer);
@@ -144,7 +144,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
 
                         // Plays sound of particle accelerating past the speed based on total velocity at the time of anti-matter creation.
                         if (entityParticle != null) {
-                            world.playSound(null, pos, QuantumSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
+                            world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
                         }
                     }
 
@@ -262,7 +262,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
 
                 if (itemStack != null) {
                     // If the output slot is not empty we must increase stack size
-                    if (itemStack.getItem() == QuantumItems.itemAntimatterCell) {
+                    if (itemStack.getItem() == ModItems.itemAntimatterCell) {
                         ItemStack newStack = itemStack.copy();
 
                         if (newStack.stackSize < newStack.getMaxStackSize()) {
@@ -276,7 +276,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
                     // Remove some of the internal reserves of anti-matter and use it to craft an individual item.
                     antimatter -= 125;
                     InventoryUtility.decrStackSize(inventory, 1);
-                    inventory.setStackInSlot(2, new ItemStack(QuantumItems.itemAntimatterCell));
+                    inventory.setStackInSlot(2, new ItemStack(ModItems.itemAntimatterCell));
                 }
             }
         }

@@ -27,8 +27,8 @@ import org.halvors.nuclearphysics.common.event.handler.PlayerEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ThermalEventHandler;
 import org.halvors.nuclearphysics.common.grid.UpdateTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
-import org.halvors.nuclearphysics.common.init.QuantumEntities;
-import org.halvors.nuclearphysics.common.init.QuantumRecipes;
+import org.halvors.nuclearphysics.common.init.ModEntities;
+import org.halvors.nuclearphysics.common.init.ModRecipes;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.world.WorldGenerator;
 
@@ -61,7 +61,7 @@ public class NuclearPhysics {
 	private static final Logger logger = LogManager.getLogger(Reference.ID);
 
 	// Creative Tab
-	private static final CreativeTabs creativeTab = new CreativeTabQuantum();
+	private static final CreativeTab creativeTab = new CreativeTab();
 
 	// Grids
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
@@ -82,8 +82,8 @@ public class NuclearPhysics {
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
 		// Call functions for adding blocks, items, etc.
-		QuantumEntities.register();
-		QuantumRecipes.register();
+		ModEntities.register();
+		ModRecipes.register();
 
 		// Calling proxy handler.
 		proxy.preInit();

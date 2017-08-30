@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
-import org.halvors.nuclearphysics.common.init.QuantumItems;
+import org.halvors.nuclearphysics.common.init.ModItems;
 
 public class InventoryUtility {
     /**
@@ -28,7 +28,7 @@ public class InventoryUtility {
         if (itemStack != null) {
             Item item = itemStack.getItem();
 
-            if (item == QuantumItems.itemWrench) {
+            if (item == ModItems.itemWrench) {
                 return true;
             }
 

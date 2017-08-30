@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import org.halvors.nuclearphysics.common.Reference;
 
-public class QuantumSoundEvents {
+public class ModSoundEvents {
     public static final SoundEvent ACCELERATOR = createSoundEvent("block.accelerator");
     public static final SoundEvent ANTIMATTER = createSoundEvent("block.antimatter");
     public static final SoundEvent ASSEMBLER = createSoundEvent("block.assembler");

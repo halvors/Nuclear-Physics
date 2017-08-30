@@ -5,7 +5,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateSiren;
-import org.halvors.nuclearphysics.common.init.QuantumSoundEvents;
+import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 
 public class TileSiren extends TileEntity implements ITickable {
     public TileSiren() {
@@ -29,7 +29,7 @@ public class TileSiren extends TileEntity implements ITickable {
                     }
                 }
 
-                world.playSound(null, pos, QuantumSoundEvents.SIREN, SoundCategory.BLOCKS, volume, 1F - 0.18F * (pitch / 15F));
+                world.playSound(null, pos, ModSoundEvents.SIREN, SoundCategory.BLOCKS, volume, 1F - 0.18F * (pitch / 15F));
             }
         }
     }

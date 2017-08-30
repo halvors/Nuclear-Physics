@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class QuantumFluids {
+public class ModFluids {
     /**
      * The fluids registered by this mod. Includes fluids that were already registered by another mod.
      */

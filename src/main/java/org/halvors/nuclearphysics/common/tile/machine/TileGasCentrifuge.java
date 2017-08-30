@@ -15,8 +15,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.fluid.tank.FluidTankQuantum;
-import org.halvors.nuclearphysics.common.init.QuantumFluids;
-import org.halvors.nuclearphysics.common.init.QuantumItems;
+import org.halvors.nuclearphysics.common.init.ModFluids;
+import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
@@ -29,10 +29,10 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 
-    private final FluidTankQuantum tank = new FluidTankQuantum(QuantumFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
+    private final FluidTankQuantum tank = new FluidTankQuantum(ModFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
         @Override
         public int fill(FluidStack resource, boolean doFill) {
-            if (resource.isFluidEqual(QuantumFluids.fluidStackUraniumHexaflouride)) {
+            if (resource.isFluidEqual(ModFluids.fluidStackUraniumHexaflouride)) {
                 return super.fill(resource, doFill);
             }
 
@@ -220,9 +220,9 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
             tank.drainInternal(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 
             if (world.rand.nextFloat() > 0.6) {
-                inventory.insertItem(2, new ItemStack(QuantumItems.itemUranium), false);
+                inventory.insertItem(2, new ItemStack(ModItems.itemUranium), false);
             } else {
-                inventory.insertItem(3, new ItemStack(QuantumItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()), false);
+                inventory.insertItem(3, new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()), false);
             }
         }
     }

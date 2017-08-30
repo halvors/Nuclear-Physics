@@ -11,8 +11,8 @@ import net.minecraftforge.items.wrapper.RangedWrapper;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.fluid.tank.FluidTankQuantum;
-import org.halvors.nuclearphysics.common.init.QuantumFluids;
-import org.halvors.nuclearphysics.common.init.QuantumItems;
+import org.halvors.nuclearphysics.common.init.ModFluids;
+import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
@@ -179,14 +179,14 @@ public class TileChemicalExtractor extends TileProcess {
             if (tankOutput.getFluidAmount() < tankOutput.getCapacity()) {
                 FluidStack outputFluidStack = tankOutput.getFluid();
 
-                if (inputFluidStack.isFluidEqual(QuantumFluids.fluidStackDeuterium) && inputFluidStack.amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
-                    if (outputFluidStack == null || outputFluidStack.getFluid() == QuantumFluids.gasTritium) {
+                if (inputFluidStack.isFluidEqual(ModFluids.fluidStackDeuterium) && inputFluidStack.amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
+                    if (outputFluidStack == null || outputFluidStack.getFluid() == ModFluids.gasTritium) {
                         return true;
                     }
                 }
 
-                if (inputFluidStack.isFluidEqual(QuantumFluids.fluidStackWater) && inputFluidStack.amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
-                    if (outputFluidStack == null || outputFluidStack.getFluid() == QuantumFluids.gasDeuterium) {
+                if (inputFluidStack.isFluidEqual(ModFluids.fluidStackWater) && inputFluidStack.amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
+                    if (outputFluidStack == null || outputFluidStack.getFluid() == ModFluids.gasDeuterium) {
                         return true;
                     }
                 }
@@ -203,7 +203,7 @@ public class TileChemicalExtractor extends TileProcess {
         if (canProcess()) {
             if (OreDictionaryHelper.isUraniumOre(inventory.getStackInSlot(1))) { // inputSlot
                 tankInput.drain(Fluid.BUCKET_VOLUME, true);
-                inventory.insertItem(outputSlot, new ItemStack(QuantumItems.itemYellowCake, 3), false);
+                inventory.insertItem(outputSlot, new ItemStack(ModItems.itemYellowCake, 3), false);
                 InventoryUtility.decrStackSize(inventory, inputSlot);
 
                 return true;
@@ -219,7 +219,7 @@ public class TileChemicalExtractor extends TileProcess {
             FluidStack drain = tankInput.drain(waterUsage * extractSpeed, false);
 
             if (drain != null && drain.amount >= 1 && drain.getFluid() == FluidRegistry.WATER) {
-                if (tankOutput.fillInternal(new FluidStack(QuantumFluids.gasDeuterium, extractSpeed), true) >= extractSpeed) {
+                if (tankOutput.fillInternal(new FluidStack(ModFluids.gasDeuterium, extractSpeed), true) >= extractSpeed) {
                     tankInput.drainInternal(waterUsage * extractSpeed, true);
 
                     return true;
@@ -235,8 +235,8 @@ public class TileChemicalExtractor extends TileProcess {
             int deutermiumUsage = ConfigurationManager.General.deutermiumPerTritium;
             FluidStack drain = tankInput.drain(deutermiumUsage * extractSpeed, false);
 
-            if (drain != null && drain.amount >= 1 && drain.getFluid() == QuantumFluids.gasDeuterium) {
-                if (tankOutput.fill(new FluidStack(QuantumFluids.gasTritium, extractSpeed), true) >= extractSpeed) {
+            if (drain != null && drain.amount >= 1 && drain.getFluid() == ModFluids.gasDeuterium) {
+                if (tankOutput.fill(new FluidStack(ModFluids.gasTritium, extractSpeed), true) >= extractSpeed) {
                     tankInput.drain(deutermiumUsage * extractSpeed, true);
 
                     return true;

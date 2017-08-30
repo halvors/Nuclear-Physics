@@ -40,9 +40,9 @@ import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.fluid.tank.FluidTankQuantum;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
-import org.halvors.nuclearphysics.common.init.QuantumBlocks;
-import org.halvors.nuclearphysics.common.init.QuantumFluids;
-import org.halvors.nuclearphysics.common.init.QuantumSoundEvents;
+import org.halvors.nuclearphysics.common.init.ModBlocks;
+import org.halvors.nuclearphysics.common.init.ModFluids;
+import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;
 import org.halvors.nuclearphysics.common.multiblock.MultiBlockHandler;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
@@ -100,7 +100,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     private final FluidTankQuantum tank = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 15) {
         @Override
         public int fill(FluidStack resource, boolean doFill) {
-            if (resource.isFluidEqual(QuantumFluids.plasmaStack)) {
+            if (resource.isFluidEqual(ModFluids.plasmaStack)) {
                 return super.fill(resource, doFill);
             }
 
@@ -109,7 +109,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
 
         @Override
         public FluidStack drain(FluidStack resource, boolean doDrain) {
-            if (resource.isFluidEqual(QuantumFluids.fluidStackToxicWaste)) {
+            if (resource.isFluidEqual(ModFluids.fluidStackToxicWaste)) {
                 return super.drain(resource, doDrain);
             }
 
@@ -157,7 +157,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
             }
         }
 
-        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().getFluid() == QuantumFluids.plasma) {
+        if (getMultiBlock().isPrimary() && tank.getFluid() != null && tank.getFluid().getFluid() == ModFluids.plasma) {
             // Spawn plasma.
             FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
 
@@ -210,7 +210,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 for (EnumFacing side : EnumFacing.HORIZONTALS) {
                     BlockPos checkPos = pos.offset(side);
 
-                    if (world.getBlockState(checkPos).getBlock() == QuantumBlocks.blockControlRod) {
+                    if (world.getBlockState(checkPos).getBlock() == ModBlocks.blockControlRod) {
                         deltaT /= 1.1;
                     }
                 }
@@ -234,7 +234,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 if (world.getWorldTime() % 100 == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     float percentage = Math.min(getTemperature() / meltingPoint, 1.0F);
 
-                    world.playSound(null, pos, QuantumSoundEvents.REACTOR_CELL, SoundCategory.BLOCKS, percentage, 1);
+                    world.playSound(null, pos, ModSoundEvents.REACTOR_CELL, SoundCategory.BLOCKS, percentage, 1);
                 }
 
                 if (previousTemperature != temperature && !shouldUpdate) {
@@ -269,7 +269,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 Block block = world.getBlockState(leakPos).getBlock();
 
                 if (block == Blocks.GRASS) {
-                    world.setBlockState(leakPos, QuantumBlocks.blockRadioactiveGrass.getDefaultState());
+                    world.setBlockState(leakPos, ModBlocks.blockRadioactiveGrass.getDefaultState());
                     tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                 } else if (world.isAirBlock(leakPos) || block.isReplaceable(world, leakPos)) {
                     FluidStack fluidStack = tank.getFluid();
@@ -436,7 +436,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
 
     @Override
     public boolean isOverToxic() {
-        return tank.getFluid() != null && tank.getFluid().getFluid() == QuantumFluids.fluidToxicWaste && tank.getFluid().amount >= tank.getCapacity();
+        return tank.getFluid() != null && tank.getFluid().getFluid() == ModFluids.fluidToxicWaste && tank.getFluid().amount >= tank.getCapacity();
     }
 
     @Override

@@ -17,8 +17,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.fluid.tank.FluidTankQuantum;
-import org.halvors.nuclearphysics.common.init.QuantumFluids;
-import org.halvors.nuclearphysics.common.init.QuantumSoundEvents;
+import org.halvors.nuclearphysics.common.init.ModFluids;
+import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
@@ -42,7 +42,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     protected final int defaultTorque = 5000;
     protected int torque = defaultTorque;
 
-    private final FluidTankQuantum tank = new FluidTankQuantum(QuantumFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 100) {
+    private final FluidTankQuantum tank = new FluidTankQuantum(ModFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 100) {
         /*
         @Override
         public boolean canFill() {
@@ -124,7 +124,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                     double maxVelocity = (getMaxPower() / torque) * 4;
                     float percentage = angularVelocity * 4 / (float) maxVelocity;
 
-                    world.playSound(null, pos, QuantumSoundEvents.ELECTRIC_TURBINE, SoundCategory.BLOCKS, percentage, 1);
+                    world.playSound(null, pos, ModSoundEvents.ELECTRIC_TURBINE, SoundCategory.BLOCKS, percentage, 1);
                 }
 
                 // Update rotation.

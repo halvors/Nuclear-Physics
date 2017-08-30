@@ -6,7 +6,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet;
-import org.halvors.nuclearphysics.common.init.QuantumBlocks;
+import org.halvors.nuclearphysics.common.init.ModBlocks;
 
 import java.util.HashMap;
 
@@ -27,7 +27,7 @@ public class SchematicAccelerator implements ISchematic {
             for (int z = -radius; z < radius; z++) {
                 for (int y = -1; y <= 1; y++) {
                     if (x == -radius || x == radius - 1 || z == -radius || z == radius - 1) {
-                        map.put(new BlockPos(x, y, z), QuantumBlocks.blockElectromagnet.getDefaultState());
+                        map.put(new BlockPos(x, y, z), ModBlocks.blockElectromagnet.getDefaultState());
                     }
                 }
             }
@@ -39,7 +39,7 @@ public class SchematicAccelerator implements ISchematic {
             for (int z = -radius; z < radius; z++) {
                 for (int y = -1; y <= 1; y++) {
                     if (x == -radius || x == radius - 1 || z == -radius || z == radius - 1) {
-                        map.put(new BlockPos(x, y, z), QuantumBlocks.blockElectromagnet.getDefaultState());
+                        map.put(new BlockPos(x, y, z), ModBlocks.blockElectromagnet.getDefaultState());
                     }
                 }
             }
@@ -52,7 +52,7 @@ public class SchematicAccelerator implements ISchematic {
                 for (int y = -1; y <= 1; y++) {
                     if (x == -radius || x == radius - 1 || z == -radius || z == radius - 1) {
                         if (y == -1 || y == 1) {
-                            map.put(new BlockPos(x, y, z), QuantumBlocks.blockElectromagnet.getDefaultState().withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.GLASS));
+                            map.put(new BlockPos(x, y, z), ModBlocks.blockElectromagnet.getDefaultState().withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.GLASS));
                         } else {
                             map.put(new BlockPos(x, y, z), Blocks.AIR.getDefaultState());
                         }

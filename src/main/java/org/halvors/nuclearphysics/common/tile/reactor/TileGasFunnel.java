@@ -8,14 +8,13 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.halvors.nuclearphysics.common.fluid.tank.GasTank;
-import org.halvors.nuclearphysics.common.init.QuantumFluids;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 
 import javax.annotation.Nonnull;
 
 public class TileGasFunnel extends TileEntity implements ITickable {
-    private final GasTank tank = new GasTank(QuantumFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 16) {
+    private final GasTank tank = new GasTank(ModFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 16) {
         @Override
         public boolean canFill() {
             return false;

@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.nuclearphysics.common.container.ContainerQuantum;
-import org.halvors.nuclearphysics.common.init.QuantumFluids;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 
 public class ContainerNuclearBoiler extends ContainerQuantum {
@@ -60,7 +60,7 @@ public class ContainerNuclearBoiler extends ContainerQuantum {
                         if (!mergeItemStack(itemStack, 0, 1, false)) {
                             return null;
                         }
-                    } else if (QuantumFluids.fluidStackWater.isFluidEqual(FluidUtil.getFluidContained(itemStack))) {
+                    } else if (ModFluids.fluidStackWater.isFluidEqual(FluidUtil.getFluidContained(itemStack))) {
                         if (!mergeItemStack(itemStack, 1, 2, false)) {
                             return null;
                         }

@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import org.halvors.nuclearphysics.common.init.QuantumItems;
+import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.item.ItemCell;
 
 /**
@@ -23,7 +23,7 @@ import org.halvors.nuclearphysics.common.item.ItemCell;
  */
 public class FluidUtility {
     public static ItemStack getFilledCell(Fluid fluid) {
-        return getFilledContainer(new ItemStack(QuantumItems.itemCell), new FluidStack(fluid, ItemCell.capacity));
+        return getFilledContainer(new ItemStack(ModItems.itemCell), new FluidStack(fluid, ItemCell.capacity));
     }
 
     public static ItemStack getFilledContainer(ItemStack stack, FluidStack fluidStack) {
