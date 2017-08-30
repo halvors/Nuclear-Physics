@@ -13,7 +13,7 @@ public class TileFulmination extends TileGenerator {
 
     @Override
     public void invalidate() {
-        FulminationHandler.INSTANCE.unregister(this);
+        FulminationHandler.unregister(this);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class TileFulmination extends TileGenerator {
         super.update();
 
         if (world.getWorldTime() == 0) {
-            FulminationHandler.INSTANCE.register(this);
+            FulminationHandler.register(this);
         }
 
         // TODO: Fix generation output.

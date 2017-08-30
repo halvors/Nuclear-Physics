@@ -10,16 +10,15 @@ import java.util.HashSet;
 import java.util.List;
 
 public class FulminationHandler {
-    public static final FulminationHandler INSTANCE = new FulminationHandler();
-    public static final List<TileFulmination> list = new ArrayList<>();
+    private static final List<TileFulmination> list = new ArrayList<>();
 
-    public void register(TileFulmination tile) {
+    public static void register(TileFulmination tile) {
         if (!list.contains(tile)) {
             list.add(tile);
         }
     }
 
-    public void unregister(TileFulmination tileEntity) {
+    public static void unregister(TileFulmination tileEntity) {
         list.remove(tileEntity);
     }
 
