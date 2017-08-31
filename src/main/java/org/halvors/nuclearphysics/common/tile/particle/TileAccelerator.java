@@ -1,17 +1,21 @@
 package org.halvors.nuclearphysics.common.tile.particle;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
+import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
@@ -289,12 +293,12 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
             // Calculate block density multiplier if ore dictionary block.
             acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
 
-            /*
-            Block potentialBlock = Block.getBlockFromItem(itemToAccelerate.getItem());
+            IBlockState state = Block.getBlockFromItem(itemToAccelerate.getItem()).getDefaultState();
 
-            if (potentialBlock != null) {
+            if (state != null) {
                 // Prevent negative numbers and disallow zero for density multiplier.
-                acceleratorAntimatterDensityMultiplyer = (int) potentialBlock.getDefaultState().getBlockHardness(world, new BlockPos(0, 0, 0)) * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+                // We can give any BlockPos as argument, it's not really used.
+                acceleratorAntimatterDensityMultiplyer = (int) state.getBlockHardness(world, pos) * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
 
                 if (acceleratorAntimatterDensityMultiplyer <= 0) {
                     acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
@@ -304,7 +308,6 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
                     acceleratorAntimatterDensityMultiplyer = 1000 * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
                 }
             }
-            */
         }
     }
 
