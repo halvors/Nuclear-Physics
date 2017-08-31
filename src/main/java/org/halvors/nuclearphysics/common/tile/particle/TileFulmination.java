@@ -1,19 +1,20 @@
 package org.halvors.nuclearphysics.common.tile.particle;
 
 import net.minecraft.util.EnumFacing;
-import org.halvors.nuclearphysics.common.event.handler.FulminationHandler;
+import net.minecraftforge.energy.EnergyStorage;
+import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.tile.TileGenerator;
 
 import java.util.EnumSet;
 
 public class TileFulmination extends TileGenerator {
     public TileFulmination() {
-        super((int) 10000000000000L);
+        energyStorage = new EnergyStorage((int) 10000000000000L);
     }
 
     @Override
     public void invalidate() {
-        FulminationHandler.unregister(this);
+        FulminationEventHandler.unregister(this);
     }
 
     @Override
@@ -21,11 +22,8 @@ public class TileFulmination extends TileGenerator {
         super.update();
 
         if (world.getWorldTime() == 0) {
-            FulminationHandler.register(this);
+            FulminationEventHandler.register(this);
         }
-
-        // TODO: Fix generation output.
-        //generateEnergy();
 
         // Slowly lose energy.
         energyStorage.extractEnergy(1, false);

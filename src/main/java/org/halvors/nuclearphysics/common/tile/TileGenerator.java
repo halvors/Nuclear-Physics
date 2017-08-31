@@ -22,7 +22,6 @@ public class TileGenerator extends TileQuantum implements ITickable {
     private final Map<BlockPos, EnumFacing> mFacings = new HashMap<>();
     private int mTargetStartingIndex;
 
-    protected int energyGeneration;
     protected EnergyStorage energyStorage;
 
     public TileGenerator() {
@@ -30,7 +29,7 @@ public class TileGenerator extends TileQuantum implements ITickable {
     }
 
     public TileGenerator(int capacity) {
-        energyGeneration = capacity;
+
         energyStorage = new EnergyStorage(capacity, 0, capacity);
     }
 
