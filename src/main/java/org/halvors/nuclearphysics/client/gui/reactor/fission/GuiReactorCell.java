@@ -7,7 +7,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 import org.halvors.nuclearphysics.client.gui.GuiContainerBase;
 import org.halvors.nuclearphysics.common.container.reactor.fission.ContainerReactorCell;
-import org.halvors.nuclearphysics.common.tile.reactor.fission.TileReactorCell;
+import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay.Unit;

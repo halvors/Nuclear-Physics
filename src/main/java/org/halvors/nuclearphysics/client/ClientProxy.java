@@ -44,8 +44,8 @@ import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
-import org.halvors.nuclearphysics.common.tile.reactor.fission.TileReactorCell;
-import org.halvors.nuclearphysics.common.tile.reactor.fission.TileThermometer;
+import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
+import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 
 /**

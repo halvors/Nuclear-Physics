@@ -6,7 +6,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.nuclearphysics.common.container.ContainerNuclearPhysics;
-import org.halvors.nuclearphysics.common.tile.reactor.fission.TileReactorCell;
+import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 
 public class ContainerReactorCell extends ContainerNuclearPhysics {
     public ContainerReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {

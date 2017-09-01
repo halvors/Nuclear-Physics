@@ -22,7 +22,7 @@ import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
-import org.halvors.nuclearphysics.common.tile.reactor.fission.TileReactorCell;
+import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 
 /**
  * This is the common proxy used by both the client and the server.

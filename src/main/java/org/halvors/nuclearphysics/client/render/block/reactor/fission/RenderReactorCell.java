@@ -11,9 +11,9 @@ import org.halvors.nuclearphysics.client.render.block.ModelCube;
 import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.Reference;
-import org.halvors.nuclearphysics.common.block.reactor.fission.BlockReactorCell.EnumReactorCell;
+import org.halvors.nuclearphysics.common.block.reactor.BlockReactorCell.EnumReactorCell;
 import org.halvors.nuclearphysics.common.block.states.BlockStateReactorCell;
-import org.halvors.nuclearphysics.common.tile.reactor.fission.TileReactorCell;
+import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 

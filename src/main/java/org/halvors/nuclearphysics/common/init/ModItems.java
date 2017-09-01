@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.nuclearphysics.common.item.ItemCell;
-import org.halvors.nuclearphysics.common.item.ItemQuantum;
+import org.halvors.nuclearphysics.common.item.ItemNuclearPhysics;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 import org.halvors.nuclearphysics.common.item.armor.ItemArmorHazmat;
 import org.halvors.nuclearphysics.common.item.armor.ItemArmorQuantum;
@@ -26,22 +26,22 @@ import java.util.Set;
 
 public class ModItems {
     // Basic Components
-    public static Item itemWrench = new ItemQuantum("wrench");
-    public static Item itemCopperWire = new ItemQuantum("copper_wire");
-    public static Item itemMotor = new ItemQuantum("motor");
+    public static Item itemWrench = new ItemNuclearPhysics("wrench");
+    public static Item itemCopperWire = new ItemNuclearPhysics("copper_wire");
+    public static Item itemMotor = new ItemNuclearPhysics("motor");
 
-    public static Item itemPlateBronze = new ItemQuantum("plate_bronze");
-    public static Item itemPlateSteel = new ItemQuantum("plate_steel");
+    public static Item itemPlateBronze = new ItemNuclearPhysics("plate_bronze");
+    public static Item itemPlateSteel = new ItemNuclearPhysics("plate_steel");
 
-    public static Item itemCircuitBasic = new ItemQuantum("circuit_basic");
-    public static Item itemCircuitAdvanced = new ItemQuantum("circuit_advanced");
-    public static Item itemCircuitElite = new ItemQuantum("circuit_elite");
+    public static Item itemCircuitBasic = new ItemNuclearPhysics("circuit_basic");
+    public static Item itemCircuitAdvanced = new ItemNuclearPhysics("circuit_advanced");
+    public static Item itemCircuitElite = new ItemNuclearPhysics("circuit_elite");
 
     // Cells
     public static Item itemAntimatterCell = new ItemAntimatterCell();
     public static Item itemBreederFuel = new ItemBreederFuel();
     public static Item itemCell = new ItemCell();
-    public static Item itemDarkMatterCell = new ItemQuantum("darkmatter_cell");
+    public static Item itemDarkMatterCell = new ItemNuclearPhysics("darkmatter_cell");
     public static Item itemFissileFuel = new ItemFissileFuel();
 
     // Uranium
@@ -95,8 +95,8 @@ public class ModItems {
             for (final Item item : items) {
                 registry.register(item);
 
-                if (item instanceof ItemQuantum) {
-                    ((ItemQuantum) item).registerItemModel();
+                if (item instanceof ItemNuclearPhysics) {
+                    ((ItemNuclearPhysics) item).registerItemModel();
                 } else if (item instanceof ItemArmorQuantum) {
                     ((ItemArmorQuantum) item).registerItemModel();
                 }
