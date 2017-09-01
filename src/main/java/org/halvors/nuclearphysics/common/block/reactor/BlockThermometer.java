@@ -40,15 +40,15 @@ public class BlockThermometer extends BlockRotatable {
                 }
 
                 return true;
-            }
+            } else if (itemStack != null) {
+                if (player.isSneaking()) {
+                    tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
+                } else {
+                    tileThermometer.setThreshold(tileThermometer.getThershold() - 100);
+                }
 
-            if (player.isSneaking()) {
-                tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
-            } else {
-                tileThermometer.setThreshold(tileThermometer.getThershold() - 100);
+                return true;
             }
-
-            return true;
         }
 
         return false;
