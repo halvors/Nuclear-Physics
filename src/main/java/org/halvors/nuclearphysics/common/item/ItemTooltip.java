@@ -11,7 +11,7 @@ import org.lwjgl.input.Keyboard;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ItemTooltip extends ItemNuclearPhysics {
+public class ItemTooltip extends ItemBase {
     public ItemTooltip(String name) {
         super(name);
     }

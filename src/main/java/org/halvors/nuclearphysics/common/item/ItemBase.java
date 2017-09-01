@@ -5,14 +5,14 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
 /**
- * This is a basic ItemNuclearPhysics that is meant to be extended by other Items.
+ * This is a basic ItemBase that is meant to be extended by other Items.
  *
  * @author halvors
  */
-public class ItemNuclearPhysics extends Item {
+public class ItemBase extends Item {
 	protected final String name;
 
-	public ItemNuclearPhysics(String name) {
+	public ItemBase(String name) {
 		this.name = name;
 
 		setUnlocalizedName(name);

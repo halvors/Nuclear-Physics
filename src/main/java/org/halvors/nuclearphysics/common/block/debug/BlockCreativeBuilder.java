@@ -8,7 +8,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.halvors.nuclearphysics.common.block.BlockNuclearPhysics;
+import org.halvors.nuclearphysics.common.block.BlockBase;
 import org.halvors.nuclearphysics.common.block.debug.schematic.*;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Automatically set up structures to allow easy debugging in creative mode.
  */
-public class BlockCreativeBuilder extends BlockNuclearPhysics {
+public class BlockCreativeBuilder extends BlockBase {
     private static final List<ISchematic> schematicRegistry = new ArrayList<>();
 
     static {

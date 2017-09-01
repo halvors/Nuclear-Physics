@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.nuclearphysics.common.Reference;
-import org.halvors.nuclearphysics.common.block.BlockNuclearPhysics;
+import org.halvors.nuclearphysics.common.block.BlockBase;
 import org.halvors.nuclearphysics.common.block.BlockRadioactiveGrass;
 import org.halvors.nuclearphysics.common.block.BlockUraniumOre;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
@@ -116,7 +116,7 @@ public class ModBlocks {
             final IForgeRegistry<Item> registry = event.getRegistry();
 
             for (final ItemBlock item : items) {
-                final BlockNuclearPhysics block = (BlockNuclearPhysics) item.getBlock();
+                final BlockBase block = (BlockBase) item.getBlock();
                 //final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
                 //registry.register(item.setRegistryName(registryName));
                 registry.register(item);

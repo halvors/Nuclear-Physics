@@ -5,11 +5,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import org.halvors.nuclearphysics.common.block.BlockNuclearPhysics;
+import org.halvors.nuclearphysics.common.block.BlockBase;
 
 import javax.annotation.Nonnull;
 
-public class BlockControlRod extends BlockNuclearPhysics {
+public class BlockControlRod extends BlockBase {
     public BlockControlRod() {
         super("control_rod", Material.IRON);
     }

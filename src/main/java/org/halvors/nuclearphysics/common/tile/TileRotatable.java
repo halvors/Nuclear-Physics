@@ -8,7 +8,7 @@ import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 
 import java.util.List;
 
-public class TileRotatable extends TileNuclearPhysics implements ITileNetwork, ITileRotatable {
+public class TileRotatable extends TileBase implements ITileNetwork, ITileRotatable {
     /** The direction this block is facing. */
     protected EnumFacing facing = EnumFacing.NORTH;
 

@@ -5,10 +5,10 @@ import net.minecraft.item.ItemArmor;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
-public class ItemArmorQuantum extends ItemArmor {
+public class ItemArmorBase extends ItemArmor {
     protected final String name;
 
-    public ItemArmorQuantum(String name, ArmorMaterial material, EntityEquipmentSlot slot) {
+    public ItemArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot slot) {
         super(material, 0, slot);
 
         this.name = name;

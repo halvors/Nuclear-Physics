@@ -12,14 +12,14 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.block.BlockContainerNuclearPhysics;
+import org.halvors.nuclearphysics.common.block.BlockContainerBase;
 import org.halvors.nuclearphysics.common.block.states.BlockStateSiren;
 import org.halvors.nuclearphysics.common.tile.reactor.TileSiren;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 
 import javax.annotation.Nonnull;
 
-public class BlockSiren extends BlockContainerNuclearPhysics {
+public class BlockSiren extends BlockContainerBase {
     public BlockSiren() {
         super("siren", Material.IRON);
 

@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TileNuclearPhysics extends TileEntity {
+public class TileBase extends TileEntity {
     protected String name;
 
     /** The players currently using this block. */
@@ -26,11 +26,11 @@ public class TileNuclearPhysics extends TileEntity {
         return playersUsing;
     }
 
-    public TileNuclearPhysics() {
+    public TileBase() {
 
     }
 
-    public TileNuclearPhysics(String name) {
+    public TileBase(String name) {
         this.name = name;
     }
 
