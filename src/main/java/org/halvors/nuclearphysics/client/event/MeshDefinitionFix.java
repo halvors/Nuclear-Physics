@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.fluid;
+package org.halvors.nuclearphysics.client.event;
 
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;

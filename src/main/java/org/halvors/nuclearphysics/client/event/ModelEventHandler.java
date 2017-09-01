@@ -16,7 +16,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.halvors.nuclearphysics.common.Reference;
-import org.halvors.nuclearphysics.common.fluid.MeshDefinitionFix;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.ResourceType;

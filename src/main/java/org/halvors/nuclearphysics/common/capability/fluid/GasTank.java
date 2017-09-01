@@ -1,11 +1,11 @@
-package org.halvors.nuclearphysics.common.fluid.tank;
+package org.halvors.nuclearphysics.common.capability.fluid;
 
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 
-public class GasTank extends FluidTankQuantum {
+public class GasTank extends LiquidTank {
     public GasTank(int capacity) {
         super(capacity);
     }

@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.fluid.tank.FluidTankQuantum;
+import org.halvors.nuclearphysics.common.capability.fluid.FluidTankNuclearPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHandler;
@@ -42,7 +42,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     protected final int defaultTorque = 5000;
     protected int torque = defaultTorque;
 
-    private final FluidTankQuantum tank = new FluidTankQuantum(ModFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 100) {
+    private final FluidTankNuclearPhysics tank = new FluidTankNuclearPhysics(ModFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 100) {
         /*
         @Override
         public boolean canFill() {

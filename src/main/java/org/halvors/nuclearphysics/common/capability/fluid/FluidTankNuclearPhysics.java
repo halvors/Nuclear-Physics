@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.fluid.tank;
+package org.halvors.nuclearphysics.common.capability.fluid;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
@@ -10,16 +10,16 @@ import org.halvors.nuclearphysics.common.network.PacketHandler;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class FluidTankQuantum extends FluidTank {
-    public FluidTankQuantum(int capacity) {
+public class FluidTankNuclearPhysics extends FluidTank {
+    public FluidTankNuclearPhysics(int capacity) {
         super(capacity);
     }
 
-    public FluidTankQuantum(@Nullable FluidStack fluidStack, int capacity) {
+    public FluidTankNuclearPhysics(@Nullable FluidStack fluidStack, int capacity) {
         super(fluidStack, capacity);
     }
 
-    public FluidTankQuantum(Fluid fluid, int amount, int capacity) {
+    public FluidTankNuclearPhysics(Fluid fluid, int amount, int capacity) {
         super(fluid, amount, capacity);
     }
 

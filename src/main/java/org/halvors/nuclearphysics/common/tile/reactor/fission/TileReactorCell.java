@@ -37,7 +37,7 @@ import org.halvors.nuclearphysics.common.block.states.BlockStateReactorCell;
 import org.halvors.nuclearphysics.common.effect.explosion.ReactorExplosion;
 import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
-import org.halvors.nuclearphysics.common.fluid.tank.FluidTankQuantum;
+import org.halvors.nuclearphysics.common.capability.fluid.FluidTankNuclearPhysics;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
@@ -97,7 +97,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         }
     };
 
-    private final FluidTankQuantum tank = new FluidTankQuantum(Fluid.BUCKET_VOLUME * 15) {
+    private final FluidTankNuclearPhysics tank = new FluidTankNuclearPhysics(Fluid.BUCKET_VOLUME * 15) {
         @Override
         public int fill(FluidStack resource, boolean doFill) {
             if (resource.isFluidEqual(ModFluids.plasmaStack)) {

@@ -8,7 +8,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import org.halvors.nuclearphysics.common.fluid.tank.GasTank;
+import org.halvors.nuclearphysics.common.capability.fluid.GasTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 
 import javax.annotation.Nonnull;
