@@ -46,6 +46,7 @@ New features to add:
         - Amplify sirens, with sort of multi block structure, also add pitch support for the multi block.
         - Add metal break sound to machines etc?
         - Rework GUI system.
+        - Add thorium fuel?
 
     Rendering:
         - Make the whole multi block reactor cell share GUI.

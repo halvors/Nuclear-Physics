@@ -35,14 +35,11 @@
       "nuclear_boiler": {
         "model": "nuclearphysics:nuclear_boiler.obj"
       },
+      "plasma_heater": {
+        "model": "nuclearphysics:plasma_heater.obj"
+      },
       "quantum_assembler": {
         "model": "nuclearphysics:quantum_assembler.obj"
-      },
-      "plasma_heater": {
-        "model": "nuclearphysics:plasma_heater.obj",
-        "textures": {
-          "#None": "nuclearphysics:models/plasma_heater"
-        }
       }
     }
   }

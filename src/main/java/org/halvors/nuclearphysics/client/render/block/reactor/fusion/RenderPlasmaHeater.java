@@ -1,27 +1,44 @@
 package org.halvors.nuclearphysics.client.render.block.reactor.fusion;
 
-/*
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
+import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
+import org.halvors.nuclearphysics.common.utility.ResourceUtility;
+import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+
+import java.util.Arrays;
+
 @SideOnly(Side.CLIENT)
 public class RenderPlasmaHeater extends TileEntitySpecialRenderer<TilePlasmaHeater> {
-    private static final IModel model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(ResourceType.MODEL, "plasma_heater.obj"));
-    private static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "plasmaHeater.png");
+    private static final OBJModelContainer modelPart = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "plasma_heater.obj"), Arrays.asList("rrot", "srot"));
+    private static final OBJModelContainer modelAll = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "plasma_heater.obj"), Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "t", "u", "v", "w", "x", "y"));
 
     @Override
     public void renderTileEntityAt(TilePlasmaHeater tile, double x, double y, double z, float partialTicks, int destroyStage) {
-        TilePlasmaHeater tilePlasmaHeater = (TilePlasmaHeater) tile;
+        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-        GL11.glPushMatrix();
-        GL11.glTranslated(x + 0.5, y, z + 0.5);
+        GlStateManager.pushMatrix();
 
-        RenderUtility.bind(texture);
+        // Translate to the location of our tile entity
+        GlStateManager.translate(x, y, z);
+        GlStateManager.disableRescaleNormal();
 
-        GL11.glPushMatrix();
-        GL11.glRotated(Math.toDegrees(tilePlasmaHeater.rotation), 0, 1, 0);
-        model.renderOnly("rrot", "srot");
-        GL11.glPopMatrix();
+        // Rotate block based on direction.
+        RenderUtility.rotateBlockBasedOnDirection(tile.getFacing());
 
-        model.renderAllExcept("rrot", "srot");
-        GL11.glPopMatrix();
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(0.5, 0, 0.5);
+        GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
+        GlStateManager.translate(-0.5, 0, -0.5);
+        modelPart.render();
+        GlStateManager.popMatrix();
+
+        modelAll.render();
+        GlStateManager.popMatrix();
     }
 }
-*/

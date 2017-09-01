@@ -9,6 +9,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.tile.ITileNetwork;
 import org.halvors.nuclearphysics.common.tile.TileConsumer;
 
@@ -22,7 +23,7 @@ public class TileMachine extends TileConsumer implements ITileNetwork {
     protected IItemHandlerModifiable inventory;
 
     public TileMachine() {
-
+        inventory = new ItemStackHandler(1);
     }
 
     @Override

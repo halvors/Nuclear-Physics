@@ -131,8 +131,8 @@ public class BlockMachineModel extends BlockInventory {
         CHEMICAL_EXTRACTOR("chemical_extractor", TileChemicalExtractor.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
         GAS_CENTRIFUGE("gas_centrifuge", TileGasCentrifuge.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
         NUCLEAR_BOILER("nuclear_boiler", TileNuclearBoiler.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
-        QUANTUM_ASSEMBLER("quantum_assembler", TileQuantumAssembler.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
-        PLASMA_HEATER("plasma_heater", TilePlasmaHeater.class, EnumBlockRenderType.MODEL);
+        PLASMA_HEATER("plasma_heater", TilePlasmaHeater.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
+        QUANTUM_ASSEMBLER("quantum_assembler", TileQuantumAssembler.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED);
 
         private String name;
         private Class<? extends TileEntity> tileClass;

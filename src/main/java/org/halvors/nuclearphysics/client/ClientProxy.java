@@ -32,6 +32,7 @@ import org.halvors.nuclearphysics.client.render.block.machine.RenderQuantumAssem
 import org.halvors.nuclearphysics.client.render.block.reactor.RenderElectricTurbine;
 import org.halvors.nuclearphysics.client.render.block.reactor.fission.RenderReactorCell;
 import org.halvors.nuclearphysics.client.render.block.reactor.fission.RenderThermometer;
+import org.halvors.nuclearphysics.client.render.block.reactor.fusion.RenderPlasmaHeater;
 import org.halvors.nuclearphysics.client.render.entity.RenderParticle;
 import org.halvors.nuclearphysics.common.CommonProxy;
 import org.halvors.nuclearphysics.common.Reference;
@@ -45,6 +46,7 @@ import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
 import org.halvors.nuclearphysics.common.tile.reactor.fission.TileReactorCell;
 import org.halvors.nuclearphysics.common.tile.reactor.fission.TileThermometer;
+import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 
 /**
  * This is the client proxy used only by the client.
@@ -70,9 +72,10 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileElectricTurbine.class, new RenderElectricTurbine());
         ClientRegistry.bindTileEntitySpecialRenderer(TileGasCentrifuge.class, new RenderGasCentrifuge());
         ClientRegistry.bindTileEntitySpecialRenderer(TileNuclearBoiler.class, new RenderNuclearBoiler());
+		ClientRegistry.bindTileEntitySpecialRenderer(TilePlasmaHeater.class, new RenderPlasmaHeater());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
         ClientRegistry.bindTileEntitySpecialRenderer(TileThermometer.class, new RenderThermometer());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileQuantumAssembler.class, new RenderQuantumAssembler());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileReactorCell.class, new RenderReactorCell());
 	}
 
 	@Override

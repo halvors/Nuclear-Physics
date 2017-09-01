@@ -24,33 +24,31 @@ import java.util.List;
 
 public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHandler {
     public static long power = 10000000000L;
-    public static int plasmaHeatAmount = 100; //@Config
+    public static int plasmaHeatAmount = 100; // TODO: Configuration option for this?
 
     private final GasTank tankInputDeuterium = new GasTank(ModFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
     private final GasTank tankInputTritium = new GasTank(ModFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
     private final GasTank tankOutput = new GasTank(ModFluids.plasmaStack.copy(), Fluid.BUCKET_VOLUME * 10);
 
     public float rotation = 0;
-    private final int maxTransfer = (int) power / 20;
 
     public TilePlasmaHeater() {
-        energyStorage = new EnergyStorage((int) power, maxTransfer);
+        energyStorage = new EnergyStorage((int) power);
     }
 
     @Override
     public void update() {
-        rotation += energyStorage.getEnergyStored() / 10000F;
+        //rotation += energyStorage.getEnergyStored() / 10000F;
+        rotation = (rotation + energyStorage.getEnergyStored() / 10000F);
 
         if (!world.isRemote) {
-            if (tankInputDeuterium.getFluidAmount() > 0 && tankInputTritium.getFluidAmount() > 0) {
-                if (energyStorage.extractEnergy(maxTransfer, true) >= maxTransfer) {
-                    if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= plasmaHeatAmount) {
-                        tankInputDeuterium.drainInternal(plasmaHeatAmount, true);
-                        tankInputTritium.drainInternal(plasmaHeatAmount, true);
-                        tankOutput.fillInternal(new FluidStack(ModFluids.plasma, plasmaHeatAmount), true);
+            if (energyStorage.getEnergyStored() >= power / 20) {
+                if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= TilePlasmaHeater.plasmaHeatAmount && tankOutput.getFluidAmount() < tankOutput.getCapacity()) {
+                    tankInputDeuterium.drainInternal(TilePlasmaHeater.plasmaHeatAmount, true);
+                    tankInputTritium.drainInternal(TilePlasmaHeater.plasmaHeatAmount, true);
+                    tankOutput.fillInternal(new FluidStack(ModFluids.plasma, tankOutput.getCapacity()), true);
 
-                        energyStorage.extractEnergy(maxTransfer, false);
-                    }
+                    energyStorage.extractEnergy(Math.toIntExact(power / 20), false);
                 }
             }
         }
