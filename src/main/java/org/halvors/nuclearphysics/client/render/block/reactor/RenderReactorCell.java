@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.client.render.block.reactor.fission;
+package org.halvors.nuclearphysics.client.render.block.reactor;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;

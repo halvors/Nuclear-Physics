@@ -30,8 +30,8 @@ import org.halvors.nuclearphysics.client.render.block.machine.RenderGasCentrifug
 import org.halvors.nuclearphysics.client.render.block.machine.RenderNuclearBoiler;
 import org.halvors.nuclearphysics.client.render.block.machine.RenderQuantumAssembler;
 import org.halvors.nuclearphysics.client.render.block.reactor.RenderElectricTurbine;
-import org.halvors.nuclearphysics.client.render.block.reactor.fission.RenderReactorCell;
-import org.halvors.nuclearphysics.client.render.block.reactor.fission.RenderThermometer;
+import org.halvors.nuclearphysics.client.render.block.reactor.RenderReactorCell;
+import org.halvors.nuclearphysics.client.render.block.reactor.RenderThermometer;
 import org.halvors.nuclearphysics.client.render.block.reactor.fusion.RenderPlasmaHeater;
 import org.halvors.nuclearphysics.client.render.entity.RenderParticle;
 import org.halvors.nuclearphysics.common.CommonProxy;
