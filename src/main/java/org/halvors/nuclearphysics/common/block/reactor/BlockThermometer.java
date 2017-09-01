@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.block.reactor.fission;
+package org.halvors.nuclearphysics.common.block.reactor;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -12,8 +12,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.block.BlockRotatable;
-import org.halvors.nuclearphysics.common.item.block.ItemBlockThermometer;
-import org.halvors.nuclearphysics.common.tile.reactor.fission.TileThermometer;
+import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
+import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 
 import javax.annotation.Nonnull;

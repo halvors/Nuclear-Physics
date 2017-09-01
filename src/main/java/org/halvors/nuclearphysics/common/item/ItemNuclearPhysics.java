@@ -5,14 +5,14 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
 /**
- * This is a basic ItemQuantum that is meant to be extended by other Items.
+ * This is a basic ItemNuclearPhysics that is meant to be extended by other Items.
  *
  * @author halvors
  */
-public class ItemQuantum extends Item {
+public class ItemNuclearPhysics extends Item {
 	protected final String name;
 
-	public ItemQuantum(String name) {
+	public ItemNuclearPhysics(String name) {
 		this.name = name;
 
 		setUnlocalizedName(name);

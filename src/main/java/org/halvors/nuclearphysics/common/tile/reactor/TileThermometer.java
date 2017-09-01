@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.tile.reactor.fission;
+package org.halvors.nuclearphysics.common.tile.reactor;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;

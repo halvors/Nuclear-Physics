@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.tile.reactor.fission;
+package org.halvors.nuclearphysics.common.tile.reactor;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;

@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.block.reactor.fission;
+package org.halvors.nuclearphysics.common.block.reactor;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -23,7 +23,7 @@ import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateReactorCell;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.multiblock.MultiBlockHandler;
-import org.halvors.nuclearphysics.common.tile.reactor.fission.TileReactorCell;
+import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;
