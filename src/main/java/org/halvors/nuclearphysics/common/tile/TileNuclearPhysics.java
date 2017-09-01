@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TileQuantum extends TileEntity {
+public class TileNuclearPhysics extends TileEntity {
     protected String name;
 
     /** The players currently using this block. */
@@ -26,11 +26,11 @@ public class TileQuantum extends TileEntity {
         return playersUsing;
     }
 
-    public TileQuantum() {
+    public TileNuclearPhysics() {
 
     }
 
-    public TileQuantum(String name) {
+    public TileNuclearPhysics(String name) {
         this.name = name;
     }
 

@@ -6,11 +6,11 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.SlotItemHandler;
-import org.halvors.nuclearphysics.common.container.ContainerQuantum;
+import org.halvors.nuclearphysics.common.container.ContainerNuclearPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 
-public class ContainerNuclearBoiler extends ContainerQuantum {
+public class ContainerNuclearBoiler extends ContainerNuclearPhysics {
     private static final int slotCount = 4;
     private TileNuclearBoiler tile;
 

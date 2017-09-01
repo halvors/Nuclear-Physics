@@ -5,10 +5,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 
-public class BlockQuantum extends Block {
+public class BlockNuclearPhysics extends Block {
     protected String name;
 
-    public BlockQuantum(String name, Material material) {
+    public BlockNuclearPhysics(String name, Material material) {
         super(material);
 
         this.name = name;

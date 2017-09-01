@@ -15,7 +15,7 @@ import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 
 import javax.annotation.Nonnull;
 
-public abstract class BlockRotatable extends BlockContainerQuantum {
+public abstract class BlockRotatable extends BlockContainerNuclearPhysics {
     protected BlockRotatable(String name, Material material) {
         super(name, material);
 

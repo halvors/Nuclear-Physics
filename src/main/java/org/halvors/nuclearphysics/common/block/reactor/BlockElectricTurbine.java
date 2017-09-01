@@ -12,13 +12,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.block.BlockContainerQuantum;
+import org.halvors.nuclearphysics.common.block.BlockContainerNuclearPhysics;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 
 import javax.annotation.Nonnull;
 
-public class BlockElectricTurbine extends BlockContainerQuantum {
+public class BlockElectricTurbine extends BlockContainerNuclearPhysics {
     public BlockElectricTurbine() {
         super("electric_turbine", Material.IRON);
     }

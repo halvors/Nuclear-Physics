@@ -2,12 +2,12 @@ package org.halvors.nuclearphysics.common.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import org.halvors.nuclearphysics.common.tile.TileQuantum;
+import org.halvors.nuclearphysics.common.tile.TileNuclearPhysics;
 
-public class ContainerQuantum extends ContainerBase {
-    private TileQuantum tile;
+public class ContainerNuclearPhysics extends ContainerBase {
+    private TileNuclearPhysics tile;
 
-    public ContainerQuantum(InventoryPlayer inventoryPlayer, TileQuantum tile) {
+    public ContainerNuclearPhysics(InventoryPlayer inventoryPlayer, TileNuclearPhysics tile) {
         super(inventoryPlayer);
 
         this.tile = tile;

@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
  * <p>
  * Based off a tutorial by Darkhax, used under the Creative Commons Zero 1.0 Universal license
  */
-public class BlockConnectedTexture extends BlockContainerQuantum {
+public class BlockConnectedTexture extends BlockContainerNuclearPhysics {
     public BlockConnectedTexture(String name, Material material) {
         super(name, material);
 

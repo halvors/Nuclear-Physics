@@ -2,10 +2,10 @@ package org.halvors.nuclearphysics.common.container.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.items.SlotItemHandler;
-import org.halvors.nuclearphysics.common.container.ContainerQuantum;
+import org.halvors.nuclearphysics.common.container.ContainerNuclearPhysics;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 
-public class ContainerChemicalExtractor extends ContainerQuantum {
+public class ContainerChemicalExtractor extends ContainerNuclearPhysics {
     public ContainerChemicalExtractor(InventoryPlayer inventoryPlayer, TileChemicalExtractor tile) {
         super(inventoryPlayer, tile);
 

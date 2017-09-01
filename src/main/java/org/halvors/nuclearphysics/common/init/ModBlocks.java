@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.nuclearphysics.common.Reference;
-import org.halvors.nuclearphysics.common.block.BlockQuantum;
+import org.halvors.nuclearphysics.common.block.BlockNuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockRadioactiveGrass;
 import org.halvors.nuclearphysics.common.block.BlockUraniumOre;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
@@ -43,20 +43,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ModBlocks {
-    public static BlockQuantum blockControlRod = new BlockControlRod();
-    public static BlockQuantum blockElectricTurbine = new BlockElectricTurbine();
-    public static BlockQuantum blockElectromagnet = new BlockElectromagnet();
-    public static BlockQuantum blockFulmination = new BlockFulmination();
-    public static BlockQuantum blockGasFunnel = new BlockGasFunnel();
-    public static BlockQuantum blockMachine = new BlockMachine();
-    public static BlockQuantum blockMachineModel = new BlockMachineModel();
-    public static BlockQuantum blockSiren = new BlockSiren();
-    public static BlockQuantum blockThermometer = new BlockThermometer();
-    public static BlockQuantum blockUraniumOre = new BlockUraniumOre();
-    public static BlockQuantum blockRadioactiveGrass = new BlockRadioactiveGrass();
-    public static BlockQuantum blockReactorCell = new BlockReactorCell();
+    public static Block blockControlRod = new BlockControlRod();
+    public static Block blockElectricTurbine = new BlockElectricTurbine();
+    public static Block blockElectromagnet = new BlockElectromagnet();
+    public static Block blockFulmination = new BlockFulmination();
+    public static Block blockGasFunnel = new BlockGasFunnel();
+    public static Block blockMachine = new BlockMachine();
+    public static Block blockMachineModel = new BlockMachineModel();
+    public static Block blockSiren = new BlockSiren();
+    public static Block blockThermometer = new BlockThermometer();
+    public static Block blockUraniumOre = new BlockUraniumOre();
+    public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
+    public static Block blockReactorCell = new BlockReactorCell();
 
-    public static BlockQuantum blockCreativeBuilder = new BlockCreativeBuilder();
+    public static Block blockCreativeBuilder = new BlockCreativeBuilder();
 
     @EventBusSubscriber
     public static class RegistrationHandler {
@@ -116,7 +116,7 @@ public class ModBlocks {
             final IForgeRegistry<Item> registry = event.getRegistry();
 
             for (final ItemBlock item : items) {
-                final BlockQuantum block = (BlockQuantum) item.getBlock();
+                final BlockNuclearPhysics block = (BlockNuclearPhysics) item.getBlock();
                 //final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
                 //registry.register(item.setRegistryName(registryName));
                 registry.register(item);

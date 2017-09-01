@@ -20,7 +20,7 @@ import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
 import java.util.List;
 import java.util.Random;
 
-public abstract class BlockRadioactive extends BlockQuantum {
+public abstract class BlockRadioactive extends BlockNuclearPhysics {
     protected boolean canSpread;
     protected float radius;
     protected int amplifier;
