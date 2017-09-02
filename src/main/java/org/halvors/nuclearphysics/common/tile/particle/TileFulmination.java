@@ -13,17 +13,22 @@ public class TileFulmination extends TileGenerator {
     }
 
     @Override
+    public void validate() {
+        super.validate();
+
+        FulminationEventHandler.register(this);
+    }
+
+    @Override
     public void invalidate() {
+        super.invalidate();
+
         FulminationEventHandler.unregister(this);
     }
 
     @Override
     public void update() {
         super.update();
-
-        if (world.getWorldTime() == 0) {
-            FulminationEventHandler.register(this);
-        }
 
         // Slowly lose energy.
         energyStorage.extractEnergy(1, false);

@@ -137,6 +137,11 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     }
 
     @Override
+    public void validate() {
+        super.validate();
+    }
+
+    @Override
     public void update() {
         if (world.getTotalWorldTime() == 0) {
             updatePositionStatus();
@@ -508,8 +513,8 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         world.setBlockToAir(pos);
 
         // No need to destroy reactor cell since explosion will do that for us.
-        ReactorExplosion reactorExplosion = new ReactorExplosion(world, null, pos, 9);
-        reactorExplosion.explode();
+        ReactorExplosion explosion = new ReactorExplosion(world, null, pos, 9);
+        explosion.explode();
     }
 
     public IItemHandlerModifiable getInventory() {

@@ -21,7 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.nuclearphysics.common.ConfigurationManager.Integration;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
-import org.halvors.nuclearphysics.common.event.handler.ExplosionEventHandler;
+import org.halvors.nuclearphysics.common.event.handler.ItemEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.PlayerEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ThermalEventHandler;
@@ -95,7 +95,7 @@ public class NuclearPhysics {
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
-		MinecraftForge.EVENT_BUS.register(new ExplosionEventHandler());
+		MinecraftForge.EVENT_BUS.register(new ItemEventHandler());
 		MinecraftForge.EVENT_BUS.register(new FulminationEventHandler());
 
 		// Register the proxy as our GuiHandler to NetworkRegistry.

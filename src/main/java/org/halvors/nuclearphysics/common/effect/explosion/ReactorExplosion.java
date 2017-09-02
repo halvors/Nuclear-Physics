@@ -14,7 +14,7 @@ public class ReactorExplosion extends Explosion {
     private Random explosionRAND = new Random();
 
     public ReactorExplosion(World world, Entity entity, BlockPos pos, float size) {
-        super(world, entity, pos.getX(), pos.getY(), pos.getZ(), size, true, true);
+        super(world, entity, pos.getX(), pos.getY(), pos.getZ(), size, false, true);
 
         this.world = world;
     }
