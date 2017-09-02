@@ -79,6 +79,10 @@ New features to add:
         Particle Accelerator:
             5 mg antimatter (One particle accelerated to 100%) uses 97.85 MJ if inner circle is 100x100 blocks.
 
+        Fulmination Generator:
+            125mg antimatter = 24.93 MJ
+            1g antimatter = ?
+
     Useful resources:
         https://github.com/gigaherz/ElementsOfPower/blob/master/src/main/java/gigaherz/elementsofpower/essentializer/TileEssentializer.java
 

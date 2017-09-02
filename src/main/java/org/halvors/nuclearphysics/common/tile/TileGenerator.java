@@ -29,7 +29,6 @@ public class TileGenerator extends TileBase implements ITickable {
     }
 
     public TileGenerator(int capacity) {
-
         energyStorage = new EnergyStorage(capacity, 0, capacity);
     }
 

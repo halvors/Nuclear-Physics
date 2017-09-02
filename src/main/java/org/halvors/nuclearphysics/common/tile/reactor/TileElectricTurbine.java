@@ -71,7 +71,9 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     private ElectricTurbineMultiBlockHandler multiBlock;
 
     public TileElectricTurbine() {
-        energyStorage = new EnergyStorage(maxPower * 20);
+        int capacity = maxPower * 20;
+
+        energyStorage = new EnergyStorage(capacity, 0, capacity);
     }
 
     @Override
