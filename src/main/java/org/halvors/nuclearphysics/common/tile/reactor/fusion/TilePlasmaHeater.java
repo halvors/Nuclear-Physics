@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.common.tile.reactor.fusion;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -12,28 +13,35 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.fluid.tank.GasTank;
+import org.halvors.nuclearphysics.common.capability.fluid.FluidTankNuclearPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.machine.TileMachine;
+import org.halvors.nuclearphysics.common.utility.LanguageUtility;
+import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
+import org.halvors.nuclearphysics.common.utility.type.Color;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
 
-public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHandler {
-    public static long power = 10000000000L;
+public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHandler, ITagRender {
+    //public static long power = 10000000000L;
+    public static int power = 128000; // TODO: Figure out what this should be.
     public static int plasmaHeatAmount = 100; // TODO: Configuration option for this?
 
-    private final GasTank tankInputDeuterium = new GasTank(ModFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
-    private final GasTank tankInputTritium = new GasTank(ModFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
-    private final GasTank tankOutput = new GasTank(ModFluids.plasmaStack.copy(), Fluid.BUCKET_VOLUME * 10);
+    // NOTE: Should be gas tanks.
+    private final FluidTankNuclearPhysics tankInputDeuterium = new FluidTankNuclearPhysics(ModFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
+    private final FluidTankNuclearPhysics tankInputTritium = new FluidTankNuclearPhysics(ModFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
+    private final FluidTankNuclearPhysics tankOutput = new FluidTankNuclearPhysics(ModFluids.plasmaStack.copy(), Fluid.BUCKET_VOLUME * 10);
 
     public float rotation = 0;
 
     public TilePlasmaHeater() {
-        energyStorage = new EnergyStorage((int) power);
+        energyStorage = new EnergyStorage(power);
     }
 
     @Override
@@ -42,6 +50,13 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
         rotation = (rotation + energyStorage.getEnergyStored() / 10000F);
 
         if (!world.isRemote) {
+            if (world.getWorldTime() % 20 == 0) {
+                NuclearPhysics.getLogger().info("Energy: " + energyStorage.getEnergyStored());
+                NuclearPhysics.getLogger().info("Deuterium: " + tankInputDeuterium.getFluidAmount());
+                NuclearPhysics.getLogger().info("Tritium: " + tankInputTritium.getFluidAmount());
+                NuclearPhysics.getLogger().info("Plasma: " + tankOutput.getFluidAmount());
+            }
+
             if (energyStorage.getEnergyStored() >= power / 20) {
                 if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= TilePlasmaHeater.plasmaHeatAmount && tankOutput.getFluidAmount() < tankOutput.getCapacity()) {
                     tankInputDeuterium.drainInternal(TilePlasmaHeater.plasmaHeatAmount, true);
@@ -53,7 +68,7 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
             }
         }
 
-        if (world.getWorldTime() % 80 == 0) {
+        if (world.getWorldTime() % 10 == 0) {
             NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
     }
@@ -106,7 +121,7 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
 
     @Override
     public IFluidTankProperties[] getTankProperties() {
-        return new IFluidTankProperties[] { new FluidTankPropertiesWrapper(tankInputDeuterium), new FluidTankPropertiesWrapper(tankInputDeuterium), new FluidTankPropertiesWrapper(tankOutput),};
+        return new IFluidTankProperties[] { new FluidTankPropertiesWrapper(tankInputDeuterium), new FluidTankPropertiesWrapper(tankInputTritium), new FluidTankPropertiesWrapper(tankOutput) };
     }
 
     @Override
@@ -135,6 +150,29 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
+    public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
+        if (energyStorage != null) {
+            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getDisplay(energyStorage.getEnergyStored(), UnitDisplay.Unit.JOULES), Color.WHITE.getHex());
+        }
+
+        if (tankInputDeuterium.getFluidAmount() > 0) {
+            map.put(LanguageUtility.transelate("fluid.deuterium") + ": " + tankInputDeuterium.getFluidAmount() + " L", Color.WHITE.getHex());
+        }
+
+        if (tankInputTritium.getFluidAmount() > 0) {
+            map.put(LanguageUtility.transelate("fluid.tritium") + ": " + tankInputTritium.getFluidAmount() + " L", Color.WHITE.getHex());
+        }
+
+        if (tankOutput.getFluidAmount() > 0) {
+            map.put(LanguageUtility.transelate("fluid.plasma") + ": " + tankOutput.getFluidAmount() + " L", Color.WHITE.getHex());
+        }
+
+        return 1.5F;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
         return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
@@ -149,27 +187,4 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
 
         return super.getCapability(capability, facing);
     }
-
-    /*
-    @Override
-    public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
-        if (energy != null) {
-            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getDisplay(energy.getEnergy(), Unit.JOULES), 0xFFFFFF);
-        }
-
-        if (tankInputDeuterium.getFluidAmount() > 0) {
-            map.put(LanguageUtility.transelate("fluid.deuterium") + ": " + tankInputDeuterium.getFluidAmount() + " L", 0xFFFFFF);
-        }
-
-        if (tankInputTritium.getFluidAmount() > 0) {
-            map.put(LanguageUtility.transelate("fluid.tritium") + ": " + tankInputTritium.getFluidAmount() + " L", 0xFFFFFF);
-        }
-
-        if (tankOutput.getFluidAmount() > 0) {
-            map.put(LanguageUtility.transelate("fluid.plasma") + ": " + tankOutput.getFluidAmount() + " L", 0xFFFFFF);
-        }
-
-        return 1.5f;
-    }
-    */
 }

@@ -40,7 +40,7 @@ public class BlockThermometer extends BlockRotatable {
                 }
 
                 return true;
-            } else if (itemStack != null) {
+            } else if (itemStack == null) {
                 if (player.isSneaking()) {
                     tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
                 } else {
