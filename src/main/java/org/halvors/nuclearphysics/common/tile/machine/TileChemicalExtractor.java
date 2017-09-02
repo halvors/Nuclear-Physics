@@ -10,7 +10,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.capability.fluid.FluidTankNuclearPhysics;
+import org.halvors.nuclearphysics.common.capability.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
@@ -70,7 +70,7 @@ public class TileChemicalExtractor extends TileProcess {
             }
         };
 
-        tankInput = new FluidTankNuclearPhysics(Fluid.BUCKET_VOLUME * 10) {
+        tankInput = new LiquidTank(Fluid.BUCKET_VOLUME * 10) {
             // TODO: Only allow internal draining?
             /*
             @Override
@@ -80,7 +80,7 @@ public class TileChemicalExtractor extends TileProcess {
             */
         };
 
-        tankOutput = new FluidTankNuclearPhysics(Fluid.BUCKET_VOLUME * 10) {
+        tankOutput = new LiquidTank(Fluid.BUCKET_VOLUME * 10) {
             // TODO: Only allow internal filling?
             /*
             @Override

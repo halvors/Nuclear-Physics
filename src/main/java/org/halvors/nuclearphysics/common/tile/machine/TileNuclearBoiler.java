@@ -7,7 +7,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.capability.fluid.FluidTankNuclearPhysics;
+import org.halvors.nuclearphysics.common.capability.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
@@ -56,7 +56,7 @@ public class TileNuclearBoiler extends TileProcess {
             }
         };
 
-        tankInput = new FluidTankNuclearPhysics(ModFluids.fluidStackWater.copy(),Fluid.BUCKET_VOLUME * 5) {
+        tankInput = new LiquidTank(ModFluids.fluidStackWater.copy(),Fluid.BUCKET_VOLUME * 5) {
             @Override
             public int fill(FluidStack resource, boolean doFill) {
                 if (resource.isFluidEqual(ModFluids.fluidStackWater)) {
@@ -75,7 +75,7 @@ public class TileNuclearBoiler extends TileProcess {
             */
         };
 
-        tankOutput = new FluidTankNuclearPhysics(ModFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
+        tankOutput = new LiquidTank(ModFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
             // TODO: Only allow internal filling?
             /*
             @Override

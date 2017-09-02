@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.capability.fluid.FluidTankNuclearPhysics;
+import org.halvors.nuclearphysics.common.capability.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemUranium.EnumUranium;
@@ -29,7 +29,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
 
-    private final FluidTankNuclearPhysics tank = new FluidTankNuclearPhysics(ModFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
+    private final LiquidTank tank = new LiquidTank(ModFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
         @Override
         public int fill(FluidStack resource, boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackUraniumHexaflouride)) {

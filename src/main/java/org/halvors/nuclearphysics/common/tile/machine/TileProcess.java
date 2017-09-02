@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import org.halvors.nuclearphysics.common.capability.fluid.FluidTankNuclearPhysics;
+import org.halvors.nuclearphysics.common.capability.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.item.ItemCell;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 
@@ -25,8 +25,8 @@ import java.util.List;
  * General class for all machines that do traditional recipe processing.
  */
 public abstract class TileProcess extends TileMachine implements ITickable, IFluidHandler {
-    protected FluidTankNuclearPhysics tankInput;
-    protected FluidTankNuclearPhysics tankOutput;
+    protected LiquidTank tankInput;
+    protected LiquidTank tankOutput;
 
     public float rotation = 0;
 

@@ -15,7 +15,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.capability.fluid.FluidTankNuclearPhysics;
+import org.halvors.nuclearphysics.common.capability.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.machine.TileMachine;
@@ -34,9 +34,9 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     public static int plasmaHeatAmount = 100; // TODO: Configuration option for this?
 
     // NOTE: Should be gas tanks.
-    private final FluidTankNuclearPhysics tankInputDeuterium = new FluidTankNuclearPhysics(ModFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
-    private final FluidTankNuclearPhysics tankInputTritium = new FluidTankNuclearPhysics(ModFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
-    private final FluidTankNuclearPhysics tankOutput = new FluidTankNuclearPhysics(ModFluids.plasmaStack.copy(), Fluid.BUCKET_VOLUME * 10);
+    private final LiquidTank tankInputDeuterium = new LiquidTank(ModFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
+    private final LiquidTank tankInputTritium = new LiquidTank(ModFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
+    private final LiquidTank tankOutput = new LiquidTank(ModFluids.plasmaStack.copy(), Fluid.BUCKET_VOLUME * 10);
 
     public float rotation = 0;
 
