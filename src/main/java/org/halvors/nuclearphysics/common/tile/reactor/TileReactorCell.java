@@ -223,18 +223,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 // Add heat to surrounding blocks in the thermal grid.
                 ThermalGrid.addTemperature(world, pos, deltaT);
 
-                // Sound of lava flowing randomly plays when above temperature to boil water.
-                if (world.rand.nextInt(80) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                    // TODO: Only do this is there is a water block nearby.
-                    world.playSound(null, pos, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
-                }
-
-                // Sounds of lava popping randomly plays when above temperature to boil water.
-                if (world.rand.nextInt(40) == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                    // TODO: Only do this is there is a water block nearby.
-                    world.playSound(null, pos, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
-                }
-
                 // Reactor cell plays random idle noises while operating and above temperature to boil water.
                 if (world.getWorldTime() % 100 == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     float percentage = Math.min(getTemperature() / meltingPoint, 1.0F);
@@ -298,24 +286,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 if (getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     if (world.rand.nextInt(5) == 0) {
                         world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextInt(2), pos.getY() + 1, pos.getZ() + world.rand.nextInt(2), 0, 0.1, 0);
-
-                        // Only show particle effects when there is water block nearby.
-                        for (int x = -radius; x <= radius; x++) {
-                            for (int z = -radius; z <= radius; z++) {
-                                BlockPos spawnPos = pos.add(x, 0, z);
-                                IBlockState state = world.getBlockState(spawnPos);
-
-                                if (state == Blocks.WATER.getDefaultState()) {
-                                    if (world.rand.nextInt(10) == 0 && world.isAirBlock(pos.up())) {
-                                        world.spawnParticle(EnumParticleTypes.CLOUD, spawnPos.getX() + world.rand.nextFloat(), spawnPos.getY() + 1, spawnPos.getZ() + world.rand.nextFloat(), 0, 0.05, 0);
-                                    }
-
-                                    if (world.rand.nextInt(5) == 0) {
-                                        world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, spawnPos.getX() + world.rand.nextFloat(), spawnPos.getY() + 0.5, spawnPos.getZ() + world.rand.nextFloat(), 0, 0.05, 0);
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }

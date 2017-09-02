@@ -4,8 +4,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -118,6 +121,26 @@ public class ThermalEventHandler {
                         int volume = (int) (Fluid.BUCKET_VOLUME * (event.temperature / ThermalPhysics.waterBoilTemperature) * steamMultiplier);
 
                         MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(fluidSteam, volume), 2, event.isReactor));
+                    }
+
+                    // Sound of lava flowing randomly plays when above temperature to boil water.
+                    if (world.rand.nextInt(80) == 0) {
+                        // TODO: Only do this is there is a water block nearby.
+                        world.playSound(null, pos, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
+                    }
+
+                    // Sounds of lava popping randomly plays when above temperature to boil water.
+                    if (world.rand.nextInt(40) == 0) {
+                        // TODO: Only do this is there is a water block nearby.
+                        world.playSound(null, pos, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+                    }
+
+                    if (world.rand.nextInt(10) == 0 && world.isAirBlock(pos.up())) {
+                        world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextFloat(), pos.getY() + 1, pos.getZ() + world.rand.nextFloat(), 0, 0.05, 0);
+                    }
+
+                    if (world.rand.nextInt(5) == 0) {
+                        world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, pos.getX() + world.rand.nextFloat(), pos.getY() + 0.5, pos.getZ() + world.rand.nextFloat(), 0, 0.05, 0);
                     }
 
                     event.heatLoss = 0.2F;

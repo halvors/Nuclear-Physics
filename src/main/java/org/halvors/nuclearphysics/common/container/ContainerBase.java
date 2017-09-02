@@ -18,8 +18,8 @@ public class ContainerBase extends Container {
 
     public ContainerBase(InventoryPlayer inventoryPlayer, TileBase tile) {
         this.tile = tile;
-        this.inventory = inventory;
-        this.slotCount = inventory.getSizeInventory();
+        this.inventory = inventoryPlayer;
+        this.slotCount = inventoryPlayer.getSizeInventory();
 
         if (tile != null) {
             tile.open(inventoryPlayer.player);
