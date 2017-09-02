@@ -15,6 +15,9 @@ Porting to 1.10.2 from 1.7.10:
 
     - Fix fulmination generator power generation.
     - Fix that fuel is not recognized in the OreDictionaryHelper.
+    - Add boil particles to water when BoilEvent is handled. (Instead of directly in reactor cell)
+    - Fix compatibility issue with Mekanism for plasma heater, avoid using gas tank for now.
+
 
 General:
 

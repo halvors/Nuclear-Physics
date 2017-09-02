@@ -57,59 +57,16 @@ public class RenderUtility {
     }
 
     public static void renderFloatingText(String text, double x, double y, double z, int color) {
-        /*
-        RenderManager renderManager = RenderManager.instance;
-        FontRenderer fontRenderer = renderManager.getFontRenderer();
-        float scale = 0.027F;
-
-        GlStateManager.color(1, 1, 1, 0.5F);
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(x, y, z);
-        GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
-        GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
-        GlStateManager.scale(-scale, -scale, scale);
-        GlStateManager.disableLighting();
-        GlStateManager.depthMask(false);
-        GlStateManager.disableDepth();
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexBuffer = Tessellator.getInstance().getBuffer();
-        int yOffset = 0;
-
-        GlStateManager.disableTexture2D();
-        tessellator.startDrawingQuads();
-        int stringMiddle = fontRenderer.getStringWidth(text) / 2;
-        tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.5F);
-        tessellator.addVertex(-stringMiddle - 1, -1 + yOffset, 0.0D);
-        tessellator.addVertex(-stringMiddle - 1, 8 + yOffset, 0.0D);
-        tessellator.addVertex(stringMiddle + 1, 8 + yOffset, 0.0D);
-        tessellator.addVertex(stringMiddle + 1, -1 + yOffset, 0.0D);
-        tessellator.draw();
-        GlStateManager.enableTexture2D();
-
-        GlStateManager.color(1, 1, 1, 0.5F);
-        fontRenderer.drawString(text, -fontRenderer.getStringWidth(text) / 2, yOffset, color);
-        GlStateManager.enableDepth();
-        GlStateManager.depthMask(true);
-        fontRenderer.drawString(text, -fontRenderer.getStringWidth(text) / 2, yOffset, color);
-        GlStateManager.enableLighting();
-        GlStateManager.disableBlend();
-        GlStateManager.color(1, 1, 1, 1);
-        GlStateManager.popMatrix();
-        */
-
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+        float scale = 0.027F;
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         GlStateManager.glNormal3f(0, 1, 0);
         GlStateManager.rotate(-renderManager.playerViewY, 0, 1, 0);
         GlStateManager.rotate(renderManager.playerViewX, 1, 0, 0);
-        GlStateManager.scale(-0.025F, -0.025F, 0.025F);
+        GlStateManager.scale(-scale, -scale, scale);
         GlStateManager.disableLighting();
         GlStateManager.depthMask(false);
         GlStateManager.disableDepth();
@@ -123,10 +80,10 @@ public class RenderUtility {
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        vertexbuffer.pos((double)(-stringMiddle - 1), (double)(-1 + yOffset), 0).color(0, 0, 0, 0.25F).endVertex();
-        vertexbuffer.pos((double)(-stringMiddle - 1), (double)(8 + yOffset), 0).color(0, 0, 0, 0.25F).endVertex();
-        vertexbuffer.pos((double)(stringMiddle + 1), (double)(8 + yOffset), 0).color(0, 0, 0, 0.25F).endVertex();
-        vertexbuffer.pos((double)(stringMiddle + 1), (double)(-1 + yOffset), 0).color(0, 0, 0, 0.25F).endVertex();
+        vertexbuffer.pos(-stringMiddle - 1, -1 + yOffset, 0).color(0, 0, 0, 0.25F).endVertex();
+        vertexbuffer.pos(-stringMiddle - 1, 8 + yOffset, 0).color(0, 0, 0, 0.25F).endVertex();
+        vertexbuffer.pos(stringMiddle + 1, 8 + yOffset, 0).color(0, 0, 0, 0.25F).endVertex();
+        vertexbuffer.pos(stringMiddle + 1, -1 + yOffset, 0).color(0, 0, 0, 0.25F).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         fontRenderer.drawString(text, -stringMiddle, yOffset, color);
@@ -138,8 +95,6 @@ public class RenderUtility {
         GlStateManager.color(1, 1, 1, 1);
         GlStateManager.popMatrix();
     }
-
-    //////////////////////
 
     public static void renderText(String text, EnumFacing side, float maxScale, double x, double y, double z) {
         GlStateManager.pushMatrix();
