@@ -12,15 +12,13 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.*;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.event.BoilEvent;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
@@ -37,12 +35,13 @@ public class ThermalEventHandler {
         for (int height = 1; height <= event.getMaxSpread(); height++) {
             final TileEntity tile = event.getWorld().getTileEntity(event.getPos().up(height));
 
-            if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
-                final IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.DOWN);
+            if (tile != null && tile.hasCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
+                final IBoilHandler boilHandler = tile.getCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
                 final FluidStack fluidStack = event.getRemainForSpread(height);
 
-                if (fluidStack.amount > 0 && fluidHandler.fill(fluidStack, false) > 0) {
-                    fluidStack.amount -= fluidHandler.fill(fluidStack, true);
+                // We're using fillInternal() to fill the IBoilHandler instead of fill() because we're not a pipe.
+                if (fluidStack.amount > 0 && boilHandler.fillInternal(fluidStack, false) > 0) {
+                    fluidStack.amount -= boilHandler.fillInternal(fluidStack, true);
                 }
             }
         }

@@ -14,7 +14,7 @@ import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell.EnumAn
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 
 public class ModRecipes {
-    public static void register() {
+    public static void registerRecipes() {
         // Register recipes.
 
         // TODO: Oredictionaficate.

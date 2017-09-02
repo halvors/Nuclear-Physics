@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import org.halvors.nuclearphysics.common.capability.fluid.LiquidTank;
+import org.halvors.nuclearphysics.common.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.item.ItemCell;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 

@@ -27,6 +27,7 @@ import org.halvors.nuclearphysics.common.event.handler.PlayerEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ThermalEventHandler;
 import org.halvors.nuclearphysics.common.grid.UpdateTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
+import org.halvors.nuclearphysics.common.init.ModCapabilities;
 import org.halvors.nuclearphysics.common.init.ModEntities;
 import org.halvors.nuclearphysics.common.init.ModRecipes;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
@@ -82,8 +83,10 @@ public class NuclearPhysics {
 		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
 		// Call functions for adding blocks, items, etc.
-		ModEntities.register();
-		ModRecipes.register();
+		ModCapabilities.registerCapabilities();
+		ModEntities.registerEntities();
+		ModRecipes.registerRecipes();
+
 
 		// Calling proxy handler.
 		proxy.preInit();

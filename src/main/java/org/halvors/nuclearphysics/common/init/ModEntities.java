@@ -5,7 +5,7 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 
 public class ModEntities {
-    public static void register() {
+    public static void registerEntities() {
         // Register entities.
         EntityRegistry.registerModEntity(EntityParticle.class, "Particle", 0, NuclearPhysics.getInstance(), 80, 3, true);
     }
