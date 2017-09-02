@@ -33,7 +33,6 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     public static int power = 128000; // TODO: Figure out what this should be.
     public static int plasmaHeatAmount = 100; // TODO: Configuration option for this?
 
-    // NOTE: Should be gas tanks.
     private final LiquidTank tankInputDeuterium = new LiquidTank(ModFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
     private final LiquidTank tankInputTritium = new LiquidTank(ModFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
     private final LiquidTank tankOutput = new LiquidTank(ModFluids.fluidStackPlasma.copy(), Fluid.BUCKET_VOLUME * 10);
@@ -50,13 +49,6 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
         rotation = (rotation + energyStorage.getEnergyStored() / 10000F);
 
         if (!world.isRemote) {
-            if (world.getWorldTime() % 20 == 0) {
-                NuclearPhysics.getLogger().info("Energy: " + energyStorage.getEnergyStored());
-                NuclearPhysics.getLogger().info("Deuterium: " + tankInputDeuterium.getFluidAmount());
-                NuclearPhysics.getLogger().info("Tritium: " + tankInputTritium.getFluidAmount());
-                NuclearPhysics.getLogger().info("Plasma: " + tankOutput.getFluidAmount());
-            }
-
             if (energyStorage.getEnergyStored() >= power / 20) {
                 if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= TilePlasmaHeater.plasmaHeatAmount && tankOutput.getFluidAmount() < tankOutput.getCapacity()) {
                     tankInputDeuterium.drainInternal(TilePlasmaHeater.plasmaHeatAmount, true);
