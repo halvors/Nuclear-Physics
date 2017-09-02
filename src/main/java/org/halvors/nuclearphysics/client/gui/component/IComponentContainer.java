@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.tile.component;
+package org.halvors.nuclearphysics.client.gui.component;
 
 import java.util.HashSet;
 import java.util.Set;

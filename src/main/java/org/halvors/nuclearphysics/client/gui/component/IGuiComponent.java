@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.client.gui.component;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.tile.component.IComponent;
 
 @SideOnly(Side.CLIENT)
 public interface IGuiComponent extends IComponent {
