@@ -100,7 +100,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     private final LiquidTank tank = new LiquidTank(Fluid.BUCKET_VOLUME * 15) {
         @Override
         public int fill(FluidStack resource, boolean doFill) {
-            if (resource.isFluidEqual(ModFluids.plasmaStack)) {
+            if (resource.isFluidEqual(ModFluids.fluidStackPlasma)) {
                 return super.fill(resource, doFill);
             }
 
@@ -441,7 +441,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
 
     @Override
     public boolean isOverToxic() {
-        return tank.getFluid() != null && tank.getFluid().getFluid() == ModFluids.fluidToxicWaste && tank.getFluid().amount >= tank.getCapacity();
+        return tank.getFluid() != null && tank.getFluid().getFluid() == ModFluids.toxicWaste && tank.getFluid().amount >= tank.getCapacity();
     }
 
     @Override

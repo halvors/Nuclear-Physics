@@ -180,13 +180,13 @@ public class TileChemicalExtractor extends TileProcess {
                 FluidStack outputFluidStack = tankOutput.getFluid();
 
                 if (inputFluidStack.isFluidEqual(ModFluids.fluidStackDeuterium) && inputFluidStack.amount >= ConfigurationManager.General.deutermiumPerTritium * extractSpeed) {
-                    if (outputFluidStack == null || outputFluidStack.getFluid() == ModFluids.gasTritium) {
+                    if (outputFluidStack == null || outputFluidStack.getFluid() == ModFluids.tritium) {
                         return true;
                     }
                 }
 
                 if (inputFluidStack.isFluidEqual(ModFluids.fluidStackWater) && inputFluidStack.amount >= ConfigurationManager.General.waterPerDeutermium * extractSpeed) {
-                    if (outputFluidStack == null || outputFluidStack.getFluid() == ModFluids.gasDeuterium) {
+                    if (outputFluidStack == null || outputFluidStack.getFluid() == ModFluids.deuterium) {
                         return true;
                     }
                 }
@@ -219,7 +219,7 @@ public class TileChemicalExtractor extends TileProcess {
             FluidStack drain = tankInput.drain(waterUsage * extractSpeed, false);
 
             if (drain != null && drain.amount >= 1 && drain.getFluid() == FluidRegistry.WATER) {
-                if (tankOutput.fillInternal(new FluidStack(ModFluids.gasDeuterium, extractSpeed), true) >= extractSpeed) {
+                if (tankOutput.fillInternal(new FluidStack(ModFluids.deuterium, extractSpeed), true) >= extractSpeed) {
                     tankInput.drainInternal(waterUsage * extractSpeed, true);
 
                     return true;
@@ -235,8 +235,8 @@ public class TileChemicalExtractor extends TileProcess {
             int deutermiumUsage = ConfigurationManager.General.deutermiumPerTritium;
             FluidStack drain = tankInput.drain(deutermiumUsage * extractSpeed, false);
 
-            if (drain != null && drain.amount >= 1 && drain.getFluid() == ModFluids.gasDeuterium) {
-                if (tankOutput.fill(new FluidStack(ModFluids.gasTritium, extractSpeed), true) >= extractSpeed) {
+            if (drain != null && drain.amount >= 1 && drain.getFluid() == ModFluids.deuterium) {
+                if (tankOutput.fill(new FluidStack(ModFluids.tritium, extractSpeed), true) >= extractSpeed) {
                     tankInput.drain(deutermiumUsage * extractSpeed, true);
 
                     return true;

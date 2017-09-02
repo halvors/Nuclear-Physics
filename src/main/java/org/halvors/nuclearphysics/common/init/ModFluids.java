@@ -33,11 +33,11 @@ public class ModFluids {
      */
     public static final Set<IFluidBlock> fluidBlocks = new HashSet<>();
 
-    public static final Fluid gasDeuterium = createFluid("deuterium", false,
-            fluid -> fluid.setGaseous(true),
+    public static final Fluid deuterium = createFluid("deuterium", false,
+            fluid -> fluid.setDensity(1000),
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
-    public static final Fluid gasUraniumHexaflouride = createFluid("uranium_hexafluoride", false,
+    public static final Fluid uraniumHexaflouride = createFluid("uranium_hexafluoride", false,
             fluid -> fluid.setGaseous(true),
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
@@ -45,21 +45,21 @@ public class ModFluids {
             fluid -> fluid.setGaseous(true),
             fluid -> new BlockFluidPlasma(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
-    public static final Fluid gasSteam = createFluid("steam", false,
+    public static final Fluid steam = createFluid("steam", false,
             fluid -> fluid.setGaseous(true),
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
-    public static final Fluid gasTritium = createFluid("tritium", false,
-            fluid -> fluid.setGaseous(true),
+    public static final Fluid tritium = createFluid("tritium", false,
+            fluid -> fluid.setDensity(1000),
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
-    public static final Fluid fluidToxicWaste = createFluid("toxic_waste", false,
+    public static final Fluid toxicWaste = createFluid("toxic_waste", false,
             fluid -> fluid.setDensity(100).setViscosity(100),
             fluid -> new BlockFluidToxicWaste(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
     public static final FluidStack fluidStackDeuterium = new FluidStack(FluidRegistry.getFluid("deuterium"), 0);
     public static final FluidStack fluidStackUraniumHexaflouride = new FluidStack(FluidRegistry.getFluid("uranium_hexafluoride"), 0);
-    public static final FluidStack plasmaStack = new FluidStack(FluidRegistry.getFluid("plasma"), 0);
+    public static final FluidStack fluidStackPlasma = new FluidStack(FluidRegistry.getFluid("plasma"), 0);
     public static final FluidStack fluidStackSteam = new FluidStack(FluidRegistry.getFluid("steam"), 0);
     public static final FluidStack fluidStackTritium = new FluidStack(FluidRegistry.getFluid("tritium"), 0);
     public static final FluidStack fluidStackToxicWaste = new FluidStack(FluidRegistry.getFluid("toxic_waste"), 0);

@@ -36,7 +36,7 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     // NOTE: Should be gas tanks.
     private final LiquidTank tankInputDeuterium = new LiquidTank(ModFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
     private final LiquidTank tankInputTritium = new LiquidTank(ModFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
-    private final LiquidTank tankOutput = new LiquidTank(ModFluids.plasmaStack.copy(), Fluid.BUCKET_VOLUME * 10);
+    private final LiquidTank tankOutput = new LiquidTank(ModFluids.fluidStackPlasma.copy(), Fluid.BUCKET_VOLUME * 10);
 
     public float rotation = 0;
 
