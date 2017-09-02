@@ -5,12 +5,12 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
-import org.halvors.nuclearphysics.common.container.ContainerNuclearPhysics;
+import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
-public class ContainerGasCentrifuge extends ContainerNuclearPhysics {
+public class ContainerGasCentrifuge extends ContainerBase {
     private static final int slotCount = 4;
     private TileGasCentrifuge tile;
 

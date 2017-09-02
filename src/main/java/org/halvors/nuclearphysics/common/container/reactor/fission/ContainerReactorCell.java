@@ -5,10 +5,10 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
-import org.halvors.nuclearphysics.common.container.ContainerNuclearPhysics;
+import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 
-public class ContainerReactorCell extends ContainerNuclearPhysics {
+public class ContainerReactorCell extends ContainerBase {
     public ContainerReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {
         super(inventoryPlayer, tile);
 

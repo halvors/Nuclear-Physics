@@ -1,21 +1,38 @@
 package org.halvors.nuclearphysics.common.container;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import org.halvors.nuclearphysics.common.tile.TileBase;
 
 public class ContainerBase extends Container {
     protected int slotCount = 0;
     protected int xInventoryDisplacement = 8;
     protected int yInventoryDisplacement = 135;
     protected int yHotBarDisplacement = 193;
+    private TileBase tile;
     private IInventory inventory;
 
-    public ContainerBase(IInventory inventory) {
+    public ContainerBase(InventoryPlayer inventoryPlayer, TileBase tile) {
+        this.tile = tile;
         this.inventory = inventory;
         this.slotCount = inventory.getSizeInventory();
+
+        if (tile != null) {
+            tile.open(inventoryPlayer.player);
+        }
+    }
+
+    @Override
+    public void onContainerClosed(EntityPlayer player) {
+        super.onContainerClosed(player);
+
+        if (tile != null) {
+            tile.close(player);
+        }
     }
 
     // Called to transfer a stack from one inventory to the other eg. when shift clicking.

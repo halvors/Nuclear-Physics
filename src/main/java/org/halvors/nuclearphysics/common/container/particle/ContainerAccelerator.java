@@ -5,11 +5,11 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
-import org.halvors.nuclearphysics.common.container.ContainerNuclearPhysics;
+import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
 
-public class ContainerAccelerator extends ContainerNuclearPhysics {
+public class ContainerAccelerator extends ContainerBase {
     private TileAccelerator tile;
 
     public ContainerAccelerator(InventoryPlayer inventoryPlayer, TileAccelerator tile) {
