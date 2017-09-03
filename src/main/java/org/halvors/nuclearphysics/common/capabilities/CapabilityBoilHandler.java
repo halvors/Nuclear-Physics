@@ -11,7 +11,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.IFluidTank;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
-import org.halvors.nuclearphysics.common.fluid.GasTank;
+import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 
 public class CapabilityBoilHandler {
     @CapabilityInject(IBoilHandler.class)

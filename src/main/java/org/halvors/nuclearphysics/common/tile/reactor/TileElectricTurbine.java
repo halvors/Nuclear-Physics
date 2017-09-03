@@ -16,7 +16,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.fluid.LiquidTank;
+import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
+import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHandler;
@@ -27,6 +28,7 @@ import org.halvors.nuclearphysics.common.tile.TileGenerator;
 import org.halvors.nuclearphysics.common.utility.position.Position;
 
 import javax.annotation.Nonnull;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,24 +40,17 @@ import java.util.Set;
  * The front of the turbine is where the output is.
  */
 public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, ITileNetwork {
-    protected final int energyPerSteam = 50; // 52000
-    protected final int defaultTorque = 5000;
-    protected int torque = defaultTorque;
+    private final int energyPerSteam = 50; // 52000
+    private final int defaultTorque = 5000;
+    private int torque = defaultTorque;
 
-    private final LiquidTank tank = new LiquidTank(ModFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 100) {
-        /*
-        @Override
-        public boolean canFill() {
-            return false;
-        }
-        */
-    };
+    private final GasTank tank = new GasTank(ModFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 100);
 
     // Radius of large turbine?
-    public int multiBlockRadius = 1;
+    private int multiBlockRadius = 1;
 
     // The power of the turbine this tick. In joules/tick
-    public int power = 0;
+    private int power = 0;
 
     // Current rotation of the turbine in radians.
     public float rotation = 0;
@@ -63,17 +58,15 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public int tier = 0; // Synced
 
     // Max power in watts.
-    protected int maxPower = 128000;
-    protected float angularVelocity = 0; // Synced
-    protected float previousAngularVelocity = 0;
+    private int maxPower = 128000;
+    private float angularVelocity = 0; // Synced
+    private float previousAngularVelocity = 0;
 
     // MutliBlock methods.
     private ElectricTurbineMultiBlockHandler multiBlock;
 
     public TileElectricTurbine() {
-        int capacity = maxPower * 20;
-
-        energyStorage = new EnergyStorage(capacity, 0, capacity);
+        energyStorage = new EnergyStorage(maxPower * 20);
     }
 
     @Override
@@ -97,6 +90,9 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         if (getMultiBlock().isPrimary()) {
             if (!world.isRemote) {
+                NuclearPhysics.getLogger().info("Steam is: " + tank.getFluidAmount());
+                NuclearPhysics.getLogger().info("Energy is: " + energyStorage.getEnergyStored());
+
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
                     FluidStack fluidStackSteam = tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
@@ -153,7 +149,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         //multiBlockRadius = tag.getInteger("multiBlockRadius");
         getMultiBlock().readFromNBT(tag);
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+        CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
     }
 
     @Override
@@ -162,7 +158,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         //tag.setInteger("multiBlockRadius", multiBlockRadius);
         getMultiBlock().writeToNBT(tag);
-        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
+        tag.setTag("tank", CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }
@@ -251,11 +247,19 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         return (int) ((multiBlockRadius + 0.5) * 2 * (multiBlockRadius + 0.5) * 2);
     }
 
+    public EnumSet<EnumFacing> getExtractingDirections() {
+        if (getMultiBlock().isPrimary()) {
+            return EnumSet.of(EnumFacing.UP);
+        }
+
+        return EnumSet.noneOf(EnumFacing.class);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return (capability == CapabilityEnergy.ENERGY && getMultiBlock().isPrimary() && facing == EnumFacing.UP) || (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && getMultiBlock().isPrimary() && facing == EnumFacing.DOWN) || super.hasCapability(capability, facing);
+        return (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) || ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN && getMultiBlock().isPrimary()) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
@@ -266,7 +270,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             if (getMultiBlock().isPrimary() && facing == EnumFacing.UP) {
                 return (T) getMultiBlock().get().getEnergyStorage();
             }
-        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) {
             if (getMultiBlock().isPrimary() && facing == EnumFacing.DOWN) {
                 return (T) getMultiBlock().get().tank;
             }

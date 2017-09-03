@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.fluid;
+package org.halvors.nuclearphysics.common.capabilities.fluid;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;

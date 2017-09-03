@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.fluid;
+package org.halvors.nuclearphysics.common.capabilities.fluid;
 
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;

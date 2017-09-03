@@ -33,7 +33,7 @@ import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.reactor.BlockReactorCell.EnumReactorCell;
 import org.halvors.nuclearphysics.common.block.states.BlockStateReactorCell;
-import org.halvors.nuclearphysics.common.fluid.LiquidTank;
+import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.effect.explosion.ReactorExplosion;
 import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;

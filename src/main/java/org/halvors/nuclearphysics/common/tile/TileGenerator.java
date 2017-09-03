@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TileGenerator extends TileBase implements ITickable {
+public class TileGenerator extends TileBase implements ITickable, IEnergyStorage {
     private final List<BlockPos> mTargets = Lists.newArrayList();
     private final Map<BlockPos, EnumFacing> mFacings = new HashMap<>();
     private int mTargetStartingIndex;
@@ -29,7 +29,7 @@ public class TileGenerator extends TileBase implements ITickable {
     }
 
     public TileGenerator(int capacity) {
-        energyStorage = new EnergyStorage(capacity, 0, capacity);
+        energyStorage = new EnergyStorage(capacity);
     }
 
     @Override
@@ -59,24 +59,6 @@ public class TileGenerator extends TileBase implements ITickable {
         }
 
         return tag;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) {
-            return (T) energyStorage;
-        }
-
-        return super.getCapability(capability, facing);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,28 +124,57 @@ public class TileGenerator extends TileBase implements ITickable {
         }
     }
 
-    /*
-    protected int produce() {
-        int totalUsed = 0;
-
-        // Send energy to available receivers.
-        for (EnumFacing direction : getExtractingDirections()) {
-            if (energyStorage.getEnergyStored() > 0) {
-                TileEntity tileEntity = new Vector3(this).translate(direction).getTileEntity(world);
-
-                if (tileEntity != null && tileEntity instanceof IEnergyReceiver) {
-                    IEnergyReceiver tileReceiver = (IEnergyReceiver) tileEntity;
-                    int used = extractEnergy(direction, tileReceiver.receiveEnergy(direction.getOpposite(), energyStorage.extractEnergy(energyStorage.getMaxExtract(), true), false), false);
-                    totalUsed += energyStorage.extractEnergy(used, false);
-                }
-            }
-        }
-
-        return totalUsed;
-    }
-    */
-
     public EnergyStorage getEnergyStorage() {
         return energyStorage;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+        return (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+        if (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) {
+            return (T) energyStorage;
+        }
+
+        return super.getCapability(capability, facing);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public int receiveEnergy(int maxReceive, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(int maxExtract, boolean simulate) {
+        return energyStorage.extractEnergy(maxExtract, simulate);
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return energyStorage.getEnergyStored();
+    }
+
+    @Override
+    public int getMaxEnergyStored() {
+        return energyStorage.getMaxEnergyStored();
+    }
+
+    @Override
+    public boolean canExtract() {
+        return energyStorage.canExtract();
+    }
+
+    @Override
+    public boolean canReceive() {
+        return energyStorage.canReceive();
     }
 }

@@ -5,7 +5,7 @@
   		"description": "Nuclear Physics is a mod that brings in realistic, world-based technological advancement experience into Minecraft.",
   		"version": "${version}",
   		"mcversion": "${minecraft_version}",
-  		"url": "https://github.com/halvors/nuclear-physics/",
+  		"url": "https://minecraft.curseforge.com/projects/nuclear-physics",
   		"updateUrl": "",
   		"authorList": [ "halvors", "zenoy" ],
   		"credits": "Calclavia, CyanideX, Archadia, Darkguardsman, Tgame14 and Maxwolf Goodliffe",

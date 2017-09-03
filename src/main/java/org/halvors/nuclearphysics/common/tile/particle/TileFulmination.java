@@ -9,9 +9,7 @@ import java.util.EnumSet;
 
 public class TileFulmination extends TileGenerator {
     public TileFulmination() {
-        int capacity = (int) 10000000000000L;
-
-        energyStorage = new EnergyStorage(capacity, 0, capacity);
+        energyStorage = new EnergyStorage((int) 10000000000000L);
     }
 
     @Override
