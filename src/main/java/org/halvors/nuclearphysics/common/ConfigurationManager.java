@@ -39,7 +39,7 @@ public class ConfigurationManager {
         public static boolean allowAlternateRecipes = true;
         public static boolean allowIC2UraniumCompression = true;
 
-        //public static int[] quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the NuclearPhysics Assembler. Separate by commas, no space.
+        //public static int[] quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the Quantum Assembler. Separate by commas, no space.
         public static int quantumAssemblerGenerateMode = 1; // Comment: 0 = Do not generate, 1 = Generate items only, 2 = Generate all
 
     }

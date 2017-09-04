@@ -113,24 +113,17 @@ public class ThermalEventHandler {
 
             if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
                 if (event.temperature >= ThermalPhysics.waterBoilTemperature) {
-                    Fluid fluidSteam = FluidRegistry.getFluid("steam");
+                    int volume = (int) (Fluid.BUCKET_VOLUME * (event.temperature / ThermalPhysics.waterBoilTemperature) * ConfigurationManager.General.steamOutputMultiplier);
 
-                    if (fluidSteam != null) {
-                        double steamMultiplier = ConfigurationManager.General.steamOutputMultiplier;
-                        int volume = (int) (Fluid.BUCKET_VOLUME * (event.temperature / ThermalPhysics.waterBoilTemperature) * steamMultiplier);
-
-                        MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(fluidSteam, volume), 2, event.isReactor));
-                    }
+                    MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(ModFluids.steam, volume), 2, event.isReactor));
 
                     // Sound of lava flowing randomly plays when above temperature to boil water.
                     if (world.rand.nextInt(80) == 0) {
-                        // TODO: Only do this is there is a water block nearby.
                         world.playSound(null, pos, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
                     }
 
                     // Sounds of lava popping randomly plays when above temperature to boil water.
                     if (world.rand.nextInt(40) == 0) {
-                        // TODO: Only do this is there is a water block nearby.
                         world.playSound(null, pos, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
                     }
 

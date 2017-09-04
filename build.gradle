@@ -27,10 +27,7 @@ idea {
 apply plugin: "net.minecraftforge.gradle.forge"
 
 repositories {
-    maven {
-        name 'tesla'
-        url 'http://maven.epoxide.org'
-    }
+
 }
 
 // Define properties file
@@ -59,7 +56,7 @@ minecraft {
 }
 
 dependencies {
-    compile "net.darkhax.tesla:Tesla-1.12:${config.tesla_version}"
+
 }
 
 processResources {

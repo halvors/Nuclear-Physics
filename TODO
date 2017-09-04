@@ -10,12 +10,16 @@ General:
 
     - Debug and sort out how reactor multi-blocks actually work.
     - Make sure only one tile entity in the multi-block structure is running at the same time.
-    - Slow down client side temperature update of reactor cell.
+    - Slow down client side temperature update of reactor cell?
 
     - Fix that fuel is not recognized in the OreDictionaryHelper.
     - Fix antimatter explosion not spawning particles.
+    - Fluid output is not transferred to neighbor machine accepting it as input.
 
     - Render fluid in qui.
+
+    - Why is electricity not generated during the night? Temperature is lower at night?
+
 
 Known bugs:
     - Should not be possible to inject fuel into each of the reactor cell multiblocks...
@@ -25,7 +29,6 @@ Known features not implemented:
 
 New features to add:
     Convenience:
-        - Fluid output is not transferred to neighbor machine accepting it as input.
         - Add electromagnetic cell, a cell capable of holding antimatter.
         - Not poison players in creative mode?
         - Implement IAntiPoisonBlock and add make radiation resistant blocks.
@@ -64,12 +67,6 @@ New features to add:
 
         Centrifuge:
             128 MJ ~= 20000 = 2 Refined/Breading Uranium
-
-        Turbine:
-            Fission Reactor with 4 Control Rods: (Generated from one Turbine)
-               (128 MJ * 20) + 90 MJ = 2650 MJ
-
-               60 seconds run = 64 MJ
 
         Particle Accelerator:
             5 mg antimatter (One particle accelerated to 100%) uses 97.85 MJ if inner circle is 100x100 blocks.
