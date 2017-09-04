@@ -15,13 +15,21 @@ buildscript {
     }
 }
 
-apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "idea"
 
 idea {
     module {
         // For some reason this is necessary for IDEA 2014 workspaces to recognize assets
         inheritOutputDirs = true
+    }
+}
+
+apply plugin: "net.minecraftforge.gradle.forge"
+
+repositories {
+    maven {
+        name 'tesla'
+        url 'http://maven.epoxide.org'
     }
 }
 
@@ -48,6 +56,10 @@ minecraft {
 
     // Replace version in Reference.java
     replace "@version", config.mod_version
+}
+
+dependencies {
+    compile "net.darkhax.tesla:Tesla-1.12:${config.tesla_version}"
 }
 
 processResources {
