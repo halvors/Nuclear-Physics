@@ -53,7 +53,7 @@ New features to add:
     Rendering:
         - Make the whole multi block reactor cell share GUI.
         - Make nuclear boiler eject steam.
-        - Render TESR's with FastTESR.
+        - Render TESR's with FastTESR?
 
     Networking:
         - Optimize syncing of machines etc, only sync when gui is open etc.

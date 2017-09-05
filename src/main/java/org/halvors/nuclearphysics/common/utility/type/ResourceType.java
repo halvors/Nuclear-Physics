@@ -2,7 +2,7 @@ package org.halvors.nuclearphysics.common.utility.type;
 
 public enum ResourceType {
 	GUI("textures/gui"),
-	GUI_COMPONENT(GUI + "/components"),
+	GUI_COMPONENT("textures/gui/components"),
 	MODEL("block"),
 	SOUND("sounds"),
 	TEXTURE_MODELS("models");

@@ -91,8 +91,6 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         if (getMultiBlock().isPrimary()) {
             if (!world.isRemote) {
-                NuclearPhysics.getLogger().info("Steam amount: " + tank.getFluidAmount());
-
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
                     FluidStack fluidStack = tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
@@ -130,8 +128,6 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             }
         } else if (tank.getFluidAmount() > 0) {
             int amount = getMultiBlock().get().tank.fillInternal(tank.getFluid(), false);
-
-            NuclearPhysics.getLogger().info("Transferring: " + amount);
 
             getMultiBlock().get().tank.fillInternal(tank.drainInternal(amount, true), true);
         }

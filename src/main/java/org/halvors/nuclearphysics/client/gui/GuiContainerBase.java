@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.client.gui;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -87,7 +88,7 @@ public class GuiContainerBase extends GuiContainer {
         this.containerHeight = (height - ySize) / 2;
 
         this.mc.renderEngine.bindTexture(baseTexture);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1, 1, 1, 1);
 
         this.drawTexturedModalRect(containerWidth, containerHeight, 0, 0, xSize, ySize);
     }

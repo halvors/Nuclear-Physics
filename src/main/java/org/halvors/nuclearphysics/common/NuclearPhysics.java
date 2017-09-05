@@ -117,7 +117,7 @@ public class NuclearPhysics {
                 if (ticket.getType() == ForgeChunkManager.Type.ENTITY) {
 					Entity entity = ticket.getEntity();
 
-					if (entity != null && entity instanceof EntityParticle) {
+					if (entity instanceof EntityParticle) {
 						((EntityParticle) entity).updateTicket = ticket;
 					}
                 }

@@ -5,14 +5,19 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.utility.position.Position;
+import org.halvors.nuclearphysics.common.utility.type.Color;
 import org.lwjgl.opengl.GL11;
+
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class RenderUtility {
@@ -171,5 +176,15 @@ public class RenderUtility {
         OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
         GlStateManager.enableTexture2D();
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void color(int color) {
+        float cR = (color >> 16 & 0xFF) / 255.0F;
+        float cG = (color >> 8 & 0xFF) / 255.0F;
+        float cB = (color & 0xFF) / 255.0F;
+
+        GlStateManager.color(cR, cG, cB);
     }
 }
