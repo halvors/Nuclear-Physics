@@ -17,21 +17,18 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.modular.component.GuiComponent;
+import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.common.utility.ResourceUtility;
+import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 @SideOnly(Side.CLIENT)
-public abstract class GuiComponentContainer extends GuiContainer implements IGuiWrapper {
-    public Set<GuiComponent> components = new HashSet<>();
+public class GuiComponentContainer<T extends TileEntity> extends GuiContainer implements IGuiWrapper {
+    protected Set<GuiComponent> components = new HashSet<>();
+    protected T tile;
 
-    private TileEntity tile;
-
-    //Try not to use
-    public GuiComponentContainer(Container container) {
-        super(container);
-    }
-
-    public GuiComponentContainer(TileEntity tile, Container container) {
+    public GuiComponentContainer(T tile, Container container) {
         super(container);
 
         this.tile = tile;
@@ -63,7 +60,7 @@ public abstract class GuiComponentContainer extends GuiContainer implements IGui
             GlStateManager.pushMatrix();
 
             GlStateManager.scale(scale, scale, scale);
-            fontRendererObj.drawString(text, (int)(x*reverse), (int)((y*reverse)+yAdd), color);
+            fontRendererObj.drawString(text, (int)(x * reverse), (int)((y * reverse) + yAdd), color);
 
             GlStateManager.popMatrix();
         }
@@ -85,18 +82,20 @@ public abstract class GuiComponentContainer extends GuiContainer implements IGui
         }
     }
 
-    public TileEntity getTileEntity() {
-        return tile;
-    }
-
     protected boolean isMouseOverSlot(Slot slot, int mouseX, int mouseY) {
         return isPointInRegion(slot.xPos, slot.yPos, 16, 16, mouseX, mouseY);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY) {
+        RenderUtility.bindTexture(ResourceUtility.getResource(ResourceType.GUI, "gui_base.png"));
+
+        GlStateManager.color(1, 1, 1, 1);
+
         int guiWidth = (width - xSize) / 2;
         int guiHeight = (height - ySize) / 2;
+
+        drawTexturedModalRect(guiWidth, guiHeight, 0, 0, xSize, ySize);
 
         int xAxis = mouseX - guiWidth;
         int yAxis = mouseY - guiHeight;
@@ -200,9 +199,5 @@ public abstract class GuiComponentContainer extends GuiContainer implements IGui
 
     public int getYPos() {
         return (height - ySize) / 2;
-    }
-
-    protected FontRenderer getFontRenderer() {
-        return fontRendererObj;
     }
 }

@@ -22,7 +22,7 @@ import org.halvors.nuclearphysics.client.gui.debug.GuiCreativeBuilder;
 import org.halvors.nuclearphysics.client.gui.machine.GuiGasCentrifuge;
 import org.halvors.nuclearphysics.client.gui.machine.GuiNuclearBoiler;
 import org.halvors.nuclearphysics.client.gui.machine.GuiQuantumAssembler;
-import org.halvors.nuclearphysics.client.gui.modular.GuiChemicalExtractor;
+import org.halvors.nuclearphysics.client.gui.modular.machine.GuiChemicalExtractor;
 import org.halvors.nuclearphysics.client.gui.particle.GuiAccelerator;
 import org.halvors.nuclearphysics.client.gui.reactor.fission.GuiReactorCell;
 import org.halvors.nuclearphysics.client.render.block.machine.RenderChemicalExtractor;

@@ -13,9 +13,7 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public abstract class GuiComponent {
     public ResourceLocation RESOURCE;
-
     public IGuiWrapper guiObj;
-
     public ResourceLocation defaultLocation;
 
     public GuiComponent(ResourceLocation resource, IGuiWrapper gui, ResourceLocation def) {
