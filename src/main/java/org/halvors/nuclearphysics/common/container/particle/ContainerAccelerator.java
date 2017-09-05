@@ -9,13 +9,9 @@ import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
 
-public class ContainerAccelerator extends ContainerBase {
-    private TileAccelerator tile;
-
+public class ContainerAccelerator extends ContainerBase<TileAccelerator> {
     public ContainerAccelerator(InventoryPlayer inventoryPlayer, TileAccelerator tile) {
         super(inventoryPlayer, tile);
-
-        this.tile = tile;
 
         // Inputs
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 132, 26));
@@ -25,6 +21,7 @@ public class ContainerAccelerator extends ContainerBase {
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 132, 75));
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 106, 75));
 
+        // Players inventory
         addPlayerInventory(inventoryPlayer.player);
     }
 

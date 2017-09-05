@@ -12,6 +12,8 @@ import org.halvors.nuclearphysics.common.container.machine.ContainerNuclearBoile
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiNuclearBoiler extends GuiComponentContainer<TileNuclearBoiler> {
     public GuiNuclearBoiler(InventoryPlayer inventoryPlayer, TileNuclearBoiler tile) {
@@ -34,9 +36,11 @@ public class GuiNuclearBoiler extends GuiComponentContainer<TileNuclearBoiler> {
         //renderUniversalDisplay(8, 112, TileNuclearBoiler.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(110, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
-        fontRendererObj.drawString("The nuclear boiler can boil", 8, 75, 0x404040);
-        fontRendererObj.drawString("yellow cake into uranium", 8, 85, 0x404040);
-        fontRendererObj.drawString("hexafluoride gas to be refined.", 8, 95, 0x404040);
+        List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tile.getBlockType().getUnlocalizedName() + "." + tile.getType().ordinal() + ".text"), 4);
+
+        for (int i = 0; i < list.size(); i++) {
+            fontRendererObj.drawString(list.get(i), 9, 85 + i * 9, 0x404040);
+        }
 
         fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
 

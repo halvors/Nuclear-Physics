@@ -1,25 +1,29 @@
 package org.halvors.nuclearphysics.client.gui.modular.machine;
 
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.modular.GuiComponentContainer;
-import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.client.gui.modular.component.GuiSlot;
+import org.halvors.nuclearphysics.client.gui.modular.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuantumAssembler extends GuiComponentContainer<TileQuantumAssembler> {
-    public static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.GUI, "gui_quantum_assembler.png");
+    //public static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.GUI, "gui_quantum_assembler.png");
 
     public GuiQuantumAssembler(InventoryPlayer inventoryPlayer, TileQuantumAssembler tile) {
         super(tile, new ContainerQuantumAssembler(inventoryPlayer, tile));
 
-        ySize = 230;
+        components.add(new GuiSlot(SlotType.NORMAL, this, 80, 40));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 53, 56));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 107, 56));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 53, 88));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 107, 88));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 80, 103));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 80, 72));
     }
 
     @Override
@@ -41,9 +45,12 @@ public class GuiQuantumAssembler extends GuiComponentContainer<TileQuantumAssemb
         //renderUniversalDisplay(100, ySize - 94, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
         //renderUniversalDisplay(8, ySize - 95, TileQuantumAssembler.tickTime, mouseX, mouseY, UnitDisplay.Unit.WATT);
 
+        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
+
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 
+    /*
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY) {
         RenderUtility.bindTexture(texture);
@@ -57,4 +64,5 @@ public class GuiQuantumAssembler extends GuiComponentContainer<TileQuantumAssemb
 
         super.drawGuiContainerBackgroundLayer(partialTick, mouseX, mouseY);
     }
+    */
 }

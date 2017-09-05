@@ -28,8 +28,7 @@ public abstract class TileMachine extends TileConsumer implements ITileNetwork {
 
     public TileMachine(EnumMachine type) {
         this.type = type;
-
-        inventory = new ItemStackHandler(1);
+        this.inventory = new ItemStackHandler(1);
     }
 
     @Override
@@ -107,7 +106,11 @@ public abstract class TileMachine extends TileConsumer implements ITileNetwork {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public String getName() {
-        return LanguageUtility.transelate(blockType.getUnlocalizedName() + "." + type.ordinal() + ".name");
+        return LanguageUtility.transelate(getBlockType().getUnlocalizedName() + "." + type.ordinal() + ".name");
+    }
+
+    public EnumMachine getType() {
+        return type;
     }
 
     public IItemHandlerModifiable getInventory() {

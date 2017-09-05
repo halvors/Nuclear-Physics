@@ -9,13 +9,9 @@ import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 
-public class ContainerQuantumAssembler extends ContainerBase {
-    private TileQuantumAssembler tile;
-
+public class ContainerQuantumAssembler extends ContainerBase<TileQuantumAssembler> {
     public ContainerQuantumAssembler(InventoryPlayer inventoryPlayer, TileQuantumAssembler tile) {
         super(inventoryPlayer, tile);
-
-        this.tile = tile;
 
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 80, 40));
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 53, 56));
@@ -25,23 +21,8 @@ public class ContainerQuantumAssembler extends ContainerBase {
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 5, 80, 103));
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 6, 80, 72));
 
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
-                addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 148 + i * 18));
-            }
-        }
-
-        for (int i = 0; i < 9; ++i) {
-            addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 206));
-        }
-
-        //tile.openInventory(inventoryPlayer.player);
-    }
-
-    @Override
-    public boolean canInteractWith(EntityPlayer player) {
-        //return tile.isUsableByPlayer(player);
-        return true;
+        // Players inventory
+        addPlayerInventory(inventoryPlayer.player);
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */

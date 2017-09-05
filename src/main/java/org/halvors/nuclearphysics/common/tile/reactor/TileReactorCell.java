@@ -47,6 +47,7 @@ import org.halvors.nuclearphysics.common.multiblock.MultiBlockHandler;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileRotatable;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
+import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.position.Position;
 
 import javax.annotation.Nonnull;
@@ -55,6 +56,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileReactorCell extends TileRotatable implements ITickable, IMultiBlockStructure<TileReactorCell>, IReactor {
+    private String name;
+
     public static final int radius = 2;
     public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;
@@ -117,11 +120,11 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     };
 
     public TileReactorCell() {
-
+        this("reactor_cell");
     }
 
     public TileReactorCell(String name) {
-        super(name);
+        this.name = name;
     }
 
     @Override
@@ -420,6 +423,38 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return (T) getMultiBlock().get().getInventory();
+        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return (T) getMultiBlock().get().getTank();
+        }
+
+        return super.getCapability(capability, facing);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLocalizedName() {
+        return LanguageUtility.transelate(getBlockType().getUnlocalizedName() + ".name");
+    }
+
+    public IItemHandlerModifiable getInventory() {
+        return inventory;
+    }
+
     public int getHeight() {
         int height = 0;
         TileEntity tile = this;
@@ -484,29 +519,5 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         // No need to destroy reactor cell since explosion will do that for us.
         ReactorExplosion explosion = new ReactorExplosion(world, null, pos, 9);
         explosion.explode();
-    }
-
-    public IItemHandlerModifiable getInventory() {
-        return inventory;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return (T) getMultiBlock().get().getInventory();
-        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return (T) getMultiBlock().get().getTank();
-        }
-
-        return super.getCapability(capability, facing);
     }
 }

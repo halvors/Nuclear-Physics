@@ -45,7 +45,7 @@ public class GuiGasCentrifuge extends GuiContainerBase {
 
         fontRendererObj.drawString("The centrifuge spins", 8, 75, 0x404040);
         fontRendererObj.drawString("uranium hexafluoride gas into", 8, 85, 0x404040);
-        fontRendererObj.drawString("enriched uranium for fission.", 8, 95, 0x404040);
+        fontRendererObj.drawString("enriched uranium for reactor.", 8, 95, 0x404040);
 
         fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, ySize - 96 + 2, 0x404040);
 

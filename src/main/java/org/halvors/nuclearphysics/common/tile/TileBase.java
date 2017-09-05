@@ -9,8 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TileBase extends TileEntity {
-    protected String name;
-
     /** The players currently using this block. */
     private final Set<EntityPlayer> playersUsing = new HashSet<>();
 
@@ -28,14 +26,6 @@ public class TileBase extends TileEntity {
 
     public TileBase() {
 
-    }
-
-    public TileBase(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override

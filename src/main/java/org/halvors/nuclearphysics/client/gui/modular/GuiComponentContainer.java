@@ -10,7 +10,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.modular.component.GuiComponent;
+import org.halvors.nuclearphysics.client.gui.modular.component.IGuiComponent;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.ResourceType;
@@ -24,14 +24,13 @@ import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public class GuiComponentContainer<T extends TileEntity> extends GuiContainer implements IGuiWrapper {
-    protected Set<GuiComponent> components = new HashSet<>();
+    protected Set<IGuiComponent> components = new HashSet<>();
     protected T tile;
 
     public GuiComponentContainer(T tile, Container container) {
         super(container);
 
         this.tile = tile;
-
         this.ySize = 217;
     }
 
@@ -45,7 +44,6 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
         }
     }
 
-    /** returns scale */
     public void renderScaledText(String text, int x, int y, int color, int maxX) {
         int length = fontRendererObj.getStringWidth(text);
 
@@ -76,8 +74,8 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
         int xAxis = (mouseX - (width - xSize) / 2);
         int yAxis = (mouseY - (height - ySize) / 2);
 
-        for (GuiComponent element : components) {
-            element.renderForeground(xAxis, yAxis);
+        for (IGuiComponent component : components) {
+            component.renderForeground(xAxis, yAxis);
         }
     }
 
@@ -99,8 +97,8 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
         int xAxis = mouseX - guiWidth;
         int yAxis = mouseY - guiHeight;
 
-        for (GuiComponent element : components) {
-            element.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
+        for (IGuiComponent component : components) {
+            component.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         }
     }
 
@@ -109,14 +107,14 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
         int xAxis = (mouseX - (width - xSize) / 2);
         int yAxis = (mouseY - (height - ySize) / 2);
 
-        for (GuiComponent element : components) {
-            element.preMouseClicked(xAxis, yAxis, button);
+        for (IGuiComponent component : components) {
+            component.preMouseClicked(xAxis, yAxis, button);
         }
 
         super.mouseClicked(mouseX, mouseY, button);
 
-        for (GuiComponent element : components) {
-            element.mouseClicked(xAxis, yAxis, button);
+        for (IGuiComponent component : components) {
+            component.mouseClicked(xAxis, yAxis, button);
         }
     }
 
@@ -152,8 +150,8 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
         int xAxis = (mouseX - (width - xSize) / 2);
         int yAxis = (mouseY - (height - ySize) / 2);
 
-        for (GuiComponent element : components) {
-            element.mouseClickMove(xAxis, yAxis, button, ticks);
+        for (IGuiComponent component : components) {
+            component.mouseClickMove(xAxis, yAxis, button, ticks);
         }
     }
 
@@ -164,8 +162,8 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
         int xAxis = (mouseX - (width - xSize) / 2);
         int yAxis = (mouseY - (height - ySize) / 2);
 
-        for (GuiComponent element : components) {
-            element.mouseReleased(xAxis, yAxis, type);
+        for (IGuiComponent component : components) {
+            component.mouseReleased(xAxis, yAxis, type);
         }
     }
 
@@ -187,8 +185,8 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
     }
 
     public void mouseWheel(int xAxis, int yAxis, int delta) {
-        for (GuiComponent element : components) {
-            element.mouseWheel(xAxis, yAxis, delta);
+        for (IGuiComponent component : components) {
+            component.mouseWheel(xAxis, yAxis, delta);
         }
     }
 

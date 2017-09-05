@@ -16,7 +16,7 @@ import org.halvors.nuclearphysics.common.container.machine.ContainerGasCentrifug
 import org.halvors.nuclearphysics.common.container.machine.ContainerNuclearBoiler;
 import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.nuclearphysics.common.container.particle.ContainerAccelerator;
-import org.halvors.nuclearphysics.common.container.reactor.fission.ContainerReactorCell;
+import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;

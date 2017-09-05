@@ -12,6 +12,8 @@ import org.halvors.nuclearphysics.common.container.machine.ContainerGasCentrifug
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiGasCentrifuge extends GuiComponentContainer<TileGasCentrifuge> {
     public GuiGasCentrifuge(InventoryPlayer inventoryPlayer, TileGasCentrifuge tile) {
@@ -44,9 +46,11 @@ public class GuiGasCentrifuge extends GuiComponentContainer<TileGasCentrifuge> {
         //renderUniversalDisplay(8, 112, TileNuclearBoiler.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
-        fontRendererObj.drawString("The centrifuge spins", 8, 75, 0x404040);
-        fontRendererObj.drawString("uranium hexafluoride gas into", 8, 85, 0x404040);
-        fontRendererObj.drawString("enriched uranium for fission.", 8, 95, 0x404040);
+        List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tile.getBlockType().getUnlocalizedName() + "." + tile.getType().ordinal() + ".text"), 4);
+
+        for (int i = 0; i < list.size(); i++) {
+            fontRendererObj.drawString(list.get(i), 9, 85 + i * 9, 0x404040);
+        }
 
         fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
 

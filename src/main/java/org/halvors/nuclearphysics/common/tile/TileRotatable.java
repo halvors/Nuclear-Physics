@@ -16,10 +16,6 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
 
     }
 
-    public TileRotatable(String name) {
-        this.name = name;
-    }
-
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);

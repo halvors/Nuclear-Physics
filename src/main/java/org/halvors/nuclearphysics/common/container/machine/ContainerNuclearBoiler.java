@@ -10,14 +10,11 @@ import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 
-public class ContainerNuclearBoiler extends ContainerBase {
-    private static final int slotCount = 4;
-    private TileNuclearBoiler tile;
-
+public class ContainerNuclearBoiler extends ContainerBase<TileNuclearBoiler> {
     public ContainerNuclearBoiler(InventoryPlayer inventoryPlayer, TileNuclearBoiler tile) {
         super(inventoryPlayer, tile);
 
-        this.tile = tile;
+        slotCount = 4;
 
         // Battery
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 56, 26));
@@ -34,13 +31,8 @@ public class ContainerNuclearBoiler extends ContainerBase {
         // Fluid output drain
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 4, 135, 50));
 
+        // Players inventory
         addPlayerInventory(inventoryPlayer.player);
-    }
-
-    @Override
-    public boolean canInteractWith(EntityPlayer player) {
-        //return tile.inventory.isUsableByPlayer(player);
-        return true;
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */

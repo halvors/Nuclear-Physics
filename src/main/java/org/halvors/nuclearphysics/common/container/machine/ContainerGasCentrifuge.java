@@ -10,14 +10,11 @@ import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
-public class ContainerGasCentrifuge extends ContainerBase {
-    private static final int slotCount = 4;
-    private TileGasCentrifuge tile;
-
+public class ContainerGasCentrifuge extends ContainerBase<TileGasCentrifuge> {
     public ContainerGasCentrifuge(InventoryPlayer inventoryPlayer, TileGasCentrifuge tile) {
         super(inventoryPlayer, tile);
 
-        this.tile = tile;
+        slotCount = 4;
 
         // Electric Item
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 131, 26));
@@ -33,14 +30,8 @@ public class ContainerGasCentrifuge extends ContainerBase {
         //addSlotToContainer(new SlotFurnaceOutput(inventoryPlayer.player, tile, 3, 101, 26));
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 101, 26));
 
+        // Players inventory
         addPlayerInventory(inventoryPlayer.player);
-        //tile.openInventory(inventoryPlayer.player);
-    }
-    
-    @Override
-    public boolean canInteractWith(EntityPlayer player) {
-        //return tile.isUsableByPlayer(player);
-        return true;
     }
 
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */

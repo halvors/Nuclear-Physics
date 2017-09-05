@@ -2,15 +2,12 @@ package org.halvors.nuclearphysics.client.render.block;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
-import net.minecraft.client.resources.IReloadableResourceManager;
-import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
@@ -188,27 +185,6 @@ public class OBJModelContainer {
     public void render()
     {
         renderModel(get(), getVertexFormat());
-    }
-
-    // ========================================================= STATIC METHODS
-
-    private static boolean initialized = false;
-
-    public static void init() {
-        if (initialized) {
-            return;
-        }
-
-        initialized = true;
-
-        IResourceManager rm = Minecraft.getMinecraft().getResourceManager();
-
-        if (rm instanceof IReloadableResourceManager) {
-            ((IReloadableResourceManager) rm).registerReloadListener(__ -> {
-                loadedModels.clear();
-                reloadCount++;
-            });
-        }
     }
 
     private static void renderModel(IBakedModel model, VertexFormat fmt) {

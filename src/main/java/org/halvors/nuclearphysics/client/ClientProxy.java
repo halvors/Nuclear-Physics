@@ -19,12 +19,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.debug.GuiCreativeBuilder;
-import org.halvors.nuclearphysics.client.gui.machine.GuiQuantumAssembler;
 import org.halvors.nuclearphysics.client.gui.modular.machine.GuiChemicalExtractor;
 import org.halvors.nuclearphysics.client.gui.modular.machine.GuiGasCentrifuge;
 import org.halvors.nuclearphysics.client.gui.modular.machine.GuiNuclearBoiler;
+import org.halvors.nuclearphysics.client.gui.modular.machine.GuiQuantumAssembler;
+import org.halvors.nuclearphysics.client.gui.modular.reactor.GuiReactorCell;
 import org.halvors.nuclearphysics.client.gui.particle.GuiAccelerator;
-import org.halvors.nuclearphysics.client.gui.reactor.fission.GuiReactorCell;
 import org.halvors.nuclearphysics.client.render.block.machine.RenderChemicalExtractor;
 import org.halvors.nuclearphysics.client.render.block.machine.RenderGasCentrifuge;
 import org.halvors.nuclearphysics.client.render.block.machine.RenderNuclearBoiler;
@@ -59,7 +59,6 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	public void preInit() {
 	    // Register our domain to OBJLoader.
 		OBJLoader.INSTANCE.addDomain(Reference.DOMAIN);
-		//OBJModelContainer.init();
 
 		// Register entity renderer.
 		RenderingRegistry.registerEntityRenderingHandler(EntityParticle.class, RenderParticle::new);

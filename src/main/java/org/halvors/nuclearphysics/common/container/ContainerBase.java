@@ -8,15 +8,16 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.halvors.nuclearphysics.common.tile.TileBase;
 
-public class ContainerBase extends Container {
+public class ContainerBase<T extends TileBase> extends Container {
+    protected T tile;
+    protected IInventory inventory;
+
     protected int slotCount = 0;
     protected int xInventoryDisplacement = 8;
     protected int yInventoryDisplacement = 135;
     protected int yHotBarDisplacement = 193;
-    private TileBase tile;
-    private IInventory inventory;
 
-    public ContainerBase(InventoryPlayer inventoryPlayer, TileBase tile) {
+    public ContainerBase(InventoryPlayer inventoryPlayer, T tile) {
         this.tile = tile;
         this.inventory = inventoryPlayer;
         this.slotCount = inventoryPlayer.getSizeInventory();

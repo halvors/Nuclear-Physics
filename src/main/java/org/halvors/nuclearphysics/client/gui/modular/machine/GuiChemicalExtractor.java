@@ -12,6 +12,8 @@ import org.halvors.nuclearphysics.common.container.machine.ContainerChemicalExtr
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class GuiChemicalExtractor extends GuiComponentContainer<TileChemicalExtractor> {
     public GuiChemicalExtractor(InventoryPlayer inventory, TileChemicalExtractor tile) {
@@ -33,13 +35,14 @@ public class GuiChemicalExtractor extends GuiComponentContainer<TileChemicalExtr
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         fontRendererObj.drawString(tile.getName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getName()) / 2), 6, 0x404040);
 
-        //renderUniversalDisplay(8, 112, TileChemicalExtractor.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
+        //renderUniversalDisplay(8, 112, TileChemicalExtractor.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
 
-        // TODO: Transelate this.
-        fontRendererObj.drawString("The extractor can extract", 8, 75, 0x404040);
-        fontRendererObj.drawString("uranium, deuterium and tritium.", 8, 85, 0x404040);
-        fontRendererObj.drawString("Place them in the input slot.", 8, 95, 0x404040);
+        List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tile.getBlockType().getUnlocalizedName() + "." + tile.getType().ordinal() + ".text"), 4);
+
+        for (int i = 0; i < list.size(); i++) {
+            fontRendererObj.drawString(list.get(i), 9, 85 + i * 9, 0x404040);
+        }
 
         fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
 
