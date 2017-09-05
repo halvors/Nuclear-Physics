@@ -13,6 +13,9 @@ public class ContainerQuantumAssembler extends ContainerBase<TileQuantumAssemble
     public ContainerQuantumAssembler(InventoryPlayer inventoryPlayer, TileQuantumAssembler tile) {
         super(inventoryPlayer, tile);
 
+        yInventoryDisplacement = 148;
+        yHotBarDisplacement = 206;
+
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 80, 40));
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 53, 56));
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 107, 56));

@@ -1,8 +1,8 @@
-package org.halvors.nuclearphysics.client.gui.modular.component;
+package org.halvors.nuclearphysics.client.gui.component;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.modular.IGuiWrapper;
+import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.ResourceType;
@@ -12,12 +12,12 @@ public class GuiSlot extends GuiComponent {
     private int xLocation;
     private int yLocation;
 
+    private String tooltip;
+
     private int width;
     private int height;
     private int textureX;
     private int textureY;
-
-    private String tooltip;
 
     public GuiSlot(SlotType type, IGuiWrapper gui, int x, int y) {
         super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "slot.png"), gui);

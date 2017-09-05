@@ -49,9 +49,10 @@ public class GuiCreativeBuilder extends GuiContainerBase {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = "Creative Builder";
+        String name = LanguageUtility.transelate("tile.creative_builder.name"); //"Creative Builder";
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
+
         fontRendererObj.drawString("This is a creative only cheat", 9, 20, 0x404040);
         fontRendererObj.drawString("which allows you to auto build", 9, 30, 0x404040);
         fontRendererObj.drawString("structures for testing.", 9, 40, 0x404040);

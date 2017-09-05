@@ -12,7 +12,7 @@ public class ContainerBase<T extends TileBase> extends Container {
     protected T tile;
     protected IInventory inventory;
 
-    protected int slotCount = 0;
+    protected int slotCount;
     protected int xInventoryDisplacement = 8;
     protected int yInventoryDisplacement = 135;
     protected int yHotBarDisplacement = 193;

@@ -1,40 +1,36 @@
 package org.halvors.nuclearphysics.client.gui.machine;
 
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.GuiContainerBase;
-import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
+import org.halvors.nuclearphysics.client.gui.GuiComponentContainer;
+import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
+import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 
 @SideOnly(Side.CLIENT)
-public class GuiQuantumAssembler extends GuiContainerBase {
-    public static final ResourceLocation texture = ResourceUtility.getResource(ResourceType.GUI, "gui_quantum_assembler.png");
-
-    private TileQuantumAssembler tile;
-
+public class GuiQuantumAssembler extends GuiComponentContainer<TileQuantumAssembler> {
     public GuiQuantumAssembler(InventoryPlayer inventoryPlayer, TileQuantumAssembler tile) {
-        super(new ContainerQuantumAssembler(inventoryPlayer, tile));
-
-        this.tile = tile;
+        super(tile, new ContainerQuantumAssembler(inventoryPlayer, tile), ResourceUtility.getResource(ResourceType.GUI, "gui_quantum_assembler.png"));
 
         ySize = 230;
+
+        components.add(new GuiSlot(SlotType.NORMAL, this, 79, 39));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 52, 55));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 106, 55));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 52, 87));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 106, 87));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 79, 102));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 79, 71));
     }
 
-    /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = LanguageUtility.transelate("tile.machine_model." + EnumMachine.QUANTUM_ASSEMBLER.ordinal() + ".name");
-
-        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
+        fontRendererObj.drawString(tile.getName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getName()) / 2), 6, 0x404040);
 
         String displayText;
 
@@ -46,21 +42,13 @@ public class GuiQuantumAssembler extends GuiContainerBase {
             displayText = "Idle";
         }
 
-        fontRendererObj.drawString(displayText, 9, ySize - 106, 4210752);
+        fontRendererObj.drawString(displayText, 9, ySize - 106, 0x404040);
+
         //renderUniversalDisplay(100, ySize - 94, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
-        renderUniversalDisplay(8, ySize - 95, tile.ticksRequired, mouseX, mouseY, UnitDisplay.Unit.WATT);
-    }
+        //renderUniversalDisplay(8, ySize - 95, TileQuantumAssembler.tickTime, mouseX, mouseY, UnitDisplay.Unit.WATT);
 
-    /** Draw the background layer for the GuiContainer (everything behind the items) */
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY) {
-        RenderUtility.bindTexture(texture);
+        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
 
-        GlStateManager.color(1, 1, 1, 1);
-
-        int containerWidth = (width - xSize) / 2;
-        int containerHeight = (height - ySize) / 2;
-
-        drawTexturedModalRect(containerWidth, containerHeight, 0, 0, xSize, ySize);
+        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 }

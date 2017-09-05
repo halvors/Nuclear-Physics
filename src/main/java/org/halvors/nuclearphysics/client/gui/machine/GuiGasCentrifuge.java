@@ -3,30 +3,33 @@ package org.halvors.nuclearphysics.client.gui.machine;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.GuiContainerBase;
-import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
+import org.halvors.nuclearphysics.client.gui.GuiComponentContainer;
+import org.halvors.nuclearphysics.client.gui.component.GuiFluidGauge;
+import org.halvors.nuclearphysics.client.gui.component.GuiProgress;
+import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
+import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.machine.ContainerGasCentrifuge;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
-import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
+
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiGasCentrifuge extends GuiContainerBase {
-    private TileGasCentrifuge tile;
-
+public class GuiGasCentrifuge extends GuiComponentContainer<TileGasCentrifuge> {
     public GuiGasCentrifuge(InventoryPlayer inventoryPlayer, TileGasCentrifuge tile) {
-        super(new ContainerGasCentrifuge(inventoryPlayer, tile));
-        
-        this.tile = tile;
+        super(tile, new ContainerGasCentrifuge(inventoryPlayer, tile));
+
+        components.add(new GuiSlot(SlotType.NORMAL, this, 80, 25));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 100, 25));
+        components.add(new GuiSlot(SlotType.BATTERY, this, 130, 25));
+        components.add(new GuiProgress(() -> (double) tile.operatingTicks / tile.ticksRequired, this, 40, 26));
+        components.add(new GuiFluidGauge(tile::getTank, this, 8, 18));
+        components.add(new GuiSlot(SlotType.GAS, this, 24, 49));
     }
 
-    /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = LanguageUtility.transelate("tile.machine_model." + EnumMachine.GAS_CENTRIFUGE.ordinal() + ".name");
-
-        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
+        fontRendererObj.drawString(tile.getName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getName()) / 2), 6, 0x404040);
 
         String displayText;
 
@@ -40,33 +43,17 @@ public class GuiGasCentrifuge extends GuiContainerBase {
 
         fontRendererObj.drawString("Status: " + displayText, 70, 50, 0x404040);
 
-        renderUniversalDisplay(8, 112, TileNuclearBoiler.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
+        //renderUniversalDisplay(8, 112, TileNuclearBoiler.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
 
-        fontRendererObj.drawString("The centrifuge spins", 8, 75, 0x404040);
-        fontRendererObj.drawString("uranium hexafluoride gas into", 8, 85, 0x404040);
-        fontRendererObj.drawString("enriched uranium for reactor.", 8, 95, 0x404040);
+        List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tile.getBlockType().getUnlocalizedName() + "." + tile.getType().ordinal() + ".text"), 4);
 
-        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, ySize - 96 + 2, 0x404040);
-
-        if (isPointInRegion(8, 18, meterWidth, meterHeight, mouseX, mouseY) && tile.getTank().getFluid() != null) {
-            drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, tile.getTank().getFluid().getLocalizedName(), tile.getTank().getFluid().amount + " L");
+        for (int i = 0; i < list.size(); i++) {
+            fontRendererObj.drawString(list.get(i), 9, 85 + i * 9, 0x404040);
         }
-    }
 
-    /** Draw the background layer for the GuiContainer (everything behind the items) */
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(partialTick, mouseX, mouseY);
+        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
 
-        drawSlot(80, 25);
-        drawSlot(100, 25);
-        drawSlot(130, 25, SlotType.BATTERY);
-
-        drawBar(40, 26, (float) tile.operatingTicks / (float) tile.ticksRequired);
-
-        // Uranium Gas
-        drawMeter(8, 18, (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity(), tile.getTank().getFluid());
-        drawSlot(24, 49, SlotType.GAS);
+        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
 }

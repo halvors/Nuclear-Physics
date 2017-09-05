@@ -1,12 +1,10 @@
-package org.halvors.nuclearphysics.client.gui.modular.component;
+package org.halvors.nuclearphysics.client.gui.component;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.modular.IGuiWrapper;
-import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 
 import java.awt.*;
 import java.util.List;
@@ -15,7 +13,6 @@ import java.util.List;
 public abstract class GuiComponent implements IGuiComponent {
     protected ResourceLocation resource;
     protected IGuiWrapper gui;
-    protected ResourceLocation defaultLocation = ResourceUtility.getResource(ResourceType.GUI, "gui_base.png");
 
     public GuiComponent(ResourceLocation resource, IGuiWrapper gui) {
         this.resource = resource;

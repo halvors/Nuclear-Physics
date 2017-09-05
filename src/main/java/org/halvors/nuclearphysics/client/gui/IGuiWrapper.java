@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.client.gui.modular;
+package org.halvors.nuclearphysics.client.gui;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;

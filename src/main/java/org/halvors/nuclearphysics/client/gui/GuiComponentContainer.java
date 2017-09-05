@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.client.gui.modular;
+package org.halvors.nuclearphysics.client.gui;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -8,9 +8,10 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.modular.component.IGuiComponent;
+import org.halvors.nuclearphysics.client.gui.component.IGuiComponent;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.ResourceType;
@@ -24,14 +25,21 @@ import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public class GuiComponentContainer<T extends TileEntity> extends GuiContainer implements IGuiWrapper {
+    protected ResourceLocation defaultResource;
     protected Set<IGuiComponent> components = new HashSet<>();
     protected T tile;
 
-    public GuiComponentContainer(T tile, Container container) {
+    public GuiComponentContainer(T tile, Container container, ResourceLocation defaultResource) {
         super(container);
 
+        this.defaultResource = defaultResource;
         this.tile = tile;
-        this.ySize = 217;
+
+        ySize = 217;
+    }
+
+    public GuiComponentContainer(T tile, Container container) {
+        this(tile, container, ResourceUtility.getResource(ResourceType.GUI, "gui_base.png"));
     }
 
     public float getNeededScale(String text, int maxX) {
@@ -57,7 +65,7 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
             GlStateManager.pushMatrix();
 
             GlStateManager.scale(scale, scale, scale);
-            fontRendererObj.drawString(text, (int)(x * reverse), (int)((y * reverse) + yAdd), color);
+            fontRendererObj.drawString(text, (int) (x * reverse), (int) ((y * reverse) + yAdd), color);
 
             GlStateManager.popMatrix();
         }
@@ -85,7 +93,7 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY) {
-        RenderUtility.bindTexture(ResourceUtility.getResource(ResourceType.GUI, "gui_base.png"));
+        RenderUtility.bindTexture(defaultResource);
 
         GlStateManager.color(1, 1, 1, 1);
 

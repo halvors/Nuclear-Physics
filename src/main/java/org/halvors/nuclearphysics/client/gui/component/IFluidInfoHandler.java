@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.client.gui.modular.component;
+package org.halvors.nuclearphysics.client.gui.component;
 
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
