@@ -137,8 +137,8 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
     }
 
     @Override
-    public void displayTooltip(String s, int x, int y) {
-        drawCreativeTabHoveringText(s, x, y);
+    public void displayTooltip(String text, int x, int y) {
+        drawCreativeTabHoveringText(text, x, y);
     }
 
     @Override

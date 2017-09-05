@@ -46,12 +46,8 @@ public class GuiFluidGauge extends GuiGauge {
         IFluidTank tank = fluidInfoHandler.getTank();
         FluidStack fluidStack = tank.getFluid();
 
-        if (fluidStack != null) {
-            if (fluidStack.amount > 0) {
-                return fluidStack.getLocalizedName() + ": " + tank.getFluidAmount();
-            } else {
-                return fluidStack.getLocalizedName();
-            }
+        if (fluidStack != null && fluidStack.amount > 0) {
+            return fluidStack.getLocalizedName() + ": " + tank.getFluidAmount();
         } else {
             return LanguageUtility.transelate("gui.noFluid");
         }

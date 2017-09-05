@@ -13,7 +13,7 @@ public interface IGuiWrapper {
 
     void drawTexturedRectFromIcon(int x, int y, TextureAtlasSprite icon, int w, int h);
 
-    void displayTooltip(String s, int xAxis, int yAxis);
+    void displayTooltip(String text, int xAxis, int yAxis);
 
     void displayTooltips(List<String> list, int xAxis, int yAxis);
 
