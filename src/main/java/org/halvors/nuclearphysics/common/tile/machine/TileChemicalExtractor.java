@@ -118,14 +118,6 @@ public class TileChemicalExtractor extends TileProcess {
         }
 
         if (!world.isRemote) {
-            if (operatingTicks < ticksRequired) {
-                operatingTicks++;
-            } else {
-                operatingTicks = 0;
-            }
-        }
-
-            /*
             EnergyUtility.discharge(0, this);
 
             if (canProcess() && energyStorage.extractEnergy(energy, true) >= energy) {
@@ -145,12 +137,11 @@ public class TileChemicalExtractor extends TileProcess {
             } else {
                 operatingTicks = 0;
             }
-            */
 
             if (world.getWorldTime() % 10 == 0) {
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
-        //}
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

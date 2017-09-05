@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.client.utility;
+package org.halvors.nuclearphysics.client.event;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -9,48 +9,34 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.common.utility.ResourceUtility;
+import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 @EventBusSubscriber(Side.CLIENT)
-public class TextureUtility {
-    public enum FluidType {
-        STILL,
-        FLOWING
-    }
-
-    public static TextureAtlasSprite missingIcon;
-    public static Map<FluidType, Map<Fluid, TextureAtlasSprite>> textureMap = new HashMap<>();
+public class TextureEventHandler {
+    private static final Map<FluidType, Map<Fluid, TextureAtlasSprite>> textureMap = new HashMap<>();
+    private static TextureAtlasSprite missingIcon;
 
     @SubscribeEvent
     public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
-        /*
-        for (Color color : Color.values()) {
-            colors[color.ordinal()] = event.getMap().registerSprite(new ResourceLocation("mekanism:blocks/overlay/overlay_" + color.unlocalizedName));
-        }
+        final TextureMap textureMap = event.getMap();
 
-        for (TransmissionType type : TransmissionType.values()) {
-            overlays.put(type, event.getMap().registerSprite(new ResourceLocation("mekanism:blocks/overlay/" + type.getTransmission() + "Overlay")));
-        }
-        */
-
-        /*
-        FluidRenderer.resetDisplayInts();
-        RenderThermalEvaporationController.resetDisplayInts();
-        RenderFluidTank.resetDisplayInts();
-        */
+        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electric_turbine_large"));
+        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_top"));
+        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_middle"));
+        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_bottom"));
+        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_fissile_material"));
     }
 
     @SubscribeEvent
     public static void onTextureStitchEvent(TextureStitchEvent.Post event) {
-        initFluidTextures(event.getMap());
-    }
+        final TextureMap map = event.getMap();
 
-    public static void initFluidTextures(TextureMap map) {
         missingIcon = map.getMissingSprite();
-
         textureMap.clear();
 
         for (FluidType type : FluidType.values()) {
@@ -94,5 +80,10 @@ public class TextureUtility {
         }
 
         return map.getOrDefault(fluid, missingIcon);
+    }
+
+    public enum FluidType {
+        STILL,
+        FLOWING
     }
 }

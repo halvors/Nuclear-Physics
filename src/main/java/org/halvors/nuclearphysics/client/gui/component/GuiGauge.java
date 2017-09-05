@@ -15,14 +15,8 @@ public abstract class GuiGauge extends GuiComponent {
     private static final int width = 14;
     protected static final int height = 49;
 
-    protected int xLocation;
-    protected int yLocation;
-
     public GuiGauge(IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "gauge.png"), gui);
-
-        this.xLocation = x;
-        this.yLocation = y;
+        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "gauge.png"), gui, x, y);
     }
 
     @Override
@@ -39,7 +33,7 @@ public abstract class GuiGauge extends GuiComponent {
         TextureAtlasSprite texture = getTexture();
         int scale = getScaledLevel();
 
-        if (texture != null && scale != 0) {
+        if (texture != null && scale > 0) {
             gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, width, height);
 
             int start = 0;
@@ -69,7 +63,7 @@ public abstract class GuiGauge extends GuiComponent {
             }
         }
 
-        //RenderUtility.bindTexture(resource);
+        RenderUtility.bindTexture(resource);
 
         gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, width, height);
     }

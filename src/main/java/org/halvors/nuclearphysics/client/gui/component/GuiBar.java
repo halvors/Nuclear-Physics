@@ -8,20 +8,15 @@ import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 
 @SideOnly(Side.CLIENT)
-public class GuiSlot extends GuiComponent {
-    private SlotType type;
-    private String tooltip;
+public class GuiBar extends GuiComponent {
+    private IProgressInfoHandler progressInfoHandler;
+    private BarType type;
 
-    public GuiSlot(SlotType type, IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "slot.png"), gui, x, y);
+    public GuiBar(IProgressInfoHandler progressInfoHandler, BarType type, IGuiWrapper gui, int x, int y) {
+        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "temperature.png"), gui, x, y);
 
+        this.progressInfoHandler = progressInfoHandler;
         this.type = type;
-    }
-
-    public GuiSlot(SlotType type, IGuiWrapper gui, int x, int y, String tooltip) {
-        this(type, gui, x, y);
-
-        this.tooltip = tooltip;
     }
 
     @Override
@@ -34,15 +29,19 @@ public class GuiSlot extends GuiComponent {
         RenderUtility.bindTexture(resource);
 
         gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.textureX, type.textureY, type.width, type.height);
+
+        int scale = (int) (progressInfoHandler.getProgress() * type.width);
+
+        if (scale > 0) {
+            RenderUtility.bindTexture(resource);
+
+            gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.textureX + type.width, type.textureY, scale, type.height);
+        }
     }
 
     @Override
     public void renderForeground(int xAxis, int yAxis) {
-        if (xAxis >= xLocation + 1 && xAxis <= xLocation + type.width - 1 && yAxis >= yLocation + 1 && yAxis <= yLocation + type.height - 1) {
-            if (tooltip != null && !tooltip.isEmpty()) {
-                gui.displayTooltip(tooltip, xAxis, yAxis);
-            }
-        }
+
     }
 
     @Override
@@ -70,18 +69,16 @@ public class GuiSlot extends GuiComponent {
 
     }
 
-    public enum SlotType {
-        NORMAL(18, 18, 0, 0),
-        BATTERY(18, 18, 18, 0),
-        LIQUID(18, 18, 36, 0),
-        GAS(18, 18, 54, 0);
+    public enum BarType {
+        TEMPERATURE(64, 11, 0, 0),
+        TIMER(64, 11, 0, 11);
 
         public int width;
         public int height;
         public int textureX;
         public int textureY;
 
-        SlotType(int w, int h, int x, int y) {
+        BarType(int w, int h, int x, int y) {
             this.width = w;
             this.height = h;
             this.textureX = x;

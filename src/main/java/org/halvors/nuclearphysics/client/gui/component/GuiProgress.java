@@ -13,16 +13,11 @@ public class GuiProgress extends GuiComponent {
     private static final int height = 16;
 
     private IProgressInfoHandler progressInfoHandler;
-    private int xLocation;
-    private int yLocation;
 
     public GuiProgress(IProgressInfoHandler progressInfoHandler, IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "progress.png"), gui);
+        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "progress.png"), gui, x, y);
 
         this.progressInfoHandler = progressInfoHandler;
-
-        this.xLocation = x;
-        this.yLocation = y;
     }
 
     @Override
@@ -36,9 +31,13 @@ public class GuiProgress extends GuiComponent {
 
         gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
 
-        int display = (int) (progressInfoHandler.getProgress() * (width + 1));
+        int scale = (int) (progressInfoHandler.getProgress() * (width + 1));
 
-        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, display, height);
+        if (scale > 0) {
+            RenderUtility.bindTexture(resource);
+
+            gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, scale, height);
+        }
     }
 
     @Override

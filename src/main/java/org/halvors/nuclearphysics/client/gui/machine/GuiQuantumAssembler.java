@@ -42,12 +42,12 @@ public class GuiQuantumAssembler extends GuiComponentContainer<TileQuantumAssemb
             displayText = "Idle";
         }
 
-        fontRendererObj.drawString(displayText, 9, ySize - 106, 0x404040);
+        fontRendererObj.drawString(displayText, (xSize / 2) - 80, ySize - 106, 0x404040);
 
         //renderUniversalDisplay(100, ySize - 94, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
-        //renderUniversalDisplay(8, ySize - 95, TileQuantumAssembler.tickTime, mouseX, mouseY, UnitDisplay.Unit.WATT);
+        //renderUniversalDisplay((xSize / 2) - 80, ySize - 95, TileQuantumAssembler.tickTime, mouseX, mouseY, UnitDisplay.Unit.WATT);
 
-        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
+        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), (xSize / 2) - 80, (ySize - 96) + 2, 0x404040);
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }

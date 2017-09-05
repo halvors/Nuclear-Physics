@@ -22,7 +22,7 @@ public class GuiNuclearBoiler extends GuiComponentContainer<TileNuclearBoiler> {
         components.add(new GuiSlot(SlotType.BATTERY, this, 55, 25));
         components.add(new GuiSlot(SlotType.NORMAL, this, 80, 25));
         components.add(new GuiProgress(() -> (double) tile.operatingTicks / tile.ticksRequired, this, 110, 26));
-        components.add(new GuiFluidGauge(tile::getInputTank, this, 8, 18));
+        components.add(new GuiFluidGauge(tile::getInputTank, this, (xSize / 2) - 80, 18));
         components.add(new GuiSlot(SlotType.LIQUID, this, 24, 18));
         components.add(new GuiSlot(SlotType.LIQUID, this, 24, 49));
         components.add(new GuiFluidGauge(tile::getOutputTank, this, 154, 18));
@@ -39,10 +39,10 @@ public class GuiNuclearBoiler extends GuiComponentContainer<TileNuclearBoiler> {
         List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tile.getBlockType().getUnlocalizedName() + "." + tile.getType().ordinal() + ".text"), 4);
 
         for (int i = 0; i < list.size(); i++) {
-            fontRendererObj.drawString(list.get(i), 9, 85 + i * 9, 0x404040);
+            fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 85 + i * 9, 0x404040);
         }
 
-        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
+        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), (xSize / 2) - 80, (ySize - 96) + 2, 0x404040);
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }

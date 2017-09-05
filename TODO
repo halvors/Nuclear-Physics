@@ -18,8 +18,7 @@ General:
     - Why is electricity not generated during the night? Temperature is lower at night?
 
     - Rework GUI system.
-        - Render fluid in qui.
-        - Fix processing animation in gui.
+    - Render plasma inside reactor cell in case of fusion.
 
 Known bugs:
     - Should not be possible to inject fuel into each of the reactor cell multiblocks...

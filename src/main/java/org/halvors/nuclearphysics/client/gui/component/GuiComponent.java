@@ -14,9 +14,15 @@ public abstract class GuiComponent implements IGuiComponent {
     protected ResourceLocation resource;
     protected IGuiWrapper gui;
 
-    public GuiComponent(ResourceLocation resource, IGuiWrapper gui) {
+    protected int xLocation;
+    protected int yLocation;
+
+    public GuiComponent(ResourceLocation resource, IGuiWrapper gui, int x, int y) {
         this.resource = resource;
         this.gui = gui;
+
+        this.xLocation = x;
+        this.yLocation = y;
     }
 
     public void displayTooltip(String s, int xAxis, int yAxis) {

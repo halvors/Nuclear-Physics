@@ -5,8 +5,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.client.event.TextureEventHandler;
+import org.halvors.nuclearphysics.client.event.TextureEventHandler.FluidType;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
-import org.halvors.nuclearphysics.client.utility.TextureUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 @SideOnly(Side.CLIENT)
@@ -35,7 +36,7 @@ public class GuiFluidGauge extends GuiGauge {
         FluidStack fluidStack = fluidInfoHandler.getTank().getFluid();
 
         if (fluidStack != null) {
-            return TextureUtility.getFluidTexture(fluidStack.getFluid(), TextureUtility.FluidType.STILL);
+            return TextureEventHandler.getFluidTexture(fluidStack.getFluid(), FluidType.STILL);
         }
 
         return null;
@@ -47,7 +48,7 @@ public class GuiFluidGauge extends GuiGauge {
         FluidStack fluidStack = tank.getFluid();
 
         if (fluidStack != null && fluidStack.amount > 0) {
-            return fluidStack.getLocalizedName() + ": " + tank.getFluidAmount();
+            return fluidStack.getLocalizedName() + ": " + tank.getFluidAmount() + " mB";
         } else {
             return LanguageUtility.transelate("gui.noFluid");
         }

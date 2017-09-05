@@ -53,20 +53,20 @@ public class GuiCreativeBuilder extends GuiContainerBase {
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
-        fontRendererObj.drawString("This is a creative only cheat", 9, 20, 0x404040);
-        fontRendererObj.drawString("which allows you to auto build", 9, 30, 0x404040);
-        fontRendererObj.drawString("structures for testing.", 9, 40, 0x404040);
+        fontRendererObj.drawString("This is a creative only cheat", (xSize / 2) - 80, 20, 0x404040);
+        fontRendererObj.drawString("which allows you to auto build", (xSize / 2) - 80, 30, 0x404040);
+        fontRendererObj.drawString("structures for testing.", (xSize / 2) - 80, 40, 0x404040);
 
-        fontRendererObj.drawString("Size: ", 9, 60, 0x404040);
+        fontRendererObj.drawString("Size: ", (xSize / 2) - 80, 60, 0x404040);
         textFieldSize.drawTextBox();
 
         (buttonList.get(1)).displayString = LanguageUtility.transelate(BlockCreativeBuilder.getSchematic(mode).getName());
-        fontRendererObj.drawString("Mode: ", 9, 80, 0x404040);
+        fontRendererObj.drawString("Mode: ", (xSize / 2) - 80, 80, 0x404040);
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
-        fontRendererObj.drawString("Warning!", 9, 130, Color.DARK_RED.getHex());
-        fontRendererObj.drawString("This will replace blocks without", 9, 140, Color.DARK_RED.getHex());
-        fontRendererObj.drawString("dropping it! You may lose items.", 9, 150, Color.DARK_RED.getHex());
+        fontRendererObj.drawString("Warning!", (xSize / 2) - 80, 130, Color.DARK_RED.getHex());
+        fontRendererObj.drawString("This will replace blocks without", (xSize / 2) - 80, 140, Color.DARK_RED.getHex());
+        fontRendererObj.drawString("dropping it! You may lose items.", (xSize / 2) - 80, 150, Color.DARK_RED.getHex());
     }
 
     @Override

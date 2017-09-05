@@ -36,17 +36,6 @@ public class ModelEventHandler {
 		instance.registerFluidModels();
 	}
 
-	@SubscribeEvent
-	public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
-		final TextureMap textureMap = event.getMap();
-
-		textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electric_turbine_large"));
-		textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_top"));
-		textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_middle"));
-		textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_bottom"));
-		textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_fissile_material"));
-	}
-
 	/**
 	 * Register this mod's {@link Fluid} models.
 	 */
