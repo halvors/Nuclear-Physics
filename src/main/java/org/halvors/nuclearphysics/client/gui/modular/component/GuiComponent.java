@@ -12,7 +12,7 @@ import java.awt.*;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public abstract class GuiComponent {
+public abstract class GuiComponent implements IGuiComponent {
     protected ResourceLocation resource;
     protected IGuiWrapper gui;
     protected ResourceLocation defaultLocation = ResourceUtility.getResource(ResourceType.GUI, "gui_base.png");
@@ -49,25 +49,7 @@ public abstract class GuiComponent {
         }
     }
 
-    public void mouseClickMove(int mouseX, int mouseY, int button, long ticks) {}
-
-    public void mouseReleased(int x, int y, int type) {}
-
-    public void mouseWheel(int x, int y, int delta) {}
-
     public abstract Rectangle4i getBounds(int guiWidth, int guiHeight);
-
-    public abstract void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight);
-
-    public abstract void renderForeground(int xAxis, int yAxis);
-
-    public abstract void preMouseClicked(int xAxis, int yAxis, int button);
-
-    public abstract void mouseClicked(int xAxis, int yAxis, int button);
-
-    public static interface IInfoHandler {
-        public List<String> getInfo();
-    }
 
     public static class Rectangle4i {
         public int x, y, width, height;

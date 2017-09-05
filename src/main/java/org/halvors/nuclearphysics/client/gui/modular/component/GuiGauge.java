@@ -28,12 +28,17 @@ public abstract class GuiGauge extends GuiComponent {
     }
 
     @Override
+    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
+        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, width, height);
+    }
+
+    @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         RenderUtility.bindTexture(resource);
 
         gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, textureX, textureY, width, height);
 
-        TextureAtlasSprite texture = getIcon();
+        TextureAtlasSprite texture = getTexture();
         int scale = getScaledLevel();
 
         if (texture != null && scale != 0) {
@@ -64,11 +69,11 @@ public abstract class GuiGauge extends GuiComponent {
                     break;
                 }
             }
-
-            RenderUtility.bindTexture(resource);
-
-            gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, width, height);
         }
+
+        RenderUtility.bindTexture(resource);
+
+        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, width, height);
     }
 
     @Override
@@ -76,15 +81,10 @@ public abstract class GuiGauge extends GuiComponent {
         if (xAxis >= xLocation + 1 && xAxis <= xLocation + width - 1 && yAxis >= yLocation + 1 && yAxis <= yLocation + height - 1) {
             String tooltip = getTooltip();
 
-            if (!tooltip.isEmpty()) {
-                gui.displayTooltip(getTooltip(), xAxis, yAxis);
+            if (tooltip != null && !tooltip.isEmpty()) {
+                gui.displayTooltip(tooltip, xAxis, yAxis);
             }
         }
-    }
-
-    @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, width, height);
     }
 
     @Override
@@ -97,9 +97,24 @@ public abstract class GuiGauge extends GuiComponent {
 
     }
 
+    @Override
+    public void mouseClickMove(int mouseX, int mouseY, int button, long ticks) {
+
+    }
+
+    @Override
+    public void mouseReleased(int x, int y, int type) {
+
+    }
+
+    @Override
+    public void mouseWheel(int x, int y, int delta) {
+
+    }
+
     public abstract int getScaledLevel();
 
-    public abstract TextureAtlasSprite getIcon();
+    public abstract TextureAtlasSprite getTexture();
 
     public abstract String getTooltip();
 }

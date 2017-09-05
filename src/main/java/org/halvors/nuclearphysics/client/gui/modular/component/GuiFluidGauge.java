@@ -31,7 +31,7 @@ public class GuiFluidGauge extends GuiGauge {
     }
 
     @Override
-    public TextureAtlasSprite getIcon() {
+    public TextureAtlasSprite getTexture() {
         FluidStack fluidStack = fluidInfoHandler.getTank().getFluid();
 
         if (fluidStack != null) {
@@ -46,6 +46,14 @@ public class GuiFluidGauge extends GuiGauge {
         IFluidTank tank = fluidInfoHandler.getTank();
         FluidStack fluidStack = tank.getFluid();
 
-        return fluidStack != null ? fluidStack.getLocalizedName() + ": " + tank.getFluidAmount() : LanguageUtility.transelate("gui.noFluid");
+        if (fluidStack != null) {
+            if (fluidStack.amount > 0) {
+                return fluidStack.getLocalizedName() + ": " + tank.getFluidAmount();
+            } else {
+                return fluidStack.getLocalizedName();
+            }
+        } else {
+            return LanguageUtility.transelate("gui.noFluid");
+        }
     }
 }

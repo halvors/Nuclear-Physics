@@ -18,16 +18,15 @@ public class GuiChemicalExtractor extends GuiComponentContainer<TileChemicalExtr
         super(tile, new ContainerChemicalExtractor(inventory, tile));
 
         components.add(new GuiSlot(SlotType.BATTERY, this, 79, 49));
-        components.add(new GuiSlot(this, 52, 24));
-        components.add(new GuiSlot(this, 106, 24));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 52, 24, "Input slot"));
+        components.add(new GuiSlot(SlotType.NORMAL, this, 106, 24));
         components.add(new GuiProgress(this, 75, 24, tile.timer / TileChemicalExtractor.tickTime));
-        // TODO: Set fixed fluid here.
         components.add(new GuiFluidGauge(tile::getInputTank, this, 8, 18));
         components.add(new GuiSlot(SlotType.LIQUID, this, 24, 18));
         components.add(new GuiSlot(SlotType.LIQUID, this, 24, 49));
-        components.add(new GuiFluidGauge(tile::getOutputTank, this, 154, 18));
         components.add(new GuiSlot(SlotType.LIQUID, this, 134, 18));
         components.add(new GuiSlot(SlotType.LIQUID, this, 134, 49));
+        components.add(new GuiFluidGauge(tile::getOutputTank, this, 154, 18));
     }
 
     @Override
@@ -43,20 +42,6 @@ public class GuiChemicalExtractor extends GuiComponentContainer<TileChemicalExtr
         fontRendererObj.drawString("Place them in the input slot.", 8, 95, 0x404040);
 
         fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
-
-        /*
-        if (isPointInRegion(134, 49, 18, 18, mouseX, mouseY)) {
-            if (tile.getInventory().getStackInSlot(4) == null) {
-                // drawTooltip(x - guiLeft, y - guiTop + 10, "Place empty cells.");
-            }
-        }
-
-        if (isPointInRegion(52, 24, 18, 18, mouseX, mouseY)) {
-            if (tile.getOutputTank().getFluidAmount() > 0 && tile.getInventory().getStackInSlot(3) == null) {
-                drawTooltip(mouseX - guiLeft, mouseY - guiTop + 10, "Input slot");
-            }
-        }
-        */
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }

@@ -58,4 +58,19 @@ public class GuiProgress extends GuiComponent {
     public void mouseClicked(int xAxis, int yAxis, int button) {
 
     }
+
+    @Override
+    public void mouseClickMove(int mouseX, int mouseY, int button, long ticks) {
+
+    }
+
+    @Override
+    public void mouseReleased(int x, int y, int type) {
+
+    }
+
+    @Override
+    public void mouseWheel(int x, int y, int delta) {
+
+    }
 }

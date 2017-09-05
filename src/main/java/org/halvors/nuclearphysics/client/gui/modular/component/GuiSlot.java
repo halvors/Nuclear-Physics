@@ -9,13 +9,15 @@ import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 
 @SideOnly(Side.CLIENT)
 public class GuiSlot extends GuiComponent {
-    protected int xLocation;
-    protected int yLocation;
+    private int xLocation;
+    private int yLocation;
 
-    protected int textureX;
-    protected int textureY;
-    protected int width;
-    protected int height;
+    private int width;
+    private int height;
+    private int textureX;
+    private int textureY;
+
+    private String tooltip;
 
     public GuiSlot(SlotType type, IGuiWrapper gui, int x, int y) {
         super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "slot.png"), gui);
@@ -29,8 +31,10 @@ public class GuiSlot extends GuiComponent {
         this.textureY = type.textureY;
     }
 
-    public GuiSlot(IGuiWrapper gui, int x, int y) {
-        this(SlotType.NONE, gui, x, y);
+    public GuiSlot(SlotType type, IGuiWrapper gui, int x, int y, String tooltip) {
+        this(type, gui, x, y);
+
+        this.tooltip = tooltip;
     }
 
     @Override
@@ -47,7 +51,11 @@ public class GuiSlot extends GuiComponent {
 
     @Override
     public void renderForeground(int xAxis, int yAxis) {
-
+        if (xAxis >= xLocation + 1 && xAxis <= xLocation + width - 1 && yAxis >= yLocation + 1 && yAxis <= yLocation + height - 1) {
+            if (tooltip != null && !tooltip.isEmpty()) {
+                gui.displayTooltip(tooltip, xAxis, yAxis);
+            }
+        }
     }
 
     @Override
@@ -60,8 +68,23 @@ public class GuiSlot extends GuiComponent {
 
     }
 
+    @Override
+    public void mouseClickMove(int mouseX, int mouseY, int button, long ticks) {
+
+    }
+
+    @Override
+    public void mouseReleased(int x, int y, int type) {
+
+    }
+
+    @Override
+    public void mouseWheel(int x, int y, int delta) {
+
+    }
+
     public enum SlotType {
-        NONE(18, 18, 0, 0),
+        NORMAL(18, 18, 0, 0),
         BATTERY(18, 18, 18, 0),
         LIQUID(18, 18, 36, 0),
         GAS(18, 18, 54, 0);
