@@ -1,8 +1,10 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "cube_all",
-    "uvlock": true
+    "custom": {
+      "flip-v": true
+    },
+    "transform": "forge:default-block"
   },
   "variants": {
     "normal": [
@@ -25,16 +27,26 @@
     },
     "type": {
       "accelerator": {
+        "model": "cube_all",
         "textures": {
           "all": "nuclearphysics:blocks/accelerator"
-        }
+        },
+        "uvlock": true
       },
-      "gas_funnel": {
-        "textures": {
-          "all": "nuclearphysics:blocks/gas_funnel",
-          "down": "nuclearphysics:blocks/gas_funnel_top",
-          "up": "nuclearphysics:blocks/gas_funnel_top"
-        }
+      "chemical_extractor": {
+        "model": "nuclearphysics:chemical_extractor.obj"
+      },
+      "gas_centrifuge": {
+        "model": "nuclearphysics:gas_centrifuge.obj"
+      },
+      "nuclear_boiler": {
+        "model": "nuclearphysics:nuclear_boiler.obj"
+      },
+      "plasma_heater": {
+        "model": "nuclearphysics:plasma_heater.obj"
+      },
+      "quantum_assembler": {
+        "model": "nuclearphysics:quantum_assembler.obj"
       }
     }
   }

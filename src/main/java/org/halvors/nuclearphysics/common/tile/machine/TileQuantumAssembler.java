@@ -8,6 +8,7 @@ import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
@@ -29,6 +30,12 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     public EntityItem entityItem = null;
 
     public TileQuantumAssembler() {
+        this(EnumMachine.QUANTUM_ASSEMBLER);
+    }
+
+    public TileQuantumAssembler(EnumMachine type) {
+        super(type);
+
         energyStorage = new EnergyStorage(energy);
         inventory = new ItemStackHandler(7) {
             @Override

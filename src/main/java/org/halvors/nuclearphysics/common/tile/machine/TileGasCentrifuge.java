@@ -14,6 +14,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
@@ -48,6 +49,12 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public float rotation = 0;
 
     public TileGasCentrifuge() {
+        this(EnumMachine.GAS_CENTRIFUGE);
+    }
+
+    public TileGasCentrifuge(EnumMachine type) {
+        super(type);
+
         energyStorage = new EnergyStorage(energy * 2);
         inventory = new ItemStackHandler(4) {
             @Override

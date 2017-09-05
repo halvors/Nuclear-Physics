@@ -7,6 +7,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
@@ -19,6 +20,12 @@ public class TileNuclearBoiler extends TileProcess {
     public static final int energy = 20000;
 
     public TileNuclearBoiler() {
+        this(EnumMachine.NUCLEAR_BOILER);
+    }
+
+    public TileNuclearBoiler(EnumMachine type) {
+        super(type);
+
         energyStorage = new EnergyStorage(energy * 2);
         inventory = new ItemStackHandler(5) {
             @Override

@@ -18,7 +18,7 @@ public class GuiSlot extends GuiComponent {
     protected int height;
 
     public GuiSlot(SlotType type, IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "slot.png"), gui, ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "slot.png"));
+        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "slot.png"), gui);
 
         this.xLocation = x;
         this.yLocation = y;
@@ -40,11 +40,9 @@ public class GuiSlot extends GuiComponent {
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        RenderUtility.bindTexture(RESOURCE);
+        RenderUtility.bindTexture(resource);
 
-        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, textureX, textureY, width, height);
-
-        RenderUtility.bindTexture(defaultLocation);
+        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, textureX, textureY, width, height);
     }
 
     @Override

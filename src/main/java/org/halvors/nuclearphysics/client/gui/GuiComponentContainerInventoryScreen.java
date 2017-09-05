@@ -10,10 +10,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.component.IGuiComponent;
-import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.client.gui.component.IComponent;
 import org.halvors.nuclearphysics.client.gui.component.IComponentContainer;
+import org.halvors.nuclearphysics.client.gui.component.IGuiComponent;
+import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 

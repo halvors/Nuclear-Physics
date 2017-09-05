@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.item.ItemCell;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
@@ -37,6 +38,10 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
     protected int tankInputDrainSlot;
     protected int tankOutputFillSlot;
     protected int tankOutputDrainSlot;
+
+    public TileProcess(EnumMachine type) {
+        super(type);
+    }
 
     @Override
     public void update() {

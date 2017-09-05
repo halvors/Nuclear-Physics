@@ -8,7 +8,6 @@ import org.halvors.nuclearphysics.client.gui.modular.component.GuiFluidGauge;
 import org.halvors.nuclearphysics.client.gui.modular.component.GuiProgress;
 import org.halvors.nuclearphysics.client.gui.modular.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.modular.component.GuiSlot.SlotType;
-import org.halvors.nuclearphysics.common.block.machine.BlockMachineModel;
 import org.halvors.nuclearphysics.common.container.machine.ContainerChemicalExtractor;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
@@ -33,9 +32,7 @@ public class GuiChemicalExtractor extends GuiComponentContainer<TileChemicalExtr
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = LanguageUtility.transelate("tile.machine_model." + BlockMachineModel.EnumMachineModel.CHEMICAL_EXTRACTOR.ordinal() + ".name");
-
-        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
+        fontRendererObj.drawString(tile.getName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getName()) / 2), 6, 0x404040);
 
         //renderUniversalDisplay(8, 112, TileChemicalExtractor.energy * 20, mouseX, mouseY, UnitDisplay.Unit.WATT);
         //renderUniversalDisplay(100, 112, tile.getVoltageInput(null), mouseX, mouseY, UnitDisplay.Unit.VOLTAGE);
@@ -45,7 +42,7 @@ public class GuiChemicalExtractor extends GuiComponentContainer<TileChemicalExtr
         fontRendererObj.drawString("uranium, deuterium and tritium.", 8, 85, 0x404040);
         fontRendererObj.drawString("Place them in the input slot.", 8, 95, 0x404040);
 
-        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, ySize - 96 + 2, 0x404040);
+        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), 8, (ySize - 96) + 2, 0x404040);
 
         /*
         if (isPointInRegion(134, 49, 18, 18, mouseX, mouseY)) {

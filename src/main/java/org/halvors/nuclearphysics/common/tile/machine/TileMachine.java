@@ -10,19 +10,25 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
+import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.tile.ITileNetwork;
 import org.halvors.nuclearphysics.common.tile.TileConsumer;
+import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileMachine extends TileConsumer implements ITileNetwork {
+public abstract class TileMachine extends TileConsumer implements ITileNetwork {
+    protected EnumMachine type;
+
     // How many ticks has this item been processed for?
     public int timer = 0; // Synced
 
     protected IItemHandlerModifiable inventory;
 
-    public TileMachine() {
+    public TileMachine(EnumMachine type) {
+        this.type = type;
+
         inventory = new ItemStackHandler(1);
     }
 
@@ -99,6 +105,10 @@ public class TileMachine extends TileConsumer implements ITileNetwork {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public String getName() {
+        return LanguageUtility.transelate(blockType.getUnlocalizedName() + "." + type.ordinal() + ".name");
+    }
 
     public IItemHandlerModifiable getInventory() {
         return inventory;

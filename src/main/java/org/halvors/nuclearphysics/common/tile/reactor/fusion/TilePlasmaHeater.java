@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
@@ -40,6 +41,12 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     public float rotation = 0;
 
     public TilePlasmaHeater() {
+        this(EnumMachine.PLASMA_HEATER);
+    }
+
+    public TilePlasmaHeater(EnumMachine type) {
+        super(type);
+
         energyStorage = new EnergyStorage(power);
     }
 

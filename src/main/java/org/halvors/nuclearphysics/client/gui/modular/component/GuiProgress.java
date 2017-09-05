@@ -17,7 +17,7 @@ public class GuiProgress extends GuiComponent {
     private int progress;
 
     public GuiProgress(IGuiWrapper gui, int x, int y, int progress) {
-        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "progress.png"), gui, ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "progress.png"));
+        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "progress.png"), gui);
 
         this.xLocation = x;
         this.yLocation = y;
@@ -31,15 +31,15 @@ public class GuiProgress extends GuiComponent {
 
     @Override
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
-        RenderUtility.bindTexture(RESOURCE);
+        RenderUtility.bindTexture(resource);
 
         int innerOffsetX = 2;
 
-        guiObj.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
+        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
 
-        //int displayInt = (int)(handler.getProgress() * (type.width - 2 * innerOffsetX));
+        int displayInt = progress * (width - 2 * innerOffsetX);
 
-        guiObj.drawTexturedRect(guiWidth + xLocation + innerOffsetX, guiHeight + yLocation, width + innerOffsetX, 0, progress, height);
+        gui.drawTexturedRect(guiWidth + xLocation + innerOffsetX, guiHeight + yLocation, width + innerOffsetX, 0, displayInt, height);
 
         RenderUtility.bindTexture(defaultLocation);
     }

@@ -1,40 +1,40 @@
 package org.halvors.nuclearphysics.client.gui.modular.component;
 
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.modular.IGuiWrapper;
+import org.halvors.nuclearphysics.common.utility.ResourceUtility;
+import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 
 import java.awt.*;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiComponent {
-    public ResourceLocation RESOURCE;
-    public IGuiWrapper guiObj;
-    public ResourceLocation defaultLocation;
+    protected ResourceLocation resource;
+    protected IGuiWrapper gui;
+    protected ResourceLocation defaultLocation = ResourceUtility.getResource(ResourceType.GUI, "gui_base.png");
 
-    public GuiComponent(ResourceLocation resource, IGuiWrapper gui, ResourceLocation def) {
-        RESOURCE = resource;
-        guiObj = gui;
-        defaultLocation = def;
+    public GuiComponent(ResourceLocation resource, IGuiWrapper gui) {
+        this.resource = resource;
+        this.gui = gui;
     }
 
     public void displayTooltip(String s, int xAxis, int yAxis) {
-        guiObj.displayTooltip(s, xAxis, yAxis);
+        gui.displayTooltip(s, xAxis, yAxis);
     }
 
     public void displayTooltips(List<String> list, int xAxis, int yAxis) {
-        guiObj.displayTooltips(list, xAxis, yAxis);
+        gui.displayTooltips(list, xAxis, yAxis);
     }
 
     public void renderScaledText(String text, int x, int y, int color, int maxX) {
-        int length = getFontRenderer().getStringWidth(text);
+        int length = gui.getFont().getStringWidth(text);
 
         if (length <= maxX) {
-            getFontRenderer().drawString(text, x, y, color);
+            gui.getFont().drawString(text, x, y, color);
         } else {
             float scale = (float)maxX/length;
             float reverse = 1 / scale;
@@ -43,14 +43,10 @@ public abstract class GuiComponent {
             GlStateManager.pushMatrix();
 
             GlStateManager.scale(scale, scale, scale);
-            getFontRenderer().drawString(text, (int)(x*reverse), (int)((y*reverse)+yAdd), color);
+            gui.getFont().drawString(text, (int)(x*reverse), (int)((y*reverse)+yAdd), color);
 
             GlStateManager.popMatrix();
         }
-    }
-
-    public FontRenderer getFontRenderer() {
-        return guiObj.getFont();
     }
 
     public void mouseClickMove(int mouseX, int mouseY, int button, long ticks) {}

@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
@@ -20,7 +21,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine;
+import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
+import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
+import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
+import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
+import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;
@@ -30,7 +37,7 @@ public class BlockMachine extends BlockInventory {
     public BlockMachine() {
         super("machine", Material.IRON);
 
-        setDefaultState(blockState.getBaseState().withProperty(BlockStateMachine.TYPE, EnumMachine.ACCELERATOR));
+        setDefaultState(blockState.getBaseState().withProperty(BlockStateMachine.TYPE, EnumMachine.CHEMICAL_EXTRACTOR));
     }
 
     @Override
@@ -38,6 +45,28 @@ public class BlockMachine extends BlockInventory {
         for (EnumMachine type : EnumMachine.values()) {
             NuclearPhysics.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "facing=north,type=" + type.getName());
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @Nonnull
+    @SideOnly(Side.CLIENT)
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return state.getValue(BlockStateMachine.TYPE).getRenderType();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
     }
 
     @Override
@@ -56,7 +85,6 @@ public class BlockMachine extends BlockInventory {
 
     @SuppressWarnings("deprecation")
     @Override
-    @Nonnull
     public IBlockState getStateFromMeta(int metadata) {
         return getDefaultState().withProperty(BlockStateMachine.TYPE, EnumMachine.values()[metadata]);
     }
@@ -80,7 +108,11 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (!player.isSneaking()) {
+        final TileEntity tile = world.getTileEntity(pos);
+
+        if (tile instanceof TilePlasmaHeater) {
+            return FluidUtility.playerActivatedFluidItem(world, pos, player, side);
+        } else if (!player.isSneaking()) {
             PlayerUtility.openGui(player, world, pos);
 
             return true;
@@ -91,18 +123,27 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
-        return state.getValue(BlockStateMachine.TYPE).getTileAsInstance();
+        EnumMachine type = state.getValue(BlockStateMachine.TYPE);
+
+        return type.getTileAsInstance();
     }
 
     public enum EnumMachine implements IStringSerializable {
-        ACCELERATOR("accelerator", TileAccelerator.class);
+        ACCELERATOR("accelerator", TileAccelerator.class, EnumBlockRenderType.MODEL),
+        CHEMICAL_EXTRACTOR("chemical_extractor", TileChemicalExtractor.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
+        GAS_CENTRIFUGE("gas_centrifuge", TileGasCentrifuge.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
+        NUCLEAR_BOILER("nuclear_boiler", TileNuclearBoiler.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
+        PLASMA_HEATER("plasma_heater", TilePlasmaHeater.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
+        QUANTUM_ASSEMBLER("quantum_assembler", TileQuantumAssembler.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED);
 
         private String name;
         private Class<? extends TileEntity> tileClass;
+        private EnumBlockRenderType renderType;
 
-        EnumMachine(String name, Class<? extends TileEntity> tileClass) {
+        EnumMachine(String name, Class<? extends TileEntity> tileClass, EnumBlockRenderType renderType) {
             this.name = name;
             this.tileClass = tileClass;
+            this.renderType = renderType;
         }
 
         @Override
@@ -123,6 +164,10 @@ public class BlockMachine extends BlockInventory {
 
                 return null;
             }
+        }
+
+        public EnumBlockRenderType getRenderType() {
+            return renderType;
         }
     }
 }

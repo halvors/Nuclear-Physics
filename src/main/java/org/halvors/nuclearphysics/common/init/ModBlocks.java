@@ -17,25 +17,15 @@ import org.halvors.nuclearphysics.common.block.BlockUraniumOre;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
-import org.halvors.nuclearphysics.common.block.machine.BlockMachineModel;
-import org.halvors.nuclearphysics.common.block.machine.BlockMachineModel.EnumMachineModel;
 import org.halvors.nuclearphysics.common.block.particle.BlockFulmination;
-import org.halvors.nuclearphysics.common.block.reactor.BlockElectricTurbine;
-import org.halvors.nuclearphysics.common.block.reactor.BlockGasFunnel;
+import org.halvors.nuclearphysics.common.block.reactor.*;
 import org.halvors.nuclearphysics.common.block.reactor.fission.BlockControlRod;
-import org.halvors.nuclearphysics.common.block.reactor.BlockReactorCell;
-import org.halvors.nuclearphysics.common.block.reactor.BlockSiren;
-import org.halvors.nuclearphysics.common.block.reactor.BlockThermometer;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockMetadata;
-import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockTooltip;
+import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
 import org.halvors.nuclearphysics.common.tile.particle.TileFulmination;
-import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
-import org.halvors.nuclearphysics.common.tile.reactor.TileGasFunnel;
-import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
-import org.halvors.nuclearphysics.common.tile.reactor.TileSiren;
-import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
+import org.halvors.nuclearphysics.common.tile.reactor.*;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 
@@ -48,8 +38,7 @@ public class ModBlocks {
     public static Block blockElectromagnet = new BlockElectromagnet();
     public static Block blockFulmination = new BlockFulmination();
     public static Block blockGasFunnel = new BlockGasFunnel();
-    public static Block blockMachine = new BlockMachine();
-    public static Block blockMachineModel = new BlockMachineModel();
+    public static Block blockMachineModel = new BlockMachine();
     public static Block blockSiren = new BlockSiren();
     public static Block blockThermometer = new BlockThermometer();
     public static Block blockUraniumOre = new BlockUraniumOre();
@@ -77,7 +66,6 @@ public class ModBlocks {
                     blockElectromagnet,
                     blockFulmination,
                     blockGasFunnel,
-                    blockMachine,
                     blockMachineModel,
                     blockSiren,
                     blockThermometer,
@@ -103,7 +91,6 @@ public class ModBlocks {
                     new ItemBlockMetadata(blockElectromagnet),
                     new ItemBlockTooltip(blockFulmination),
                     new ItemBlockTooltip(blockGasFunnel),
-                    new ItemBlockMetadata(blockMachine),
                     new ItemBlockMetadata(blockMachineModel),
                     new ItemBlockTooltip(blockSiren),
                     new ItemBlockThermometer(blockThermometer),
@@ -136,10 +123,6 @@ public class ModBlocks {
 
     private static void registerTileEntities() {
         for (EnumMachine type : EnumMachine.values()) {
-            registerTile(type.getTileClass());
-        }
-
-        for (EnumMachineModel type : EnumMachineModel.values()) {
             registerTile(type.getTileClass());
         }
 

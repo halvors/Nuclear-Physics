@@ -10,6 +10,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RangedWrapper;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
@@ -27,6 +28,12 @@ public class TileChemicalExtractor extends TileProcess {
     private IItemHandler sides = new RangedWrapper(inventory, 0, 2);
 
     public TileChemicalExtractor() {
+        this(EnumMachine.CHEMICAL_EXTRACTOR);
+    }
+
+    public TileChemicalExtractor(EnumMachine type) {
+        super(type);
+
         energyStorage = new EnergyStorage(energy * 2);
         inventory = new ItemStackHandler(7) {
             @Override
