@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -18,6 +17,5 @@ public interface IGuiWrapper {
 
     void displayTooltips(List<String> list, int xAxis, int yAxis);
 
-    @Nullable
-    FontRenderer getFont();
+    FontRenderer getFontRenderer();
 }

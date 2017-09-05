@@ -22,7 +22,8 @@ public abstract class TileMachine extends TileConsumer implements ITileNetwork {
     protected EnumMachine type;
 
     // How many ticks has this item been processed for?
-    public int timer = 0; // Synced
+    public int operatingTicks = 0; // Synced
+    public int ticksRequired = 0;
 
     protected IItemHandlerModifiable inventory;
 
@@ -35,7 +36,7 @@ public abstract class TileMachine extends TileConsumer implements ITileNetwork {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        timer = tag.getInteger("timer");
+        operatingTicks = tag.getInteger("operatingTicks");
 
         if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
             NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
@@ -59,7 +60,7 @@ public abstract class TileMachine extends TileConsumer implements ITileNetwork {
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("timer", timer);
+        tag.setInteger("operatingTicks", operatingTicks);
         tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
 
         return tag;
@@ -72,7 +73,7 @@ public abstract class TileMachine extends TileConsumer implements ITileNetwork {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
-            timer = dataStream.readInt();
+            operatingTicks = dataStream.readInt();
         }
     }
 
@@ -80,7 +81,7 @@ public abstract class TileMachine extends TileConsumer implements ITileNetwork {
     public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
-        objects.add(timer);
+        objects.add(operatingTicks);
 
         return objects;
     }

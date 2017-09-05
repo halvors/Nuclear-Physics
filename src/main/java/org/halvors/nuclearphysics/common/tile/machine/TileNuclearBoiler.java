@@ -16,7 +16,6 @@ import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 public class TileNuclearBoiler extends TileProcess {
-    public static final int tickTime = 20 * 15;
     public static final int energy = 20000;
 
     public TileNuclearBoiler() {
@@ -25,6 +24,8 @@ public class TileNuclearBoiler extends TileProcess {
 
     public TileNuclearBoiler(EnumMachine type) {
         super(type);
+
+        ticksRequired = 20 * 15;
 
         energyStorage = new EnergyStorage(energy * 2);
         inventory = new ItemStackHandler(5) {
@@ -112,44 +113,31 @@ public class TileNuclearBoiler extends TileProcess {
     public void update() {
         super.update();
 
-        if (timer > 0) {
+        if (operatingTicks > 0) {
             rotation += 0.1;
         } else {
             rotation = 0;
         }
 
         if (!world.isRemote) {
-            if (canProcess()) {
-                EnergyUtility.discharge(0, this);
+            EnergyUtility.discharge(0, this);
 
-                if (energyStorage.extractEnergy(energy, true) >= energy) {
-                    if (timer == 0) {
-                        timer = tickTime;
-                    }
-
-                    if (timer > 0) {
-                        timer--;
-
-                        if (timer < 1) {
-                            doProcess();
-                            timer = 0;
-                        }
-                    } else {
-                        timer = 0;
-                    }
-
-                    energyStorage.extractEnergy(energy, false);
+            if (canProcess() && energyStorage.extractEnergy(energy, true) >= energy) {
+                if (operatingTicks < ticksRequired) {
+                    operatingTicks++;
                 } else {
-                    timer = 0;
+                    doProcess();
+
+                    operatingTicks = 0;
                 }
+
+                energyStorage.extractEnergy(energy, false);
             } else {
-                timer = 0;
+                operatingTicks = 0;
             }
 
             if (world.getWorldTime() % 10 == 0) {
-                if (!world.isRemote) {
-                    NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
-                }
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
     }

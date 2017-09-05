@@ -21,7 +21,7 @@ public class GuiNuclearBoiler extends GuiComponentContainer<TileNuclearBoiler> {
 
         components.add(new GuiSlot(SlotType.BATTERY, this, 55, 25));
         components.add(new GuiSlot(SlotType.NORMAL, this, 80, 25));
-        components.add(new GuiProgress(this, 110, 26, tile.timer / TileNuclearBoiler.tickTime));
+        components.add(new GuiProgress(() -> (double) tile.operatingTicks / tile.ticksRequired, this, 110, 26));
         components.add(new GuiFluidGauge(tile::getInputTank, this, 8, 18));
         components.add(new GuiSlot(SlotType.LIQUID, this, 24, 18));
         components.add(new GuiSlot(SlotType.LIQUID, this, 24, 49));

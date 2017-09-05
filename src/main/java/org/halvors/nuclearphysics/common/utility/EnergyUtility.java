@@ -14,7 +14,7 @@ public class EnergyUtility {
      * @param tile - TileEntity the item is being charged in.
      */
     public static void discharge(int slot, TileEntity tile) {
-        if (tile.hasCapability(CapabilityEnergy.ENERGY, null)) {
+        if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, null)) {
             IEnergyStorage energyStorage = tile.getCapability(CapabilityEnergy.ENERGY, null);
 
             if (tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
@@ -42,7 +42,7 @@ public class EnergyUtility {
      * @param tile - TileEntity the item is being discharged in
      */
     public static void charge(int slot, TileEntity tile) {
-        if (tile.hasCapability(CapabilityEnergy.ENERGY, null)) {
+        if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, null)) {
             IEnergyStorage energyStorage = tile.getCapability(CapabilityEnergy.ENERGY, null);
 
             if (tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {

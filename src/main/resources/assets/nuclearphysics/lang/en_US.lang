@@ -122,6 +122,7 @@ tooltip.temperature=Temperature
 tooltip.remainingTime=Remaining Time
 tooltip.trackingTemperature=Tracking temperature at:
 tooltip.notTrackingTemperature=Not tracking temperature.
+tooltip.noFluid= No fluid
 
 // Colors
 color.black=Black

@@ -12,13 +12,11 @@ import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiGauge extends GuiComponent {
+    private static final int width = 14;
+    protected static final int height = 49;
+
     protected int xLocation;
     protected int yLocation;
-
-    protected int width = 14;
-    protected int height = 49;
-    protected int textureX = 0;
-    protected int textureY = 0;
 
     public GuiGauge(IGuiWrapper gui, int x, int y) {
         super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "gauge.png"), gui);
@@ -36,7 +34,7 @@ public abstract class GuiGauge extends GuiComponent {
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         RenderUtility.bindTexture(resource);
 
-        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, textureX, textureY, width, height);
+        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
 
         TextureAtlasSprite texture = getTexture();
         int scale = getScaledLevel();
@@ -71,7 +69,7 @@ public abstract class GuiGauge extends GuiComponent {
             }
         }
 
-        RenderUtility.bindTexture(resource);
+        //RenderUtility.bindTexture(resource);
 
         gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, width, height);
     }

@@ -139,7 +139,7 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
     }
 
     @Override
-    public FontRenderer getFont() {
+    public FontRenderer getFontRenderer() {
         return fontRendererObj;
     }
 

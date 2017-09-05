@@ -9,19 +9,20 @@ import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 
 @SideOnly(Side.CLIENT)
 public class GuiProgress extends GuiComponent {
+    private static final int width = 22;
+    private static final int height = 16;
+
+    private IProgressInfoHandler progressInfoHandler;
     private int xLocation;
     private int yLocation;
 
-    private int width = 22;
-    private int height = 15;
-    private int progress;
-
-    public GuiProgress(IGuiWrapper gui, int x, int y, int progress) {
+    public GuiProgress(IProgressInfoHandler progressInfoHandler, IGuiWrapper gui, int x, int y) {
         super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "progress.png"), gui);
+
+        this.progressInfoHandler = progressInfoHandler;
 
         this.xLocation = x;
         this.yLocation = y;
-        this.progress = progress;
     }
 
     @Override
@@ -33,15 +34,11 @@ public class GuiProgress extends GuiComponent {
     public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
         RenderUtility.bindTexture(resource);
 
-        int innerOffsetX = 2;
-
         gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
 
-        int displayInt = progress * (width - 2 * innerOffsetX);
+        int display = (int) (progressInfoHandler.getProgress() * (width + 1));
 
-        gui.drawTexturedRect(guiWidth + xLocation + innerOffsetX, guiHeight + yLocation, width + innerOffsetX, 0, displayInt, height);
-
-        RenderUtility.bindTexture(defaultLocation);
+        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, display, height);
     }
 
     @Override

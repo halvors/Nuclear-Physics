@@ -30,7 +30,7 @@ public class GuiGasCentrifuge extends GuiContainerBase {
 
         String displayText;
 
-        if (tile.timer > 0) {
+        if (tile.operatingTicks > 0) {
             displayText = "Processing";
         } else if (tile.canProcess()) {
             displayText = "Ready";
@@ -63,7 +63,7 @@ public class GuiGasCentrifuge extends GuiContainerBase {
         drawSlot(100, 25);
         drawSlot(130, 25, SlotType.BATTERY);
 
-        drawBar(40, 26, (float) tile.timer / (float) TileGasCentrifuge.tickTime);
+        drawBar(40, 26, (float) tile.operatingTicks / (float) tile.ticksRequired);
 
         // Uranium Gas
         drawMeter(8, 18, (float) tile.getTank().getFluidAmount() / (float) tile.getTank().getCapacity(), tile.getTank().getFluid());

@@ -51,7 +51,7 @@ public class GuiNuclearBoiler extends GuiContainerBase {
         drawSlot(55, 25, SlotType.BATTERY);
         drawSlot(80, 25);
 
-        drawBar(110, 26, (float) tile.timer / (float) TileNuclearBoiler.tickTime);
+        drawBar(110, 26, (float) tile.operatingTicks / (float) tile.ticksRequired);
 
         // Water
         drawMeter(8, 18, (float) tile.getInputTank().getFluidAmount() / (float) tile.getInputTank().getCapacity(), tile.getInputTank().getFluid());

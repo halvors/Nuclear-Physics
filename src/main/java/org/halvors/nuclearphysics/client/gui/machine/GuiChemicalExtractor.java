@@ -75,7 +75,7 @@ public class GuiChemicalExtractor extends GuiContainerBase {
         drawSlot(79, 49, SlotType.BATTERY);
         drawSlot(52, 24);
         drawSlot(106, 24);
-        drawBar(75, 24, (float) tile.timer / (float) TileChemicalExtractor.tickTime);
+        drawBar(75, 24, (float) tile.operatingTicks / (float) tile.ticksRequired);
         drawMeter(8, 18, tile.getInputTank().getFluidAmount() / tile.getInputTank().getCapacity(), tile.getInputTank().getFluid());
         drawSlot(24, 18, SlotType.LIQUID);
         drawSlot(24, 49, SlotType.LIQUID);

@@ -27,8 +27,9 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class TileGasCentrifuge extends TileMachine implements ITickable {
-    public static final int tickTime = 20 * 60;
     private static final int energy = 20000;
+
+    public float rotation = 0;
 
     private final LiquidTank tank = new LiquidTank(ModFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
         @Override
@@ -46,14 +47,14 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
         }
     };
 
-    public float rotation = 0;
-
     public TileGasCentrifuge() {
         this(EnumMachine.GAS_CENTRIFUGE);
     }
 
     public TileGasCentrifuge(EnumMachine type) {
         super(type);
+
+        ticksRequired = 20 * 60;
 
         energyStorage = new EnergyStorage(energy * 2);
         inventory = new ItemStackHandler(4) {
@@ -92,7 +93,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
 
     @Override
     public void update() {
-        if (timer > 0) {
+        if (operatingTicks > 0) {
             rotation += 0.45;
         } else {
             rotation = 0;
@@ -104,39 +105,24 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
                 //FluidUtility.transferFluidToNeighbors(world, pos, tank, QuantumFluids.fluidStackUraniumHexaflouride.copy());
             }
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            EnergyUtility.discharge(0, this);
 
-            if (canProcess()) {
-                EnergyUtility.discharge(0, this);
-
-                if (energyStorage.extractEnergy(energy, true) >= energy) {
-                    if (timer == 0) {
-                        timer = tickTime;
-                    }
-
-                    if (timer > 0) {
-                        timer--;
-
-                        if (timer < 1) {
-                            doProcess();
-                            timer = 0;
-                        }
-                    } else {
-                        timer = 0;
-                    }
-
-                    energyStorage.extractEnergy(energy, false);
+            if (canProcess() && energyStorage.extractEnergy(energy, true) >= energy) {
+                if (operatingTicks < ticksRequired) {
+                    operatingTicks++;
                 } else {
-                    timer = 0;
+                    doProcess();
+
+                    operatingTicks = 0;
                 }
+
+                energyStorage.extractEnergy(energy, false);
             } else {
-                timer = 0;
+                operatingTicks = 0;
             }
 
             if (world.getWorldTime() % 10 == 0) {
-                if (!world.isRemote) {
-                    NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
-                }
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
     }

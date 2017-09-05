@@ -12,14 +12,12 @@ import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
+import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 public class TileQuantumAssembler extends TileMachine implements ITickable {
-    public static final int tickTime = 20 * 120;
     private static final int energy = 10000000; // Fix this.
-
-    public int timer = 0; // Synced
 
     // Used for rendering.
     public float rotationYaw1 = 0;
@@ -35,6 +33,8 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
 
     public TileQuantumAssembler(EnumMachine type) {
         super(type);
+
+        ticksRequired = 20 * 120;
 
         energyStorage = new EnergyStorage(energy);
         inventory = new ItemStackHandler(7) {
@@ -62,25 +62,20 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     @Override
     public void update() {
         if (!world.isRemote) {
+            EnergyUtility.discharge(0, this);
+
             if (canProcess() && energyStorage.extractEnergy(energy, true) >= energy) {
-                if (timer == 0) {
-                    timer = tickTime;
-                }
-
-                if (timer > 0) {
-                    timer--;
-
-                    if (timer < 1) {
-                        doProcess();
-                        timer = 0;
-                    }
+                if (operatingTicks < ticksRequired) {
+                    operatingTicks++;
                 } else {
-                    timer = 0;
+                    doProcess();
+
+                    operatingTicks = 0;
                 }
 
                 energyStorage.extractEnergy(energy, false);
             } else {
-                timer = 0;
+                operatingTicks = 0;
             }
 
             if (world.getWorldTime() % 10 == 0) {
@@ -89,7 +84,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
                     NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                 }
             }
-        } else if (timer > 0) {
+        } else if (operatingTicks > 0) {
             if (world.getWorldTime() % 600 == 0) {
                 world.playSound(null, pos, ModSoundEvents.ASSEMBLER, SoundCategory.BLOCKS, 0.7F, 1);
             }

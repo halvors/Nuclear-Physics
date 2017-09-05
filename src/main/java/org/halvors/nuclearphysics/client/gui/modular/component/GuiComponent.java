@@ -31,10 +31,10 @@ public abstract class GuiComponent implements IGuiComponent {
     }
 
     public void renderScaledText(String text, int x, int y, int color, int maxX) {
-        int length = gui.getFont().getStringWidth(text);
+        int length = gui.getFontRenderer().getStringWidth(text);
 
         if (length <= maxX) {
-            gui.getFont().drawString(text, x, y, color);
+            gui.getFontRenderer().drawString(text, x, y, color);
         } else {
             float scale = (float)maxX/length;
             float reverse = 1 / scale;
@@ -43,7 +43,7 @@ public abstract class GuiComponent implements IGuiComponent {
             GlStateManager.pushMatrix();
 
             GlStateManager.scale(scale, scale, scale);
-            gui.getFont().drawString(text, (int)(x*reverse), (int)((y*reverse)+yAdd), color);
+            gui.getFontRenderer().drawString(text, (int) (x * reverse), (int) ((y * reverse) + yAdd), color);
 
             GlStateManager.popMatrix();
         }

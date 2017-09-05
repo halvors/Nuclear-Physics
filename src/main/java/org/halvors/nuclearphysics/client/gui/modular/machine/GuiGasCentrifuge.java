@@ -22,7 +22,7 @@ public class GuiGasCentrifuge extends GuiComponentContainer<TileGasCentrifuge> {
         components.add(new GuiSlot(SlotType.NORMAL, this, 80, 25));
         components.add(new GuiSlot(SlotType.NORMAL, this, 100, 25));
         components.add(new GuiSlot(SlotType.BATTERY, this, 130, 25));
-        components.add(new GuiProgress(this, 40, 26, tile.timer / TileGasCentrifuge.tickTime));
+        components.add(new GuiProgress(() -> (double) tile.operatingTicks / tile.ticksRequired, this, 40, 26));
         components.add(new GuiFluidGauge(tile::getTank, this, 8, 18));
         components.add(new GuiSlot(SlotType.GAS, this, 24, 49));
     }
@@ -33,7 +33,7 @@ public class GuiGasCentrifuge extends GuiComponentContainer<TileGasCentrifuge> {
 
         String displayText;
 
-        if (tile.timer > 0) {
+        if (tile.operatingTicks > 0) {
             displayText = "Processing";
         } else if (tile.canProcess()) {
             displayText = "Ready";
