@@ -14,6 +14,8 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -21,6 +23,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateReactorCell;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.multiblock.MultiBlockHandler;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
@@ -138,27 +141,31 @@ public class BlockReactorCell extends BlockInventory {
 
             // Insert fuel rod only in the primary multi-block.
             if (multiBlockHandler.isConstructed()) {
-                IItemHandlerModifiable inventory = multiBlockHandler.getPrimary().getInventory();
-                ItemStack itemStackInSlot = inventory.getStackInSlot(0);
+                FluidStack fluidStack = multiBlockHandler.get().getTank().getFluid();
 
-                if (player.isSneaking()) {
-                    if (itemStack == null && itemStackInSlot != null) {
-                        ItemHandlerHelper.giveItemToPlayer(player, itemStackInSlot.copy());
-                        inventory.setStackInSlot(0, null);
+                if (fluidStack != null && !fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
+                    IItemHandlerModifiable inventory = multiBlockHandler.getPrimary().getInventory();
+                    ItemStack itemStackInSlot = inventory.getStackInSlot(0);
+
+                    if (player.isSneaking()) {
+                        if (itemStack == null && itemStackInSlot != null) {
+                            ItemHandlerHelper.giveItemToPlayer(player, itemStackInSlot.copy());
+                            inventory.setStackInSlot(0, null);
+
+                            return true;
+                        }
+                    } else {
+                        if (itemStack != null && itemStackInSlot == null && itemStack.getItem() == ModItems.itemFissileFuel) {//&& OreDictionaryHelper.isFuel(itemStack)) {
+                            if (itemStack.getItem() instanceof IReactorComponent) {
+                                inventory.insertItem(0, itemStack.copy(), false);
+                                player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                            }
+                        } else {
+                            PlayerUtility.openGui(player, world, pos);
+                        }
 
                         return true;
                     }
-                } else {
-                    if (itemStack != null && itemStackInSlot == null && itemStack.getItem() == ModItems.itemFissileFuel) {//&& OreDictionaryHelper.isFuel(itemStack)) {
-                        if (itemStack.getItem() instanceof IReactorComponent) {
-                            inventory.insertItem(0, itemStack.copy(), false);
-                            player.inventory.decrStackSize(player.inventory.currentItem, 1);
-                        }
-                    } else {
-                        PlayerUtility.openGui(player, world, pos);
-                    }
-
-                    return true;
                 }
             }
         }

@@ -160,8 +160,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                 getMultiBlock().get().getTank().fillInternal(tank.drainInternal(tank.getCapacity(), true), true);
             }
         } else {
-            tank.fillInternal(new FluidStack(ModFluids.plasma, 1000), true);
-
             FluidStack fluidStack = tank.getFluid();
 
             if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
