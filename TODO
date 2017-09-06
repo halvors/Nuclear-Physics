@@ -17,6 +17,9 @@ General:
     - Fluid output is not transferred to neighbor machine accepting it as input.
     - Why is electricity not generated during the night? Temperature is lower at night?
 
+    - Prevent other liquids than toxic waste from being added as item to creative tab.
+    - Prevent adding buckets for other liquids than toxic waste.
+
 Known bugs:
     - Should not be possible to inject fuel into each of the reactor cell multiblocks...
     - Quantum Assembler render incorrectly.
