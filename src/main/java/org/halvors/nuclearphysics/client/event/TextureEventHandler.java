@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.client.event;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -18,18 +19,26 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 @EventBusSubscriber(Side.CLIENT)
 public class TextureEventHandler {
-    private static final Map<FluidType, Map<Fluid, TextureAtlasSprite>> textureMap = new HashMap<>();
+    private static final Map<FluidType, Map<Fluid, TextureAtlasSprite>> fluidTextureMap = new HashMap<>();
+    private static final Map<String, TextureAtlasSprite> textureMap = new HashMap<>();
     private static TextureAtlasSprite missingIcon;
+
+    private static final ResourceLocation reactorFissileMaterial = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_fissile_material");
+    private static final ResourceLocation electric_turbine_large = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electric_turbine_large");
+    private static final ResourceLocation reactor_cell_top = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_top");
+    private static final ResourceLocation reactor_cell_middle = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_middle");
+    private static final ResourceLocation reactor_cell_bottom = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_bottom");
 
     @SubscribeEvent
     public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
-        final TextureMap textureMap = event.getMap();
+        final TextureMap map = event.getMap();
 
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electric_turbine_large"));
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_top"));
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_middle"));
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_bottom"));
-        textureMap.registerSprite(ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_fissile_material"));
+        map.registerSprite(electric_turbine_large);
+        map.registerSprite(reactor_cell_top);
+        map.registerSprite(reactor_cell_middle);
+        map.registerSprite(reactor_cell_bottom);
+        map.registerSprite(reactorFissileMaterial);
+        textureMap.put("reactor_fissile_material", map.getTextureExtry(reactorFissileMaterial.toString()));
     }
 
     @SubscribeEvent
@@ -37,49 +46,35 @@ public class TextureEventHandler {
         final TextureMap map = event.getMap();
 
         missingIcon = map.getMissingSprite();
-        textureMap.clear();
+        fluidTextureMap.clear();
 
         for (FluidType type : FluidType.values()) {
-            textureMap.put(type, new HashMap<>());
+            fluidTextureMap.put(type, new HashMap<>());
         }
 
         for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
-            if (fluid.getFlowing() != null) {
-                String flow = fluid.getFlowing().toString();
-                TextureAtlasSprite sprite;
-
-                if (map.getTextureExtry(flow) != null) {
-                    sprite = map.getTextureExtry(flow);
-                } else {
-                    sprite = map.registerSprite(fluid.getStill());
-                }
-
-                textureMap.get(FluidType.FLOWING).put(fluid, sprite);
+            if (fluid.getStill() != null) {
+                fluidTextureMap.get(FluidType.STILL).put(fluid, map.getTextureExtry(fluid.getStill().toString()));
             }
 
-            if (fluid.getStill() != null) {
-                String still = fluid.getStill().toString();
-                TextureAtlasSprite sprite;
-
-                if (map.getTextureExtry(still) != null) {
-                    sprite = map.getTextureExtry(still);
-                } else {
-                    sprite = map.registerSprite(fluid.getStill());
-                }
-
-                textureMap.get(FluidType.STILL).put(fluid, sprite);
+            if (fluid.getFlowing() != null) {
+                fluidTextureMap.get(FluidType.FLOWING).put(fluid, map.getTextureExtry(fluid.getFlowing().toString()));
             }
         }
     }
 
     public static TextureAtlasSprite getFluidTexture(Fluid fluid, FluidType type) {
-        Map<Fluid, TextureAtlasSprite> map = textureMap.get(type);
+        Map<Fluid, TextureAtlasSprite> map = fluidTextureMap.get(type);
 
         if (fluid == null || type == null) {
             return missingIcon;
         }
 
         return map.getOrDefault(fluid, missingIcon);
+    }
+
+    public static TextureAtlasSprite getTexture(String texture) {
+        return textureMap.getOrDefault(texture, missingIcon);
     }
 
     public enum FluidType {

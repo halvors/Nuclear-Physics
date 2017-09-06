@@ -3,7 +3,6 @@ package org.halvors.nuclearphysics.common.tile.machine;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -210,9 +209,9 @@ public class TileChemicalExtractor extends TileProcess {
     public boolean extractDeuterium() {
         if (canProcess()) {
             int waterUsage = ConfigurationManager.General.waterPerDeutermium;
-            FluidStack drain = tankInput.drain(waterUsage * extractSpeed, false);
+            FluidStack fluidStack = tankInput.drain(waterUsage * extractSpeed, false);
 
-            if (drain != null && drain.amount >= 1 && drain.getFluid() == FluidRegistry.WATER) {
+            if (fluidStack != null && fluidStack.amount >= 1 && fluidStack.isFluidEqual(ModFluids.fluidStackWater)) {
                 if (tankOutput.fillInternal(new FluidStack(ModFluids.deuterium, extractSpeed), true) >= extractSpeed) {
                     tankInput.drainInternal(waterUsage * extractSpeed, true);
 
@@ -227,9 +226,9 @@ public class TileChemicalExtractor extends TileProcess {
     public boolean extractTritium() {
         if (canProcess()) {
             int deutermiumUsage = ConfigurationManager.General.deutermiumPerTritium;
-            FluidStack drain = tankInput.drain(deutermiumUsage * extractSpeed, false);
+            FluidStack fluidStack = tankInput.drain(deutermiumUsage * extractSpeed, false);
 
-            if (drain != null && drain.amount >= 1 && drain.getFluid() == ModFluids.deuterium) {
+            if (fluidStack != null && fluidStack.amount >= 1 && fluidStack.isFluidEqual(ModFluids.fluidStackDeuterium)) {
                 if (tankOutput.fill(new FluidStack(ModFluids.tritium, extractSpeed), true) >= extractSpeed) {
                     tankInput.drain(deutermiumUsage * extractSpeed, true);
 

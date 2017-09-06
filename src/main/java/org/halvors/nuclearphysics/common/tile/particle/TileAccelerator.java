@@ -176,7 +176,6 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
             */
 
             if (world.getWorldTime() % 5 == 0) {
-                //NuclearPhysics.getPacketHandler().sendTo(new PacketTileEntity(this), getPlayersUsing());
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
 

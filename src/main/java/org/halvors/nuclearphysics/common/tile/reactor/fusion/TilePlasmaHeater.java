@@ -52,7 +52,6 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
 
     @Override
     public void update() {
-        //rotation += energyStorage.getEnergyStored() / 10000F;
         rotation = (rotation + energyStorage.getEnergyStored() / 10000F);
 
         if (!world.isRemote) {
@@ -65,10 +64,10 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
                     energyStorage.extractEnergy(Math.toIntExact(power / 20), false);
                 }
             }
-        }
 
-        if (world.getWorldTime() % 10 == 0) {
-            NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            if (world.getWorldTime() % 10 == 0) {
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            }
         }
     }
 

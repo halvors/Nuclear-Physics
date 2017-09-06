@@ -79,10 +79,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
             }
 
             if (world.getWorldTime() % 10 == 0) {
-                if (!world.isRemote) {
-                    //NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), getPlayersUsing());
-                    NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
-                }
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         } else if (operatingTicks > 0) {
             if (world.getWorldTime() % 600 == 0) {
