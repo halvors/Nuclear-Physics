@@ -25,18 +25,12 @@ public class TextureEventHandler {
 
     private static final ResourceLocation reactorFissileMaterial = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_fissile_material");
     private static final ResourceLocation electric_turbine_large = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "electric_turbine_large");
-    private static final ResourceLocation reactor_cell_top = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_top");
-    private static final ResourceLocation reactor_cell_middle = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_middle");
-    private static final ResourceLocation reactor_cell_bottom = ResourceUtility.getResource(ResourceType.TEXTURE_MODELS, "reactor_cell_bottom");
 
     @SubscribeEvent
     public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
         final TextureMap map = event.getMap();
 
         map.registerSprite(electric_turbine_large);
-        map.registerSprite(reactor_cell_top);
-        map.registerSprite(reactor_cell_middle);
-        map.registerSprite(reactor_cell_bottom);
         map.registerSprite(reactorFissileMaterial);
         textureMap.put("reactor_fissile_material", map.getTextureExtry(reactorFissileMaterial.toString()));
     }

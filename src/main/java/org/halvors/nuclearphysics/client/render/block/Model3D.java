@@ -3,8 +3,6 @@ package org.halvors.nuclearphysics.client.render.block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
-import java.util.Arrays;
-
 public class Model3D {
     public double posX;
     public double posY;
