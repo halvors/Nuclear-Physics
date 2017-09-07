@@ -1,0 +1,8 @@
+# Blender MTL File: 'chemical_extractor.obj'
+# Material Count: 1
+
+newmtl None
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+d 1.000000
+map_Kd nuclearphysics:models/chemical_extractor

@@ -1,0 +1,56 @@
+{
+  "block.accelerator": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "nuclearphysics:accelerator",
+        "stream": false
+      }
+    ]
+  },
+  "block.antimatter": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "nuclearphysics:antimatter",
+        "stream": false
+      }
+    ]
+  },
+  "block.assembler": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "nuclearphysics:assembler",
+        "stream": false
+      }
+    ]
+  },
+  "block.electric_turbine": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "nuclearphysics:electric_turbine",
+        "stream": false
+      }
+    ]
+  },
+  "block.reactor_cell": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "nuclearphysics:reactor_cell",
+        "stream": false
+      }
+    ]
+  },
+  "block.siren": {
+    "category": "block",
+    "sounds": [
+      {
+        "name": "nuclearphysics:siren",
+        "stream": false
+      }
+    ]
+  }
+}

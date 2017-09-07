@@ -1,0 +1,16 @@
+package org.halvors.nuclearphysics.api.tile;
+
+import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidTank;
+
+public interface IReactor {
+    void heat(long energy);
+
+    float getTemperature();
+
+    boolean isOverToxic();
+
+    FluidTank getTank();
+
+    World getWorldObject();
+}
