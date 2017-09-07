@@ -23,12 +23,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public class RenderResizableCuboid {
     protected RenderManager manager = Minecraft.getMinecraft().getRenderManager();
 

@@ -16,7 +16,7 @@ import java.util.Arrays;
 @SideOnly(Side.CLIENT)
 public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
     private static final OBJModelContainer modelPart = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "plasma_heater.obj"), Arrays.asList("rrot", "srot"));
-    private static final OBJModelContainer modelAll = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "plasma_heater.obj"), Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "t", "u", "v", "w", "x", "y"));
+    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "plasma_heater.obj"), Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "t", "u", "v", "w", "x", "y"));
 
     @Override
     public void renderTileEntityAt(TilePlasmaHeater tile, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -40,7 +40,8 @@ public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
         modelPart.render();
         GlStateManager.popMatrix();
 
-        modelAll.render();
+        model.render();
+
         GlStateManager.popMatrix();
     }
 }

@@ -34,14 +34,14 @@ public class BlockElectricTurbine extends BlockContainerBase {
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isFullCube(IBlockState state) {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 

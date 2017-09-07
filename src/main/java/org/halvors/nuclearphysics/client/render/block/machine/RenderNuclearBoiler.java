@@ -17,7 +17,7 @@ import java.util.Arrays;
 public class RenderNuclearBoiler extends TileEntitySpecialRenderer<TileNuclearBoiler> {
     private static final OBJModelContainer modelPart1 = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "nuclear_boiler.obj"), Arrays.asList("FuelBarSupport1Rotates", "FuelBar1Rotates"));
     private static final OBJModelContainer modelPart2 = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "nuclear_boiler.obj"), Arrays.asList("FuelBarSupport2Rotates", "FuelBar2Rotates"));
-    private static final OBJModelContainer modelAll = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "nuclear_boiler.obj"), Arrays.asList("Base", "RadShieldPlate1", "RadShieldPlate2", "RadShieldPlate3", "Support", "ThermalDisplay", "TopSupport1", "TopSupport2", "TopSupport3"));
+    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "nuclear_boiler.obj"), Arrays.asList("Base", "RadShieldPlate1", "RadShieldPlate2", "RadShieldPlate3", "Support", "ThermalDisplay", "TopSupport1", "TopSupport2", "TopSupport3"));
 
     @Override
     public void renderTileEntityAt(TileNuclearBoiler tile, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -46,7 +46,7 @@ public class RenderNuclearBoiler extends TileEntitySpecialRenderer<TileNuclearBo
         modelPart2.render();
         GlStateManager.popMatrix();
 
-        modelAll.render();
+        model.render();
 
         GlStateManager.popMatrix();
     }

@@ -18,7 +18,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-/** @author Rseifert & Calclavia */
 @SideOnly(Side.CLIENT)
 public abstract class RenderTaggedTile<T extends TileEntity> extends TileEntitySpecialRenderer<T> {
     @Override

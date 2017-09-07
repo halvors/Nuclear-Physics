@@ -63,6 +63,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public boolean canRenderInLayer(IBlockState state, @Nonnull BlockRenderLayer layer) {
         EnumElectromagnet type = state.getValue(BlockStateElectromagnet.TYPE);
 

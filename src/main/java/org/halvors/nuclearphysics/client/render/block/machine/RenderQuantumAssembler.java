@@ -23,8 +23,7 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
     private static final OBJModelContainer modelPartArms = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("MiddleRotor", "MiddleRotorArmBase", "MiddleRotorFocusLaser", "MiddleRotorLowerArm", "MiddleRotorUpperArm"));
     private static final OBJModelContainer modelPartLargeArms = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("BottomRotor", "BottomRotorArmBase", "BottomRotorLowerArm", "BottomRotorResonatorArm", "BottomRotorUpperArm"));
     private static final OBJModelContainer modelPartResonanceCrystal = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Collections.singletonList("ResonanceCrystal"));
-    private static final OBJModelContainer modelAll = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("Circuit1", "Circuit2", "Circuit3", "Circuit4", "ControlPad", "ControlPadRibbonCable", "ControlPadRibbonConnector", "MaterialPlinthBase", "MaterialPlinthCore", "MaterialPlinthStand", "PlinthBasePlate", "PlinthBaseRibbonConnector", "Ram1", "Ram2", "Ram3", "Ram4", "ResonatorAssembly", "ResonatorUnit", "SafetyGlassBack", "SafetyGlassFront", "SafetyGlassLeft", "SafetyGlassRight", "SafetyGlassTop"));
-
+    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("Circuit1", "Circuit2", "Circuit3", "Circuit4", "ControlPad", "ControlPadRibbonCable", "ControlPadRibbonConnector", "MaterialPlinthBase", "MaterialPlinthCore", "MaterialPlinthStand", "PlinthBasePlate", "PlinthBaseRibbonConnector", "Ram1", "Ram2", "Ram3", "Ram4", "ResonatorAssembly", "ResonatorUnit", "SafetyGlassBack", "SafetyGlassFront", "SafetyGlassLeft", "SafetyGlassRight", "SafetyGlassTop"));
     private static final Render<EntityItem> renderItem = Minecraft.getMinecraft().getRenderManager().getEntityClassRenderObject(EntityItem.class);
 
     @Override
@@ -64,16 +63,16 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
         modelPartLargeArms.render();
         GlStateManager.popMatrix();
 
-        modelAll.render();
-
-        GlStateManager.popMatrix();
-
         // Render the item.
         GlStateManager.pushMatrix();
 
         if (tile.entityItem != null) {
             renderItem.doRender(tile.entityItem, x + 0.5, y + 0.2, z + 0.5, 0, 0);
         }
+
+        GlStateManager.popMatrix();
+
+        model.render();
 
         GlStateManager.popMatrix();
     }
