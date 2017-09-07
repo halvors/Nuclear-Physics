@@ -4,15 +4,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
+import org.halvors.nuclearphysics.common.tile.TileBase;
 
-public class ContainerDummy extends Container {
-    protected TileEntity tile;
+public class ContainerDummy<T extends TileBase> extends Container {
+    protected T tile;
 
     public ContainerDummy() {
 
     }
 
-    public ContainerDummy(TileEntity tile) {
+    public ContainerDummy(T tile) {
         this.tile = tile;
     }
 

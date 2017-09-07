@@ -55,7 +55,7 @@ public class OreDictionaryHelper {
     }
 
     private static boolean hasOreName(ItemStack itemStack, String oreName) {
-        if (itemStack != null) {
+        if (!itemStack.isEmpty()) {
             int oreId = OreDictionary.getOreID(oreName);
 
             for (int id : OreDictionary.getOreIDs(itemStack)) {

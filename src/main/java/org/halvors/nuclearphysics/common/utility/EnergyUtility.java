@@ -21,7 +21,7 @@ public class EnergyUtility {
                 IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
                 ItemStack itemStack = inventory.getStackInSlot(slot);
 
-                if (itemStack != null && energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
+                if (!itemStack.isEmpty() && energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
                     if (itemStack.hasCapability(CapabilityEnergy.ENERGY, null)) {
                         IEnergyStorage itemEnergyStorage = itemStack.getCapability(CapabilityEnergy.ENERGY, null);
 
@@ -49,7 +49,7 @@ public class EnergyUtility {
                 IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
                 ItemStack itemStack = inventory.getStackInSlot(slot);
 
-                if (itemStack != null && energyStorage.getEnergyStored() > 0) {
+                if (!itemStack.isEmpty() && energyStorage.getEnergyStored() > 0) {
                     if (itemStack.hasCapability(CapabilityEnergy.ENERGY, null)) {
                         IEnergyStorage itemEnergyStorage = itemStack.getCapability(CapabilityEnergy.ENERGY, null);
 

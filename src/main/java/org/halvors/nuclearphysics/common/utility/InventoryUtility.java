@@ -25,7 +25,7 @@ public class InventoryUtility {
     public static boolean hasUsableWrench(EntityPlayer player, BlockPos pos) {
         ItemStack itemStack = player.getHeldItemMainhand();
 
-        if (itemStack != null) {
+        if (!itemStack.isEmpty()) {
             Item item = itemStack.getItem();
 
             if (item == ModItems.itemWrench) {
@@ -58,7 +58,7 @@ public class InventoryUtility {
     }
 
     public static NBTTagCompound getNBTTagCompound(ItemStack itemStack) {
-        if (itemStack != null) {
+        if (!itemStack.isEmpty()) {
             if (itemStack.getTagCompound() == null) {
                 itemStack.setTagCompound(new NBTTagCompound());
             }
@@ -91,7 +91,7 @@ public class InventoryUtility {
         if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops")) {
             ItemStack itemStack = getItemStackWithNBT(state, world, pos);
 
-            if (itemStack != null) {
+            if (!itemStack.isEmpty()) {
                 InventoryUtility.dropItemStack(world, pos, itemStack);
             }
         }
@@ -110,7 +110,7 @@ public class InventoryUtility {
     }
 
     public static void dropItemStack(World world, double x, double y, double z, ItemStack itemStack, int delay) {
-        if (!world.isRemote && itemStack != null) {
+        if (!world.isRemote && !itemStack.isEmpty()) {
             float motion = 0.7F;
             double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
             double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;

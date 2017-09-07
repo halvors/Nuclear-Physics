@@ -105,7 +105,7 @@ public class TileAccelerator extends TileMachine implements ITickable, IElectrom
             // Check if redstone signal is currently being applied.
             ItemStack itemStack = inventory.getStackInSlot(0);
 
-            if (itemStack != null && world.isBlockIndirectlyGettingPowered(pos) > 0) {
+            if (!itemStack.isEmpty() && world.isBlockIndirectlyGettingPowered(pos) > 0) {
                 //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).

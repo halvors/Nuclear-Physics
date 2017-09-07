@@ -21,13 +21,13 @@ public class ContainerReactorCell extends ContainerBase<TileReactorCell> {
     /** Called to transfer a stack from one inventory to the other eg. when shift clicking. */
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotId) {
-        ItemStack copyStack = null;
+        ItemStack copyStack = ItemStack.EMPTY;
         Slot slot = inventorySlots.get(slotId);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemStack = slot.getStack();
 
-            if (itemStack != null) {
+            if (!itemStack.isEmpty()) {
                 copyStack = itemStack.copy();
 
                 if (slotId >= slotCount) {

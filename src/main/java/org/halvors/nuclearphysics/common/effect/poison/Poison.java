@@ -44,7 +44,7 @@ public abstract class Poison {
             for (int i = 0; i < entityPlayer.inventory.armorInventory.size(); i++) {
                 ItemStack itemStack = entityPlayer.inventory.armorInventory.get(i);
 
-                if (itemStack != null) {
+                if (!itemStack.isEmpty()) {
                     if ((itemStack.getItem() instanceof IAntiPoisonArmor)) {
                         IAntiPoisonArmor armor = (IAntiPoisonArmor) itemStack.getItem();
 

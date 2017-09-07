@@ -19,7 +19,7 @@ public class QuantumAssemblerRecipes {
     }
 
     public static void addRecipe(ItemStack itemStack) {
-        if (itemStack != null) {
+        if (!itemStack.isEmpty()) {
             if (itemStack.isStackable()) {
                 recipes.add(itemStack);
             }

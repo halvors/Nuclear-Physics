@@ -63,7 +63,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
             GlStateManager.enableAlpha();
 
             GlStateManager.popMatrix();
-        } else if (itemStack != null) {
+        } else if (!itemStack.isEmpty()) {
             GlStateManager.pushMatrix();
 
             // Make glass transparent.

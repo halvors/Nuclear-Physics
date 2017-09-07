@@ -165,7 +165,7 @@ public class TileNuclearBoiler extends TileProcess {
         if (inputFluidStack != null && inputFluidStack.amount >= Fluid.BUCKET_VOLUME) {
             ItemStack itemStack = inventory.getStackInSlot(inputSlot);
 
-            if (itemStack != null) {
+            if (!itemStack.isEmpty()) {
                 if (OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack)) {
                     FluidStack outputFluidStack = tankOutput.getFluid();
 

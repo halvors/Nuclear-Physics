@@ -33,7 +33,7 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
 
             @Override
             public double getProgress() {
-                if (itemStack != null) {
+                if (!itemStack.isEmpty()) {
                     return (double) (itemStack.getMaxDamage() - itemStack.getMetadata()) / itemStack.getMaxDamage();
                 }
 
@@ -49,13 +49,13 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
         ItemStack itemStack = tile.getInventory().getStackInSlot(0);
         FluidStack fluidStack = tile.getTank().getFluid();
 
-        if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
+        if (!itemStack.isEmpty() || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
             // Text field for actual heat inside of reactor cell.
             fontRenderer.drawString(LanguageUtility.transelate("tooltip.temperature"), (xSize / 2) - 80, 45, 0x404040);
             fontRenderer.drawString((int) Math.floor(tile.getTemperature()) + "/" + (int) Math.floor(TileReactorCell.meltingPoint) + " K", (xSize / 2) - 80, 58, 0x404040);
         }
 
-        if (itemStack != null) {
+        if (!itemStack.isEmpty()) {
             // Text field for total number of ticks remaining.
             int secondsLeft = itemStack.getMaxDamage() - itemStack.getMetadata();
             fontRenderer.drawString(LanguageUtility.transelate("tooltip.remainingTime"), (xSize / 2) + 14, 45, 0x404040);
