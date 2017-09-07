@@ -61,6 +61,54 @@ public class TileGenerator extends TileBase implements ITickable, IEnergyStorage
         return tag;
     }
 
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
+        return (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+        if (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) {
+            return (T) energyStorage;
+        }
+
+        return super.getCapability(capability, facing);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public int receiveEnergy(int maxReceive, boolean simulate) {
+        return 0;
+    }
+
+    @Override
+    public int extractEnergy(int maxExtract, boolean simulate) {
+        return energyStorage.extractEnergy(maxExtract, simulate);
+    }
+
+    @Override
+    public int getEnergyStored() {
+        return energyStorage.getEnergyStored();
+    }
+
+    @Override
+    public int getMaxEnergyStored() {
+        return energyStorage.getMaxEnergyStored();
+    }
+
+    @Override
+    public boolean canExtract() {
+        return energyStorage.canExtract();
+    }
+
+    @Override
+    public boolean canReceive() {
+        return energyStorage.canReceive();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public EnumSet<EnumFacing> getExtractingDirections() {
@@ -126,55 +174,5 @@ public class TileGenerator extends TileBase implements ITickable, IEnergyStorage
 
     public EnergyStorage getEnergyStorage() {
         return energyStorage;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
-        return (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) {
-            return (T) energyStorage;
-        }
-
-        return super.getCapability(capability, facing);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public int receiveEnergy(int maxReceive, boolean simulate) {
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
-        return energyStorage.extractEnergy(maxExtract, simulate);
-    }
-
-    @Override
-    public int getEnergyStored() {
-        return energyStorage.getEnergyStored();
-    }
-
-    @Override
-    public int getMaxEnergyStored() {
-        return energyStorage.getMaxEnergyStored();
-    }
-
-    @Override
-    public boolean canExtract() {
-        return energyStorage.canExtract();
-    }
-
-    @Override
-    public boolean canReceive() {
-        return energyStorage.canReceive();
     }
 }

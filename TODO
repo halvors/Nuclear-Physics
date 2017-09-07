@@ -1,28 +1,23 @@
-General:
-    - Fix particle texture when breaking TESR rendered blocks. Only working when facing north. (https://github.com/sinkillerj/ProjectE/blob/master/src/main/resources/assets/projecte/models/block/dummy.json)
-    - Fix particle texture for every block, and make metadata blocks have different.
-    - Fix fire not vanishing after a while. (Seems like fire doesn't persist re-login?)
-    - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
-    - Make sure that block is dropped when destroyed in survival mode.
-    - Fix reactor cell multi block NPE. Happens when trying to save to NBT.
-    - Check if auto transferring of fluids between machines is working.
-    - Make boiling water spawn particle rate based in the temperature.
-
-    - Debug and sort out how reactor multi-blocks actually work.
-    - Make sure only one tile entity in the multi-block structure is running at the same time.
-    - Slow down client side temperature update of reactor cell?
-
-    - Fix that fuel is not recognized in the OreDictionaryHelper.
-    - Fix antimatter explosion not spawning particles. (Client-side smoke)
-    - Fluid output is not transferred to neighbor machine accepting it as input.
-    - Why is electricity not generated during the night? Temperature is lower at night?
-
-    - Prevent other liquids than toxic waste from being added as item to creative tab.
-    - Prevent adding buckets for other liquids than toxic waste.
-
 Known bugs:
-    - Should not be possible to inject fuel into each of the reactor cell multiblocks...
-    - Quantum Assembler render incorrectly.
+    Low Priority:
+        - Fluid output is not transferred to neighbor machine accepting it as input.
+        - Slow down client side temperature update of reactor cell?
+        - Debug and sort out how reactor multi-blocks actually work.
+        - Make sure only one tile entity in the multi-block structure is running at the same time.
+        - Fix reactor cell multi block NPE. Happens when trying to save to NBT.
+        - Fix fire not vanishing after a while. (Seems like fire doesn't persist re-login?)
+        - Fix particle texture when breaking TESR rendered blocks. Only working when facing north. (https://github.com/sinkillerj/ProjectE/blob/master/src/main/resources/assets/projecte/models/block/dummy.json)
+        - Fix particle texture for every block, and make metadata blocks have different.
+        - Should not be possible to inject fuel into each of the reactor cell multiblocks...
+
+    High Priority:
+        - Make sure that block is dropped when destroyed in survival mode.
+        - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
+        - When in GUI when a machines is removed, or a reactor explode. It fetches name from the new block.
+        - Why is electricity not generated during the night? Temperature is lower at night?
+        - Fix antimatter explosion not spawning particles. (Client-side smoke)
+        - Fix that fuel is not recognized in the OreDictionaryHelper.
+        - Quantum Assembler render incorrectly.
 
 Known features not implemented:
 
@@ -47,6 +42,7 @@ New features to add:
         - Add thorium fuel?
         - Add plasma decay event?
         - Add auto update support (https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/)
+        - Make boiling water spawn particle rate based in the temperature.
 
     Rendering:
         - Make the whole multi block reactor cell share GUI.

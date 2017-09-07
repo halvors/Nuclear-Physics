@@ -34,6 +34,8 @@ public class TileFulmination extends TileGenerator {
         energyStorage.extractEnergy(1, false);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public EnumSet<EnumFacing> getExtractingDirections() {
         return EnumSet.allOf(EnumFacing.class);

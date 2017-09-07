@@ -161,6 +161,24 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         return tag;
     }
 
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+        return (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) || ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+        if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) {
+            return (T) getMultiBlock().get().getEnergyStorage();
+        } else if ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) {
+            return (T) getMultiBlock().get().tank;
+        }
+
+        return super.getCapability(capability, facing);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -236,18 +254,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private int getMaxPower() {
-        if (getMultiBlock().isConstructed()) {
-            return maxPower * getArea();
-        }
-
-        return maxPower;
-    }
-
-    private int getArea() {
-        return (int) ((multiBlockRadius + 0.5) * 2 * (multiBlockRadius + 0.5) * 2);
-    }
-
+    @Override
     public EnumSet<EnumFacing> getExtractingDirections() {
         if (getMultiBlock().isPrimary()) {
             return EnumSet.of(EnumFacing.UP);
@@ -258,21 +265,15 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) || ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) {
-            return (T) getMultiBlock().get().getEnergyStorage();
-        } else if ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) {
-            return (T) getMultiBlock().get().tank;
+    private int getMaxPower() {
+        if (getMultiBlock().isConstructed()) {
+            return maxPower * getArea();
         }
 
-        return super.getCapability(capability, facing);
+        return maxPower;
+    }
+
+    private int getArea() {
+        return (int) ((multiBlockRadius + 0.5) * 2 * (multiBlockRadius + 0.5) * 2);
     }
 }

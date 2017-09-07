@@ -60,8 +60,6 @@ public class TileGasFunnel extends TileEntity implements ITickable {
         return tag;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
         return (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY && facing == EnumFacing.DOWN) || (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == EnumFacing.UP) || super.hasCapability(capability, facing);

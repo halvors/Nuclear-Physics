@@ -112,7 +112,7 @@ public class ModFluids {
                 block.setUnlocalizedName(fluid.getUnlocalizedName());
                 block.setRegistryName(fluid.getName());
 
-                if (!fluid.isGaseous() || block instanceof BlockFluidPlasma) {
+                if (block instanceof BlockFluidToxicWaste || block instanceof BlockFluidPlasma) {
                     block.setCreativeTab(NuclearPhysics.getCreativeTab());
                 }
 
@@ -139,7 +139,7 @@ public class ModFluids {
 
     public static void registerFluidContainers() {
         for (final Fluid fluid : fluids) {
-            if (!fluid.isGaseous()) {
+            if (fluid == toxicWaste) {
                 FluidRegistry.addBucketForFluid(fluid);
             }
         }

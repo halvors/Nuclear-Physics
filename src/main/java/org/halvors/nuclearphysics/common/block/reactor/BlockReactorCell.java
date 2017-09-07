@@ -143,29 +143,27 @@ public class BlockReactorCell extends BlockInventory {
             if (multiBlockHandler.isConstructed()) {
                 FluidStack fluidStack = multiBlockHandler.get().getTank().getFluid();
 
-                if (fluidStack != null && !fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
-                    IItemHandlerModifiable inventory = multiBlockHandler.getPrimary().getInventory();
-                    ItemStack itemStackInSlot = inventory.getStackInSlot(0);
+                IItemHandlerModifiable inventory = multiBlockHandler.getPrimary().getInventory();
+                ItemStack itemStackInSlot = inventory.getStackInSlot(0);
 
-                    if (player.isSneaking()) {
-                        if (itemStack == null && itemStackInSlot != null) {
-                            ItemHandlerHelper.giveItemToPlayer(player, itemStackInSlot.copy());
-                            inventory.setStackInSlot(0, null);
-
-                            return true;
-                        }
-                    } else {
-                        if (itemStack != null && itemStackInSlot == null && itemStack.getItem() == ModItems.itemFissileFuel) {//&& OreDictionaryHelper.isFuel(itemStack)) {
-                            if (itemStack.getItem() instanceof IReactorComponent) {
-                                inventory.insertItem(0, itemStack.copy(), false);
-                                player.inventory.decrStackSize(player.inventory.currentItem, 1);
-                            }
-                        } else {
-                            PlayerUtility.openGui(player, world, pos);
-                        }
+                if (player.isSneaking()) {
+                    if (!ModFluids.fluidStackPlasma.isFluidEqual(fluidStack) && itemStack == null && itemStackInSlot != null) {
+                        ItemHandlerHelper.giveItemToPlayer(player, itemStackInSlot.copy());
+                        inventory.setStackInSlot(0, null);
 
                         return true;
                     }
+                } else {
+                    if (!ModFluids.fluidStackPlasma.isFluidEqual(fluidStack) && itemStack != null && itemStackInSlot == null && itemStack.getItem() == ModItems.itemFissileFuel) {//&& OreDictionaryHelper.isFuel(itemStack)) {
+                        if (itemStack.getItem() instanceof IReactorComponent) {
+                            inventory.insertItem(0, itemStack.copy(), false);
+                            player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                        }
+                    } else {
+                        PlayerUtility.openGui(player, world, pos);
+                    }
+
+                    return true;
                 }
             }
         }

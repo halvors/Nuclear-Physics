@@ -147,6 +147,39 @@ public class TileChemicalExtractor extends TileProcess {
 
     /*
     @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            if (facing == null) {
+                return (T) inventory;
+            }
+
+            switch (facing) {
+                case UP:
+                    return (T) top;
+
+                case DOWN:
+                    return null;
+
+                default:
+                    return (T) sides;
+            }
+        }
+
+        return super.getCapability(capability, facing);
+    }
+    */
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*
+    @Override
     public int[] getSlotsForFace(EnumFacing side) {
         return new int[] { 1, 2, 3 };
     }
@@ -239,38 +272,4 @@ public class TileChemicalExtractor extends TileProcess {
 
         return false;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /*
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            if (facing == null) {
-                return (T) inventory;
-            }
-
-            switch (facing) {
-                case UP:
-                    return (T) top;
-
-                case DOWN:
-                    return null;
-
-                default:
-                    return (T) sides;
-            }
-
-        }
-
-        return super.getCapability(capability, facing);
-    }
-    */
 }

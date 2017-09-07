@@ -54,54 +54,6 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
         }
     }
 
-    /*
-     * Takes an fluid container item and try to fill the tank, dropping the remains in the output slot.
-     */
-    private void fillOrDrainTank(int containerInput, int containerOutput, IFluidHandler tank) {
-        ItemStack itemStack = inventory.getStackInSlot(containerInput);
-        IFluidHandler container = FluidUtil.getFluidHandler(itemStack);
-
-        if (container != null) {
-            ItemStack resultStack;
-            FluidStack stack = FluidUtil.getFluidContained(itemStack);
-
-            if (stack != null && stack.amount > 0) {
-                resultStack = FluidUtil.tryEmptyContainer(itemStack, tank, ItemCell.capacity, null, true);
-            } else {
-                resultStack = FluidUtil.tryFillContainer(itemStack, tank, ItemCell.capacity, null, true);
-            }
-
-            if (resultStack != null) {
-                InventoryUtility.decrStackSize(inventory, containerInput);
-                inventory.insertItem(containerOutput, resultStack, false);
-            }
-        }
-    }
-
-    /*
-     * Gets the current result of the input set up.
-     */
-    /*
-    public RecipeResource[] getResults() {
-        ItemStack inputStack = getStackInSlot(inputSlot);
-        RecipeResource[] mixedResult = MachineRecipes.INSTANCE.getOutput(machineName, inputStack, getInputTank().getFluid());
-
-        if (mixedResult.length > 0) {
-            return mixedResult;
-        }
-
-        return MachineRecipes.INSTANCE.getOutput(machineName, inputStack);
-
-        return null;
-    }
-
-    public boolean hasResult() {
-        return getResults().length > 0;
-    }
-    */
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
@@ -118,6 +70,22 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
         tag.setTag("tankOutput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));
 
         return tag;
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
+        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return (T) this;
+        }
+
+        return super.getCapability(capability, facing);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,29 +136,57 @@ public abstract class TileProcess extends TileMachine implements ITickable, IFlu
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    /*
+     * Takes an fluid container item and try to fill the tank, dropping the remains in the output slot.
+     */
+    private void fillOrDrainTank(int containerInput, int containerOutput, IFluidHandler tank) {
+        ItemStack itemStack = inventory.getStackInSlot(containerInput);
+        IFluidHandler container = FluidUtil.getFluidHandler(itemStack);
+
+        if (container != null) {
+            ItemStack resultStack;
+            FluidStack stack = FluidUtil.getFluidContained(itemStack);
+
+            if (stack != null && stack.amount > 0) {
+                resultStack = FluidUtil.tryEmptyContainer(itemStack, tank, ItemCell.capacity, null, true);
+            } else {
+                resultStack = FluidUtil.tryFillContainer(itemStack, tank, ItemCell.capacity, null, true);
+            }
+
+            if (resultStack != null) {
+                InventoryUtility.decrStackSize(inventory, containerInput);
+                inventory.insertItem(containerOutput, resultStack, false);
+            }
+        }
+    }
+
+    /*
+     * Gets the current result of the input set up.
+     */
+    /*
+    public RecipeResource[] getResults() {
+        ItemStack inputStack = getStackInSlot(inputSlot);
+        RecipeResource[] mixedResult = MachineRecipes.INSTANCE.getOutput(machineName, inputStack, getInputTank().getFluid());
+
+        if (mixedResult.length > 0) {
+            return mixedResult;
+        }
+
+        return MachineRecipes.INSTANCE.getOutput(machineName, inputStack);
+
+        return null;
+    }
+
+    public boolean hasResult() {
+        return getResults().length > 0;
+    }
+    */
+
     public FluidTank getInputTank() {
         return tankInput;
     }
 
     public FluidTank getOutputTank() {
         return tankOutput;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
-        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return (T) this;
-        }
-
-        return super.getCapability(capability, facing);
     }
 }

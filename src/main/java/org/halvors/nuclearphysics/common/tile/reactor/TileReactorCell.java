@@ -16,6 +16,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.Fluid;
@@ -36,6 +37,7 @@ import org.halvors.nuclearphysics.common.block.states.BlockStateReactorCell;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.effect.explosion.ReactorExplosion;
 import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
+import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
@@ -45,6 +47,7 @@ import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;
 import org.halvors.nuclearphysics.common.multiblock.MultiBlockHandler;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileRotatable;
+import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.position.Position;
 
@@ -86,7 +89,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
             IItemHandlerModifiable inventory = multiBlock.get().getInventory();
             FluidStack fluidStack = tank.getFluid();
 
-            return fluidStack != null && !fluidStack.isFluidEqual(ModFluids.fluidStackPlasma) && inventory.getStackInSlot(0) == null && itemStack.getItem() instanceof IReactorComponent;
+            return !ModFluids.fluidStackPlasma.isFluidEqual(fluidStack) && inventory.getStackInSlot(0) == null && itemStack.getItem() instanceof IReactorComponent;
         }
 
         @Override
@@ -163,7 +166,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
             FluidStack fluidStack = tank.getFluid();
 
             if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
-                /*
                 // Spawn plasma.
                 FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
 
@@ -176,7 +178,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
                         tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                     }
                 }
-                */
             } else {
                 previousInternalEnergy = internalEnergy;
 
@@ -334,6 +335,24 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         return tag;
     }
 
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return (T) getMultiBlock().get().getInventory();
+        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return (T) getMultiBlock().get().getTank();
+        }
+
+        return super.getCapability(capability, facing);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
@@ -402,6 +421,8 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         return objects;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public void heat(long energy) {
         internalEnergy = Math.max(internalEnergy + energy, 0);
@@ -422,26 +443,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
     @Override
     public FluidTank getTank() {
         return tank;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return (T) getMultiBlock().get().getInventory();
-        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return (T) getMultiBlock().get().getTank();
-        }
-
-        return super.getCapability(capability, facing);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -470,10 +471,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IMultiB
         }
 
         return height;
-    }
-
-    public int getHeightIndex() {
-        return pos.getY() - getLowest().getPos().getY();
     }
 
     public TileReactorCell getLowest() {
