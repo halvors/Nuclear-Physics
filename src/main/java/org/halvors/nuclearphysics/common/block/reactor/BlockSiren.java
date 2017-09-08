@@ -28,7 +28,7 @@ public class BlockSiren extends BlockContainerBase {
 
     @Override
     public void registerBlockModel() {
-        NuclearPhysics.getProxy().registerBlockRenderer(this, (new StateMap.Builder()).ignore(BlockStateSiren.PITCH).build());
+        NuclearPhysics.getProxy().registerBlockRendererAndIgnore(this, BlockStateSiren.PITCH);
     }
 
     @Override

@@ -2,13 +2,7 @@ Known bugs:
     Low Priority:
         - Fluid output is not transferred to neighbor machine accepting it as input.
         - Slow down client side temperature update of reactor cell?
-        - Debug and sort out how reactor multi-blocks actually work.
-        - Make sure only one tile entity in the multi-block structure is running at the same time.
-        - Fix reactor cell multi block NPE. Happens when trying to save to NBT.
         - Fix fire not vanishing after a while. (Seems like fire doesn't persist re-login?)
-        - Fix particle texture when breaking TESR rendered blocks. Only working when facing north. (https://github.com/sinkillerj/ProjectE/blob/master/src/main/resources/assets/projecte/models/block/dummy.json)
-        - Fix particle texture for every block, and make metadata blocks have different.
-        - Should not be possible to inject fuel into each of the reactor cell multiblocks...
 
     High Priority:
         - Make sure that block is dropped when destroyed in survival mode.
@@ -17,7 +11,6 @@ Known bugs:
         - Why is electricity not generated during the night? Temperature is lower at night?
         - Fix antimatter explosion not spawning particles. (Client-side smoke)
         - Fix that fuel is not recognized in the OreDictionaryHelper.
-        - Quantum Assembler render incorrectly.
 
 Known features not implemented:
 

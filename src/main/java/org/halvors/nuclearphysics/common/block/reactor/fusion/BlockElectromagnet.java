@@ -52,7 +52,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
     @Override
     public void registerBlockModel() {
-        NuclearPhysics.getProxy().registerBlockRenderer(this, (new StateMap.Builder()).withName(BlockStateElectromagnet.TYPE).withSuffix("_" + name).build());
+        NuclearPhysics.getProxy().registerBlockRenderer(this, BlockStateElectromagnet.TYPE, name);
     }
 
     @Override
