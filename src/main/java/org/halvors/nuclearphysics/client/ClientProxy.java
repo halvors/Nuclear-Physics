@@ -43,7 +43,7 @@ import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
+import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
@@ -88,8 +88,8 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 			return new GuiCreativeBuilder(pos);
 		}
 
-		if (tile instanceof TileAccelerator) {
-			return new GuiAccelerator(player.inventory, (TileAccelerator) tile);
+		if (tile instanceof TileParticleAccelerator) {
+			return new GuiAccelerator(player.inventory, (TileParticleAccelerator) tile);
 		} else if (tile instanceof TileChemicalExtractor) {
 			return new GuiChemicalExtractor(player.inventory, (TileChemicalExtractor) tile);
 		} else if (tile instanceof TileGasCentrifuge) {

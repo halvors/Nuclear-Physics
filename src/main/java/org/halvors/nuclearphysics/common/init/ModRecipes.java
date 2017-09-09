@@ -87,9 +87,6 @@ public class ModRecipes {
         // Fulmination Generator
         GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockFulmination, "OPO", "PCP", "OPO", 'O', Blocks.OBSIDIAN, 'C', "circuitAdvanced", 'P', "plateSteel"));
 
-        // Particle Accelerator
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.ACCELERATOR.ordinal()), "PCP", "CMC", "PCP", 'M', ModItems.itemMotor, 'C', "circuitElite", 'P', "plateSteel"));
-
         // Gas Funnel
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockGasFunnel, 2), " B ", "B B", "B B", 'B', "ingotBronze"));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockGasFunnel, 2), " I ", "I I", "I I", 'I', Items.IRON_INGOT));
@@ -103,7 +100,13 @@ public class ModRecipes {
         // Nuclear Boiler
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.NUCLEAR_BOILER.ordinal()), "P P", "FBF", "PMP", 'F', Blocks.FURNACE, 'P', "plateSteel", 'B', Items.BUCKET, 'M', ModItems.itemMotor));
 
-        // NuclearPhysics Assembler
+        // Particle Accelerator
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.PARTICLE_ACCELERATOR.ordinal()), "PCP", "CMC", "PCP", 'M', ModItems.itemMotor, 'C', "circuitElite", 'P', "plateSteel"));
+
+        // Plasma Heater
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.PLASMA_HEATER.ordinal()), "CPC", "PFP", "CPC", 'P', "plateSteel", 'F', ModBlocks.blockReactorCell, 'C', "circuitElite"));
+
+        // Quantum Assembler
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.QUANTUM_ASSEMBLER.ordinal()), "CCC", "PGP", "PPP", 'G', new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.GAS_CENTRIFUGE.ordinal()), 'C', "circuitElite", 'P', "plateSteel"));
 
         // Siren
@@ -112,10 +115,7 @@ public class ModRecipes {
         // Thermometer
         GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockThermometer, "PPP", "GCG", "GPG", 'P', "plateSteel", 'G', Blocks.GLASS, 'C', "circuitBasic"));
 
-        // Plasma Heater
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.PLASMA_HEATER.ordinal()), "CPC", "PFP", "CPC", 'P', "plateSteel", 'F', ModBlocks.blockReactorCell, 'C', "circuitElite"));
-
-        // Fission Reactor
+        // Reactor Cell
         GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockReactorCell, "PCP", "MEM", "PCP", 'E', ModItems.itemCell, 'C', "circuitAdvanced", 'P', "plateSteel", 'M', ModItems.itemMotor));
 
         // Quantum assembler recipes.

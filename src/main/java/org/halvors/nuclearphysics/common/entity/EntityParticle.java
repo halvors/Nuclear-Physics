@@ -24,7 +24,7 @@ import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
-import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
+import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.utility.position.Position;
 
 import javax.annotation.Nonnull;
@@ -115,18 +115,18 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     public void onUpdate() {
         TileEntity tile = world.getTileEntity(movementPos);
 
-        if (tile instanceof TileAccelerator) {
-            TileAccelerator tileAccelerator = (TileAccelerator) tile;
+        if (tile instanceof TileParticleAccelerator) {
+            TileParticleAccelerator tileParticleAccelerator = (TileParticleAccelerator) tile;
             double acceleration = 0.0006;
 
             // Play sound effects.
             if (ticksExisted % 10 == 0) {
-                world.playSound(posX, posY, posZ, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1, (float) (0.6 + (0.4 * (getParticleVelocity() / TileAccelerator.clientParticleVelocity))), true);
+                world.playSound(posX, posY, posZ, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1, (float) (0.6 + (0.4 * (getParticleVelocity() / TileParticleAccelerator.clientParticleVelocity))), true);
             }
 
             // Sanity check
-            if (tileAccelerator.entityParticle == null) {
-                tileAccelerator.entityParticle = this;
+            if (tileParticleAccelerator.entityParticle == null) {
+                tileParticleAccelerator.entityParticle = this;
             }
 
             // Force load chunks.

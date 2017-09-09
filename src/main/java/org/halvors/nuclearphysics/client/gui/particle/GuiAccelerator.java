@@ -9,14 +9,14 @@ import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.particle.ContainerAccelerator;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
-import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
+import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.type.Color;
 
 @SideOnly(Side.CLIENT)
-public class GuiAccelerator extends GuiComponentContainer<TileAccelerator> {
-    public GuiAccelerator(InventoryPlayer inventoryPlayer, TileAccelerator tile) {
+public class GuiAccelerator extends GuiComponentContainer<TileParticleAccelerator> {
+    public GuiAccelerator(InventoryPlayer inventoryPlayer, TileParticleAccelerator tile) {
         super(tile, new ContainerAccelerator(inventoryPlayer, tile));
 
         components.add(new GuiSlot(SlotType.NORMAL, this, 131, 25));
@@ -40,7 +40,7 @@ public class GuiAccelerator extends GuiComponentContainer<TileAccelerator> {
             status = Color.DARK_GREEN + "Idle";
         }
 
-        fontRendererObj.drawString("Velocity: " + Math.round((tile.velocity / TileAccelerator.clientParticleVelocity) * 100) + "%", (xSize / 2) - 80, 27, 0x404040);
+        fontRendererObj.drawString("Velocity: " + Math.round((tile.velocity / TileParticleAccelerator.clientParticleVelocity) * 100) + "%", (xSize / 2) - 80, 27, 0x404040);
         fontRendererObj.drawString("Energy Used:", (xSize / 2) - 80, 38, 0x404040);
         fontRendererObj.drawString(UnitDisplay.getDisplay(tile.totalEnergyConsumed, UnitDisplay.Unit.JOULES), (xSize / 2) - 80, 49, 0x404040);
 

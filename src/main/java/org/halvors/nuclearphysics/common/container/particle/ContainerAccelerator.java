@@ -7,10 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.init.ModItems;
-import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
+import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 
-public class ContainerAccelerator extends ContainerBase<TileAccelerator> {
-    public ContainerAccelerator(InventoryPlayer inventoryPlayer, TileAccelerator tile) {
+public class ContainerAccelerator extends ContainerBase<TileParticleAccelerator> {
+    public ContainerAccelerator(InventoryPlayer inventoryPlayer, TileParticleAccelerator tile) {
         super(inventoryPlayer, tile);
 
         // Inputs

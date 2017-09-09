@@ -25,17 +25,16 @@ import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 import java.util.List;
 
-public class TileAccelerator extends TileInventoryMachine implements ITickable, IElectromagnet {
-    // Energy required per ticks.
-    public int acceleratorEnergyCostPerTick = ConfigurationManager.General.acceleratorEnergyCostPerTick;
+public class TileParticleAccelerator extends TileInventoryMachine implements ITickable, IElectromagnet {
+    private static final int energyPerTick = 1000; // 4800000;
 
     // User client side to determine the velocity of the particle.
     public static final float clientParticleVelocity = 0.9F;
 
-    /** The total amount of energy consumed by this particle. In Joules. */
+    // The total amount of energy consumed by this particle. In Joules.
     public float totalEnergyConsumed = 0; // Synced
 
-    /** The amount of anti-matter stored within the accelerator. Measured in milligrams. */
+    // The amount of anti-matter stored within the accelerator. Measured in milligrams.
     public int antimatter = 0; // Synced
     public EntityParticle entityParticle;
 
@@ -43,21 +42,17 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
     private long clientEnergy = 0; // Synced
     private int lastSpawnTick = 0;
 
-    private int maxTransfer = acceleratorEnergyCostPerTick / 20;
-
-    /**
-     * Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
-     */
+    // Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
     private int acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
 
-    public TileAccelerator() {
-        this(EnumMachine.ACCELERATOR);
+    public TileParticleAccelerator() {
+        this(EnumMachine.PARTICLE_ACCELERATOR);
     }
 
-    public TileAccelerator(EnumMachine type) {
+    public TileParticleAccelerator(EnumMachine type) {
         super(type);
 
-        energyStorage = new EnergyStorage(acceleratorEnergyCostPerTick * 2, maxTransfer);
+        energyStorage = new EnergyStorage(energyPerTick * 40, energyPerTick);
         inventory = new ItemStackHandler(4) {
             @Override
             protected void onContentsChanged(int slot) {
@@ -106,7 +101,7 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
             ItemStack itemStack = inventory.getStackInSlot(0);
 
             if (itemStack != null && world.isBlockIndirectlyGettingPowered(pos) > 0) {
-                //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
+                if (energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                     if (entityParticle == null) {
                         // Creates a accelerated particle if one needs to exist (on world load for example or player login).
                         if (lastSpawnTick >= 40) {
@@ -153,11 +148,11 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
 
                         // Plays sound of particle accelerating past the speed based on total velocity at the time of anti-matter creation.
                         if (entityParticle != null) {
-                            world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
+                            world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getParticleVelocity()) / TileParticleAccelerator.clientParticleVelocity)));
                         }
                     }
 
-                    totalEnergyConsumed += energyStorage.extractEnergy(maxTransfer, false);
+                    totalEnergyConsumed += energyStorage.extractEnergy(energyPerTick, false);
                 } else {
                     if (entityParticle != null) {
                         entityParticle.setDead();
@@ -165,7 +160,6 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
 
                     entityParticle = null;
                 }
-                /*
             } else {
                 if (entityParticle != null) {
                     entityParticle.setDead();
@@ -173,7 +167,6 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
 
                 entityParticle = null;
             }
-            */
 
             if (world.getWorldTime() % 5 == 0) {
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);

@@ -19,7 +19,6 @@ public class ConfigurationManager {
         public static double toJoules;
         public static double toElectricalUnits;
 
-        public static int acceleratorEnergyCostPerTick = 4800000;
         public static int acceleratorAntimatterDensityMultiplier = 1;
 
         public static double fulminationOutputMultiplier = 1;
@@ -107,7 +106,6 @@ public class ConfigurationManager {
         General.toJoules = dataStream.readDouble();
         General.toElectricalUnits = dataStream.readDouble();
 
-        General.acceleratorEnergyCostPerTick = dataStream.readInt();
         General.acceleratorAntimatterDensityMultiplier = dataStream.readInt();
 
         General.fulminationOutputMultiplier = dataStream.readDouble();
@@ -148,7 +146,6 @@ public class ConfigurationManager {
         objects.add(General.toJoules);
         objects.add(General.toElectricalUnits);
 
-        objects.add(General.acceleratorEnergyCostPerTick);
         objects.add(General.acceleratorAntimatterDensityMultiplier);
 
         objects.add(General.fulminationOutputMultiplier);
