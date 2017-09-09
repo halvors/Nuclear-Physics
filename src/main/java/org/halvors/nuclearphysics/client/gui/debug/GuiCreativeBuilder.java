@@ -2,54 +2,41 @@ package org.halvors.nuclearphysics.client.gui.debug;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.GuiContainerBase;
-import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.client.gui.GuiComponentScreen;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
-import org.halvors.nuclearphysics.common.container.ContainerDummy;
 import org.halvors.nuclearphysics.common.network.packet.PacketCreativeBuilder;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.Color;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
 
 import java.io.IOException;
 
 @SideOnly(Side.CLIENT)
-public class GuiCreativeBuilder extends GuiContainerBase {
-    private GuiTextField textFieldSize;
-    private int mode = 0;
+public class GuiCreativeBuilder extends GuiComponentScreen {
     private BlockPos pos;
-
-    public ResourceLocation baseTexture;
-    protected int containerWidth;
-    protected int containerHeight;
+    private int mode = 0;
+    private GuiTextField textFieldSize;
 
     public GuiCreativeBuilder(BlockPos pos) {
-        super(new ContainerDummy());
-
         this.pos = pos;
-        this.baseTexture = ResourceUtility.getResource(ResourceType.GUI, "gui_empty.png");
     }
 
     @Override
     public void initGui() {
         super.initGui();
 
-        textFieldSize = new GuiTextField(0, fontRendererObj, 45, 58, 50, 12);
+        textFieldSize = new GuiTextField(0, fontRendererObj, 39, 58, 50, 12);
 
         buttonList.add(new GuiButton(0, width / 2 - 80, height / 2 - 10, 58, 20, "Build"));
         buttonList.add(new GuiButton(1, width / 2 - 50, height / 2 - 35, 120, 20, "Mode"));
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        String name = LanguageUtility.transelate("tile.creative_builder.name"); //"Creative Builder";
+    protected void drawGuiScreenForegroundLayer(int mouseX, int mouseY) {
+        String name = LanguageUtility.transelate("tile.creative_builder.name");
 
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
 
@@ -60,60 +47,57 @@ public class GuiCreativeBuilder extends GuiContainerBase {
         fontRendererObj.drawString("Size: ", (xSize / 2) - 80, 60, 0x404040);
         textFieldSize.drawTextBox();
 
-        (buttonList.get(1)).displayString = LanguageUtility.transelate(BlockCreativeBuilder.getSchematic(mode).getName());
+        buttonList.get(1).displayString = LanguageUtility.transelate(BlockCreativeBuilder.getSchematic(mode).getName());
         fontRendererObj.drawString("Mode: ", (xSize / 2) - 80, 80, 0x404040);
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
         fontRendererObj.drawString("Warning!", (xSize / 2) - 80, 130, Color.DARK_RED.getHex());
         fontRendererObj.drawString("This will replace blocks without", (xSize / 2) - 80, 140, Color.DARK_RED.getHex());
         fontRendererObj.drawString("dropping it! You may lose items.", (xSize / 2) - 80, 150, Color.DARK_RED.getHex());
+
+        super.drawGuiScreenForegroundLayer(mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float f, int mouseX, int mouseY) {
-        containerWidth = (width - xSize) / 2;
-        containerHeight = (height - ySize) / 2;
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        super.keyTyped(typedChar, keyCode);
 
-        RenderUtility.bindTexture(baseTexture);
-        GlStateManager.color(1, 1, 1, 1);
-
-        drawTexturedModalRect(containerWidth, containerHeight, 0, 0, xSize, ySize);
+        textFieldSize.textboxKeyTyped(typedChar, keyCode);
     }
 
     @Override
-    protected void keyTyped(char par1, int par2) throws IOException {
-        super.keyTyped(par1, par2);
+    protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
+        super.mouseClicked(mouseX, mouseY, button);
 
-        textFieldSize.textboxKeyTyped(par1, par2);
+        int guiWidth = (width - xSize) / 2;
+        int guiHeight = (height - ySize) / 2;
+
+        textFieldSize.mouseClicked(mouseX - guiWidth, mouseY - guiHeight, button);
     }
 
     @Override
-    protected void mouseClicked(int x, int y, int par3) throws IOException {
-        super.mouseClicked(x, y, par3);
+    protected void actionPerformed(GuiButton button) throws IOException {
+        super.actionPerformed(button);
 
-        textFieldSize.mouseClicked(x - containerWidth, y - containerHeight, par3);
-    }
+        switch (button.id) {
+            case 0:
+                int radius;
 
-    @Override
-    protected void actionPerformed(GuiButton par1GuiButton) throws IOException {
-        super.actionPerformed(par1GuiButton);
+                try {
+                    radius = Integer.parseInt(textFieldSize.getText());
+                } catch (NumberFormatException e) {
+                    radius = 2;
+                }
 
-        if (par1GuiButton.id == 0) {
-            int radius = 0;
+                if (radius > 0) {
+                    NuclearPhysics.getPacketHandler().sendToServer(new PacketCreativeBuilder(pos, mode, radius));
+                    mc.player.closeScreen();
+                }
 
-            try {
-                radius = Integer.parseInt(textFieldSize.getText());
-            } catch (Exception e) {
+                break;
 
-            }
-
-            if (radius > 0) {
-                NuclearPhysics.getPacketHandler().sendToServer(new PacketCreativeBuilder(pos, mode, radius));
-                mc.player.closeScreen();
-            }
-        } else if (par1GuiButton.id == 1) {
-            mode = (mode + 1) % (BlockCreativeBuilder.getSchematicCount());
+            case 1:
+                mode = (mode + 1) % (BlockCreativeBuilder.getSchematicCount());
+                break;
         }
     }
-
 }
