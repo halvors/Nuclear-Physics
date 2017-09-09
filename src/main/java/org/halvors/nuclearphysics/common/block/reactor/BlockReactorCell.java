@@ -79,11 +79,9 @@ public class BlockReactorCell extends BlockInventory {
                     return true;
                 }
             } else {
-                if (!ModFluids.fluidStackPlasma.isFluidEqual(fluidStack) && itemStack != null && itemStackInSlot == null && itemStack.getItem() == ModItems.itemFissileFuel) {//&& OreDictionaryHelper.isFuel(itemStack)) {
-                    if (itemStack.getItem() instanceof IReactorComponent) {
-                        inventory.insertItem(0, itemStack.copy(), false);
-                        player.inventory.decrStackSize(player.inventory.currentItem, 1);
-                    }
+                if (!ModFluids.fluidStackPlasma.isFluidEqual(fluidStack) && itemStack != null && itemStackInSlot == null && itemStack.getItem() instanceof IReactorComponent) {
+                    inventory.insertItem(0, itemStack.copy(), false);
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
                 } else {
                     PlayerUtility.openGui(player, world, pos);
                 }
