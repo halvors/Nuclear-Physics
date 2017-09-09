@@ -1,0 +1,129 @@
+package org.halvors.nuclearphysics.common.utility;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemHandlerHelper;
+import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.init.ModItems;
+
+public class InventoryUtility {
+    /**
+     * Whether or not the player has a usable wrench for a block at the coordinates given.
+     * @param player - the player using the wrench
+     * @param pos - the coordinate of the block being wrenched
+     * @return if the player can use the wrench
+     */
+    public static boolean hasUsableWrench(EntityPlayer player, BlockPos pos) {
+        ItemStack itemStack = player.getHeldItemMainhand();
+
+        if (!itemStack.isEmpty()) {
+            Item item = itemStack.getItem();
+
+            if (item == ModItems.itemWrench) {
+                return true;
+            }
+
+            if (ConfigurationManager.Integration.isMekanismEnabled) {
+                // Check if item is a Mekanism wrench.
+				/*
+				if (item instanceof IMekWrench) {
+					IMekWrench wrench = (IMekWrench) item;
+
+					return wrench.canUseWrench(player, pos.getX(), pos.getY(), pos.getZ());
+				}
+				*/
+            }
+        }
+
+        return false;
+    }
+
+    public static void incrStackSize(IItemHandlerModifiable itemHandler, int slot) {
+        ItemStack itemStack = itemHandler.getStackInSlot(slot);
+
+        itemHandler.insertItem(slot, ItemHandlerHelper.copyStackWithSize(itemStack, itemStack.getCount() + 1), false);
+    }
+
+    public static void decrStackSize(IItemHandlerModifiable itemHandler, int slot) {
+        itemHandler.extractItem(slot, 1, false);
+    }
+
+    public static NBTTagCompound getNBTTagCompound(ItemStack itemStack) {
+        if (!itemStack.isEmpty()) {
+            if (itemStack.getTagCompound() == null) {
+                itemStack.setTagCompound(new NBTTagCompound());
+            }
+
+            return itemStack.getTagCompound();
+        }
+
+        return null;
+    }
+
+    public static ItemStack getItemStackWithNBT(IBlockState state, World world, BlockPos pos) {
+        if (state != null) {
+            Block block = state.getBlock();
+            ItemStack dropStack = new ItemStack(block, block.quantityDropped(state, 0, world.rand), block.damageDropped(state));
+            TileEntity tile = world.getTileEntity(pos);
+
+            if (tile != null) {
+                NBTTagCompound tag = new NBTTagCompound();
+                tile.writeToNBT(tag);
+                dropStack.setTagCompound(tag);
+            }
+
+            return dropStack;
+        }
+
+        return null;
+    }
+
+    public static void dropBlockWithNBT(IBlockState state, World world, BlockPos pos) {
+        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops")) {
+            ItemStack itemStack = getItemStackWithNBT(state, world, pos);
+
+            if (!itemStack.isEmpty()) {
+                InventoryUtility.dropItemStack(world, pos, itemStack);
+            }
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /// Old code, maybe not used anymore. //////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void dropItemStack(World world, BlockPos pos, ItemStack itemStack) {
+        dropItemStack(world, pos, itemStack, 10);
+    }
+
+    public static void dropItemStack(World world, BlockPos pos, ItemStack itemStack, int delay) {
+        dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemStack, delay);
+    }
+
+    public static void dropItemStack(World world, double x, double y, double z, ItemStack itemStack, int delay) {
+        if (!world.isRemote && !itemStack.isEmpty()) {
+            float motion = 0.7F;
+            double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+            double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+            double motionZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+
+            EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
+
+            if (itemStack.hasTagCompound()) {
+                entityItem.getItem().setTagCompound(itemStack.getTagCompound().copy());
+            }
+
+            entityItem.setPickupDelay(delay);
+            world.spawnEntity(entityItem);
+        }
+    }
+}

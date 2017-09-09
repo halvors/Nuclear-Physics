@@ -15,7 +15,6 @@ buildscript {
     }
 }
 
-apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "idea"
 
 idea {
@@ -23,6 +22,12 @@ idea {
         // For some reason this is necessary for IDEA 2014 workspaces to recognize assets
         inheritOutputDirs = true
     }
+}
+
+apply plugin: "net.minecraftforge.gradle.forge"
+
+repositories {
+
 }
 
 // Define properties file
@@ -36,8 +41,8 @@ configFile.withReader {
 }
 
 version = config.minecraft_version + "-" + config.mod_version
-group = "org.halvors.quantum"
-archivesBaseName = "quantum"
+group = "org.halvors.nuclearphysics"
+archivesBaseName = "nuclearphysics"
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 
@@ -48,6 +53,10 @@ minecraft {
 
     // Replace version in Reference.java
     replace "@version", config.mod_version
+}
+
+dependencies {
+
 }
 
 processResources {

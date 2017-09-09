@@ -1,139 +1,73 @@
-Porting to 1.10.2 from 1.7.10:
-    - Fix particle texture when breaking TESR rendered blocks. Only working when facing north. (https://github.com/sinkillerj/ProjectE/blob/master/src/main/resources/assets/projecte/models/block/dummy.json)
-    - Fix particle texture for every block, and make metadata blocks have different.
-    - Render fluid in qui.
-    - Fix fire not vanishing after a while.
-    - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
-    - Check if auto transferring of fluids between machines is working.
-
-General:
-
 Known bugs:
-    - Should not be possible to inject fuel into each of the reactor cell multiblocks...
-    - Quantum Assembler render incorrectly.
-    - Electromagnet Glass have wrong material and footstep sound? As well as break sound.
-    - Optimize syncing of machines etc, only sync when gui is open etc.
+    Before Beta release:
+        - Make sure that block is dropped when destroyed in survival mode.
+        - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
+
+    Low Priority:
+        - Fluid output is not transferred to neighbor machine accepting it as input.
+        - Slow down client side temperature update of reactor cell?
+        - Fix fire not vanishing after a while. (Seems like fire doesn't persist re-login?)
+
+    High Priority:
+        - When in GUI when a machines is removed, or a reactor explode. It fetches name from the new block.
+        - Why is electricity not generated during the night? Temperature is lower at night?
+        - Fix antimatter explosion not spawning particles. (Client-side smoke)
 
 Known features not implemented:
-    - Add support for batteries in machines etc.
 
 New features to add:
     Convenience:
-        - Fluid output is not transferred to neighbor machine accepting it as input.
         - Add electromagnetic cell, a cell capable of holding antimatter.
         - Not poison players in creative mode?
+        - Implement IAntiPoisonBlock and add make radiation resistant blocks.
 
     Enhancement:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
         - Make more stuff only server side, if not needed on the client.
         - Add a Geiger counter to measure radiation.
-        - Add radiation resistance block which implements IAntiPoisonBlock.
+        - Add radiation resistance block which implements IAntiPoisonBlock. See EntityLivingBase.canEntityBeSeen()
         - Make reactor make glass if sand is next to it, and make it melt snow.
         - Make accelerator GUI show energy usage per 5 mg antimatter, as a measure of efficiency.
         - Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
         - Make toxic waste denser than water, so that it is replaced by toxic waste.
         - Add support for vertical particle accelerators.
+        - Amplify sirens, with sort of multi block structure, also add pitch support for the multi block.
+        - Add metal break sound to machines etc?
+        - Add thorium fuel?
+        - Add plasma decay event?
+        - Add auto update support (https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/)
+        - Make boiling water spawn particle rate based in the temperature. (https://gamedev.stackexchange.com/questions/17620/equation-to-make-small-number-big-and-big-number-small-gravity)
+        - Add thermal capability that can be applied to tile entities.
 
     Rendering:
-        - Make the whole multi block reactor cell share GUI.
         - Make nuclear boiler eject steam.
-        - Make turbines eject smoke particles?
-        - Render TESR's with FastTESR.
+        - Render only moving parts in TESR?
 
     Networking:
+        - Optimize syncing of machines etc, only sync when gui is open etc.
 
     Energy:
-        Centrifuge:
+        Chemical Extractor: (DONE)
+            128 MJ ~= 20000 RF = 27 Yellowcake (OK, but needs high throughput cables).
+
+        Gas Centrifuge: (DONE)
             128 MJ ~= 20000 = 2 Refined/Breading Uranium
 
-        Chemical Extractor: (Done)
-            128 MJ ~= 20000 RF = 27 Yellowcake
+        Nuclear Boiler: (DONE)
+            128 MJ ~= 20000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride (OK, but needs high throughput cables).
 
-        Nuclear Boiler:
-            128 MJ ~= 21000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride
-
-        Turbine:
-            Fission Reactor with 4 Control Rods: (Generated from one Turbine)
-               (128 MJ * 20) + 90 MJ = 2650 MJ
-
-               60 seconds run = 64 MJ
+        Quantum Assembler:
 
         Particle Accelerator:
             5 mg antimatter (One particle accelerated to 100%) uses 97.85 MJ if inner circle is 100x100 blocks.
 
+        Fulmination Generator:
+            125mg antimatter = 24.93 MJ
+            1g antimatter = ?
+
+        Plasma Heater: (DONE)
+            4 x 128MJ ~= 80000 = 2000 mB
+
     Useful resources:
         https://github.com/gigaherz/ElementsOfPower/blob/master/src/main/java/gigaherz/elementsofpower/essentializer/TileEssentializer.java
-
         https://gist.github.com/howtonotwin/88fd07f419ae5c9560e9ae2615514018
-
-        How a fusion reactor works: https://www.youtube.com/watch?v=Vwgy6w8ExHE
-
-        https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
-
-        ConnectedTextures in json: https://github.com/baileyholl/Aura-Cascade/blob/MC188/src/main/resources/assets/aura/blockstates/fortifiedStone.json
-        http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/modification-development/2726011-is-it-possible-to-draw-parts-of-a-json-model-in
-
-            (16.01.27) halvors: Anyone knows how to render obj models in a TESR in 1.10.2? I need to call some code to only render parts of the model. Also groups of the obj file like i could with the AdvancedModelLoader and IModelCustom on 1.7.10, any ideas?
-            (16.03.15) Umbraco forlot rommet (quit: Ping timeout: 204 seconds).
-            (16.08.19) ScottehBoeh forlot rommet (quit: Ping timeout: 200 seconds).
-            (16.08.37) ScottehBoeh [~ScottehBo@104.238.169.42] kom inn i rommet.
-            (16.09.26) ghz|afk: halvors: well, you can load the model using ... eh it will be easier if I show you the tool class I use
-            (16.09.46) ghz|afk: https://github.com/gigaherz/Commons/blob/master/src/main/java/gigaherz/common/client/ModelHandle.java#L230
-            (16.09.51) ghz|afk: https://github.com/gigaherz/Commons/blob/master/src/main/java/gigaherz/common/client/ModelHandle.java#L254
-            (16.09.59) ghz|afk: feel free to take the entire class if you want to
-            (16.10.15) ghz|afk: the mod's opensource (MIT or BSD, can't remember which one I used)
-            (16.11.06) ghz|afk: this is how I use that helper
-            (16.11.06) ghz|afk: https://github.com/gigaherz/Ender-Rift/blob/master/src/main/java/gigaherz/enderRift/client/RenderRift.java#L15
-            (16.11.15) ghz|afk: https://github.com/gigaherz/Ender-Rift/blob/master/src/main/java/gigaherz/enderRift/client/RenderRift.java#L79
-            (16.13.28) ghz|afk: ...
-            (16.13.30) ghz|afk: so, meh
-            (16.13.42) ghz|afk: I was trying out this Open Glider mod that I found on curseforge
-            (16.13.45) ghz|afk: it looked interesting
-            (16.14.05) ghz|afk: but it's really just a fancy clone of the openblocks one, I was hoping for some elytra-style pitch control
-            (16.14.07) ghz|afk: but not even that ;P
-            (16.33.47) halvors: ghz|afk: Thanks, but as far i can se do you render the whole model? I need to render just a part of it like i do in 1.7.10 here: https://github.com/halvors/Quantum/blob/master/src/main/java/org/halvors/quantum/client/render/machine/RenderChemicalExtractor.java
-            (16.34.07) halvors: You see the renderOnly function? Something like that :)
-            (16.38.37) malte0811 [~malte0811@p54825E2A.dip0.t-ipconnect.de] kom inn i rommet.
-            (16.46.24) Chais forlot rommet (quit: Read error: Connection reset by peer).
-            (16.48.00) Chais [~Chais@62.178.210.212] kom inn i rommet.
-            (16.52.11) terraflops [~terraflop@2600:8806:5000:d000:2dfe:a37c:659:a7e8] kom inn i rommet.
-            (16.53.23) terraflops: Dumb question but I haven't done this in years: I'm trying to put 3 glDisable calls before each player gets rendered and then glEnable right after. Do I use RenderPlayerEvent.Pre and Post?
-            (16.55.42) ghz|afk: halvors: well, there's a visibility groups thing
-            (16.55.47) ghz|afk: but I don't really know how to use it myself
-            (16.55.57) ghz|afk: it IS possible though
-            (16.56.04) ghz|afk: I just don't have example code for it
-            (16.58.02) TechnicianLP: are server-stateevents triggered on client when a player connects to a dedicated server?
-            (17.00.42) halvors: ghz|afk: Where do you know about this from? Any source i might be interested in?
-            (17.01.06) halvors: ghz|afk: Does it allow you to select out the barts based on string names as i showed you from 1.7.10?
-            (17.01.19) ghz|afk: yes
-            (17.01.33) ghz|afk: you may need to read the source code of the objmodel stuff
-            (17.01.47) ghz|afk: I know this because I was here on IRC when the person who wrote that code was explaining it
-            (17.01.59) ghz|afk: I just prefer to keep the pieces separate
-            (17.02.04) ghz|afk: and draw them together on demand
-            (17.02.09) ghz|afk: rather than have one big complex model
-            (17.02.15) ghz|afk: and hide parts of it
-            (17.04.52) ghz|afk: halvors: https://github.com/MinecraftForge/MinecraftForge/blob/1.12.x/src/main/java/net/minecraftforge/client/model/obj/OBJModel.java#L1110
-            (17.05.07) halvors: ghz|afk: Thanks, you would prefer just creating another modelHandle object and render them from different obj files?
-            (17.05.08) ghz|afk: see that OBJState? it has a map for visible groups
-            (17.05.31) ghz|afk: well that's the thing
-            (17.05.40) ghz|afk: you WILL have to bake() multiple IBakedModels
-            (17.05.45) ghz|afk: with the different visibility groups
-            (17.05.51) ghz|afk: so it's up to you
-            (17.06.08) ghz|afk: if you split them up into separate files, you will have to draw more than once
-            (17.06.29) ghz|afk: if you don't, you may have more combinations to bake
-            (17.06.36) Raycoms [~Raycoms@2804:14d:baa6:25e1::1002] kom inn i rommet.
-            (17.06.38) Raycoms: o/
-            (17.06.57) ghz|afk: bake(new OBJState("Part1", "Part2", "Part3"), ...)
-            (17.07.05) Raycoms: protected void onContentsChanged(final int slot) is there a way to get more information about what exactly changed?
-            (17.07.12) ghz|afk: will give your an IBakedModel with only Part1, Part2, and Part3 enabled
-            (17.07.32) ghz|afk: Raycoms: no
-            (17.07.41) halvors: ghz|afk: Thanks, will try that out :) But the code seems to be deprecated?
-            (17.08.00) ghz|afk: yes but eh...
-            (17.08.11) ghz|afk: it's deprecated in favor of using custom data from the blockstates json
-            (17.08.27) ghz|afk: which can be used to declare visibility sets
-            (17.08.36) ghz|afk: and activate each set from different blockstates and such
-            (17.08.47) halvors: oh.
-            (17.08.53) ghz|afk: but you asked about rendering on a TESR so I answered for that ;P
-            (17.09.19) Raycoms: Does this method get called regularly or only if a real interaction happened? (Does chunkload trigger it p.e)
-            (17.09.41) ghz|afk: look for usages?
-            (17.09.58) halvors: ghz|afk: Thanks :)
