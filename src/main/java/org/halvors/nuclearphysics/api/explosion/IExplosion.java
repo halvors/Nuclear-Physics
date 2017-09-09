@@ -1,8 +1,5 @@
 package org.halvors.nuclearphysics.api.explosion;
 
-/** The actual explosion interface. Extends Explosion.java.
- *
- * @author Calclavia */
 public interface IExplosion {
     /** Called to initiate the explosion. */
     void explode();

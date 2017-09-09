@@ -19,7 +19,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.init.ModFluids;
-import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
