@@ -40,7 +40,7 @@ import java.util.Set;
  * The front of the turbine is where the output is.
  */
 public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, ITileNetwork {
-    private final int energyPerSteam = 40; // 52000 // Mekanism: 100
+    private final int energyPerSteam = 40;
     private final int defaultTorque = 5000;
     private int torque = defaultTorque;
 

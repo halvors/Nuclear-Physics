@@ -71,7 +71,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         }
 
         private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-            return !ModFluids.fluidStackPlasma.isFluidEqual(tank.getFluid()) && inventory.getStackInSlot(0) == null && itemStack.getItem() instanceof IReactorComponent;
+            return !ModFluids.fluidStackPlasma.isFluidEqual(tank.getFluid()) && inventory.getStackInSlot(0).isEmpty() && itemStack.getItem() instanceof IReactorComponent;
         }
 
         @Override
@@ -178,8 +178,8 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                 ThermalGrid.addTemperature(world, pos, deltaT);
 
                 // Reactor cell plays random idle noises while operating and above temperature to boil water.
-                if (world.getWorldTime() % 100 == 0 && getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                    float percentage = Math.min(getTemperature() / meltingPoint, 1.0F);
+                if (world.getWorldTime() % 100 == 0 && temperature >= ThermalPhysics.waterBoilTemperature) {
+                    float percentage = Math.min(temperature / meltingPoint, 1.0F);
 
                     world.playSound(null, pos, ModSoundEvents.REACTOR_CELL, SoundCategory.BLOCKS, percentage, 1);
                 }
@@ -228,7 +228,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
             if (world.isRemote && fuelRod != null) {
                 // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
-                if (getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                if (temperature >= ThermalPhysics.waterBoilTemperature) {
                     if (world.rand.nextInt(5) == 0) {
                         world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextInt(2), pos.getY() + 1, pos.getZ() + world.rand.nextInt(2), 0, 0.1, 0);
                     }

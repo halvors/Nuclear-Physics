@@ -38,4 +38,9 @@ public class GasTank extends LiquidTank implements IBoilHandler, IFluidTank {
 
         return null;
     }
+
+    @Override
+    public int catchGas(FluidStack resource, boolean doFill) {
+        return fillInternal(resource, doFill);
+    }
 }

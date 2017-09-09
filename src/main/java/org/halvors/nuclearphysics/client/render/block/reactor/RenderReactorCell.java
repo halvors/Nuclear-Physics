@@ -1,7 +1,6 @@
 package org.halvors.nuclearphysics.client.render.block.reactor;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -11,25 +10,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.event.TextureEventHandler;
 import org.halvors.nuclearphysics.client.event.TextureEventHandler.FluidType;
 import org.halvors.nuclearphysics.client.render.block.Model3D;
-import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
-import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
-
-import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell> {
-    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "reactor_cell.obj"), Arrays.asList("BackLeftSpike", "BackRightSpike", "Base", "BaseDepth", "BaseWidth", "BottomPad", "FrontLeftSpike", "FrontRightSpike", "HatCover", "HatDepth", "HatMiddle", "HatTop", "HatWidth", "MiddleBackLeft", "MiddleBackRight", "MiddleFrontLeft", "MiddleFrontRight", "MiddlePBack", "MiddlePFront", "MiddlePLeft", "MiddlePRight", "OPBackLeft", "OPBackRight", "OPFrontLeft", "OPFrontRight", "OPLeftBack", "OPLeftFront1", "OPLeftFront2", "OPRightBack", "TopBase", "TopBaseDepth", "TopBaseWidth"));
     private static final Model3D modelPlasma = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74);
     private static final Model3D modelFissileFuel = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74);
 
     @Override
     public void renderTileEntityAt(TileReactorCell tile, double x, double y, double z, float partialTicks, int destroyStage) {
-        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-
         GlStateManager.pushMatrix();
 
         // Translate to the location of our tile entity
@@ -38,8 +29,6 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
 
         // Rotate block based on direction.
         RenderUtility.rotateBlockBasedOnDirection(tile.getFacing());
-
-        model.render();
 
         // Render fissile fuel inside reactor.
         IFluidTank tank = tile.getTank();
@@ -79,7 +68,6 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
 
             GlStateManager.popMatrix();
         }
-
 
         GlStateManager.popMatrix();
     }

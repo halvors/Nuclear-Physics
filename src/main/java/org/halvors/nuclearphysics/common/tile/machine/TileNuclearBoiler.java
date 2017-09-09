@@ -16,7 +16,7 @@ import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 public class TileNuclearBoiler extends TileProcess {
-    public static final int energy = 20000;
+    private static final int energyPerTick = 20000;
 
     public TileNuclearBoiler() {
         this(EnumMachine.NUCLEAR_BOILER);
@@ -25,9 +25,9 @@ public class TileNuclearBoiler extends TileProcess {
     public TileNuclearBoiler(EnumMachine type) {
         super(type);
 
-        ticksRequired = 20 * 15;
+        ticksRequired = 15 * 20;
 
-        energyStorage = new EnergyStorage(energy * 2);
+        energyStorage = new EnergyStorage(energyPerTick * 2);
         inventory = new ItemStackHandler(5) {
             @Override
             protected void onContentsChanged(int slot) {
@@ -122,18 +122,16 @@ public class TileNuclearBoiler extends TileProcess {
         if (!world.isRemote) {
             EnergyUtility.discharge(0, this);
 
-            if (canProcess() && energyStorage.extractEnergy(energy, true) >= energy) {
+            if (canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
                 } else {
-                    doProcess();
+                    process();
 
                     operatingTicks = 0;
                 }
 
-                energyStorage.extractEnergy(energy, false);
-            } else {
-                operatingTicks = 0;
+                energyStorage.extractEnergy(energyPerTick, false);
             }
 
             if (world.getWorldTime() % 10 == 0) {
@@ -180,7 +178,7 @@ public class TileNuclearBoiler extends TileProcess {
     }
 
     // Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack.
-    public void doProcess() {
+    public void process() {
         if (canProcess()) {
             tankInput.drainInternal(Fluid.BUCKET_VOLUME, true);
             FluidStack liquid = ModFluids.fluidStackUraniumHexaflouride.copy();

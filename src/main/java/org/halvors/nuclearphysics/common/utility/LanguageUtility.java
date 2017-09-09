@@ -1,17 +1,17 @@
 package org.halvors.nuclearphysics.common.utility;
 
-import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.translation.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LanguageUtility {
 	public static boolean canTranselate(String text) {
-		return I18n.hasKey(text);
+		return I18n.canTranslate(text);
 	}
 
 	public static String transelate(String text, Object... parameters) {
-		return I18n.format(text, parameters);
+		return I18n.translateToLocalFormatted(text, parameters);
 	}
 
 	public static List<String> splitStringPerWord(String text, int wordsPerLine) {

@@ -1,9 +1,10 @@
 package org.halvors.nuclearphysics.client;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.IStateMapper;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -105,8 +106,13 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public void registerBlockRenderer(Block block, IStateMapper mapper) {
-		ModelLoader.setCustomStateMapper(block, mapper);
+	public void registerBlockRenderer(Block block, IProperty property, String name) {
+		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).withName(property).withSuffix("_" + name).build());
+	}
+
+	@Override
+	public void registerBlockRendererAndIgnore(Block block, IProperty property) {
+		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).ignore(property).build());
 	}
 
 	@Override

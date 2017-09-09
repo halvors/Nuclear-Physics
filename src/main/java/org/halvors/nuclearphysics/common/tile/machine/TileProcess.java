@@ -26,7 +26,7 @@ import java.util.List;
 /*
  * General class for all machines that do traditional recipe processing.
  */
-public abstract class TileProcess extends TileMachine implements ITickable, IFluidHandler {
+public abstract class TileProcess extends TileInventoryMachine implements ITickable, IFluidHandler {
     protected LiquidTank tankInput;
     protected LiquidTank tankOutput;
 

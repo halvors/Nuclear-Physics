@@ -16,7 +16,7 @@ import java.util.Arrays;
 @SideOnly(Side.CLIENT)
 public class RenderChemicalExtractor extends TileEntitySpecialRenderer<TileChemicalExtractor> {
     private static final OBJModelContainer modelPart = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "chemical_extractor.obj"), Arrays.asList("MainChamberRotates", "Magnet1Rotates", "Magnet2Rotates"));
-    private static final OBJModelContainer modelAll = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "chemical_extractor.obj"), Arrays.asList("CornerSupport1", "CornerSupport2", "CornerSupport3", "CornerSupport4", "EnergyPlug", "Keyboard", "KeyboardSupport", "MainBase", "SupportBeam1", "SupportBeam2"));
+    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "chemical_extractor.obj"), Arrays.asList("CornerSupport1", "CornerSupport2", "CornerSupport3", "CornerSupport4", "EnergyPlug", "Keyboard", "KeyboardSupport", "MainBase", "SupportBeam1", "SupportBeam2"));
 
     @Override
     public void renderTileEntityAt(TileChemicalExtractor tile, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -38,7 +38,7 @@ public class RenderChemicalExtractor extends TileEntitySpecialRenderer<TileChemi
         modelPart.render();
         GlStateManager.popMatrix();
 
-        modelAll.render();
+        model.render();
 
         GlStateManager.popMatrix();
     }

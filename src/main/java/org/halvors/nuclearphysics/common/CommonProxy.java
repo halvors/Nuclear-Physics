@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.common;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.statemap.IStateMapper;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -42,7 +42,11 @@ public class CommonProxy implements IGuiHandler {
 
 	}
 
-	public void registerBlockRenderer(Block block, IStateMapper mapper) {
+	public void registerBlockRenderer(Block block, IProperty property, String name) {
+
+	}
+
+	public void registerBlockRendererAndIgnore(Block block, IProperty property) {
 
 	}
 

@@ -5,6 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -18,7 +19,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.init.ModFluids;
-import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
@@ -37,20 +37,26 @@ public class BlockReactorCell extends BlockInventory {
     @Nonnull
     @SideOnly(Side.CLIENT)
     public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+        return EnumBlockRenderType.MODEL;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
+    public boolean canRenderInLayer(IBlockState state, @Nonnull BlockRenderLayer layer) {
+        return layer == BlockRenderLayer.CUTOUT;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
@@ -73,11 +79,9 @@ public class BlockReactorCell extends BlockInventory {
                     return true;
                 }
             } else {
-                if (!ModFluids.fluidStackPlasma.isFluidEqual(fluidStack) && !itemStack.isEmpty() && itemStackInSlot.isEmpty() && itemStack.getItem() == ModItems.itemFissileFuel) {//&& OreDictionaryHelper.isFuel(itemStack)) {
-                    if (itemStack.getItem() instanceof IReactorComponent) {
-                        inventory.insertItem(0, itemStack.copy(), false);
-                        player.inventory.decrStackSize(player.inventory.currentItem, 1);
-                    }
+                if (!ModFluids.fluidStackPlasma.isFluidEqual(fluidStack) && !itemStack.isEmpty() && itemStackInSlot.isEmpty() && itemStack.getItem() instanceof IReactorComponent) {
+                    inventory.insertItem(0, itemStack.copy(), false);
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
                 } else {
                     PlayerUtility.openGui(player, world, pos);
                 }

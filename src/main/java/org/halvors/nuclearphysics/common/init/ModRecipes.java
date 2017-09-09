@@ -5,8 +5,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import org.halvors.nuclearphysics.api.recipe.QuantumAssemblerRecipes;
+import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell.EnumAntimatterCell;
@@ -114,5 +117,41 @@ public class ModRecipes {
 
         // Fission Reactor
         GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockReactorCell, "SCS", "MEM", "SCS", 'E', ModItems.itemCell, 'C', "circuitAdvanced", 'S', "plateSteel", 'M', ModItems.itemMotor));
+
+        // Quantum assembler recipes.
+        if (ConfigurationManager.General.quantumAssemblerGenerateMode > 0) {
+            /*
+            for (Item item : Item.itemsList) {
+                if (item != null) {
+                    if (item.itemID > 256 || Settings.quantumAssemblerGenerateMode == 2) {
+                        ItemStack itemStack = new ItemStack(item);
+
+                        if (itemStack != null) {
+                            QuantumAssemblerRecipes.addRecipe(itemStack);
+                        }
+                    }
+                }
+            }
+
+            if (ConfigurationManager.General.quantumAssemblerGenerateMode == 2) {
+                for (Block block : Block.REGISTRY.getblocksList) {
+                    if (block != null) {
+                        ItemStack itemStack = new ItemStack(block);
+                        if (itemStack != null) {
+                            QuantumAssemblerRecipes.addRecipe(itemStack);
+                        }
+                    }
+                }
+            }
+            */
+
+            for (String oreName : OreDictionary.getOreNames()) {
+                if (oreName.startsWith("ingot")) {
+                    for (ItemStack itemStack : OreDictionary.getOres(oreName)) {
+                        QuantumAssemblerRecipes.addRecipe(itemStack);
+                    }
+                }
+            }
+        }
     }
 }

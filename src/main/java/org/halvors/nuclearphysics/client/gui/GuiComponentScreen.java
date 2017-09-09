@@ -1,11 +1,9 @@
 package org.halvors.nuclearphysics.client.gui;
 
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.inventory.Container;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,28 +19,59 @@ import java.util.List;
 import java.util.Set;
 
 @SideOnly(Side.CLIENT)
-public class GuiComponentContainer<T extends TileEntity> extends GuiContainer implements IGuiWrapper {
+public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
     protected ResourceLocation defaultResource;
     protected Set<IGuiComponent> components = new HashSet<>();
-    protected T tile;
 
-    public GuiComponentContainer(T tile, Container container, ResourceLocation defaultResource) {
-        super(container);
+    /** The X size of the inventory window in pixels. */
+    protected int xSize = 176;
 
+    /** The Y size of the inventory window in pixels. */
+    protected int ySize = 217;
+
+    /** Starting X position for the Gui. Inconsistent use for Gui backgrounds. */
+    protected int guiLeft;
+
+    /** Starting Y position for the Gui. Inconsistent use for Gui backgrounds. */
+    protected int guiTop;
+
+    public GuiComponentScreen(ResourceLocation defaultResource) {
         this.defaultResource = defaultResource;
-        this.tile = tile;
-
-        ySize = 217;
     }
 
-    public GuiComponentContainer(T tile, Container container) {
-        this(tile, container, ResourceUtility.getResource(ResourceType.GUI, "gui_base.png"));
+    public GuiComponentScreen() {
+        this(ResourceUtility.getResource(ResourceType.GUI, "gui_empty.png"));
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    public void initGui() {
+        super.initGui();
 
+        guiLeft = (width - xSize) / 2;
+        guiTop = (height - ySize) / 2;
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTick) {
+        drawDefaultBackground();
+
+        GlStateManager.color(1, 1, 1, 1);
+
+        drawGuiScreenBackgroundLayer(partialTick, mouseX, mouseY);
+
+        super.drawScreen(mouseX, mouseY, partialTick);
+
+        GlStateManager.translate(guiLeft, guiTop, 0);
+
+        drawGuiScreenForegroundLayer(mouseX, mouseY);
+    }
+
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
+
+    protected void drawGuiScreenForegroundLayer(int mouseX, int mouseY) {
         int xAxis = (mouseX - (width - xSize) / 2);
         int yAxis = (mouseY - (height - ySize) / 2);
 
@@ -51,8 +80,7 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
         }
     }
 
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY) {
+    protected void drawGuiScreenBackgroundLayer(float partialTick, int mouseX, int mouseY) {
         RenderUtility.bindTexture(defaultResource);
 
         GlStateManager.color(1, 1, 1, 1);
@@ -86,6 +114,7 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
         }
     }
 
+    @Override
     protected void mouseClickMove(int mouseX, int mouseY, int button, long ticks) {
         super.mouseClickMove(mouseX, mouseY, button, ticks);
 

@@ -4,7 +4,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -52,7 +51,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
     @Override
     public void registerBlockModel() {
-        NuclearPhysics.getProxy().registerBlockRenderer(this, (new StateMap.Builder()).withName(BlockStateElectromagnet.TYPE).withSuffix("_" + name).build());
+        NuclearPhysics.getProxy().registerBlockRenderer(this, BlockStateElectromagnet.TYPE, name);
     }
 
     @Override
@@ -63,6 +62,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public boolean canRenderInLayer(IBlockState state, @Nonnull BlockRenderLayer layer) {
         EnumElectromagnet type = state.getValue(BlockStateElectromagnet.TYPE);
 

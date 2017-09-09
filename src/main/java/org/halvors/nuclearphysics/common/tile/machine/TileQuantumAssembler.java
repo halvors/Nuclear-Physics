@@ -12,12 +12,11 @@ import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
-import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
-public class TileQuantumAssembler extends TileMachine implements ITickable {
-    private static final int energy = 10000000; // Fix this.
+public class TileQuantumAssembler extends TileInventoryMachine implements ITickable {
+    private static final int energyPerTick = 10000000; // TODO: Fix this.
 
     // Used for rendering.
     public float rotationYaw1 = 0;
@@ -34,9 +33,9 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     public TileQuantumAssembler(EnumMachine type) {
         super(type);
 
-        ticksRequired = 20 * 120;
+        ticksRequired = 120 * 20;
 
-        energyStorage = new EnergyStorage(energy);
+        energyStorage = new EnergyStorage(energyPerTick);
         inventory = new ItemStackHandler(7) {
             @Override
             protected void onContentsChanged(int slot) {
@@ -62,20 +61,16 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     @Override
     public void update() {
         if (!world.isRemote) {
-            EnergyUtility.discharge(0, this);
-
-            if (canProcess() && energyStorage.extractEnergy(energy, true) >= energy) {
+            if (canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
                 } else {
-                    doProcess();
+                    process();
 
                     operatingTicks = 0;
                 }
 
-                energyStorage.extractEnergy(energy, false);
-            } else {
-                operatingTicks = 0;
+                energyStorage.extractEnergy(energyPerTick, false);
             }
 
             if (world.getWorldTime() % 10 == 0) {
@@ -127,7 +122,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
         ItemStack itemStack = inventory.getStackInSlot(6);
 
         if (!itemStack.isEmpty()) {
-            if (QuantumAssemblerRecipes.hasItemStack(itemStack)) {
+            if (QuantumAssemblerRecipes.hasRecipe(itemStack)) {
                 for (int i = 0; i < 6; i++) {
                     ItemStack slotItemStack = inventory.getStackInSlot(i);
 
@@ -148,9 +143,9 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
     }
 
     // Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack.
-    private void doProcess() {
+    private void process() {
         if (canProcess()) {
-            for (int slot = 0; slot < 6; slot++) {
+            for (int slot = 0; slot < 5; slot++) {
                 if (!inventory.getStackInSlot(slot).isEmpty()) {
                     InventoryUtility.decrStackSize(inventory, slot);
                 }

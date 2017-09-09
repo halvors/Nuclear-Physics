@@ -3,7 +3,6 @@ package org.halvors.nuclearphysics.common.block.reactor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -27,7 +26,7 @@ public class BlockSiren extends BlockContainerBase {
 
     @Override
     public void registerBlockModel() {
-        NuclearPhysics.getProxy().registerBlockRenderer(this, (new StateMap.Builder()).ignore(BlockStateSiren.PITCH).build());
+        NuclearPhysics.getProxy().registerBlockRendererAndIgnore(this, BlockStateSiren.PITCH);
     }
 
     @Override

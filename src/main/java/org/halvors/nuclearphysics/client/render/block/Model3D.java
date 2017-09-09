@@ -2,7 +2,10 @@ package org.halvors.nuclearphysics.client.render.block;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class Model3D {
     public double posX;
     public double posY;

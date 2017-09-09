@@ -16,11 +16,14 @@ public class SchematicAccelerator implements ISchematic {
         return "schematic.accelerator.name";
     }
 
-
-
     @Override
     public HashMap<BlockPos, IBlockState> getStructure(EnumFacing direction, int size) {
         HashMap<BlockPos, IBlockState> map = new HashMap<>();
+
+        if (size < 4) {
+            size = 4;
+        }
+
         int radius = Math.max(size, 3);
 
         for (int x = -radius; x < radius; x++) {
