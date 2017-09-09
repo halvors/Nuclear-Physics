@@ -1,5 +1,8 @@
 package org.halvors.nuclearphysics.common.utility;
 
+import buildcraft.api.tools.IToolWrench;
+import cofh.api.item.IToolHammer;
+import mekanism.api.IMekWrench;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -12,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.ConfigurationManager.Integration;
 import org.halvors.nuclearphysics.common.init.ModItems;
 
 public class InventoryUtility {
@@ -32,15 +35,24 @@ public class InventoryUtility {
                 return true;
             }
 
-            if (ConfigurationManager.Integration.isMekanismEnabled) {
-                // Check if item is a Mekanism wrench.
-				/*
+            if (Integration.isBuildcraftEnabled) {
+                if (item instanceof IToolWrench) {
+                    IToolWrench wrench = (IToolWrench) item;
+
+                    return wrench.canWrench(player, player.getActiveHand(), itemStack, null);
+                }
+            } else if (Integration.isCoFHEnabled) {
+                if (item instanceof IToolHammer) {
+                    IToolHammer wrench = (IToolHammer) item;
+
+                    return wrench.isUsable(itemStack, player, pos);
+                }
+            } else if (Integration.isMekanismEnabled) {
 				if (item instanceof IMekWrench) {
 					IMekWrench wrench = (IMekWrench) item;
 
-					return wrench.canUseWrench(player, pos.getX(), pos.getY(), pos.getZ());
+					return wrench.canUseWrench(itemStack, player, pos);
 				}
-				*/
             }
         }
 
