@@ -17,6 +17,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import org.halvors.nuclearphysics.common.item.ItemCell;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.RecipeUtility;
 
@@ -34,7 +35,7 @@ public class ShapelessCellRecipe extends ShapelessOreRecipe {
         for (int i = 0; i < inventoryCrafting.getSizeInventory(); i++) {
             ItemStack slot = inventoryCrafting.getStackInSlot(i);
 
-            if (!slot.isEmpty() && FluidUtil.getFluidContained(slot) != null) {
+            if (!slot.isEmpty() && slot.getItem() instanceof ItemCell && FluidUtil.getFluidContained(slot) != null) {
                 return false;
             }
         }
