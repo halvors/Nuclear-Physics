@@ -10,7 +10,7 @@ import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 
 public class TilePlasma extends TileEntity implements ITickable {
-    public static int plasmaMaxTemperature = 1000000;
+    public static final int plasmaMaxTemperature = 1000000;
     private int temperature = plasmaMaxTemperature;
 
     @Override

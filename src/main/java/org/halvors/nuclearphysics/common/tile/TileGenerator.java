@@ -28,10 +28,6 @@ public class TileGenerator extends TileBase implements ITickable, IEnergyStorage
 
     }
 
-    public TileGenerator(int capacity) {
-        energyStorage = new EnergyStorage(capacity);
-    }
-
     @Override
     public void update() {
         sendEnergyToTargets();

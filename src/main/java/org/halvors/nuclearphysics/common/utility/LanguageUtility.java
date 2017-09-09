@@ -1,7 +1,6 @@
 package org.halvors.nuclearphysics.common.utility;
 
 import net.minecraft.util.text.translation.I18n;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 
 import java.util.ArrayList;
 import java.util.List;

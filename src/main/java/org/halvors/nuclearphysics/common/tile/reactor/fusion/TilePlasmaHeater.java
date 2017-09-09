@@ -30,13 +30,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHandler, ITagRender {
-    //public static long power = 10000000000L;
-    public static int power = 128000; // TODO: Figure out what this should be.
-    public static int plasmaHeatAmount = 100; // TODO: Configuration option for this?
+    private static int energyPerTick = 25000;
+    private static int plasmaHeatAmount = 100;
 
-    private final LiquidTank tankInputDeuterium = new LiquidTank(ModFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
-    private final LiquidTank tankInputTritium = new LiquidTank(ModFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
-    private final LiquidTank tankOutput = new LiquidTank(ModFluids.fluidStackPlasma.copy(), Fluid.BUCKET_VOLUME * 10);
+    public final LiquidTank tankInputDeuterium = new LiquidTank(ModFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
+    public final LiquidTank tankInputTritium = new LiquidTank(ModFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
+    public final LiquidTank tankOutput = new LiquidTank(ModFluids.fluidStackPlasma.copy(), Fluid.BUCKET_VOLUME * 10);
 
     public float rotation = 0;
 
@@ -47,22 +46,30 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     public TilePlasmaHeater(EnumMachine type) {
         super(type);
 
-        energyStorage = new EnergyStorage(power);
+        ticksRequired = 20 * 20;
+
+        energyStorage = new EnergyStorage(energyPerTick * 20);
     }
 
     @Override
     public void update() {
-        rotation = (rotation + energyStorage.getEnergyStored() / 10000F);
+        if (operatingTicks > 0) {
+            rotation += 0.5;
+        } else {
+            rotation = 0;
+        }
 
         if (!world.isRemote) {
-            if (energyStorage.getEnergyStored() >= power / 20) {
-                if (tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= TilePlasmaHeater.plasmaHeatAmount && tankOutput.getFluidAmount() < tankOutput.getCapacity()) {
-                    tankInputDeuterium.drainInternal(TilePlasmaHeater.plasmaHeatAmount, true);
-                    tankInputTritium.drainInternal(TilePlasmaHeater.plasmaHeatAmount, true);
-                    tankOutput.fillInternal(new FluidStack(ModFluids.plasma, tankOutput.getCapacity()), true);
+            if (canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
+                if (operatingTicks < ticksRequired) {
+                    operatingTicks++;
+                } else {
+                    process();
 
-                    energyStorage.extractEnergy(Math.toIntExact(power / 20), false);
+                    operatingTicks = 0;
                 }
+
+                energyStorage.extractEnergy(energyPerTick, false);
             }
 
             if (world.getWorldTime() % 10 == 0) {
@@ -182,5 +189,19 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
         }
 
         return 1.5F;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public boolean canProcess() {
+        return tankOutput.getFluidAmount() < tankOutput.getCapacity() && tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= plasmaHeatAmount;
+    }
+
+    public void process() {
+        if (canProcess()) {
+            tankInputDeuterium.drainInternal(plasmaHeatAmount, true);
+            tankInputTritium.drainInternal(plasmaHeatAmount, true);
+            tankOutput.fillInternal(new FluidStack(ModFluids.plasma, plasmaHeatAmount), true);
+        }
     }
 }

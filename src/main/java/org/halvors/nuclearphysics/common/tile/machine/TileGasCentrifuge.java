@@ -27,7 +27,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class TileGasCentrifuge extends TileMachine implements ITickable {
-    private static final int energy = 20000;
+    private static final int energyPerTick = 20000;
 
     public float rotation = 0;
 
@@ -54,9 +54,9 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
     public TileGasCentrifuge(EnumMachine type) {
         super(type);
 
-        ticksRequired = 20 * 60;
+        ticksRequired = 60 * 20;
 
-        energyStorage = new EnergyStorage(energy * 2);
+        energyStorage = new EnergyStorage(energyPerTick * 2);
         inventory = new ItemStackHandler(4) {
             @Override
             protected void onContentsChanged(int slot) {
@@ -107,18 +107,16 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
 
             EnergyUtility.discharge(0, this);
 
-            if (canProcess() && energyStorage.extractEnergy(energy, true) >= energy) {
+            if (canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
                 } else {
-                    doProcess();
+                    process();
 
                     operatingTicks = 0;
                 }
 
-                energyStorage.extractEnergy(energy, false);
-            } else {
-                operatingTicks = 0;
+                energyStorage.extractEnergy(energyPerTick, false);
             }
 
             if (world.getWorldTime() % 10 == 0) {
@@ -226,7 +224,7 @@ public class TileGasCentrifuge extends TileMachine implements ITickable {
         return false;
     }
 
-    public void doProcess() {
+    public void process() {
         if (canProcess()) {
             tank.drainInternal(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 

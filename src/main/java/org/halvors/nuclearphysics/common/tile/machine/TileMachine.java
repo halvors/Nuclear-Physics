@@ -9,7 +9,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.tile.ITileNetwork;
 import org.halvors.nuclearphysics.common.tile.TileConsumer;
@@ -20,16 +19,18 @@ import java.util.List;
 
 public abstract class TileMachine extends TileConsumer implements ITileNetwork {
     protected EnumMachine type;
-
-    // How many ticks has this item been processed for?
+    
     public int operatingTicks = 0; // Synced
     public int ticksRequired = 0;
 
     protected IItemHandlerModifiable inventory;
 
+    public TileMachine() {
+
+    }
+
     public TileMachine(EnumMachine type) {
         this.type = type;
-        this.inventory = new ItemStackHandler(1);
     }
 
     @Override

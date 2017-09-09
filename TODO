@@ -24,7 +24,7 @@ New features to add:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
         - Make more stuff only server side, if not needed on the client.
         - Add a Geiger counter to measure radiation.
-        - Add radiation resistance block which implements IAntiPoisonBlock. (Raytrace)
+        - Add radiation resistance block which implements IAntiPoisonBlock. See EntityLivingBase.canEntityBeSeen()
         - Make reactor make glass if sand is next to it, and make it melt snow.
         - Make accelerator GUI show energy usage per 5 mg antimatter, as a measure of efficiency.
         - Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
@@ -35,25 +35,29 @@ New features to add:
         - Add thorium fuel?
         - Add plasma decay event?
         - Add auto update support (https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/)
-        - Make boiling water spawn particle rate based in the temperature.
+        - Make boiling water spawn particle rate based in the temperature. (https://gamedev.stackexchange.com/questions/17620/equation-to-make-small-number-big-and-big-number-small-gravity)
+        - Add thermal capability that can be applied to tile entities.
 
     Rendering:
         - Make the whole multi block reactor cell share GUI.
         - Make nuclear boiler eject steam.
-        - Render TESR's with FastTESR?
+        - Render only moving parts in TESR?
 
     Networking:
         - Optimize syncing of machines etc, only sync when gui is open etc.
 
     Energy:
-        Chemical Extractor: (Done)
+        Chemical Extractor: (DONE)
             128 MJ ~= 20000 RF = 27 Yellowcake (OK, but needs high throughput cables).
 
-        Nuclear Boiler:
+        Nuclear Boiler: (DONE)
             128 MJ ~= 20000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride (OK, but needs high throughput cables).
 
-        Centrifuge:
+        Centrifuge: (DONE)
             128 MJ ~= 20000 = 2 Refined/Breading Uranium
+
+        Plasma Heater: (DONE)
+            4 x 128MJ ~= 80000 = 2000 mB
 
         Particle Accelerator:
             5 mg antimatter (One particle accelerated to 100%) uses 97.85 MJ if inner circle is 100x100 blocks.
@@ -61,6 +65,8 @@ New features to add:
         Fulmination Generator:
             125mg antimatter = 24.93 MJ
             1g antimatter = ?
+
+
 
     Useful resources:
         https://github.com/gigaherz/ElementsOfPower/blob/master/src/main/java/gigaherz/elementsofpower/essentializer/TileEssentializer.java

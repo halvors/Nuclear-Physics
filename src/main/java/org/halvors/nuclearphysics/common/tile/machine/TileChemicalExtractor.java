@@ -19,8 +19,8 @@ import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 public class TileChemicalExtractor extends TileProcess {
+    private static final int energyPerTick = 20000;
     private static final int extractSpeed = 100;
-    public static final int energy = 20000;
 
     private IItemHandler top = new RangedWrapper(inventory, 2, 3);
     private IItemHandler sides = new RangedWrapper(inventory, 0, 2);
@@ -32,9 +32,9 @@ public class TileChemicalExtractor extends TileProcess {
     public TileChemicalExtractor(EnumMachine type) {
         super(type);
 
-        ticksRequired = 20 * 14;
+        ticksRequired = 14 * 20;
 
-        energyStorage = new EnergyStorage(energy * 2);
+        energyStorage = new EnergyStorage(energyPerTick * 2);
         inventory = new ItemStackHandler(7) {
             @Override
             protected void onContentsChanged(int slot) {
@@ -119,7 +119,7 @@ public class TileChemicalExtractor extends TileProcess {
         if (!world.isRemote) {
             EnergyUtility.discharge(0, this);
 
-            if (canProcess() && energyStorage.extractEnergy(energy, true) >= energy) {
+            if (canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
                 } else {
@@ -132,9 +132,7 @@ public class TileChemicalExtractor extends TileProcess {
                     operatingTicks = 0;
                 }
 
-                energyStorage.extractEnergy(energy, false);
-            } else {
-                operatingTicks = 0;
+                energyStorage.extractEnergy(energyPerTick, false);
             }
 
             if (world.getWorldTime() % 10 == 0) {
