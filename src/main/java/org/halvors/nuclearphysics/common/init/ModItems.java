@@ -13,6 +13,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import org.halvors.nuclearphysics.common.item.ItemBase;
 import org.halvors.nuclearphysics.common.item.ItemCell;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
+import org.halvors.nuclearphysics.common.item.ItemWrench;
 import org.halvors.nuclearphysics.common.item.armor.ItemArmorBase;
 import org.halvors.nuclearphysics.common.item.armor.ItemArmorHazmat;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
@@ -27,7 +28,7 @@ import java.util.Set;
 
 public class ModItems {
     // Basic Components
-    public static Item itemWrench = new ItemBase("wrench");
+    public static Item itemWrench = new ItemWrench("wrench");
     public static Item itemCopperWire = new ItemBase("copper_wire");
     public static Item itemMotor = new ItemBase("motor");
 
