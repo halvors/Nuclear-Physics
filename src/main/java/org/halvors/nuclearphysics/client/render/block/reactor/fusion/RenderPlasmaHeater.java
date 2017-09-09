@@ -20,8 +20,6 @@ public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
 
     @Override
     public void renderTileEntityAt(TilePlasmaHeater tile, double x, double y, double z, float partialTicks, int destroyStage) {
-        super.renderTileEntityAt(tile, x, y, z, partialTicks, destroyStage);
-
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
         GlStateManager.pushMatrix();

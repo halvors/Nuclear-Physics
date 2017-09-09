@@ -20,7 +20,7 @@ public class ModRecipes {
         // Register recipes.
 
         // TODO: Oredictionaficate.
-        // TODO: IC2 recipes? Mekanism recipes?
+        // TODO: Mekanism recipes? NuclearCraft recipes? IC2 recipes?
 
         // Wrench.
         GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemWrench, " S ", " SS", "S  ", 'S', "ingotSteel"));
@@ -51,8 +51,8 @@ public class ModRecipes {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Antimatter
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.itemAntimatterCell, 1, EnumAntimatterCell.MILLIGRAM.ordinal()), ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell));
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.itemAntimatterCell, 8, 0), new ItemStack(ModItems.itemAntimatterCell, 1, EnumAntimatterCell.GRAM.ordinal())));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.itemAntimatterCell, 1, EnumAntimatterCell.GRAM.ordinal()), ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.itemAntimatterCell, 8, EnumAntimatterCell.MILLIGRAM.ordinal()), new ItemStack(ModItems.itemAntimatterCell, 1, EnumAntimatterCell.GRAM.ordinal())));
 
         // Empty Cell
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.itemCell, 16), " T ", "TGT", " T ", 'T', "ingotTin", 'G', Blocks.GLASS));
@@ -61,16 +61,16 @@ public class ModRecipes {
         GameRegistry.addRecipe(new ShapelessOreRecipe(FluidUtility.getFilledCell(FluidRegistry.WATER), "cellEmpty", Items.WATER_BUCKET));
 
         // Breeder Fuel Rod
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemBreederFuel, "CUC", "CUC", "CUC", 'U', "breederUranium", 'C', ModItems.itemCell));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemBreederFuel, "CUC", "CUC", "CUC", 'U', "ingotUranium238", 'C', ModItems.itemCell));
 
         // Fissile Fuel
         GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemFissileFuel, "CUC", "CUC", "CUC", 'U', "ingotUranium", 'C', ModItems.itemCell));
 
         // Hazmat
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemHazmatMask, "SSS", "BAB", "SCS", 'A', Items.LEATHER_HELMET, 'C', "circuitBasic", 'S', Blocks.WOOL));
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemHazmatBody, "SSS", "BAB", "SCS", 'A', Items.LEATHER_CHESTPLATE, 'C', "circuitBasic", 'S', Blocks.WOOL));
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemHazmatLeggings, "SSS", "BAB", "SCS", 'A', Items.LEATHER_LEGGINGS, 'C', "circuitBasic", 'S', Blocks.WOOL));
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemHazmatBoots, "SSS", "BAB", "SCS", 'A', Items.LEATHER_BOOTS, 'C', "circuitBasic", 'S', Blocks.WOOL));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemHazmatMask, "WWW", " H ", "WCW", 'H', Items.LEATHER_HELMET, 'C', "circuitBasic", 'W', Blocks.WOOL));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemHazmatBody, "WWW", " P ", "WCW", 'P', Items.LEATHER_CHESTPLATE, 'C', "circuitBasic", 'W', Blocks.WOOL));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemHazmatLeggings, "WWW", " L ", "WCW", 'L', Items.LEATHER_LEGGINGS, 'C', "circuitBasic", 'W', Blocks.WOOL));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemHazmatBoots, "WWW", " B ", "WCW", 'B', Items.LEATHER_BOOTS, 'C', "circuitBasic", 'W', Blocks.WOOL));
 
         // Control Rod
         GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockControlRod, "I", "I", "I", 'I', Items.IRON_INGOT));
@@ -85,38 +85,38 @@ public class ModRecipes {
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.blockElectromagnet, 1, EnumElectromagnet.GLASS.ordinal()), ModBlocks.blockElectromagnet, Blocks.GLASS));
 
         // Fulmination Generator
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockFulmination, "OSO", "SCS", "OSO", 'O', Blocks.OBSIDIAN, 'C', "circuitAdvanced", 'S', "plateSteel"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockFulmination, "OPO", "PCP", "OPO", 'O', Blocks.OBSIDIAN, 'C', "circuitAdvanced", 'P', "plateSteel"));
 
         // Particle Accelerator
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.ACCELERATOR.ordinal()), "SCS", "CMC", "SCS", 'M', ModItems.itemMotor, 'C', "circuitElite", 'S', "plateSteel"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.ACCELERATOR.ordinal()), "PCP", "CMC", "PCP", 'M', ModItems.itemMotor, 'C', "circuitElite", 'P', "plateSteel"));
 
         // Gas Funnel
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockGasFunnel, 2), " B ", "B B", "B B", 'B', "ingotBronze"));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockGasFunnel, 2), " I ", "I I", "I I", 'I', Items.IRON_INGOT));
 
         // Chemical Extractor
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.CHEMICAL_EXTRACTOR.ordinal()), "BSB", "MCM", "BSB", 'C', "circuitElite", 'S', "plateSteel", 'B', "ingotBronze", 'M', ModItems.itemMotor));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.CHEMICAL_EXTRACTOR.ordinal()), "BPB", "MCM", "BPB", 'C', "circuitElite", 'P', "plateSteel", 'B', "ingotBronze", 'M', ModItems.itemMotor));
 
         // Gas Centrifuge
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.GAS_CENTRIFUGE.ordinal()), "BSB", "MCM", "BSB", 'C', "circuitAdvanced", 'S', "plateSteel", 'B', "ingotBronze", 'M', ModItems.itemMotor));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.GAS_CENTRIFUGE.ordinal()), "BPB", "MCM", "BPB", 'C', "circuitAdvanced", 'P', "plateSteel", 'B', "ingotBronze", 'M', ModItems.itemMotor));
 
         // Nuclear Boiler
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.NUCLEAR_BOILER.ordinal()), "S S", "FBF", "SMS", 'F', Blocks.FURNACE, 'S', "plateSteel", 'B', Items.BUCKET, 'M', ModItems.itemMotor));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.NUCLEAR_BOILER.ordinal()), "P P", "FBF", "PMP", 'F', Blocks.FURNACE, 'P', "plateSteel", 'B', Items.BUCKET, 'M', ModItems.itemMotor));
 
         // NuclearPhysics Assembler
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.QUANTUM_ASSEMBLER.ordinal()), "CCC", "SXS", "SSS", 'X', new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.GAS_CENTRIFUGE.ordinal()), 'C', "circuitElite", 'S', "plateSteel"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.QUANTUM_ASSEMBLER.ordinal()), "CCC", "PGP", "PPP", 'G', new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.GAS_CENTRIFUGE.ordinal()), 'C', "circuitElite", 'P', "plateSteel"));
 
         // Siren
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockSiren, 2), "NPN", 'N', Blocks.NOTEBLOCK, 'P', "plateBronze"));
 
         // Thermometer
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockThermometer, "SSS", "GCG", "GSG", 'S', "plateSteel", 'G', Blocks.GLASS, 'C', "circuitBasic"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockThermometer, "PPP", "GCG", "GPG", 'P', "plateSteel", 'G', Blocks.GLASS, 'C', "circuitBasic"));
 
         // Plasma Heater
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockMachineModel, 1, EnumMachine.PLASMA_HEATER.ordinal()), "CPC", "PFP", "CPC", 'P', "plateSteel", 'F', ModBlocks.blockReactorCell, 'C', "circuitElite"));
 
         // Fission Reactor
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockReactorCell, "SCS", "MEM", "SCS", 'E', ModItems.itemCell, 'C', "circuitAdvanced", 'S', "plateSteel", 'M', ModItems.itemMotor));
+        GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockReactorCell, "PCP", "MEM", "PCP", 'E', ModItems.itemCell, 'C', "circuitAdvanced", 'P', "plateSteel", 'M', ModItems.itemMotor));
 
         // Quantum assembler recipes.
         if (ConfigurationManager.General.quantumAssemblerGenerateMode > 0) {
