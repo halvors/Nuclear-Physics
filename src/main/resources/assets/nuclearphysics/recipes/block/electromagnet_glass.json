@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "nuclearphysics:electromagnet",
+    "data": 1
+  },
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "nuclearphysics:electromagnet",
+      "data": 0
+    },
+    {
+      "type": "forge:ore_dict",
+      "ore": "blockGlass"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "result": {
+    "item": "nuclearphysics:hazmat_mask"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "WWW",
+    " H ",
+    "WCW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:wool",
+      "data": 32767
+    },
+    "H": {
+      "item": "minecraft:leather_helmet"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "circuitBasic"
+    }
+  }
+}

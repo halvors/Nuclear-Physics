@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "nuclearphysics:machine",
+    "data": 4
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "CPC",
+    "PRP",
+    "CPC"
+  ],
+  "key": {
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "circuitElite"
+    },
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "R": {
+      "item": "nuclearphysics:reactor_cell"
+    }
+  }
+}

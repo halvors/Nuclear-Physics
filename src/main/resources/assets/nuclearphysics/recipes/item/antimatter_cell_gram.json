@@ -1,0 +1,41 @@
+{
+  "result": {
+    "item": "nuclearphysics:antimatter_cell",
+    "data": 1
+  },
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "nuclearphysics:antimatter_cell",
+      "data": 0
+    },
+    {
+      "item": "nuclearphysics:antimatter_cell",
+      "data": 0
+    },
+    {
+      "item": "nuclearphysics:antimatter_cell",
+      "data": 0
+    },
+    {
+      "item": "nuclearphysics:antimatter_cell",
+      "data": 0
+    },
+    {
+      "item": "nuclearphysics:antimatter_cell",
+      "data": 0
+    },
+    {
+      "item": "nuclearphysics:antimatter_cell",
+      "data": 0
+    },
+    {
+      "item": "nuclearphysics:antimatter_cell",
+      "data": 0
+    },
+    {
+      "item": "nuclearphysics:antimatter_cell",
+      "data": 0
+    }
+  ]
+}

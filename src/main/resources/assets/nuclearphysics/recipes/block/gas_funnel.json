@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "nuclearphysics:gas_funnel",
+    "count": 2
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " B ",
+    "B B",
+    "B B"
+  ],
+  "key": {
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "ingotBronze"
+    }
+  }
+}

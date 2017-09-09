@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "nuclearphysics:plate_steel"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "SS ",
+    "SS "
+  ],
+  "key": {
+    "S": {
+      "type": "forge:ore_dict",
+      "ore": "ingotSteel"
+    }
+  }
+}

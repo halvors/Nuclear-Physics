@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "nuclearphysics:wrench"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " S ",
+    " SS",
+    "S  "
+  ],
+  "key": {
+    "S": {
+      "type": "forge:ore_dict",
+      "ore": "ingotSteel"
+    }
+  }
+}

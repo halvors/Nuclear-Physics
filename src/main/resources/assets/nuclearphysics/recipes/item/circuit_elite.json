@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "nuclearphysics:circuit_elite"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "GGG",
+    "CLC",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "circuitAdvanced"
+    },
+    "L": {
+      "item": "minecraft:lapis_block"
+    }
+  }
+}

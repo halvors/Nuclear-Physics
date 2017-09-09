@@ -1,0 +1,24 @@
+{
+  "result": {
+    "item": "nuclearphysics:fulmination"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "OPO",
+    "PCP",
+    "OPO"
+  ],
+  "key": {
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "circuitAdvanced"
+    }
+  }
+}

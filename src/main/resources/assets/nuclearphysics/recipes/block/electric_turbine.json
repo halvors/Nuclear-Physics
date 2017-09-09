@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "nuclearphysics:electric_turbine"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " P ",
+    "PMP",
+    " P "
+  ],
+  "key": {
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "plateBronze"
+    },
+    "M": {
+      "item": "nuclearphysics:motor"
+    }
+  }
+}

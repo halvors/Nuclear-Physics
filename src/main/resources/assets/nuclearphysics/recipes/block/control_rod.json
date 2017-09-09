@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "nuclearphysics:control_rod"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "I",
+    "I",
+    "I"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  }
+}

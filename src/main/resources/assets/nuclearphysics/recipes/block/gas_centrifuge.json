@@ -1,0 +1,29 @@
+{
+  "result": {
+    "item": "nuclearphysics:machine",
+    "data": 2
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "BPB",
+    "MCM",
+    "BPB"
+  ],
+  "key": {
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "ingotBronze"
+    },
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "M": {
+      "item": "nuclearphysics:motor"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "circuitAdvanced"
+    }
+  }
+}

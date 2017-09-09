@@ -1,0 +1,27 @@
+{
+  "result": {
+    "item": "nuclearphysics:reactor_cell"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "PCP",
+    "MEM",
+    "PCP"
+  ],
+  "key": {
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "circuitAdvanced"
+    },
+    "M": {
+      "item": "nuclearphysics:motor"
+    },
+    "E": {
+      "item": "nuclearphysics:cell"
+    }
+  }
+}

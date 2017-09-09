@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "nuclearphysics:antimatter_cell",
+    "data": 0,
+    "count": 8
+  },
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "nuclearphysics:antimatter_cell",
+      "data": 1
+    }
+  ]
+}

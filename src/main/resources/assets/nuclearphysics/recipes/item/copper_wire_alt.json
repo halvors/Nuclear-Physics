@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "nuclearphysics:copper_wire"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "LCL",
+    "LCL",
+    "LCL"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "ingotCopper"
+    }
+  }
+}

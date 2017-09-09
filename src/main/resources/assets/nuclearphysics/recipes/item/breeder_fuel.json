@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "nuclearphysics:breeder_fuel"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "CUC",
+    "CUC",
+    "CUC"
+  ],
+  "key": {
+    "U": {
+      "type": "forge:ore_dict",
+      "ore": "ingotUranium238"
+    },
+    "C": {
+      "item": "nuclearphysics:cell"
+    }
+  }
+}

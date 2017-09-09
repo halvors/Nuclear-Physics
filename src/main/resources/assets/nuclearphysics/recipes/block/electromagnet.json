@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "nuclearphysics:electromagnet",
+    "count": 2,
+    "data": 0
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "BBB",
+    "BMB",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "ingotBronze"
+    },
+    "M": {
+      "item": "nuclearphysics:motor"
+    }
+  }
+}

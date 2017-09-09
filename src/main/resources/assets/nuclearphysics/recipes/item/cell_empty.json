@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "nuclearphysics:cell"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " T ",
+    "TGT",
+    " T "
+  ],
+  "key": {
+    "T": {
+      "type": "forge:ore_dict",
+      "ore": "ingotTin"
+    },
+    "G": {
+      "type": "forge:ore_dict",
+      "ore": "blockGlass"
+    }
+  }
+}

@@ -23,7 +23,11 @@ import org.halvors.nuclearphysics.common.item.ItemCell;
  */
 public class FluidUtility {
     public static ItemStack getFilledCell(Fluid fluid) {
-        return getFilledContainer(new ItemStack(ModItems.itemCell), new FluidStack(fluid, ItemCell.capacity));
+        return getFilledCell(new ItemStack(ModItems.itemCell), fluid);
+    }
+
+    public static ItemStack getFilledCell(ItemStack itemStack, Fluid fluid) {
+        return getFilledContainer(itemStack, new FluidStack(fluid, ItemCell.capacity));
     }
 
     public static ItemStack getFilledContainer(ItemStack stack, FluidStack fluidStack) {

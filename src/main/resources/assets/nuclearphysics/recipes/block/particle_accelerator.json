@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "nuclearphysics:machine",
+    "data": 0
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "PCP",
+    "CMC",
+    "PCP"
+  ],
+  "key": {
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "circuitElite"
+    },
+    "M": {
+      "item": "nuclearphysics:motor"
+    }
+  }
+}

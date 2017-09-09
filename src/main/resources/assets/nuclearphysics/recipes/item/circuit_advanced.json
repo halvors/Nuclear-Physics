@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "nuclearphysics:circuit_advanced"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "RRR",
+    "CDC",
+    "RRR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "circuitBasic"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  }
+}

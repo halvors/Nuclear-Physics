@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "nuclearphysics:cell",
+    "fluid": "water"
+  },
+  "type": "nuclearphysics:shapeless_cell_recipe",
+  "ingredients": [
+    {
+      "item": "nuclearphysics:cell"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "nuclearphysics:copper_wire"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "WCW",
+    "WCW",
+    "WCW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:wool",
+      "data": 32767
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "ingotCopper"
+    }
+  }
+}

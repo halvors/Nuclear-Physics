@@ -1,0 +1,24 @@
+{
+  "result": {
+    "item": "nuclearphysics:hazmat_leggings"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "WWW",
+    " L ",
+    "WCW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:wool",
+      "data": 32767
+    },
+    "L": {
+      "item": "minecraft:leather_leggings"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "circuitBasic"
+    }
+  }
+}

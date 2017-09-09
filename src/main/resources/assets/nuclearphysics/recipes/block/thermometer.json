@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "nuclearphysics:thermometer"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "PPP",
+    "GCG",
+    "GPG"
+  ],
+  "key": {
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "plateSteel"
+    },
+    "G": {
+      "type": "forge:ore_dict",
+      "ore": "blockGlass"
+    },
+    "C": {
+      "type": "forge:ore_dict",
+      "ore": "circuitBasic"
+    }
+  }
+}

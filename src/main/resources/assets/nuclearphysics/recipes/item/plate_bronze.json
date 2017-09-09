@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "nuclearphysics:plate_bronze"
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "BB ",
+    "BB "
+  ],
+  "key": {
+    "B": {
+      "type": "forge:ore_dict",
+      "ore": "ingotBronze"
+    }
+  }
+}

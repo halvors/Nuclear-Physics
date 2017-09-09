@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "nuclearphysics:siren",
+    "count": 2
+  },
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "NPN"
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:noteblock"
+    },
+    "P": {
+      "type": "forge:ore_dict",
+      "ore": "plateBronze"
+    }
+  }
+}

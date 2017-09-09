@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 /*
- * General class for all machines that do traditional recipe processing.
+ * General class for all machines that do traditional ingredient processing.
  */
 public abstract class TileProcess extends TileInventoryMachine implements ITickable, IFluidHandler {
     protected LiquidTank tankInput;
