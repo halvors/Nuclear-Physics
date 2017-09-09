@@ -50,14 +50,13 @@ New features to add:
         Chemical Extractor: (DONE)
             128 MJ ~= 20000 RF = 27 Yellowcake (OK, but needs high throughput cables).
 
+        Gas Centrifuge: (DONE)
+            128 MJ ~= 20000 = 2 Refined/Breading Uranium
+
         Nuclear Boiler: (DONE)
             128 MJ ~= 20000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride (OK, but needs high throughput cables).
 
-        Centrifuge: (DONE)
-            128 MJ ~= 20000 = 2 Refined/Breading Uranium
-
-        Plasma Heater: (DONE)
-            4 x 128MJ ~= 80000 = 2000 mB
+        Quantum Assembler:
 
         Particle Accelerator:
             5 mg antimatter (One particle accelerated to 100%) uses 97.85 MJ if inner circle is 100x100 blocks.
@@ -66,7 +65,8 @@ New features to add:
             125mg antimatter = 24.93 MJ
             1g antimatter = ?
 
-
+        Plasma Heater: (DONE)
+            4 x 128MJ ~= 80000 = 2000 mB
 
     Useful resources:
         https://github.com/gigaherz/ElementsOfPower/blob/master/src/main/java/gigaherz/elementsofpower/essentializer/TileEssentializer.java

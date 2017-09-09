@@ -19,13 +19,13 @@ import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
-import org.halvors.nuclearphysics.common.tile.machine.TileMachine;
+import org.halvors.nuclearphysics.common.tile.machine.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 import java.util.List;
 
-public class TileAccelerator extends TileMachine implements ITickable, IElectromagnet {
+public class TileAccelerator extends TileInventoryMachine implements ITickable, IElectromagnet {
     // Energy required per ticks.
     public int acceleratorEnergyCostPerTick = ConfigurationManager.General.acceleratorEnergyCostPerTick;
 

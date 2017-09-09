@@ -26,7 +26,7 @@ import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileGasCentrifuge extends TileMachine implements ITickable {
+public class TileGasCentrifuge extends TileInventoryMachine implements ITickable {
     private static final int energyPerTick = 20000;
 
     public float rotation = 0;

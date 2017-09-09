@@ -16,7 +16,7 @@ import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
-public class TileQuantumAssembler extends TileMachine implements ITickable {
+public class TileQuantumAssembler extends TileInventoryMachine implements ITickable {
     private static final int energyPerTick = 10000000; // Fix this.
 
     // Used for rendering.
@@ -125,7 +125,7 @@ public class TileQuantumAssembler extends TileMachine implements ITickable {
         ItemStack itemStack = inventory.getStackInSlot(6);
 
         if (itemStack != null) {
-            if (QuantumAssemblerRecipes.hasItemStack(itemStack)) {
+            if (QuantumAssemblerRecipes.hasRecipe(itemStack)) {
                 for (int i = 0; i < 6; i++) {
                     ItemStack slotItemStack = inventory.getStackInSlot(i);
 
