@@ -14,7 +14,7 @@ import org.halvors.nuclearphysics.common.init.ModBlocks;
 
 import java.util.Random;
 
-public class WorldGenerator implements IWorldGenerator {
+public class WorldGeneratorOre implements IWorldGenerator {
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
         if (!(chunkGenerator instanceof ChunkProviderHell) && !(chunkGenerator instanceof ChunkProviderEnd)) {

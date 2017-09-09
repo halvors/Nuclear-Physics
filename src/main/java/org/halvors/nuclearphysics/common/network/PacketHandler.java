@@ -34,14 +34,7 @@ import java.util.Set;
  * @author halvors
  */
 public class PacketHandler {
-	private final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.ID);
-
-	public void init() {
-		// Register packets.
-		networkWrapper.registerMessage(PacketConfiguration.PacketConfigurationMessage.class, PacketConfiguration.class, 0, Side.CLIENT);
-		networkWrapper.registerMessage(PacketTileEntity.PacketTileEntityMessage.class, PacketTileEntity.class, 1, Side.CLIENT);
-		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 2, Side.SERVER);
-	}
+	public final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.ID);
 
 	public void sendTo(IMessage message, EntityPlayerMP player) {
 		networkWrapper.sendTo(message, player);

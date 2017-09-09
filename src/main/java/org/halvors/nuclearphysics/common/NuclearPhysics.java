@@ -27,11 +27,9 @@ import org.halvors.nuclearphysics.common.event.handler.PlayerEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ThermalEventHandler;
 import org.halvors.nuclearphysics.common.grid.UpdateTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
-import org.halvors.nuclearphysics.common.init.ModCapabilities;
-import org.halvors.nuclearphysics.common.init.ModEntities;
-import org.halvors.nuclearphysics.common.init.ModRecipes;
+import org.halvors.nuclearphysics.common.init.*;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
-import org.halvors.nuclearphysics.common.world.WorldGenerator;
+import org.halvors.nuclearphysics.common.world.WorldGeneratorOre;
 
 /**
  * This is the NuclearPhysics class, which is the main class of this mod.
@@ -52,7 +50,7 @@ public class NuclearPhysics {
 	@SidedProxy(clientSide = "org.halvors." + Reference.ID + ".client.ClientProxy", serverSide = "org.halvors." + Reference.ID + ".common.CommonProxy")
 	private static CommonProxy proxy;
 
-	// ConfigurationManager
+	// Configuration
 	private static Configuration configuration;
 
 	// Network
@@ -85,8 +83,9 @@ public class NuclearPhysics {
 		// Call functions for adding blocks, items, etc.
 		ModCapabilities.registerCapabilities();
 		ModEntities.registerEntities();
+		ModMessages.registerMessages();
 		ModRecipes.registerRecipes();
-
+		ModWorldGenerators.registerWorldGenerators();
 
 		// Calling proxy handler.
 		proxy.preInit();
@@ -104,9 +103,6 @@ public class NuclearPhysics {
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
-		//Register the mod's world generators
-		GameRegistry.registerWorldGenerator(new WorldGenerator(), 1);
-
 		// TODO: Add support for this? Make sure to return something in OreDictionaryHelper still if disabled.
 		if (ConfigurationManager.General.allowOreDictionaryCompatibility) {
 
@@ -123,9 +119,6 @@ public class NuclearPhysics {
                 }
             }
         });
-
-		// Register packets.
-		packetHandler.init();
 
 		// Calling proxy handler.
 		proxy.init();
