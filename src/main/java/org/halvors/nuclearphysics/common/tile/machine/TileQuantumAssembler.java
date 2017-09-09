@@ -62,8 +62,6 @@ public class TileQuantumAssembler extends TileInventoryMachine implements ITicka
     @Override
     public void update() {
         if (!world.isRemote) {
-            EnergyUtility.discharge(0, this);
-
             if (canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
@@ -105,6 +103,21 @@ public class TileQuantumAssembler extends TileInventoryMachine implements ITicka
             } else {
                 entityItem = null;
             }
+        }
+
+        ItemStack itemStack = inventory.getStackInSlot(6);
+
+        if (itemStack != null) {
+            itemStack = itemStack.copy();
+            itemStack.stackSize = 1;
+
+            if (entityItem == null) {
+                entityItem = new EntityItem(world, 0, 0, 0, itemStack);
+            } else if (!itemStack.isItemEqual(entityItem.getEntityItem())) {
+                entityItem = new EntityItem(world, 0, 0, 0, itemStack);
+            }
+        } else {
+            entityItem = null;
         }
     }
 
@@ -148,7 +161,7 @@ public class TileQuantumAssembler extends TileInventoryMachine implements ITicka
     // Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack.
     private void process() {
         if (canProcess()) {
-            for (int slot = 0; slot < 6; slot++) {
+            for (int slot = 0; slot < 5; slot++) {
                 if (inventory.getStackInSlot(slot) != null) {
                     InventoryUtility.decrStackSize(inventory, slot);
                 }

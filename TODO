@@ -1,12 +1,14 @@
 Known bugs:
+    Before Beta release:
+        - Make sure that block is dropped when destroyed in survival mode.
+        - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
+
     Low Priority:
         - Fluid output is not transferred to neighbor machine accepting it as input.
         - Slow down client side temperature update of reactor cell?
         - Fix fire not vanishing after a while. (Seems like fire doesn't persist re-login?)
 
     High Priority:
-        - Make sure that block is dropped when destroyed in survival mode.
-        - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...)
         - When in GUI when a machines is removed, or a reactor explode. It fetches name from the new block.
         - Why is electricity not generated during the night? Temperature is lower at night?
         - Fix antimatter explosion not spawning particles. (Client-side smoke)
@@ -39,7 +41,6 @@ New features to add:
         - Add thermal capability that can be applied to tile entities.
 
     Rendering:
-        - Make the whole multi block reactor cell share GUI.
         - Make nuclear boiler eject steam.
         - Render only moving parts in TESR?
 

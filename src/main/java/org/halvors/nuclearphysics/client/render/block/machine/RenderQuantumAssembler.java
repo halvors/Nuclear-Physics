@@ -3,6 +3,7 @@ package org.halvors.nuclearphysics.client.render.block.machine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
@@ -24,7 +25,12 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
     private static final OBJModelContainer modelPartLargeArms = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("BottomRotor", "BottomRotorArmBase", "BottomRotorLowerArm", "BottomRotorResonatorArm", "BottomRotorUpperArm"));
     private static final OBJModelContainer modelPartResonanceCrystal = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Collections.singletonList("ResonanceCrystal"));
     private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "quantum_assembler.obj"), Arrays.asList("Circuit1", "Circuit2", "Circuit3", "Circuit4", "ControlPad", "ControlPadRibbonCable", "ControlPadRibbonConnector", "MaterialPlinthBase", "MaterialPlinthCore", "MaterialPlinthStand", "PlinthBasePlate", "PlinthBaseRibbonConnector", "Ram1", "Ram2", "Ram3", "Ram4", "ResonatorAssembly", "ResonatorUnit", "SafetyGlassBack", "SafetyGlassFront", "SafetyGlassLeft", "SafetyGlassRight", "SafetyGlassTop"));
-    private static final Render<EntityItem> renderItem = Minecraft.getMinecraft().getRenderManager().getEntityClassRenderObject(EntityItem.class);
+    private static final Render<EntityItem> itemRenderer = new RenderEntityItem(Minecraft.getMinecraft().getRenderManager(), Minecraft.getMinecraft().getRenderItem()) {
+        @Override
+        public boolean shouldBob() {
+            return false;
+        }
+    };
 
     @Override
     public void renderTileEntityAt(TileQuantumAssembler tile, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -64,16 +70,21 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
         GlStateManager.popMatrix();
 
         // Render the item.
-        GlStateManager.pushMatrix();
+        //GlStateManager.pushMatrix();
 
-        if (tile.entityItem != null) {
-            renderItem.doRender(tile.entityItem, x + 0.5, y + 0.2, z + 0.5, 0, 0);
-        }
+        //if (tile.entityItem != null) {
+            //renderItem.doRender(tile.entityItem, x + 0.5, y + 0.2, z + 0.5, 0, 0);
+        //}
 
-        GlStateManager.popMatrix();
+        //GlStateManager.popMatrix();
 
         model.render();
 
         GlStateManager.popMatrix();
+
+        // Render the item.
+        if (tile.entityItem != null) {
+            itemRenderer.doRender(tile.entityItem, x + 0.5, y + 0.23, z + 0.5, 0, tile.operatingTicks);
+        }
     }
 }
