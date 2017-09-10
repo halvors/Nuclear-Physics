@@ -14,6 +14,8 @@ Known bugs:
         - Fix antimatter explosion not spawning particles. (Client-side smoke)
 
         - Make sure we return right machine metadata in 1.12 recipes.
+        - Verify the breeding process.
+        - Why does particle accelerator require 2 items in slot in order to work?
 
 Known features not implemented:
 
@@ -42,8 +44,8 @@ New features to add:
         - Add thermal capability that can be applied to tile entities.
 
     Rendering:
-        - Make nuclear boiler eject steam.
-        - Render only moving parts in TESR?
+        - Make nuclear boiler eject steam. (Smoke)
+        - Render only moving parts in TESR's?
 
     Networking:
         - Optimize syncing of machines etc, only sync when gui is open etc.
@@ -60,7 +62,7 @@ New features to add:
 
         Quantum Assembler:
 
-        Particle Accelerator:
+        Particle Accelerator: (DONE)
             5 mg antimatter (One particle accelerated to 100%) uses 97.85 MJ if inner circle is 100x100 blocks.
 
         Fulmination Generator:

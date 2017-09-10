@@ -1,9 +1,9 @@
 # Nuclear Physics Language Properties
 
-// Creative tab.
+// Creative tab
 itemGroup.nuclearphysics=Nuclear Physics
 
-// Fluids.
+// Fluids
 fluid.empty=Empty
 fluid.deuterium=Deuterium
 fluid.uranium_hexafluoride=Uranium Hexafluoride
@@ -12,7 +12,7 @@ fluid.steam=Steam
 fluid.tritium=Tritium
 fluid.toxic_waste=Toxic Waste
 
-// Fluid blocks.
+// Fluid blocks
 tile.fluid.deuterium.name=Deuterium
 tile.fluid.uranium_hexafluoride.name=Uranium Hexafluoride
 tile.fluid.plasma.name=Plasma
@@ -22,7 +22,7 @@ tile.fluid.tritium.name=Tritium
 tile.fluid.toxic_waste.name=Toxic Waste
 tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
-// Blocks.
+// Blocks
 tile.machine.0.name=Chemical Extractor
 tile.machine.0.tooltip=Extracts uranium ores to yellowcake, water to deuterium and deuterium to tritium.
 tile.machine.0.text=The extractor can extract uranium, deuterium and tritium.
@@ -62,6 +62,7 @@ tile.siren.tooltip=Creates an alarm with customizable pitch and volume with a Re
 tile.thermometer.name=Thermometer
 tile.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-right click to lock the reading to a specific coordinate.
 
+// Items
 item.wrench.name=Wrench
 item.copper_wire.name=Copper Wire
 item.motor.name=Motor
@@ -70,8 +71,6 @@ item.circuit_advanced.name=Advanced Circuit
 item.circuit_elite.name=Elite Circuit
 item.plate_bronze.name=Bronze Plate
 item.plate_steel.name=Steel Plate
-
-// Items.
 item.cell.name=Cell
 item.darkmatter_cell.name=Dark Matter
 item.darkmatter_cell.name=Dark Matter
@@ -88,11 +87,15 @@ item.fissile_fuel.name=Fissile Fuel Rod
 item.fissile_fuel.tooltip=The primary fuel source for fission reactors.
 item.breeder_fuel.name=Breeder Fuel Rod
 item.breeder_fuel.tooltip=The fuel source for re-breeding decayed fissile fuels.
-
 item.hazmat_mask.name=Hazmat Mask
 item.hazmat_body.name=Hazmat Body
 item.hazmat_leggings.name=Hazmat Leggings
 item.hazmat_boots.name=Hazmat Boots
+
+// Tooltip
+tooltip.noShift=Hold %dshift %dfor more information
+tooltip.trackingTemperature=Tracking temperature at:
+tooltip.notTrackingTemperature=Not tracking temperature.
 
 // Potions
 potion.radiation=Radiation
@@ -100,6 +103,8 @@ death.attack.radiation=%1$s died from radiation.
 
 // Gui
 gui.noFluid=No fluid
+gui.temperature=Temperature
+gui.remainingTime=Remaining Time
 
 // Gui configuration
 gui.configuration.category.general=General
@@ -111,13 +116,11 @@ gui.configuration.category.integration.tooltip=Settings regarding enabling and d
 gui.configuration.category.client=Client
 gui.configuration.category.client.tooltip=Client-specific settings
 
-// Tooltip
-tooltip.noShift=Hold %dshift %dfor more information
-tooltip.energy=Energy
-tooltip.temperature=Temperature
-tooltip.remainingTime=Remaining Time
-tooltip.trackingTemperature=Tracking temperature at:
-tooltip.notTrackingTemperature=Not tracking temperature.
+// Schematic
+schematic.accelerator.name=Particle Accelerator
+schematic.breedingReactor.name=Breeding Reactor
+schematic.fissionReactor.name=Fission Reactor
+schematic.fusionReactor.name=Fusion Reactor
 
 // Colors
 color.black=Black
@@ -138,9 +141,3 @@ color.yellow=Yellow
 color.white=White
 color.brown=Brown
 color.brightPink=Bright Pink
-
-// Schematic
-schematic.accelerator.name=Particle Accelerator
-schematic.breedingReactor.name=Breeding Reactor
-schematic.fissionReactor.name=Fission Reactor
-schematic.fusionReactor.name=Fusion Reactor

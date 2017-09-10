@@ -15,7 +15,7 @@ import org.halvors.nuclearphysics.common.container.machine.ContainerChemicalExtr
 import org.halvors.nuclearphysics.common.container.machine.ContainerGasCentrifuge;
 import org.halvors.nuclearphysics.common.container.machine.ContainerNuclearBoiler;
 import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
-import org.halvors.nuclearphysics.common.container.particle.ContainerAccelerator;
+import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAccelerator;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
@@ -63,7 +63,7 @@ public class CommonProxy implements IGuiHandler {
 		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 
 		if (tile instanceof TileParticleAccelerator) {
-			return new ContainerAccelerator(player.inventory, (TileParticleAccelerator) tile);
+			return new ContainerParticleAccelerator(player.inventory, (TileParticleAccelerator) tile);
 		} else if (tile instanceof TileChemicalExtractor) {
 			return new ContainerChemicalExtractor(player.inventory, (TileChemicalExtractor) tile);
 		} else if (tile instanceof TileGasCentrifuge) {

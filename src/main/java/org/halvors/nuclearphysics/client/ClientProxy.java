@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.client;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
@@ -24,7 +25,7 @@ import org.halvors.nuclearphysics.client.gui.machine.GuiChemicalExtractor;
 import org.halvors.nuclearphysics.client.gui.machine.GuiGasCentrifuge;
 import org.halvors.nuclearphysics.client.gui.machine.GuiNuclearBoiler;
 import org.halvors.nuclearphysics.client.gui.machine.GuiQuantumAssembler;
-import org.halvors.nuclearphysics.client.gui.particle.GuiAccelerator;
+import org.halvors.nuclearphysics.client.gui.particle.GuiParticleAccelerator;
 import org.halvors.nuclearphysics.client.gui.reactor.GuiReactorCell;
 import org.halvors.nuclearphysics.client.render.block.machine.RenderChemicalExtractor;
 import org.halvors.nuclearphysics.client.render.block.machine.RenderGasCentrifuge;
@@ -82,20 +83,21 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		BlockPos pos = new BlockPos(x, y, z);
 		TileEntity tile = world.getTileEntity(pos);
-		Block block = world.getBlockState(pos).getBlock();
+		IBlockState state = world.getBlockState(pos);
+		Block block = state.getBlock();
 
 		if (block instanceof BlockCreativeBuilder) {
 			return new GuiCreativeBuilder(pos);
 		}
 
-		if (tile instanceof TileParticleAccelerator) {
-			return new GuiAccelerator(player.inventory, (TileParticleAccelerator) tile);
-		} else if (tile instanceof TileChemicalExtractor) {
+		if (tile instanceof TileChemicalExtractor) {
 			return new GuiChemicalExtractor(player.inventory, (TileChemicalExtractor) tile);
 		} else if (tile instanceof TileGasCentrifuge) {
 			return new GuiGasCentrifuge(player.inventory, (TileGasCentrifuge) tile);
 		} else if (tile instanceof TileNuclearBoiler) {
 			return new GuiNuclearBoiler(player.inventory, (TileNuclearBoiler) tile);
+		} else if (tile instanceof TileParticleAccelerator) {
+			return new GuiParticleAccelerator(player.inventory, (TileParticleAccelerator) tile);
 		} else if (tile instanceof TileQuantumAssembler) {
 			return new GuiQuantumAssembler(player.inventory, (TileQuantumAssembler) tile);
 		} else if (tile instanceof TileReactorCell) {

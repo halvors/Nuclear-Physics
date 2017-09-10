@@ -20,6 +20,7 @@ import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemUranium;
+import org.halvors.nuclearphysics.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 
 import java.util.HashSet;
@@ -113,7 +114,7 @@ public class ModItems {
             OreDictionary.registerOre("circuitAdvanced", itemCircuitAdvanced);
             OreDictionary.registerOre("circuitElite", itemCircuitElite);
 
-            // NuclearPhysics
+            // Nuclear Physics
             OreDictionary.registerOre("fuelBreeder", itemBreederFuel);
             OreDictionary.registerOre("cellEmpty", itemCell);
             OreDictionary.registerOre("cellDarkmatter", itemDarkMatterCell);
@@ -125,8 +126,9 @@ public class ModItems {
             OreDictionary.registerOre("cellTritium", FluidUtility.getFilledCell(FluidRegistry.getFluid("tritium")));
             OreDictionary.registerOre("cellWater", FluidUtility.getFilledCell(FluidRegistry.WATER));
 
-            OreDictionary.registerOre("ingotUranium", ModItems.itemUranium);
-            OreDictionary.registerOre("itemUranium", new ItemStack(ModItems.itemUranium, 1, ItemUranium.EnumUranium.URANIUM_238.ordinal()));
+            OreDictionary.registerOre("ingotUranium", new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_235.ordinal()));
+            //OreDictionary.registerOre("ingotUranium235", new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_235.ordinal()));
+            OreDictionary.registerOre("ingotUranium238", new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()));
 
             OreDictionary.registerOre("antimatterMilligram", new ItemStack(ModItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.MILLIGRAM.ordinal()));
             OreDictionary.registerOre("antimatterGram", new ItemStack(ModItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.GRAM.ordinal()));

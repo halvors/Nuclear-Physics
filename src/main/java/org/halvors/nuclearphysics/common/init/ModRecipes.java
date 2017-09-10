@@ -60,7 +60,7 @@ public class ModRecipes {
         // Water Cell
         GameRegistry.addRecipe(new ShapelessOreRecipe(FluidUtility.getFilledCell(FluidRegistry.WATER), "cellEmpty", Items.WATER_BUCKET));
 
-        // Breeder Fuel Rod
+        // Breeder Fuel
         GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemBreederFuel, "CUC", "CUC", "CUC", 'U', "ingotUranium238", 'C', ModItems.itemCell));
 
         // Fissile Fuel

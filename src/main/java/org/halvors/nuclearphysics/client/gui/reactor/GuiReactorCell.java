@@ -51,14 +51,14 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
 
         if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
             // Text field for actual heat inside of reactor cell.
-            fontRendererObj.drawString(LanguageUtility.transelate("tooltip.temperature"), (xSize / 2) - 80, 45, 0x404040);
+            fontRendererObj.drawString(LanguageUtility.transelate("gui.temperature"), (xSize / 2) - 80, 45, 0x404040);
             fontRendererObj.drawString((int) Math.floor(tile.getTemperature()) + "/" + (int) Math.floor(TileReactorCell.meltingPoint) + " K", (xSize / 2) - 80, 58, 0x404040);
         }
 
         if (itemStack != null) {
             // Text field for total number of ticks remaining.
             int secondsLeft = itemStack.getMaxDamage() - itemStack.getMetadata();
-            fontRendererObj.drawString(LanguageUtility.transelate("tooltip.remainingTime"), (xSize / 2) + 14, 45, 0x404040);
+            fontRendererObj.drawString(LanguageUtility.transelate("gui.remainingTime"), (xSize / 2) + 14, 45, 0x404040);
             fontRendererObj.drawString(secondsLeft + " seconds", (xSize / 2) + 14, 58, 0x404040);
         }
 

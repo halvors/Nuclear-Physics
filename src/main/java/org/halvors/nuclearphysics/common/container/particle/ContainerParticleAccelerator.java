@@ -9,8 +9,8 @@ import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 
-public class ContainerAccelerator extends ContainerBase<TileParticleAccelerator> {
-    public ContainerAccelerator(InventoryPlayer inventoryPlayer, TileParticleAccelerator tile) {
+public class ContainerParticleAccelerator extends ContainerBase<TileParticleAccelerator> {
+    public ContainerParticleAccelerator(InventoryPlayer inventoryPlayer, TileParticleAccelerator tile) {
         super(inventoryPlayer, tile);
 
         // Inputs
