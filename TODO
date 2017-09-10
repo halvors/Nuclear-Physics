@@ -13,8 +13,9 @@ Known bugs:
         - Why is electricity not generated during the night? Temperature is lower at night?
         - Fix antimatter explosion not spawning particles. (Client-side smoke)
 
-        - Make sure we return right machine metadata in 1.12 recipes.
         - Verify the breeding process.
+        - Add support for buckets in machines.
+        - Implement inventory in plasma heater, so that player can inject cells into tanks.
 
 Known features not implemented:
 
@@ -41,6 +42,7 @@ New features to add:
         - Add auto update support (https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/)
         - Make boiling water spawn particle rate based in the temperature. (https://gamedev.stackexchange.com/questions/17620/equation-to-make-small-number-big-and-big-number-small-gravity)
         - Add thermal capability that can be applied to tile entities.
+        - Use mekanism better performance redstone checks?
 
     Rendering:
         - Make nuclear boiler eject steam. (Smoke)

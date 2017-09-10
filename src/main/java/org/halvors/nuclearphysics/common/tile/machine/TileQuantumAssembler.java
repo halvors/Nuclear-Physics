@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.common.tile.machine;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.ItemStackHandler;
@@ -15,7 +14,7 @@ import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
-public class TileQuantumAssembler extends TileInventoryMachine implements ITickable {
+public class TileQuantumAssembler extends TileInventoryMachine {
     private static final int energyPerTick = 10000000; // TODO: Fix this.
 
     // Used for rendering.
@@ -34,7 +33,6 @@ public class TileQuantumAssembler extends TileInventoryMachine implements ITicka
         super(type);
 
         ticksRequired = 120 * 20;
-
         energyStorage = new EnergyStorage(energyPerTick);
         inventory = new ItemStackHandler(7) {
             @Override
@@ -60,8 +58,10 @@ public class TileQuantumAssembler extends TileInventoryMachine implements ITicka
 
     @Override
     public void update() {
+        super.update();
+
         if (!world.isRemote) {
-            if (canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
+            if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
                 } else {
@@ -72,6 +72,7 @@ public class TileQuantumAssembler extends TileInventoryMachine implements ITicka
 
                 energyUsed = energyStorage.extractEnergy(energyPerTick, false);
             } else {
+                operatingTicks = 0;
                 energyUsed = 0;
             }
 
@@ -107,11 +108,9 @@ public class TileQuantumAssembler extends TileInventoryMachine implements ITicka
         }
     }
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /*
-
     @Override
     public void openInventory(EntityPlayer player) {
         if (!world.isRemote) {

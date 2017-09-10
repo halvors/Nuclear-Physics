@@ -9,15 +9,15 @@ import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+import org.halvors.nuclearphysics.common.utility.type.Resource;
 
 import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class RenderNuclearBoiler extends TileEntitySpecialRenderer<TileNuclearBoiler> {
-    private static final OBJModelContainer modelPart1 = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "nuclear_boiler.obj"), Arrays.asList("FuelBarSupport1Rotates", "FuelBar1Rotates"));
-    private static final OBJModelContainer modelPart2 = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "nuclear_boiler.obj"), Arrays.asList("FuelBarSupport2Rotates", "FuelBar2Rotates"));
-    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(ResourceType.MODEL, "nuclear_boiler.obj"), Arrays.asList("Base", "RadShieldPlate1", "RadShieldPlate2", "RadShieldPlate3", "Support", "ThermalDisplay", "TopSupport1", "TopSupport2", "TopSupport3"));
+    private static final OBJModelContainer modelPart1 = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "nuclear_boiler.obj"), Arrays.asList("FuelBarSupport1Rotates", "FuelBar1Rotates"));
+    private static final OBJModelContainer modelPart2 = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "nuclear_boiler.obj"), Arrays.asList("FuelBarSupport2Rotates", "FuelBar2Rotates"));
+    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "nuclear_boiler.obj"), Arrays.asList("Base", "RadShieldPlate1", "RadShieldPlate2", "RadShieldPlate3", "Support", "ThermalDisplay", "TopSupport1", "TopSupport2", "TopSupport3"));
 
     @Override
     public void renderTileEntityAt(TileNuclearBoiler tile, double x, double y, double z, float partialTicks, int destroyStage) {

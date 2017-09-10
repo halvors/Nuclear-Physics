@@ -16,14 +16,16 @@ import java.util.Set;
  * have a reference of this object.
  */
 public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveObject {
+    protected final W self;
+
     /** The main block used for reference */
     protected WeakReference<W> primary = null;
 
     /** The relative primary block position to be loaded in once the tile is initiated. */
     protected Position newPrimary = null;
-    protected final W self;
     protected Class<? extends W> wrapperClass;
 
+    @SuppressWarnings("unchecked")
     public MultiBlockHandler(W wrapper) {
         self = wrapper;
         wrapperClass = (Class<? extends W>) wrapper.getClass();

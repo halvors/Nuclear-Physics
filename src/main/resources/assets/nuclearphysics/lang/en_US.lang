@@ -112,6 +112,11 @@ gui.buffer=Buffer
 gui.mode=Size
 gui.mode=Mode
 
+gui.control.disabled=Disabled
+gui.control.high=High
+gui.control.low=Low
+gui.control.pulse=Pulse
+
 // Gui configuration
 gui.configuration.category.general=General
 gui.configuration.category.general.tooltip=General settings

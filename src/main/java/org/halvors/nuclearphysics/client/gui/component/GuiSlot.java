@@ -5,7 +5,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+import org.halvors.nuclearphysics.common.utility.type.Resource;
+
+import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public class GuiSlot extends GuiComponent {
@@ -13,7 +15,7 @@ public class GuiSlot extends GuiComponent {
     private String tooltip;
 
     public GuiSlot(SlotType type, IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "slot.png"), gui, x, y);
+        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "slot.png"), gui, x, y);
 
         this.type = type;
     }
@@ -25,8 +27,8 @@ public class GuiSlot extends GuiComponent {
     }
 
     @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, type.width, type.height);
+    public Rectangle getBounds(int guiWidth, int guiHeight) {
+        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, type.width, type.height);
     }
 
     @Override

@@ -5,7 +5,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+import org.halvors.nuclearphysics.common.utility.type.Resource;
+
+import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public class GuiBar extends GuiComponent {
@@ -13,15 +15,15 @@ public class GuiBar extends GuiComponent {
     private BarType type;
 
     public GuiBar(IProgressInfoHandler progressInfoHandler, BarType type, IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "temperature.png"), gui, x, y);
+        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "temperature.png"), gui, x, y);
 
         this.progressInfoHandler = progressInfoHandler;
         this.type = type;
     }
 
     @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, type.width, type.height);
+    public Rectangle getBounds(int guiWidth, int guiHeight) {
+        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, type.width, type.height);
     }
 
     @Override

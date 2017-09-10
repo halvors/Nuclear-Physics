@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
@@ -26,7 +25,7 @@ import java.util.List;
 /*
  * General class for all machines that do traditional recipe processing.
  */
-public abstract class TileProcess extends TileInventoryMachine implements ITickable, IFluidHandler {
+public abstract class TileProcess extends TileInventoryMachine implements IFluidHandler {
     protected LiquidTank tankInput;
     protected LiquidTank tankOutput;
 
@@ -42,17 +41,6 @@ public abstract class TileProcess extends TileInventoryMachine implements ITicka
 
     public TileProcess(EnumMachine type) {
         super(type);
-    }
-
-    @Override
-    public void update() {
-        if (getInputTank() != null) {
-            fillOrDrainTank(tankInputFillSlot, tankInputDrainSlot, getInputTank());
-        }
-
-        if (getOutputTank() != null) {
-            fillOrDrainTank(tankOutputFillSlot, tankOutputDrainSlot, getOutputTank());
-        }
     }
 
     @Override
@@ -87,6 +75,21 @@ public abstract class TileProcess extends TileInventoryMachine implements ITicka
         }
 
         return super.getCapability(capability, facing);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void update() {
+        super.update();
+
+        if (getInputTank() != null) {
+            fillOrDrainTank(tankInputFillSlot, tankInputDrainSlot, getInputTank());
+        }
+
+        if (getOutputTank() != null) {
+            fillOrDrainTank(tankOutputFillSlot, tankOutputDrainSlot, getOutputTank());
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
