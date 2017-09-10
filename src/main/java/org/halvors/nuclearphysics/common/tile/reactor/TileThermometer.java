@@ -28,24 +28,21 @@ public class TileThermometer extends TileRotatable implements ITickable {
     @Override
     public void update() {
         // Server only operation.
-        if (!world.isRemote) {
-            // Every ten ticks.
-            if (world.getWorldTime() % 10 == 0) {
-                // Grab temperature from target or from ourselves.
-                if (trackCoordinate != null) {
-                    detectedTemperature = ThermalGrid.getTemperature(world, trackCoordinate.getPos());
-                } else {
-                    detectedTemperature = ThermalGrid.getTemperature(world, pos);
-                }
+        if (!world.isRemote && world.getWorldTime() % 10 == 0) {
+            // Grab temperature from target or from ourselves.
+            if (trackCoordinate != null) {
+                detectedTemperature = ThermalGrid.getTemperature(world, trackCoordinate.getPos());
+            } else {
+                detectedTemperature = ThermalGrid.getTemperature(world, pos);
+            }
 
-                // Send update packet if temperature is different or over temperature threshold.
-                if (detectedTemperature != previousDetectedTemperature || isProvidingPower != isOverThreshold()) {
-                    previousDetectedTemperature = detectedTemperature;
-                    isProvidingPower = isOverThreshold();
-                    world.notifyNeighborsOfStateChange(pos, getBlockType());
+            // Send update packet if temperature is different or over temperature threshold.
+            if (detectedTemperature != previousDetectedTemperature || isProvidingPower != isOverThreshold()) {
+                previousDetectedTemperature = detectedTemperature;
+                isProvidingPower = isOverThreshold();
+                world.notifyNeighborsOfStateChange(pos, getBlockType());
 
-                    NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
-                }
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
     }

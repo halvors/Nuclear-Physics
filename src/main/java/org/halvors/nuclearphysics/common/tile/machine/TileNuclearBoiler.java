@@ -26,7 +26,6 @@ public class TileNuclearBoiler extends TileProcess {
         super(type);
 
         ticksRequired = 15 * 20;
-
         energyStorage = new EnergyStorage(energyPerTick * 2);
         inventory = new ItemStackHandler(5) {
             @Override
@@ -122,7 +121,7 @@ public class TileNuclearBoiler extends TileProcess {
         if (!world.isRemote) {
             EnergyUtility.discharge(0, this);
 
-            if (canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
+            if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
                 } else {
@@ -133,6 +132,7 @@ public class TileNuclearBoiler extends TileProcess {
 
                 energyUsed = energyStorage.extractEnergy(energyPerTick, false);
             } else {
+                operatingTicks = 0;
                 energyUsed = 0;
             }
 

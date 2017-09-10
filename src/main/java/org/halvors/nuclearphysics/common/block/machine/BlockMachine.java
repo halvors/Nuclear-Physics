@@ -1,5 +1,6 @@
 package org.halvors.nuclearphysics.common.block.machine;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -21,11 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine;
-import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
-import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
-import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
-import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
+import org.halvors.nuclearphysics.common.tile.machine.*;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
@@ -95,6 +92,15 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
+    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+        TileEntity tile = world.getTileEntity(pos);
+
+        if (tile instanceof TileMachine) {
+            ((TileMachine) tile).updatePower();
+        }
+    }
+
+    @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
         world.setBlockState(pos, state.withProperty(BlockStateMachine.TYPE, EnumMachine.values()[itemStack.getItemDamage()]));
 
@@ -119,6 +125,16 @@ public class BlockMachine extends BlockInventory {
         }
 
         return false;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block) {
+        TileEntity tile = world.getTileEntity(pos);
+
+        if (tile instanceof TileMachine) {
+            ((TileMachine) tile).updatePower();
+        }
     }
 
     @Override

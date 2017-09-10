@@ -8,7 +8,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+import org.halvors.nuclearphysics.common.utility.type.Resource;
+
+import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiGauge extends GuiComponent {
@@ -16,12 +18,12 @@ public abstract class GuiGauge extends GuiComponent {
     protected static final int height = 49;
 
     public GuiGauge(IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "gauge.png"), gui, x, y);
+        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "gauge.png"), gui, x, y);
     }
 
     @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, width, height);
+    public Rectangle getBounds(int guiWidth, int guiHeight) {
+        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, width, height);
     }
 
     @Override

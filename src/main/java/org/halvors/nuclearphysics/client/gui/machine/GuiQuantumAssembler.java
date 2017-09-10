@@ -6,6 +6,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.GuiComponentContainer;
 import org.halvors.nuclearphysics.client.gui.component.GuiEnergyInfo;
+import org.halvors.nuclearphysics.client.gui.component.GuiRedstoneControl;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
@@ -13,16 +14,17 @@ import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+import org.halvors.nuclearphysics.common.utility.type.Resource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiQuantumAssembler extends GuiComponentContainer<TileQuantumAssembler> {
+public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {
     public GuiQuantumAssembler(InventoryPlayer inventoryPlayer, TileQuantumAssembler tile) {
-        super(tile, new ContainerQuantumAssembler(inventoryPlayer, tile), ResourceUtility.getResource(ResourceType.GUI, "quantum_assembler.png"));
+        super(tile, new ContainerQuantumAssembler(inventoryPlayer, tile));
 
+        defaultResource =  ResourceUtility.getResource(Resource.GUI, "quantum_assembler.png");
         ySize = 230;
 
         components.add(new GuiSlot(SlotType.NORMAL, this, 79, 39));
@@ -32,25 +34,10 @@ public class GuiQuantumAssembler extends GuiComponentContainer<TileQuantumAssemb
         components.add(new GuiSlot(SlotType.NORMAL, this, 106, 87));
         components.add(new GuiSlot(SlotType.NORMAL, this, 79, 102));
         components.add(new GuiSlot(SlotType.NORMAL, this, 79, 71));
-        components.add(new GuiEnergyInfo(() -> {
-            IEnergyStorage energyStorage = tile.getEnergyStorage();
-            List<String> list = new ArrayList<>();
-            list.add(LanguageUtility.transelate("gui.using") + ": " + UnitDisplay.getEnergyDisplay(tile.energyUsed) + "/t");
-
-            if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
-                list.add(LanguageUtility.transelate("gui.needed") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()));
-            } else {
-                list.add(LanguageUtility.transelate("gui.buffer") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()));
-            }
-
-            return list;
-        }, this));
     }
 
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString(tile.getName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getName()) / 2), (ySize / 2) - 102, 0x404040);
-
         String displayText;
 
         if (tile.operatingTicks > 0) {
@@ -62,8 +49,6 @@ public class GuiQuantumAssembler extends GuiComponentContainer<TileQuantumAssemb
         }
 
         fontRendererObj.drawString(displayText, (xSize / 2) - 80, ySize - 106, 0x404040);
-
-        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), (xSize / 2) - 80, (ySize - 96) + 2, 0x404040);
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }

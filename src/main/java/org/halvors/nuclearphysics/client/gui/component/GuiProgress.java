@@ -5,7 +5,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+import org.halvors.nuclearphysics.common.utility.type.Resource;
+
+import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public class GuiProgress extends GuiComponent {
@@ -15,14 +17,14 @@ public class GuiProgress extends GuiComponent {
     private IProgressInfoHandler progressInfoHandler;
 
     public GuiProgress(IProgressInfoHandler progressInfoHandler, IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "progress.png"), gui, x, y);
+        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "progress.png"), gui, x, y);
 
         this.progressInfoHandler = progressInfoHandler;
     }
 
     @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, width, height);
+    public Rectangle getBounds(int guiWidth, int guiHeight) {
+        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, width, height);
     }
 
     @Override

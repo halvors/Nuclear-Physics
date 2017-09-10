@@ -8,8 +8,9 @@ import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.energy.ElectricUnit;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+import org.halvors.nuclearphysics.common.utility.type.Resource;
 
+import java.awt.*;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -17,14 +18,14 @@ public class GuiEnergyInfo extends GuiComponent {
     private IInfoHandler infoHandler;
 
     public GuiEnergyInfo(IInfoHandler infoHandler, IGuiWrapper gui) {
-        super(ResourceUtility.getResource(ResourceType.GUI_COMPONENT, "energy_info.png"), gui, -26, 188);
+        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "energy_info.png"), gui, -26, 105);
 
         this.infoHandler = infoHandler;
     }
 
     @Override
-    public Rectangle4i getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle4i(guiWidth + xLocation, guiHeight + yLocation, 26, 26);
+    public Rectangle getBounds(int guiWidth, int guiHeight) {
+        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, 26, 26);
     }
 
     @Override

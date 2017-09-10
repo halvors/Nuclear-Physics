@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.component.IGuiComponent;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+import org.halvors.nuclearphysics.common.utility.type.Resource;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
@@ -22,21 +22,16 @@ import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public class GuiComponentContainer<T extends TileEntity> extends GuiContainer implements IGuiWrapper {
-    protected ResourceLocation defaultResource;
+    protected ResourceLocation defaultResource = ResourceUtility.getResource(Resource.GUI, "base.png");
     protected Set<IGuiComponent> components = new HashSet<>();
     protected T tile;
 
-    public GuiComponentContainer(T tile, Container container, ResourceLocation defaultResource) {
+    public GuiComponentContainer(T tile, Container container) {
         super(container);
 
-        this.defaultResource = defaultResource;
         this.tile = tile;
 
         ySize = 217;
-    }
-
-    public GuiComponentContainer(T tile, Container container) {
-        this(tile, container, ResourceUtility.getResource(ResourceType.GUI, "base.png"));
     }
 
     @Override
@@ -111,7 +106,7 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
     }
 
     @Override
-    public void handleMouseInput() throws java.io.IOException {
+    public void handleMouseInput() throws IOException {
         super.handleMouseInput();
 
         int xAxis = Mouse.getEventX() * width / mc.displayWidth - getXPos();

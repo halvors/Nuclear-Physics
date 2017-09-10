@@ -1,6 +1,6 @@
 package org.halvors.nuclearphysics.common.utility.type;
 
-public enum ResourceType {
+public enum Resource {
 	GUI("textures/gui"),
 	GUI_COMPONENT("textures/gui/components"),
 	MODEL("block"),
@@ -9,7 +9,7 @@ public enum ResourceType {
 
 	private final String prefix;
 
-	ResourceType(String prefix) {
+	Resource(String prefix) {
 		this.prefix = prefix;
 	}
 

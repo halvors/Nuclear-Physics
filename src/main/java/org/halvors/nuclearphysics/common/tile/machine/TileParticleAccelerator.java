@@ -1,11 +1,10 @@
-package org.halvors.nuclearphysics.common.tile.particle;
+package org.halvors.nuclearphysics.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.EnergyStorage;
@@ -19,13 +18,14 @@ import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
-import org.halvors.nuclearphysics.common.tile.machine.TileInventoryMachine;
+import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
+import org.halvors.nuclearphysics.common.utility.type.RedstoneControl;
 
 import java.util.List;
 
-public class TileParticleAccelerator extends TileInventoryMachine implements ITickable, IElectromagnet {
+public class TileParticleAccelerator extends TileInventoryMachine implements IElectromagnet {
     private static final int energyPerTick = 19000;
 
     // Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
@@ -51,6 +51,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements ITi
     public TileParticleAccelerator(EnumMachine type) {
         super(type);
 
+        redstoneControl = RedstoneControl.HIGH;
         energyStorage = new EnergyStorage(energyPerTick * 40, energyPerTick);
         inventory = new ItemStackHandler(4) {
             @Override
@@ -89,7 +90,29 @@ public class TileParticleAccelerator extends TileInventoryMachine implements ITi
     }
 
     @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+
+        totalEnergyConsumed = tag.getInteger("totalEnergyConsumed");
+        antimatterCount = tag.getInteger("antimatterCount");
+    }
+
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+
+        tag.setInteger("totalEnergyConsumed", totalEnergyConsumed);
+        tag.setInteger("antimatterCount", antimatterCount);
+
+        return tag;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
     public void update() {
+        super.update();
+
         if (!world.isRemote) {
             velocity = getParticleVelocity();
 
@@ -98,7 +121,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements ITi
             // Check if redstone signal is currently being applied.
             ItemStack itemStack = inventory.getStackInSlot(0);
 
-            if (world.isBlockIndirectlyGettingPowered(pos) > 0 && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
+            if (canFunction() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (entityParticle == null) {
                     // Creates a accelerated particle if one needs to exist (on world load for example or player login).
                     if (itemStack != null && lastSpawnTick >= 40) {
@@ -165,24 +188,6 @@ public class TileParticleAccelerator extends TileInventoryMachine implements ITi
 
             lastSpawnTick++;
         }
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-
-        totalEnergyConsumed = tag.getInteger("totalEnergyConsumed");
-        antimatterCount = tag.getInteger("antimatterCount");
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        super.writeToNBT(tag);
-
-        tag.setInteger("totalEnergyConsumed", totalEnergyConsumed);
-        tag.setInteger("antimatterCount", antimatterCount);
-
-        return tag;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

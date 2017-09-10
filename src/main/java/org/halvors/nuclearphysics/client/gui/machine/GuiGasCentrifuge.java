@@ -5,10 +5,7 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.GuiComponentContainer;
-import org.halvors.nuclearphysics.client.gui.component.GuiEnergyInfo;
-import org.halvors.nuclearphysics.client.gui.component.GuiFluidGauge;
-import org.halvors.nuclearphysics.client.gui.component.GuiProgress;
-import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
+import org.halvors.nuclearphysics.client.gui.component.*;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.machine.ContainerGasCentrifuge;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
@@ -19,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiGasCentrifuge extends GuiComponentContainer<TileGasCentrifuge> {
+public class GuiGasCentrifuge extends GuiMachine<TileGasCentrifuge> {
     public GuiGasCentrifuge(InventoryPlayer inventoryPlayer, TileGasCentrifuge tile) {
         super(tile, new ContainerGasCentrifuge(inventoryPlayer, tile));
 
@@ -29,25 +26,10 @@ public class GuiGasCentrifuge extends GuiComponentContainer<TileGasCentrifuge> {
         components.add(new GuiProgress(() -> (double) tile.operatingTicks / tile.ticksRequired, this, 40, 26));
         components.add(new GuiFluidGauge(tile::getTank, this, (xSize / 2) - 80, 18));
         components.add(new GuiSlot(SlotType.GAS, this, 24, 49));
-        components.add(new GuiEnergyInfo(() -> {
-            IEnergyStorage energyStorage = tile.getEnergyStorage();
-            List<String> list = new ArrayList<>();
-            list.add(LanguageUtility.transelate("gui.using") + ": " + UnitDisplay.getEnergyDisplay(tile.energyUsed) + "/t");
-
-            if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
-                list.add(LanguageUtility.transelate("gui.needed") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()));
-            } else {
-                list.add(LanguageUtility.transelate("gui.buffer") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()));
-            }
-
-            return list;
-        }, this));
     }
 
     @Override
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString(tile.getName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getName()) / 2), (ySize / 2) - 102, 0x404040);
-
         String displayText;
 
         if (tile.operatingTicks > 0) {
@@ -65,8 +47,6 @@ public class GuiGasCentrifuge extends GuiComponentContainer<TileGasCentrifuge> {
         for (int i = 0; i < list.size(); i++) {
             fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 85 + i * 9, 0x404040);
         }
-
-        fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), (xSize / 2) - 80, (ySize - 96) + 2, 0x404040);
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }
