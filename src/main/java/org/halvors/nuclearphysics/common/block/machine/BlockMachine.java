@@ -68,7 +68,7 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, List<ItemStack> list) {
+    public void getSubBlocks(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
         for (EnumMachine type : EnumMachine.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }

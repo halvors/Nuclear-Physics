@@ -12,10 +12,17 @@ Known bugs:
         - When in GUI when a machines is removed, or a reactor explode. It fetches name from the new block.
         - Why is electricity not generated during the night? Temperature is lower at night?
         - Fix antimatter explosion not spawning particles. (Client-side smoke)
+        - Make nuclear boiler eject steam. (Smoke)
+        - Fluids renders strangely in world.
 
         - Verify the breeding process.
+            - Should breeding reactors only create heat when actually enriched uranium is present in the middle?
+
         - Add support for buckets in machines.
+
         - Implement inventory in plasma heater, so that player can inject cells into tanks.
+        - Implement inventory automation for all machines.
+
 
 Known features not implemented:
 
@@ -45,7 +52,6 @@ New features to add:
         - Use mekanism better performance redstone checks?
 
     Rendering:
-        - Make nuclear boiler eject steam. (Smoke)
         - Render only moving parts in TESR's?
 
     Networking:
@@ -61,18 +67,19 @@ New features to add:
         Nuclear Boiler: (DONE)
             128 MJ ~= 20000 = 8 Yellowcake creates 3200 L Uranium Hexaflouride (OK, but needs high throughput cables).
 
-        Quantum Assembler:
-
         Particle Accelerator: (DONE)
             5 mg antimatter (One particle accelerated to 100%) uses 97.85 MJ if inner circle is 100x100 blocks.
 
         Plasma Heater: (DONE)
             4 x 128MJ ~= 80000 = 2000 mB
 
-        Fulmination Generator:
+        Quantum Assembler: (TODO)
+
+        Fulmination Generator: (TODO)
             125mg antimatter = 24.93 MJ
             1g antimatter = ?
 
     Useful resources:
+        Check this?: https://www.youtube.com/watch?v=sBj8ufrshuk
         https://github.com/gigaherz/ElementsOfPower/blob/master/src/main/java/gigaherz/elementsofpower/essentializer/TileEssentializer.java
         https://gist.github.com/howtonotwin/88fd07f419ae5c9560e9ae2615514018

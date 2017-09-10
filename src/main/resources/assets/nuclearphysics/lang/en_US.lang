@@ -129,9 +129,9 @@ gui.configuration.category.client.tooltip=Client-specific settings
 
 // Schematic
 schematic.accelerator.name=Particle Accelerator
-schematic.breedingReactor.name=Breeding Reactor
-schematic.fissionReactor.name=Fission Reactor
-schematic.fusionReactor.name=Fusion Reactor
+schematic.breeding_reactor.name=Breeding Reactor
+schematic.fission_reactor.name=Fission Reactor
+schematic.fusion_reactor.name=Fusion Reactor
 
 // Colors
 color.black=Black
