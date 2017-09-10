@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
@@ -26,7 +25,7 @@ import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileGasCentrifuge extends TileInventoryMachine implements ITickable {
+public class TileGasCentrifuge extends TileInventoryMachine {
     private static final int energyPerTick = 20000;
 
     public float rotation = 0;
@@ -55,7 +54,6 @@ public class TileGasCentrifuge extends TileInventoryMachine implements ITickable
         super(type);
 
         ticksRequired = 60 * 20;
-
         energyStorage = new EnergyStorage(energyPerTick * 2);
         inventory = new ItemStackHandler(4) {
             @Override
@@ -92,42 +90,6 @@ public class TileGasCentrifuge extends TileInventoryMachine implements ITickable
     }
 
     @Override
-    public void update() {
-        if (operatingTicks > 0) {
-            rotation += 0.45;
-        } else {
-            rotation = 0;
-        }
-
-        if (!world.isRemote) {
-            // TODO: Fix this?
-            if (world.getWorldTime() % 20 == 0) {
-                //FluidUtility.transferFluidToNeighbors(world, pos, tank, QuantumFluids.fluidStackUraniumHexaflouride.copy());
-            }
-
-            EnergyUtility.discharge(0, this);
-
-            if (canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
-                if (operatingTicks < ticksRequired) {
-                    operatingTicks++;
-                } else {
-                    process();
-
-                    operatingTicks = 0;
-                }
-
-                energyUsed = energyStorage.extractEnergy(energyPerTick, false);
-            } else {
-                energyUsed = 0;
-            }
-
-            if (world.getWorldTime() % 10 == 0) {
-                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
-            }
-        }
-    }
-
-    @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
@@ -157,6 +119,47 @@ public class TileGasCentrifuge extends TileInventoryMachine implements ITickable
         }
 
         return super.getCapability(capability, facing);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void update() {
+        super.update();
+
+        if (operatingTicks > 0) {
+            rotation += 0.45;
+        } else {
+            rotation = 0;
+        }
+
+        if (!world.isRemote) {
+            // TODO: Fix this?
+            if (world.getWorldTime() % 20 == 0) {
+                //FluidUtility.transferFluidToNeighbors(world, pos, tank, QuantumFluids.fluidStackUraniumHexaflouride.copy());
+            }
+
+            EnergyUtility.discharge(0, this);
+
+            if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
+                if (operatingTicks < ticksRequired) {
+                    operatingTicks++;
+                } else {
+                    process();
+
+                    operatingTicks = 0;
+                }
+
+                energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+            } else {
+                operatingTicks = 0;
+                energyUsed = 0;
+            }
+
+            if (world.getWorldTime() % 10 == 0) {
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            }
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

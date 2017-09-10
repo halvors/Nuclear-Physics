@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
@@ -23,13 +22,14 @@ import org.halvors.nuclearphysics.common.tile.machine.TileMachine;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.type.Color;
+import org.halvors.nuclearphysics.common.utility.type.RedstoneControl;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 
-public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHandler, ITagRender {
+public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITagRender {
     private static int energyPerTick = 25000;
     private static int plasmaHeatAmount = 100;
 
@@ -47,35 +47,8 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
         super(type);
 
         ticksRequired = 20 * 20;
-
+        redstoneControl = RedstoneControl.LOW;
         energyStorage = new EnergyStorage(energyPerTick * 20);
-    }
-
-    @Override
-    public void update() {
-        if (operatingTicks > 0) {
-            rotation += 0.5;
-        } else {
-            rotation = 0;
-        }
-
-        if (!world.isRemote) {
-            if (canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
-                if (operatingTicks < ticksRequired) {
-                    operatingTicks++;
-                } else {
-                    process();
-
-                    operatingTicks = 0;
-                }
-
-                energyStorage.extractEnergy(energyPerTick, false);
-            }
-
-            if (world.getWorldTime() % 10 == 0) {
-                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
-            }
-        }
     }
 
     @Override
@@ -112,6 +85,40 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
         }
 
         return super.getCapability(capability, facing);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void update() {
+        super.update();
+
+        if (operatingTicks > 0) {
+            rotation += 0.5;
+        } else {
+            rotation = 0;
+        }
+
+        if (!world.isRemote) {
+            if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
+                if (operatingTicks < ticksRequired) {
+                    operatingTicks++;
+                } else {
+                    process();
+
+                    operatingTicks = 0;
+                }
+
+                energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+            } else {
+                operatingTicks = 0;
+                energyUsed = 0;
+            }
+
+            if (world.getWorldTime() % 10 == 0) {
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            }
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,7 +180,7 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     @Override
     public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
         if (energyStorage != null) {
-            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("gui.tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
         }
 
         if (tankInputDeuterium.getFluidAmount() > 0) {

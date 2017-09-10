@@ -33,7 +33,6 @@ public class TileChemicalExtractor extends TileProcess {
         super(type);
 
         ticksRequired = 14 * 20;
-
         energyStorage = new EnergyStorage(energyPerTick * 2);
         inventory = new ItemStackHandler(7) {
             @Override
@@ -119,7 +118,7 @@ public class TileChemicalExtractor extends TileProcess {
         if (!world.isRemote) {
             EnergyUtility.discharge(0, this);
 
-            if (canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
+            if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
                 } else {
@@ -134,6 +133,7 @@ public class TileChemicalExtractor extends TileProcess {
 
                 energyUsed = energyStorage.extractEnergy(energyPerTick, false);
             } else {
+                operatingTicks = 0;
                 energyUsed = 0;
             }
 

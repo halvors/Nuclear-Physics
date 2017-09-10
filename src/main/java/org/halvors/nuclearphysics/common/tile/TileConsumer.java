@@ -51,6 +51,8 @@ public class TileConsumer extends TileRotatable {
         return super.getCapability(capability, facing);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public EnergyStorage getEnergyStorage() {
         return energyStorage;
     }

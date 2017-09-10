@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.component.IGuiComponent;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.ResourceType;
+import org.halvors.nuclearphysics.common.utility.type.Resource;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
-    protected ResourceLocation defaultResource;
+    protected final ResourceLocation defaultResource = ResourceUtility.getResource(Resource.GUI, "empty.png");
     protected Set<IGuiComponent> components = new HashSet<>();
 
     /** The X size of the inventory window in pixels. */
@@ -35,12 +35,8 @@ public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
     /** Starting Y position for the Gui. Inconsistent use for Gui backgrounds. */
     protected int guiTop;
 
-    public GuiComponentScreen(ResourceLocation defaultResource) {
-        this.defaultResource = defaultResource;
-    }
-
     public GuiComponentScreen() {
-        this(ResourceUtility.getResource(ResourceType.GUI, "empty.png"));
+
     }
 
     @Override
