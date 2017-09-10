@@ -1,23 +1,18 @@
 package org.halvors.nuclearphysics.common.item;
 
-import buildcraft.api.tools.IToolWrench;
-import cofh.api.item.IToolHammer;
 import mekanism.api.IMekWrench;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
 
-public class ItemWrench extends ItemBase implements IToolWrench, IToolHammer, IMekWrench {
+public class ItemWrench extends ItemBase implements IMekWrench { //implements IToolWrench, IToolHammer,
     public ItemWrench(String name) {
         super(name);
 
         setMaxStackSize(1);
     }
 
+    /*
     // BuildCraft
     @Override
     public boolean canWrench(EntityPlayer player, EnumHand hand, ItemStack itemStack, RayTraceResult rayTrace) {
@@ -49,6 +44,7 @@ public class ItemWrench extends ItemBase implements IToolWrench, IToolHammer, IM
     public void toolUsed(ItemStack itemStack, EntityLivingBase player, Entity entity) {
         player.swingArm(player.getActiveHand());
     }
+    */
 
     // Mekanism
     @Override

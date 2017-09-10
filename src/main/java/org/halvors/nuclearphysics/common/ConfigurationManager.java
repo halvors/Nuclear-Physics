@@ -4,20 +4,24 @@ import io.netty.buffer.ByteBuf;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
-import org.halvors.nuclearphysics.common.utility.energy.EnergyUnit;
+import org.halvors.nuclearphysics.common.utility.energy.ElectricUnit;
+import org.halvors.nuclearphysics.common.utility.energy.TemperatureUnit;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigurationManager {
     public static final String CATEGORY_INTEGRATION = "integration";
-    public static final String CATEGORY_CLIENT = "client";
 
     public static class General {
         public static boolean enableUpdateNotice;
         public static boolean destroyDisabledBlocks;
+        public static ElectricUnit electricUnit;
+        public static TemperatureUnit temperatureUnit;
+        public static double toTesla;
         public static double toJoules;
-        public static double toElectricalUnits;
+        public static double fromTesla;
+        public static double fromJoules;
 
         public static int acceleratorAntimatterDensityMultiplier = 1;
 
@@ -40,7 +44,6 @@ public class ConfigurationManager {
 
         //public static int[] quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the Quantum Assembler. Separate by commas, no space.
         public static int quantumAssemblerGenerateMode = 1; // Comment: 0 = Do not generate, 1 = Generate items only, 2 = Generate all
-
     }
 
     public static class Integration {
@@ -49,18 +52,19 @@ public class ConfigurationManager {
         public static boolean isMekanismEnabled;
     }
 
-    public static class Client {
-        public static EnergyUnit energyUnit;
-    }
-
     public static void loadConfiguration(Configuration configuration) {
         configuration.load();
 
         // General.
         General.enableUpdateNotice = configuration.get(Configuration.CATEGORY_GENERAL, "enableUpdateNotice", true).getBoolean();
         General.destroyDisabledBlocks = configuration.get(Configuration.CATEGORY_GENERAL, "destroyDisabledBlocks", true).getBoolean();
-        General.toJoules = configuration.get(Configuration.CATEGORY_GENERAL, "FEToJoules", 2.5).getDouble();
-        General.toElectricalUnits = configuration.get(Configuration.CATEGORY_GENERAL, "FEToElectricalUnits", 0.25).getDouble();
+
+        General.electricUnit = ElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", ElectricUnit.FORGE_ENERGY.getSymbol(), null, ElectricUnit.getSymbols().toArray(new String[ElectricUnit.values().length])).getString());
+        General.temperatureUnit = TemperatureUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "temperatureUnit", TemperatureUnit.KELVIN.getSymbol(), null, TemperatureUnit.getSymbols().toArray(new String[TemperatureUnit.values().length])).getString());
+        General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "toTesla", 1).getDouble();
+        General.toJoules = configuration.get(Configuration.CATEGORY_GENERAL, "toJoules", 0.4).getDouble();
+        General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "fromTesla", 1).getDouble();
+        General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "fromJoules", 2.5).getDouble();
 
         General.acceleratorAntimatterDensityMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "acceleratorAntimatterDensityMultiplier", 1).getInt();
 
@@ -89,9 +93,6 @@ public class ConfigurationManager {
         Integration.isCoFHEnabled = configuration.get(CATEGORY_INTEGRATION, "CoFH", Loader.isModLoaded("cofhcore")).getBoolean();
         Integration.isMekanismEnabled = configuration.get(CATEGORY_INTEGRATION, "Mekanism", Loader.isModLoaded("Mekanism")).getBoolean();
 
-        // Client.
-        Client.energyUnit = EnergyUnit.getUnitFromSymbol(configuration.get(CATEGORY_CLIENT, "EnergyUnitType", EnergyUnit.REDSTONE_FLUX.getSymbol(), "The default energy system to display. " + EnergyUnit.getSymbols(), EnergyUnit.getSymbols().toArray(new String[EnergyUnit.getSymbols().size()])).getString());
-
         configuration.save();
     }
 
@@ -103,8 +104,12 @@ public class ConfigurationManager {
         // General.
         General.enableUpdateNotice = dataStream.readBoolean();
         General.destroyDisabledBlocks = dataStream.readBoolean();
+        General.electricUnit = ElectricUnit.values()[dataStream.readInt()];
+        General.temperatureUnit = TemperatureUnit.values()[dataStream.readInt()];
+        General.toTesla = dataStream.readDouble();
         General.toJoules = dataStream.readDouble();
-        General.toElectricalUnits = dataStream.readDouble();
+        General.fromTesla = dataStream.readDouble();
+        General.fromJoules = dataStream.readDouble();
 
         General.acceleratorAntimatterDensityMultiplier = dataStream.readInt();
 
@@ -132,9 +137,6 @@ public class ConfigurationManager {
         Integration.isBuildcraftEnabled = dataStream.readBoolean();
         Integration.isCoFHEnabled = dataStream.readBoolean();
         Integration.isMekanismEnabled = dataStream.readBoolean();
-
-        // Client.
-        // We don't sync this as this is client specific changes that the server shouldn't care about.
     }
 
     public static void writeConfiguration(ByteBuf dataStream) {
@@ -143,8 +145,12 @@ public class ConfigurationManager {
         // General.
         objects.add(General.enableUpdateNotice);
         objects.add(General.destroyDisabledBlocks);
+        objects.add(General.electricUnit.ordinal());
+        objects.add(General.temperatureUnit.ordinal());
+        objects.add(General.toTesla);
         objects.add(General.toJoules);
-        objects.add(General.toElectricalUnits);
+        objects.add(General.fromTesla);
+        objects.add(General.fromJoules);
 
         objects.add(General.acceleratorAntimatterDensityMultiplier);
 
@@ -156,7 +162,7 @@ public class ConfigurationManager {
         objects.add(General.uraniumHexaflourideRatio);
         objects.add(General.waterPerDeutermium);
         objects.add(General.deutermiumPerTritium);
-        objects.add( General.darkMatterSpawnChance);
+        objects.add(General.darkMatterSpawnChance);
 
         objects.add(General.allowRadioactiveOres);
         objects.add(General.allowToxicWaste);
@@ -172,9 +178,6 @@ public class ConfigurationManager {
         objects.add(Integration.isBuildcraftEnabled);
         objects.add(Integration.isCoFHEnabled);
         objects.add(Integration.isMekanismEnabled);
-
-        // Client.
-        // We don't sync this as this is client specific changes that the server shouldn't care about.
 
         PacketHandler.writeObjects(objects, dataStream);
     }

@@ -44,7 +44,7 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
 
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        fontRendererObj.drawString(tile.getLocalizedName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getLocalizedName()) / 2), 6, 0x404040);
+        fontRendererObj.drawString(tile.getLocalizedName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getLocalizedName()) / 2), (ySize / 2) - 102, 0x404040);
 
         ItemStack itemStack = tile.getInventory().getStackInSlot(0);
         FluidStack fluidStack = tile.getTank().getFluid();

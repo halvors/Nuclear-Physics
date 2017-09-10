@@ -38,7 +38,7 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
     protected void drawGuiScreenForegroundLayer(int mouseX, int mouseY) {
         String name = LanguageUtility.transelate("tile.creative_builder.name");
 
-        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), 6, 0x404040);
+        fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), (ySize / 2) - 102, 0x404040);
 
         fontRendererObj.drawString("This is a creative only cheat", (xSize / 2) - 80, 20, 0x404040);
         fontRendererObj.drawString("which allows you to auto build", (xSize / 2) - 80, 30, 0x404040);

@@ -70,7 +70,9 @@ public class TileQuantumAssembler extends TileInventoryMachine implements ITicka
                     operatingTicks = 0;
                 }
 
-                energyStorage.extractEnergy(energyPerTick, false);
+                energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+            } else {
+                energyUsed = 0;
             }
 
             if (world.getWorldTime() % 10 == 0) {

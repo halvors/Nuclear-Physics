@@ -173,7 +173,7 @@ public class TilePlasmaHeater extends TileMachine implements ITickable, IFluidHa
     @Override
     public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
         if (energyStorage != null) {
-            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getDisplay(energyStorage.getEnergyStored(), UnitDisplay.Unit.JOULES), Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
         }
 
         if (tankInputDeuterium.getFluidAmount() > 0) {

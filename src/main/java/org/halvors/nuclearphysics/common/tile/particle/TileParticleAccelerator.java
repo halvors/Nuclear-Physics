@@ -148,7 +148,8 @@ public class TileParticleAccelerator extends TileInventoryMachine implements ITi
                         world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getVelocity()) / antimatterCreationSpeed)));
                     }
 
-                    totalEnergyConsumed += energyStorage.extractEnergy(energyPerTick, false);
+                    energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+                    totalEnergyConsumed += energyUsed;
                 }
             } else {
                 if (entityParticle != null) {
