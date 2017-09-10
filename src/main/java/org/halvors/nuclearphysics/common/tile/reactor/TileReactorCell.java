@@ -135,14 +135,14 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
             // Handle cell rod interactions.
             ItemStack fuelRod = inventory.getStackInSlot(0);
 
-            if (fuelRod != null) {
+            if (!fuelRod.isEmpty()) {
                 if (fuelRod.getItem() instanceof IReactorComponent) {
                     // Activate rods.
                     IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
                     reactorComponent.onReact(fuelRod, this);
 
                     if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
-                        inventory.setStackInSlot(0, null);
+                        inventory.setStackInSlot(0, ItemStack.EMPTY);
                     }
 
                     // Emit radiation.
@@ -226,7 +226,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                 }
             }
 
-            if (world.isRemote && fuelRod != null) {
+            if (world.isRemote && !fuelRod.isEmpty()) {
                 // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
                 if (temperature >= ThermalPhysics.waterBoilTemperature) {
                     if (world.rand.nextInt(5) == 0) {
@@ -291,7 +291,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
     @SuppressWarnings("unchecked")
     @Override
-    @Nonnull
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return (T) inventory;
