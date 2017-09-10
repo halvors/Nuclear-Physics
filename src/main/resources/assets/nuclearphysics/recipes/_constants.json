@@ -1,0 +1,44 @@
+[
+  {
+    "name": "chemical_extractor",
+    "ingredient": {
+      "item": "nuclearphysics:machine",
+      "data": 0
+    }
+  },
+  {
+    "name": "gas_centrifuge",
+    "ingredient" : {
+      "item": "nuclearphysics:machine",
+      "data": 1
+    }
+  },
+  {
+    "name" : "nuclear_boiler",
+    "ingredient" : {
+      "item": "nuclearphysics:machine",
+      "data": 2
+    }
+  },
+  {
+    "name" : "particle_accelerator",
+    "ingredient" : {
+      "item": "nuclearphysics:machine",
+      "data": 3
+    }
+  },
+  {
+    "name" : "plasma_heater",
+    "ingredient" : {
+      "item": "nuclearphysics:machine",
+      "data": 4
+    }
+  },
+  {
+    "name" : "quantum_assembler",
+    "ingredient" : {
+      "item": "nuclearphysics:machine",
+      "data": 5
+    }
+  }
+]

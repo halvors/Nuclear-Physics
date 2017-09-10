@@ -15,8 +15,7 @@
       "ore": "circuitElite"
     },
     "G": {
-      "item": "nuclearphysics:machine",
-      "data": 2
+      "item": "#gas_centrifuge"
     },
     "P": {
       "type": "forge:ore_dict",

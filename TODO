@@ -13,8 +13,8 @@ Known bugs:
         - Why is electricity not generated during the night? Temperature is lower at night?
         - Fix antimatter explosion not spawning particles. (Client-side smoke)
 
-        - Make sure we return right machine metadata in 1.12 recipes.
         - Verify the breeding process.
+        - Add redstone control.
 
 Known features not implemented:
 
