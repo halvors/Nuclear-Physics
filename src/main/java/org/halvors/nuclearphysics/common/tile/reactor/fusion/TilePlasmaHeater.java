@@ -180,7 +180,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     @Override
     public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
         if (energyStorage != null) {
-            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("gui.tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
         }
 
         if (tankInputDeuterium.getFluidAmount() > 0) {
