@@ -41,5 +41,7 @@ public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
         model.render();
 
         GlStateManager.popMatrix();
+
+        super.renderTileEntityAt(tile, x, y, z, partialTicks, destroyStage);
     }
 }

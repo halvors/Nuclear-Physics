@@ -19,7 +19,6 @@ import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.machine.TileMachine;
-import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.type.Color;
@@ -112,6 +111,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
 
                 energyUsed = energyStorage.extractEnergy(energyPerTick, false);
             } else {
+                operatingTicks = 0;
                 energyUsed = 0;
             }
 

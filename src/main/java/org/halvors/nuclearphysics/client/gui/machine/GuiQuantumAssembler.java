@@ -1,23 +1,14 @@
 package org.halvors.nuclearphysics.client.gui.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.GuiComponentContainer;
-import org.halvors.nuclearphysics.client.gui.component.GuiEnergyInfo;
-import org.halvors.nuclearphysics.client.gui.component.GuiRedstoneControl;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.type.Resource;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {

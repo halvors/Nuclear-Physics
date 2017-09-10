@@ -2,24 +2,16 @@ package org.halvors.nuclearphysics.client.gui.particle;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.GuiComponentContainer;
-import org.halvors.nuclearphysics.client.gui.component.GuiEnergyInfo;
-import org.halvors.nuclearphysics.client.gui.component.GuiRedstoneControl;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.client.gui.machine.GuiMachine;
 import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAccelerator;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.tile.machine.TileParticleAccelerator;
-import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.type.Color;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiParticleAccelerator extends GuiMachine<TileParticleAccelerator> {
