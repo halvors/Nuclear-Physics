@@ -3,7 +3,6 @@ package org.halvors.nuclearphysics.common.container;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.tileentity.TileEntity;
 import org.halvors.nuclearphysics.common.tile.TileBase;
 
 public class ContainerDummy<T extends TileBase> extends Container {

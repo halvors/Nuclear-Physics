@@ -1,9 +1,9 @@
 # Nuclear Physics Language Properties
 
-// Creative tab.
+// Creative tab
 itemGroup.nuclearphysics=Nuclear Physics
 
-// Fluids.
+// Fluids
 fluid.empty=Empty
 fluid.deuterium=Deuterium
 fluid.uranium_hexafluoride=Uranium Hexafluoride
@@ -12,7 +12,7 @@ fluid.steam=Steam
 fluid.tritium=Tritium
 fluid.toxic_waste=Toxic Waste
 
-// Fluid blocks.
+// Fluid blocks
 tile.fluid.deuterium.name=Deuterium
 tile.fluid.uranium_hexafluoride.name=Uranium Hexafluoride
 tile.fluid.plasma.name=Plasma
@@ -22,12 +22,10 @@ tile.fluid.tritium.name=Tritium
 tile.fluid.toxic_waste.name=Toxic Waste
 tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
-// Blocks.
-tile.machine.0.name=Particle Accelerator
-tile.machine.0.tooltip=Accelerates particles and creates antimatter and dark matter.
-tile.machine.1.name=Chemical Extractor
-tile.machine.1.tooltip=Extracts uranium ores to yellowcake, water to deuterium and deuterium to tritium.
-tile.machine.1.text=The extractor can extract uranium, deuterium and tritium.
+// Blocks
+tile.machine.0.name=Chemical Extractor
+tile.machine.0.tooltip=Extracts uranium ores to yellowcake, water to deuterium and deuterium to tritium.
+tile.machine.0.text=The extractor can extract uranium, deuterium and tritium.
 tile.control_rod.name=Control Rod
 tile.control_rod.tooltip=Suppresses fission reaction in adjacent reactor cells.
 tile.creative_builder.name=Creative Builder
@@ -39,16 +37,18 @@ tile.electric_turbine.name=Electric Turbine
 tile.electric_turbine.tooltip=Transform the kinetic energy from moving steam into electrical energy.
 tile.fulmination.name=Fulmination Generator
 tile.fulmination.tooltip=Transforms the kinetic energy from explosions into electrical energy.
-tile.machine.2.name=Gas Centrifuge
-tile.machine.2.tooltip=Refines Uranium Hexafluoride gas into usable uranium.
-tile.machine.2.text=The gas centrifuge spins uranium hexafluoride gas into enriched uranium for reactor.
+tile.machine.1.name=Gas Centrifuge
+tile.machine.1.tooltip=Refines Uranium Hexafluoride gas into usable uranium.
+tile.machine.1.text=The gas centrifuge spins uranium hexafluoride gas into enriched uranium for reactor.
 tile.gas_funnel.name=Gas Funnel
 tile.gas_funnel.tooltip=Captures gas to allow it to be transported with piping.
-tile.machine.3.name=Nuclear Boiler
-tile.machine.3.tooltip=Boils yellowcake into uranium hexaflouride gas.
-tile.machine.3.text=The nuclear boiler can boil yellow cake into uranium hexafluoride gas.
+tile.machine.2.name=Nuclear Boiler
+tile.machine.2.tooltip=Boils yellowcake into uranium hexaflouride gas.
+tile.machine.2.text=The nuclear boiler can boil yellow cake into uranium hexafluoride gas.
 tile.uranium_ore.name=Uranium Ore
 tile.uranium_ore.tooltip=A precious and useful ore used for fission reactions.
+tile.machine.3.name=Particle Accelerator
+tile.machine.3.tooltip=Accelerates particles and creates antimatter and dark matter.
 tile.machine.4.name=Plasma Heater
 tile.machine.4.tooltip=A plasma heater is used to heat deuterium and tritium to plasma state for fusion power. Plasma must be moved into the reactor cell.
 tile.machine.5.name=Quantum Assembler
@@ -62,6 +62,7 @@ tile.siren.tooltip=Creates an alarm with customizable pitch and volume with a Re
 tile.thermometer.name=Thermometer
 tile.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-right click to lock the reading to a specific coordinate.
 
+// Items
 item.wrench.name=Wrench
 item.copper_wire.name=Copper Wire
 item.motor.name=Motor
@@ -70,8 +71,6 @@ item.circuit_advanced.name=Advanced Circuit
 item.circuit_elite.name=Elite Circuit
 item.plate_bronze.name=Bronze Plate
 item.plate_steel.name=Steel Plate
-
-// Items.
 item.cell.name=Cell
 item.darkmatter_cell.name=Dark Matter
 item.darkmatter_cell.name=Dark Matter
@@ -88,11 +87,15 @@ item.fissile_fuel.name=Fissile Fuel Rod
 item.fissile_fuel.tooltip=The primary fuel source for fission reactors.
 item.breeder_fuel.name=Breeder Fuel Rod
 item.breeder_fuel.tooltip=The fuel source for re-breeding decayed fissile fuels.
-
 item.hazmat_mask.name=Hazmat Mask
 item.hazmat_body.name=Hazmat Body
 item.hazmat_leggings.name=Hazmat Leggings
 item.hazmat_boots.name=Hazmat Boots
+
+// Tooltip
+tooltip.noShift=Hold %dshift %dfor more information
+tooltip.trackingTemperature=Tracking temperature at:
+tooltip.notTrackingTemperature=Not tracking temperature.
 
 // Potions
 potion.radiation=Radiation
@@ -100,6 +103,14 @@ death.attack.radiation=%1$s died from radiation.
 
 // Gui
 gui.noFluid=No fluid
+gui.temperature=Temperature
+gui.remainingTime=Remaining Time
+gui.unit=Unit
+gui.using=Using
+gui.needed=Needed
+gui.buffer=Buffer
+gui.mode=Size
+gui.mode=Mode
 
 // Gui configuration
 gui.configuration.category.general=General
@@ -111,13 +122,11 @@ gui.configuration.category.integration.tooltip=Settings regarding enabling and d
 gui.configuration.category.client=Client
 gui.configuration.category.client.tooltip=Client-specific settings
 
-// Tooltip
-tooltip.noShift=Hold %dshift %dfor more information
-tooltip.energy=Energy
-tooltip.temperature=Temperature
-tooltip.remainingTime=Remaining Time
-tooltip.trackingTemperature=Tracking temperature at:
-tooltip.notTrackingTemperature=Not tracking temperature.
+// Schematic
+schematic.accelerator.name=Particle Accelerator
+schematic.breedingReactor.name=Breeding Reactor
+schematic.fissionReactor.name=Fission Reactor
+schematic.fusionReactor.name=Fusion Reactor
 
 // Colors
 color.black=Black
@@ -138,9 +147,3 @@ color.yellow=Yellow
 color.white=White
 color.brown=Brown
 color.brightPink=Bright Pink
-
-// Schematic
-schematic.accelerator.name=Particle Accelerator
-schematic.breedingReactor.name=Breeding Reactor
-schematic.fissionReactor.name=Fission Reactor
-schematic.fusionReactor.name=Fusion Reactor

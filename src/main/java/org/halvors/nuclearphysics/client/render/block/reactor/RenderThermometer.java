@@ -6,6 +6,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
+import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.position.Position;
 import org.halvors.nuclearphysics.common.utility.type.Color;
 
@@ -16,8 +17,8 @@ public class RenderThermometer extends TileEntitySpecialRenderer<TileThermometer
         GlStateManager.pushMatrix();
         RenderUtility.enableLightmap();
 
-        RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.BLACK) + Integer.toString(Math.round(tile.getDetectedTemperature())) + " K", tile.getFacing(), 0.8F, x, y + 0.1, z);
-        RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.DARK_BLUE) + "Threshold: " + (tile.getThershold()) + " K", tile.getFacing(), 1, x, y - 0.1, z);
+        RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.BLACK) + UnitDisplay.getTemperatureDisplay(Math.round(tile.getDetectedTemperature())), tile.getFacing(), 0.8F, x, y + 0.1, z);
+        RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.DARK_BLUE) + "Threshold: " + UnitDisplay.getTemperatureDisplay(tile.getThershold()), tile.getFacing(), 1, x, y - 0.1, z);
 
         Position trackCoordinate = tile.getTrackCoordinate();
 

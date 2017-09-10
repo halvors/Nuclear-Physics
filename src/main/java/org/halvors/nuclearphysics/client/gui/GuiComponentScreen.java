@@ -40,7 +40,7 @@ public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
     }
 
     public GuiComponentScreen() {
-        this(ResourceUtility.getResource(ResourceType.GUI, "gui_empty.png"));
+        this(ResourceUtility.getResource(ResourceType.GUI, "empty.png"));
     }
 
     @Override

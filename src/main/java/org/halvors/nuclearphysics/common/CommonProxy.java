@@ -15,13 +15,13 @@ import org.halvors.nuclearphysics.common.container.machine.ContainerChemicalExtr
 import org.halvors.nuclearphysics.common.container.machine.ContainerGasCentrifuge;
 import org.halvors.nuclearphysics.common.container.machine.ContainerNuclearBoiler;
 import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
-import org.halvors.nuclearphysics.common.container.particle.ContainerAccelerator;
+import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAccelerator;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
+import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 
 /**
@@ -62,8 +62,8 @@ public class CommonProxy implements IGuiHandler {
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 
-		if (tile instanceof TileAccelerator) {
-			return new ContainerAccelerator(player.inventory, (TileAccelerator) tile);
+		if (tile instanceof TileParticleAccelerator) {
+			return new ContainerParticleAccelerator(player.inventory, (TileParticleAccelerator) tile);
 		} else if (tile instanceof TileChemicalExtractor) {
 			return new ContainerChemicalExtractor(player.inventory, (TileChemicalExtractor) tile);
 		} else if (tile instanceof TileGasCentrifuge) {

@@ -17,6 +17,7 @@ import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
+import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 
 import java.util.List;
 
@@ -44,21 +45,22 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
 
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        fontRenderer.drawString(tile.getLocalizedName(), (xSize / 2) - (fontRenderer.getStringWidth(tile.getLocalizedName()) / 2), 6, 0x404040);
+        fontRenderer.drawString(tile.getLocalizedName(), (xSize / 2) - (fontRenderer.getStringWidth(tile.getLocalizedName()) / 2), (ySize / 2) - 102, 0x404040);
 
         ItemStack itemStack = tile.getInventory().getStackInSlot(0);
         FluidStack fluidStack = tile.getTank().getFluid();
 
         if (!itemStack.isEmpty() || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
             // Text field for actual heat inside of reactor cell.
-            fontRenderer.drawString(LanguageUtility.transelate("tooltip.temperature"), (xSize / 2) - 80, 45, 0x404040);
-            fontRenderer.drawString((int) Math.floor(tile.getTemperature()) + "/" + (int) Math.floor(TileReactorCell.meltingPoint) + " K", (xSize / 2) - 80, 58, 0x404040);
+            fontRenderer.drawString(LanguageUtility.transelate("gui.temperature"), (xSize / 2) - 80, 45, 0x404040);
+            fontRenderer.drawString(UnitDisplay.getTemperatureDisplay(Math.floor(tile.getTemperature())) + "/" + UnitDisplay.getTemperatureDisplay(TileReactorCell.meltingPoint), (xSize / 2) - 80, 58, 0x404040);
         }
 
         if (!itemStack.isEmpty()) {
             // Text field for total number of ticks remaining.
             int secondsLeft = itemStack.getMaxDamage() - itemStack.getMetadata();
-            fontRenderer.drawString(LanguageUtility.transelate("tooltip.remainingTime"), (xSize / 2) + 14, 45, 0x404040);
+
+            fontRenderer.drawString(LanguageUtility.transelate("gui.remainingTime"), (xSize / 2) + 14, 45, 0x404040);
             fontRenderer.drawString(secondsLeft + " seconds", (xSize / 2) + 14, 58, 0x404040);
         }
 

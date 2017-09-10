@@ -25,39 +25,33 @@ import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 import java.util.List;
 
-public class TileAccelerator extends TileInventoryMachine implements ITickable, IElectromagnet {
-    // Energy required per ticks.
-    public int acceleratorEnergyCostPerTick = ConfigurationManager.General.acceleratorEnergyCostPerTick;
+public class TileParticleAccelerator extends TileInventoryMachine implements ITickable, IElectromagnet {
+    private static final int energyPerTick = 19000;
 
-    // User client side to determine the velocity of the particle.
-    public static final float clientParticleVelocity = 0.9F;
-
-    /** The total amount of energy consumed by this particle. In Joules. */
-    public float totalEnergyConsumed = 0; // Synced
-
-    /** The amount of anti-matter stored within the accelerator. Measured in milligrams. */
-    public int antimatter = 0; // Synced
-    public EntityParticle entityParticle;
-
-    public float velocity = 0; // Synced
-    private long clientEnergy = 0; // Synced
-    private int lastSpawnTick = 0;
-
-    private int maxTransfer = acceleratorEnergyCostPerTick / 20;
-
-    /**
-     * Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
-     */
+    // Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
     private int acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
 
-    public TileAccelerator() {
-        this(EnumMachine.ACCELERATOR);
+    // Speed by which a particle will turn into anitmatter.
+    public static final float antimatterCreationSpeed = 0.9F;
+
+    // The amount of anti-matter stored within the accelerator. Measured in milligrams.
+    private int antimatterCount = 0; // Synced
+
+    // The total amount of energy consumed by this particle.
+    public int totalEnergyConsumed = 0; // Synced
+
+    private EntityParticle entityParticle;
+    private float velocity = 0; // Synced
+    private int lastSpawnTick = 0;
+
+    public TileParticleAccelerator() {
+        this(EnumMachine.PARTICLE_ACCELERATOR);
     }
 
-    public TileAccelerator(EnumMachine type) {
+    public TileParticleAccelerator(EnumMachine type) {
         super(type);
 
-        energyStorage = new EnergyStorage(acceleratorEnergyCostPerTick * 2, maxTransfer);
+        energyStorage = new EnergyStorage(energyPerTick * 40, energyPerTick);
         inventory = new ItemStackHandler(4) {
             @Override
             protected void onContentsChanged(int slot) {
@@ -97,7 +91,6 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
     @Override
     public void update() {
         if (!world.isRemote) {
-            clientEnergy = energyStorage.getEnergyStored();
             velocity = getParticleVelocity();
 
             outputAntimatter();
@@ -105,67 +98,59 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
             // Check if redstone signal is currently being applied.
             ItemStack itemStack = inventory.getStackInSlot(0);
 
-            if (!itemStack.isEmpty() && world.isBlockIndirectlyGettingPowered(pos) > 0) {
-                //if (energyStorage.extractEnergy(energyStorage.getMaxExtract(), true) >= energyStorage.getMaxExtract()) {
-                    if (entityParticle == null) {
-                        // Creates a accelerated particle if one needs to exist (on world load for example or player login).
-                        if (lastSpawnTick >= 40) {
-                            BlockPos spawnAcceleratedParticlePos = pos.offset(facing.getOpposite());
+            if (world.isBlockIndirectlyGettingPowered(pos) > 0 && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
+                if (entityParticle == null) {
+                    // Creates a accelerated particle if one needs to exist (on world load for example or player login).
+                    if (!itemStack.isEmpty() && lastSpawnTick >= 40) {
+                        BlockPos spawnAcceleratedParticlePos = pos.offset(facing.getOpposite());
 
-                            // Only render the particle if container within the proper environment for it.
-                            if (EntityParticle.canSpawnParticle(world, spawnAcceleratedParticlePos)) {
-                                // Spawn the particle.
-                                totalEnergyConsumed = 0;
-                                entityParticle = new EntityParticle(world, spawnAcceleratedParticlePos, pos, facing.getOpposite());
-                                world.spawnEntity(entityParticle);
-
-                                // Grabs input block hardness if available, otherwise defaults are used.
-                                calculateParticleDensity();
-
-                                // Decrease particle we want to collide.
-                                InventoryUtility.decrStackSize(inventory, 0);
-                                lastSpawnTick = 0;
-                            }
-                        }
-                    } else {
-                        if (entityParticle.isDead) {
-                            // On particle collision we roll the dice to see if dark-matter is generated.
-                            if (entityParticle.didParticleCollide) {
-                                if (world.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
-                                    inventory.insertItem(3, new ItemStack(ModItems.itemDarkMatterCell), false);
-                                }
-                            }
-
-                            entityParticle = null;
-                        } else if (velocity > clientParticleVelocity) {
-                            // Play sound of anti-matter being created.
-                            world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 2, 1 - world.rand.nextFloat() * 0.3F);
-
-                            // Create anti-matter in the internal reserve.
-                            int generatedAntimatter = 5 + world.rand.nextInt(acceleratorAntimatterDensityMultiplyer);
-                            antimatter += generatedAntimatter;
-
-                            // Reset energy consumption levels and destroy accelerated particle.
+                        // Only render the particle if container within the proper environment for it.
+                        if (EntityParticle.canSpawnParticle(world, spawnAcceleratedParticlePos)) {
+                            // Spawn the particle.
                             totalEnergyConsumed = 0;
-                            entityParticle.setDead();
-                            entityParticle = null;
-                        }
+                            entityParticle = new EntityParticle(world, spawnAcceleratedParticlePos, pos, facing.getOpposite());
+                            world.spawnEntity(entityParticle);
 
-                        // Plays sound of particle accelerating past the speed based on total velocity at the time of anti-matter creation.
-                        if (entityParticle != null) {
-                            world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getParticleVelocity()) / TileAccelerator.clientParticleVelocity)));
+                            // Grabs input block hardness if available, otherwise defaults are used.
+                            calculateParticleDensity();
+
+                            // Decrease particle we want to collide.
+                            InventoryUtility.decrStackSize(inventory, 0);
+                            lastSpawnTick = 0;
                         }
                     }
-
-                    totalEnergyConsumed += energyStorage.extractEnergy(maxTransfer, false);
                 } else {
-                    if (entityParticle != null) {
+                    if (entityParticle.isDead) {
+                        // On particle collision we roll the dice to see if dark-matter is generated.
+                        if (entityParticle.didCollide()) {
+                            if (world.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
+                                inventory.insertItem(3, new ItemStack(ModItems.itemDarkMatterCell), false);
+                            }
+                        }
+
+                        entityParticle = null;
+                    } else if (velocity > antimatterCreationSpeed) {
+                        // Play sound of anti-matter being created.
+                        world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 2, 1 - world.rand.nextFloat() * 0.3F);
+
+                        // Create anti-matter in the internal reserve.
+                        int generatedAntimatter = 5 + world.rand.nextInt(acceleratorAntimatterDensityMultiplyer);
+                        antimatterCount += generatedAntimatter;
+
+                        // Reset energy consumption levels and destroy accelerated particle.
+                        totalEnergyConsumed = 0;
                         entityParticle.setDead();
+                        entityParticle = null;
                     }
 
-                    entityParticle = null;
+                    // Plays sound of particle accelerating past the speed based on total velocity at the time of anti-matter creation.
+                    if (entityParticle != null) {
+                        world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getVelocity()) / antimatterCreationSpeed)));
+                    }
+
+                    energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+                    totalEnergyConsumed += energyUsed;
                 }
-                /*
             } else {
                 if (entityParticle != null) {
                     entityParticle.setDead();
@@ -173,7 +158,6 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
 
                 entityParticle = null;
             }
-            */
 
             if (world.getWorldTime() % 5 == 0) {
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
@@ -187,16 +171,16 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        totalEnergyConsumed = tag.getFloat("totalEnergyConsumed");
-        antimatter = tag.getInteger("antimatter");
+        totalEnergyConsumed = tag.getInteger("totalEnergyConsumed");
+        antimatterCount = tag.getInteger("antimatterCount");
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setFloat("totalEnergyConsumed", totalEnergyConsumed);
-        tag.setInteger("antimatter", antimatter);
+        tag.setInteger("totalEnergyConsumed", totalEnergyConsumed);
+        tag.setInteger("antimatterCount", antimatterCount);
 
         return tag;
     }
@@ -208,10 +192,9 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
-            totalEnergyConsumed = dataStream.readFloat();
-            antimatter = dataStream.readInt();
+            totalEnergyConsumed = dataStream.readInt();
+            antimatterCount = dataStream.readInt();
             velocity = dataStream.readFloat();
-            clientEnergy = dataStream.readLong();
         }
     }
 
@@ -220,9 +203,8 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
         super.getPacketData(objects);
 
         objects.add(totalEnergyConsumed);
-        objects.add(antimatter);
+        objects.add(antimatterCount);
         objects.add(velocity);
-        objects.add(clientEnergy);
 
         return objects;
     }
@@ -265,7 +247,7 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
         if (OreDictionaryHelper.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.getCount() > 0) {
             // Each cell can only hold 125mg of antimatter
             // TODO: maybe a config for this?
-            if (antimatter >= 125) {
+            if (antimatterCount >= 125) {
                 ItemStack itemStack = inventory.getStackInSlot(2);
 
                 if (itemStack.isEmpty()) {
@@ -275,14 +257,14 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
 
                         if (newStack.getCount() < newStack.getMaxStackSize()) {
                             InventoryUtility.decrStackSize(inventory, 1);
-                            antimatter -= 125;
+                            antimatterCount -= 125;
                             newStack.setCount(newStack.getCount() + 1);
                             inventory.setStackInSlot(2, newStack);
                         }
                     }
                 } else {
                     // Remove some of the internal reserves of anti-matter and use it to craft an individual item.
-                    antimatter -= 125;
+                    antimatterCount -= 125;
                     InventoryUtility.decrStackSize(inventory, 1);
                     inventory.setStackInSlot(2, new ItemStack(ModItems.itemAntimatterCell));
                 }
@@ -294,23 +276,18 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
         ItemStack itemToAccelerate = inventory.getStackInSlot(0);
 
         if (!itemToAccelerate.isEmpty()) {
-            // Calculate block density multiplier if ore dictionary block.
-            acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
-
             IBlockState state = Block.getBlockFromItem(itemToAccelerate.getItem()).getDefaultState();
 
-            if (state != null) {
-                // Prevent negative numbers and disallow zero for density multiplier.
-                // We can give any BlockPos as argument, it's not really used.
-                acceleratorAntimatterDensityMultiplyer = (int) state.getBlockHardness(world, pos) * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+            // Prevent negative numbers and disallow zero for density multiplier.
+            // We can give any BlockPos as argument, it's not used anyway.
+            acceleratorAntimatterDensityMultiplyer = (int) state.getBlockHardness(world, pos) * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
 
-                if (acceleratorAntimatterDensityMultiplyer <= 0) {
-                    acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
-                }
+            if (acceleratorAntimatterDensityMultiplyer <= 0) {
+                acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+            }
 
-                if (acceleratorAntimatterDensityMultiplyer > 1000) {
-                    acceleratorAntimatterDensityMultiplyer = 1000 * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
-                }
+            if (acceleratorAntimatterDensityMultiplyer > 1000) {
+                acceleratorAntimatterDensityMultiplyer = 1000 * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
             }
         }
     }
@@ -318,9 +295,25 @@ public class TileAccelerator extends TileInventoryMachine implements ITickable, 
     // Get velocity for the particle and @return it as a float.
     public float getParticleVelocity() {
         if (entityParticle != null) {
-            return (float) entityParticle.getParticleVelocity();
+            return (float) entityParticle.getVelocity();
         }
 
         return 0;
+    }
+
+    public EntityParticle getEntityParticle() {
+        return entityParticle;
+    }
+
+    public void setEntityParticle(EntityParticle entityParticle) {
+        this.entityParticle = entityParticle;
+    }
+
+    public int getAntimatterCount() {
+        return antimatterCount;
+    }
+
+    public float getVelocity() {
+        return velocity;
     }
 }

@@ -38,17 +38,17 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
     protected void drawGuiScreenForegroundLayer(int mouseX, int mouseY) {
         String name = LanguageUtility.transelate("tile.creative_builder.name");
 
-        fontRenderer.drawString(name, (xSize / 2) - (fontRenderer.getStringWidth(name) / 2), 6, 0x404040);
+        fontRenderer.drawString(name, (xSize / 2) - (fontRenderer.getStringWidth(name) / 2), (ySize / 2) - 102, 0x404040);
 
         fontRenderer.drawString("This is a creative only cheat", (xSize / 2) - 80, 20, 0x404040);
         fontRenderer.drawString("which allows you to auto build", (xSize / 2) - 80, 30, 0x404040);
         fontRenderer.drawString("structures for testing.", (xSize / 2) - 80, 40, 0x404040);
 
-        fontRenderer.drawString("Size: ", (xSize / 2) - 80, 60, 0x404040);
+        fontRenderer.drawString(LanguageUtility.transelate("gui.size") + ": ", (xSize / 2) - 80, 60, 0x404040);
         textFieldSize.drawTextBox();
 
         buttonList.get(1).displayString = LanguageUtility.transelate(BlockCreativeBuilder.getSchematic(mode).getName());
-        fontRenderer.drawString("Mode: ", (xSize / 2) - 80, 80, 0x404040);
+        fontRenderer.drawString(LanguageUtility.transelate("gui.mode") + ": ", (xSize / 2) - 80, 80, 0x404040);
 
         fontRenderer.drawString("Warning!", (xSize / 2) - 80, 130, Color.DARK_RED.getHex());
         fontRenderer.drawString("This will replace blocks without", (xSize / 2) - 80, 140, Color.DARK_RED.getHex());

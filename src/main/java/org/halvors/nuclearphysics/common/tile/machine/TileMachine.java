@@ -11,7 +11,8 @@ import java.util.List;
 
 public abstract class TileMachine extends TileConsumer implements ITileNetwork {
     protected EnumMachine type;
-    
+
+    public int energyUsed = 0;
     public int operatingTicks = 0; // Synced
     public int ticksRequired = 0;
 
@@ -46,6 +47,7 @@ public abstract class TileMachine extends TileConsumer implements ITileNetwork {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
+            energyUsed = dataStream.readInt();
             operatingTicks = dataStream.readInt();
         }
     }
@@ -54,6 +56,7 @@ public abstract class TileMachine extends TileConsumer implements ITileNetwork {
     public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
+        objects.add(energyUsed);
         objects.add(operatingTicks);
 
         return objects;

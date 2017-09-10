@@ -36,7 +36,7 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
     }
 
     public GuiComponentContainer(T tile, Container container) {
-        this(tile, container, ResourceUtility.getResource(ResourceType.GUI, "gui_base.png"));
+        this(tile, container, ResourceUtility.getResource(ResourceType.GUI, "base.png"));
     }
 
     @Override
