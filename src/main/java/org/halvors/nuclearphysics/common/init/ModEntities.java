@@ -1,10 +1,8 @@
 package org.halvors.nuclearphysics.common.init;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 
 public class ModEntities {

@@ -16,12 +16,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
-import org.halvors.nuclearphysics.common.network.packet.PacketConfiguration;
-import org.halvors.nuclearphysics.common.network.packet.PacketCreativeBuilder;
-import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 import org.halvors.nuclearphysics.common.utility.location.Range;
 

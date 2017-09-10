@@ -3,11 +3,6 @@ package org.halvors.nuclearphysics.common.utility.energy;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 
 public class UnitDisplay {
-    /**
-     * Gets a rounded energy display of a defined amount of energy.
-     * @param energy - energy to display
-     * @return rounded energy display
-     */
     public static String getEnergyDisplay(double energy) {
         ElectricUnit unit = General.electricUnit;
 
@@ -22,9 +17,10 @@ public class UnitDisplay {
         return getDisplayShort(energy, unit);
     }
 
-    /**
-     * Metric system of measurement.
-     */
+    public static String getTemperatureDisplay(double temperature) {
+        return getDisplayShort(temperature, General.temperatureUnit);
+    }
+
     public enum Prefix {
         FEMTO("Femto", "f", 0.000000000000001D),
         PICO("Pico", "p", 0.000000000001D),

@@ -15,7 +15,6 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +28,6 @@ import org.halvors.nuclearphysics.common.grid.UpdateTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.init.*;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
-import org.halvors.nuclearphysics.common.world.WorldGeneratorOre;
 
 /**
  * This is the NuclearPhysics class, which is the main class of this mod.
