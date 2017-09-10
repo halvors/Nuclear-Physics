@@ -8,7 +8,6 @@ import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.configuration.category.CategoryEntryClient;
 import org.halvors.nuclearphysics.client.gui.configuration.category.CategoryEntryGeneral;
 import org.halvors.nuclearphysics.client.gui.configuration.category.CategoryEntryIntegration;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
@@ -26,7 +25,6 @@ public class GuiConfiguration extends GuiConfig {
     static {
         register(Configuration.CATEGORY_GENERAL, CategoryEntryGeneral.class);
         register(ConfigurationManager.CATEGORY_INTEGRATION, CategoryEntryIntegration.class);
-        register(ConfigurationManager.CATEGORY_CLIENT, CategoryEntryClient.class);
     }
 
     public GuiConfiguration(GuiScreen parent) {

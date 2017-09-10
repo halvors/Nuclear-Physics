@@ -26,10 +26,10 @@
       }
     },
     "type": {
-      "accelerator": {
+      "particle_accelerator": {
         "model": "cube_all",
         "textures": {
-          "all": "nuclearphysics:blocks/accelerator"
+          "all": "nuclearphysics:blocks/particle_accelerator"
         },
         "uvlock": true
       },

@@ -25,7 +25,7 @@ import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
-import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
+import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.utility.position.Position;
 
 import javax.annotation.Nonnull;
@@ -34,11 +34,8 @@ import java.util.List;
 public class EntityParticle extends Entity implements IEntityAdditionalSpawnData {
     private static final DataParameter<EnumFacing> movementDirectionParameter = EntityDataManager.createKey(EntityParticle.class, DataSerializers.FACING);
 
-    // Speed by which a particle will turn into anitmatter.
-    private static final float antimatterCreationSpeed = 0.9F;
-
     public Ticket updateTicket;
-    public boolean didParticleCollide;
+    private boolean didCollide;
     private int lastTurn = 60;
 
     private BlockPos movementPos;
@@ -116,18 +113,18 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     public void onUpdate() {
         TileEntity tile = world.getTileEntity(movementPos);
 
-        if (tile instanceof TileAccelerator) {
-            TileAccelerator tileAccelerator = (TileAccelerator) tile;
+        if (tile instanceof TileParticleAccelerator) {
+            TileParticleAccelerator tileParticleAccelerator = (TileParticleAccelerator) tile;
             double acceleration = 0.0006;
 
             // Play sound effects.
             if (ticksExisted % 10 == 0) {
-                world.playSound(posX, posY, posZ, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1, (float) (0.6 + (0.4 * (getParticleVelocity() / TileAccelerator.clientParticleVelocity))), true);
+                world.playSound(posX, posY, posZ, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1, (float) (0.6 + (0.4 * (getVelocity() / TileParticleAccelerator.antimatterCreationSpeed))), true);
             }
 
             // Sanity check
-            if (tileAccelerator.entityParticle == null) {
-                tileAccelerator.entityParticle = this;
+            if (tileParticleAccelerator.getEntityParticle() == null) {
+                tileParticleAccelerator.setEntityParticle(this);
             }
 
             // Force load chunks.
@@ -167,9 +164,9 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
             Position accelerationPos = new Position().offset(movementDirection).scale(acceleration);
 
-            motionX = Math.min(accelerationPos.getX() + motionX, antimatterCreationSpeed);
-            motionY = Math.min(accelerationPos.getY() + motionY, antimatterCreationSpeed);
-            motionZ = Math.min(accelerationPos.getZ() + motionZ, antimatterCreationSpeed);
+            motionX = Math.min(accelerationPos.getX() + motionX, TileParticleAccelerator.antimatterCreationSpeed);
+            motionY = Math.min(accelerationPos.getY() + motionY, TileParticleAccelerator.antimatterCreationSpeed);
+            motionZ = Math.min(accelerationPos.getZ() + motionZ, TileParticleAccelerator.antimatterCreationSpeed);
             isAirBorne = true;
 
             lastTickPosX = posX;
@@ -179,7 +176,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             move(MoverType.SELF, motionX, motionY, motionZ);
             setPosition(posX, posY, posZ);
 
-            if (lastTickPosX == posX && lastTickPosY == posY && lastTickPosZ == posZ && getParticleVelocity() <= 0 && lastTurn <= 0) {
+            if (lastTickPosX == posX && lastTickPosY == posY && lastTickPosZ == posZ && getVelocity() <= 0 && lastTurn <= 0) {
                 setDead();
             }
 
@@ -260,27 +257,27 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
         setPosition(Math.floor(posX) + 0.5, Math.floor(posY) + 0.5, Math.floor(posZ) + 0.5);
 
-        return getParticleVelocity() - (getParticleVelocity() / Math.min(Math.max(70 * getParticleVelocity(), 4), 30));
+        return getVelocity() - (getVelocity() / Math.min(Math.max(70 * getVelocity(), 4), 30));
     }
 
     private void handleCollisionWithEntity() {
         world.playSound(posX, posY, posZ, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, 1F - world.rand.nextFloat() * 0.3F, true);
 
         if (!world.isRemote) {
-            if (getParticleVelocity() > antimatterCreationSpeed / 2) {
+            if (getVelocity() > TileParticleAccelerator.antimatterCreationSpeed / 2) {
                 float radius = 1;
                 AxisAlignedBB bounds = new AxisAlignedBB(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius);
                 List<EntityParticle> entitiesNearby = world.getEntitiesWithinAABB(EntityParticle.class, bounds);
 
                 if (entitiesNearby.size() > 0) {
-                    didParticleCollide = true;
+                    didCollide = true;
                     setDead();
 
                     return;
                 }
             }
 
-            world.createExplosion(this, posX, posY, posZ, (float) getParticleVelocity() * 2.5F, true);
+            world.createExplosion(this, posX, posY, posZ, (float) getVelocity() * 2.5F, true);
         }
 
         float radius = 6;
@@ -294,7 +291,11 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         setDead();
     }
 
-    public double getParticleVelocity() {
+    public double getVelocity() {
         return Math.abs(motionX) + Math.abs(motionY) + Math.abs(motionZ);
+    }
+
+    public boolean didCollide() {
+        return didCollide;
     }
 }

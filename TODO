@@ -13,6 +13,9 @@ Known bugs:
         - Why is electricity not generated during the night? Temperature is lower at night?
         - Fix antimatter explosion not spawning particles. (Client-side smoke)
 
+        - Make sure we return right machine metadata in 1.12 recipes.
+        - Verify the breeding process.
+
 Known features not implemented:
 
 New features to add:
@@ -40,8 +43,8 @@ New features to add:
         - Add thermal capability that can be applied to tile entities.
 
     Rendering:
-        - Make nuclear boiler eject steam.
-        - Render only moving parts in TESR?
+        - Make nuclear boiler eject steam. (Smoke)
+        - Render only moving parts in TESR's?
 
     Networking:
         - Optimize syncing of machines etc, only sync when gui is open etc.
@@ -58,15 +61,15 @@ New features to add:
 
         Quantum Assembler:
 
-        Particle Accelerator:
+        Particle Accelerator: (DONE)
             5 mg antimatter (One particle accelerated to 100%) uses 97.85 MJ if inner circle is 100x100 blocks.
+
+        Plasma Heater: (DONE)
+            4 x 128MJ ~= 80000 = 2000 mB
 
         Fulmination Generator:
             125mg antimatter = 24.93 MJ
             1g antimatter = ?
-
-        Plasma Heater: (DONE)
-            4 x 128MJ ~= 80000 = 2000 mB
 
     Useful resources:
         https://github.com/gigaherz/ElementsOfPower/blob/master/src/main/java/gigaherz/elementsofpower/essentializer/TileEssentializer.java

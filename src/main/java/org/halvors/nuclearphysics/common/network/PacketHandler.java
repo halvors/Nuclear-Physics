@@ -16,12 +16,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
-import org.halvors.nuclearphysics.common.network.packet.PacketConfiguration;
-import org.halvors.nuclearphysics.common.network.packet.PacketCreativeBuilder;
-import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 import org.halvors.nuclearphysics.common.utility.location.Range;
 
@@ -34,14 +30,7 @@ import java.util.Set;
  * @author halvors
  */
 public class PacketHandler {
-	private final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.ID);
-
-	public void init() {
-		// Register packets.
-		networkWrapper.registerMessage(PacketConfiguration.PacketConfigurationMessage.class, PacketConfiguration.class, 0, Side.CLIENT);
-		networkWrapper.registerMessage(PacketTileEntity.PacketTileEntityMessage.class, PacketTileEntity.class, 1, Side.CLIENT);
-		networkWrapper.registerMessage(PacketCreativeBuilder.PacketCreativeBuilderMessage.class, PacketCreativeBuilder.class, 2, Side.SERVER);
-	}
+	public final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.ID);
 
 	public void sendTo(IMessage message, EntityPlayerMP player) {
 		networkWrapper.sendTo(message, player);

@@ -22,7 +22,7 @@ import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.tile.particle.TileAccelerator;
+import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
@@ -125,10 +125,10 @@ public class BlockMachine extends BlockInventory {
     }
 
     public enum EnumMachine implements IStringSerializable {
-        ACCELERATOR("accelerator", TileAccelerator.class, EnumBlockRenderType.MODEL),
         CHEMICAL_EXTRACTOR("chemical_extractor", TileChemicalExtractor.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
         GAS_CENTRIFUGE("gas_centrifuge", TileGasCentrifuge.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
         NUCLEAR_BOILER("nuclear_boiler", TileNuclearBoiler.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
+        PARTICLE_ACCELERATOR("particle_accelerator", TileParticleAccelerator.class, EnumBlockRenderType.MODEL),
         PLASMA_HEATER("plasma_heater", TilePlasmaHeater.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
         QUANTUM_ASSEMBLER("quantum_assembler", TileQuantumAssembler.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED);
 
