@@ -19,7 +19,7 @@ public class RenderThermometer extends TileEntitySpecialRenderer<TileThermometer
 
         RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.BLACK) + UnitDisplay.getTemperatureDisplay(Math.round(tile.getDetectedTemperature())), tile.getFacing(), 0.8F, x, y + 0.1, z);
         RenderUtility.renderText((tile.isOverThreshold() ? Color.DARK_RED : Color.DARK_BLUE) + "Threshold: " + UnitDisplay.getTemperatureDisplay(tile.getThershold()), tile.getFacing(), 1, x, y - 0.1, z);
-        
+
         Position trackCoordinate = tile.getTrackCoordinate();
 
         if (tile.getTrackCoordinate() != null) {

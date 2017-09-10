@@ -15,7 +15,6 @@ Known bugs:
 
         - Make sure we return right machine metadata in 1.12 recipes.
         - Verify the breeding process.
-        - Why does particle accelerator require 2 items in slot in order to work?
 
 Known features not implemented:
 
@@ -65,12 +64,12 @@ New features to add:
         Particle Accelerator: (DONE)
             5 mg antimatter (One particle accelerated to 100%) uses 97.85 MJ if inner circle is 100x100 blocks.
 
+        Plasma Heater: (DONE)
+            4 x 128MJ ~= 80000 = 2000 mB
+
         Fulmination Generator:
             125mg antimatter = 24.93 MJ
             1g antimatter = ?
-
-        Plasma Heater: (DONE)
-            4 x 128MJ ~= 80000 = 2000 mB
 
     Useful resources:
         https://github.com/gigaherz/ElementsOfPower/blob/master/src/main/java/gigaherz/elementsofpower/essentializer/TileEssentializer.java

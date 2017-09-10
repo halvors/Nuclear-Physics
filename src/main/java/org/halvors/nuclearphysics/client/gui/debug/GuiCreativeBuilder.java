@@ -44,11 +44,11 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
         fontRendererObj.drawString("which allows you to auto build", (xSize / 2) - 80, 30, 0x404040);
         fontRendererObj.drawString("structures for testing.", (xSize / 2) - 80, 40, 0x404040);
 
-        fontRendererObj.drawString("Size: ", (xSize / 2) - 80, 60, 0x404040);
+        fontRendererObj.drawString(LanguageUtility.transelate("gui.size") + ": ", (xSize / 2) - 80, 60, 0x404040);
         textFieldSize.drawTextBox();
 
         buttonList.get(1).displayString = LanguageUtility.transelate(BlockCreativeBuilder.getSchematic(mode).getName());
-        fontRendererObj.drawString("Mode: ", (xSize / 2) - 80, 80, 0x404040);
+        fontRendererObj.drawString(LanguageUtility.transelate("gui.mode") + ": ", (xSize / 2) - 80, 80, 0x404040);
 
         fontRendererObj.drawString("Warning!", (xSize / 2) - 80, 130, Color.DARK_RED.getHex());
         fontRendererObj.drawString("This will replace blocks without", (xSize / 2) - 80, 140, Color.DARK_RED.getHex());

@@ -105,6 +105,12 @@ death.attack.radiation=%1$s died from radiation.
 gui.noFluid=No fluid
 gui.temperature=Temperature
 gui.remainingTime=Remaining Time
+gui.unit=Unit
+gui.using=Using
+gui.needed=Needed
+gui.buffer=Buffer
+gui.mode=Size
+gui.mode=Mode
 
 // Gui configuration
 gui.configuration.category.general=General

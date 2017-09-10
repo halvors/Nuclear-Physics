@@ -61,7 +61,7 @@ public class GuiParticleAccelerator extends GuiComponentContainer<TileParticleAc
         fontRendererObj.drawString("Velocity: " + Math.round((tile.getVelocity() / TileParticleAccelerator.antimatterCreationSpeed) * 100) + "%", (xSize / 2) - 80, (ySize / 2) - 80, 0x404040);
         fontRendererObj.drawString("Antimatter: " + tile.getAntimatterCount() + " mg", (xSize / 2) - 80, (ySize / 2) - 68, 0x404040);
         fontRendererObj.drawString("Energy used: " + UnitDisplay.getEnergyDisplay(tile.totalEnergyConsumed), (xSize / 2) - 80, (ySize / 2) - 56, 0x404040);
-        fontRendererObj.drawString("Status: ", (xSize / 2) - 80, (ySize / 2) - 8, 0x404040);
+        fontRendererObj.drawString("Status: ", (xSize / 2) - 80, (ySize / 2) - 20, 0x404040);
         fontRendererObj.drawString(status, (xSize / 2) - 80, (ySize / 2) - 8, 0x404040);
         //fontRendererObj.drawString("Buffer: " + UnitDisplay.getEnergyDisplay(tile.getEnergyStorage().getEnergyStored()) + "/" + UnitDisplay.getEnergyDisplay(tile.getEnergyStorage().getMaxEnergyStored()), (xSize / 2) - 80, 110, 0x404040);
         fontRendererObj.drawString("Facing: " + tile.getFacing().toString().toUpperCase(), 100, (ySize - 96) + 2, 0x404040);
