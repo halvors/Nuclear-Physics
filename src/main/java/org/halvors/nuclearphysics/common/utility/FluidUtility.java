@@ -16,18 +16,13 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.item.ItemCell;
 
-/**
- * Fluid interactions.
- *
- * @author DarkCow, Calclavia
- */
 public class FluidUtility {
     public static boolean isEmptyContainer(ItemStack itemStack) {
-        return itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null) && FluidUtil.getFluidContained(itemStack) == null;
+        return itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null) && FluidUtil.getFluidContained(itemStack) == null;
     }
 
     public static boolean isFilledContainer(ItemStack itemStack) {
-        if (itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+        if (itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
             FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
 
             if (fluidStack != null) {
@@ -39,7 +34,7 @@ public class FluidUtility {
     }
 
     public static boolean isFilledContainer(ItemStack itemStack, Fluid fluid) {
-        if (itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+        if (itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
             FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
 
             if (fluid != null && fluidStack != null) {
@@ -82,8 +77,8 @@ public class FluidUtility {
             for (EnumFacing side : EnumFacing.values()) {
                 TileEntity tile = world.getTileEntity(pos.offset(side));
 
-                if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite())) {
-                    IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite());
+                if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, side.getOpposite())) {
+                    IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, side.getOpposite());
                     FluidStack receiveFluidStack = fluidHandler.drain(requestFluidStack, true);
 
                     if (receiveFluidStack != null && receiveFluidStack.amount > 0) {
