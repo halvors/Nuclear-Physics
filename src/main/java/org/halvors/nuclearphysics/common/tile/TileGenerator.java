@@ -1,6 +1,5 @@
 package org.halvors.nuclearphysics.common.tile;
 
-import com.google.common.collect.Lists;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -12,29 +11,17 @@ import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TileGenerator extends TileBase implements ITickable, IEnergyStorage {
-    private final List<BlockPos> mTargets = Lists.newArrayList();
-    private final Map<BlockPos, EnumFacing> mFacings = new HashMap<>();
-    private int mTargetStartingIndex;
+    private final List<BlockPos> targets = new ArrayList<>();
+    private final Map<BlockPos, EnumFacing> facings = new HashMap<>();
+    private int targetStartingIndex;
 
     protected EnergyStorage energyStorage;
 
     public TileGenerator() {
 
-    }
-
-    @Override
-    public void update() {
-        sendEnergyToTargets();
-
-        if (world.getWorldTime() % getTargetRefreshRate() == 0) {
-            searchTargets();
-        }
     }
 
     @Override
@@ -71,6 +58,17 @@ public class TileGenerator extends TileBase implements ITickable, IEnergyStorage
         }
 
         return super.getCapability(capability, facing);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void update() {
+        sendEnergyToTargets();
+
+        if (world.getWorldTime() % getTargetRefreshRate() == 0) {
+            searchTargets();
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,47 +114,40 @@ public class TileGenerator extends TileBase implements ITickable, IEnergyStorage
     }
 
     protected void searchTargets() {
-        mTargets.clear();
+        targets.clear();
 
-        for (EnumFacing direction : EnumFacing.VALUES) {
-            BlockPos neighbor = pos.offset(direction);
+        for (EnumFacing side : EnumFacing.values()) {
+            BlockPos neighbor = pos.offset(side);
 
-            if (isValidTarget(neighbor, direction)) {
-                mTargets.add(neighbor);
-                mFacings.put(neighbor, direction);
+            if (isValidTarget(neighbor, side)) {
+                targets.add(neighbor);
+                facings.put(neighbor, side);
             }
         }
     }
 
     protected void sendEnergyToTargets() {
-        if (mTargets.size() > 0 && energyStorage.getEnergyStored() > 0) {
-            for (int i = 0; i < mTargets.size(); ++i) {
-                BlockPos pos = mTargets.get((mTargetStartingIndex + i) % mTargets.size());
-                sendEnergyTo(pos, mFacings.get(pos));
+        if (targets.size() > 0 && energyStorage.getEnergyStored() > 0) {
+            for (int i = 0; i < targets.size(); ++i) {
+                BlockPos pos = targets.get((targetStartingIndex + i) % targets.size());
+                sendEnergyTo(pos, facings.get(pos));
             }
 
-            mTargetStartingIndex = (mTargetStartingIndex + 1) % mTargets.size();
+            targetStartingIndex = (targetStartingIndex + 1) % targets.size();
         }
     }
 
     protected boolean isValidTarget(BlockPos pos, EnumFacing to) {
         TileEntity tile = world.getTileEntity(pos);
 
-        if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, to.getOpposite())) {
-            return true;
-        }
+        return tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, to.getOpposite());
 
-        return false;
     }
 
     protected void sendEnergyTo(BlockPos pos, EnumFacing to) {
         TileEntity tile = world.getTileEntity(pos);
 
-        if (tile == null) {
-            return;
-        }
-
-        if (tile.hasCapability(CapabilityEnergy.ENERGY, to.getOpposite())) {
+        if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, to.getOpposite())) {
             sendEnergyToFE(tile, to);
         }
     }

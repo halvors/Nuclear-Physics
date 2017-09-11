@@ -100,9 +100,9 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(CreativeTabs item, NonNullList<ItemStack> items) {
+    public void getSubBlocks(CreativeTabs item, NonNullList<ItemStack> list) {
         for (EnumElectromagnet type : EnumElectromagnet.values()) {
-            items.add(new ItemStack(this, 1, type.ordinal()));
+            list.add(new ItemStack(this, 1, type.ordinal()));
         }
     }
 

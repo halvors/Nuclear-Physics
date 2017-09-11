@@ -265,12 +265,14 @@ public class RenderResizableCuboid {
     public static EnumFacing[] getNeighbours(EnumFacing face) {
         EnumFacing[] faces = new EnumFacing[4];
         int ordinal = 0;
-        for (EnumFacing next : EnumFacing.values()) {
-            if (next.getAxis() != face.getAxis()) {
-                faces[ordinal] = next;
+
+        for (EnumFacing side : EnumFacing.values()) {
+            if (side.getAxis() != face.getAxis()) {
+                faces[ordinal] = side;
                 ordinal++;
             }
         }
+
         return faces;
     }
 
@@ -489,6 +491,7 @@ public class RenderResizableCuboid {
         quads.add(quad);
     }
 
+    @SuppressWarnings("deprecation")
     private BakedQuad convertToQuad(double[][] points, EnumFacing face, TextureAtlasSprite sprite) {
         int[] list = new int[points.length * points[0].length];
         for (int i = 0; i < points.length; i++) {
@@ -504,6 +507,7 @@ public class RenderResizableCuboid {
                 list[i * arr.length + j] = used;
             }
         }
+
         return new BakedQuad(list, -1, face, sprite);
     }
 

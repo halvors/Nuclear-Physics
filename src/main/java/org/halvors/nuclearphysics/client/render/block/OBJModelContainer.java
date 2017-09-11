@@ -47,6 +47,7 @@ public class OBJModelContainer {
         this.key = computeKey();
     }
 
+    @SuppressWarnings("deprecation")
     public OBJModelContainer(ResourceLocation model, List<String> parts) {
         this.model = model;
         this.vertexFormat = DefaultVertexFormats.ITEM;

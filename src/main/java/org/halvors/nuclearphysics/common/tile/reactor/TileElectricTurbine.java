@@ -33,8 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** TileElectricTurbine
- *
+/**
  * 1 cubic meter of steam = 338260 J of energy
  *
  * The front of the turbine is where the output is.
@@ -44,7 +43,12 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     private final int defaultTorque = 5000;
     private int torque = defaultTorque;
 
-    private final GasTank tank = new GasTank(ModFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 100);
+    private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
+        @Override
+        public boolean canFill() {
+            return false;
+        }
+    };
 
     // Radius of large turbine?
     private int multiBlockRadius = 1;
@@ -76,6 +80,46 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public AxisAlignedBB getRenderBoundingBox() {
         return new AxisAlignedBB(pos.getX() - multiBlockRadius, pos.getY(), pos.getZ() - multiBlockRadius, pos.getX() + 1 + multiBlockRadius, pos.getY() + 1, pos.getZ() + 1 + multiBlockRadius);
     }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+
+        multiBlockRadius = tag.getInteger("multiBlockRadius");
+        getMultiBlock().readFromNBT(tag);
+        CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+    }
+
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+
+        tag.setInteger("multiBlockRadius", multiBlockRadius);
+        getMultiBlock().writeToNBT(tag);
+        tag.setTag("tank", CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY.writeNBT(tank, null));
+
+        return tag;
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+        return (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) || ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+        if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) {
+            return (T) energyStorage;
+        } else if ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) {
+            return (T) tank;
+        }
+
+        return super.getCapability(capability, facing);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void update() {
@@ -139,44 +183,6 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
             power = 0;
         }
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-
-        multiBlockRadius = tag.getInteger("multiBlockRadius");
-        getMultiBlock().readFromNBT(tag);
-        CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
-    }
-
-    @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        super.writeToNBT(tag);
-
-        tag.setInteger("multiBlockRadius", multiBlockRadius);
-        getMultiBlock().writeToNBT(tag);
-        tag.setTag("tank", CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY.writeNBT(tank, null));
-
-        return tag;
-    }
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
-        return (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) || ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) {
-            return (T) getMultiBlock().get().getEnergyStorage();
-        } else if ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) {
-            return (T) getMultiBlock().get().tank;
-        }
-
-        return super.getCapability(capability, facing);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

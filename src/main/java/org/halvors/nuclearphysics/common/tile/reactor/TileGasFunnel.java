@@ -16,7 +16,7 @@ import org.halvors.nuclearphysics.common.init.ModFluids;
 import javax.annotation.Nonnull;
 
 public class TileGasFunnel extends TileEntity implements ITickable {
-    private final GasTank tank = new GasTank(ModFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 16) {
+    private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
         @Override
         public boolean canFill() {
             return false;
@@ -25,22 +25,6 @@ public class TileGasFunnel extends TileEntity implements ITickable {
 
     public TileGasFunnel() {
 
-    }
-
-    @Override
-    public void update() {
-        if (tank.getFluidAmount() > 0) {
-            final TileEntity tile = world.getTileEntity(pos.up());
-
-            if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP)) {
-                final IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP);
-                final FluidStack fluidStack = tank.drain(tank.getCapacity(), false);
-
-                if (fluidStack != null && fluidHandler.fill(fluidStack, false) > 0) {
-                    tank.drain(fluidHandler.fill(fluidStack, true), true);
-                }
-            }
-        }
     }
 
     @Override
@@ -74,6 +58,24 @@ public class TileGasFunnel extends TileEntity implements ITickable {
         }
 
         return super.getCapability(capability, facing);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void update() {
+        if (tank.getFluidAmount() > 0) {
+            final TileEntity tile = world.getTileEntity(pos.up());
+
+            if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP)) {
+                final IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP);
+                final FluidStack fluidStack = tank.drain(tank.getCapacity(), false);
+
+                if (fluidStack != null && fluidHandler.fill(fluidStack, false) > 0) {
+                    tank.drain(fluidHandler.fill(fluidStack, true), true);
+                }
+            }
+        }
     }
 }
 

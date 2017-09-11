@@ -70,7 +70,7 @@ public class ThermalGrid implements IUpdate {
                 addTemperature(world, pos, (deltaFromEquilibrium > 0 ? 1 : -1) * Math.min(Math.abs(deltaFromEquilibrium), Math.abs(loss)));
 
                 // Spread heat to surrounding.
-                for (EnumFacing side : EnumFacing.VALUES) {
+                for (EnumFacing side : EnumFacing.values()) {
                     BlockPos adjacentPos = pos.offset(side);
 
                     float deltaTemperature = getTemperature(world, pos) - getTemperature(world, adjacentPos);

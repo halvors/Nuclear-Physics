@@ -16,6 +16,7 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.item.ItemCell;
+import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 
 import javax.annotation.Nonnull;
@@ -144,22 +145,32 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
      * Takes an fluid container item and try to fill the tank, dropping the remains in the output slot.
      */
     private void fillOrDrainTank(int containerInput, int containerOutput, IFluidHandler tank) {
-        ItemStack itemStack = inventory.getStackInSlot(containerInput);
-        IFluidHandler container = FluidUtil.getFluidHandler(itemStack);
+        ItemStack itemStackInput = inventory.getStackInSlot(containerInput);
 
-        if (container != null) {
+        if (!itemStackInput.isEmpty()) {
+            ItemStack itemStackOutput = inventory.getStackInSlot(containerOutput);
+            boolean isFilled = FluidUtility.isFilledContainer(itemStackInput);
             FluidActionResult fluidActionResult;
-            FluidStack stack = FluidUtil.getFluidContained(itemStack);
 
-            if (stack != null && stack.amount > 0) {
-                fluidActionResult = FluidUtil.tryEmptyContainer(itemStack, tank, ItemCell.capacity, null, true);
+            if (isFilled) {
+                fluidActionResult = FluidUtil.tryEmptyContainer(itemStackInput, tank, Integer.MAX_VALUE, null, false);
             } else {
-                fluidActionResult = FluidUtil.tryFillContainer(itemStack, tank, ItemCell.capacity, null, true);
+                fluidActionResult = FluidUtil.tryFillContainer(itemStackInput, tank, Integer.MAX_VALUE, null, false);
             }
 
-            if (!fluidActionResult.getResult().isEmpty()) {
-                InventoryUtility.decrStackSize(inventory, containerInput);
-                inventory.insertItem(containerOutput, fluidActionResult.getResult(), false);
+            if (fluidActionResult.isSuccess()) {
+                ItemStack itemStackResult = fluidActionResult.getResult();
+
+                if (itemStackOutput.isEmpty() || (FluidUtility.isEmptyContainer(itemStackOutput) || FluidUtility.isFilledContainerEqual(itemStackResult, itemStackOutput)) && itemStackResult.isItemEqual(itemStackOutput) && itemStackOutput.isStackable() && itemStackOutput.getCount() < itemStackOutput.getMaxStackSize()) {
+                    if (isFilled) {
+                        FluidUtil.tryEmptyContainer(itemStackInput, tank, Integer.MAX_VALUE, null, true);
+                    } else {
+                        FluidUtil.tryFillContainer(itemStackInput, tank, Integer.MAX_VALUE, null, true);
+                    }
+
+                    InventoryUtility.decrStackSize(inventory, containerInput);
+                    inventory.insertItem(containerOutput, itemStackResult, false);
+                }
             }
         }
     }

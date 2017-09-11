@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LanguageUtility {
+	@SuppressWarnings("deprecation")
 	public static boolean canTranselate(String text) {
 		return I18n.canTranslate(text);
 	}
 
+	@SuppressWarnings("deprecation")
 	public static String transelate(String text, Object... parameters) {
 		return I18n.translateToLocalFormatted(text, parameters);
 	}

@@ -22,7 +22,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
     public static final int decay = 2500;
 
     // Temperature at which the fuel rod will begin to re-enrich itself.
-    public static final int breedingTemp = 1200;
+    public static final int breedingTemperature = 1200;
 
     // The energy in one KG of uranium is: 72PJ, 100TJ in one cell of uranium.
     public static final long energyDensity = 100000000000L;
@@ -38,6 +38,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
         setNoRepair();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
@@ -51,11 +52,11 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
         World world = tile.getWorld();
         int reactors = 0;
 
-        for (EnumFacing side : EnumFacing.VALUES) {
+        for (EnumFacing side : EnumFacing.values()) {
             TileEntity checkTile = world.getTileEntity(tile.getPos().offset(side));
 
             // Check that the other reactors not only exist but also are running.
-            if (checkTile instanceof IReactor && ((IReactor) checkTile).getTemperature() > breedingTemp) {
+            if (checkTile instanceof IReactor && ((IReactor) checkTile).getTemperature() > breedingTemperature) {
                 reactors++;
             }
         }
@@ -63,11 +64,11 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
         // Only three reactor cells are required to begin the uranium breeding process instead of four.
         if (reactors >= 3) {
             // Breeding - Begin the process of re-enriching the uranium rod but not consistently.
-            if (world.rand.nextInt(1000) <= 100 && reactor.getTemperature() > breedingTemp) {
+            if (world.rand.nextInt(1000) <= 100 && reactor.getTemperature() > breedingTemperature) {
                 // Cells can regain a random amount of health per tick.
-                int healAmt = world.rand.nextInt(5);
+                int healAmount = world.rand.nextInt(5);
 
-                itemStack.setItemDamage(Math.max(itemStack.getMetadata() - healAmt, 0));
+                itemStack.setItemDamage(Math.max(itemStack.getMetadata() - healAmount, 0));
             }
         } else {
             // Fission - Begin the process of heating.
@@ -80,10 +81,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
 
             // Create toxic waste.
             if (ConfigurationManager.General.allowToxicWaste && world.rand.nextFloat() > 0.5) {
-                FluidStack fluid = ModFluids.fluidStackToxicWaste.copy();
-                fluid.amount = 1;
-
-                reactor.getTank().fillInternal(fluid, true);
+                reactor.getTank().fillInternal(new FluidStack(ModFluids.toxicWaste, 1), true);
             }
         }
     }
