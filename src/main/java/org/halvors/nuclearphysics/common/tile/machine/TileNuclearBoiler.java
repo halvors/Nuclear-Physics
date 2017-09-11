@@ -73,16 +73,19 @@ public class TileNuclearBoiler extends TileProcess {
             @Override
             public int fill(FluidStack resource, boolean doFill) {
                 if (resource.isFluidEqual(ModFluids.fluidStackWater)) {
-                    return fill(resource, doFill);
+                    return super.fill(resource, doFill);
                 }
 
                 return 0;
             }
 
+            // We have to allow draining for containers to work.
+            /*
             @Override
             public boolean canDrain() {
                 return false;
             }
+            */
         };
 
         tankOutput = new GasTank(Fluid.BUCKET_VOLUME * 5) {

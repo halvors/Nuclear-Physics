@@ -19,8 +19,7 @@ Known bugs:
             - Should breeding reactors only create heat when actually enriched uranium is present in the middle?
             - Reactors only show client side animations, and are only running when first opening GUI.
 
-        - Check if we should have uranium hexaflouride container for gas centrifuge and nuclear boiler.
-
+        - Check if we should have a uranium hexaflouride container for gas centrifuge and nuclear boiler.
         - Implement inventory in plasma heater, so that player can inject cells into tanks.
         - Implement inventory automation for all machines.
         - Add handheld thermometer? (From old atomic science).

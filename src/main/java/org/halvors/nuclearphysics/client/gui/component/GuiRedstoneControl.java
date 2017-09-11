@@ -22,7 +22,7 @@ public class GuiRedstoneControl extends GuiComponent {
     private ITileRedstoneControl tileRedstoneControl;
 
     public <T extends TileEntity & ITileRedstoneControl> GuiRedstoneControl(T tile, IGuiWrapper gui) {
-        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "control.png"), gui, 176, 105);
+        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "control.png"), gui, 176, 183);
 
         this.tile = tile;
         this.tileRedstoneControl = tile;

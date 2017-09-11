@@ -35,7 +35,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
         @Override
         public int fill(FluidStack resource, boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackUraniumHexaflouride)) {
-                return fill(resource, doFill);
+                return super.fill(resource, doFill);
             }
 
             return 0;

@@ -18,12 +18,10 @@ public class TileQuantumAssembler extends TileInventoryMachine {
     private static final int energyPerTick = 10000000; // TODO: Fix this.
 
     // Used for rendering.
+    public EntityItem entityItem = null;
     public float rotationYaw1 = 0;
     public float rotationYaw2 = 0;
     public float rotationYaw3 = 0;
-
-    //Used for rendering.
-    public EntityItem entityItem = null;
 
     public TileQuantumAssembler() {
         this(EnumMachine.QUANTUM_ASSEMBLER);
@@ -55,6 +53,8 @@ public class TileQuantumAssembler extends TileInventoryMachine {
             }
         };
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void update() {
@@ -124,15 +124,6 @@ public class TileQuantumAssembler extends TileInventoryMachine {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /*
-    @Override
-    public void openInventory(EntityPlayer player) {
-        if (!world.isRemote) {
-            NuclearPhysics.getPacketHandler().sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
-        }
-    }
-    */
 
     public boolean canProcess() {
         ItemStack itemStack = inventory.getStackInSlot(6);

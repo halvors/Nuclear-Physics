@@ -28,22 +28,6 @@ public class TileGasFunnel extends TileEntity implements ITickable {
     }
 
     @Override
-    public void update() {
-        if (tank.getFluidAmount() > 0) {
-            final TileEntity tile = world.getTileEntity(pos.up());
-
-            if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP)) {
-                final IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP);
-                final FluidStack fluidStack = tank.drain(tank.getCapacity(), false);
-
-                if (fluidStack != null && fluidHandler.fill(fluidStack, false) > 0) {
-                    tank.drain(fluidHandler.fill(fluidStack, true), true);
-                }
-            }
-        }
-    }
-
-    @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
@@ -74,6 +58,24 @@ public class TileGasFunnel extends TileEntity implements ITickable {
         }
 
         return super.getCapability(capability, facing);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void update() {
+        if (tank.getFluidAmount() > 0) {
+            final TileEntity tile = world.getTileEntity(pos.up());
+
+            if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP)) {
+                final IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP);
+                final FluidStack fluidStack = tank.drain(tank.getCapacity(), false);
+
+                if (fluidStack != null && fluidHandler.fill(fluidStack, false) > 0) {
+                    tank.drain(fluidHandler.fill(fluidStack, true), true);
+                }
+            }
+        }
     }
 }
 

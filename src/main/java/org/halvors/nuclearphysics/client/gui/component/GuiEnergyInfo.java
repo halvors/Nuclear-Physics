@@ -18,7 +18,7 @@ public class GuiEnergyInfo extends GuiComponent {
     private IInfoHandler infoHandler;
 
     public GuiEnergyInfo(IInfoHandler infoHandler, IGuiWrapper gui) {
-        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "energy_info.png"), gui, -26, 105);
+        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "energy_info.png"), gui, -26, 183);
 
         this.infoHandler = infoHandler;
     }
