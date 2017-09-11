@@ -18,7 +18,6 @@ import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
-import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;

@@ -3,6 +3,8 @@ package org.halvors.nuclearphysics.common.tile.machine;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundCategory;
@@ -10,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
@@ -28,7 +30,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     private static final int energyPerTick = 19000;
 
     // Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
-    private int acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+    private int particleDensity = General.acceleratorAntimatterDensityMultiplier;
 
     // Speed by which a particle will turn into anitmatter.
     public static final float antimatterCreationSpeed = 0.9F;
@@ -145,7 +147,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                     if (entityParticle.isDead) {
                         // On particle collision we roll the dice to see if dark-matter is generated.
                         if (entityParticle.didCollide()) {
-                            if (world.rand.nextFloat() <= ConfigurationManager.General.darkMatterSpawnChance) {
+                            if (world.rand.nextFloat() <= General.darkMatterSpawnChance) {
                                 inventory.insertItem(3, new ItemStack(ModItems.itemDarkMatterCell), false);
                             }
                         }
@@ -156,7 +158,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                         world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 2, 1 - world.rand.nextFloat() * 0.3F);
 
                         // Create anti-matter in the internal reserve.
-                        int generatedAntimatter = 5 + world.rand.nextInt(acceleratorAntimatterDensityMultiplyer);
+                        int generatedAntimatter = 5 + world.rand.nextInt(particleDensity);
                         antimatterCount += generatedAntimatter;
 
                         // Reset energy consumption levels and destroy accelerated particle.
@@ -277,21 +279,25 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     }
 
     private void calculateParticleDensity() {
-        ItemStack itemToAccelerate = inventory.getStackInSlot(0);
+        ItemStack itemStack = inventory.getStackInSlot(0);
 
-        if (itemToAccelerate != null) {
-            IBlockState state = Block.getBlockFromItem(itemToAccelerate.getItem()).getDefaultState();
+        if (itemStack != null) {
+            Item item = itemStack.getItem();
 
-            // Prevent negative numbers and disallow zero for density multiplier.
-            // We can give any BlockPos as argument, it's not used anyway.
-            acceleratorAntimatterDensityMultiplyer = (int) state.getBlockHardness(world, pos) * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+            if (item instanceof ItemBlock) {
+                IBlockState state = Block.getBlockFromItem(item).getDefaultState();
 
-            if (acceleratorAntimatterDensityMultiplyer <= 0) {
-                acceleratorAntimatterDensityMultiplyer = ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+                // Prevent negative numbers and disallow zero for density multiplier.
+                // We can give any BlockPos as argument, it's not used anyway.
+                particleDensity = Math.round(state.getBlockHardness(world, pos)) * General.acceleratorAntimatterDensityMultiplier;
             }
 
-            if (acceleratorAntimatterDensityMultiplyer > 1000) {
-                acceleratorAntimatterDensityMultiplyer = 1000 * ConfigurationManager.General.acceleratorAntimatterDensityMultiplier;
+            if (particleDensity < 1) {
+                particleDensity = General.acceleratorAntimatterDensityMultiplier;
+            }
+
+            if (particleDensity > 1000) {
+                particleDensity = 1000 * General.acceleratorAntimatterDensityMultiplier;
             }
         }
     }
