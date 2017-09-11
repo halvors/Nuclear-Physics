@@ -15,10 +15,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.halvors.nuclearphysics.common.ConfigurationManager.Integration;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ItemEventHandler;
@@ -29,16 +27,11 @@ import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.init.*;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 
-/**
- * This is the NuclearPhysics class, which is the main class of this mod.
- *
- * @author halvors
- */
 @Mod(modid = Reference.ID,
      name = Reference.NAME,
-     version = Reference.VERSION,
-     dependencies = "after:Mekanism",
-     guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
+     version = Reference.VERSION, dependencies = "after:Mekanism",
+	 acceptedMinecraftVersions = "[1.11,1.12)",
+	 guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
 public class NuclearPhysics {
 	// The instance of your mod that Forge uses.
 	@Instance(Reference.ID)
