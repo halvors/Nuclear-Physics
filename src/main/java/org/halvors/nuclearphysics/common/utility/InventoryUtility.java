@@ -1,13 +1,8 @@
 package org.halvors.nuclearphysics.common.utility;
 
-import buildcraft.api.tools.IToolWrench;
-import cofh.api.item.IToolHammer;
-import mekanism.api.IMekWrench;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -15,50 +10,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
-import org.halvors.nuclearphysics.common.ConfigurationManager.Integration;
-import org.halvors.nuclearphysics.common.init.ModItems;
 
 public class InventoryUtility {
-    /**
-     * Whether or not the player has a usable wrench for a block at the coordinates given.
-     * @param player - the player using the wrench
-     * @param pos - the coordinate of the block being wrenched
-     * @return if the player can use the wrench
-     */
-    public static boolean hasUsableWrench(EntityPlayer player, BlockPos pos) {
-        ItemStack itemStack = player.getHeldItemMainhand();
-
-        if (itemStack != null) {
-            Item item = itemStack.getItem();
-
-            if (item == ModItems.itemWrench) {
-                return true;
-            }
-
-            if (Integration.isBuildcraftEnabled) {
-                if (item instanceof IToolWrench) {
-                    IToolWrench wrench = (IToolWrench) item;
-
-                    return wrench.canWrench(player, player.getActiveHand(), itemStack, null);
-                }
-            } else if (Integration.isCoFHEnabled) {
-                if (item instanceof IToolHammer) {
-                    IToolHammer wrench = (IToolHammer) item;
-
-                    return wrench.isUsable(itemStack, player, pos);
-                }
-            } else if (Integration.isMekanismEnabled) {
-				if (item instanceof IMekWrench) {
-					IMekWrench wrench = (IMekWrench) item;
-
-					return wrench.canUseWrench(itemStack, player, pos);
-				}
-            }
-        }
-
-        return false;
-    }
-
     public static void incrStackSize(IItemHandlerModifiable itemHandler, int slot) {
         ItemStack itemStack = itemHandler.getStackInSlot(slot);
 

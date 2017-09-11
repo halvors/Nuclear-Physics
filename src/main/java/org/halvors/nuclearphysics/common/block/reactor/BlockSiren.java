@@ -15,6 +15,7 @@ import org.halvors.nuclearphysics.common.block.BlockContainerBase;
 import org.halvors.nuclearphysics.common.block.states.BlockStateSiren;
 import org.halvors.nuclearphysics.common.tile.reactor.TileSiren;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
+import org.halvors.nuclearphysics.common.utility.WrenchUtility;
 
 import javax.annotation.Nonnull;
 
@@ -50,7 +51,7 @@ public class BlockSiren extends BlockContainerBase {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (InventoryUtility.hasUsableWrench(player, pos)) {
+        if (WrenchUtility.hasUsableWrench(player, hand, pos)) {
             int pitch = state.getValue(BlockStateSiren.PITCH);
 
             if (player.isSneaking()) {

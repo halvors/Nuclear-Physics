@@ -4,8 +4,14 @@ import mekanism.api.IMekWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.Optional.Interface;
+import net.minecraftforge.fml.common.Optional.InterfaceList;
+import org.halvors.nuclearphysics.common.Integration;
 
-public class ItemWrench extends ItemBase implements IMekWrench { //implements IToolWrench, IToolHammer,
+@InterfaceList({
+        @Interface(iface = "mekanism.api.IMekWrench", modid = Integration.MEKANISM_MOD_ID)
+})
+public class ItemWrench extends ItemBase implements IMekWrench {
     public ItemWrench(String name) {
         super(name);
 
@@ -21,9 +27,11 @@ public class ItemWrench extends ItemBase implements IMekWrench { //implements IT
 
     @Override
     public void wrenchUsed(EntityPlayer player, EnumHand hand, ItemStack itemStack, RayTraceResult rayTrace) {
-        player.swingArm(hand);
+        //player.swingArm(hand);
     }
+    */
 
+    /*
     // CoFH
     @Override
     public boolean isUsable(ItemStack itemStack, EntityLivingBase player, BlockPos pos) {
