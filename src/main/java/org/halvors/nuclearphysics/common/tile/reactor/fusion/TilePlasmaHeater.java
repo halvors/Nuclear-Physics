@@ -38,7 +38,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
         @Override
         public int fill(FluidStack resource, boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackDeuterium)) {
-                return fill(resource, doFill);
+                return super.fill(resource, doFill);
             }
 
             return 0;
@@ -54,7 +54,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
         @Override
         public int fill(FluidStack resource, boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackTritium)) {
-                return fill(resource, doFill);
+                return super.fill(resource, doFill);
             }
 
             return 0;

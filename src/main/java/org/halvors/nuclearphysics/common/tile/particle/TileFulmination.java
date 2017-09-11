@@ -26,6 +26,8 @@ public class TileFulmination extends TileGenerator {
         FulminationEventHandler.unregister(this);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
     public void update() {
         super.update();

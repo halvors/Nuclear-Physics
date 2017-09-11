@@ -82,16 +82,19 @@ public class TileChemicalExtractor extends TileProcess {
             @Override
             public int fill(FluidStack resource, boolean doFill) {
                 if (resource.isFluidEqual(ModFluids.fluidStackWater) || resource.isFluidEqual(ModFluids.fluidStackDeuterium)) {
-                    return fill(resource, doFill);
+                    return super.fill(resource, doFill);
                 }
 
                 return 0;
             }
 
+            // We have to allow draining for containers to work.
+            /*
             @Override
             public boolean canDrain() {
                 return false;
             }
+            */
         };
 
         tankOutput = new LiquidTank(Fluid.BUCKET_VOLUME * 10) {
