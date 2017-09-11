@@ -76,7 +76,7 @@ public class NuclearPhysics {
 		ConfigurationManager.loadConfiguration(configuration);
 
 		// Mod integration.
-		logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
+		//logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
 
 		// Call functions for adding blocks, items, etc.
 		ModCapabilities.registerCapabilities();

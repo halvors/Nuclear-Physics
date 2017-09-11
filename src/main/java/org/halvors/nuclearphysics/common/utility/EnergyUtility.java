@@ -10,56 +10,6 @@ import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
 
 public class EnergyUtility {
     /**
-     * Whether or not a certain TileEntity can function with redstone logic. Illogical to use unless the defined TileEntity implements
-     * ITileRedstoneControl.
-     * @param tile - TileEntity to check
-     * @return if the TileEntity can function with redstone logic
-     */
-    /*
-    public static boolean canFunction(TileEntity tile) {
-        if (tile instanceof ITileRedstoneControl) {
-            ITileRedstoneControl tileControl = (ITileRedstoneControl) tile;
-
-            switch (tileControl.getRedstoneControl()) {
-                case HIGH:
-                    return tileControl.isPowered();
-
-                case LOW:
-                    return !tileControl.isPowered();
-
-                case PULSE:
-                    return tileControl.isPowered() && !tileControl.wasPowered();
-            }
-        }
-
-        return true;
-    }
-    */
-    public static boolean canFunction(TileEntity tile) {
-        if (!(tile instanceof ITileRedstoneControl)) {
-            return true;
-        }
-
-        ITileRedstoneControl control = (ITileRedstoneControl) tile;
-
-        switch(control.getRedstoneControl()) {
-            case DISABLED:
-                return true;
-
-            case HIGH:
-                return control.isPowered();
-
-            case LOW:
-                return !control.isPowered();
-
-            case PULSE:
-                return control.isPowered() && !control.wasPowered();
-        }
-
-        return false;
-    }
-
-    /**
      * Universally discharges an item, and updates the TileEntity's energy level.
      * @param slot - ID of the slot of which to charge
      * @param tile - TileEntity the item is being charged in.

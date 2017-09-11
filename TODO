@@ -24,6 +24,9 @@ Known bugs:
         - Implement inventory automation for all machines.
         - Add handheld thermometer? (From old atomic science).
 
+        - Implement support for other mods wrenches.
+        - Add support for rotating blocks with wrenches.
+
 Known features not implemented:
 
 New features to add:

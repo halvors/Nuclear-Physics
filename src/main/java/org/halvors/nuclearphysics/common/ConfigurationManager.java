@@ -47,9 +47,7 @@ public class ConfigurationManager {
     }
 
     public static class Integration {
-        public static boolean isBuildcraftEnabled;
-        public static boolean isCoFHEnabled;
-        public static boolean isMekanismEnabled;
+
     }
 
     public static void loadConfiguration(Configuration configuration) {
@@ -89,9 +87,6 @@ public class ConfigurationManager {
         General.quantumAssemblerGenerateMode = configuration.get(Configuration.CATEGORY_GENERAL, "quantumAssemblerGenerateMode", 1).getInt(); // Comment: 0 = Do not generate, 1 = Generate items only, 2 = Generate all
 
         // Integration.
-        Integration.isBuildcraftEnabled = configuration.get(CATEGORY_INTEGRATION, "Buildcraft", Loader.isModLoaded("buildcraftcore")).getBoolean();
-        Integration.isCoFHEnabled = configuration.get(CATEGORY_INTEGRATION, "CoFH", Loader.isModLoaded("cofhcore")).getBoolean();
-        Integration.isMekanismEnabled = configuration.get(CATEGORY_INTEGRATION, "Mekanism", Loader.isModLoaded("Mekanism")).getBoolean();
 
         configuration.save();
     }
@@ -134,9 +129,6 @@ public class ConfigurationManager {
         General.quantumAssemblerGenerateMode = dataStream.readInt(); // Comment: 0 = Do not generate, 1 = Generate items only, 2 = Generate all
 
         // Integration.
-        Integration.isBuildcraftEnabled = dataStream.readBoolean();
-        Integration.isCoFHEnabled = dataStream.readBoolean();
-        Integration.isMekanismEnabled = dataStream.readBoolean();
     }
 
     public static void writeConfiguration(ByteBuf dataStream) {
@@ -175,9 +167,6 @@ public class ConfigurationManager {
         objects.add(General.quantumAssemblerGenerateMode);
 
         // Integration.
-        objects.add(Integration.isBuildcraftEnabled);
-        objects.add(Integration.isCoFHEnabled);
-        objects.add(Integration.isMekanismEnabled);
 
         PacketHandler.writeObjects(objects, dataStream);
     }
