@@ -22,6 +22,41 @@ import org.halvors.nuclearphysics.common.item.ItemCell;
  * @author DarkCow, Calclavia
  */
 public class FluidUtility {
+    public static boolean isEmptyContainer(ItemStack itemStack) {
+        return itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null) && FluidUtil.getFluidContained(itemStack) == null;
+    }
+
+    public static boolean isFilledContainer(ItemStack itemStack) {
+        if (itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+            FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
+
+            if (fluidStack != null) {
+                return fluidStack.amount > 0;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isFilledContainer(ItemStack itemStack, Fluid fluid) {
+        if (itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+            FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
+
+            if (fluid != null && fluidStack != null) {
+                return fluid == fluidStack.getFluid() && fluidStack.amount > 0;
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean isFilledContainerEqual(ItemStack itemStackInput, ItemStack itemStackOutput) {
+        FluidStack fluidStackInput = FluidUtil.getFluidContained(itemStackInput);
+        FluidStack fluidStackOutput = FluidUtil.getFluidContained(itemStackOutput);
+
+        return fluidStackInput != null && fluidStackInput.isFluidEqual(fluidStackOutput);
+    }
+
     public static ItemStack getFilledCell(Fluid fluid) {
         return getFilledContainer(new ItemStack(ModItems.itemCell), new FluidStack(fluid, ItemCell.capacity));
     }
