@@ -11,6 +11,7 @@ import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
 import org.halvors.nuclearphysics.common.tile.TileConsumer;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
+import org.halvors.nuclearphysics.common.utility.RedstoneUtility;
 import org.halvors.nuclearphysics.common.utility.type.RedstoneControl;
 
 import java.util.List;
@@ -139,6 +140,6 @@ public class TileMachine extends TileConsumer implements ITickable, ITileNetwork
     }
 
     protected boolean canFunction() {
-        return EnergyUtility.canFunction(this);
+        return RedstoneUtility.canFunction(this);
     }
 }

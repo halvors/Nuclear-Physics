@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.block.BlockContainerBase;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
+import org.halvors.nuclearphysics.common.utility.WrenchUtility;
 
 import javax.annotation.Nonnull;
 
@@ -51,7 +52,7 @@ public class BlockElectricTurbine extends BlockContainerBase {
         if (tile instanceof TileElectricTurbine) {
             final TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
 
-            if (InventoryUtility.hasUsableWrench(player, pos)) {
+            if (WrenchUtility.hasUsableWrench(player, hand, pos)) {
                 return tileTurbine.getMultiBlock().toggleConstruct();
             }
         }

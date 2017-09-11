@@ -15,6 +15,7 @@ import org.halvors.nuclearphysics.common.block.BlockRotatable;
 import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
+import org.halvors.nuclearphysics.common.utility.WrenchUtility;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class BlockThermometer extends BlockRotatable {
             final TileThermometer tileThermometer = (TileThermometer) tile;
             final ItemStack itemStack = player.getHeldItemMainhand();
 
-            if (InventoryUtility.hasUsableWrench(player, pos)) {
+            if (WrenchUtility.hasUsableWrench(player, hand, pos)) {
                 if (player.isSneaking()) {
                     tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
                 } else {
