@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
@@ -33,9 +34,44 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     private static int energyPerTick = 25000;
     private static int plasmaHeatAmount = 100;
 
-    public final LiquidTank tankInputDeuterium = new LiquidTank(ModFluids.fluidStackDeuterium.copy(), Fluid.BUCKET_VOLUME * 10);
-    public final LiquidTank tankInputTritium = new LiquidTank(ModFluids.fluidStackTritium.copy(), Fluid.BUCKET_VOLUME * 10);
-    public final LiquidTank tankOutput = new LiquidTank(ModFluids.fluidStackPlasma.copy(), Fluid.BUCKET_VOLUME * 10);
+    public final LiquidTank tankInputDeuterium = new LiquidTank(Fluid.BUCKET_VOLUME * 10) {
+        @Override
+        public int fill(FluidStack resource, boolean doFill) {
+            if (resource.isFluidEqual(ModFluids.fluidStackDeuterium)) {
+                return fill(resource, doFill);
+            }
+
+            return 0;
+        }
+
+        @Override
+        public boolean canDrain() {
+            return false;
+        }
+    };
+
+    public final LiquidTank tankInputTritium = new LiquidTank(Fluid.BUCKET_VOLUME * 10) {
+        @Override
+        public int fill(FluidStack resource, boolean doFill) {
+            if (resource.isFluidEqual(ModFluids.fluidStackTritium)) {
+                return fill(resource, doFill);
+            }
+
+            return 0;
+        }
+
+        @Override
+        public boolean canDrain() {
+            return false;
+        }
+    };
+
+    public final GasTank tankOutput = new GasTank(Fluid.BUCKET_VOLUME * 10) {
+        @Override
+        public boolean canFill() {
+            return false;
+        }
+    };
 
     public float rotation = 0;
 

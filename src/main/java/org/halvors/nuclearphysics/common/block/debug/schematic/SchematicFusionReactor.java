@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class SchematicFusionReactor implements ISchematic {
     @Override
     public String getName() {
-        return "schematic.fusionReactor.name";
+        return "schematic.fusion_reactor.name";
     }
 
     @Override

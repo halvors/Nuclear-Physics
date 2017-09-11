@@ -36,7 +36,7 @@ public class GuiConfiguationFactory implements IModGuiFactory {
         return null;
     }
 
-    @Nullable
+    @SuppressWarnings("deprecation")
     @Override
     public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
         return null;

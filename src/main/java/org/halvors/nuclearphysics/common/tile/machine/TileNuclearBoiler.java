@@ -3,15 +3,18 @@ package org.halvors.nuclearphysics.common.tile.machine;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
+import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
@@ -44,10 +47,13 @@ public class TileNuclearBoiler extends TileProcess {
 
                     case 2: // Input tank fill slot.
                     case 3: // Input tank drain slot.
-                        return OreDictionaryHelper.isEmptyCell(itemStack) || OreDictionaryHelper.isWaterCell(itemStack);
+                        return FluidUtility.isEmptyContainer(itemStack) || FluidUtility.isFilledContainer(itemStack, FluidRegistry.WATER);
 
+                    // TODO: Add uranium hexaflouride container here.
+                    /*
                     case 4: // Output tank drain slot.
-                        return OreDictionaryHelper.isEmptyCell(itemStack); // TODO: Add uranium hexaflouride container here.
+                        return OreDictionaryHelper.isEmptyCell(itemStack);
+                    */
                 }
 
                 return false;
@@ -63,41 +69,26 @@ public class TileNuclearBoiler extends TileProcess {
             }
         };
 
-        tankInput = new LiquidTank(ModFluids.fluidStackWater.copy(),Fluid.BUCKET_VOLUME * 5) {
+        tankInput = new LiquidTank(Fluid.BUCKET_VOLUME * 5) {
             @Override
             public int fill(FluidStack resource, boolean doFill) {
                 if (resource.isFluidEqual(ModFluids.fluidStackWater)) {
-                    return super.fill(resource, doFill);
+                    return fill(resource, doFill);
                 }
 
                 return 0;
             }
 
-            // TODO: Only allow internal draining?
-            /*
             @Override
             public boolean canDrain() {
-                return true;
+                return false;
             }
-            */
         };
 
-        tankOutput = new LiquidTank(ModFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
-            // TODO: Only allow internal filling?
-            /*
+        tankOutput = new GasTank(Fluid.BUCKET_VOLUME * 5) {
             @Override
             public boolean canFill() {
                 return false;
-            }
-            */
-
-            @Override
-            public FluidStack drain(FluidStack resource, boolean doDrain) {
-                if (resource.isFluidEqual(ModFluids.fluidStackUraniumHexaflouride)) {
-                    return drain(resource.amount, doDrain);
-                }
-
-                return null;
             }
         };
 
@@ -183,9 +174,9 @@ public class TileNuclearBoiler extends TileProcess {
     public void process() {
         if (canProcess()) {
             tankInput.drainInternal(Fluid.BUCKET_VOLUME, true);
-            FluidStack liquid = ModFluids.fluidStackUraniumHexaflouride.copy();
-            liquid.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
-            tankOutput.fillInternal(liquid, true);
+            FluidStack fluidStack = ModFluids.fluidStackUraniumHexaflouride.copy();
+            fluidStack.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
+            tankOutput.fillInternal(fluidStack, true);
             InventoryUtility.decrStackSize(inventory, inputSlot);
         }
     }

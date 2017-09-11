@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class SchematicBreedingReactor implements ISchematic {
     @Override
     public String getName() {
-        return "schematic.breedingReactor.name";
+        return "schematic.breeding_reactor.name";
     }
 
     @Override

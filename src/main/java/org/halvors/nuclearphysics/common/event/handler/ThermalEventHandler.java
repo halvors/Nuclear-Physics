@@ -42,8 +42,8 @@ public class ThermalEventHandler {
                 final FluidStack fluidStack = event.getRemainForSpread(height);
 
                 // We're using fillInternal() to fill the IBoilHandler instead of fill() because we're not a pipe.
-                if (fluidStack.amount > 0 && boilHandler.catchGas(fluidStack, false) > 0) {
-                    fluidStack.amount -= boilHandler.catchGas(fluidStack, true);
+                if (fluidStack.amount > 0 && boilHandler.catchSteam(fluidStack, false) > 0) {
+                    fluidStack.amount -= boilHandler.catchSteam(fluidStack, true);
                 }
             }
         }

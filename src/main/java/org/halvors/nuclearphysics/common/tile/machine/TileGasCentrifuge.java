@@ -14,6 +14,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
@@ -30,11 +31,11 @@ public class TileGasCentrifuge extends TileInventoryMachine {
 
     public float rotation = 0;
 
-    private final LiquidTank tank = new LiquidTank(ModFluids.fluidStackUraniumHexaflouride.copy(), Fluid.BUCKET_VOLUME * 5) {
+    private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 5) {
         @Override
         public int fill(FluidStack resource, boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackUraniumHexaflouride)) {
-                return super.fill(resource, doFill);
+                return fill(resource, doFill);
             }
 
             return 0;
@@ -67,8 +68,11 @@ public class TileGasCentrifuge extends TileInventoryMachine {
                     case 0: // Battery input slot.
                         return EnergyUtility.canBeDischarged(itemStack);
 
+                    // TODO: Add uranium hexaflouride container here.
+                    /*
                     case 1: // Input tank drain slot.
-                        return OreDictionaryHelper.isEmptyCell(itemStack); // TODO: Add uranium hexaflouride container here.
+                        return OreDictionaryHelper.isEmptyCell(itemStack);
+                    */
 
                     case 2: // Item output slot.
                     case 3: // Item output slot.
@@ -192,13 +196,6 @@ public class TileGasCentrifuge extends TileInventoryMachine {
 
     /*
     @Override
-    public void openInventory(EntityPlayer player) {
-        if (!world.isRemote) {
-            NuclearPhysics.getPacketHandler().sendTo(new PacketTileEntity(this), (EntityPlayerMP) player);
-        }
-    }
-
-    @Override
     public int[] getSlotsForFace(EnumFacing side) {
         return side == EnumFacing.UP ? new int[] { 0, 1 } : new int[] { 2, 3 };
     }
@@ -221,7 +218,6 @@ public class TileGasCentrifuge extends TileInventoryMachine {
 
         if (fluidStack != null) {
             if (fluidStack.amount >= ConfigurationManager.General.uraniumHexaflourideRatio) {
-                //return inventory.isItemValidForSlot(2, new ItemStack(QuantumItems.itemUranium)) && isItemValidForSlot(3, new ItemStack(QuantumItems.itemUranium, 1, 1));
                 return true;
             }
         }
@@ -234,7 +230,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
             tank.drainInternal(ConfigurationManager.General.uraniumHexaflourideRatio, true);
 
             if (world.rand.nextFloat() > 0.6) {
-                inventory.insertItem(2, new ItemStack(ModItems.itemUranium), false);
+                inventory.insertItem(2, new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_235.ordinal()), false);
             } else {
                 inventory.insertItem(3, new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()), false);
             }

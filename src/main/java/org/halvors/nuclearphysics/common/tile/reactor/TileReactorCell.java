@@ -88,7 +88,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         @Override
         public int fill(FluidStack resource, boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackPlasma)) {
-                return super.fill(resource, doFill);
+                return fill(resource, doFill);
             }
 
             return 0;
@@ -97,7 +97,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         @Override
         public FluidStack drain(FluidStack resource, boolean doDrain) {
             if (resource.isFluidEqual(ModFluids.fluidStackToxicWaste)) {
-                return super.drain(resource, doDrain);
+                return drain(resource, doDrain);
             }
 
             return null;
@@ -111,6 +111,63 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     public TileReactorCell(String name) {
         this.name = name;
     }
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+
+        temperature = tag.getFloat("temperature");
+
+        if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
+            NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
+
+            for (int i = 0; i < tagList.tagCount(); i++) {
+                NBTTagCompound slotTag = (NBTTagCompound) tagList.get(i);
+                byte slot = slotTag.getByte("Slot");
+
+                if (slot < inventory.getSlots()) {
+                    inventory.setStackInSlot(slot, new ItemStack(slotTag));
+                }
+            }
+
+            return;
+        }
+
+        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag("Slots"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+    }
+
+    @Override
+    @Nonnull
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+
+        tag.setFloat("temperature", temperature);
+        tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
+        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
+
+        return tag;
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Nonnull
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return (T) inventory;
+        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return (T) tank;
+        }
+
+        return super.getCapability(capability, facing);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void update() {
@@ -135,24 +192,22 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
             // Handle cell rod interactions.
             ItemStack fuelRod = inventory.getStackInSlot(0);
 
-            if (!fuelRod.isEmpty()) {
-                if (fuelRod.getItem() instanceof IReactorComponent) {
-                    // Activate rods.
-                    IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
-                    reactorComponent.onReact(fuelRod, this);
+            if (!fuelRod.isEmpty() && fuelRod.getItem() instanceof IReactorComponent) {
+                // Activate rods.
+                IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
+                reactorComponent.onReact(fuelRod, this);
 
-                    if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
-                        inventory.setStackInSlot(0, ItemStack.EMPTY);
-                    }
+                if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
+                    inventory.setStackInSlot(0, ItemStack.EMPTY);
+                }
 
-                    // Emit radiation.
-                    if (world.getTotalWorldTime() % 20 == 0) {
-                        if (world.rand.nextFloat() > 0.65) {
-                            List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - radius * 2, pos.getY() - radius * 2, pos.getZ() - radius * 2, pos.getX() + radius * 2, pos.getY() + radius * 2, pos.getZ() + radius * 2));
+                // Emit radiation.
+                if (world.getTotalWorldTime() % 20 == 0) {
+                    if (world.rand.nextFloat() > 0.65) {
+                        List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - radius * 2, pos.getY() - radius * 2, pos.getZ() - radius * 2, pos.getX() + radius * 2, pos.getY() + radius * 2, pos.getZ() + radius * 2));
 
-                            for (EntityLiving entity : entities) {
-                                PoisonRadiation.getInstance().poisonEntity(pos, entity);
-                            }
+                        for (EntityLiving entity : entities) {
+                            PoisonRadiation.getInstance().poisonEntity(pos, entity);
                         }
                     }
                 }
@@ -163,19 +218,19 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
             // Only a small percentage of the internal energy is used for temperature.
             if ((internalEnergy - previousInternalEnergy) > 0) {
-                float deltaT = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
+                float deltaTemperature = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
 
                 // Check control rods.
                 for (EnumFacing side : EnumFacing.HORIZONTALS) {
                     BlockPos checkPos = pos.offset(side);
 
                     if (world.getBlockState(checkPos).getBlock() == ModBlocks.blockControlRod) {
-                        deltaT /= 1.1;
+                        deltaTemperature /= 1.1;
                     }
                 }
 
                 // Add heat to surrounding blocks in the thermal grid.
-                ThermalGrid.addTemperature(world, pos, deltaT);
+                ThermalGrid.addTemperature(world, pos, deltaTemperature);
 
                 // Reactor cell plays random idle noises while operating and above temperature to boil water.
                 if (world.getWorldTime() % 100 == 0 && temperature >= ThermalPhysics.waterBoilTemperature) {
@@ -236,7 +291,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
             }
         }
 
-
         if (!world.isRemote) {
             if (world.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
                 shouldUpdate = false;
@@ -245,60 +299,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-
-        temperature = tag.getFloat("temperature");
-
-        if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
-            NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
-
-            for (int i = 0; i < tagList.tagCount(); i++) {
-                NBTTagCompound slotTag = (NBTTagCompound) tagList.get(i);
-                byte slot = slotTag.getByte("Slot");
-
-                if (slot < inventory.getSlots()) {
-                    inventory.setStackInSlot(slot, new ItemStack(slotTag));
-                }
-            }
-
-            return;
-        }
-
-        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag("Slots"));
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
-    }
-
-    @Override
-    @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-        super.writeToNBT(tag);
-
-        tag.setFloat("temperature", temperature);
-        tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
-        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
-
-        return tag;
-    }
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return (T) inventory;
-        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return (T) tank;
-        }
-
-        return super.getCapability(capability, facing);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

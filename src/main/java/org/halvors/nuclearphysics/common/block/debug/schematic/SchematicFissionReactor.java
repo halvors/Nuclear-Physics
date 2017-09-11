@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class SchematicFissionReactor implements ISchematic {
     @Override
     public String getName() {
-        return "schematic.fissionReactor.name";
+        return "schematic.fission_reactor.name";
     }
 
     @Override
@@ -61,9 +61,9 @@ public class SchematicFissionReactor implements ISchematic {
                                 int rotationMetadata = 0;
                                 Position offset = new Position(x, 0, z).normalize();
 
-                                for (EnumFacing checkDir : EnumFacing.VALUES) {
-                                    if (offset.getX() == checkDir.getFrontOffsetX() && offset.getY() == checkDir.getFrontOffsetY() && offset.getZ() == checkDir.getFrontOffsetZ()) {
-                                        rotationMetadata = checkDir.getOpposite().ordinal();
+                                for (EnumFacing side : EnumFacing.values()) {
+                                    if (offset.getX() == side.getFrontOffsetX() && offset.getY() == side.getFrontOffsetY() && offset.getZ() == side.getFrontOffsetZ()) {
+                                        rotationMetadata = side.getOpposite().ordinal();
                                     }
                                 }
 

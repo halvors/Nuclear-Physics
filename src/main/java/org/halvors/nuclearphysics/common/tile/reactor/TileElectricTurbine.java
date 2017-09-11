@@ -33,8 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** TileElectricTurbine
- *
+/**
  * 1 cubic meter of steam = 338260 J of energy
  *
  * The front of the turbine is where the output is.
@@ -44,7 +43,12 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     private final int defaultTorque = 5000;
     private int torque = defaultTorque;
 
-    private final GasTank tank = new GasTank(ModFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 100);
+    private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
+        @Override
+        public boolean canFill() {
+            return false;
+        }
+    };
 
     // Radius of large turbine?
     private int multiBlockRadius = 1;
@@ -171,9 +175,9 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     @Nonnull
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
         if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) {
-            return (T) getMultiBlock().get().getEnergyStorage();
+            return (T) energyStorage;
         } else if ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) {
-            return (T) getMultiBlock().get().tank;
+            return (T) tank;
         }
 
         return super.getCapability(capability, facing);

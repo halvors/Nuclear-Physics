@@ -16,7 +16,7 @@ import org.halvors.nuclearphysics.common.init.ModFluids;
 import javax.annotation.Nonnull;
 
 public class TileGasFunnel extends TileEntity implements ITickable {
-    private final GasTank tank = new GasTank(ModFluids.fluidStackSteam.copy(), Fluid.BUCKET_VOLUME * 16) {
+    private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
         @Override
         public boolean canFill() {
             return false;

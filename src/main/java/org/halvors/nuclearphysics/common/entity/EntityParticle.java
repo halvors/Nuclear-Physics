@@ -69,7 +69,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         if (world.isAirBlock(pos)) {
             int electromagnetCount = 0;
 
-            for (EnumFacing side : EnumFacing.VALUES) {
+            for (EnumFacing side : EnumFacing.values()) {
                 if (isElectromagnet(world, pos, side)) {
                     electromagnetCount++;
                 }
