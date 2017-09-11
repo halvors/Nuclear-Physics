@@ -30,7 +30,6 @@ import org.halvors.nuclearphysics.common.network.PacketHandler;
 @Mod(modid = Reference.ID,
      name = Reference.NAME,
      version = Reference.VERSION, dependencies = "after:Mekanism",
-	 acceptedMinecraftVersions = "[1.10,1.11)",
 	 guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
 public class NuclearPhysics {
 	// The instance of your mod that Forge uses.
