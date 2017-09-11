@@ -9,7 +9,6 @@ import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.ITileNetwork;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
 import org.halvors.nuclearphysics.common.tile.TileConsumer;
-import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.RedstoneUtility;
 import org.halvors.nuclearphysics.common.utility.type.RedstoneControl;
