@@ -1,5 +1,7 @@
 package org.halvors.nuclearphysics.client.gui.debug;
 
+import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.math.BlockPos;
@@ -13,14 +15,17 @@ import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.type.Color;
 
 import java.io.IOException;
+import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiCreativeBuilder extends GuiComponentScreen {
+    private Block block;
     private BlockPos pos;
     private int mode = 0;
     private GuiTextField textFieldSize;
 
-    public GuiCreativeBuilder(BlockPos pos) {
+    public GuiCreativeBuilder(Block block, BlockPos pos) {
+        this.block = block;
         this.pos = pos;
     }
 
@@ -28,31 +33,33 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
     public void initGui() {
         super.initGui();
 
-        textFieldSize = new GuiTextField(0, fontRendererObj, 39, 58, 50, 12);
-
-        buttonList.add(new GuiButton(0, width / 2 - 80, height / 2 - 10, 58, 20, "Build"));
-        buttonList.add(new GuiButton(1, width / 2 - 50, height / 2 - 35, 120, 20, "Mode"));
+        textFieldSize = new GuiTextField(0, fontRendererObj, (xSize / 2) - 40, (ySize / 2) - 30, 50, 12);
+        buttonList.add(new GuiButton(0, (width / 2) - 41, (height / 2) - 15, 120, 20, ""));
+        buttonList.add(new GuiButton(1, (width / 2) - 80, (height / 2) + 10, 60, 20, "Build"));
     }
 
     @Override
     protected void drawGuiScreenForegroundLayer(int mouseX, int mouseY) {
-        String name = LanguageUtility.transelate("tile.creative_builder.name");
-
+        String name = LanguageUtility.transelate(block.getUnlocalizedName() + ".name");
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), (ySize / 2) - 102, 0x404040);
 
-        fontRendererObj.drawString("This is a creative only cheat", (xSize / 2) - 80, 20, 0x404040);
-        fontRendererObj.drawString("which allows you to auto build", (xSize / 2) - 80, 30, 0x404040);
-        fontRendererObj.drawString("structures for testing.", (xSize / 2) - 80, 40, 0x404040);
+        List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(block.getUnlocalizedName() + ".tooltip"), 4);
 
-        fontRendererObj.drawString(LanguageUtility.transelate("gui.size") + ": ", (xSize / 2) - 80, 60, 0x404040);
+        for (int i = 0; i < list.size(); i++) {
+            fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 35 + i * 9, 0x404040);
+        }
+
+        fontRendererObj.drawString(LanguageUtility.transelate("gui.radius") + ": ", (xSize / 2) - 80, (ySize / 2) - 28, 0x404040);
         textFieldSize.drawTextBox();
 
-        buttonList.get(1).displayString = LanguageUtility.transelate(BlockCreativeBuilder.getSchematic(mode).getName());
-        fontRendererObj.drawString(LanguageUtility.transelate("gui.mode") + ": ", (xSize / 2) - 80, 80, 0x404040);
+        buttonList.get(0).displayString = LanguageUtility.transelate(BlockCreativeBuilder.getSchematic(mode).getName());
+        fontRendererObj.drawString(LanguageUtility.transelate("gui.mode") + ": ", (xSize / 2) - 80, (ySize / 2) - 9, 0x404040);
 
-        fontRendererObj.drawString("Warning!", (xSize / 2) - 80, 130, Color.DARK_RED.getHex());
-        fontRendererObj.drawString("This will replace blocks without", (xSize / 2) - 80, 140, Color.DARK_RED.getHex());
-        fontRendererObj.drawString("dropping it! You may lose items.", (xSize / 2) - 80, 150, Color.DARK_RED.getHex());
+        list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(block.getUnlocalizedName() + ".text"), 4);
+
+        for (int i = 0; i < list.size(); i++) {
+            fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 150 + i * 9, Color.DARK_RED.getHex());
+        }
 
         super.drawGuiScreenForegroundLayer(mouseX, mouseY);
     }
@@ -80,6 +87,10 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
 
         switch (button.id) {
             case 0:
+                mode = (mode + 1) % (BlockCreativeBuilder.getSchematicCount());
+                break;
+
+            case 1:
                 int radius;
 
                 try {
@@ -90,13 +101,9 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
 
                 if (radius > 0) {
                     NuclearPhysics.getPacketHandler().sendToServer(new PacketCreativeBuilder(pos, mode, radius));
-                    mc.player.closeScreen();
+                    Minecraft.getMinecraft().player.closeScreen();
                 }
 
-                break;
-
-            case 1:
-                mode = (mode + 1) % (BlockCreativeBuilder.getSchematicCount());
                 break;
         }
     }

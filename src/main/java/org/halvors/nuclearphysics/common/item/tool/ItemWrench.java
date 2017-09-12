@@ -71,7 +71,7 @@ public class ItemWrench extends ItemBase implements IWrench, IMekWrench {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, @Nonnull List<String> list, boolean flag) {
-        list.add(LanguageUtility.transelate("tooltip.mode") + ": " + getState(itemStack).getName());
+        list.add(LanguageUtility.transelate("tooltip.state") + ": " + getState(itemStack).getName());
 
         super.addInformation(itemStack, player, list, flag);
     }
@@ -148,7 +148,7 @@ public class ItemWrench extends ItemBase implements IWrench, IMekWrench {
         }
 
         public String getName() {
-            return LanguageUtility.transelate("tooltip.wrench." + name);
+            return LanguageUtility.transelate("tooltip." + name);
         }
 
         public Color getColor() {

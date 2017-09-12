@@ -12,6 +12,7 @@ import org.halvors.nuclearphysics.client.gui.component.GuiFluidGauge;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.client.gui.component.IProgressInfoHandler;
+import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
@@ -60,11 +61,11 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
             // Text field for total number of ticks remaining.
             int secondsLeft = itemStack.getMaxDamage() - itemStack.getMetadata();
 
-            fontRendererObj.drawString(LanguageUtility.transelate("gui.remainingTime"), (xSize / 2) + 14, 45, 0x404040);
-            fontRendererObj.drawString(secondsLeft + " seconds", (xSize / 2) + 14, 58, 0x404040);
+            fontRendererObj.drawString(LanguageUtility.transelate("gui.remaining"), (xSize / 2) + 14, 45, 0x404040);
+            fontRendererObj.drawString(secondsLeft + "s", (xSize / 2) + 14, 58, 0x404040);
         }
 
-        List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate("tile." + tile.getName() + ".tooltip"), 5);
+        List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate("tile." + Reference.ID + "." + tile.getName() + ".tooltip"), 5);
 
         for (int i = 0; i < list.size(); i++) {
             fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 85 + i * 9, 0x404040);

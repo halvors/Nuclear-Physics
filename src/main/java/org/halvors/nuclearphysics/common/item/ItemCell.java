@@ -38,7 +38,7 @@ public class ItemCell extends ItemTooltip {
     @SideOnly(Side.CLIENT)
     public String getItemStackDisplayName(@Nonnull ItemStack itemStack) {
         FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
-        String fluidName = fluidStack != null ? fluidStack.getLocalizedName() : LanguageUtility.transelate("fluid.empty");
+        String fluidName = fluidStack != null ? fluidStack.getLocalizedName() : LanguageUtility.transelate("tooltip.empty");
 
         return fluidName + " " + LanguageUtility.transelate(getUnlocalizedName() + ".name");
     }

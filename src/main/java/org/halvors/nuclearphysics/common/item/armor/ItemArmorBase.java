@@ -13,7 +13,7 @@ public class ItemArmorBase extends ItemArmor {
 
         this.name = name;
 
-        setUnlocalizedName(name);
+        setUnlocalizedName(Reference.ID + "." + name);
         setRegistryName(Reference.ID, name);
         setCreativeTab(NuclearPhysics.getCreativeTab());
     }

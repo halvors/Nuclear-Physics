@@ -13,7 +13,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.nuclearphysics.common.item.ItemBase;
 import org.halvors.nuclearphysics.common.item.ItemCell;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
-import org.halvors.nuclearphysics.common.item.tool.ItemWrench;
 import org.halvors.nuclearphysics.common.item.armor.ItemArmorBase;
 import org.halvors.nuclearphysics.common.item.armor.ItemArmorHazmat;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
@@ -21,6 +20,7 @@ import org.halvors.nuclearphysics.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemUranium;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemUranium.EnumUranium;
+import org.halvors.nuclearphysics.common.item.tool.ItemWrench;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 
 import java.util.HashSet;

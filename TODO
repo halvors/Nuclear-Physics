@@ -12,7 +12,7 @@ Known bugs:
         - When in GUI when a machines is removed, or a reactor explode. It fetches name from the new block.
         - Why is electricity not generated during the night? Temperature is lower at night?
         - Fix antimatter explosion not spawning particles. (Client-side smoke)
-        - Make nuclear boiler eject steam. (Smoke)
+        - Make nuclear boiler eject steam. (Smoke) Use: randomDisplayTick()
         - Fluids renders strangely in world.
 
         - Verify the breeding process.
@@ -22,14 +22,10 @@ Known bugs:
         - Check if we should have a uranium hexaflouride container for gas centrifuge and nuclear boiler.
         - Implement inventory in plasma heater, so that player can inject cells into tanks.
         - Implement inventory automation for all machines.
-        - Add handheld thermometer? (From old atomic science).
-
-        - Implement support for other mods wrenches.
-
+        - Implement support for other mods wrenches. (DONE: Mekanism)
         - When other mods fluids is used as default, tanks still contain the old one.
 
-        - Sort out what translation class to use.
-        - GalactiCraft interfering with .lang file (https://github.com/micdoodle8/Galacticraft/blob/master/src/main/resources/assets/galacticraftcore/lang/en_US.lang)
+        - Verify that energy in plasma heater is actually displayed in the hovering text.
 
 Known features not implemented:
 
@@ -38,6 +34,7 @@ New features to add:
         - Add electromagnetic cell, a cell capable of holding antimatter.
         - Not poison players in creative mode?
         - Implement IAntiPoisonBlock and add make radiation resistant blocks.
+        - Add handheld thermometer? (From old atomic science).
 
     Enhancement:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.

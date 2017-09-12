@@ -7,7 +7,6 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.List;
 
 public class TileRotatable extends TileBase implements ITileNetwork, ITileRotatable {

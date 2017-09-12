@@ -21,7 +21,7 @@ public class WrenchUtility {
 
         if (itemStack != null) {
             Item item = itemStack.getItem();
-            
+
             if (item instanceof IWrench) {
                 IWrench wrench = (IWrench) item;
 
