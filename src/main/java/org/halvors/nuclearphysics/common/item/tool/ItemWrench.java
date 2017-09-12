@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.api.item.IWrench;
 import org.halvors.nuclearphysics.common.Integration;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.item.ItemBase;
@@ -59,7 +60,7 @@ public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player,
 @InterfaceList({
         @Interface(iface = "mekanism.api.IMekWrench", modid = Integration.MEKANISM_MOD_ID)
 })
-public class ItemWrench extends ItemBase implements IMekWrench {
+public class ItemWrench extends ItemBase implements IWrench, IMekWrench {
     public ItemWrench() {
         super("wrench");
 
@@ -94,20 +95,16 @@ public class ItemWrench extends ItemBase implements IMekWrench {
     }
 
     @Override
-    public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+    public EnumActionResult onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         final IBlockState state = world.getBlockState(pos);
         final Block block = state.getBlock();
 
         switch (getState(itemStack)) {
             case ROTATE:
-                if (player.isSneaking()) {
-                    side = side.getOpposite();
-                }
-
                 EnumFacing[] validRotations = block.getValidRotations(world, pos);
 
                 if (validRotations != null && validRotations.length > 0) {
-                    block.rotateBlock(world, pos, side);
+                    block.rotateBlock(world, pos, facing);
 
                     return EnumActionResult.SUCCESS;
                 }
@@ -121,20 +118,21 @@ public class ItemWrench extends ItemBase implements IMekWrench {
         return getState(itemStack) == WrenchState.WRENCH;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean canUseWrench(ItemStack itemStack, EntityPlayer player, BlockPos pos) {
+        return getState(itemStack) == WrenchState.WRENCH;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public WrenchState getState(ItemStack itemStack) {
         return WrenchState.values()[InventoryUtility.getNBTTagCompound(itemStack).getInteger("state")];
     }
 
     public void setState(ItemStack itemStack, WrenchState state) {
         InventoryUtility.getNBTTagCompound(itemStack).setInteger("state", state.ordinal());
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // Mekanism
-    @Override
-    public boolean canUseWrench(ItemStack itemStack, EntityPlayer player, BlockPos pos) {
-        return getState(itemStack) == WrenchState.WRENCH;
     }
 
     public enum WrenchState {

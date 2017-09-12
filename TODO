@@ -25,7 +25,6 @@ Known bugs:
         - Add handheld thermometer? (From old atomic science).
 
         - Implement support for other mods wrenches.
-        - Add support for rotating blocks with wrenches.
 
         - When other mods fluids is used as default, tanks still contain the old one.
 

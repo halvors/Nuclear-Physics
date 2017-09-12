@@ -6,8 +6,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import org.halvors.nuclearphysics.api.item.IWrench;
 import org.halvors.nuclearphysics.common.Integration;
-import org.halvors.nuclearphysics.common.init.ModItems;
 
 public class WrenchUtility {
     /**
@@ -21,9 +21,11 @@ public class WrenchUtility {
 
         if (itemStack != null) {
             Item item = itemStack.getItem();
+            
+            if (item instanceof IWrench) {
+                IWrench wrench = (IWrench) item;
 
-            if (item == ModItems.itemWrench) {
-                return true;
+                return wrench.canUseWrench(itemStack, player, pos);
             } else if (Integration.isMekanismLoaded) {
                 if (item instanceof IMekWrench) {
                     IMekWrench wrench = (IMekWrench) item;
