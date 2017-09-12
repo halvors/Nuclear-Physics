@@ -59,13 +59,6 @@ public abstract class BlockRotatable extends BlockContainerBase {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        final TileEntity tile = world.getTileEntity(pos);
-
-        return tile instanceof ITileRotatable && WrenchUtility.hasUsableWrench(player, hand, pos);
-    }
-
-    @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         final TileEntity tile = world.getTileEntity(pos);
 
@@ -101,9 +94,9 @@ public abstract class BlockRotatable extends BlockContainerBase {
         if (tile instanceof ITileRotatable) {
             ITileRotatable tileRotatable = (ITileRotatable) tile;
 
-            //if (tileRotatable.canSetFacing(side)) {
+            if (tileRotatable.canSetFacing(side)) {
                 tileRotatable.setFacing(side);
-            //}
+            }
 
             return true;
         }
