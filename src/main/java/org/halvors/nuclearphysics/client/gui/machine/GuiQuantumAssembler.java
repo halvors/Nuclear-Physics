@@ -7,6 +7,7 @@ import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
+import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.Resource;
 
@@ -32,11 +33,11 @@ public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {
         String displayText;
 
         if (tile.operatingTicks > 0) {
-            displayText = "Process: " + (int) (100 - ((float) tile.operatingTicks / (float) tile.ticksRequired) * 100) + "%";
+            displayText = LanguageUtility.transelate("gui.process") + ": " + (int) (100 - ((float) tile.operatingTicks / (float) tile.ticksRequired) * 100) + "%";
         } else if (tile.canProcess()) {
-            displayText = "Ready";
+            displayText = LanguageUtility.transelate("gui.ready");
         } else {
-            displayText = "Idle";
+            displayText = LanguageUtility.transelate("gui.idle");
         }
 
         fontRenderer.drawString(displayText, (xSize / 2) - 80, ySize - 106, 0x404040);

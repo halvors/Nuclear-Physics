@@ -34,15 +34,17 @@ public class BlockThermometer extends BlockRotatable {
             final TileThermometer tileThermometer = (TileThermometer) tile;
             final ItemStack itemStack = player.getHeldItemMainhand();
 
-            if (WrenchUtility.hasUsableWrench(player, hand, pos)) {
-                if (player.isSneaking()) {
-                    tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
-                } else {
-                    tileThermometer.setThreshold(tileThermometer.getThershold() + 10);
-                }
+            if (!itemStack.isEmpty()) {
+                if (WrenchUtility.hasUsableWrench(player, hand, pos)) {
+                    if (player.isSneaking()) {
+                        tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
+                    } else {
+                        tileThermometer.setThreshold(tileThermometer.getThershold() + 10);
+                    }
 
-                return true;
-            } else if (itemStack.isEmpty()) {
+                    return true;
+                }
+            } else {
                 if (player.isSneaking()) {
                     tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
                 } else {

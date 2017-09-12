@@ -10,11 +10,6 @@ import org.halvors.nuclearphysics.common.block.states.BlockStateConnectedTexture
 
 import javax.annotation.Nonnull;
 
-/**
- * Creates a block with textures that connect to other blocks
- * <p>
- * Based off a tutorial by Darkhax, used under the Creative Commons Zero 1.0 Universal license
- */
 public class BlockConnectedTexture extends BlockContainerBase {
     public BlockConnectedTexture(String name, Material material) {
         super(name, material);

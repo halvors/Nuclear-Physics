@@ -31,14 +31,14 @@ public class GuiGasCentrifuge extends GuiMachine<TileGasCentrifuge> {
         String displayText;
 
         if (tile.operatingTicks > 0) {
-            displayText = "Processing";
+            displayText = "gui.processing";
         } else if (tile.canProcess()) {
-            displayText = "Ready";
+            displayText = "gui.ready";
         } else {
-            displayText = "Idle";
+            displayText = "gui.idle";
         }
 
-        fontRenderer.drawString("Status: " + displayText, 70, 50, 0x404040);
+        fontRenderer.drawString(LanguageUtility.transelate("gui.status") + ": " + LanguageUtility.transelate(displayText), 70, 50, 0x404040);
 
         List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tile.getBlockType().getUnlocalizedName() + "." + tile.getType().ordinal() + ".text"), 4);
 

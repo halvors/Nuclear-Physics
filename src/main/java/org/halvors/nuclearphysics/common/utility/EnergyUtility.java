@@ -6,7 +6,6 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
 
 public class EnergyUtility {
     /**

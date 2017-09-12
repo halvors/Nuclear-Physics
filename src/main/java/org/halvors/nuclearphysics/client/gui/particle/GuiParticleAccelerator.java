@@ -10,6 +10,7 @@ import org.halvors.nuclearphysics.client.gui.machine.GuiMachine;
 import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAccelerator;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.tile.machine.TileParticleAccelerator;
+import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.type.Color;
 
@@ -30,20 +31,20 @@ public class GuiParticleAccelerator extends GuiMachine<TileParticleAccelerator> 
         String status;
 
         if (!EntityParticle.canSpawnParticle(tile.getWorld(), pos)) {
-            status = Color.DARK_RED + "Fail to emit, try rotating.";
+            status = Color.DARK_RED + LanguageUtility.transelate("gui.failedToEmitTryRotating");
         } else if (tile.getEntityParticle() != null && tile.getVelocity() > 0) {
-            status = Color.ORANGE + "Accelerating";
+            status = Color.ORANGE + LanguageUtility.transelate("gui.accelerating");
         } else {
-            status = Color.DARK_GREEN + "Idle";
+            status = Color.DARK_GREEN + LanguageUtility.transelate("gui.idle");
         }
 
-        fontRenderer.drawString("Velocity: " + Math.round((tile.getVelocity() / TileParticleAccelerator.antimatterCreationSpeed) * 100) + "%", (xSize / 2) - 80, (ySize / 2) - 80, 0x404040);
-        fontRenderer.drawString("Antimatter: " + tile.getAntimatterCount() + " mg", (xSize / 2) - 80, (ySize / 2) - 68, 0x404040);
-        fontRenderer.drawString("Energy used: " + UnitDisplay.getEnergyDisplay(tile.totalEnergyConsumed), (xSize / 2) - 80, (ySize / 2) - 56, 0x404040);
-        fontRenderer.drawString("Status: ", (xSize / 2) - 80, (ySize / 2) - 20, 0x404040);
+        fontRenderer.drawString(LanguageUtility.transelate("gui.velocity") + ": " + Math.round((tile.getVelocity() / TileParticleAccelerator.antimatterCreationSpeed) * 100) + "%", (xSize / 2) - 80, (ySize / 2) - 80, 0x404040);
+        fontRenderer.drawString(LanguageUtility.transelate("gui.storedAntimatter") + ": " + tile.getAntimatterCount() + " mg", (xSize / 2) - 80, (ySize / 2) - 68, 0x404040);
+        fontRenderer.drawString(LanguageUtility.transelate("gui.energyUsed") + ": " + UnitDisplay.getEnergyDisplay(tile.totalEnergyConsumed), (xSize / 2) - 80, (ySize / 2) - 56, 0x404040);
+        fontRenderer.drawString(LanguageUtility.transelate("gui.status") + ": ", (xSize / 2) - 80, (ySize / 2) - 20, 0x404040);
         fontRenderer.drawString(status, (xSize / 2) - 80, (ySize / 2) - 8, 0x404040);
         //fontRendererObj.drawString("Buffer: " + UnitDisplay.getEnergyDisplay(tile.getEnergyStorage().getEnergyStored()) + "/" + UnitDisplay.getEnergyDisplay(tile.getEnergyStorage().getMaxEnergyStored()), (xSize / 2) - 80, 110, 0x404040);
-        fontRenderer.drawString("Facing: " + tile.getFacing().toString().toUpperCase(), 100, (ySize - 96) + 2, 0x404040);
+        fontRenderer.drawString(LanguageUtility.transelate("gui.facing") + ": " + tile.getFacing().toString().toUpperCase(), 100, (ySize - 96) + 2, 0x404040);
 
         super.drawGuiContainerForegroundLayer(x, y);
     }
