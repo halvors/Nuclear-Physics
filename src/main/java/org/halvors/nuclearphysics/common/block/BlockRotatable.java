@@ -77,12 +77,33 @@ public abstract class BlockRotatable extends BlockContainerBase {
     }
 
     @Override
+    public EnumFacing[] getValidRotations(World world, BlockPos pos) {
+        TileEntity tile = world.getTileEntity(pos);
+        EnumFacing[] valid = new EnumFacing[6];
+
+        if (tile instanceof ITileRotatable) {
+            ITileRotatable tileRotatable = (ITileRotatable) tile;
+
+            for (EnumFacing facing : EnumFacing.VALUES) {
+                if (tileRotatable.canSetFacing(facing)) {
+                    valid[facing.ordinal()] = facing;
+                }
+            }
+        }
+
+        return valid;
+    }
+
+    @Override
     public boolean rotateBlock(World world, BlockPos pos, EnumFacing side) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof ITileRotatable) {
             ITileRotatable tileRotatable = (ITileRotatable) tile;
-            tileRotatable.setFacing(side);
+
+            //if (tileRotatable.canSetFacing(side)) {
+                tileRotatable.setFacing(side);
+            //}
 
             return true;
         }

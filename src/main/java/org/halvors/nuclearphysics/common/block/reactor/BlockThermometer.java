@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -13,6 +14,8 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.block.BlockRotatable;
 import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
+import org.halvors.nuclearphysics.common.item.tool.ItemWrench;
+import org.halvors.nuclearphysics.common.item.tool.ItemWrench.WrenchState;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.WrenchUtility;
@@ -33,15 +36,7 @@ public class BlockThermometer extends BlockRotatable {
         if (tile instanceof TileThermometer) {
             final TileThermometer tileThermometer = (TileThermometer) tile;
 
-            if (WrenchUtility.hasUsableWrench(player, hand, pos)) {
-                if (player.isSneaking()) {
-                    tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
-                } else {
-                    tileThermometer.setThreshold(tileThermometer.getThershold() + 10);
-                }
-
-                return true;
-            } else if (itemStack == null) {
+            if (!WrenchUtility.hasUsableWrench(player, hand, pos) && itemStack == null) {
                 if (player.isSneaking()) {
                     tileThermometer.setThreshold(tileThermometer.getThershold() + 100);
                 } else {
@@ -49,6 +44,22 @@ public class BlockThermometer extends BlockRotatable {
                 }
 
                 return true;
+            } else {
+                Item item = itemStack.getItem();
+
+                if (item instanceof ItemWrench) {
+                    ItemWrench itemWrench = (ItemWrench) item;
+
+                    if (itemWrench.getState(itemStack) == WrenchState.WRENCH) {
+                        if (player.isSneaking()) {
+                            tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
+                        } else {
+                            tileThermometer.setThreshold(tileThermometer.getThershold() + 10);
+                        }
+
+                        return true;
+                    }
+                }
             }
         }
 

@@ -94,22 +94,22 @@ item.hazmat_boots.name=Hazmat Boots
 
 // Tooltip
 tooltip.noShift=Hold %dshift %dfor more information
-tooltip.trackingTemperature=Tracking temperature at:
-tooltip.notTrackingTemperature=Not tracking temperature.
-
-// Potions
-potion.radiation=Radiation
-death.attack.radiation=%1$s died from radiation.
+tooltip.noFluid=No fluid
+tooltip.noFluid=Energy
+tooltip.state=State
+tooltip.wrench.wrench=Wrench
+tooltip.wrench.rotate=Rotate
+tooltip.trackingCoordinate=Tracking coordinate
+tooltip.clearedTrackingCoordinate=Cleared tracking coordinate
+tooltip.notTrackingTemperature=Not tracking temperature
 
 // Gui
-gui.noFluid=No fluid
 gui.temperature=Temperature
 gui.remainingTime=Remaining Time
 gui.unit=Unit
 gui.using=Using
 gui.needed=Needed
 gui.buffer=Buffer
-gui.mode=Size
 gui.mode=Mode
 
 gui.control.disabled=Disabled
@@ -132,6 +132,10 @@ schematic.accelerator.name=Particle Accelerator
 schematic.breeding_reactor.name=Breeding Reactor
 schematic.fission_reactor.name=Fission Reactor
 schematic.fusion_reactor.name=Fusion Reactor
+
+// Potions
+potion.radiation=Radiation
+death.attack.radiation=%1$s died from radiation.
 
 // Colors
 color.black=Black

@@ -6,6 +6,8 @@ import net.minecraft.util.EnumFacing;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 
 public class TileRotatable extends TileBase implements ITileNetwork, ITileRotatable {
@@ -52,6 +54,12 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    @Override
+    public boolean canSetFacing(EnumFacing facing) {
+        return Arrays.asList(EnumFacing.HORIZONTALS).contains(facing);
+    }
 
     @Override
     public EnumFacing getFacing() {

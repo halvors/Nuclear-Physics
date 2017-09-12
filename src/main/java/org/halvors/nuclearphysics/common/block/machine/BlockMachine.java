@@ -118,9 +118,7 @@ public class BlockMachine extends BlockInventory {
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
         final TileEntity tile = world.getTileEntity(pos);
 
-        if (tile instanceof ITileRotatable && WrenchUtility.hasUsableWrench(player, hand, pos)) {
-            return true;
-        } else if (tile instanceof TilePlasmaHeater) {
+        if (tile instanceof TilePlasmaHeater) {
             return FluidUtility.playerActivatedFluidItem(world, pos, player, side);
         } else if (!player.isSneaking()) {
             PlayerUtility.openGui(player, world, pos);
@@ -128,7 +126,7 @@ public class BlockMachine extends BlockInventory {
             return true;
         }
 
-        return false;
+        return super.onBlockActivated(world, pos, state, player, hand, itemStack, side, hitX, hitY, hitZ);
     }
 
     @SuppressWarnings("deprecation")

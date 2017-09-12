@@ -50,7 +50,7 @@ public class GuiFluidGauge extends GuiGauge {
         if (fluidStack != null && fluidStack.amount > 0) {
             return fluidStack.getLocalizedName() + ": " + tank.getFluidAmount() + " mB";
         } else {
-            return LanguageUtility.transelate("gui.noFluid");
+            return LanguageUtility.transelate("tooltip.noFluid");
         }
     }
 }
