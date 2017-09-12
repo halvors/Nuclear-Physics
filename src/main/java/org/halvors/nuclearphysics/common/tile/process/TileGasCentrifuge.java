@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.tile.machine;
+package org.halvors.nuclearphysics.common.tile.process;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
@@ -19,6 +19,7 @@ import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
+import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 

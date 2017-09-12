@@ -31,7 +31,7 @@ public interface ITileRedstoneControl {
     boolean wasPowered();
 
     /**
-     * If the machine can be pulsed.
+     * If the process can be pulsed.
      */
     boolean canPulse();
 }

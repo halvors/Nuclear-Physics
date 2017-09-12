@@ -1,13 +1,12 @@
-package org.halvors.nuclearphysics.client.gui.machine;
+package org.halvors.nuclearphysics.client.gui;
 
 import net.minecraft.inventory.Container;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.gui.GuiComponentContainer;
 import org.halvors.nuclearphysics.client.gui.component.GuiEnergyInfo;
 import org.halvors.nuclearphysics.client.gui.component.GuiRedstoneControl;
-import org.halvors.nuclearphysics.common.tile.machine.TileMachine;
+import org.halvors.nuclearphysics.common.tile.TileMachine;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 

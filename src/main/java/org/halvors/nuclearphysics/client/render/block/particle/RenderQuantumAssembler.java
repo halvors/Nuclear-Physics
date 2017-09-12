@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.client.render.block.machine;
+package org.halvors.nuclearphysics.client.render.block.particle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
+import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.Resource;
 

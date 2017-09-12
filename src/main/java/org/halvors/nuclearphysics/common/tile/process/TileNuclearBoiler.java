@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.tile.machine;
+package org.halvors.nuclearphysics.common.tile.process;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.energy.EnergyStorage;

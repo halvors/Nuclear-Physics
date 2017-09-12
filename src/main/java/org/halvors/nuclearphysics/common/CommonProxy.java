@@ -11,13 +11,17 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import org.halvors.nuclearphysics.common.container.machine.ContainerChemicalExtractor;
-import org.halvors.nuclearphysics.common.container.machine.ContainerGasCentrifuge;
-import org.halvors.nuclearphysics.common.container.machine.ContainerNuclearBoiler;
-import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAccelerator;
+import org.halvors.nuclearphysics.common.container.particle.ContainerQuantumAssembler;
+import org.halvors.nuclearphysics.common.container.process.ContainerChemicalExtractor;
+import org.halvors.nuclearphysics.common.container.process.ContainerGasCentrifuge;
+import org.halvors.nuclearphysics.common.container.process.ContainerNuclearBoiler;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
-import org.halvors.nuclearphysics.common.tile.machine.*;
+import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
+import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
+import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
+import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.tile.process.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 
 /**

@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.container.machine;
+package org.halvors.nuclearphysics.common.container.process;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.init.ModItems;
-import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 public class ContainerGasCentrifuge extends ContainerBase<TileGasCentrifuge> {
