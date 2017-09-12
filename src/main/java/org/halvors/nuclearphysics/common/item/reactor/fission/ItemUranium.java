@@ -29,8 +29,10 @@ public class ItemUranium extends ItemRadioactive {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
-        for (EnumUranium type : EnumUranium.values()) {
-            items.add(new ItemStack(this, 1, type.ordinal()));
+        if (isInCreativeTab(tab)) {
+            for (EnumUranium type : EnumUranium.values()) {
+                items.add(new ItemStack(this, 1, type.ordinal()));
+            }
         }
     }
 

@@ -46,8 +46,10 @@ public class ItemCell extends ItemTooltip {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems) {
-        for (EnumCell type : EnumCell.values()) {
-            subItems.add(type == EnumCell.EMPTY ? new ItemStack(this) : FluidUtility.getFilledCell(FluidRegistry.getFluid(type.getName())));
+        if (isInCreativeTab(tab)) {
+            for (EnumCell type : EnumCell.values()) {
+                subItems.add(type == EnumCell.EMPTY ? new ItemStack(this) : FluidUtility.getFilledCell(FluidRegistry.getFluid(type.getName())));
+            }
         }
     }
 
