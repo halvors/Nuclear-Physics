@@ -22,10 +22,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine;
+import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 import org.halvors.nuclearphysics.common.tile.machine.*;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
+import org.halvors.nuclearphysics.common.utility.WrenchUtility;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -116,7 +118,9 @@ public class BlockMachine extends BlockInventory {
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
         final TileEntity tile = world.getTileEntity(pos);
 
-        if (tile instanceof TilePlasmaHeater) {
+        if (tile instanceof ITileRotatable && WrenchUtility.hasUsableWrench(player, hand, pos)) {
+            return true;
+        } else if (tile instanceof TilePlasmaHeater) {
             return FluidUtility.playerActivatedFluidItem(world, pos, player, side);
         } else if (!player.isSneaking()) {
             PlayerUtility.openGui(player, world, pos);

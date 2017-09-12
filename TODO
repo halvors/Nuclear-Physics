@@ -27,6 +27,11 @@ Known bugs:
         - Implement support for other mods wrenches.
         - Add support for rotating blocks with wrenches.
 
+        - When other mods fluids is used as default, tanks still contain the old one.
+
+        - Sort out what translation class to use.
+        - GalactiCraft interfering with .lang file (https://github.com/micdoodle8/Galacticraft/blob/master/src/main/resources/assets/galacticraftcore/lang/en_US.lang)
+
 Known features not implemented:
 
 New features to add:

@@ -1,10 +1,12 @@
 package org.halvors.nuclearphysics.common.utility;
 
+import mekanism.api.IMekWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import org.halvors.nuclearphysics.common.Integration;
 import org.halvors.nuclearphysics.common.init.ModItems;
 
 public class WrenchUtility {
@@ -22,15 +24,15 @@ public class WrenchUtility {
 
             if (item == ModItems.itemWrench) {
                 return true;
-            }
-
-            /*
-            } else if (Integration.isMekanismEnabled) {
+            } else if (Integration.isMekanismLoaded) {
                 if (item instanceof IMekWrench) {
                     IMekWrench wrench = (IMekWrench) item;
 
                     return wrench.canUseWrench(itemStack, player, pos);
                 }
+            }
+
+            /*
             } else if (ConfigurationManager.Integration.isBuildcraftEnabled) {
                 if (item instanceof IToolWrench) {
                     IToolWrench wrench = (IToolWrench) item;
