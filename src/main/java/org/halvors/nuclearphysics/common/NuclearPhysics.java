@@ -124,6 +124,9 @@ public class NuclearPhysics {
 		// Register grids.
 		UpdateTicker.addNetwork(thermalGrid);
 
+		// Initialize mod integration.
+		Integration.initialize();
+
 		// Calling proxy handler.
 		proxy.postInit();
 	}

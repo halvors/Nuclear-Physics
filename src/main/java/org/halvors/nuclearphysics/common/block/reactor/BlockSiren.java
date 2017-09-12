@@ -13,7 +13,6 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockContainerBase;
 import org.halvors.nuclearphysics.common.block.states.BlockStateSiren;
 import org.halvors.nuclearphysics.common.tile.reactor.TileSiren;
-import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.WrenchUtility;
 
 import javax.annotation.Nonnull;

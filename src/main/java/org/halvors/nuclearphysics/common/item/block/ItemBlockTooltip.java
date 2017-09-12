@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.type.Color;
 import org.lwjgl.input.Keyboard;
@@ -27,7 +28,7 @@ public class ItemBlockTooltip extends ItemBlockBase {
 
         if (LanguageUtility.canTranselate(tooltip)) {
             if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                list.add(LanguageUtility.transelate("tooltip.noShift", Color.AQUA.toString(), Color.GREY.toString()));
+                list.add(LanguageUtility.transelate("tooltip." + Reference.ID + ".noShift", Color.AQUA.toString(), Color.GREY.toString()));
             } else {
                 list.addAll(LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tooltip), 5));
             }

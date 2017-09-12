@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.Reference;
 
 public class BlockBase extends Block {
     protected String name;
@@ -13,7 +14,7 @@ public class BlockBase extends Block {
 
         this.name = name;
 
-        setUnlocalizedName(name);
+        setUnlocalizedName(Reference.ID + "." + name);
         setRegistryName(name);
         setCreativeTab(NuclearPhysics.getCreativeTab());
     }

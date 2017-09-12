@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.common;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.Loader;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.utility.energy.ElectricUnit;
 import org.halvors.nuclearphysics.common.utility.energy.TemperatureUnit;
@@ -11,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigurationManager {
-    public static final String CATEGORY_INTEGRATION = "integration";
-
     public static class General {
         public static boolean enableUpdateNotice;
         public static boolean destroyDisabledBlocks;
@@ -44,10 +41,6 @@ public class ConfigurationManager {
 
         //public static int[] quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the Quantum Assembler. Separate by commas, no space.
         public static int quantumAssemblerGenerateMode = 1; // Comment: 0 = Do not generate, 1 = Generate items only, 2 = Generate all
-    }
-
-    public static class Integration {
-
     }
 
     public static void loadConfiguration(Configuration configuration) {
@@ -85,8 +78,6 @@ public class ConfigurationManager {
 
         //General.quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the NuclearPhysics Assembler. Separate by commas, no space.
         General.quantumAssemblerGenerateMode = configuration.get(Configuration.CATEGORY_GENERAL, "quantumAssemblerGenerateMode", 1).getInt(); // Comment: 0 = Do not generate, 1 = Generate items only, 2 = Generate all
-
-        // Integration.
 
         configuration.save();
     }
@@ -127,8 +118,6 @@ public class ConfigurationManager {
 
         //General.quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the NuclearPhysics Assembler. Separate by commas, no space.
         General.quantumAssemblerGenerateMode = dataStream.readInt(); // Comment: 0 = Do not generate, 1 = Generate items only, 2 = Generate all
-
-        // Integration.
     }
 
     public static void writeConfiguration(ByteBuf dataStream) {
@@ -165,8 +154,6 @@ public class ConfigurationManager {
 
         //objects.add(General.quantumAssemblerRecipe);
         objects.add(General.quantumAssemblerGenerateMode);
-
-        // Integration.
 
         PacketHandler.writeObjects(objects, dataStream);
     }

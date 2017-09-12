@@ -28,9 +28,7 @@ public class TileGenerator extends TileBase implements ITickable, IEnergyStorage
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        if (energyStorage != null) {
-            CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag("storedEnergy"));
-        }
+        CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag("storedEnergy"));
     }
 
     @Override

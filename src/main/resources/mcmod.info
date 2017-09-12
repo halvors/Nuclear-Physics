@@ -7,8 +7,8 @@
   		"mcversion": "${minecraft_version}",
   		"url": "https://minecraft.curseforge.com/projects/nuclear-physics",
   		"updateUrl": "",
-  		"authorList": [ "halvors", "zenoy" ],
-  		"credits": "Calclavia, CyanideX, Archadia, Darkguardsman, Tgame14 and Maxwolf Goodliffe",
+  		"authorList": [ "halvors" ],
+  		"credits": "Calclavia and CyanideX",
   		"logoFile": "logo.png",
 		"screenshots": [],
 		"dependencies": []

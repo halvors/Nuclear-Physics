@@ -83,7 +83,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		Block block = state.getBlock();
 
 		if (block instanceof BlockCreativeBuilder) {
-			return new GuiCreativeBuilder(pos);
+			return new GuiCreativeBuilder(block, pos);
 		}
 
 		if (tile instanceof TileChemicalExtractor) {
