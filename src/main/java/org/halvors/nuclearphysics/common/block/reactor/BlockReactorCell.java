@@ -5,24 +5,26 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
+import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
+import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class BlockReactorCell extends BlockInventory {
     public BlockReactorCell() {
@@ -58,6 +60,22 @@ public class BlockReactorCell extends BlockInventory {
     @SideOnly(Side.CLIENT)
     public boolean isOpaqueCube(IBlockState state) {
         return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
+        final TileEntity tile = world.getTileEntity(pos);
+
+        if (tile instanceof TileReactorCell) {
+            TileReactorCell tileReactorCell = (TileReactorCell) tile;
+            ItemStack itemStack = tileReactorCell.getInventory().getStackInSlot(0);
+
+            // Spawn particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
+            if (itemStack != null && tileReactorCell.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextInt(2), pos.getY() + 1, pos.getZ() + world.rand.nextInt(2), 0, 0.1, 0);
+            }
+        }
     }
 
     @Override

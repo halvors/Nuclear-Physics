@@ -37,7 +37,7 @@ import java.util.List;
 
 public class BlockMachine extends BlockInventory {
     public BlockMachine() {
-        super("process", Material.IRON);
+        super("machine", Material.IRON);
 
         setDefaultState(blockState.getBaseState().withProperty(BlockStateMachine.TYPE, EnumMachine.CHEMICAL_EXTRACTOR));
     }

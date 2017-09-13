@@ -8,7 +8,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -171,127 +170,118 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
     @Override
     public void update() {
-        FluidStack fluidStack = tank.getFluid();
+        // TODO: Should we do this for fusion reactors as well?
+        // Reactor cell plays random idle noises while operating with temperature above boiling water temperature.
+        if (world.getWorldTime() % 100 == 0 && temperature >= ThermalPhysics.waterBoilTemperature) {
+            float percentage = Math.min(temperature / meltingPoint, 1);
 
-        if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
-            // Spawn plasma.
-            FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
+            world.playSound(null, pos, ModSoundEvents.REACTOR_CELL, SoundCategory.BLOCKS, percentage, 1);
+        }
 
-            if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
-                EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
-                BlockPos spawnPos = pos.offset(spawnDir, 2);
+        if (!world.isRemote) {
+            FluidStack fluidStack = tank.getFluid();
 
-                if (world.isAirBlock(spawnPos)) {
-                    MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(world, spawnPos, TilePlasma.plasmaMaxTemperature));
-                    tank.drainInternal(Fluid.BUCKET_VOLUME, true);
+            if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
+                // Spawn plasma.
+                FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
+
+                if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
+                    EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
+                    BlockPos spawnPos = pos.offset(spawnDir, 2);
+
+                    if (world.isAirBlock(spawnPos)) {
+                        MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(world, spawnPos, TilePlasma.plasmaMaxTemperature));
+                        tank.drainInternal(Fluid.BUCKET_VOLUME, true);
+                    }
                 }
-            }
-        } else {
-            previousInternalEnergy = internalEnergy;
+            } else {
+                previousInternalEnergy = internalEnergy;
 
-            // Handle cell rod interactions.
-            ItemStack fuelRod = inventory.getStackInSlot(0);
+                // Handle cell rod interactions.
+                ItemStack fuelRod = inventory.getStackInSlot(0);
 
-            if (fuelRod != null && fuelRod.getItem() instanceof IReactorComponent) {
-                // Activate rods.
-                IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
-                reactorComponent.onReact(fuelRod, this);
+                if (fuelRod != null && fuelRod.getItem() instanceof IReactorComponent) {
+                    // Activate rods.
+                    IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
+                    reactorComponent.onReact(fuelRod, this);
 
-                if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
-                    inventory.setStackInSlot(0, null);
-                }
+                    if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
+                        inventory.setStackInSlot(0, null);
+                    }
 
-                // Emit radiation.
-                if (world.getTotalWorldTime() % 20 == 0) {
-                    if (world.rand.nextFloat() > 0.65) {
+                    // Emit radiation.
+                    if (world.getTotalWorldTime() % 20 == 0 && world.rand.nextFloat() > 0.65) {
                         List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - radius * 2, pos.getY() - radius * 2, pos.getZ() - radius * 2, pos.getX() + radius * 2, pos.getY() + radius * 2, pos.getZ() + radius * 2));
 
                         for (EntityLiving entity : entities) {
                             PoisonRadiation.getInstance().poisonEntity(pos, entity);
                         }
-                    }
-                }
-            }
 
-            // Update the temperature from the thermal grid.
-            temperature = ThermalGrid.getTemperature(world, pos);
-
-            // Only a small percentage of the internal energy is used for temperature.
-            if ((internalEnergy - previousInternalEnergy) > 0) {
-                float deltaTemperature = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
-
-                // Check control rods.
-                for (EnumFacing side : EnumFacing.HORIZONTALS) {
-                    BlockPos checkPos = pos.offset(side);
-
-                    if (world.getBlockState(checkPos).getBlock() == ModBlocks.blockControlRod) {
-                        deltaTemperature /= 1.1;
                     }
                 }
 
-                // Add heat to surrounding blocks in the thermal grid.
-                ThermalGrid.addTemperature(world, pos, deltaTemperature);
+                // Update the temperature from the thermal grid.
+                temperature = ThermalGrid.getTemperature(world, pos);
 
-                // Reactor cell plays random idle noises while operating and above temperature to boil water.
-                if (world.getWorldTime() % 100 == 0 && temperature >= ThermalPhysics.waterBoilTemperature) {
-                    float percentage = Math.min(temperature / meltingPoint, 1.0F);
+                // Only a small percentage of the internal energy is used for temperature.
+                if ((internalEnergy - previousInternalEnergy) > 0) {
+                    float deltaTemperature = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
 
-                    world.playSound(null, pos, ModSoundEvents.REACTOR_CELL, SoundCategory.BLOCKS, percentage, 1);
-                }
+                    // Check control rods.
+                    for (EnumFacing side : EnumFacing.HORIZONTALS) {
+                        BlockPos checkPos = pos.offset(side);
 
-                if (previousTemperature != temperature && !shouldUpdate) {
-                    shouldUpdate = true;
-                    previousTemperature = temperature;
-                }
+                        if (world.getBlockState(checkPos).getBlock() == ModBlocks.blockControlRod) {
+                            deltaTemperature /= 1.1;
+                        }
+                    }
 
-                // If temperature is over the melting point of the reactor, either increase counter or melt down.
-                if (previousTemperature >= meltingPoint) {
-                    if (meltdownCounter < meltdownCounterMaximum) {
+                    // Add heat to surrounding blocks in the thermal grid.
+                    ThermalGrid.addTemperature(world, pos, deltaTemperature);
+
+                    if (previousTemperature != temperature && !shouldUpdate) {
                         shouldUpdate = true;
-                        meltdownCounter++;
-                    } else if (meltdownCounter >= meltdownCounterMaximum) {
-                        meltdownCounter = 0;
-                        meltDown();
+                        previousTemperature = temperature;
+                    }
 
-                        return;
+                    // If temperature is over the melting point of the reactor, either increase counter or melt down.
+                    if (previousTemperature >= meltingPoint) {
+                        if (meltdownCounter < meltdownCounterMaximum) {
+                            meltdownCounter++;
+                            shouldUpdate = true;
+                        } else if (meltdownCounter >= meltdownCounterMaximum) {
+                            meltdownCounter = 0;
+                            meltDown();
+
+                            return;
+                        }
+                    }
+
+                    // If reactor temperature is below meltingPoint and meltdownCounter is over 0, decrease it.
+                    if (previousTemperature < meltingPoint && meltdownCounter > 0) {
+                        meltdownCounter--;
                     }
                 }
 
-                // If reactor temperature is below meltingPoint and meltdownCounter is over 0, decrease it.
-                if (previousTemperature < meltingPoint && meltdownCounter > 0) {
-                    meltdownCounter--;
-                }
-            }
+                internalEnergy = 0;
 
-            internalEnergy = 0;
+                if (isOverToxic()) {
+                    // Randomly leak toxic waste when it is too toxic.
+                    BlockPos leakPos = pos.add(world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10);
+                    Block block = world.getBlockState(leakPos).getBlock();
 
-            if (isOverToxic()) {
-                // Randomly leak toxic waste when it is too toxic.
-                BlockPos leakPos = pos.add(world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10);
-                Block block = world.getBlockState(leakPos).getBlock();
-
-                if (block == Blocks.GRASS) {
-                    world.setBlockState(leakPos, ModBlocks.blockRadioactiveGrass.getDefaultState());
-                    tank.drainInternal(Fluid.BUCKET_VOLUME, true);
-                } else if (world.isAirBlock(leakPos) || block.isReplaceable(world, leakPos)) {
-                    if (fluidStack != null) {
-                        world.setBlockState(leakPos, fluidStack.getFluid().getBlock().getDefaultState());
+                    if (block == Blocks.GRASS) {
+                        world.setBlockState(leakPos, ModBlocks.blockRadioactiveGrass.getDefaultState());
                         tank.drainInternal(Fluid.BUCKET_VOLUME, true);
+                    } else if (world.isAirBlock(leakPos) || block.isReplaceable(world, leakPos)) {
+                        if (fluidStack != null) {
+                            world.setBlockState(leakPos, fluidStack.getFluid().getBlock().getDefaultState());
+                            tank.drainInternal(Fluid.BUCKET_VOLUME, true);
+                        }
                     }
                 }
             }
 
-            if (world.isRemote && fuelRod != null) {
-                // Particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
-                if (temperature >= ThermalPhysics.waterBoilTemperature) {
-                    if (world.rand.nextInt(5) == 0) {
-                        world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextInt(2), pos.getY() + 1, pos.getZ() + world.rand.nextInt(2), 0, 0.1, 0);
-                    }
-                }
-            }
-        }
-
-        if (!world.isRemote) {
             if (world.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
                 shouldUpdate = false;
                 world.notifyNeighborsOfStateChange(pos, blockType);
@@ -325,31 +315,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public String getName() {
-        return name;
-    }
-
-    public String getLocalizedName() {
-        return LanguageUtility.transelate(getBlockType().getUnlocalizedName() + ".name");
-    }
-
-    public IItemHandlerModifiable getInventory() {
-        return inventory;
-    }
-
-    private void meltDown() {
-        // Make sure the reactor block is destroyed.
-        world.setBlockToAir(pos);
-
-        // No need to destroy reactor cell since explosion will do that for us.
-        ReactorExplosion explosion = new ReactorExplosion(world, null, pos, 9);
-        explosion.explode();
-    }
-
     @Override
     public void heat(long energy) {
         internalEnergy = Math.max(internalEnergy + energy, 0);
@@ -375,5 +340,28 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     @Override
     public World getWorldObject() {
         return world;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLocalizedName() {
+        return LanguageUtility.transelate(getBlockType().getUnlocalizedName() + ".name");
+    }
+
+    public IItemHandlerModifiable getInventory() {
+        return inventory;
+    }
+
+    private void meltDown() {
+        // Make sure the reactor block is destroyed.
+        world.setBlockToAir(pos);
+
+        // No need to destroy reactor cell since explosion will do that for us.
+        ReactorExplosion explosion = new ReactorExplosion(world, null, pos, 9);
+        explosion.explode();
     }
 }
