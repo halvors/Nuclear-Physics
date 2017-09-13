@@ -160,8 +160,9 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
             if (angularVelocity != 0) {
                 if (world.getWorldTime() % 26 == 0) {
+                    // TODO: Tweak this volume, i suspect it is way to loud.
                     double maxVelocity = (getMaxPower() / torque) * 4;
-                    float percentage = angularVelocity * 4 / (float) maxVelocity;
+                    float percentage =Math.min(angularVelocity * 4 / (float) maxVelocity, 1);
 
                     world.playSound(null, pos, ModSoundEvents.ELECTRIC_TURBINE, SoundCategory.BLOCKS, percentage, 1);
                 }
