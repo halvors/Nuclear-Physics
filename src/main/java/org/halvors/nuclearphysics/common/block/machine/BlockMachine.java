@@ -11,10 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,6 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine;
+import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
@@ -34,6 +32,7 @@ import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Random;
 
 public class BlockMachine extends BlockInventory {
     public BlockMachine() {
@@ -80,6 +79,56 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
+        final EnumMachine type = state.getValue(BlockStateMachine.TYPE);
+        final TileEntity tile = world.getTileEntity(pos);
+
+        if (tile instanceof TileMachine) {
+            final TileMachine tileMachine = (TileMachine) tile;
+
+            EnumParticleTypes particleTypes = null;
+            float xRandom = (float)pos.getX() + 0.5F;
+            float yRandom = (float)pos.getY() + 0.2F + random.nextFloat() * 6.0F / 16.0F;
+            float zRandom = (float)pos.getZ() + 0.5F;
+            float iRandom = 0.52F;
+            float jRandom = random.nextFloat() * 0.6F - 0.3F;
+            double xSpeed = 0;
+            double ySpeed = 0;
+            double zSpeed = 0;
+
+            switch (type) {
+                case NUCLEAR_BOILER:
+                    if (tileMachine.operatingTicks > 0) {
+                        particleTypes = EnumParticleTypes.CLOUD;
+                        ySpeed = 0.05;
+                    }
+                    break;
+            }
+
+            if (particleTypes != null) {
+                switch (tileMachine.getFacing()) {
+                    case NORTH:
+                        world.spawnParticle(particleTypes, (xRandom + jRandom), yRandom, (zRandom - iRandom), xSpeed, ySpeed, zSpeed);
+                        break;
+
+                    case SOUTH:
+                        world.spawnParticle(particleTypes, (xRandom + jRandom), yRandom, (zRandom + iRandom), xSpeed, ySpeed, zSpeed);
+                        break;
+
+                    case WEST:
+                        world.spawnParticle(particleTypes, (xRandom - iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        break;
+
+                    case EAST:
+                        world.spawnParticle(particleTypes, (xRandom + iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        break;
+                }
+            }
+        }
+    }
+
+    @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
         return new BlockStateMachine(this);
@@ -122,7 +171,7 @@ public class BlockMachine extends BlockInventory {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TilePlasmaHeater) {
-            return FluidUtility.playerActivatedFluidItem(world, pos, player, side);
+            return FluidUtility.playerActivatedFluidItem(world, pos, player, itemStack, side);
         } else if (!player.isSneaking()) {
             PlayerUtility.openGui(player, world, pos);
 

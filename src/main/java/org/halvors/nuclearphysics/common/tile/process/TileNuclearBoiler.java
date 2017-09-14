@@ -105,7 +105,7 @@ public class TileNuclearBoiler extends TileProcess {
     @Override
     public void update() {
         super.update();
-
+        
         if (operatingTicks > 0) {
             rotation += 0.1;
         } else {
