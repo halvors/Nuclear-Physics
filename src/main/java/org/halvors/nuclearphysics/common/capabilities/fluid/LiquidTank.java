@@ -2,12 +2,10 @@ package org.halvors.nuclearphysics.common.capabilities.fluid;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class LiquidTank extends FluidTank {

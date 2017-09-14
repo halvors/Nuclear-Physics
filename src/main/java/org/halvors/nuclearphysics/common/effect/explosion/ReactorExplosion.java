@@ -17,8 +17,6 @@ public class ReactorExplosion extends RadioactiveExplosion {
 
     @Override
     public void doExplosionB(boolean spawnParticles) {
-        super.doExplosionB(spawnParticles);
-
         for (BlockPos pos : getAffectedBlockPositions()) {
             IBlockState stateUnder = world.getBlockState(pos.down());
 
@@ -26,5 +24,7 @@ public class ReactorExplosion extends RadioactiveExplosion {
                 world.setBlockState(pos, ModBlocks.blockRadioactiveGrass.getDefaultState());
             }
         }
+
+        super.doExplosionB(spawnParticles);
     }
 }

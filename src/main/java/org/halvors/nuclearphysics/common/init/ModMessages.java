@@ -3,7 +3,6 @@ package org.halvors.nuclearphysics.common.init;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.relauncher.Side;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.network.packet.PacketConfiguration;
 import org.halvors.nuclearphysics.common.network.packet.PacketConfiguration.PacketConfigurationMessage;

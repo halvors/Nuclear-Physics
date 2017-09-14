@@ -216,7 +216,6 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                         for (EntityLiving entity : entities) {
                             PoisonRadiation.getInstance().poisonEntity(pos, entity);
                         }
-
                     }
                 }
 

@@ -16,8 +16,6 @@ public class RadioactiveExplosion extends ExplosionBase {
 
     @Override
     public void doExplosionA() {
-        super.doExplosionA();
-
         float radius = size * 4;
         AxisAlignedBB bounds = new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius);
         List<EntityLiving> entitiesNearby = world.getEntitiesWithinAABB(EntityLiving.class, bounds);
@@ -25,5 +23,7 @@ public class RadioactiveExplosion extends ExplosionBase {
         for (EntityLiving entity : entitiesNearby) {
             PoisonRadiation.getInstance().poisonEntity(entity.getPosition(), entity);
         }
+
+        super.doExplosionA();
     }
 }

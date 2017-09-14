@@ -1,6 +1,5 @@
 package org.halvors.nuclearphysics.common.capabilities.fluid;
 
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
