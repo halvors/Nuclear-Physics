@@ -360,7 +360,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         // Make sure the reactor block is destroyed.
         world.setBlockToAir(pos);
 
-        // No need to destroy reactor cell since explosion will do that for us.
+        // Create the explosion.
         ReactorExplosion explosion = new ReactorExplosion(world, null, pos, 9);
         explosion.explode();
     }

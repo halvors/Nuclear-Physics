@@ -4,6 +4,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.network.packet.PacketConfiguration;
 import org.halvors.nuclearphysics.common.network.packet.PacketConfiguration.PacketConfigurationMessage;
 import org.halvors.nuclearphysics.common.network.packet.PacketCreativeBuilder;
@@ -25,6 +26,6 @@ public class ModMessages {
     }
 
     private static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(final Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, final Class<REQ> requestMessageType, final Side receivingSide) {
-        NuclearPhysics.getPacketHandler().networkWrapper.registerMessage(messageHandler, requestMessageType, messageId++, receivingSide);
+        PacketHandler.networkWrapper.registerMessage(messageHandler, requestMessageType, messageId++, receivingSide);
     }
 }

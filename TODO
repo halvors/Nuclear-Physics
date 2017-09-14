@@ -9,15 +9,13 @@ Known bugs:
         - Fix fire not vanishing after a while. (Seems like fire doesn't persist re-login?)
         - Reactors are only running when first opening GUI on world load. (NOT CONFIRMED)
         - Check if we should have a uranium hexaflouride container for gas centrifuge and nuclear boiler.
+        - Fluids renders strangely in world.
+        - Implement support for other mods wrenches. (DONE: Mekanism)
 
     High Priority:
-        - Implement support for other mods wrenches. (DONE: Mekanism)
         - Implement inventory automation for all machines.
-
         - When in GUI when a machines is removed, or a reactor explode. It fetches name from the new block.
         - Why is electricity not generated during the night? Temperature is lower at night?
-        - Fix antimatter explosion not spawning particles. (Client-side smoke) (Is this because it's only called from the server?)
-        - Fluids renders strangely in world.
         - When other mods fluids is used as default, tanks still contain the old one.
 
         - Verify the breeding process.
@@ -25,9 +23,9 @@ Known bugs:
 
 
 
-        - Implement inventory in plasma heater, so that player can inject cells into tanks.
-
         - Make more stuff only server side, if not needed on the client.
+            - Reactor cell migrated to server-side only.
+
         - Verify that energy in plasma heater is actually displayed in the hovering text.
 
 Known features not implemented:
