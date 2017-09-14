@@ -32,8 +32,10 @@ public class TileFulmination extends TileGenerator {
     public void update() {
         super.update();
 
-        // Slowly lose energy.
-        energyStorage.extractEnergy(1, false);
+        if (!world.isRemote) {
+            // Slowly lose energy.
+            energyStorage.extractEnergy(1, false);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

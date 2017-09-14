@@ -14,7 +14,7 @@ public class TileSiren extends TileEntity implements ITickable {
 
     @Override
     public void update() {
-        if (world.getWorldTime() % 30 == 0) {
+        if (!world.isRemote && world.getWorldTime() % 30 == 0) {
             int pitch = world.getBlockState(pos).getValue(BlockStateSiren.PITCH);
 
             if (world.isBlockIndirectlyGettingPowered(pos) > 0) {

@@ -11,6 +11,7 @@ import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class TileGenerator extends TileBase implements ITickable, IEnergyStorage {
@@ -43,14 +44,14 @@ public class TileGenerator extends TileBase implements ITickable, IEnergyStorage
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
         return (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) {
             return (T) energyStorage;
         }
@@ -62,10 +63,12 @@ public class TileGenerator extends TileBase implements ITickable, IEnergyStorage
 
     @Override
     public void update() {
-        sendEnergyToTargets();
+        if (!world.isRemote) {
+            sendEnergyToTargets();
 
-        if (world.getWorldTime() % getTargetRefreshRate() == 0) {
-            searchTargets();
+            if (world.getWorldTime() % getTargetRefreshRate() == 0) {
+                searchTargets();
+            }
         }
     }
 

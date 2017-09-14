@@ -55,7 +55,9 @@ public class TileMachine extends TileConsumer implements ITickable, ITileNetwork
 
     @Override
     public void update() {
-        redstoneLastTick = redstone;
+        if (!world.isRemote) {
+            redstoneLastTick = redstone;
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

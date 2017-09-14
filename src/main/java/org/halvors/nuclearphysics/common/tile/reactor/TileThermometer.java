@@ -54,7 +54,6 @@ public class TileThermometer extends TileRotatable implements ITickable {
 
     @Override
     public void update() {
-        // Server only operation.
         if (!world.isRemote && world.getWorldTime() % 10 == 0) {
             // Grab temperature from target or from ourselves.
             if (trackCoordinate != null) {

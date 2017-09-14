@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class TileBase extends TileEntity {
-    /** The players currently using this block. */
     private final Set<EntityPlayer> playersUsing = new HashSet<>();
 
     public void open(EntityPlayer player) {

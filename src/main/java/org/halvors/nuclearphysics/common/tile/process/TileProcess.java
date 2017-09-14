@@ -62,14 +62,14 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return (T) this;
         }
@@ -83,12 +83,14 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     public void update() {
         super.update();
 
-        if (getInputTank() != null) {
-            fillOrDrainTank(tankInputFillSlot, tankInputDrainSlot, getInputTank());
-        }
+        if (!world.isRemote) {
+            if (getInputTank() != null) {
+                fillOrDrainTank(tankInputFillSlot, tankInputDrainSlot, getInputTank());
+            }
 
-        if (getOutputTank() != null) {
-            fillOrDrainTank(tankOutputFillSlot, tankOutputDrainSlot, getOutputTank());
+            if (getOutputTank() != null) {
+                fillOrDrainTank(tankOutputFillSlot, tankOutputDrainSlot, getOutputTank());
+            }
         }
     }
 
