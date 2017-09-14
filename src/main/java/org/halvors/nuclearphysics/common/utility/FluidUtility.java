@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.item.ItemCell;
 
@@ -92,60 +93,43 @@ public class FluidUtility {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     // Does all the work needed to fill or drain an item of fluid when a player clicks on the block.
-    public static boolean playerActivatedFluidItem(World world, BlockPos pos, EntityPlayer player, EnumFacing side) {
-        /*
-        TileEntity tile = world.getTileEntity(pos);
-        ItemStack current = entityplayer.inventory.getCurrentItem();
+    public static boolean playerActivatedFluidItem(World world, BlockPos pos, EntityPlayer player, ItemStack itemStack, EnumFacing side) {
+        final IFluidHandler fluidHandler = FluidUtil.getFluidHandler(world, pos, side);
 
-        if (current != null && tile != null) {
-            if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null))  {
-                IFluidHandler tank = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-                FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(current);
+        if (itemStack != null && fluidHandler != null) {
+            FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
 
-                if (FluidContainerRegistry.isFilledContainer(current)) {
-                    if (tank.fill(fluid, false) == fluid.amount) {
-                        tank.fill(fluid, true);
+            if (isFilledContainer(itemStack)) {
+                fluidHandler.fill(fluidStack, true);
 
-                        if (!entityplayer.capabilities.isCreativeMode) {
-                            InventoryUtility.consumeHeldItem(entityplayer);
+                if (!player.isCreative()) {
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                }
+
+                return true;
+            } else if (isEmptyContainer(itemStack)) {
+                FluidStack available = fluidHandler.drain(Integer.MAX_VALUE, false);
+
+                if (available != null) {
+                    ItemStack itemStackFilled = itemStack.copy();
+                    itemStackFilled.stackSize = 1;
+                    itemStackFilled = getFilledContainer(itemStackFilled, available);
+                    fluidStack = FluidUtil.getFluidContained(itemStackFilled);
+
+                    if (fluidStack != null) {
+                        fluidHandler.drain(fluidStack.amount, true);
+
+                        if (!player.isCreative()) {
+                            ItemHandlerHelper.giveItemToPlayer(player, itemStackFilled);
+                            player.inventory.decrStackSize(player.inventory.currentItem, 1);
                         }
 
                         return true;
                     }
-                } else if (FluidContainerRegistry.isEmptyContainer(current)) {
-                    FluidStack available = tank.drain(Integer.MAX_VALUE, false);
-
-                    if (available != null) {
-                        ItemStack filled = FluidContainerRegistry.fillFluidContainer(available, current);
-
-                        fluid = FluidContainerRegistry.getFluidForFilledItem(filled);
-
-                        if (fluid != null) {
-                            if (!entityplayer.capabilities.isCreativeMode) {
-                                if (current.stackSize > 1) {
-                                    if (!entityplayer.inventory.addItemStackToInventory(filled)) {
-                                        return false;
-                                    } else {
-                                        entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, AutoCraftingManager.consumeItem(current, 1));
-                                    }
-                                } else {
-                                    entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, AutoCraftingManager.consumeItem(current, 1));
-                                    entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, filled);
-                                }
-                            }
-
-                            tank.drain(fluid.amount, true);
-
-                            return true;
-                        }
-                    }
                 }
             }
         }
-        */
 
         return false;
     }

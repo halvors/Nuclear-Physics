@@ -19,7 +19,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine;
-import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
