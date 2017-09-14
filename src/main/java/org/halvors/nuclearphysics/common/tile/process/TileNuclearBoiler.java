@@ -1,7 +1,6 @@
 package org.halvors.nuclearphysics.common.tile.process;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -9,6 +8,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;

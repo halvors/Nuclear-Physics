@@ -8,7 +8,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -17,12 +16,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
+import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
-import org.halvors.nuclearphysics.common.tile.ITileNetwork;
 import org.halvors.nuclearphysics.common.tile.TileGenerator;
 import org.halvors.nuclearphysics.common.utility.position.Position;
 
@@ -38,7 +37,7 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
-public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, ITileNetwork {
+public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine> {
     private final int energyPerSteam = 40;
     private final int defaultTorque = 5000;
     private int torque = defaultTorque;
@@ -241,6 +240,8 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
         if (world.isRemote) {
             getMultiBlock().handlePacketData(dataStream);
             tier = dataStream.readInt();
@@ -251,6 +252,8 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public List<Object> getPacketData(List<Object> objects) {
+        super.getPacketData(objects);
+
         getMultiBlock().getPacketData(objects);
         objects.add(tier);
         objects.add(angularVelocity);

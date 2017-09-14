@@ -12,7 +12,7 @@ import org.halvors.nuclearphysics.common.utility.type.RedstoneControl;
 
 import java.util.List;
 
-public class TileMachine extends TileConsumer implements ITickable, ITileNetwork, ITileRedstoneControl {
+public class TileMachine extends TileConsumer implements ITickable, ITileRedstoneControl {
     protected EnumMachine type;
 
     public int energyUsed = 0;

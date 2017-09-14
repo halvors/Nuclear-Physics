@@ -5,7 +5,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -17,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
@@ -218,8 +218,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     @Override
     @SideOnly(Side.CLIENT)
     public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
-        if (energyStorage != null) {
-            // TODO: Fix so that this is only done client side. (With proxy?)
+        if (energyStorage.getEnergyStored() > 0) {
             map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
         }
 

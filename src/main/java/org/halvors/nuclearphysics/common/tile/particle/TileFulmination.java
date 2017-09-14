@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.common.tile.particle;
 
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.energy.EnergyStorage;
+import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.tile.TileGenerator;
 
