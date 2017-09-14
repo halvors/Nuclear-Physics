@@ -14,14 +14,11 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.item.ItemCell;
 
-/**
- * Fluid interactions.
- *
- * @author DarkCow, Calclavia
- */
 public class FluidUtility {
     public static boolean isEmptyContainer(ItemStack itemStack) {
         return itemStack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null) && FluidUtil.getFluidContained(itemStack) == null;
@@ -98,16 +95,18 @@ public class FluidUtility {
         final IFluidHandler fluidHandler = FluidUtil.getFluidHandler(world, pos, side);
 
         if (itemStack != null && fluidHandler != null) {
-            FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
-
             if (isFilledContainer(itemStack)) {
-                fluidHandler.fill(fluidStack, true);
+                FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
 
-                if (!player.isCreative()) {
-                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                if (fluidHandler.fill(fluidStack, false) > 0) {
+                    if (!player.isCreative()) {
+                        player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                    }
+
+                    fluidHandler.fill(fluidStack, true);
+
+                    return true;
                 }
-
-                return true;
             } else if (isEmptyContainer(itemStack)) {
                 FluidStack available = fluidHandler.drain(Integer.MAX_VALUE, false);
 
@@ -115,7 +114,7 @@ public class FluidUtility {
                     ItemStack itemStackFilled = itemStack.copy();
                     itemStackFilled.stackSize = 1;
                     itemStackFilled = getFilledContainer(itemStackFilled, available);
-                    fluidStack = FluidUtil.getFluidContained(itemStackFilled);
+                    FluidStack fluidStack = FluidUtil.getFluidContained(itemStackFilled);
 
                     if (fluidStack != null) {
                         fluidHandler.drain(fluidStack.amount, true);

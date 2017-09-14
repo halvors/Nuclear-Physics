@@ -15,14 +15,6 @@ public class LiquidTank extends FluidTank {
         super(capacity);
     }
 
-    public LiquidTank(@Nullable FluidStack fluidStack, int capacity) {
-        super(fluidStack, capacity);
-    }
-
-    public LiquidTank(Fluid fluid, int amount, int capacity) {
-        super(fluid, amount, capacity);
-    }
-
     public void handlePacketData(ByteBuf dataStream) {
         if (dataStream.readBoolean()) {
             setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));

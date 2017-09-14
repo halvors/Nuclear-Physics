@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.codec.language.bm.Lang;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
@@ -194,9 +195,9 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     @Override
     public int fill(FluidStack resource, boolean doFill) {
         if (resource.isFluidEqual(ModFluids.fluidStackDeuterium)) {
-            tankInputDeuterium.fill(resource, doFill);
+            return tankInputDeuterium.fill(resource, doFill);
         } else if (resource.isFluidEqual(ModFluids.fluidStackTritium)) {
-            tankInputTritium.fill(resource, doFill);
+            return tankInputTritium.fill(resource, doFill);
         }
 
         return 0;
@@ -221,7 +222,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
         if (energyStorage != null) {
             // TODO: Fix so that this is only done client side. (With proxy?)
-            map.put(I18n.translateToLocal("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
         }
 
         if (tankInputDeuterium.getFluidAmount() > 0) {

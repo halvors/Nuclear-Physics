@@ -12,14 +12,6 @@ public class GasTank extends LiquidTank implements IBoilHandler, IFluidTank {
         super(capacity);
     }
 
-    public GasTank(@Nullable FluidStack fluidStack, int capacity) {
-        super(fluidStack, capacity);
-    }
-
-    public GasTank(Fluid fluid, int amount, int capacity) {
-        super(fluid, amount, capacity);
-    }
-
     @Override
     public int fill(FluidStack resource, boolean doFill) {
         if (resource.getFluid().isGaseous()) {
