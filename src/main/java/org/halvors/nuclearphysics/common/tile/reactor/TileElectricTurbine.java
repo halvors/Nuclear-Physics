@@ -86,7 +86,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         multiBlockRadius = tag.getInteger("multiBlockRadius");
         getMultiBlock().readFromNBT(tag);
-        CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
     }
 
     @Override
@@ -95,7 +95,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         tag.setInteger("multiBlockRadius", multiBlockRadius);
         getMultiBlock().writeToNBT(tag);
-        tag.setTag("tank", CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY.writeNBT(tank, null));
+        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }
