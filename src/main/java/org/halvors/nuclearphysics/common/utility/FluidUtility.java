@@ -14,6 +14,7 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.item.ItemCell;
 
@@ -67,21 +68,16 @@ public class FluidUtility {
         return stack;
     }
 
-    public static void transferFluidToNeighbors(IBlockAccess world, BlockPos pos, IFluidTank tank, FluidStack requestFluidStack) {
-        if (tank != null && requestFluidStack != null && tank.getFluid() != null) {
-            requestFluidStack.amount = (tank.getCapacity() - tank.getFluid().amount);
-
+    public static void transferFluidToNeighbors(World world, BlockPos pos, IFluidHandler from) {
+        if (from != null) {
             for (EnumFacing side : EnumFacing.values()) {
-                TileEntity tile = world.getTileEntity(pos.offset(side));
+                IFluidHandler to = FluidUtil.getFluidHandler(world, pos.offset(side), side.getOpposite());
 
-                if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, side.getOpposite())) {
-                    IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, side.getOpposite());
-                    FluidStack receiveFluidStack = fluidHandler.drain(requestFluidStack, true);
+                if (to != null) {
+                    FluidStack fluidStack = from.drain(Integer.MAX_VALUE, false);
 
-                    if (receiveFluidStack != null && receiveFluidStack.amount > 0) {
-                        if (tank.fill(receiveFluidStack, false) > 0) {
-                            tank.fill(receiveFluidStack, true);
-                        }
+                    if (fluidStack != null && to.fill(fluidStack, false) > 0) {
+                        to.fill(from.drain(fluidStack, true), true);
                     }
                 }
             }

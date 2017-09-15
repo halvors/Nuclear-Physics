@@ -6,49 +6,54 @@ import net.minecraftforge.oredict.OreDictionary;
 public class OreDictionaryHelper {
     // Items
     public static boolean isEmptyCell(ItemStack itemStack) {
-        return hasOreName(itemStack, "cellEmpty");
+        return hasOreNames(itemStack, "cellEmpty");
     }
 
     public static boolean isDarkmatterCell(ItemStack itemStack) {
-        return hasOreName(itemStack, "cellDarkmatter");
+        return hasOreNames(itemStack, "cellDarkmatter");
     }
 
     public static boolean isDeuteriumCell(ItemStack itemStack) {
-        return hasOreName(itemStack, "cellDeuterium");
+        return hasOreNames(itemStack, "cellDeuterium");
     }
 
     public static boolean isTritiumCell(ItemStack itemStack) {
-        return hasOreName(itemStack, "cellTritium");
+        return hasOreNames(itemStack, "cellTritium");
     }
 
     public static boolean isWaterCell(ItemStack itemStack) {
-        return hasOreName(itemStack, "cellWater");
+        return hasOreNames(itemStack, "cellWater");
     }
 
     public static boolean isYellowCake(ItemStack itemStack) {
-        return hasOreName(itemStack, "dustUranium");
+        return hasOreNames(itemStack, "dustUranium");
     }
 
     public static boolean isUranium(ItemStack itemStack) {
-        return hasOreName(itemStack, "ingotUranium") || hasOreName(itemStack, "itemUranium");
+        return hasOreNames(itemStack, "ingotUranium") || hasOreNames(itemStack, "itemUranium");
     }
 
     // Blocks
     public static boolean isUraniumOre(ItemStack itemStack) {
-        return hasOreName(itemStack, "oreUranium");
+        return hasOreNames(itemStack, "oreUranium");
     }
 
     public static boolean isRadioactiveGrass(ItemStack itemStack) {
-        return hasOreName(itemStack, "blockRadioactiveGrass");
+        return hasOreNames(itemStack, "blockRadioactiveGrass");
     }
 
-    private static boolean hasOreName(ItemStack itemStack, String oreName) {
-        if (!itemStack.isEmpty()) {
-            int oreId = OreDictionary.getOreID(oreName);
-
+    /**
+     * Compare to Ore Dict
+     */
+    public static boolean hasOreNames(ItemStack itemStack, String... names) {
+        if (!itemStack.isEmpty() && names != null && names.length > 0) {
             for (int id : OreDictionary.getOreIDs(itemStack)) {
-                if (id == oreId) {
-                    return true;
+                String name = OreDictionary.getOreName(id);
+
+                for (String compareName : names) {
+                    if (name.equals(compareName)) {
+                        return true;
+                    }
                 }
             }
         }

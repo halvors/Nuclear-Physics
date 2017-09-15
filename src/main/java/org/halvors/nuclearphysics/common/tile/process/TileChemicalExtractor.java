@@ -124,6 +124,10 @@ public class TileChemicalExtractor extends TileProcess {
         }
 
         if (!world.isRemote) {
+            if (world.getWorldTime() % 20 == 0) {
+                FluidUtility.transferFluidToNeighbors(world, pos, tankOutput);
+            }
+
             EnergyUtility.discharge(0, this);
 
             if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
