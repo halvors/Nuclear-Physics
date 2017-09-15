@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.common.tile.particle;
 
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.energy.EnergyStorage;
+import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.tile.TileGenerator;
 
@@ -32,8 +32,10 @@ public class TileFulmination extends TileGenerator {
     public void update() {
         super.update();
 
-        // Slowly lose energy.
-        energyStorage.extractEnergy(1, false);
+        if (!world.isRemote) {
+            // Slowly lose energy.
+            energyStorage.extractEnergy(1, false);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

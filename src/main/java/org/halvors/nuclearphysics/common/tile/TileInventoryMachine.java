@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.tile.machine;
+package org.halvors.nuclearphysics.common.tile;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,6 +11,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class TileInventoryMachine extends TileMachine {
     protected IItemHandlerModifiable inventory;
@@ -57,14 +58,14 @@ public abstract class TileInventoryMachine extends TileMachine {
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return (T) inventory;
         }

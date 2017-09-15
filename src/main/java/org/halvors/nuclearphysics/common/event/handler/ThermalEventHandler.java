@@ -11,11 +11,11 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
@@ -41,7 +41,6 @@ public class ThermalEventHandler {
                 final IBoilHandler boilHandler = tile.getCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
                 final FluidStack fluidStack = event.getRemainForSpread(height);
 
-                // We're using fillInternal() to fill the IBoilHandler instead of fill() because we're not a pipe.
                 if (fluidStack.amount > 0 && boilHandler.catchSteam(fluidStack, false) > 0) {
                     fluidStack.amount -= boilHandler.catchSteam(fluidStack, true);
                 }
@@ -55,9 +54,9 @@ public class ThermalEventHandler {
         if ((block == Blocks.water ||block == Blocks.flowing_water) && position.getBlockMetadata(event.world) == 0 && !event.isReactor) {
             position.setBlock(event.world, Blocks.air);
         }
-        */
 
         event.setResult(Result.DENY);
+        */
     }
 
     @SubscribeEvent
@@ -129,12 +128,12 @@ public class ThermalEventHandler {
                         world.playSound(null, pos, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
                     }
 
-                    if (world.rand.nextInt(10) == 0 && world.isAirBlock(pos.up())) {
-                        world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextFloat(), pos.getY() + 1, pos.getZ() + world.rand.nextFloat(), 0, 0.05, 0);
+                    if (world.rand.nextInt(20) == 0) {
+                        ((WorldServer) world).spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextFloat(), pos.getY() + 1.2, pos.getZ() + world.rand.nextFloat(), 0, 0, 1, 0, 0.1);
                     }
 
                     if (world.rand.nextInt(5) == 0) {
-                        world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, pos.getX() + world.rand.nextFloat(), pos.getY() + 0.5, pos.getZ() + world.rand.nextFloat(), 0, 0.05, 0);
+                        ((WorldServer) world).spawnParticle(EnumParticleTypes.WATER_BUBBLE, pos.getX() + world.rand.nextFloat(), pos.getY() + 0.5, pos.getZ() + world.rand.nextFloat(), 0, 0, 1, 0, 0.05);
                     }
 
                     event.heatLoss = 0.2F;

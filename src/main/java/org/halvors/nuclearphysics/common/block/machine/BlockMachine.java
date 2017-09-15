@@ -19,12 +19,18 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine;
-import org.halvors.nuclearphysics.common.tile.machine.*;
+import org.halvors.nuclearphysics.common.tile.TileMachine;
+import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
+import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
+import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
+import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.tile.process.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class BlockMachine extends BlockInventory {
     public BlockMachine() {
@@ -71,6 +77,56 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
+    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
+        final EnumMachine type = state.getValue(BlockStateMachine.TYPE);
+        final TileEntity tile = world.getTileEntity(pos);
+
+        if (tile instanceof TileMachine) {
+            final TileMachine tileMachine = (TileMachine) tile;
+
+            EnumParticleTypes particleTypes = null;
+            float xRandom = (float)pos.getX() + 0.5F;
+            float yRandom = (float)pos.getY() + 0.2F + random.nextFloat() * 6.0F / 16.0F;
+            float zRandom = (float)pos.getZ() + 0.5F;
+            float iRandom = 0.52F;
+            float jRandom = random.nextFloat() * 0.6F - 0.3F;
+            double xSpeed = 0;
+            double ySpeed = 0;
+            double zSpeed = 0;
+
+            switch (type) {
+                case NUCLEAR_BOILER:
+                    if (tileMachine.operatingTicks > 0) {
+                        particleTypes = EnumParticleTypes.CLOUD;
+                        ySpeed = 0.05;
+                    }
+                    break;
+            }
+
+            if (particleTypes != null) {
+                switch (tileMachine.getFacing()) {
+                    case NORTH:
+                        world.spawnParticle(particleTypes, (xRandom + jRandom), yRandom, (zRandom - iRandom), xSpeed, ySpeed, zSpeed);
+                        break;
+
+                    case SOUTH:
+                        world.spawnParticle(particleTypes, (xRandom + jRandom), yRandom, (zRandom + iRandom), xSpeed, ySpeed, zSpeed);
+                        break;
+
+                    case WEST:
+                        world.spawnParticle(particleTypes, (xRandom - iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        break;
+
+                    case EAST:
+                        world.spawnParticle(particleTypes, (xRandom + iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        break;
+                }
+            }
+        }
+    }
+
+    @Override
     @Nonnull
     public BlockStateContainer createBlockState() {
         return new BlockStateMachine(this);
@@ -109,11 +165,11 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TilePlasmaHeater) {
-            return FluidUtility.playerActivatedFluidItem(world, pos, player, facing);
+            return FluidUtility.playerActivatedFluidItem(world, pos, player, player.getHeldItemMainhand(), side);
         } else if (!player.isSneaking()) {
             PlayerUtility.openGui(player, world, pos);
 
