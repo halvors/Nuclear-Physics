@@ -15,23 +15,25 @@ public class TilePlasma extends TileEntity implements ITickable {
 
     @Override
     public void update() {
-        ThermalGrid.addTemperature(world, pos, (temperature - ThermalGrid.getTemperature(world, pos)) * 0.1F);
+        if (!world.isRemote) {
+            ThermalGrid.addTemperature(world, pos, (temperature - ThermalGrid.getTemperature(world, pos)) * 0.1F);
 
-        if (world.getWorldTime() % 20 == 0) {
-            temperature /= 1.5;
+            if (world.getWorldTime() % 20 == 0) {
+                temperature /= 1.5;
 
-            if (temperature <= plasmaMaxTemperature / 10) {
-                // At this temperature, set block to fire.
-                world.setBlockState(pos, Blocks.FIRE.getDefaultState());
-            } else {
-                for (EnumFacing side : EnumFacing.values()) {
-                    // Randomize spread direction.
-                    if (world.rand.nextFloat() < 0.4) {
-                        final BlockPos spreadPos = pos.offset(side);
-                        final TileEntity tile = world.getTileEntity(spreadPos);
+                if (temperature <= plasmaMaxTemperature / 10) {
+                    // At this temperature, set block to fire.
+                    world.setBlockState(pos, Blocks.FIRE.getDefaultState());
+                } else {
+                    for (EnumFacing side : EnumFacing.values()) {
+                        // Randomize spread direction.
+                        if (world.rand.nextFloat() < 0.4) {
+                            final BlockPos spreadPos = pos.offset(side);
+                            final TileEntity tile = world.getTileEntity(spreadPos);
 
-                        if (!(tile instanceof TilePlasma)) {
-                            MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(world, spreadPos, temperature));
+                            if (!(tile instanceof TilePlasma)) {
+                                MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(world, spreadPos, temperature));
+                            }
                         }
                     }
                 }

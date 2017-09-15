@@ -1,9 +1,9 @@
-package org.halvors.nuclearphysics.common.container.machine;
+package org.halvors.nuclearphysics.common.container.process;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
-import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
+import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
 
 public class ContainerChemicalExtractor extends ContainerBase<TileChemicalExtractor> {
     public ContainerChemicalExtractor(InventoryPlayer inventoryPlayer, TileChemicalExtractor tile) {

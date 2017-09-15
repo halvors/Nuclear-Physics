@@ -4,9 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -18,11 +16,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
-import org.halvors.nuclearphysics.common.tile.machine.TileMachine;
+import org.halvors.nuclearphysics.common.tile.TileMachine;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.type.Color;
@@ -111,14 +110,14 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return (T) this;
         }
@@ -194,9 +193,9 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     @Override
     public int fill(FluidStack resource, boolean doFill) {
         if (resource.isFluidEqual(ModFluids.fluidStackDeuterium)) {
-            tankInputDeuterium.fill(resource, doFill);
+            return tankInputDeuterium.fill(resource, doFill);
         } else if (resource.isFluidEqual(ModFluids.fluidStackTritium)) {
-            tankInputTritium.fill(resource, doFill);
+            return tankInputTritium.fill(resource, doFill);
         }
 
         return 0;
@@ -219,9 +218,8 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     @Override
     @SideOnly(Side.CLIENT)
     public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
-        if (energyStorage != null) {
-            // TODO: Fix so that this is only done client side. (With proxy?)
-            map.put(I18n.translateToLocal("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
+        if (energyStorage.getEnergyStored() > 0) {
+            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
         }
 
         if (tankInputDeuterium.getFluidAmount() > 0) {

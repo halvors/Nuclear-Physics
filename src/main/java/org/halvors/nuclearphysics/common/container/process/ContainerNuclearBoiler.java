@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.container.machine;
+package org.halvors.nuclearphysics.common.container.process;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.init.ModFluids;
-import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
+import org.halvors.nuclearphysics.common.tile.process.TileNuclearBoiler;
 
 public class ContainerNuclearBoiler extends ContainerBase<TileNuclearBoiler> {
     public ContainerNuclearBoiler(InventoryPlayer inventoryPlayer, TileNuclearBoiler tile) {

@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.client.render.block.machine;
+package org.halvors.nuclearphysics.client.render.block.process;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -7,7 +7,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
+import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.Resource;
 

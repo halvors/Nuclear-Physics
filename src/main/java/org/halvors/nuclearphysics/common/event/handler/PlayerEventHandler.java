@@ -20,6 +20,7 @@ public class PlayerEventHandler {
 		World world = player.getEntityWorld();
 
 		if (!world.isRemote) {
+
 			NuclearPhysics.getPacketHandler().sendTo(new PacketConfiguration(), (EntityPlayerMP) player);
 
 			NuclearPhysics.getLogger().info("Sent configuration to '" + player.getDisplayName() + "'.");

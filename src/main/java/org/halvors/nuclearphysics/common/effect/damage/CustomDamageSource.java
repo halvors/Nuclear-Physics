@@ -83,7 +83,7 @@ public class CustomDamageSource extends DamageSource {
         EntityLivingBase attacker = victum.getAttackingEntity();
         String deathTranslation = "death.attack." + this.damageType;
         String playerKillTranslation = deathTranslation + ".player";
-        String machineKillTranslation = deathTranslation + ".machine";
+        String machineKillTranslation = deathTranslation + ".process";
 
         if (damageSource instanceof TileEntity) {
             if (LanguageUtility.canTranselate(machineKillTranslation)) {

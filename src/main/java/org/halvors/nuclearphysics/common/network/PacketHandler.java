@@ -30,7 +30,7 @@ import java.util.Set;
  * @author halvors
  */
 public class PacketHandler {
-	public final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.ID);
+	public static final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.ID);
 
 	public void sendTo(IMessage message, EntityPlayerMP player) {
 		networkWrapper.sendTo(message, player);
@@ -94,7 +94,7 @@ public class PacketHandler {
 		NuclearPhysics.getProxy().handlePacket(runnable, player);
 	}
 
-	public Packet getPacketFrom(IMessage message) {
+	public static Packet getPacketFrom(IMessage message) {
 		return networkWrapper.getPacketFrom(message);
 	}
 

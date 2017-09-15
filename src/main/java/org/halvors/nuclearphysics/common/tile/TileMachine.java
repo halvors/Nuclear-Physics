@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.tile.machine;
+package org.halvors.nuclearphysics.common.tile;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
@@ -6,16 +6,13 @@ import net.minecraft.util.ITickable;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
-import org.halvors.nuclearphysics.common.tile.ITileNetwork;
-import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
-import org.halvors.nuclearphysics.common.tile.TileConsumer;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.RedstoneUtility;
 import org.halvors.nuclearphysics.common.utility.type.RedstoneControl;
 
 import java.util.List;
 
-public class TileMachine extends TileConsumer implements ITickable, ITileNetwork, ITileRedstoneControl {
+public class TileMachine extends TileConsumer implements ITickable, ITileRedstoneControl {
     protected EnumMachine type;
 
     public int energyUsed = 0;
@@ -58,7 +55,9 @@ public class TileMachine extends TileConsumer implements ITickable, ITileNetwork
 
     @Override
     public void update() {
-        redstoneLastTick = redstone;
+        if (!world.isRemote) {
+            redstoneLastTick = redstone;
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -7,12 +7,14 @@ import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TileGasFunnel extends TileEntity implements ITickable {
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
@@ -30,7 +32,7 @@ public class TileGasFunnel extends TileEntity implements ITickable {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
     }
 
     @Override
@@ -38,20 +40,20 @@ public class TileGasFunnel extends TileEntity implements ITickable {
     public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tank", CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY.writeNBT(tank, null));
+        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nonnull EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
         return (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY && facing == EnumFacing.DOWN) || (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == EnumFacing.UP) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nonnull EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if ((capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY && facing == EnumFacing.DOWN) || (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == EnumFacing.UP)) {
             return (T) tank;
         }
@@ -63,15 +65,16 @@ public class TileGasFunnel extends TileEntity implements ITickable {
 
     @Override
     public void update() {
-        if (tank.getFluidAmount() > 0) {
-            final TileEntity tile = world.getTileEntity(pos.up());
+        if (!world.isRemote) {
+            if (tank.getFluidAmount() > 0) {
+                final IFluidHandler fluidHandler = FluidUtil.getFluidHandler(world, pos.up(), EnumFacing.UP);
 
-            if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP)) {
-                final IFluidHandler fluidHandler = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, EnumFacing.UP);
-                final FluidStack fluidStack = tank.drain(tank.getCapacity(), false);
+                if (fluidHandler != null) {
+                    final FluidStack fluidStack = tank.drain(tank.getCapacity(), false);
 
-                if (fluidStack != null && fluidHandler.fill(fluidStack, false) > 0) {
-                    tank.drain(fluidHandler.fill(fluidStack, true), true);
+                    if (fluidStack != null && fluidHandler.fill(fluidStack, false) > 0) {
+                        tank.drain(fluidHandler.fill(fluidStack, true), true);
+                    }
                 }
             }
         }
