@@ -24,7 +24,7 @@ public class GasTank extends LiquidTank implements IBoilHandler, IFluidTank {
     @Override
     public FluidStack drain(FluidStack resource, boolean doDrain) {
         if (resource.getFluid().isGaseous()) {
-            return drain(resource, doDrain);
+            return super.drain(resource, doDrain);
         }
 
         return null;
