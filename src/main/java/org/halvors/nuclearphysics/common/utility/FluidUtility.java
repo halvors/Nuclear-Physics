@@ -92,7 +92,7 @@ public class FluidUtility {
     public static boolean playerActivatedFluidItem(World world, BlockPos pos, EntityPlayer player, ItemStack itemStack, EnumFacing side) {
         final IFluidHandler fluidHandler = FluidUtil.getFluidHandler(world, pos, side);
 
-        if (itemStack != null && fluidHandler != null) {
+        if (!itemStack.isEmpty() && fluidHandler != null) {
             if (isFilledContainer(itemStack)) {
                 FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
 

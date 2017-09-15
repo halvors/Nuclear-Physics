@@ -19,7 +19,7 @@ public class WrenchUtility {
     public static boolean hasUsableWrench(EntityPlayer player, EnumHand hand, BlockPos pos) {
         ItemStack itemStack = player.getHeldItemMainhand();
 
-        if (itemStack != null) {
+        if (!itemStack.isEmpty()) {
             Item item = itemStack.getItem();
 
             if (item instanceof IWrench) {
