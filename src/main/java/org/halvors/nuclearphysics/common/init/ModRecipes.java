@@ -15,7 +15,7 @@ public class ModRecipes {
                     if (item.itemID > 256 || Settings.quantumAssemblerGenerateMode == 2) {
                         ItemStack itemStack = new ItemStack(item);
 
-                        if (itemStack != null) {
+                        if (!itemStack.isEmpty()) {
                             QuantumAssemblerRecipes.addRecipe(itemStack);
                         }
                     }
@@ -26,7 +26,7 @@ public class ModRecipes {
                 for (Block block : Block.REGISTRY.getblocksList) {
                     if (block != null) {
                         ItemStack itemStack = new ItemStack(block);
-                        if (itemStack != null) {
+                        if (!itemStack.isEmpty()) {
                             QuantumAssemblerRecipes.addRecipe(itemStack);
                         }
                     }
