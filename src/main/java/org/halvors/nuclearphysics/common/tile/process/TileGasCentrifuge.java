@@ -139,11 +139,6 @@ public class TileGasCentrifuge extends TileInventoryMachine {
         }
 
         if (!world.isRemote) {
-            // TODO: Fix this?
-            if (world.getWorldTime() % 20 == 0) {
-                //FluidUtility.transferFluidToNeighbors(world, pos, tank, QuantumFluids.fluidStackUraniumHexaflouride.copy());
-            }
-
             EnergyUtility.discharge(0, this);
 
             if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {

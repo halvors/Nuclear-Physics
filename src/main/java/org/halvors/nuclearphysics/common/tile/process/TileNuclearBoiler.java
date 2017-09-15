@@ -6,6 +6,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
@@ -113,6 +114,10 @@ public class TileNuclearBoiler extends TileProcess {
         }
 
         if (!world.isRemote) {
+            if (world.getWorldTime() % 20 == 0) {
+                FluidUtility.transferFluidToNeighbors(world, pos, tankOutput);
+            }
+
             EnergyUtility.discharge(0, this);
 
             if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
@@ -159,13 +164,9 @@ public class TileNuclearBoiler extends TileProcess {
         if (inputFluidStack != null && inputFluidStack.amount >= Fluid.BUCKET_VOLUME) {
             ItemStack itemStack = inventory.getStackInSlot(inputSlot);
 
-            if (itemStack != null) {
-                if (OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack)) {
-                    FluidStack outputFluidStack = tankOutput.getFluid();
-
-                    if (outputFluidStack != null && outputFluidStack.amount < tankOutput.getCapacity()) {
-                        return true;
-                    }
+            if (itemStack != null && (OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack))) {
+                if (tankOutput.getFluidAmount() < tankOutput.getCapacity()) {
+                    return true;
                 }
             }
         }
@@ -177,9 +178,10 @@ public class TileNuclearBoiler extends TileProcess {
     public void process() {
         if (canProcess()) {
             tankInput.drainInternal(Fluid.BUCKET_VOLUME, true);
-            FluidStack fluidStack = ModFluids.fluidStackUraniumHexaflouride.copy();
-            fluidStack.amount = ConfigurationManager.General.uraniumHexaflourideRatio * 2;
+
+            FluidStack fluidStack = new FluidStack(ModFluids.uraniumHexaflouride, General.uraniumHexaflourideRatio * 2);
             tankOutput.fillInternal(fluidStack, true);
+
             InventoryUtility.decrStackSize(inventory, inputSlot);
         }
     }
