@@ -57,7 +57,7 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
 
     @Override
     public int getLightValue(@Nonnull IBlockState state, IBlockAccess access, @Nonnull BlockPos pos) {
-        return 7;
+        return fluid.getLuminosity();
     }
 
     @Override

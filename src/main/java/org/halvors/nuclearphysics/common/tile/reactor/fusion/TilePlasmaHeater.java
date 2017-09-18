@@ -23,7 +23,7 @@ import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
+import org.halvors.nuclearphysics.common.utility.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.type.Color;
 import org.halvors.nuclearphysics.common.utility.type.RedstoneControl;
 

@@ -19,9 +19,10 @@ public class GuiMachine<T extends TileMachine> extends GuiComponentContainer<T> 
         super(tile, container);
 
         components.add(new GuiEnergyInfo(() -> {
-            IEnergyStorage energyStorage = tile.getEnergyStorage();
             List<String> list = new ArrayList<>();
             list.add(LanguageUtility.transelate("gui.using") + ": " + UnitDisplay.getEnergyDisplay(tile.energyUsed) + "/t");
+
+            IEnergyStorage energyStorage = tile.getEnergyStorage();
 
             if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
                 list.add(LanguageUtility.transelate("gui.needed") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()));

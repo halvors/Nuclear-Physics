@@ -18,19 +18,9 @@ import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
 
 import java.util.Random;
 
-public class BlockFluidToxicWaste extends BlockFluidClassic {
-    public BlockFluidToxicWaste(final Fluid fluid, final Material material) {
+public class BlockFluidRadioactive extends BlockFluidClassic {
+    public BlockFluidRadioactive(final Fluid fluid, final Material material) {
         super(fluid, material);
-
-        setTickRate(20);
-    }
-
-    @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
-        if (entity instanceof EntityLivingBase) {
-            entity.attackEntityFrom(DamageSource.wither, 3);
-            PoisonRadiation.getInstance().poisonEntity(pos, (EntityLivingBase) entity, 4);
-        }
     }
 
     @Override
@@ -38,13 +28,17 @@ public class BlockFluidToxicWaste extends BlockFluidClassic {
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
         super.randomDisplayTick(state, world, pos, random);
 
-        if (random.nextInt(100) == 0) {
+        if (random.nextInt(1) == 0) {
             // TODO: Check if Y paramter should be pos.getY() + maxY?
-            world.spawnParticle(EnumParticleTypes.SUSPENDED, pos.getX() + random.nextFloat(), pos.getY(), pos.getZ() + random.nextFloat(), 0, 0, 0);
+            world.spawnParticle(EnumParticleTypes.SUSPENDED, pos.getX() + random.nextFloat(), pos.getY() + 1, pos.getZ() + random.nextFloat(), 0, 0, 0);
         }
+    }
 
-        if (random.nextInt(200) == 0) {
-            world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
+    @Override
+    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
+        if (entity instanceof EntityLivingBase) {
+            entity.attackEntityFrom(DamageSource.wither, 3);
+            PoisonRadiation.getInstance().poisonEntity(pos, (EntityLivingBase) entity, 4);
         }
     }
 }
