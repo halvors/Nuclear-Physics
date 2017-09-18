@@ -1,5 +1,6 @@
 package org.halvors.nuclearphysics.common.block.debug.schematic;
 
+import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
@@ -16,7 +17,7 @@ public class SchematicBreedingReactor implements ISchematic {
     }
 
     @Override
-    public HashMap<BlockPos, IBlockState> getStructure(EnumFacing direction, int size) {
+    public HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size) {
         HashMap<BlockPos, IBlockState> map = new HashMap<>();
 
         int radius = Math.max(size, 2);
@@ -41,8 +42,7 @@ public class SchematicBreedingReactor implements ISchematic {
                         map.put(new BlockPos(x, -2, z), Blocks.REDSTONE_WIRE.getDefaultState());
                     } else {
                         map.put(new BlockPos(x, -1, z), ModBlocks.blockControlRod.getDefaultState());
-                        //map.put(new Vector3(x, -2, z), new Pair<>(Blocks.STICKY_PISTON, 1));
-                        map.put(new BlockPos(x, -2, z), Blocks.STICKY_PISTON.getDefaultState());
+                        map.put(new BlockPos(x, -2, z), Blocks.STICKY_PISTON.getDefaultState().withProperty(BlockPistonBase.FACING, EnumFacing.UP));
                     }
                 }
             }
