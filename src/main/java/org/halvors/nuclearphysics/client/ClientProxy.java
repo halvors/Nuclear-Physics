@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.network.IGuiHandler;
@@ -80,6 +82,26 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
+	public void registerBlockRenderer(Block block, IProperty property, String name) {
+		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).withName(property).withSuffix("_" + name).build());
+	}
+
+	@Override
+	public void registerBlockRendererAndIgnore(Block block, IProperty property) {
+		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).ignore(property).build());
+	}
+
+	@Override
+	public void registerItemRenderer(Item item, int metadata, String id) {
+		registerItemRenderer(item, metadata, id, "inventory");
+	}
+
+	@Override
+	public void registerItemRenderer(Item item, int metadata, String id, String variant) {
+		ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Reference.PREFIX + id, variant));
+	}
+
+	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
 		BlockPos pos = new BlockPos(x, y, z);
 		TileEntity tile = world.getTileEntity(pos);
@@ -108,26 +130,6 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public void registerBlockRenderer(Block block, IProperty property, String name) {
-		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).withName(property).withSuffix("_" + name).build());
-	}
-
-	@Override
-	public void registerBlockRendererAndIgnore(Block block, IProperty property) {
-		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).ignore(property).build());
-	}
-
-	@Override
-	public void registerItemRenderer(Item item, int metadata, String id) {
-		registerItemRenderer(item, metadata, id, "inventory");
-	}
-
-	@Override
-	public void registerItemRenderer(Item item, int metadata, String id, String variant) {
-		ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Reference.PREFIX + id, variant));
-	}
-
-	@Override
 	public EntityPlayer getPlayer(MessageContext context) {
 		if (context.side.isServer()) {
 			return context.getServerHandler().player;
@@ -141,7 +143,20 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 		if (player == null || player.world.isRemote) {
 			Minecraft.getMinecraft().addScheduledTask(runnable);
 		} else {
-			((WorldServer) player.world).addScheduledTask(runnable); // Singleplayer
+			((WorldServer) player.world).addScheduledTask(runnable);
 		}
+	}
+
+	@Override
+	public boolean isPaused() {
+		if (FMLClientHandler.instance().getClient().isSingleplayer() && !FMLClientHandler.instance().getClient().getIntegratedServer().getPublic()) {
+			GuiScreen screen = FMLClientHandler.instance().getClient().currentScreen;
+
+			if (screen != null && screen.doesGuiPauseGame()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

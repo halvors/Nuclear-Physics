@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.utility.energy;
+package org.halvors.nuclearphysics.common.utility.unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,7 @@ import java.util.List;
 public enum TemperatureUnit {
     KELVIN("Kelvin", "K", 0, 1),
     CELSIUS("Celsius", "°C", 273.15, 1),
-    RANKINE("Rankine", "R", 0, 9D / 5D),
-    FAHRENHEIT("Fahrenheit", "°F", 459.67, 9D / 5D),
-    AMBIENT("Ambient", "+STP", 300, 1);
+    FAHRENHEIT("Fahrenheit", "°F", 459.67, 9D / 5D);
 
     private String name;
     private String symbol;

@@ -1,13 +1,13 @@
 package org.halvors.nuclearphysics.common.grid.thermal;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import org.halvors.nuclearphysics.api.tile.IReactor;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.nuclearphysics.common.grid.IUpdate;
 import org.halvors.nuclearphysics.common.utility.type.Pair;
@@ -87,7 +87,7 @@ public class ThermalGrid implements IUpdate {
     }
 
     public boolean canUpdate() {
-        return !Minecraft.getMinecraft().isGamePaused();
+        return !NuclearPhysics.getProxy().isPaused();
     }
 
     public boolean continueUpdate() {

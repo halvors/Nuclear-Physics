@@ -72,7 +72,7 @@ public abstract class GuiGauge extends GuiComponent {
 
     @Override
     public void renderForeground(int xAxis, int yAxis) {
-        if (xAxis >= xLocation + 1 && xAxis <= xLocation + width - 1 && yAxis >= yLocation + 1 && yAxis <= yLocation + height - 1) {
+        if (isPointInRegion(xLocation, yLocation, xAxis, yAxis, width, height)) {
             String tooltip = getTooltip();
 
             if (tooltip != null && !tooltip.isEmpty()) {
@@ -106,9 +106,9 @@ public abstract class GuiGauge extends GuiComponent {
 
     }
 
-    public abstract int getScaledLevel();
+    protected abstract int getScaledLevel();
 
-    public abstract TextureAtlasSprite getTexture();
+    protected abstract TextureAtlasSprite getTexture();
 
-    public abstract String getTooltip();
+    protected abstract String getTooltip();
 }

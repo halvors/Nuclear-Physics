@@ -40,7 +40,7 @@ public class GuiSlot extends GuiComponent {
 
     @Override
     public void renderForeground(int xAxis, int yAxis) {
-        if (xAxis >= xLocation + 1 && xAxis <= xLocation + type.width - 1 && yAxis >= yLocation + 1 && yAxis <= yLocation + type.height - 1) {
+        if (isPointInRegion(xLocation, yLocation, xAxis, yAxis, type.width, type.height)) {
             if (tooltip != null && !tooltip.isEmpty()) {
                 gui.displayTooltip(tooltip, xAxis, yAxis);
             }

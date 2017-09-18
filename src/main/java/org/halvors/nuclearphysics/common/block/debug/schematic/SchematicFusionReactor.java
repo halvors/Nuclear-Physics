@@ -17,7 +17,7 @@ public class SchematicFusionReactor implements ISchematic {
     }
 
     @Override
-    public HashMap<BlockPos, IBlockState> getStructure(EnumFacing direction, int size) {
+    public HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size) {
         HashMap<BlockPos, IBlockState> map = new HashMap<>();
 
         // Fusion Torus.

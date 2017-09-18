@@ -6,9 +6,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
-import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
-import org.halvors.nuclearphysics.common.utility.position.Position;
+import org.halvors.nuclearphysics.common.utility.location.Position;
 import org.halvors.nuclearphysics.common.utility.type.Color;
+import org.halvors.nuclearphysics.common.utility.unit.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
 public class RenderThermometer extends TileEntitySpecialRenderer<TileThermometer> {

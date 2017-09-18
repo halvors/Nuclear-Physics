@@ -41,8 +41,8 @@ public class ThermalEventHandler {
                 final IBoilHandler boilHandler = tile.getCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
                 final FluidStack fluidStack = event.getRemainForSpread(height);
 
-                if (fluidStack.amount > 0 && boilHandler.catchSteam(fluidStack, false) > 0) {
-                    fluidStack.amount -= boilHandler.catchSteam(fluidStack, true);
+                if (fluidStack.amount > 0 && boilHandler.receiveGas(fluidStack, false) > 0) {
+                    fluidStack.amount -= boilHandler.receiveGas(fluidStack, true);
                 }
             }
         }

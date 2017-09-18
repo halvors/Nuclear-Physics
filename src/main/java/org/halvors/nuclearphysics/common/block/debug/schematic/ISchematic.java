@@ -18,6 +18,6 @@ public interface ISchematic {
     /** Gets the structure of the schematic.
      *
      * @param size - The size multiplier.
-     * @return A Hashmap of positions and block IDs with metadata. */
-    HashMap<BlockPos, IBlockState> getStructure(EnumFacing direction, int size);
+     * @return A Hashmap of positions and block states. */
+    HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size);
 }

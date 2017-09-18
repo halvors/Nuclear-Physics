@@ -6,20 +6,18 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.GuiComponentContainer;
-import org.halvors.nuclearphysics.client.gui.component.GuiBar;
+import org.halvors.nuclearphysics.client.gui.component.*;
 import org.halvors.nuclearphysics.client.gui.component.GuiBar.BarType;
-import org.halvors.nuclearphysics.client.gui.component.GuiFluidGauge;
-import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
-import org.halvors.nuclearphysics.client.gui.component.IProgressInfoHandler;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
+import org.halvors.nuclearphysics.common.utility.unit.UnitDisplay;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -27,21 +25,31 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
     public GuiReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {
         super(tile, new ContainerReactorCell(inventoryPlayer, tile));
 
+        components.add(new GuiTemperatureInfo(ArrayList::new, this, -26, 183));
         components.add(new GuiSlot(SlotType.NORMAL, this, (xSize / 2) - 10, (ySize / 2) - 92));
         components.add(new GuiFluidGauge(tile::getTank, this, (xSize / 2) - 8, (ySize / 2) - 72));
-        components.add(new GuiBar(() -> (tile.getTemperature() - ThermalPhysics.roomTemperature) /  TileReactorCell.meltingPoint, BarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
-        components.add(new GuiBar(new IProgressInfoHandler() {
-            ItemStack itemStack = tile.getInventory().getStackInSlot(0);
 
-            @Override
-            public double getProgress() {
-                if (!itemStack.isEmpty()) {
-                    return (double) (itemStack.getMaxDamage() - itemStack.getMetadata()) / itemStack.getMaxDamage();
+        ItemStack itemStack = tile.getInventory().getStackInSlot(0);
+        FluidStack fluidStack = tile.getTank().getFluid();
+
+        if (!itemStack.isEmpty() || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
+            components.add(new GuiBar(() -> (tile.getTemperature() - ThermalPhysics.roomTemperature) / TileReactorCell.meltingPoint, BarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
+        }
+
+        if (!itemStack.isEmpty()) {
+            components.add(new GuiBar(new IProgressInfoHandler() {
+                ItemStack itemStack = tile.getInventory().getStackInSlot(0);
+
+                @Override
+                public double getProgress() {
+                    if (itemStack != null) {
+                        return (double) (itemStack.getMaxDamage() - itemStack.getMetadata()) / itemStack.getMaxDamage();
+                    }
+
+                    return 0;
                 }
-
-                return 0;
-            }
-        }, BarType.TIMER, this, (xSize / 2) + 14, (ySize / 2) - 38));
+            }, BarType.TIMER, this, (xSize / 2) + 14, (ySize / 2) - 38));
+        }
     }
 
     @Override
