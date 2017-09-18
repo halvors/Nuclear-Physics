@@ -21,7 +21,7 @@ public class GuiFluidGauge extends GuiGauge {
     }
 
     @Override
-    public int getScaledLevel() {
+    protected int getScaledLevel() {
         IFluidTank tank = fluidInfoHandler.getTank();
 
         if (tank.getFluidAmount() > 0 && tank.getFluid() != null) {
@@ -32,7 +32,7 @@ public class GuiFluidGauge extends GuiGauge {
     }
 
     @Override
-    public TextureAtlasSprite getTexture() {
+    protected TextureAtlasSprite getTexture() {
         FluidStack fluidStack = fluidInfoHandler.getTank().getFluid();
 
         if (fluidStack != null) {
@@ -43,7 +43,7 @@ public class GuiFluidGauge extends GuiGauge {
     }
 
     @Override
-    public String getTooltip() {
+    protected String getTooltip() {
         IFluidTank tank = fluidInfoHandler.getTank();
         FluidStack fluidStack = tank.getFluid();
 
