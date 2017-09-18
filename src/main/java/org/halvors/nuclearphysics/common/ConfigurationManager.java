@@ -3,8 +3,8 @@ package org.halvors.nuclearphysics.common;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.common.config.Configuration;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
-import org.halvors.nuclearphysics.common.utility.unit.ElectricUnit;
-import org.halvors.nuclearphysics.common.utility.unit.TemperatureUnit;
+import org.halvors.nuclearphysics.common.unit.ElectricUnit;
+import org.halvors.nuclearphysics.common.unit.TemperatureUnit;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package org.halvors.nuclearphysics.common.tile;
 
-import org.halvors.nuclearphysics.common.utility.type.RedstoneControl;
+import org.halvors.nuclearphysics.common.type.RedstoneControl;
 
 public interface ITileRedstoneControl {
     /**

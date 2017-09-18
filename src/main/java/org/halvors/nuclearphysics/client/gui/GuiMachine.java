@@ -8,7 +8,7 @@ import org.halvors.nuclearphysics.client.gui.component.GuiEnergyInfo;
 import org.halvors.nuclearphysics.client.gui.component.GuiRedstoneControl;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.unit.UnitDisplay;
+import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 
 import java.util.ArrayList;
 import java.util.List;

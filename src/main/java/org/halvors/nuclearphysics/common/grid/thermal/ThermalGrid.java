@@ -10,7 +10,7 @@ import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.nuclearphysics.common.grid.IUpdate;
-import org.halvors.nuclearphysics.common.utility.type.Pair;
+import org.halvors.nuclearphysics.common.type.Pair;
 
 import java.util.HashMap;
 import java.util.Map.Entry;

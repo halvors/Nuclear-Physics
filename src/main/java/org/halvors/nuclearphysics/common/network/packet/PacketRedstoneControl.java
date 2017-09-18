@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
-import org.halvors.nuclearphysics.common.utility.type.RedstoneControl;
+import org.halvors.nuclearphysics.common.type.RedstoneControl;
 
 public class PacketRedstoneControl extends PacketLocation implements IMessage {
     public RedstoneControl redstoneControl;

@@ -7,7 +7,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.type.Color;
+import org.halvors.nuclearphysics.common.type.Color;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;

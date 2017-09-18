@@ -2,7 +2,7 @@ package org.halvors.nuclearphysics.common.multiblock;
 
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
-import org.halvors.nuclearphysics.common.utility.location.Position;
+import org.halvors.nuclearphysics.common.type.Position;
 
 public class ElectricTurbineMultiBlockHandler extends MultiBlockHandler<TileElectricTurbine> {
     public ElectricTurbineMultiBlockHandler(TileElectricTurbine wrapper) {

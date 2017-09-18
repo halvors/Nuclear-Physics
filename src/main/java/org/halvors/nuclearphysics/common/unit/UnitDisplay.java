@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.utility.unit;
+package org.halvors.nuclearphysics.common.unit;
 
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 

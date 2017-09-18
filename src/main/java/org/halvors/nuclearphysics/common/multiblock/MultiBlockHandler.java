@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.nuclearphysics.api.nbt.ISaveObject;
-import org.halvors.nuclearphysics.common.utility.location.Position;
+import org.halvors.nuclearphysics.common.type.Position;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;

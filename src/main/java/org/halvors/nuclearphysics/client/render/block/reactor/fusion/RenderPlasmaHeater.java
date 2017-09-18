@@ -9,7 +9,7 @@ import org.halvors.nuclearphysics.client.render.block.RenderTaggedTile;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.Resource;
+import org.halvors.nuclearphysics.common.type.Resource;
 
 import java.util.Arrays;
 

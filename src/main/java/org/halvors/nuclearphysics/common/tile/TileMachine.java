@@ -8,11 +8,11 @@ import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.RedstoneUtility;
-import org.halvors.nuclearphysics.common.utility.type.RedstoneControl;
+import org.halvors.nuclearphysics.common.type.RedstoneControl;
 
 import java.util.List;
 
-public class TileMachine extends TileConsumer implements ITickable, ITileRedstoneControl {
+public class TileMachine extends TileProducer implements ITickable, ITileRedstoneControl {
     protected EnumMachine type;
 
     public int energyUsed = 0;

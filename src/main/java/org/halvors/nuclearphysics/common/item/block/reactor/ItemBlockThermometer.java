@@ -20,8 +20,8 @@ import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockTooltip;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.location.Position;
-import org.halvors.nuclearphysics.common.utility.type.Color;
+import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.common.type.Color;
 
 import javax.annotation.Nonnull;
 import java.util.List;

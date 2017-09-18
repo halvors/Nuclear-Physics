@@ -10,7 +10,7 @@ import org.halvors.nuclearphysics.common.container.particle.ContainerQuantumAsse
 import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.Resource;
+import org.halvors.nuclearphysics.common.type.Resource;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {

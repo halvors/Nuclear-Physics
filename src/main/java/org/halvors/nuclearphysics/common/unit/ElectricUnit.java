@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.utility.unit;
+package org.halvors.nuclearphysics.common.unit;
 
 import java.util.ArrayList;
 import java.util.List;

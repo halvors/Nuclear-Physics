@@ -6,8 +6,8 @@ import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.Resource;
-import org.halvors.nuclearphysics.common.utility.unit.TemperatureUnit;
+import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.unit.TemperatureUnit;
 
 import java.util.List;
 

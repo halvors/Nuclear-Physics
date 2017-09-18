@@ -11,10 +11,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TileConsumer extends TileRotatable {
+public class TileProducer extends TileRotatable {
     protected EnergyStorage energyStorage;
 
-    public TileConsumer() {
+    public TileProducer() {
 
     }
 
