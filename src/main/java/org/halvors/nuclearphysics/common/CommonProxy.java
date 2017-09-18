@@ -93,4 +93,8 @@ public class CommonProxy implements IGuiHandler {
 			((WorldServer) player.world).addScheduledTask(runnable);
 		}
 	}
+
+	public boolean isPaused() {
+		return false;
+	}
 }

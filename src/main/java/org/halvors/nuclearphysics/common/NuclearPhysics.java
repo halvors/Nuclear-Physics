@@ -93,11 +93,6 @@ public class NuclearPhysics {
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
-		// TODO: Add support for this? Make sure to return something in OreDictionaryHelper still if disabled.
-		if (ConfigurationManager.General.allowOreDictionaryCompatibility) {
-
-		}
-
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, (tickets, world) -> {
             for (Ticket ticket : tickets) {
                 if (ticket.getType() == ForgeChunkManager.Type.ENTITY) {
