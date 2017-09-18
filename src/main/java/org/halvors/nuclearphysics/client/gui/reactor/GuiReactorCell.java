@@ -2,24 +2,23 @@ package org.halvors.nuclearphysics.client.gui.reactor;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.GuiComponentContainer;
-import org.halvors.nuclearphysics.client.gui.component.GuiBar;
+import org.halvors.nuclearphysics.client.gui.component.*;
 import org.halvors.nuclearphysics.client.gui.component.GuiBar.BarType;
-import org.halvors.nuclearphysics.client.gui.component.GuiFluidGauge;
-import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
-import org.halvors.nuclearphysics.client.gui.component.IProgressInfoHandler;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
+import org.halvors.nuclearphysics.common.utility.unit.UnitDisplay;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
@@ -27,6 +26,7 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
     public GuiReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {
         super(tile, new ContainerReactorCell(inventoryPlayer, tile));
 
+        components.add(new GuiTemperatureInfo(ArrayList::new, this, -26, 183));
         components.add(new GuiSlot(SlotType.NORMAL, this, (xSize / 2) - 10, (ySize / 2) - 92));
         components.add(new GuiFluidGauge(tile::getTank, this, (xSize / 2) - 8, (ySize / 2) - 72));
 

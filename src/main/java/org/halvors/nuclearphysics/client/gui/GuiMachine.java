@@ -30,8 +30,8 @@ public class GuiMachine<T extends TileMachine> extends GuiComponentContainer<T> 
             }
 
             return list;
-        }, this));
-        components.add(new GuiRedstoneControl(tile, this));
+        }, this, -26, 183));
+        components.add(new GuiRedstoneControl(tile, this, 176, 183));
     }
 
     @Override

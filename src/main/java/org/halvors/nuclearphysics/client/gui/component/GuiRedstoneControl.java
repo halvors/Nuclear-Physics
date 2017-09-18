@@ -20,8 +20,8 @@ import java.awt.*;
 public class GuiRedstoneControl extends GuiComponent {
     private TileEntity tile;
 
-    public <T extends TileEntity & ITileRedstoneControl> GuiRedstoneControl(T tile, IGuiWrapper gui) {
-        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "redstone_control.png"), gui, 176, 183);
+    public <T extends TileEntity & ITileRedstoneControl> GuiRedstoneControl(T tile, IGuiWrapper gui, int x, int y) {
+        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "redstone_control.png"), gui, x, y);
 
         this.tile = tile;
     }

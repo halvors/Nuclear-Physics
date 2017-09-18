@@ -7,25 +7,25 @@ import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.utility.type.Resource;
-import org.halvors.nuclearphysics.common.utility.unit.ElectricUnit;
+import org.halvors.nuclearphysics.common.utility.unit.TemperatureUnit;
 
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class GuiEnergyInfo extends GuiInfo {
-    public GuiEnergyInfo(IInfoHandler infoHandler, IGuiWrapper gui, int x, int y) {
-        super(infoHandler, ResourceUtility.getResource(Resource.GUI_COMPONENT, "energy_info.png"), gui, x, y);
+public class GuiTemperatureInfo extends GuiInfo {
+    public GuiTemperatureInfo(IInfoHandler infoHandler, IGuiWrapper gui, int x, int y) {
+        super(infoHandler, ResourceUtility.getResource(Resource.GUI_COMPONENT, "heat_info.png"), gui, x, y);
     }
 
     @Override
     protected List<String> getInfo(List<String> list) {
-        list.add(LanguageUtility.transelate("gui.unit") + ": " + General.electricUnit.getSymbol());
+        list.add(LanguageUtility.transelate("gui.unit") + ": " + General.temperatureUnit.getSymbol());
 
         return list;
     }
 
     @Override
     protected void buttonClicked() {
-        General.electricUnit = ElectricUnit.values()[(General.electricUnit.ordinal() + 1) % ElectricUnit.values().length];
+        General.temperatureUnit = TemperatureUnit.values()[(General.temperatureUnit.ordinal() + 1) % TemperatureUnit.values().length];
     }
 }
