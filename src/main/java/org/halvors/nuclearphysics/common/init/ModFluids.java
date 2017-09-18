@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.fluid.BlockFluidPlasma;
-import org.halvors.nuclearphysics.common.block.fluid.BlockFluidToxicWaste;
+import org.halvors.nuclearphysics.common.block.fluid.BlockFluidRadioactive;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockTooltip;
 
 import java.util.HashSet;
@@ -34,28 +34,28 @@ public class ModFluids {
     public static final Set<IFluidBlock> fluidBlocks = new HashSet<>();
 
     public static final Fluid deuterium = createFluid("deuterium", false,
-            fluid -> fluid.setDensity(1000),
+            fluid -> fluid.setDensity(1110), // Density: 1.11 g/cm3
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
     public static final Fluid uraniumHexaflouride = createFluid("uranium_hexafluoride", false,
-            fluid -> fluid.setGaseous(true),
+            fluid -> fluid.setDensity(5090).setGaseous(true), // Density: 5.09 g/cm3
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
     public static final Fluid plasma = createFluid("plasma", false,
-            fluid -> fluid.setGaseous(true),
+            fluid -> fluid.setLuminosity(7).setGaseous(true), // Density: ? g/cm3
             fluid -> new BlockFluidPlasma(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
     public static final Fluid steam = createFluid("steam", false,
-            fluid -> fluid.setGaseous(true),
+            fluid -> fluid.setDensity(1).setGaseous(true), // Density: 0.0006 g/cm3
             fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
     public static final Fluid tritium = createFluid("tritium", false,
-            fluid -> fluid.setDensity(1000),
-            fluid -> new BlockFluidClassic(fluid, new MaterialLiquid(MapColor.ADOBE)));
+            fluid -> fluid.setDensity(1215).setLuminosity(15), // Density: 1.215 g/cm3
+            fluid -> new BlockFluidRadioactive(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
     public static final Fluid toxicWaste = createFluid("toxic_waste", false,
-            fluid -> fluid.setDensity(100).setViscosity(100),
-            fluid -> new BlockFluidToxicWaste(fluid, new MaterialLiquid(MapColor.ADOBE)));
+            fluid -> fluid.setDensity(8900), // Density: 8.9 g/cm3
+            fluid -> new BlockFluidRadioactive(fluid, new MaterialLiquid(MapColor.ADOBE)));
 
     public static final FluidStack fluidStackDeuterium = new FluidStack(FluidRegistry.getFluid("deuterium"), 0);
     public static final FluidStack fluidStackUraniumHexaflouride = new FluidStack(FluidRegistry.getFluid("uranium_hexafluoride"), 0);
@@ -94,6 +94,14 @@ public class ModFluids {
         return fluid;
     }
 
+    private static void registerFluidContainers() {
+        for (final Fluid fluid : fluids) {
+            if (fluid == toxicWaste) {
+                FluidRegistry.addBucketForFluid(fluid);
+            }
+        }
+    }
+
     @EventBusSubscriber
     public static class RegistrationHandler {
         /**
@@ -112,7 +120,7 @@ public class ModFluids {
                 block.setUnlocalizedName(fluid.getUnlocalizedName());
                 block.setRegistryName(fluid.getName());
 
-                if (block instanceof BlockFluidToxicWaste || block instanceof BlockFluidPlasma) {
+                if (fluid == toxicWaste || fluid == plasma) {
                     block.setCreativeTab(NuclearPhysics.getCreativeTab());
                 }
 
@@ -134,14 +142,6 @@ public class ModFluids {
             }
 
             registerFluidContainers();
-        }
-    }
-
-    public static void registerFluidContainers() {
-        for (final Fluid fluid : fluids) {
-            if (fluid == toxicWaste) {
-                FluidRegistry.addBucketForFluid(fluid);
-            }
         }
     }
 }

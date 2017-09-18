@@ -8,7 +8,7 @@ import org.halvors.nuclearphysics.client.gui.component.GuiEnergyInfo;
 import org.halvors.nuclearphysics.client.gui.component.GuiRedstoneControl;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
+import org.halvors.nuclearphysics.common.utility.unit.UnitDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,10 @@ public class GuiMachine<T extends TileMachine> extends GuiComponentContainer<T> 
         super(tile, container);
 
         components.add(new GuiEnergyInfo(() -> {
-            IEnergyStorage energyStorage = tile.getEnergyStorage();
             List<String> list = new ArrayList<>();
             list.add(LanguageUtility.transelate("gui.using") + ": " + UnitDisplay.getEnergyDisplay(tile.energyUsed) + "/t");
+
+            IEnergyStorage energyStorage = tile.getEnergyStorage();
 
             if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
                 list.add(LanguageUtility.transelate("gui.needed") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()));
@@ -30,8 +31,8 @@ public class GuiMachine<T extends TileMachine> extends GuiComponentContainer<T> 
             }
 
             return list;
-        }, this));
-        components.add(new GuiRedstoneControl(tile, this));
+        }, this, -26, 183));
+        components.add(new GuiRedstoneControl(tile, this, 176, 183));
     }
 
     @Override

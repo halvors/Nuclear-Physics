@@ -11,8 +11,8 @@ import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAcc
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.energy.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.type.Color;
+import org.halvors.nuclearphysics.common.utility.unit.UnitDisplay;
 
 @SideOnly(Side.CLIENT)
 public class GuiParticleAccelerator extends GuiMachine<TileParticleAccelerator> {

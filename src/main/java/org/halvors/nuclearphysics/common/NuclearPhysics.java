@@ -67,9 +67,6 @@ public class NuclearPhysics {
 		// Load the configuration.
 		ConfigurationManager.loadConfiguration(configuration);
 
-		// Mod integration.
-		//logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
-
 		// Call functions for adding blocks, items, etc.
 		ModCapabilities.registerCapabilities();
 		ModEntities.registerEntities();
@@ -93,11 +90,6 @@ public class NuclearPhysics {
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
-		// TODO: Add support for this? Make sure to return something in OreDictionaryHelper still if disabled.
-		if (ConfigurationManager.General.allowOreDictionaryCompatibility) {
-
-		}
-
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, (tickets, world) -> {
             for (Ticket ticket : tickets) {
                 if (ticket.getType() == ForgeChunkManager.Type.ENTITY) {
@@ -120,7 +112,7 @@ public class NuclearPhysics {
 			UpdateTicker.getInstance().start();
 		}
 
-		// Register grids.
+		// Register our grids.
 		UpdateTicker.addNetwork(thermalGrid);
 
 		// Initialize mod integration.

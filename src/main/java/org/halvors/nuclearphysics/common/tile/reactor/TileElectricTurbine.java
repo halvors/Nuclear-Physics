@@ -23,7 +23,7 @@ import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHan
 import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileGenerator;
-import org.halvors.nuclearphysics.common.utility.position.Position;
+import org.halvors.nuclearphysics.common.utility.location.Position;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

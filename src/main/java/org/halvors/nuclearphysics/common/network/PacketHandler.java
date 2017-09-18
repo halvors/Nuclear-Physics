@@ -76,7 +76,7 @@ public class PacketHandler {
 
 	public void sendToReceivers(IMessage message, Range range) {
 		for (EntityPlayerMP player : PlayerUtility.getPlayers()) {
-			if (player.dimension == range.getDimensionId() && Range.getChunkRange(player).intersects(range)) {
+			if (player.getEntityWorld().equals(range.getWorld()) && Range.getChunkRange(player).intersects(range)) {
 				sendTo(message, player);
 			}
 		}
@@ -127,11 +127,11 @@ public class PacketHandler {
             } else if (object instanceof Long) {
                 dataStream.writeLong((Long) object);
             } else if (object instanceof String) {
-                writeString(dataStream, (String) object);
+				ByteBufUtils.writeUTF8String(dataStream, (String) object);
             } else if (object instanceof ItemStack) {
-                writeStack(dataStream, (ItemStack) object);
+				ByteBufUtils.writeItemStack(dataStream, (ItemStack) object);
             } else if (object instanceof NBTTagCompound) {
-                writeNBT(dataStream, (NBTTagCompound) object);
+				ByteBufUtils.writeTag(dataStream, (NBTTagCompound) object);
             }
         } catch (Exception e) {
             NuclearPhysics.getLogger().error("An error occurred when sending packet data.");
@@ -145,24 +145,12 @@ public class PacketHandler {
         }
     }
 
-	public static void writeString(ByteBuf output, String s) {
-		ByteBufUtils.writeUTF8String(output, s);
-	}
-
 	public static String readString(ByteBuf input) {
 		return ByteBufUtils.readUTF8String(input);
 	}
 
-	public static void writeStack(ByteBuf output, ItemStack stack) {
-		ByteBufUtils.writeItemStack(output, stack);
-	}
-
 	public static ItemStack readStack(ByteBuf input) {
 		return ByteBufUtils.readItemStack(input);
-	}
-
-	public static void writeNBT(ByteBuf output, NBTTagCompound tagCompound) {
-		ByteBufUtils.writeTag(output, tagCompound);
 	}
 
 	public static NBTTagCompound readNBT(ByteBuf input) {

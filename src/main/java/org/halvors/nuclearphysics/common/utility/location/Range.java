@@ -3,10 +3,13 @@ package org.halvors.nuclearphysics.common.utility.location;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class Range {
-	private int dimensionId;
+	private World world;
 	private int minX;
 	private int minY;
 	private int minZ;
@@ -14,8 +17,8 @@ public class Range {
 	private int maxY;
 	private int maxZ;
 
-	public Range(int minX, int minY, int minZ, int maxX, int maxY, int maxZ, int dimensionId) {
-		this.dimensionId = dimensionId;
+	public Range(World world, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+		this.world = world;
 		this.minX = minX;
 		this.minY = minY;
 		this.minZ = minZ;
@@ -24,38 +27,39 @@ public class Range {
 		this.maxZ = maxZ;
 	}
 
-	public Range(Chunk chunk) {
-		this.dimensionId = chunk.getDimensionId();
-		this.minX = chunk.getX() * 16;
+	public Range(World world, ChunkPos pos) {
+		this.world = world;
+		this.minX = pos.x * 16;
 		this.minY = 0;
-		this.minZ = chunk.getZ() * 16;
+		this.minZ = pos.z * 16;
 		this.maxX = minX + 16;
 		this.maxY = 255;
 		this.maxZ = minZ + 16;
 	}
 
-	public Range(Location location) {
-		this.dimensionId = location.getWorld().provider.getDimension();
-		this.minX = location.getPos().getX();
-		this.minY = location.getPos().getY();
-		this.minZ = location.getPos().getZ();
-		this.maxX = location.getPos().getX() + 1;
-		this.maxY = location.getPos().getY() + 1;
-		this.maxZ = location.getPos().getZ() + 1;
+	public Range(World world, BlockPos pos) {
+		this.world = world;
+		this.minX = pos.getX();
+		this.minY = pos.getY();
+		this.minZ = pos.getZ();
+		this.maxX = pos.getX() + 1;
+		this.maxY = pos.getY() + 1;
+		this.maxZ = pos.getZ() + 1;
 	}
 
 	public Range(Entity entity) {
-		this(new Location(entity));
+		this(entity.getEntityWorld(), entity.getPosition());
 	}
 
-	public Range(TileEntity tileEntity) {
-		this(new Location(tileEntity));
+	public Range(TileEntity tile) {
+		this(tile.getWorld(), tile.getPos());
 	}
 
 	public static Range getChunkRange(EntityPlayer player) {
 		int radius = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getViewDistance();
+		ChunkPos chunkPos = new ChunkPos(player.getPosition());
 
-		return new Range(new Chunk(player)).expandChunks(radius);
+		return new Range(player.getEntityWorld(), chunkPos).expandChunks(radius);
 	}
 
 	public Range expandChunks(int chunks) {
@@ -76,8 +80,8 @@ public class Range {
 				(range.maxZ + 1 - 1.E-05D > minZ);
 	}
 
-	public int getDimensionId() {
-		return dimensionId;
+	public World getWorld() {
+		return world;
 	}
 
 	public int getMinX() {
@@ -115,7 +119,7 @@ public class Range {
 					range.maxX == maxX &&
 					range.maxY == maxY &&
 					range.maxZ == maxZ &&
-					range.dimensionId == dimensionId;
+					range.world.equals(world);
 		}
 
 		return false;

@@ -31,7 +31,7 @@ public class GasTank extends LiquidTank implements IBoilHandler, IFluidTank {
     }
 
     @Override
-    public int catchSteam(FluidStack resource, boolean doFill) {
-        return fillInternal(resource, doFill);
+    public int receiveGas(FluidStack fluidStack, boolean doTransfer) {
+        return super.fillInternal(fluidStack, doTransfer);
     }
 }

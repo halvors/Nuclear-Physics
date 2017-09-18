@@ -17,7 +17,7 @@ public class SchematicAccelerator implements ISchematic {
     }
 
     @Override
-    public HashMap<BlockPos, IBlockState> getStructure(EnumFacing direction, int size) {
+    public HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size) {
         HashMap<BlockPos, IBlockState> map = new HashMap<>();
 
         if (size < 4) {

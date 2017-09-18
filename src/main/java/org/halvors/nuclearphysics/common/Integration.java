@@ -9,5 +9,7 @@ public class Integration {
 
     public static void initialize() {
         isMekanismLoaded = Loader.isModLoaded(MEKANISM_MOD_ID);
+
+        NuclearPhysics.getLogger().info("Mekanism integration is " + (Integration.isMekanismLoaded ? "enabled" : "disabled") + ".");
     }
 }
