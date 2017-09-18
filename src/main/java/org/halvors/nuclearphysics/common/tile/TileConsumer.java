@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
@@ -40,14 +41,14 @@ public class TileConsumer extends TileRotatable {
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityEnergy.ENERGY || super.hasCapability(capability, facing);
+        return capability == CapabilityEnergy.ENERGY || capability == TeslaCapabilities.CAPABILITY_CONSUMER || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY) {
+        if (capability == CapabilityEnergy.ENERGY || capability == TeslaCapabilities.CAPABILITY_CONSUMER) {
             return (T) energyStorage;
         }
 

@@ -1,6 +1,8 @@
 package org.halvors.nuclearphysics.common.tile;
 
 import io.netty.buffer.ByteBuf;
+import net.darkhax.tesla.api.ITeslaProducer;
+import net.darkhax.tesla.capability.TeslaCapabilities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -15,14 +17,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class TileGenerator extends TileBase implements ITickable, ITileNetwork, IEnergyStorage {
+public class TileProducer extends TileBase implements ITickable, ITileNetwork, IEnergyStorage, ITeslaProducer {
     private final List<BlockPos> targets = new ArrayList<>();
     private final Map<BlockPos, EnumFacing> facings = new HashMap<>();
     private int targetStartingIndex;
 
     protected EnergyStorage energyStorage;
 
-    public TileGenerator() {
+    public TileProducer() {
 
     }
 
@@ -46,14 +48,14 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
+        return ((capability == CapabilityEnergy.ENERGY || capability == TeslaCapabilities.CAPABILITY_PRODUCER) && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) {
+        if ((capability == CapabilityEnergy.ENERGY || capability == TeslaCapabilities.CAPABILITY_PRODUCER) && getExtractingDirections().contains(facing)) {
             return (T) energyStorage;
         }
 
@@ -119,6 +121,13 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     @Override
     public boolean canReceive() {
         return energyStorage.canReceive();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public long takePower(long power, boolean simulated) {
+        return extractEnergy(Math.toIntExact(power), simulated);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

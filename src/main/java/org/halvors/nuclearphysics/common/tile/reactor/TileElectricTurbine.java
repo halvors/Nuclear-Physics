@@ -22,7 +22,7 @@ import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
-import org.halvors.nuclearphysics.common.tile.TileGenerator;
+import org.halvors.nuclearphysics.common.tile.TileProducer;
 import org.halvors.nuclearphysics.common.utility.location.Position;
 
 import javax.annotation.Nonnull;
@@ -37,7 +37,7 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
-public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine> {
+public class TileElectricTurbine extends TileProducer implements IMultiBlockStructure<TileElectricTurbine> {
     private final int energyPerSteam = 40;
     private final int defaultTorque = 5000;
     private int torque = defaultTorque;

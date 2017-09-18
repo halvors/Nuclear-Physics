@@ -3,11 +3,11 @@ package org.halvors.nuclearphysics.common.tile.particle;
 import net.minecraft.util.EnumFacing;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
-import org.halvors.nuclearphysics.common.tile.TileGenerator;
+import org.halvors.nuclearphysics.common.tile.TileProducer;
 
 import java.util.EnumSet;
 
-public class TileFulmination extends TileGenerator {
+public class TileFulmination extends TileProducer {
     public TileFulmination() {
         energyStorage = new EnergyStorage((int) 10000000000000L);
     }
