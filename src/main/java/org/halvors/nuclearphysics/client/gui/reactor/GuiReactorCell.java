@@ -29,19 +29,28 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
 
         components.add(new GuiSlot(SlotType.NORMAL, this, (xSize / 2) - 10, (ySize / 2) - 92));
         components.add(new GuiFluidGauge(tile::getTank, this, (xSize / 2) - 8, (ySize / 2) - 72));
-        components.add(new GuiBar(() -> (tile.getTemperature() - ThermalPhysics.roomTemperature) /  TileReactorCell.meltingPoint, BarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
-        components.add(new GuiBar(new IProgressInfoHandler() {
-            ItemStack itemStack = tile.getInventory().getStackInSlot(0);
 
-            @Override
-            public double getProgress() {
-                if (itemStack != null) {
-                    return (double) (itemStack.getMaxDamage() - itemStack.getMetadata()) / itemStack.getMaxDamage();
+        ItemStack itemStack = tile.getInventory().getStackInSlot(0);
+        FluidStack fluidStack = tile.getTank().getFluid();
+
+        if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
+            components.add(new GuiBar(() -> (tile.getTemperature() - ThermalPhysics.roomTemperature) / TileReactorCell.meltingPoint, BarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
+        }
+
+        if (itemStack != null) {
+            components.add(new GuiBar(new IProgressInfoHandler() {
+                ItemStack itemStack = tile.getInventory().getStackInSlot(0);
+
+                @Override
+                public double getProgress() {
+                    if (itemStack != null) {
+                        return (double) (itemStack.getMaxDamage() - itemStack.getMetadata()) / itemStack.getMaxDamage();
+                    }
+
+                    return 0;
                 }
-
-                return 0;
-            }
-        }, BarType.TIMER, this, (xSize / 2) + 14, (ySize / 2) - 38));
+            }, BarType.TIMER, this, (xSize / 2) + 14, (ySize / 2) - 38));
+        }
     }
 
     @Override
