@@ -67,9 +67,6 @@ public class NuclearPhysics {
 		// Load the configuration.
 		ConfigurationManager.loadConfiguration(configuration);
 
-		// Mod integration.
-		//logger.log(Level.INFO, "Mekanism integration is " + (Integration.isMekanismEnabled ? "enabled" : "disabled") + ".");
-
 		// Call functions for adding blocks, items, etc.
 		ModCapabilities.registerCapabilities();
 		ModEntities.registerEntities();
@@ -115,7 +112,7 @@ public class NuclearPhysics {
 			UpdateTicker.getInstance().start();
 		}
 
-		// Register grids.
+		// Register our grids.
 		UpdateTicker.addNetwork(thermalGrid);
 
 		// Initialize mod integration.

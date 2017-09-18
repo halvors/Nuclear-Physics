@@ -8,7 +8,7 @@ import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileRotatable;
-import org.halvors.nuclearphysics.common.utility.position.Position;
+import org.halvors.nuclearphysics.common.utility.location.Position;
 
 import javax.annotation.Nonnull;
 import java.util.List;

@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.utility.position.Position;
+import org.halvors.nuclearphysics.common.utility.location.Position;
 
 @SideOnly(Side.CLIENT)
 public class RenderUtility {

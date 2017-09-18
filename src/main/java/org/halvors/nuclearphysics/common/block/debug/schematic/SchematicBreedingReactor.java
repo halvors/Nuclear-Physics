@@ -6,7 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
-import org.halvors.nuclearphysics.common.utility.position.Position;
+import org.halvors.nuclearphysics.common.utility.location.Position;
 
 import java.util.HashMap;
 
