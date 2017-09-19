@@ -27,14 +27,6 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer<TileElectri
     @Override
     public void renderTileEntityAt(TileElectricTurbine tile, double x, double y, double z, float partialTicks, int destroyStage) {
         if (tile.getMultiBlock().isPrimary()) {
-            bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-
-            GlStateManager.pushMatrix();
-
-            // Translate to the location of our tile entity
-            GlStateManager.translate(x, y, z);
-            GlStateManager.disableRescaleNormal();
-
             if (tile.getMultiBlock().isConstructed()) {
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(0.5, 0, 0.5);
@@ -71,8 +63,6 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer<TileElectri
 
                 modelSmall.render();
             }
-
-            GlStateManager.popMatrix();
         }
     }
 }

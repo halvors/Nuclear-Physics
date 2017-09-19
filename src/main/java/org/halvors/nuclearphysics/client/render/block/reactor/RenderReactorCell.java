@@ -1,7 +1,6 @@
 package org.halvors.nuclearphysics.client.render.block.reactor;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
@@ -10,26 +9,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.event.TextureEventHandler;
 import org.halvors.nuclearphysics.client.event.TextureEventHandler.FluidType;
 import org.halvors.nuclearphysics.client.render.block.Model3D;
-import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.client.render.block.RenderTile;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 
 @SideOnly(Side.CLIENT)
-public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell> {
+public class RenderReactorCell extends RenderTile<TileReactorCell> {
     private static final Model3D modelPlasma = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74);
     private static final Model3D modelFissileFuel = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74);
 
     @Override
-    public void renderTileEntityAt(TileReactorCell tile, double x, double y, double z, float partialTicks, int destroyStage) {
-        GlStateManager.pushMatrix();
-
-        // Translate to the location of our tile entity
-        GlStateManager.translate(x, y, z);
-        GlStateManager.disableRescaleNormal();
-
-        // Rotate block based on direction.
-        RenderUtility.rotateBlockBasedOnDirection(tile.getFacing());
-
+    public void render(TileReactorCell tile, double x, double y, double z, float partialTicks, int destroyStage) {
         // Render fissile fuel inside reactor.
         IFluidTank tank = tile.getTank();
         FluidStack fluidStack = tank.getFluid();
@@ -68,7 +58,5 @@ public class RenderReactorCell extends TileEntitySpecialRenderer<TileReactorCell
 
             GlStateManager.popMatrix();
         }
-
-        GlStateManager.popMatrix();
     }
 }
