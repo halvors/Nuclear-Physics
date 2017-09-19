@@ -120,7 +120,7 @@ public class ModFluids {
                 block.setUnlocalizedName(fluid.getUnlocalizedName());
                 block.setRegistryName(fluid.getName());
 
-                if (fluid == toxicWaste || fluid == plasma) {
+                if (fluid == plasma) {
                     block.setCreativeTab(NuclearPhysics.getCreativeTab());
                 }
 
