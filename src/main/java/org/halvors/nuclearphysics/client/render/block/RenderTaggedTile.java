@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.client.render.block;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -21,9 +20,7 @@ import java.util.Map.Entry;
 @SideOnly(Side.CLIENT)
 public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<T> {
     @Override
-    public void renderTileEntityAt(T tile, double x, double y, double z, float partialTicks, int destroyStage) {
-        super.renderTileEntityAt(tile, x, y, z, partialTicks, destroyStage);
-
+    protected void render(T tile, double x, double y, double z) {
         BlockPos pos = tile.getPos();
 
         if (tile instanceof ITagRender && getPlayer().getDistance(pos.getX(), pos.getY(), pos.getZ()) <= RenderLiving.NAME_TAG_RANGE) {

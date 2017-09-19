@@ -19,7 +19,7 @@ public class RenderReactorCell extends RenderTile<TileReactorCell> {
     private static final Model3D modelFissileFuel = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74);
 
     @Override
-    public void render(TileReactorCell tile, double x, double y, double z) {
+    protected void render(TileReactorCell tile, double x, double y, double z) {
         // Render fissile fuel inside reactor.
         IFluidTank tank = tile.getTank();
         FluidStack fluidStack = tank.getFluid();

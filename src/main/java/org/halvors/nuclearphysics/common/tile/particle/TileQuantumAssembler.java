@@ -1,7 +1,6 @@
 package org.halvors.nuclearphysics.common.tile.particle;
 
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.items.ItemStackHandler;
