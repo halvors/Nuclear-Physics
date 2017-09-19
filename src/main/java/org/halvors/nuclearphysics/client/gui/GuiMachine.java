@@ -7,14 +7,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.component.GuiEnergyInfo;
 import org.halvors.nuclearphysics.client.gui.component.GuiRedstoneControl;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
-import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.unit.UnitDisplay;
+import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiMachine<T extends TileMachine> extends GuiComponentContainer<T> {
+    protected int titleOffset;
+
     public GuiMachine(T tile, Container container) {
         super(tile, container);
 
@@ -37,7 +39,7 @@ public class GuiMachine<T extends TileMachine> extends GuiComponentContainer<T> 
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        fontRendererObj.drawString(tile.getName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getName()) / 2), (ySize / 2) - 102, 0x404040);
+        fontRendererObj.drawString(tile.getName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getName()) / 2), (ySize / 2) - 102 + titleOffset, 0x404040);
         fontRendererObj.drawString(LanguageUtility.transelate("container.inventory"), (xSize / 2) - 80, (ySize - 96) + 2, 0x404040);
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
