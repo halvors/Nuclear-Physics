@@ -77,7 +77,7 @@ public class ModRecipes {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModBlocks.blockElectromagnet, 2), "BBB", "BMB", "BBB", 'B', "ingotBronze", 'M', ModItems.itemMotor));
 
         // Electromagnet Glass
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.blockElectromagnet, 1, EnumElectromagnet.GLASS.ordinal()), ModBlocks.blockElectromagnet, Blocks.GLASS));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModBlocks.blockElectromagnet, 1, EnumElectromagnet.GLASS.ordinal()), ModBlocks.blockElectromagnet, "blockGlass"));
 
         // Fulmination Generator
         GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockFulmination, "OPO", "PCP", "OPO", 'O', Blocks.OBSIDIAN, 'C', "circuitAdvanced", 'P', "plateSteel"));
