@@ -63,7 +63,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
     @Override
     public void update() {
         super.update();
-        
+
         if (!world.isRemote) {
             if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
@@ -96,7 +96,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
 
             if (itemStack != null) {
                 if (entityItem == null || !itemStack.isItemEqual(entityItem.getEntityItem())) {
-                    entityItem = getEntityForItem(itemStack.getItem());
+                    entityItem = getEntityForItem(itemStack);
                 }
             } else {
                 entityItem = null;
@@ -143,8 +143,8 @@ public class TileQuantumAssembler extends TileInventoryMachine {
         }
     }
 
-    private EntityItem getEntityForItem(Item item) {
-        EntityItem entityItem = new EntityItem(world, 0, 0, 0, new ItemStack(item));
+    private EntityItem getEntityForItem(ItemStack itemStack) {
+        EntityItem entityItem = new EntityItem(world, 0, 0, 0, itemStack.copy());
         entityItem.setAgeToCreativeDespawnTime();
 
         return entityItem;

@@ -19,9 +19,6 @@ Known bugs:
             - Should breeding reactors only create heat when actually enriched uranium is present in the middle?
 
         - Fix electric turbine sound, for both small and large.
-
-        - Finish quantum assembler.
-        - Quantum Assembler normals is still buggy from some faces.
         - Fix strange Celsius character.
 
 Known features not implemented:
