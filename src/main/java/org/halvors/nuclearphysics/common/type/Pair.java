@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.utility.type;
+package org.halvors.nuclearphysics.common.type;
 
 public class Pair<L, R> {
     private L left;

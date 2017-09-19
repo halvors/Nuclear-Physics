@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.utility.type;
+package org.halvors.nuclearphysics.common.type;
 
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 

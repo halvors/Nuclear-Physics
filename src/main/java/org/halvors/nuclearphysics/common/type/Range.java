@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.utility.location;
+package org.halvors.nuclearphysics.common.type;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

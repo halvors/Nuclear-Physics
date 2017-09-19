@@ -2,6 +2,8 @@ package org.halvors.nuclearphysics.common.init;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -9,7 +11,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.halvors.nuclearphysics.api.recipe.QuantumAssemblerRecipes;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell.EnumAntimatterCell;
@@ -17,11 +19,6 @@ import org.halvors.nuclearphysics.common.utility.FluidUtility;
 
 public class ModRecipes {
     public static void registerRecipes() {
-        // Register recipes.
-
-        // TODO: Oredictionaficate.
-        // TODO: Mekanism recipes? NuclearCraft recipes? IC2 recipes?
-
         // Wrench.
         GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemWrench, " S ", " SS", "S  ", 'S', "ingotSteel"));
 
@@ -47,8 +44,6 @@ public class ModRecipes {
 
         // Elite circuit.
         GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemCircuitElite, "GGG", "CLC", "GGG", 'G', Items.GOLD_INGOT, 'C', "circuitAdvanced", 'L', Blocks.LAPIS_BLOCK));
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Antimatter
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.itemAntimatterCell, 1, EnumAntimatterCell.GRAM.ordinal()), ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell));
@@ -118,39 +113,32 @@ public class ModRecipes {
         // Reactor Cell
         GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.blockReactorCell, "PCP", "MEM", "PCP", 'E', ModItems.itemCell, 'C', "circuitAdvanced", 'P', "plateSteel", 'M', ModItems.itemMotor));
 
-        // Quantum assembler recipes.
-        if (ConfigurationManager.General.quantumAssemblerGenerateMode > 0) {
-            /*
-            for (Item item : Item.itemsList) {
-                if (item != null) {
-                    if (item.itemID > 256 || Settings.quantumAssemblerGenerateMode == 2) {
-                        ItemStack itemStack = new ItemStack(item);
+        registerQuantumAssemblerRecipes();
+    }
 
-                        if (!itemStack.isEmpty()) {
-                            QuantumAssemblerRecipes.addRecipe(itemStack);
-                        }
-                    }
-                }
-            }
+    private static void registerQuantumAssemblerRecipes() {
+        if (General.allowGeneratedQuantumAssemblerRecipes) {
+            String[] prefixList = { "ore", "ingot", "nugget", "dust", "gem", "dye", "block", "stone", "crop", "slab", "stair", "pane", "gear", "rod", "stick", "plate", "dustTiny", "cover" };
 
-            if (ConfigurationManager.General.quantumAssemblerGenerateMode == 2) {
-                for (Block block : Block.REGISTRY.getblocksList) {
-                    if (block != null) {
-                        ItemStack itemStack = new ItemStack(block);
-                        if (!itemStack.isEmpty()) {
-                            QuantumAssemblerRecipes.addRecipe(itemStack);
-                        }
-                    }
-                }
-            }
-            */
-
+            // Add common items and blocks from ore dictionary.
             for (String oreName : OreDictionary.getOreNames()) {
-                if (oreName.startsWith("ingot")) {
-                    for (ItemStack itemStack : OreDictionary.getOres(oreName)) {
-                        QuantumAssemblerRecipes.addRecipe(itemStack);
+                for (String prefix : prefixList) {
+                    if (oreName.startsWith(prefix)) {
+                        for (ItemStack itemStack : OreDictionary.getOres(oreName)) {
+                            QuantumAssemblerRecipes.addRecipe(itemStack);
+                        }
                     }
                 }
+            }
+
+            // Add recipes for all items in this mod.
+            for (Item item : ModItems.items) {
+                QuantumAssemblerRecipes.addRecipe(new ItemStack(item));
+            }
+
+            // Add recipes for all blocks in this mod.
+            for (ItemBlock itemBlock : ModBlocks.itemBlocks) {
+                QuantumAssemblerRecipes.addRecipe(new ItemStack(itemBlock));
             }
         }
     }

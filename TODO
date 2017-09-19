@@ -12,16 +12,14 @@ Known bugs:
         - Verify that all sounds is more streamlined.
         - Add subtitle to sounds.
         - Implement inventory automation for all machines. (NOT NECESSARY?)
-        -
 
     High Priority:
         - Reactors are only running when first opening GUI on world load. (NOT CONFIRMED)
-        - Why is electricity not generated during the night? Temperature is lower at night?
-
         - Verify the breeding process.
             - Should breeding reactors only create heat when actually enriched uranium is present in the middle?
 
         - Fix electric turbine sound, for both small and large.
+        - Fix strange Celsius character.
 
 Known features not implemented:
 
@@ -30,6 +28,7 @@ New features to add:
         - Add electromagnetic cell, a cell capable of holding antimatter.
         - Implement IAntiPoisonBlock and add make radiation resistant blocks.
         - Add handheld thermometer? (From old atomic science).
+        - Add Mekanism recipes? NuclearCraft recipes? IC2 recipes?
 
     Enhancement:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
@@ -49,6 +48,7 @@ New features to add:
         - Use mekanism better performance redstone checks?
         - Make boiling water spawn particle rate based in the temperature. (https://gamedev.stackexchange.com/questions/17620/equation-to-make-small-number-big-and-big-number-small-gravity)
         - Make tritium emit light when in a container.
+        - Add ghost item support to quantum assembler.
 
     Rendering:
         - Render only moving parts in TESR's?
@@ -72,7 +72,8 @@ New features to add:
         Plasma Heater: (DONE)
             4 x 128MJ ~= 80000 = 2000 mB
 
-        Quantum Assembler: (TODO)
+        Quantum Assembler: (DONE)
+            Per item = ((2 x 47) * 128MJ) - 22 MJ = (94 * 128 MJ) - 22 MJ = 12010 MJ (4804 RF?)
 
         Fulmination Generator: (TODO)
             125mg antimatter = 24.93 MJ

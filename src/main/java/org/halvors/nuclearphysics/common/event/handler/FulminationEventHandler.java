@@ -8,23 +8,23 @@ import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.nuclearphysics.api.explosion.IExplosion;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
-import org.halvors.nuclearphysics.common.tile.particle.TileFulmination;
-import org.halvors.nuclearphysics.common.utility.location.Position;
+import org.halvors.nuclearphysics.common.tile.particle.TileFulminationGenerator;
+import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 public class FulminationEventHandler {
-    private static final List<TileFulmination> list = new ArrayList<>();
+    private static final List<TileFulminationGenerator> list = new ArrayList<>();
 
-    public static void register(TileFulmination tile) {
+    public static void register(TileFulminationGenerator tile) {
         if (!list.contains(tile)) {
             list.add(tile);
         }
     }
 
-    public static void unregister(TileFulmination tile) {
+    public static void unregister(TileFulminationGenerator tile) {
         list.remove(tile);
     }
 
@@ -38,9 +38,9 @@ public class FulminationEventHandler {
             IExplosion customExplosion = (IExplosion) explosion;
 
             if (customExplosion.getRadius() > 0 && customExplosion.getEnergy() > 0) {
-                HashSet<TileFulmination> avaliableGenerators = new HashSet<>();
+                HashSet<TileFulminationGenerator> avaliableGenerators = new HashSet<>();
 
-                for (TileFulmination tile : list) {
+                for (TileFulminationGenerator tile : list) {
                     if (tile != null) {
                         if (!tile.isInvalid()) {
                             Position tilePos = new Position(tile).translate(0.5);
@@ -61,7 +61,7 @@ public class FulminationEventHandler {
                 final float totalEnergy = customExplosion.getEnergy();
                 final float maxEnergyPerGenerator = totalEnergy / avaliableGenerators.size();
 
-                for (TileFulmination tile : avaliableGenerators) {
+                for (TileFulminationGenerator tile : avaliableGenerators) {
                     //float density = event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tile.getPos()));
                     float density = world.getBlockDensity(new Vec3d(pos), ModBlocks.blockFulmination.getDefaultState().getCollisionBoundingBox(world, tile.getPos()));
                     double distance = new Position(tile).distance(pos.getX(), pos.getY(), pos.getZ());
@@ -91,11 +91,11 @@ public class FulminationEventHandler {
             }
 
             if (event.iExplosion.getRadius() > 0 && event.iExplosion.getEnergy() > 0) {
-                HashSet<TileFulmination> avaliableGenerators = new HashSet<>();
+                HashSet<TileFulminationGenerator> avaliableGenerators = new HashSet<>();
 
                 NuclearPhysics.getLogger().info("Called 2.");
 
-                for (TileFulmination tile : list) {
+                for (TileFulminationGenerator tile : list) {
                     NuclearPhysics.getLogger().info("Called Tile 1.");
 
                     if (tile != null) {
@@ -122,7 +122,7 @@ public class FulminationEventHandler {
                 final float totalEnergy = event.iExplosion.getEnergy();
                 final float maxEnergyPerGenerator = totalEnergy / avaliableGenerators.size();
 
-                for (TileFulmination tile : avaliableGenerators) {
+                for (TileFulminationGenerator tile : avaliableGenerators) {
                     //float density = event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tile.getPos()));
                     float density = world.getBlockDensity(new Vec3d(event.x, event.y, event.z), ModBlocks.blockFulmination.getDefaultState().getCollisionBoundingBox(world, tile.getPos()));
                     double distance = new Position(tile).distance(event.x, event.y, event.z);

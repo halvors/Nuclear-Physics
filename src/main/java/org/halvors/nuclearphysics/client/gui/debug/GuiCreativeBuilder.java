@@ -11,8 +11,8 @@ import org.halvors.nuclearphysics.client.gui.GuiComponentScreen;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.packet.PacketCreativeBuilder;
+import org.halvors.nuclearphysics.common.type.Color;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.type.Color;
 
 import java.io.IOException;
 import java.util.List;
