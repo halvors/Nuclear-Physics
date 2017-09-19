@@ -5,13 +5,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.block.BlockConnectedTexture;
-import org.halvors.nuclearphysics.common.tile.particle.TileFulmination;
+import org.halvors.nuclearphysics.common.tile.particle.TileFulminationGenerator;
 
 import javax.annotation.Nonnull;
 
-public class BlockFulmination extends BlockConnectedTexture {
-    public BlockFulmination() {
-        super("fulmination", Material.IRON);
+public class BlockFulminationGenerator extends BlockConnectedTexture {
+    public BlockFulminationGenerator() {
+        super("fulmination_generator", Material.IRON);
 
         setHardness(10);
         setResistance(25000);
@@ -20,6 +20,6 @@ public class BlockFulmination extends BlockConnectedTexture {
     @Override
     @Nonnull
     public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
-        return new TileFulmination();
+        return new TileFulminationGenerator();
     }
 }

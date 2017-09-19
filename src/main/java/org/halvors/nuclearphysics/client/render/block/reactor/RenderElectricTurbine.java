@@ -7,8 +7,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
+import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.Resource;
 
 import java.util.Arrays;
 
@@ -27,14 +27,6 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer<TileElectri
     @Override
     public void render(TileElectricTurbine tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         if (tile.getMultiBlock().isPrimary()) {
-            bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-
-            GlStateManager.pushMatrix();
-
-            // Translate to the location of our tile entity
-            GlStateManager.translate(x, y, z);
-            GlStateManager.disableRescaleNormal();
-
             if (tile.getMultiBlock().isConstructed()) {
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(0.5, 0, 0.5);
@@ -71,8 +63,6 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer<TileElectri
 
                 modelSmall.render();
             }
-
-            GlStateManager.popMatrix();
         }
     }
 }

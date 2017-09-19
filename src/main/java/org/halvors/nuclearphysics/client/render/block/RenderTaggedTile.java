@@ -12,16 +12,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.utility.location.Position;
+import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
+import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
 @SideOnly(Side.CLIENT)
-public abstract class RenderTaggedTile<T extends TileEntity> extends TileEntitySpecialRenderer<T> {
+public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<T> {
     @Override
-    public void render(T tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+    protected void render(T tile, double x, double y, double z) {
         BlockPos pos = tile.getPos();
 
         if (tile instanceof ITagRender && getPlayer().getDistance(pos.getX(), pos.getY(), pos.getZ()) <= RenderLiving.NAME_TAG_RANGE) {

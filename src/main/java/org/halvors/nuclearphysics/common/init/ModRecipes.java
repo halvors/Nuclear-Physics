@@ -1,45 +1,36 @@
 package org.halvors.nuclearphysics.common.init;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.nuclearphysics.api.recipe.QuantumAssemblerRecipes;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 
 public class ModRecipes {
     public static void registerRecipes() {
-        // Quantum assembler recipes.
-        if (ConfigurationManager.General.quantumAssemblerGenerateMode > 0) {
-            /*
-            for (Item item : Item.itemsList) {
-                if (item != null) {
-                    if (item.itemID > 256 || Settings.quantumAssemblerGenerateMode == 2) {
-                        ItemStack itemStack = new ItemStack(item);
+        if (General.allowGeneratedQuantumAssemblerRecipes) {
+            String[] prefixList = { "ore", "ingot", "nugget", "dust", "gem", "dye", "block", "stone", "crop", "slab", "stair", "pane", "gear", "rod", "stick", "plate", "dustTiny", "cover" };
 
-                        if (!itemStack.isEmpty()) {
-                            QuantumAssemblerRecipes.addRecipe(itemStack);
-                        }
-                    }
-                }
-            }
-
-            if (ConfigurationManager.General.quantumAssemblerGenerateMode == 2) {
-                for (Block block : Block.REGISTRY.getblocksList) {
-                    if (block != null) {
-                        ItemStack itemStack = new ItemStack(block);
-                        if (!itemStack.isEmpty()) {
-                            QuantumAssemblerRecipes.addRecipe(itemStack);
-                        }
-                    }
-                }
-            }
-            */
-
+            // Add common items and blocks from ore dictionary.
             for (String oreName : OreDictionary.getOreNames()) {
-                if (oreName.startsWith("ingot")) {
-                    for (ItemStack itemStack : OreDictionary.getOres(oreName)) {
-                        QuantumAssemblerRecipes.addRecipe(itemStack);
+                for (String prefix : prefixList) {
+                    if (oreName.startsWith(prefix)) {
+                        for (ItemStack itemStack : OreDictionary.getOres(oreName)) {
+                            QuantumAssemblerRecipes.addRecipe(itemStack);
+                        }
                     }
                 }
+            }
+
+            // Add recipes for all items in this mod.
+            for (Item item : ModItems.items) {
+                QuantumAssemblerRecipes.addRecipe(new ItemStack(item));
+            }
+
+            // Add recipes for all blocks in this mod.
+            for (ItemBlock itemBlock : ModBlocks.itemBlocks) {
+                QuantumAssemblerRecipes.addRecipe(new ItemStack(itemBlock));
             }
         }
     }

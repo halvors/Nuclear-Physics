@@ -3,8 +3,8 @@ package org.halvors.nuclearphysics.common;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.common.config.Configuration;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
-import org.halvors.nuclearphysics.common.utility.unit.ElectricUnit;
-import org.halvors.nuclearphysics.common.utility.unit.TemperatureUnit;
+import org.halvors.nuclearphysics.common.unit.ElectricUnit;
+import org.halvors.nuclearphysics.common.unit.TemperatureUnit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +37,7 @@ public class ConfigurationManager {
         //public static boolean allowTurbineStacking = true;
         //public static boolean allowAlternateRecipes = true;
         //public static boolean allowIC2UraniumCompression = true;
-
-        //public static int[] quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the Quantum Assembler. Separate by commas, no space.
-        public static int quantumAssemblerGenerateMode = 1; // Comment: 0 = Do not generate, 1 = Generate items only, 2 = Generate all
+        public static boolean allowGeneratedQuantumAssemblerRecipes = true;
     }
 
     public static void loadConfiguration(Configuration configuration) {
@@ -73,9 +71,7 @@ public class ConfigurationManager {
         //General.allowTurbineStacking = configuration.get(Configuration.CATEGORY_GENERAL, "allowTurbineStacking", true).getBoolean();
         //General.allowAlternateRecipes = configuration.get(Configuration.CATEGORY_GENERAL, "allowAlternateRecipes", true).getBoolean();
         //General.allowIC2UraniumCompression = configuration.get(Configuration.CATEGORY_GENERAL, "allowIC2UraniumCompression", true).getBoolean();
-
-        //General.quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the NuclearPhysics Assembler. Separate by commas, no space.
-        General.quantumAssemblerGenerateMode = configuration.get(Configuration.CATEGORY_GENERAL, "quantumAssemblerGenerateMode", 1).getInt(); // Comment: 0 = Do not generate, 1 = Generate items only, 2 = Generate all
+        General.allowGeneratedQuantumAssemblerRecipes = configuration.get(Configuration.CATEGORY_GENERAL, "allowGeneratedQuantumAssemblerRecipes", true).getBoolean();
 
         configuration.save();
     }
@@ -112,9 +108,7 @@ public class ConfigurationManager {
         //General.allowTurbineStacking = dataStream.readBoolean();
         //General.allowAlternateRecipes = dataStream.readBoolean();
         //General.allowIC2UraniumCompression = dataStream.readBoolean();
-
-        //General.quantumAssemblerRecipes = new int[0]; // TODO: Implement this. // Comment: Put a list of block/item IDs to be used by the NuclearPhysics Assembler. Separate by commas, no space.
-        General.quantumAssemblerGenerateMode = dataStream.readInt(); // Comment: 0 = Do not generate, 1 = Generate items only, 2 = Generate all
+        General.allowGeneratedQuantumAssemblerRecipes = dataStream.readBoolean();
     }
 
     public static void writeConfiguration(ByteBuf dataStream) {
@@ -147,9 +141,7 @@ public class ConfigurationManager {
         //objects.add(General.allowTurbineStacking);
         //objects.add(General.allowAlternateRecipes);
         //objects.add(General.allowIC2UraniumCompression);
-
-        //objects.add(General.quantumAssemblerRecipe);
-        objects.add(General.quantumAssemblerGenerateMode);
+        objects.add(General.allowGeneratedQuantumAssemblerRecipes);
 
         PacketHandler.writeObjects(objects, dataStream);
     }

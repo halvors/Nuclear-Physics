@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.utility.location;
+package org.halvors.nuclearphysics.common.type;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;

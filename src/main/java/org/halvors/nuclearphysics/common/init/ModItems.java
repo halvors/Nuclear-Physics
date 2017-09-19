@@ -27,6 +27,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ModItems {
+    public static final Set<Item> items = new HashSet<>();
+
     // Basic Components
     public static Item itemWrench = new ItemWrench();
     public static Item itemCopperWire = new ItemBase("copper_wire");
@@ -58,8 +60,6 @@ public class ModItems {
 
     @EventBusSubscriber
     public static class RegistrationHandler {
-        public static final Set<Item> ITEMS = new HashSet<>();
-
         /**
          * Register this mod's {@link Item}s.
          *
@@ -67,7 +67,7 @@ public class ModItems {
          */
         @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> event) {
-            final Item[] items = {
+            final Item[] registerItems = {
                     itemWrench,
                     itemCopperWire,
                     itemMotor,
@@ -94,7 +94,7 @@ public class ModItems {
 
             final IForgeRegistry<Item> registry = event.getRegistry();
 
-            for (final Item item : items) {
+            for (final Item item : registerItems) {
                 registry.register(item);
 
                 if (item instanceof ItemBase) {
@@ -103,7 +103,7 @@ public class ModItems {
                     ((ItemArmorBase) item).registerItemModel();
                 }
 
-                ITEMS.add(item);
+                items.add(item);
             }
 
             // Basic Components

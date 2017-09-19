@@ -22,9 +22,9 @@ import org.halvors.nuclearphysics.api.item.IWrench;
 import org.halvors.nuclearphysics.common.Integration;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.item.ItemBase;
+import org.halvors.nuclearphysics.common.type.Color;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.type.Color;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

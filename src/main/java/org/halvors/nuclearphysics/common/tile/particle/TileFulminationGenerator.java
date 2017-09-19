@@ -7,8 +7,8 @@ import org.halvors.nuclearphysics.common.tile.TileGenerator;
 
 import java.util.EnumSet;
 
-public class TileFulmination extends TileGenerator {
-    public TileFulmination() {
+public class TileFulminationGenerator extends TileGenerator {
+    public TileFulminationGenerator() {
         energyStorage = new EnergyStorage((int) 10000000000000L);
     }
 

@@ -6,31 +6,22 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
+import org.halvors.nuclearphysics.client.render.block.RenderTile;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
 import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.Resource;
 
 import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
-public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentrifuge> {
+public class RenderGasCentrifuge extends RenderTile<TileGasCentrifuge> {
     private static final OBJModelContainer modelPart = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "gas_centrifuge.obj"), Arrays.asList("C", "JROT", "KROT", "LROT", "MROT"));
     private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "gas_centrifuge.obj"), Arrays.asList("A", "B", "D", "E", "F", "G", "H", "I"));
 
     @Override
-    public void render(TileGasCentrifuge tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-
-        GlStateManager.pushMatrix();
-
-        // Translate to the location of our tile entity
-        GlStateManager.translate(x, y, z);
-        GlStateManager.disableRescaleNormal();
-
-        // Rotate block based on direction.
-        RenderUtility.rotateBlockBasedOnDirection(tile.getFacing());
-
+    protected void render(TileGasCentrifuge tile, double x, double y, double z) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5, 0, 0.5);
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
@@ -39,7 +30,5 @@ public class RenderGasCentrifuge extends TileEntitySpecialRenderer<TileGasCentri
         GlStateManager.popMatrix();
 
         model.render();
-
-        GlStateManager.popMatrix();
     }
 }

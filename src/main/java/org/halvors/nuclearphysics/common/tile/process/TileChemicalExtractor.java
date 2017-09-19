@@ -21,6 +21,7 @@ import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 public class TileChemicalExtractor extends TileProcess {
+    public static final int ticksRequired = 14 * 20;
     private static final int energyPerTick = 20000;
     private static final int extractSpeed = 100;
 
@@ -34,7 +35,6 @@ public class TileChemicalExtractor extends TileProcess {
     public TileChemicalExtractor(EnumMachine type) {
         super(type);
 
-        ticksRequired = 14 * 20;
         energyStorage = new EnergyStorage(energyPerTick * 2);
         inventory = new ItemStackHandler(7) {
             @Override
@@ -140,13 +140,12 @@ public class TileChemicalExtractor extends TileProcess {
                         }
                     }
 
-                    operatingTicks = 0;
+                    reset();
                 }
 
                 energyUsed = energyStorage.extractEnergy(energyPerTick, false);
             } else {
-                operatingTicks = 0;
-                energyUsed = 0;
+                reset();
             }
 
             if (world.getWorldTime() % 10 == 0) {

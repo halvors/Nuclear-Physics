@@ -8,17 +8,18 @@ import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.particle.ContainerQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
+import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.Resource;
 
 @SideOnly(Side.CLIENT)
 public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {
     public GuiQuantumAssembler(InventoryPlayer inventoryPlayer, TileQuantumAssembler tile) {
         super(tile, new ContainerQuantumAssembler(inventoryPlayer, tile));
 
-        defaultResource =  ResourceUtility.getResource(Resource.GUI, "quantum_assembler.png");
+        defaultResource = ResourceUtility.getResource(Resource.GUI, "quantum_assembler.png");
         ySize = 230;
+        titleOffset = -7;
 
         components.add(new GuiSlot(SlotType.NORMAL, this, 79, 39));
         components.add(new GuiSlot(SlotType.NORMAL, this, 52, 55));
@@ -33,8 +34,8 @@ public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String displayText;
 
-        if (tile.operatingTicks > 0) {
-            displayText = LanguageUtility.transelate("gui.process") + ": " + (int) (100 - ((float) tile.operatingTicks / (float) tile.ticksRequired) * 100) + "%";
+        if (tile.getOperatingTicks() > 0) {
+            displayText = LanguageUtility.transelate("gui.process") + ": " + (int) (((float) tile.getOperatingTicks() / (float) TileQuantumAssembler.ticksRequired) * 100) + "%";
         } else if (tile.canProcess()) {
             displayText = LanguageUtility.transelate("gui.ready");
         } else {
