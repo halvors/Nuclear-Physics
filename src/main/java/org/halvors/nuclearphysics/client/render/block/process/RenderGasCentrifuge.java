@@ -20,7 +20,7 @@ public class RenderGasCentrifuge extends RenderTile<TileGasCentrifuge> {
     private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "gas_centrifuge.obj"), Arrays.asList("A", "B", "D", "E", "F", "G", "H", "I"));
 
     @Override
-    public void render(TileGasCentrifuge tile, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileGasCentrifuge tile, double x, double y, double z) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5, 0, 0.5);
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
