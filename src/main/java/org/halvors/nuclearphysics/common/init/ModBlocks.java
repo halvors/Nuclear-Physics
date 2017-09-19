@@ -33,6 +33,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ModBlocks {
+    public static final Set<ItemBlock> itemBlocks = new HashSet<>();
+
     public static Block blockControlRod = new BlockControlRod();
     public static Block blockElectricTurbine = new BlockElectricTurbine();
     public static Block blockElectromagnet = new BlockElectromagnet();
@@ -49,8 +51,6 @@ public class ModBlocks {
 
     @EventBusSubscriber
     public static class RegistrationHandler {
-        public static final Set<ItemBlock> ITEM_BLOCKS = new HashSet<>();
-
         /**
          * Register this mod's {@link Block}s.
          *
@@ -60,7 +60,7 @@ public class ModBlocks {
         public static void registerBlocks(final Register<Block> event) {
             final IForgeRegistry<Block> registry = event.getRegistry();
 
-            final Block[] blocks = {
+            final Block[] registerBlocks = {
                     blockControlRod,
                     blockElectricTurbine,
                     blockElectromagnet,
@@ -75,7 +75,7 @@ public class ModBlocks {
                     blockCreativeBuilder
             };
 
-            registry.registerAll(blocks);
+            registry.registerAll(registerBlocks);
         }
 
         /**
@@ -85,7 +85,7 @@ public class ModBlocks {
          */
         @SubscribeEvent
         public static void registerItemBlocks(final Register<Item> event) {
-            final ItemBlock[] items = {
+            final ItemBlock[] registerItems = {
                     new ItemBlockTooltip(blockControlRod),
                     new ItemBlockTooltip(blockElectricTurbine),
                     new ItemBlockMetadata(blockElectromagnet),
@@ -102,7 +102,7 @@ public class ModBlocks {
 
             final IForgeRegistry<Item> registry = event.getRegistry();
 
-            for (final ItemBlock item : items) {
+            for (final ItemBlock item : registerItems) {
                 final BlockBase block = (BlockBase) item.getBlock();
                 //final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
                 //registry.register(item.setRegistryName(registryName));
@@ -111,7 +111,7 @@ public class ModBlocks {
                 block.registerItemModel(item);
                 block.registerBlockModel();
 
-                ITEM_BLOCKS.add(item);
+                itemBlocks.add(item);
             }
 
             registerTileEntities();

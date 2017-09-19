@@ -31,6 +31,7 @@ New features to add:
         - Add electromagnetic cell, a cell capable of holding antimatter.
         - Implement IAntiPoisonBlock and add make radiation resistant blocks.
         - Add handheld thermometer? (From old atomic science).
+        - Add Mekanism recipes? NuclearCraft recipes? IC2 recipes?
 
     Enhancement:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
