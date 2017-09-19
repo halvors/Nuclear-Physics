@@ -1,16 +1,13 @@
 package org.halvors.nuclearphysics.client.render.block.reactor.fusion;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
 import org.halvors.nuclearphysics.client.render.block.RenderTaggedTile;
-import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.tile.process.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
-import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.util.Arrays;
 

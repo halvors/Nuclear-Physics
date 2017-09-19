@@ -26,7 +26,6 @@ import org.halvors.nuclearphysics.common.type.Color;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 

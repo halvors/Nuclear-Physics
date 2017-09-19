@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.client.render.block;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -12,7 +11,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.HashMap;

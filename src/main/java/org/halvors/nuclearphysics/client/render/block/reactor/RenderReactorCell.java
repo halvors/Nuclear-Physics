@@ -12,7 +12,6 @@ import org.halvors.nuclearphysics.client.render.block.Model3D;
 import org.halvors.nuclearphysics.client.render.block.RenderTile;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
-import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 
 @SideOnly(Side.CLIENT)
 public class RenderReactorCell extends RenderTile<TileReactorCell> {

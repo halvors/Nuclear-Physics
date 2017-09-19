@@ -3,13 +3,11 @@ package org.halvors.nuclearphysics.common.utility;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.JsonContext;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class RecipeUtility {
     public static NonNullList<Ingredient> parseShapeless(final JsonContext context, final JsonObject json) {
