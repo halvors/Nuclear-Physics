@@ -17,7 +17,7 @@ public class RenderChemicalExtractor extends RenderTile<TileChemicalExtractor> {
     private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "chemical_extractor.obj"), Arrays.asList("CornerSupport1", "CornerSupport2", "CornerSupport3", "CornerSupport4", "EnergyPlug", "Keyboard", "KeyboardSupport", "MainBase", "SupportBeam1", "SupportBeam2"));
 
     @Override
-    public void render(TileChemicalExtractor tile, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileChemicalExtractor tile, double x, double y, double z) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(0, 0.4375, 0.314388);
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 1, 0, 0);

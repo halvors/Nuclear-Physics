@@ -31,7 +31,7 @@ public class RenderQuantumAssembler extends RenderTile<TileQuantumAssembler> {
     };
 
     @Override
-    public void render(TileQuantumAssembler tile, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(TileQuantumAssembler tile, double x, double y, double z) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5, 0, 0.5);
         GlStateManager.rotate(-tile.getRotationYaw1(), 0, 1, 0);

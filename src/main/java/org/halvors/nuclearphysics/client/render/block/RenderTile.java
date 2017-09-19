@@ -26,10 +26,10 @@ public abstract class RenderTile<T extends TileEntity> extends TileEntitySpecial
             RenderUtility.rotateBlockBasedOnDirection(((ITileRotatable) tile).getFacing());
         }
 
-        render(tile, x, y, z, partialTicks, destroyStage);
+        render(tile, x, y, z);
 
         GlStateManager.popMatrix();
     }
 
-    public abstract void render(T tile, double x, double y, double z, float partialTicks, int destroyStage);
+    protected abstract void render(T tile, double x, double y, double z);
 }
