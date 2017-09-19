@@ -22,7 +22,7 @@ public class GuiGasCentrifuge extends GuiMachine<TileGasCentrifuge> {
         components.add(new GuiSlot(SlotType.NORMAL, this, 80, 25));
         components.add(new GuiSlot(SlotType.NORMAL, this, 100, 25));
         components.add(new GuiSlot(SlotType.BATTERY, this, 130, 25));
-        components.add(new GuiProgress(() -> (double) tile.operatingTicks / tile.ticksRequired, this, 40, 26));
+        components.add(new GuiProgress(() -> (double) tile.getOperatingTicks() / TileGasCentrifuge.ticksRequired, this, 40, 26));
         components.add(new GuiFluidGauge(tile::getTank, this, (xSize / 2) - 80, 18));
         components.add(new GuiSlot(SlotType.GAS, this, 24, 49));
     }
@@ -31,7 +31,7 @@ public class GuiGasCentrifuge extends GuiMachine<TileGasCentrifuge> {
     public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String displayText;
 
-        if (tile.operatingTicks > 0) {
+        if (tile.getOperatingTicks() > 0) {
             displayText = "gui.processing";
         } else if (tile.canProcess()) {
             displayText = "gui.ready";

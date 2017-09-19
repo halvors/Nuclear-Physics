@@ -6,8 +6,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
-import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.type.Color;
+import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 
 @SideOnly(Side.CLIENT)

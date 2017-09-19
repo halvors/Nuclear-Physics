@@ -19,6 +19,7 @@ import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 public class TileNuclearBoiler extends TileProcess {
+    public static final int ticksRequired = 15 * 20;
     private static final int energyPerTick = 20000;
 
     public TileNuclearBoiler() {
@@ -28,7 +29,6 @@ public class TileNuclearBoiler extends TileProcess {
     public TileNuclearBoiler(EnumMachine type) {
         super(type);
 
-        ticksRequired = 15 * 20;
         energyStorage = new EnergyStorage(energyPerTick * 2);
         inventory = new ItemStackHandler(5) {
             @Override

@@ -18,8 +18,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
-import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 import org.halvors.nuclearphysics.common.type.Range;
+import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import java.util.List;
 import java.util.Set;

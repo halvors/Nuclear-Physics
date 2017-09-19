@@ -12,8 +12,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,22 +69,13 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
         modelPartLargeArms.render();
         GlStateManager.popMatrix();
 
-        // Render the item.
-        //GlStateManager.pushMatrix();
-
-        //if (tile.entityItem != null) {
-            //renderItem.doRender(tile.entityItem, x + 0.5, y + 0.2, z + 0.5, 0, 0);
-        //}
-
-        //GlStateManager.popMatrix();
-
         model.render();
 
         GlStateManager.popMatrix();
 
         // Render the item.
         if (tile.entityItem != null) {
-            itemRenderer.doRender(tile.entityItem, x + 0.5, y + 0.23, z + 0.5, 0, tile.operatingTicks);
+            itemRenderer.doRender(tile.entityItem, x + 0.5, y + 0.23, z + 0.5, 0, tile.getOperatingTicks());
         }
     }
 }

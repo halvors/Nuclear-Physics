@@ -10,8 +10,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.util.HashMap;
 import java.util.Map;

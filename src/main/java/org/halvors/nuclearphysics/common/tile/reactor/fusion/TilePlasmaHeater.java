@@ -22,10 +22,10 @@ import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
-import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.type.Color;
 import org.halvors.nuclearphysics.common.type.RedstoneControl;
 import org.halvors.nuclearphysics.common.unit.UnitDisplay;
+import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITagRender {
+    public static int ticksRequired = 20 * 20;
     private static int energyPerTick = 25000;
     private static int plasmaHeatAmount = 100;
 
@@ -84,7 +85,6 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     public TilePlasmaHeater(EnumMachine type) {
         super(type);
 
-        ticksRequired = 20 * 20;
         redstoneControl = RedstoneControl.LOW;
         energyStorage = new EnergyStorage(energyPerTick * 20);
     }

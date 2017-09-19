@@ -14,8 +14,8 @@ import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
-import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.unit.UnitDisplay;
+import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import java.util.ArrayList;
 import java.util.List;

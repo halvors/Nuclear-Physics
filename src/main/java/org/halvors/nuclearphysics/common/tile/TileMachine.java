@@ -6,9 +6,9 @@ import net.minecraft.util.ITickable;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
+import org.halvors.nuclearphysics.common.type.RedstoneControl;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.RedstoneUtility;
-import org.halvors.nuclearphysics.common.type.RedstoneControl;
 
 import java.util.List;
 
@@ -16,8 +16,7 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
     protected EnumMachine type;
 
     public int energyUsed = 0;
-    public int operatingTicks = 0; // Synced
-    public int ticksRequired = 0;
+    protected int operatingTicks = 0; // Synced
 
     protected RedstoneControl redstoneControl = RedstoneControl.DISABLED;
     protected boolean redstone = false;
@@ -129,12 +128,16 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public String getName() {
-        return LanguageUtility.transelate(getBlockType().getUnlocalizedName() + "." + type.ordinal() + ".name");
-    }
-
     public EnumMachine getType() {
         return type;
+    }
+
+    public int getOperatingTicks() {
+        return operatingTicks;
+    }
+
+    public String getName() {
+        return LanguageUtility.transelate(getBlockType().getUnlocalizedName() + "." + type.ordinal() + ".name");
     }
 
     protected boolean canFunction() {

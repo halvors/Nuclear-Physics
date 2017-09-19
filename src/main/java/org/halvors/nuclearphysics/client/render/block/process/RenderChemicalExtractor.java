@@ -8,8 +8,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
-import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.util.Arrays;
 

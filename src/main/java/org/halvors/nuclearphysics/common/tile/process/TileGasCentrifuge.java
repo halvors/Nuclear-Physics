@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileGasCentrifuge extends TileInventoryMachine {
+    public static final int ticksRequired = 60 * 20;
     private static final int energyPerTick = 20000;
 
     public float rotation = 0;
@@ -55,7 +56,6 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     public TileGasCentrifuge(EnumMachine type) {
         super(type);
 
-        ticksRequired = 60 * 20;
         energyStorage = new EnergyStorage(energyPerTick * 2);
         inventory = new ItemStackHandler(4) {
             @Override

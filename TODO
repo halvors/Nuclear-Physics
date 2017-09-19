@@ -12,16 +12,17 @@ Known bugs:
         - Verify that all sounds is more streamlined.
         - Add subtitle to sounds.
         - Implement inventory automation for all machines. (NOT NECESSARY?)
-        -
 
     High Priority:
         - Reactors are only running when first opening GUI on world load. (NOT CONFIRMED)
-        - Why is electricity not generated during the night? Temperature is lower at night?
-
         - Verify the breeding process.
             - Should breeding reactors only create heat when actually enriched uranium is present in the middle?
 
         - Fix electric turbine sound, for both small and large.
+
+        - Finish quantum assembler.
+        - Quantum Assembler normals is still buggy from some faces.
+        - Fix strange Celsius character.
 
 Known features not implemented:
 
@@ -73,6 +74,7 @@ New features to add:
             4 x 128MJ ~= 80000 = 2000 mB
 
         Quantum Assembler: (TODO)
+            Per item = ((2 x 47) * 128MJ) - 22 MJ = (94 * 128 MJ) - 22 MJ = 12010 MJ (4804 RF?)
 
         Fulmination Generator: (TODO)
             125mg antimatter = 24.93 MJ

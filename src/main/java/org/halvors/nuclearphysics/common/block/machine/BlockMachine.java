@@ -98,7 +98,7 @@ public class BlockMachine extends BlockInventory {
 
             switch (type) {
                 case NUCLEAR_BOILER:
-                    if (tileMachine.operatingTicks > 0) {
+                    if (tileMachine.getOperatingTicks() > 0) {
                         particleTypes = EnumParticleTypes.CLOUD;
                         ySpeed = 0.05;
                     }
