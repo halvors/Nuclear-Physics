@@ -15,7 +15,7 @@ public class GuiBar extends GuiComponent {
     private BarType type;
 
     public GuiBar(IProgressInfoHandler progressInfoHandler, BarType type, IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "temperature.png"), gui, x, y);
+        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "bar.png"), gui, x, y);
 
         this.progressInfoHandler = progressInfoHandler;
         this.type = type;
