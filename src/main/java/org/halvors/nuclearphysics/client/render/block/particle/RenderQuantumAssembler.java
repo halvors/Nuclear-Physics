@@ -47,7 +47,7 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5, 0, 0.5);
-        GlStateManager.rotate(-tile.rotationYaw1, 0, 1, 0);
+        GlStateManager.rotate(-tile.getRotationYaw1(), 0, 1, 0);
         GlStateManager.translate(-0.5, 0, -0.5);
         modelPartHands.render();
         modelPartResonanceCrystal.render();
@@ -56,7 +56,7 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
         // Small Laser Arm.
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5, 0, 0.5);
-        GlStateManager.rotate(tile.rotationYaw2, 0, 1, 0);
+        GlStateManager.rotate(tile.getRotationYaw2(), 0, 1, 0);
         GlStateManager.translate(-0.5, 0, -0.5);
         modelPartArms.render();
         GlStateManager.popMatrix();
@@ -64,7 +64,7 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
         // Large Laser Arm.
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5, 0, 0.5);
-        GlStateManager.rotate(-tile.rotationYaw3, 0, 1, 0);
+        GlStateManager.rotate(-tile.getRotationYaw3(), 0, 1, 0);
         GlStateManager.translate(-0.5, 0, -0.5);
         modelPartLargeArms.render();
         GlStateManager.popMatrix();
@@ -74,8 +74,8 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
         GlStateManager.popMatrix();
 
         // Render the item.
-        if (tile.entityItem != null) {
-            itemRenderer.doRender(tile.entityItem, x + 0.5, y + 0.23, z + 0.5, 0, tile.getOperatingTicks());
+        if (tile.getEntityItem() != null) {
+            itemRenderer.doRender(tile.getEntityItem(), x + 0.5, y + 0.23, z + 0.5, 0, -tile.getRotationYaw3());
         }
     }
 }

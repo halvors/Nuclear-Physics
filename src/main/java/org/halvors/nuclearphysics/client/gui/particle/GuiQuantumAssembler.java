@@ -35,7 +35,7 @@ public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {
         String displayText;
 
         if (tile.getOperatingTicks() > 0) {
-            displayText = LanguageUtility.transelate("gui.process") + ": " + (int) (100 - ((float) tile.getOperatingTicks() / (float) TileQuantumAssembler.ticksRequired) * 100) + "%";
+            displayText = LanguageUtility.transelate("gui.process") + ": " + (int) (((float) tile.getOperatingTicks() / (float) TileQuantumAssembler.ticksRequired) * 100) + "%";
         } else if (tile.canProcess()) {
             displayText = LanguageUtility.transelate("gui.ready");
         } else {

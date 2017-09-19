@@ -19,8 +19,6 @@ import org.halvors.nuclearphysics.common.utility.FluidUtility;
 
 public class ModRecipes {
     public static void registerRecipes() {
-        // Register recipes.
-
         // Wrench.
         GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemWrench, " S ", " SS", "S  ", 'S', "ingotSteel"));
 
@@ -46,8 +44,6 @@ public class ModRecipes {
 
         // Elite circuit.
         GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemCircuitElite, "GGG", "CLC", "GGG", 'G', Items.GOLD_INGOT, 'C', "circuitAdvanced", 'L', Blocks.LAPIS_BLOCK));
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Antimatter
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(ModItems.itemAntimatterCell, 1, EnumAntimatterCell.GRAM.ordinal()), ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell, ModItems.itemAntimatterCell));
