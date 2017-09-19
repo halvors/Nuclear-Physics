@@ -4,13 +4,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
-import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.client.render.block.RenderTile;
 import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
@@ -19,7 +17,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 @SideOnly(Side.CLIENT)
-public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantumAssembler> {
+public class RenderQuantumAssembler extends RenderTile<TileQuantumAssembler> {
     private static final OBJModelContainer modelPartHands = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "quantum_assembler.obj"), Arrays.asList("BackArmLower", "BackArmUpper", "FrontArmLower", "FrontArmUpper", "LeftArmLower", "LeftArmUpper", "RightArmLower", "RightArmUpper"));
     private static final OBJModelContainer modelPartArms = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "quantum_assembler.obj"), Arrays.asList("MiddleRotor", "MiddleRotorArmBase", "MiddleRotorFocusLaser", "MiddleRotorLowerArm", "MiddleRotorUpperArm"));
     private static final OBJModelContainer modelPartLargeArms = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "quantum_assembler.obj"), Arrays.asList("BottomRotor", "BottomRotorArmBase", "BottomRotorLowerArm", "BottomRotorResonatorArm", "BottomRotorUpperArm"));
@@ -33,18 +31,7 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
     };
 
     @Override
-    public void renderTileEntityAt(TileQuantumAssembler tile, double x, double y, double z, float partialTicks, int destroyStage) {
-        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-
-        GlStateManager.pushMatrix();
-
-        // Translate to the location of our tile entity
-        GlStateManager.translate(x, y, z);
-        GlStateManager.disableRescaleNormal();
-
-        // Rotate block based on direction.
-        RenderUtility.rotateBlockBasedOnDirection(tile.getFacing());
-
+    public void render(TileQuantumAssembler tile, double x, double y, double z, float partialTicks, int destroyStage) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5, 0, 0.5);
         GlStateManager.rotate(-tile.getRotationYaw1(), 0, 1, 0);
@@ -73,9 +60,13 @@ public class RenderQuantumAssembler extends TileEntitySpecialRenderer<TileQuantu
 
         GlStateManager.popMatrix();
 
+        // Render this in a new context.
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x + 0.5, y + 0.3, z + 0.5);
+
         // Render the item.
         if (tile.getEntityItem() != null) {
-            itemRenderer.doRender(tile.getEntityItem(), x + 0.5, y + 0.23, z + 0.5, 0, -tile.getRotationYaw3());
+            itemRenderer.doRender(tile.getEntityItem(), 0, 0, 0, 0, -tile.getRotationYaw3());
         }
     }
 }
