@@ -1,6 +1,6 @@
 {
   "result": {
-    "item": "nuclearphysics:fulmination"
+    "item": "nuclearphysics:fulmination_generator"
   },
   "type": "forge:ore_shaped",
   "pattern": [
