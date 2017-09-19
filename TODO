@@ -72,7 +72,7 @@ New features to add:
         Plasma Heater: (DONE)
             4 x 128MJ ~= 80000 = 2000 mB
 
-        Quantum Assembler: (TODO)
+        Quantum Assembler: (DONE)
             Per item = ((2 x 47) * 128MJ) - 22 MJ = (94 * 128 MJ) - 22 MJ = 12010 MJ (4804 RF?)
 
         Fulmination Generator: (TODO)

@@ -17,14 +17,14 @@ import org.halvors.nuclearphysics.common.block.BlockUraniumOre;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
-import org.halvors.nuclearphysics.common.block.particle.BlockFulmination;
+import org.halvors.nuclearphysics.common.block.particle.BlockFulminationGenerator;
 import org.halvors.nuclearphysics.common.block.reactor.*;
 import org.halvors.nuclearphysics.common.block.reactor.fission.BlockControlRod;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockMetadata;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockTooltip;
 import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
-import org.halvors.nuclearphysics.common.tile.particle.TileFulmination;
+import org.halvors.nuclearphysics.common.tile.particle.TileFulminationGenerator;
 import org.halvors.nuclearphysics.common.tile.reactor.*;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
@@ -38,7 +38,7 @@ public class ModBlocks {
     public static Block blockControlRod = new BlockControlRod();
     public static Block blockElectricTurbine = new BlockElectricTurbine();
     public static Block blockElectromagnet = new BlockElectromagnet();
-    public static Block blockFulmination = new BlockFulmination();
+    public static Block blockFulmination = new BlockFulminationGenerator();
     public static Block blockGasFunnel = new BlockGasFunnel();
     public static Block blockMachineModel = new BlockMachine();
     public static Block blockSiren = new BlockSiren();
@@ -128,7 +128,7 @@ public class ModBlocks {
 
         registerTile(TileElectricTurbine.class);
         registerTile(TileElectromagnet.class);
-        registerTile(TileFulmination.class);
+        registerTile(TileFulminationGenerator.class);
         registerTile(TileGasFunnel.class);
         registerTile(TileSiren.class);
         registerTile(TileThermometer.class);
