@@ -22,7 +22,7 @@ public class GuiMachine<T extends TileMachine> extends GuiComponentContainer<T> 
 
         components.add(new GuiEnergyInfo(() -> {
             List<String> list = new ArrayList<>();
-            list.add(LanguageUtility.transelate("gui.using") + ": " + UnitDisplay.getEnergyDisplay(tile.energyUsed) + "/t");
+            list.add(LanguageUtility.transelate("gui.using") + ": " + UnitDisplay.getEnergyDisplay(tile.getEnergyUsed()) + "/t");
 
             IEnergyStorage energyStorage = tile.getEnergyStorage();
 

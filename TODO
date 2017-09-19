@@ -50,6 +50,7 @@ New features to add:
         - Use mekanism better performance redstone checks?
         - Make boiling water spawn particle rate based in the temperature. (https://gamedev.stackexchange.com/questions/17620/equation-to-make-small-number-big-and-big-number-small-gravity)
         - Make tritium emit light when in a container.
+        - Add ghost item support to quantum assembler.
 
     Rendering:
         - Render only moving parts in TESR's?

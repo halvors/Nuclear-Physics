@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITagRender {
-    public static int ticksRequired = 20 * 20;
+    private static int ticksRequired = 20 * 20;
     private static int energyPerTick = 25000;
     private static int plasmaHeatAmount = 100;
 
@@ -143,14 +143,12 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
                     operatingTicks++;
                 } else {
                     process();
-
-                    operatingTicks = 0;
+                    reset();
                 }
 
                 energyUsed = energyStorage.extractEnergy(energyPerTick, false);
             } else {
-                operatingTicks = 0;
-                energyUsed = 0;
+                reset();
             }
 
             if (world.getWorldTime() % 10 == 0) {

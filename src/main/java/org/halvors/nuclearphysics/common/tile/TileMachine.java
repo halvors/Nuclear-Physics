@@ -15,7 +15,7 @@ import java.util.List;
 public class TileMachine extends TileProducer implements ITickable, ITileRedstoneControl {
     protected EnumMachine type;
 
-    public int energyUsed = 0;
+    protected int energyUsed = 0; // Synced
     protected int operatingTicks = 0; // Synced
 
     protected RedstoneControl redstoneControl = RedstoneControl.DISABLED;
@@ -132,6 +132,10 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
         return type;
     }
 
+    public int getEnergyUsed() {
+        return energyUsed;
+    }
+
     public int getOperatingTicks() {
         return operatingTicks;
     }
@@ -142,5 +146,10 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
 
     protected boolean canFunction() {
         return RedstoneUtility.canFunction(this);
+    }
+
+    protected void reset() {
+        operatingTicks = 0;
+        energyUsed = 0;
     }
 }

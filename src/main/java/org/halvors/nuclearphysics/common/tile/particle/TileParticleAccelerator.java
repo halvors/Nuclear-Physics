@@ -182,6 +182,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                 }
 
                 entityParticle = null;
+                reset();
             }
 
             if (world.getWorldTime() % 5 == 0) {

@@ -124,14 +124,12 @@ public class TileNuclearBoiler extends TileProcess {
                     operatingTicks++;
                 } else {
                     process();
-
-                    operatingTicks = 0;
+                    reset();
                 }
 
                 energyUsed = energyStorage.extractEnergy(energyPerTick, false);
             } else {
-                operatingTicks = 0;
-                energyUsed = 0;
+                reset();
             }
 
             if (world.getWorldTime() % 10 == 0) {
