@@ -204,7 +204,7 @@ public class TileChemicalExtractor extends TileProcess {
         if (inputFluidStack != null) {
             if (inputFluidStack.amount >= Fluid.BUCKET_VOLUME && OreDictionaryHelper.isUraniumOre(inventory.getStackInSlot(inputSlot))) {
                 //if (isItemValidForSlot(outputSlot, new ItemStack(QuantumItems.itemYellowCake))) {;
-                    return true;
+                return true;
                 //}
             }
 

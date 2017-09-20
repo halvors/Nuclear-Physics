@@ -19,6 +19,9 @@ import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemUranium.EnumUranium;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
+import org.halvors.nuclearphysics.common.recipe.RecipeHandler;
+import org.halvors.nuclearphysics.common.recipe.machine.GasCentrifugeRecipe;
+import org.halvors.nuclearphysics.common.recipe.old.input.FluidInput;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
@@ -32,6 +35,8 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     private static final int energyPerTick = 20000;
 
     public float rotation = 0;
+
+    public GasCentrifugeRecipe cachedRecipe;
 
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 5) {
         @Override
@@ -141,11 +146,14 @@ public class TileGasCentrifuge extends TileInventoryMachine {
         if (!world.isRemote) {
             EnergyUtility.discharge(0, this);
 
+            /*
             if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
                 } else {
-                    process();
+
+
+                    //process();
                     reset();
                 }
 
@@ -153,11 +161,69 @@ public class TileGasCentrifuge extends TileInventoryMachine {
             } else {
                 reset();
             }
+            */
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            GasCentrifugeRecipe recipe = getRecipe();
+
+            if (canOperate(recipe)) {// && canFunction() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
+                NuclearPhysics.getLogger().info("Check 1");
+
+                energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+
+                if ((operatingTicks + 1) < ticksRequired) {
+                    operatingTicks++;
+
+                    NuclearPhysics.getLogger().info("Check 2");
+                } else {
+                    NuclearPhysics.getLogger().info("Check 3");
+
+                    operate(recipe);
+
+                    operatingTicks = 0;
+                }
+            }
+
+            if (!canOperate(recipe)) {
+                NuclearPhysics.getLogger().info("Check 4");
+
+                operatingTicks = 0;
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             if (world.getWorldTime() % 10 == 0) {
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public FluidInput getInput() {
+        return new FluidInput(tank.getFluid());
+    }
+
+    public GasCentrifugeRecipe getRecipe() {
+        FluidInput input = getInput();
+
+        if (cachedRecipe == null) {// || !input.testEquality(cachedRecipe.getInput())) {
+            cachedRecipe = RecipeHandler.getGasCentrifugeRecipe(getInput());
+        }
+
+        return cachedRecipe;
+    }
+
+    public boolean canOperate(GasCentrifugeRecipe recipe) {
+        return recipe != null;// && recipe.canOperate(tank, inventory);
+    }
+
+    public void operate(GasCentrifugeRecipe recipe) {
+        recipe.operate(tank, inventory);
+
+        markDirty();
+        //ejectorComponent.outputItems();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

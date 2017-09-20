@@ -60,6 +60,24 @@ public class OreDictionaryHelper {
 
         return false;
     }
+
+    public static boolean equalsWildcard(ItemStack wild, ItemStack check) {
+        if (wild == null || check == null) {
+            return check == wild;
+        }
+
+        return wild.getItem() == check.getItem() && (wild.getItemDamage() == OreDictionary.WILDCARD_VALUE || wild.getItemDamage() == check.getItemDamage());
+    }
+
+    public static boolean equalsWildcardWithNBT(ItemStack wild, ItemStack check) {
+        boolean wildcard = equalsWildcard(wild, check);
+
+        if (wild == null || check == null) {
+            return wildcard;
+        }
+
+        return wildcard && (!wild.hasTagCompound() ? !check.hasTagCompound() : (wild.getTagCompound() == check.getTagCompound() || wild.getTagCompound().equals(check.getTagCompound())));
+    }
 }
 
 
