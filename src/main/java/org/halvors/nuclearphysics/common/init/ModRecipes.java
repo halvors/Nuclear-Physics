@@ -21,6 +21,7 @@ import org.halvors.nuclearphysics.common.utility.FluidUtility;
 
 public class ModRecipes {
     public static void registerRecipes() {
+        RecipeHandler.addChemicalExtractorRecipe(new ItemStack(ModBlocks.blockUraniumOre), new ItemStack(ModItems.itemYellowCake, 2));
         RecipeHandler.addGasCentrifugeRecipe(new FluidStack(ModFluids.uraniumHexaflouride, 100), new ItemStack(ModItems.itemUranium));
 
         // Wrench.

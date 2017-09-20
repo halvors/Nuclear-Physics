@@ -21,7 +21,7 @@ import org.halvors.nuclearphysics.common.item.reactor.fission.ItemUranium.EnumUr
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.recipe.RecipeHandler;
 import org.halvors.nuclearphysics.common.recipe.machine.GasCentrifugeRecipe;
-import org.halvors.nuclearphysics.common.recipe.old.input.FluidInput;
+import org.halvors.nuclearphysics.common.recipe.input.FluidInput;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
@@ -208,7 +208,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     public GasCentrifugeRecipe getRecipe() {
         FluidInput input = getInput();
 
-        if (cachedRecipe == null) {// || !input.testEquality(cachedRecipe.getInput())) {
+        if (cachedRecipe == null || !input.testEquality(cachedRecipe.getInput())) {
             cachedRecipe = RecipeHandler.getGasCentrifugeRecipe(getInput());
         }
 

@@ -1,5 +1,6 @@
 package org.halvors.nuclearphysics.common.tile.process;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -15,6 +16,9 @@ import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
+import org.halvors.nuclearphysics.common.recipe.RecipeHandler;
+import org.halvors.nuclearphysics.common.recipe.input.ItemStackInput;
+import org.halvors.nuclearphysics.common.recipe.machine.ChemicalExtractorRecipe;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
@@ -27,6 +31,8 @@ public class TileChemicalExtractor extends TileProcess {
 
     private IItemHandler top = new RangedWrapper(inventory, 2, 3);
     private IItemHandler sides = new RangedWrapper(inventory, 0, 2);
+
+    private ChemicalExtractorRecipe cachedRecipe;
 
     public TileChemicalExtractor() {
         this(EnumMachine.CHEMICAL_EXTRACTOR);
@@ -130,6 +136,7 @@ public class TileChemicalExtractor extends TileProcess {
 
             EnergyUtility.discharge(0, this);
 
+            /*
             if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
@@ -147,11 +154,69 @@ public class TileChemicalExtractor extends TileProcess {
             } else {
                 reset();
             }
+            */
+
+            ChemicalExtractorRecipe recipe = getRecipe();
+
+            if (canOperate(recipe)) {
+                NuclearPhysics.getLogger().info("Check 1");
+
+                if ((operatingTicks + 1) < ticksRequired) {
+                    NuclearPhysics.getLogger().info("Check 2");
+                    operatingTicks++;
+                } else if ((operatingTicks + 1) >= ticksRequired) {
+                    NuclearPhysics.getLogger().info("Check 3");
+                    //operate(recipe);
+
+                    operatingTicks = 0;
+                }
+            }
+
+            if (!canOperate(recipe)) {
+                NuclearPhysics.getLogger().info("Check 4");
+
+                operatingTicks = 0;
+            }
 
             if (world.getWorldTime() % 10 == 0) {
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public ItemStackInput getInput() {
+        ItemStack itemStack = inventory.getStackInSlot(inputSlot);
+
+        if (itemStack != null) {
+            NuclearPhysics.getLogger().info("ItemStack is: " + itemStack.getItem().getUnlocalizedName());
+        }
+
+        return new ItemStackInput(itemStack);
+    }
+
+    public ChemicalExtractorRecipe getRecipe() {
+        ItemStackInput input = getInput();
+
+        if (cachedRecipe == null || !input.testEquality(cachedRecipe.getInput())) {
+            cachedRecipe = RecipeHandler.getRecipe(input, RecipeHandler.Recipe.CHEMICAL_EXTRACTOR.get());
+        }
+
+        return cachedRecipe;
+    }
+
+    /*
+    public void operate(ChemicalExtractorRecipe recipe) {
+        recipe.operate(inventory, 0, outputSlot);
+
+        markDirty();
+        //ejectorComponent.outputItems();
+    }
+    */
+
+    public boolean canOperate(ChemicalExtractorRecipe recipe) {
+        return recipe != null;// && recipe.canOperate(inventory, 0, 2);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

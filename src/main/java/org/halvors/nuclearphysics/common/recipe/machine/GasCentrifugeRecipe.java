@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import org.halvors.nuclearphysics.common.recipe.old.input.FluidInput;
+import org.halvors.nuclearphysics.common.recipe.input.FluidInput;
 import org.halvors.nuclearphysics.common.recipe.output.ItemStackOutput;
 
 public class GasCentrifugeRecipe extends MachineRecipe<FluidInput, ItemStackOutput, GasCentrifugeRecipe> {

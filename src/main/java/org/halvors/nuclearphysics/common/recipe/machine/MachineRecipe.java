@@ -1,24 +1,24 @@
 package org.halvors.nuclearphysics.common.recipe.machine;
 
-import org.halvors.nuclearphysics.common.recipe.old.input.MachineInput;
-import org.halvors.nuclearphysics.common.recipe.old.output.MachineOutput;
+import org.halvors.nuclearphysics.common.recipe.input.MachineInput;
+import org.halvors.nuclearphysics.common.recipe.output.IOutput;
 
-public abstract class MachineRecipe<INPUT extends MachineInput, OUTPUT extends MachineOutput, RECIPE extends MachineRecipe<INPUT, OUTPUT, RECIPE>> {
-    public INPUT recipeInput;
-    public OUTPUT recipeOutput;
+public abstract class MachineRecipe<I extends MachineInput, O extends IOutput, R extends MachineRecipe<I, O, R>> {
+    private I recipeInput;
+    private O recipeOutput;
 
-    public MachineRecipe(INPUT input, OUTPUT output) {
+    public MachineRecipe(I input, O output) {
         recipeInput = input;
         recipeOutput = output;
     }
 
-    public INPUT getInput() {
+    public I getInput() {
         return recipeInput;
     }
 
-    public OUTPUT getOutput() {
+    public O getOutput() {
         return recipeOutput;
     }
 
-    public abstract RECIPE copy();
+    public abstract R copy();
 }

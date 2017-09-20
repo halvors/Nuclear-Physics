@@ -1,12 +1,11 @@
-package org.halvors.nuclearphysics.common.recipe.old.machine;
+package org.halvors.nuclearphysics.common.recipe.machine;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
-import org.halvors.nuclearphysics.common.recipe.machine.MachineRecipe;
 import org.halvors.nuclearphysics.common.recipe.input.ItemStackInput;
 import org.halvors.nuclearphysics.common.recipe.output.ItemStackOutput;
 
-public abstract class BasicMachineRecipe<RECIPE extends BasicMachineRecipe<RECIPE>> extends MachineRecipe<ItemStackInput, ItemStackOutput, RECIPE> {
+public abstract class BasicMachineRecipe<R extends BasicMachineRecipe<R>> extends MachineRecipe<ItemStackInput, ItemStackOutput, R> {
     public BasicMachineRecipe(ItemStackInput input, ItemStackOutput output) {
         super(input, output);
     }

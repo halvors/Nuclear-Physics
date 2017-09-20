@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.recipe.old.input;
+package org.halvors.nuclearphysics.common.recipe.input;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,7 +9,7 @@ public abstract class MachineInput<INPUT extends MachineInput<INPUT>> {
 
     public abstract INPUT copy();
 
-    public abstract void load(NBTTagCompound nbtTags);
+    public abstract void load(NBTTagCompound tag);
 
     /**
      * Test equality to another input.
