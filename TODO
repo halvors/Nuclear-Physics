@@ -20,6 +20,7 @@ Known bugs:
 
         - Fix electric turbine sound, for both small and large.
         - Fix strange Celsius character.
+        - Implement orgen option.
 
 Known features not implemented:
 

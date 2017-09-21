@@ -23,8 +23,8 @@ public class ModRecipes {
         GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemWrench, " S ", " SS", "S  ", 'S', "ingotSteel"));
 
         // Copper wire.
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemCopperWire, "WCW", "WCW", "WCW", 'W', Blocks.WOOL, 'C', "ingotCopper"));
-        GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemCopperWire, "LCL", "LCL", "LCL", 'L', Items.LEATHER, 'C', "ingotCopper"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.itemCopperWire, 6), "WCW", "WCW", "WCW", 'W', Blocks.WOOL, 'C', "ingotCopper"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.itemCopperWire, 6), "LCL", "LCL", "LCL", 'L', Items.LEATHER, 'C', "ingotCopper"));
 
         // Motor.
         GameRegistry.addRecipe(new ShapedOreRecipe(ModItems.itemMotor, "WSW", "SIS", "WSW", 'W', ModItems.itemCopperWire, 'S', "ingotSteel", 'I', Items.IRON_INGOT));
