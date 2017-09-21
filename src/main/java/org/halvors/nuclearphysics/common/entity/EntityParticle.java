@@ -156,7 +156,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             lastTurn--;
 
             // Checks if the current block condition allows the particle to exist.
-            if (!canSpawnParticle(world, pos) || isCollided) {
+            if (!canSpawnParticle(world, pos) || collided) {
                 handleCollisionWithEntity();
 
                 return;
