@@ -52,7 +52,7 @@ public class ModelEventHandler {
 
 		ModelBakery.registerItemVariants(item);
 
-		ModelLoader.setCustomMeshDefinition(item, MeshDefinitionFix.create(stack -> modelResourceLocation));
+		ModelLoader.setCustomMeshDefinition(item, stack -> modelResourceLocation);
 
 		ModelLoader.setCustomStateMapper((Block) fluidBlock, new StateMapperBase() {
 			@Override
