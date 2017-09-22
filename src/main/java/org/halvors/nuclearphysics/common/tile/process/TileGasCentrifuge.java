@@ -150,7 +150,9 @@ public class TileGasCentrifuge extends TileInventoryMachine {
                 }
 
                 energyUsed = energyStorage.extractEnergy(energyPerTick, false);
-            } else {
+            }
+
+            if (!canProcess()) {
                 reset();
             }
 

@@ -144,7 +144,9 @@ public class TileChemicalExtractor extends TileProcess {
                 }
 
                 energyUsed = energyStorage.extractEnergy(energyPerTick, false);
-            } else {
+            }
+
+            if (!canProcess()) {
                 reset();
             }
 
