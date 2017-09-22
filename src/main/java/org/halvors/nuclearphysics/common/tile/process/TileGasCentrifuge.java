@@ -10,7 +10,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
@@ -21,7 +21,6 @@ import org.halvors.nuclearphysics.common.item.reactor.fission.ItemUranium.EnumUr
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
-import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -76,8 +75,10 @@ public class TileGasCentrifuge extends TileInventoryMachine {
                     */
 
                     case 2: // Item output slot.
+                        return itemStack.getItem() == ModItems.itemUranium && itemStack.getMetadata() == EnumUranium.URANIUM_235.ordinal();
+
                     case 3: // Item output slot.
-                        return OreDictionaryHelper.isUranium(itemStack);
+                        return itemStack.getItem() == ModItems.itemUranium && itemStack.getMetadata() == EnumUranium.URANIUM_238.ordinal();
                 }
 
                 return false;
@@ -212,18 +213,12 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     public boolean canProcess() {
         FluidStack fluidStack = tank.getFluid();
 
-        if (fluidStack != null) {
-            if (fluidStack.amount >= ConfigurationManager.General.uraniumHexaflourideRatio) {
-                return true;
-            }
-        }
-
-        return false;
+        return fluidStack != null && fluidStack.amount >= General.uraniumHexaflourideRatio;
     }
 
     public void process() {
         if (canProcess()) {
-            tank.drainInternal(ConfigurationManager.General.uraniumHexaflourideRatio, true);
+            tank.drainInternal(General.uraniumHexaflourideRatio, true);
 
             if (world.rand.nextFloat() > 0.6) {
                 inventory.insertItem(2, new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_235.ordinal()), false);
