@@ -32,6 +32,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     public BlockElectromagnet() {
         super("electromagnet", Material.IRON);
 
+        setHardness(3.5F);
         setResistance(20);
         setDefaultState(blockState.getBaseState().withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.NORMAL));
     }

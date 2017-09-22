@@ -37,6 +37,8 @@ public class BlockMachine extends BlockInventory {
     public BlockMachine() {
         super("machine", Material.IRON);
 
+        setHardness(3.5F);
+        setResistance(16);
         setDefaultState(blockState.getBaseState().withProperty(BlockStateMachine.TYPE, EnumMachine.CHEMICAL_EXTRACTOR));
     }
 

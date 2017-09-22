@@ -21,6 +21,8 @@ import javax.annotation.Nonnull;
 public class BlockElectricTurbine extends BlockContainerBase {
     public BlockElectricTurbine() {
         super("electric_turbine", Material.IRON);
+
+        setHardness(0.6F);
     }
 
     @SuppressWarnings("deprecation")
