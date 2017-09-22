@@ -21,6 +21,11 @@ Known bugs:
         - Fix electric turbine sound, for both small and large.
         - Fix strange Celsius character.
         - Implement orgen option.
+        - Fix machines not having any resistance/hardness.
+        - Store fluids in NBT on machine drop?
+        - Radiation poison is never removed when reached 0 time left.
+        - Empty cell having NBT?
+        - When processing uranium, we're not checking liquid, draining deuterium as well.
 
 Known features not implemented:
 
