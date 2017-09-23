@@ -53,7 +53,6 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     public TileParticleAccelerator(EnumMachine type) {
         super(type);
 
-        redstoneControl = RedstoneControl.HIGH;
         energyStorage = new EnergyStorage(energyPerTick * 40, energyPerTick);
         inventory = new ItemStackHandler(4) {
             @Override

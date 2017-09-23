@@ -12,6 +12,8 @@ import javax.annotation.Nonnull;
 public class BlockControlRod extends BlockBase {
     public BlockControlRod() {
         super("control_rod", Material.IRON);
+
+        setHardness(0.6F);
     }
 
     @SuppressWarnings("deprecation")

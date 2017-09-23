@@ -20,6 +20,10 @@ Known bugs:
 
         - Fix electric turbine sound, for both small and large.
         - Fix strange Celsius character.
+        - Fix machines not having any resistance/hardness. (DONE)?
+        - Store fluids in NBT on machine drop?
+        - Radiation poison is never removed when reached 0 time left.
+        - Empty cell having NBT?
 
 Known features not implemented:
 

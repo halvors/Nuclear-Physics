@@ -12,6 +12,8 @@ import javax.annotation.Nonnull;
 public class BlockGasFunnel extends BlockConnectedTexture {
     public BlockGasFunnel() {
         super("gas_funnel", Material.IRON);
+
+        setHardness(0.6F);
     }
 
     @Override

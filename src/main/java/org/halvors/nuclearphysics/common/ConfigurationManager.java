@@ -11,8 +11,6 @@ import java.util.List;
 
 public class ConfigurationManager {
     public static class General {
-        public static boolean enableUpdateNotice;
-        public static boolean destroyDisabledBlocks;
         public static ElectricUnit electricUnit;
         public static TemperatureUnit temperatureUnit;
         public static double toTesla;
@@ -20,32 +18,30 @@ public class ConfigurationManager {
         public static double fromTesla;
         public static double fromJoules;
 
-        public static int acceleratorAntimatterDensityMultiplier = 1;
+        public static boolean enableOreRegeneration;
+        public static int uraniumPerChunk;
 
-        public static double fulminationOutputMultiplier = 1;
-        public static double turbineOutputMultiplier = 1;
-        public static double steamOutputMultiplier = 1;
-        public static double fissionBoilVolumeMultiplier = 1;
+        public static int acceleratorAntimatterDensityMultiplier;
+        public static double fulminationOutputMultiplier;
+        public static double turbineOutputMultiplier;
+        public static double steamOutputMultiplier;
+        public static double fissionBoilVolumeMultiplier;
 
-        public static int uraniumHexaflourideRatio = 200;
-        public static int waterPerDeutermium = 4;
-        public static int deutermiumPerTritium = 4;
-        public static double darkMatterSpawnChance = 0.2;
+        public static int uraniumHexaflourideRatio;
+        public static int waterPerDeutermium;
+        public static int deutermiumPerTritium;
+        public static double darkMatterSpawnChance;
 
-        public static boolean allowRadioactiveOres = true;
-        public static boolean allowToxicWaste = true;
+        public static boolean allowRadioactiveOres;
+        public static boolean allowToxicWaste;
         //public static boolean allowTurbineStacking = true;
         //public static boolean allowAlternateRecipes = true;
         //public static boolean allowIC2UraniumCompression = true;
-        public static boolean allowGeneratedQuantumAssemblerRecipes = true;
+        public static boolean allowGeneratedQuantumAssemblerRecipes;
     }
 
     public static void loadConfiguration(Configuration configuration) {
         configuration.load();
-
-        // General.
-        General.enableUpdateNotice = configuration.get(Configuration.CATEGORY_GENERAL, "enableUpdateNotice", true).getBoolean();
-        General.destroyDisabledBlocks = configuration.get(Configuration.CATEGORY_GENERAL, "destroyDisabledBlocks", true).getBoolean();
 
         General.electricUnit = ElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", ElectricUnit.FORGE_ENERGY.getSymbol(), null, ElectricUnit.getSymbols().toArray(new String[ElectricUnit.values().length])).getString());
         General.temperatureUnit = TemperatureUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "temperatureUnit", TemperatureUnit.KELVIN.getSymbol(), null, TemperatureUnit.getSymbols().toArray(new String[TemperatureUnit.values().length])).getString());
@@ -53,6 +49,9 @@ public class ConfigurationManager {
         General.toJoules = configuration.get(Configuration.CATEGORY_GENERAL, "toJoules", 0.4).getDouble();
         General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "fromTesla", 1).getDouble();
         General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "fromJoules", 2.5).getDouble();
+
+        General.enableOreRegeneration = configuration.get(Configuration.CATEGORY_GENERAL, "enableOreRegeneration", true).getBoolean();
+        General.uraniumPerChunk = configuration.get(Configuration.CATEGORY_GENERAL, "uraniumPerChunk", 9).getInt();
 
         General.acceleratorAntimatterDensityMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "acceleratorAntimatterDensityMultiplier", 1).getInt();
 
@@ -81,15 +80,15 @@ public class ConfigurationManager {
     }
 
     public static void readConfiguration(ByteBuf dataStream) {
-        // General.
-        General.enableUpdateNotice = dataStream.readBoolean();
-        General.destroyDisabledBlocks = dataStream.readBoolean();
         General.electricUnit = ElectricUnit.values()[dataStream.readInt()];
         General.temperatureUnit = TemperatureUnit.values()[dataStream.readInt()];
         General.toTesla = dataStream.readDouble();
         General.toJoules = dataStream.readDouble();
         General.fromTesla = dataStream.readDouble();
         General.fromJoules = dataStream.readDouble();
+
+        General.enableOreRegeneration = dataStream.readBoolean();
+        General.uraniumPerChunk = dataStream.readInt();
 
         General.acceleratorAntimatterDensityMultiplier = dataStream.readInt();
 
@@ -114,15 +113,15 @@ public class ConfigurationManager {
     public static void writeConfiguration(ByteBuf dataStream) {
         List<Object> objects = new ArrayList<>();
 
-        // General.
-        objects.add(General.enableUpdateNotice);
-        objects.add(General.destroyDisabledBlocks);
         objects.add(General.electricUnit.ordinal());
         objects.add(General.temperatureUnit.ordinal());
         objects.add(General.toTesla);
         objects.add(General.toJoules);
         objects.add(General.fromTesla);
         objects.add(General.fromJoules);
+
+        objects.add(General.enableOreRegeneration);
+        objects.add(General.uraniumPerChunk);
 
         objects.add(General.acceleratorAntimatterDensityMultiplier);
 
