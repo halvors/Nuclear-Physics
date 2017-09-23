@@ -21,6 +21,7 @@ public class BlockSiren extends BlockContainerBase {
     public BlockSiren() {
         super("siren", Material.IRON);
 
+        setHardness(0.6F);
         setDefaultState(blockState.getBaseState().withProperty(BlockStateSiren.PITCH, 0));
     }
 

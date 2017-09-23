@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.common.utility;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
+import org.halvors.nuclearphysics.common.init.ModItems;
 
 public class OreDictionaryHelper {
     // Items
@@ -26,20 +27,16 @@ public class OreDictionaryHelper {
     }
 
     public static boolean isYellowCake(ItemStack itemStack) {
-        return hasOreNames(itemStack, "dustUranium");
+        return itemStack.getItem() == ModItems.itemYellowCake || hasOreNames(itemStack, "dustUranium");
     }
 
     public static boolean isUranium(ItemStack itemStack) {
-        return hasOreNames(itemStack, "ingotUranium") || hasOreNames(itemStack, "itemUranium");
+        return itemStack.getItem() == ModItems.itemUranium || hasOreNames(itemStack, "ingotUranium", "ingotUranium235", "ingotUranium238");
     }
 
     // Blocks
     public static boolean isUraniumOre(ItemStack itemStack) {
         return hasOreNames(itemStack, "oreUranium");
-    }
-
-    public static boolean isRadioactiveGrass(ItemStack itemStack) {
-        return hasOreNames(itemStack, "blockRadioactiveGrass");
     }
 
     /**

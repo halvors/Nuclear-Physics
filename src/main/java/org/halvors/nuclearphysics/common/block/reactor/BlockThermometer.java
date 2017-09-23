@@ -24,6 +24,8 @@ import java.util.List;
 public class BlockThermometer extends BlockRotatable {
     public BlockThermometer() {
         super("thermometer", Material.PISTON);
+
+        setHardness(0.6F);
     }
 
     @Override

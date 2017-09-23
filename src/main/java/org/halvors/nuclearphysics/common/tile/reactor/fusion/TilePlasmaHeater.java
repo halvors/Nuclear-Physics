@@ -147,7 +147,9 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
                 }
 
                 energyUsed = energyStorage.extractEnergy(energyPerTick, false);
-            } else {
+            }
+
+            if (!canProcess()) {
                 reset();
             }
 

@@ -40,13 +40,12 @@ public class ModBlocks {
     public static Block blockElectromagnet = new BlockElectromagnet();
     public static Block blockFulmination = new BlockFulminationGenerator();
     public static Block blockGasFunnel = new BlockGasFunnel();
-    public static Block blockMachineModel = new BlockMachine();
+    public static Block blockMachine = new BlockMachine();
     public static Block blockSiren = new BlockSiren();
     public static Block blockThermometer = new BlockThermometer();
     public static Block blockUraniumOre = new BlockUraniumOre();
     public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
     public static Block blockReactorCell = new BlockReactorCell();
-
     public static Block blockCreativeBuilder = new BlockCreativeBuilder();
 
     @EventBusSubscriber
@@ -66,7 +65,7 @@ public class ModBlocks {
                     blockElectromagnet,
                     blockFulmination,
                     blockGasFunnel,
-                    blockMachineModel,
+                    blockMachine,
                     blockSiren,
                     blockThermometer,
                     blockUraniumOre,
@@ -91,7 +90,7 @@ public class ModBlocks {
                     new ItemBlockMetadata(blockElectromagnet),
                     new ItemBlockTooltip(blockFulmination),
                     new ItemBlockTooltip(blockGasFunnel),
-                    new ItemBlockMetadata(blockMachineModel),
+                    new ItemBlockMetadata(blockMachine),
                     new ItemBlockTooltip(blockSiren),
                     new ItemBlockThermometer(blockThermometer),
                     new ItemBlockTooltip(blockUraniumOre),
