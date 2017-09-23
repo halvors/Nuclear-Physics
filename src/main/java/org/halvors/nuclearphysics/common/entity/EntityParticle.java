@@ -20,6 +20,8 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
@@ -40,12 +42,13 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     private BlockPos movementPos;
     private EnumFacing movementDirection;
 
+    @SideOnly(Side.CLIENT)
     public EntityParticle(World world) {
         super(world);
 
         ignoreFrustumCheck = true;
 
-        setRenderDistanceWeight(4F);
+        //setRenderDistanceWeight(4F); // TODO: This should never be called server-side, why are we setting this globally?
         setSize(0.3F, 0.3F);
     }
 
@@ -56,6 +59,11 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         this.movementDirection = movementDirection;
 
         setPosition(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+    }
+
+    @Override
+    public boolean isInRangeToRenderDist(double distance) {
+        return super.isInRangeToRenderDist(distance);
     }
 
     /**
@@ -207,13 +215,13 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void readEntityFromNBT(@Nonnull NBTTagCompound tag) {
+    protected void readEntityFromNBT(NBTTagCompound tag) {
         movementPos = new BlockPos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z"));
         movementDirection = EnumFacing.getFront(tag.getByte("direction"));
     }
 
     @Override
-    protected void writeEntityToNBT(@Nonnull NBTTagCompound tag) {
+    protected void writeEntityToNBT(NBTTagCompound tag) {
         tag.setInteger("x", movementPos.getX());
         tag.setInteger("y", movementPos.getY());
         tag.setInteger("z", movementPos.getZ());
