@@ -51,9 +51,7 @@ public class ModelEventHandler {
 		final ModelResourceLocation modelResourceLocation = new ModelResourceLocation(Reference.PREFIX + "fluid", fluidBlock.getFluid().getName());
 
 		ModelBakery.registerItemVariants(item);
-
 		ModelLoader.setCustomMeshDefinition(item, stack -> modelResourceLocation);
-
 		ModelLoader.setCustomStateMapper((Block) fluidBlock, new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState p_178132_1_) {
