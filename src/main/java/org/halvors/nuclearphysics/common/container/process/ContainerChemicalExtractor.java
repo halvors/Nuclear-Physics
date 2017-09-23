@@ -7,7 +7,7 @@ import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
 
 public class ContainerChemicalExtractor extends ContainerBase<TileChemicalExtractor> {
     public ContainerChemicalExtractor(InventoryPlayer inventoryPlayer, TileChemicalExtractor tile) {
-        super(inventoryPlayer, tile);
+        super(7, inventoryPlayer, tile);
 
         // Battery
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 80, 50));
@@ -30,7 +30,7 @@ public class ContainerChemicalExtractor extends ContainerBase<TileChemicalExtrac
         // Fluid output drain
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 6, 135, 50));
 
-        // Players inventory
+        // Player inventory
         addPlayerInventory(inventoryPlayer.player);
     }
 }
