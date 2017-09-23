@@ -20,8 +20,6 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
@@ -29,7 +27,6 @@ import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.type.Position;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class EntityParticle extends Entity implements IEntityAdditionalSpawnData {
@@ -42,7 +39,6 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     private BlockPos movementPos;
     private EnumFacing movementDirection;
 
-    @SideOnly(Side.CLIENT)
     public EntityParticle(World world) {
         super(world);
 
