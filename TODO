@@ -23,6 +23,7 @@ Known bugs:
         - Store fluids in NBT on machine drop?
         - Radiation poison is never removed when reached 0 time left.
         - Empty cell having NBT when filled and later emptied.
+        - Check if more turbines is more efficient than one.
 
 Known features not implemented:
 
