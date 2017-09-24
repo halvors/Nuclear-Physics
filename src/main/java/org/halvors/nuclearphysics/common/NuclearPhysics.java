@@ -70,6 +70,7 @@ public class NuclearPhysics {
 
 		// Call functions for adding blocks, items, etc.
 		ModCapabilities.registerCapabilities();
+		ModEntities.registerEntities();
 		ModMessages.registerMessages();
 		ModRecipes.registerRecipes();
 		ModWorldGenerators.registerWorldGenerators();
