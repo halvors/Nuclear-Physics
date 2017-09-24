@@ -87,7 +87,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         @Override
         public int fill(FluidStack resource, boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackPlasma)) {
-                return fill(resource, doFill);
+                return super.fill(resource, doFill);
             }
 
             return 0;
@@ -96,7 +96,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         @Override
         public FluidStack drain(FluidStack resource, boolean doDrain) {
             if (resource.isFluidEqual(ModFluids.fluidStackToxicWaste)) {
-                return drain(resource, doDrain);
+                return super.drain(resource, doDrain);
             }
 
             return null;
