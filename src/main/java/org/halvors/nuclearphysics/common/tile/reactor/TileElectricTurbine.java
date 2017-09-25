@@ -44,7 +44,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
         @Override
-        public boolean canFill() {
+        public boolean canDrain() {
             return false;
         }
     };
