@@ -1,15 +1,25 @@
 package org.halvors.nuclearphysics.common.item.particle;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.item.ItemTooltip;
+import org.halvors.nuclearphysics.common.type.Color;
+import org.halvors.nuclearphysics.common.utility.LanguageUtility;
+import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemAntimatterCell extends ItemTooltip {
     public ItemAntimatterCell() {
@@ -28,10 +38,16 @@ public class ItemAntimatterCell extends ItemTooltip {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> items) {
+    public void addInformation(ItemStack itemStack, @Nullable World world, List<String> list, ITooltipFlag flag) {
+        list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip"));
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> list) {
         if (isInCreativeTab(tab)) {
             for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
-                items.add(new ItemStack(this, 1, type.ordinal()));
+                list.add(new ItemStack(this, 1, type.ordinal()));
             }
         }
     }

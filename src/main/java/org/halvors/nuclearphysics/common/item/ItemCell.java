@@ -1,9 +1,12 @@
 package org.halvors.nuclearphysics.common.item;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -17,6 +20,8 @@ import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemCell extends ItemTooltip {
     public static final int capacity = 200;
@@ -33,28 +38,28 @@ public class ItemCell extends ItemTooltip {
     }
 
     @Override
-    @Nonnull
     @SideOnly(Side.CLIENT)
-    public String getItemStackDisplayName(@Nonnull ItemStack itemStack) {
+    public void addInformation(ItemStack itemStack, @Nullable World world, List<String> list, ITooltipFlag flag) {
         FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
-        String fluidName = fluidStack != null ? fluidStack.getLocalizedName() : LanguageUtility.transelate("tooltip.empty");
 
-        return fluidName + " " + LanguageUtility.transelate(getUnlocalizedName() + ".name");
+        if (fluidStack != null) {
+            list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
+        }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> subItems) {
+    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> list) {
         if (isInCreativeTab(tab)) {
             for (EnumCell type : EnumCell.values()) {
-                subItems.add(type == EnumCell.EMPTY ? new ItemStack(this) : FluidUtility.getFilledCell(FluidRegistry.getFluid(type.getName())));
+                list.add(type == EnumCell.EMPTY ? new ItemStack(this) : FluidUtility.getFilledCell(FluidRegistry.getFluid(type.getName())));
             }
         }
     }
 
     @Override
     @Nonnull
-    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound tag) {
         return new FluidHandlerItemStackSimple(stack, capacity);
     }
 

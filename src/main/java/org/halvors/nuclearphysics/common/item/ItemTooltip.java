@@ -19,6 +19,15 @@ public class ItemTooltip extends ItemBase {
         super(name);
     }
 
+    @Nonnull
+    public String getUnlocalizedName(ItemStack itemStack) {
+        if (itemStack.getHasSubtypes()) {
+            return getUnlocalizedName() + "." + itemStack.getItemDamage();
+        }
+
+        return getUnlocalizedName();
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, @Nullable World world, List<String> list, ITooltipFlag flag) {
@@ -31,16 +40,5 @@ public class ItemTooltip extends ItemBase {
                 list.addAll(LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tooltip), 5));
             }
         }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    @Nonnull
-    public String getUnlocalizedName(ItemStack itemStack) {
-        if (itemStack.getHasSubtypes()) {
-            return getUnlocalizedName() + "." + itemStack.getItemDamage();
-        }
-
-        return getUnlocalizedName();
     }
 }

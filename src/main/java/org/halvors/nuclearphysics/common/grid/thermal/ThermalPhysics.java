@@ -14,7 +14,7 @@ public class ThermalPhysics {
      * @return The temperature of the coordinate in the world in kelvin.
      */
     public static float getTemperatureForCoordinate(World world, BlockPos pos) {
-        int averageTemperature = 273 + (int) ((world.getBiome(pos).getFloatTemperature(pos) - 0.4) * 50);
+        int averageTemperature = 273 + (int) ((world.getBiome(pos).getTemperature(pos) - 0.4) * 50);
         double dayNightVariance = averageTemperature * 0.05;
 
         return (float) (averageTemperature + (world.isDaytime() ? dayNightVariance : -dayNightVariance));
