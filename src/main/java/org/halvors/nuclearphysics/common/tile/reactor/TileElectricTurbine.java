@@ -141,7 +141,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             if (!world.isRemote) {
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
-                    FluidStack fluidStack = tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
+                    FluidStack fluidStack = tank.drainInternal((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
 
                     if (fluidStack != null) {
                         power += fluidStack.amount * energyPerSteam;
@@ -161,9 +161,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 if (power > 0) {
                     energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
                 }
-            }
-
-            if (angularVelocity != 0) {
+            } else if (angularVelocity != 0) {
                 if (world.getWorldTime() % 26 == 0) {
                     // TODO: Tweak this volume, i suspect it is way to loud.
                     double maxVelocity = (getMaxPower() / torque) * 4;
