@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
@@ -37,14 +38,14 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
-public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine> {
+public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, IBoilHandler {
     private final int energyPerSteam = 40;
     private final int defaultTorque = 5000;
     private int torque = defaultTorque;
 
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
         @Override
-        public boolean canFill() {
+        public boolean canDrain() {
             return false;
         }
     };
@@ -111,8 +112,12 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) {
             return (T) energyStorage;
-        } else if ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) {
-            return (T) tank;
+        } else if (facing == EnumFacing.DOWN) {
+            if (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) {
+                return (T) this;
+            } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+                return (T) tank;
+            }
         }
 
         return super.getCapability(capability, facing);
@@ -136,7 +141,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             if (!world.isRemote) {
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
-                    FluidStack fluidStack = tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
+                    FluidStack fluidStack = tank.drainInternal((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
 
                     if (fluidStack != null) {
                         power += fluidStack.amount * energyPerSteam;
@@ -156,9 +161,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 if (power > 0) {
                     energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
                 }
-            }
-
-            if (angularVelocity != 0) {
+            } else if (angularVelocity != 0) {
                 if (world.getWorldTime() % 26 == 0) {
                     // TODO: Tweak this volume, i suspect it is way to loud.
                     double maxVelocity = (getMaxPower() / torque) * 4;
@@ -234,6 +237,13 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         }
 
         return multiBlock;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public int receiveGas(FluidStack fluidStack, boolean doTransfer) {
+        return tank.fillInternal(fluidStack, doTransfer);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

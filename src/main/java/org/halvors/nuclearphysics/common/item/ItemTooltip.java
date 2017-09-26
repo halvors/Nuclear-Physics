@@ -19,6 +19,17 @@ public class ItemTooltip extends ItemBase {
 
     @Override
     @SideOnly(Side.CLIENT)
+    @Nonnull
+    public String getUnlocalizedName(ItemStack itemStack) {
+        if (itemStack.getHasSubtypes()) {
+            return getUnlocalizedName() + "." + itemStack.getItemDamage();
+        }
+
+        return getUnlocalizedName();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> list, boolean flag) {
         String tooltip = getUnlocalizedName(itemStack) + ".tooltip";
 
@@ -29,16 +40,5 @@ public class ItemTooltip extends ItemBase {
                 list.addAll(LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tooltip), 5));
             }
         }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    @Nonnull
-    public String getUnlocalizedName(ItemStack itemStack) {
-        if (itemStack.getHasSubtypes()) {
-            return getUnlocalizedName() + "." + itemStack.getItemDamage();
-        }
-
-        return getUnlocalizedName();
     }
 }
