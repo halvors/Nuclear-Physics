@@ -10,13 +10,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TileGasFunnel extends TileEntity implements ITickable {
+public class TileGasFunnel extends TileEntity implements ITickable, IBoilHandler {
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
         @Override
         public boolean canFill() {
@@ -54,7 +55,9 @@ public class TileGasFunnel extends TileEntity implements ITickable {
     @Override
     @Nonnull
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if ((capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY && facing == EnumFacing.DOWN) || (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == EnumFacing.UP)) {
+        if (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY && facing == EnumFacing.DOWN) {
+            return (T) this;
+        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == EnumFacing.UP) {
             return (T) tank;
         }
 
@@ -79,5 +82,14 @@ public class TileGasFunnel extends TileEntity implements ITickable {
             }
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public int receiveGas(FluidStack fluidStack, boolean doTransfer) {
+        return tank.fillInternal(fluidStack, doTransfer);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

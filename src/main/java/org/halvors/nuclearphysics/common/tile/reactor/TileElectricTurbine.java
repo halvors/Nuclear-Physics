@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
@@ -37,7 +38,7 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
-public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine> {
+public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, IBoilHandler {
     private final int energyPerSteam = 40;
     private final int defaultTorque = 5000;
     private int torque = defaultTorque;
@@ -111,8 +112,12 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) {
             return (T) energyStorage;
-        } else if ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) {
-            return (T) tank;
+        } else if (facing == EnumFacing.DOWN) {
+            if (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) {
+                return (T) this;
+            } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+                return (T) tank;
+            }
         }
 
         return super.getCapability(capability, facing);
@@ -234,6 +239,13 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         }
 
         return multiBlock;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public int receiveGas(FluidStack fluidStack, boolean doTransfer) {
+        return tank.fillInternal(fluidStack, doTransfer);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

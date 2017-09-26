@@ -2,11 +2,10 @@ package org.halvors.nuclearphysics.common.capabilities.fluid;
 
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
-import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 
 import javax.annotation.Nullable;
 
-public class GasTank extends LiquidTank implements IBoilHandler, IFluidTank {
+public class GasTank extends LiquidTank implements IFluidTank {
     public GasTank(int capacity) {
         super(capacity);
     }
@@ -28,10 +27,5 @@ public class GasTank extends LiquidTank implements IBoilHandler, IFluidTank {
         }
 
         return null;
-    }
-
-    @Override
-    public int receiveGas(FluidStack fluidStack, boolean doTransfer) {
-        return super.fillInternal(fluidStack, doTransfer);
     }
 }
