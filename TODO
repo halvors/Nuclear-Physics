@@ -55,6 +55,7 @@ New features to add:
         - Make boiling water spawn particle rate based in the temperature. (https://gamedev.stackexchange.com/questions/17620/equation-to-make-small-number-big-and-big-number-small-gravity)
         - Make tritium emit light when in a container.
         - Add ghost item support to quantum assembler.
+        - Add pill that cures radiation poisoning, use function setCurativeItems() on potion effect to do that.
 
     Rendering:
         - Render only moving parts in TESR's?

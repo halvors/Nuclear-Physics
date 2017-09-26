@@ -14,11 +14,5 @@ public class CustomPotionEffect extends PotionEffect {
 
     public CustomPotionEffect(Potion potion, int duration, int amplifier, List<ItemStack> curativeItems) {
         super(potion, duration, amplifier);
-
-        if (curativeItems == null) {
-            setCurativeItems(new ArrayList<>());
-        } else {
-            setCurativeItems(curativeItems);
-        }
     }
 }
