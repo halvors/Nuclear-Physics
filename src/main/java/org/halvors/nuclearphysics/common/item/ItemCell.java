@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.common.item;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,6 +13,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimpl
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
@@ -34,13 +36,13 @@ public class ItemCell extends ItemTooltip {
     }
 
     @Override
-    @Nonnull
     @SideOnly(Side.CLIENT)
-    public String getItemStackDisplayName(@Nonnull ItemStack itemStack) {
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> list, boolean flag) {
         FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
-        String fluidName = fluidStack != null ? fluidStack.getLocalizedName() : LanguageUtility.transelate("tooltip.empty");
 
-        return fluidName + " " + LanguageUtility.transelate(getUnlocalizedName() + ".name");
+        if (fluidStack != null) {
+            list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
+        }
     }
 
     @Override
@@ -53,7 +55,7 @@ public class ItemCell extends ItemTooltip {
 
     @Override
     @Nonnull
-    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
+    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound tag) {
         return new FluidHandlerItemStackSimple(stack, capacity);
     }
 
