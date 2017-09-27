@@ -6,7 +6,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;

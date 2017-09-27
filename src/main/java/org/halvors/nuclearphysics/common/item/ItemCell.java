@@ -14,7 +14,6 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimpl
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
@@ -56,8 +55,8 @@ public class ItemCell extends ItemTooltip {
 
     @Override
     @Nonnull
-    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound tag) {
-        return new FluidHandlerItemStackSimple(stack, capacity);
+    public ICapabilityProvider initCapabilities(ItemStack itemStack, NBTTagCompound tag) {
+        return new FluidHandlerItemStackSimple(itemStack, capacity);
     }
 
     public enum EnumCell {
