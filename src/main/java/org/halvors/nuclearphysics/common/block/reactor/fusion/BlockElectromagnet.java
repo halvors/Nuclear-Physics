@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -22,6 +21,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockConnectedTexture;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet;
+import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TileElectromagnet;
 
 import javax.annotation.Nonnull;
@@ -167,21 +167,5 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     @Nonnull
     public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
         return new TileElectromagnet();
-    }
-
-    public enum EnumElectromagnet implements IStringSerializable {
-        NORMAL("normal"),
-        GLASS("glass");
-
-        private String name;
-
-        EnumElectromagnet(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String getName() {
-            return name;
-        }
     }
 }
