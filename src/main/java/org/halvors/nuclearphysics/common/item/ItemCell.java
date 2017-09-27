@@ -59,8 +59,8 @@ public class ItemCell extends ItemTooltip {
 
     @Override
     @Nonnull
-    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound tag) {
-        return new FluidHandlerItemStackSimple(stack, capacity);
+    public ICapabilityProvider initCapabilities(ItemStack itemStack, NBTTagCompound tag) {
+        return new FluidHandlerItemStackSimple(itemStack, capacity);
     }
 
     public enum EnumCell {

@@ -1,0 +1,172 @@
+// Creative tab
+itemGroup.nuclearphysics=Nuclear Physics
+
+// Blocks
+tile.nuclearphysics.machine.0.name=Chemischer Extraktor
+tile.nuclearphysics.machine.0.tooltip=Extrahiert Uranerz zu Yellowcake, Wasser zu Deuterium und Deuterium zu Tritium.
+tile.nuclearphysics.machine.0.text=Der Extraktor kann Uran, Deuterium und Tritium extrahieren.
+tile.nuclearphysics.control_rod.name=Steuerstab
+tile.nuclearphysics.control_rod.tooltip=Unterdrückt die Spaltungsreaktion in benachbarten Reaktorzellen.
+tile.nuclearphysics.creative_builder.name=Kreativ-Erbauer
+tile.nuclearphysics.creative_builder.tooltip=Dies ist ein Kreativ-Cheat, der dir ermöglicht, automatisch Strukturen zu errichten.
+tile.nuclearphysics.creative_builder.text=Warnung! Dies wird Blöcke ersetzen, ohne sie fallen zu lassen! Du könntest Gegenstände verlieren.
+tile.nuclearphysics.electromagnet.0.name=Elektromagnet
+tile.nuclearphysics.electromagnet.0.tooltip=Erstellt ein elektromagnetisches Feld, das verhindert, dass Plasma und Partikel in die Umgebung gelangen.
+tile.nuclearphysics.electromagnet.1.name=Elektromagnetisches Glas
+tile.nuclearphysics.electromagnet.1.tooltip=Erstellt ein elektromagnetisches Feld, das verhindert, dass Plasma und Partikel in die Umgebung gelangen.
+tile.nuclearphysics.electric_turbine.name=Elektrische Turbine
+tile.nuclearphysics.electric_turbine.tooltip=Verwandelt die kinetische Energie von bewegtem Dampf in elektrische Energie.
+tile.nuclearphysics.fulmination_generator.name=Explosionsgenerator
+tile.nuclearphysics.fulmination_generator.tooltip=Verwandelt die kinetische Energie von Explosionen in elektrische Energie.
+tile.nuclearphysics.machine.1.name=Gaszentrifuge
+tile.nuclearphysics.machine.1.tooltip=Verfeinert Uranhexafluorid-Gas in nutzbares Uran.
+tile.nuclearphysics.machine.1.text=Die Gaszentrifuge schleudert Uranhexafluorid-Gas in angereichertes Uran für den Reaktor.
+tile.nuclearphysics.gas_funnel.name=Gastrichter
+tile.nuclearphysics.gas_funnel.tooltip=Erfasst Gas, damit es über Rohrleitungen transportiert werden kann.
+tile.nuclearphysics.machine.2.name=Kernkessel
+tile.nuclearphysics.machine.2.tooltip=Kocht Yellowcake zu Uranhexafluorid-Gas.
+tile.nuclearphysics.machine.2.text=Der Kernkessel kann Yellowcake zu Uranhexafluorid-Gas kochen.
+tile.nuclearphysics.uranium_ore.name=Uranerz
+tile.nuclearphysics.uranium_ore.tooltip=Ein kostbares und nützliches Erz für Spaltungsreaktionen.
+tile.nuclearphysics.machine.3.name=Partikelbeschleuniger
+tile.nuclearphysics.machine.3.tooltip=Beschleunigt Partikel und erschafft Antimaterie und dunkle Materie.
+tile.nuclearphysics.machine.4.name=Plasma-Erhitzer
+tile.nuclearphysics.machine.4.tooltip=Ein Plasma-Erhitzer wird verwendet, um Deuterium und Tritium in den Plasmazustand für Fusionsenergie zu heizen. Das Plasma muss in die Reaktorzelle geführt werden.
+tile.nuclearphysics.machine.5.name=Quanten-Assembler
+tile.nuclearphysics.machine.5.tooltip=Setzt dunkle Materie Atome in nutzbare Materialien um.
+tile.nuclearphysics.radioactive_grass.name=Radioaktiver Müll
+tile.nuclearphysics.radioactive_grass.tooltip=Erzeugt schädliche Strahlung und verbreitet sich in der Welt, mutiert dabei Organismen.
+tile.nuclearphysics.reactor_cell.name=Reaktorzelle
+tile.nuclearphysics.reactor_cell.tooltip=Die Hauptkomponente für alle Arten von Reaktoren. Brennstäbe oder Plasma können in die Zelle injiziert werden.
+tile.nuclearphysics.siren.name=Sirene
+tile.nuclearphysics.siren.tooltip=Erzeugt einen Alarm mit anpassbarer Tonhöhe und Lautstärke mit einem Redstone-Signal.
+tile.nuclearphysics.thermometer.name=Thermometer
+tile.nuclearphysics.thermometer.tooltip=Liest die Temperatur an den aktuellen Koordinaten ab. Klicke mit der rechten Maustaste, um das Ablesen auf bestimmte Koordinaten festzulegen.
+
+// Items
+item.nuclearphysics.wrench.name=Schraubenschlüssel
+item.nuclearphysics.copper_wire.name=Kupferkabel
+item.nuclearphysics.motor.name=Motor
+item.nuclearphysics.circuit_basic.name=Grundlegender Schaltkreis
+item.nuclearphysics.circuit_advanced.name=Erweiterter Schaltkreis
+item.nuclearphysics.circuit_elite.name=Elite-Schaltkreis
+item.nuclearphysics.plate_bronze.name=Bronzeplatte
+item.nuclearphysics.plate_steel.name=Stahlplatte
+item.nuclearphysics.cell.name=Zelle
+item.nuclearphysics.cell.tooltip=Enthält: %d
+item.nuclearphysics.darkmatter_cell.name=Dunkle Materie
+item.nuclearphysics.antimatter_cell.0.name=Antimaterie
+item.nuclearphysics.antimatter_cell.0.tooltip=125 Milligramm
+item.nuclearphysics.antimatter_cell.1.name=Antimaterie
+item.nuclearphysics.antimatter_cell.1.tooltip=1 Gramm
+item.nuclearphysics.yellowcake.name=Yellowcake
+item.nuclearphysics.uranium.0.name=Uran-235
+item.nuclearphysics.uranium.0.tooltip=Zum Anreichern
+item.nuclearphysics.uranium.1.name=Uran-238
+item.nuclearphysics.uranium.1.tooltip=Zum Brüten
+item.nuclearphysics.fissile_fuel.name=Spaltbarer Brennstab
+item.nuclearphysics.fissile_fuel.tooltip=Die primäre Brennstoffquelle für Spaltreaktoren.
+item.nuclearphysics.breeder_fuel.name=Brüter-Brennstab
+item.nuclearphysics.breeder_fuel.tooltip=Die Brennstoffquelle für die Zerkleinerung zerfallener spaltbarer Brennstoffe.
+item.nuclearphysics.hazmat_mask.name=Schutzmaske
+item.nuclearphysics.hazmat_body.name=Schutzjacke
+item.nuclearphysics.hazmat_leggings.name=Schutzhose
+item.nuclearphysics.hazmat_boots.name=Schutzstiefel
+
+// Tooltip
+tooltip.noFluid=Keine Flüssigkeit
+tooltip.energy=Energie
+tooltip.inputSlot=Eingabeplatz
+tooltip.state=Zustand
+tooltip.empty=Leer
+tooltip.wrench=Schraubenschlüssel
+tooltip.rotate=Rotieren
+tooltip.trackingCoordinate=Koordinate überwachen
+tooltip.clearedTrackingCoordinate=Überwachte Koordinate gelöscht
+tooltip.notTrackingTemperature=Überwacht keine Temperatur
+
+tooltip.nuclearphysics.noShift=Halte %dShift %dfür weitere Informationen
+
+// Gui
+gui.buffer=Puffer
+gui.control.disabled=Deaktiviert
+gui.control.high=Hoch
+gui.control.low=Tief
+gui.control.pulse=Impuls
+gui.mode=Modus
+gui.needed=Benötigt
+gui.remaining=Verbleibend
+gui.temperature=Temperatur
+gui.unit=Einheit
+gui.using=Verwendet
+gui.process=Prozess
+gui.processing=Verarbeitet
+gui.ready=Bereit
+gui.idle=Untätig
+gui.status=Status
+gui.failedToEmitTryRotating=Fehler beim Ausgeben, versuche es zu drehen
+gui.accelerating=Beschleunigt
+gui.velocity=Geschwindigkeit
+gui.storedAntimatter=Gespeicherte Antimaterie
+gui.energyUsed=Energie verbraucht
+gui.facing=Gerichtet nach
+gui.radius=Radius
+
+gui.configuration.category.general=Generell
+gui.configuration.category.general.tooltip=Generelle Einstellungen
+gui.configuration.category.machine=Maschine
+gui.configuration.category.machine.tooltip=Einstellungen zum Aktivieren und Deaktivieren bestimmter Maschinen
+gui.configuration.category.integration=Integration
+gui.configuration.category.integration.tooltip=Einstellungen zum Aktivieren und Deaktivieren bestimmter Mod-Integrationen
+gui.configuration.category.client=Client
+gui.configuration.category.client.tooltip=Client-spezifische Einstellungen
+
+// Fluids
+fluid.deuterium=Deuterium
+fluid.uranium_hexafluoride=Uranhexafluorid
+fluid.plasma=Plasma
+fluid.steam=Dampf
+fluid.tritium=Tritium
+fluid.toxic_waste=Giftmüll
+
+// Fluid blocks
+tile.fluid.deuterium.name=Deuterium
+tile.fluid.uranium_hexafluoride.name=Uranhexafluorid
+tile.fluid.plasma.name=Plasma
+tile.fluid.plasma.tooltip=Erzeugt extreme Hitze für kochendes Wasser.
+tile.fluid.steam.name=Dampf
+tile.fluid.tritium.name=Tritium
+tile.fluid.toxic_waste.name=Giftmüll
+tile.fluid.toxic_waste.tooltip=Toxische, nukleare Abfälle, die die Welt verschmutzen.
+
+// Potion
+potion.radiation=Strahlung
+
+// Death
+death.attack.radiation=%1$s starb an Verstrahlung.
+
+// Schematic
+schematic.accelerator.name=Partikelbeschleuniger
+schematic.breeding_reactor.name=Brutreaktor
+schematic.fission_reactor.name=Spaltreaktor
+schematic.fusion_reactor.name=Fusionsreaktor
+
+// Color
+color.black=Schwarz
+color.darkBlue=Dunkelblau
+color.darkGreen=Dunkelgrün
+color.darkAqua=Dunkeltürkis
+color.darkRed=Dunkelrot
+color.purple=Violett
+color.orange=Orange
+color.grey=Grau
+color.darkGrey=Dunkelgrau
+color.indigo=Indigo
+color.brightGreen=Hellgrün
+color.aqua=Türkis
+color.red=Rot
+color.pink=Magenta
+color.yellow=Gelb
+color.white=Weiß
+color.brown=Braun
+color.brightPink=Rosa

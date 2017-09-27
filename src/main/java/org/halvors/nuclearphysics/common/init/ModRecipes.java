@@ -9,10 +9,6 @@ import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 
 public class ModRecipes {
     public static void registerRecipes() {
-        registerQuantumAssemblerRecipes();
-    }
-
-    private static void registerQuantumAssemblerRecipes() {
         if (General.allowGeneratedQuantumAssemblerRecipes) {
             String[] prefixList = { "ore", "ingot", "nugget", "dust", "gem", "dye", "block", "stone", "crop", "slab", "stair", "pane", "gear", "rod", "stick", "plate", "dustTiny", "cover" };
 

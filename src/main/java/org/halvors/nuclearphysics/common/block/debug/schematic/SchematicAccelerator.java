@@ -4,8 +4,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet;
+import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 
 import java.util.HashMap;
