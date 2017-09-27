@@ -22,10 +22,10 @@ public class ItemTooltip extends ItemBase {
     @Nonnull
     public String getUnlocalizedName(ItemStack itemStack) {
         if (itemStack.getHasSubtypes()) {
-            return getUnlocalizedName() + "." + itemStack.getItemDamage();
+            return super.getUnlocalizedName(itemStack) + "." + itemStack.getItemDamage();
         }
 
-        return getUnlocalizedName();
+        return super.getUnlocalizedName(itemStack);
     }
 
     @Override

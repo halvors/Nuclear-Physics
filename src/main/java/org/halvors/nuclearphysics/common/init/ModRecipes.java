@@ -12,8 +12,8 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.halvors.nuclearphysics.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
-import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
-import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
+import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet.EnumElectromagnet;
+import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell.EnumAntimatterCell;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 

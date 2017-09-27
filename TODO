@@ -21,11 +21,10 @@ Known bugs:
 
         - Fix electric turbine sound, for both small and large.
         - Fix strange Celsius character.
-        - Radiation poison is never removed when reached 0 time left.
         - Empty cell having NBT when filled and later emptied.
         - Check if more turbines is more efficient than one.
-
-        - Why is electric turbine not accepting steam when piping it to it?
+        
+        -
 
 Known features not implemented:
 

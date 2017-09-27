@@ -5,16 +5,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.item.ItemTooltip;
-import org.halvors.nuclearphysics.common.type.Color;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
 import java.util.List;
