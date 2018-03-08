@@ -23,6 +23,7 @@ Known bugs:
         - Fix strange Celsius character.
         - Empty cell having NBT when filled and later emptied.
         - Check if more turbines is more efficient than one.
+        - Add a delay ro thermometer redstone output, so that it stays in it current state for a period of time.
 
 Known features not implemented:
 
