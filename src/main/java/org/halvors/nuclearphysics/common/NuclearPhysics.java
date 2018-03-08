@@ -24,7 +24,10 @@ import org.halvors.nuclearphysics.common.event.handler.PlayerEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ThermalEventHandler;
 import org.halvors.nuclearphysics.common.grid.UpdateTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
-import org.halvors.nuclearphysics.common.init.*;
+import org.halvors.nuclearphysics.common.init.ModCapabilities;
+import org.halvors.nuclearphysics.common.init.ModMessages;
+import org.halvors.nuclearphysics.common.init.ModRecipes;
+import org.halvors.nuclearphysics.common.init.ModWorldGenerators;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 
 @Mod(modid = Reference.ID,
@@ -70,7 +73,6 @@ public class NuclearPhysics {
 
 		// Call functions for adding blocks, items, etc.
 		ModCapabilities.registerCapabilities();
-		ModEntities.registerEntities();
 		ModMessages.registerMessages();
 		ModRecipes.registerRecipes();
 		ModWorldGenerators.registerWorldGenerators();
