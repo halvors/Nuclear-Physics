@@ -23,8 +23,6 @@ Known bugs:
         - Fix strange Celsius character.
         - Empty cell having NBT when filled and later emptied.
         - Check if more turbines is more efficient than one.
-        
-        -
 
 Known features not implemented:
 

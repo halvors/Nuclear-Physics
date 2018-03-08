@@ -231,7 +231,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                         BlockPos checkPos = pos.offset(side);
 
                         if (world.getBlockState(checkPos).getBlock() == ModBlocks.blockControlRod) {
-                            deltaTemperature /= 1.1;
+                            deltaTemperature /= 2;
                         }
                     }
 
