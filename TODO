@@ -31,18 +31,18 @@ New features to add:
     Convenience:
         - Add electromagnetic cell, a cell capable of holding antimatter.
         - Implement IAntiPoisonBlock and add make radiation resistant blocks.
-        - Add handheld thermometer? (From old atomic science).
         - Add Mekanism recipes? NuclearCraft recipes? IC2 recipes?
 
     Enhancement:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
-        - Add a Geiger counter to measure radiation.
-        - Add radiation resistance block which implements IAntiPoisonBlock. See EntityLivingBase.canEntityBeSeen()
-        - Make reactor make glass if sand is next to it, and make it melt snow.
+        - Make reactor make glass if sand is next to it.
         - Make accelerator GUI show energy usage per 5 mg antimatter, as a measure of efficiency.
         - Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
-        - Make toxic waste denser than water, so that it is replaced by toxic waste.
         - Add support for vertical particle accelerators.
+
+        - Add a Geiger counter to measure radiation.
+        - Add radiation resistance block which implements IAntiPoisonBlock. See EntityLivingBase.canEntityBeSeen()
+
         - Amplify sirens, with sort of multi block structure, also add pitch support for the multi block.
         - Add metal break sound to machines etc?
         - Add thorium fuel?

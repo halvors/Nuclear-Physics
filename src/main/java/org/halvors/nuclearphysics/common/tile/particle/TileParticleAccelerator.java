@@ -30,7 +30,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     private static final int energyPerTick = 19000;
 
     // Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
-    private int particleDensity = General.acceleratorAntimatterDensityMultiplier;
+    private int particleDensity = General.antimatterDensityMultiplier;
 
     // Speed by which a particle will turn into anitmatter.
     public static final float antimatterCreationSpeed = 0.9F;
@@ -289,15 +289,15 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
 
                 // Prevent negative numbers and disallow zero for density multiplier.
                 // We can give any BlockPos as argument, it's not used anyway.
-                particleDensity = Math.round(state.getBlockHardness(world, pos)) * General.acceleratorAntimatterDensityMultiplier;
+                particleDensity = Math.round(state.getBlockHardness(world, pos)) * General.antimatterDensityMultiplier;
             }
 
             if (particleDensity < 1) {
-                particleDensity = General.acceleratorAntimatterDensityMultiplier;
+                particleDensity = General.antimatterDensityMultiplier;
             }
 
             if (particleDensity > 1000) {
-                particleDensity = 1000 * General.acceleratorAntimatterDensityMultiplier;
+                particleDensity = 1000 * General.antimatterDensityMultiplier;
             }
         }
     }

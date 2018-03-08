@@ -21,11 +21,11 @@ public class ConfigurationManager {
         public static boolean enableOreRegeneration;
         public static int uraniumPerChunk;
 
-        public static int acceleratorAntimatterDensityMultiplier;
+        public static int antimatterDensityMultiplier;
         public static double fulminationOutputMultiplier;
         public static double turbineOutputMultiplier;
         public static double steamOutputMultiplier;
-        public static double fissionBoilVolumeMultiplier;
+        public static double fissionBoilVolumeMultiplier; // Not implemented?
 
         public static int uraniumHexaflourideRatio;
         public static int waterPerDeutermium;
@@ -53,7 +53,7 @@ public class ConfigurationManager {
         General.enableOreRegeneration = configuration.get(Configuration.CATEGORY_GENERAL, "enableOreRegeneration", true).getBoolean();
         General.uraniumPerChunk = configuration.get(Configuration.CATEGORY_GENERAL, "uraniumPerChunk", 9).getInt();
 
-        General.acceleratorAntimatterDensityMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "acceleratorAntimatterDensityMultiplier", 1).getInt();
+        General.antimatterDensityMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "antimatterDensityMultiplier", 1).getInt();
 
         General.fulminationOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "fulminationOutputMultiplier", 1).getDouble();
         General.turbineOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "turbineOutputMultiplier", 1).getDouble();
@@ -90,7 +90,7 @@ public class ConfigurationManager {
         General.enableOreRegeneration = dataStream.readBoolean();
         General.uraniumPerChunk = dataStream.readInt();
 
-        General.acceleratorAntimatterDensityMultiplier = dataStream.readInt();
+        General.antimatterDensityMultiplier = dataStream.readInt();
 
         General.fulminationOutputMultiplier = dataStream.readDouble();
         General.turbineOutputMultiplier = dataStream.readDouble();
@@ -123,7 +123,7 @@ public class ConfigurationManager {
         objects.add(General.enableOreRegeneration);
         objects.add(General.uraniumPerChunk);
 
-        objects.add(General.acceleratorAntimatterDensityMultiplier);
+        objects.add(General.antimatterDensityMultiplier);
 
         objects.add(General.fulminationOutputMultiplier);
         objects.add(General.turbineOutputMultiplier);
