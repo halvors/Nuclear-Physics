@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.common.effect.poison;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.effect.damage.CustomDamageSource;
 import org.halvors.nuclearphysics.common.effect.potion.CustomPotionEffect;
 import org.halvors.nuclearphysics.common.effect.potion.PotionRadiation;
@@ -21,8 +22,9 @@ public class PoisonRadiation extends Poison {
 
     @Override
     protected void doPoisonEntity(BlockPos pos, EntityLivingBase entity, int amplifier) {
-        // TODO: Add option to disable poisoning?
-        entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.getInstance(), 300 * (amplifier + 1), amplifier, null));
+        if (General.enableRadiationRoisoning) {
+            entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.getInstance(), 300 * (amplifier + 1), amplifier, null));
+        }
     }
 
     public static PoisonRadiation getInstance() {

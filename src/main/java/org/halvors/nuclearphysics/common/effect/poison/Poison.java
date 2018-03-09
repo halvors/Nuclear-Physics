@@ -11,7 +11,7 @@ import java.util.EnumSet;
 
 public abstract class Poison {
     private static final EnumSet<EntityEquipmentSlot> armorRequired = EnumSet.of(EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.FEET);
-    private String name;
+    private final String name;
 
     public Poison(String name) {
         this.name = name;

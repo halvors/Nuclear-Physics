@@ -19,7 +19,9 @@ public class ConfigurationManager {
         public static double fromJoules;
 
         public static boolean enableOreRegeneration;
+        public static boolean enableRadiationRoisoning;
         public static boolean enableAntimatterPower;
+
         public static int uraniumPerChunk;
 
         public static int antimatterDensityMultiplier;
@@ -52,11 +54,12 @@ public class ConfigurationManager {
         General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "fromJoules", 2.5).getDouble();
 
         General.enableOreRegeneration = configuration.get(Configuration.CATEGORY_GENERAL, "enableOreRegeneration", true).getBoolean();
+        General.enableRadiationRoisoning = configuration.get(Configuration.CATEGORY_GENERAL, "enableRadiationRoisoning", true).getBoolean();
         General.enableAntimatterPower = configuration.get(Configuration.CATEGORY_GENERAL, "enableAntimatterPower", true).getBoolean();
+
         General.uraniumPerChunk = configuration.get(Configuration.CATEGORY_GENERAL, "uraniumPerChunk", 9).getInt();
 
         General.antimatterDensityMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "antimatterDensityMultiplier", 1).getInt();
-
         General.fulminationOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "fulminationOutputMultiplier", 1).getDouble();
         General.turbineOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "turbineOutputMultiplier", 1).getDouble();
         General.steamOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "steamOutputMultiplier", 1).getDouble();
@@ -90,11 +93,12 @@ public class ConfigurationManager {
         General.fromJoules = dataStream.readDouble();
 
         General.enableOreRegeneration = dataStream.readBoolean();
+        General.enableRadiationRoisoning = dataStream.readBoolean();
         General.enableAntimatterPower = dataStream.readBoolean();
+
         General.uraniumPerChunk = dataStream.readInt();
 
         General.antimatterDensityMultiplier = dataStream.readInt();
-
         General.fulminationOutputMultiplier = dataStream.readDouble();
         General.turbineOutputMultiplier = dataStream.readDouble();
         General.steamOutputMultiplier = dataStream.readDouble();
@@ -124,11 +128,12 @@ public class ConfigurationManager {
         objects.add(General.fromJoules);
 
         objects.add(General.enableOreRegeneration);
+        objects.add(General.enableRadiationRoisoning);
         objects.add(General.enableAntimatterPower);
+
         objects.add(General.uraniumPerChunk);
 
         objects.add(General.antimatterDensityMultiplier);
-
         objects.add(General.fulminationOutputMultiplier);
         objects.add(General.turbineOutputMultiplier);
         objects.add(General.steamOutputMultiplier);

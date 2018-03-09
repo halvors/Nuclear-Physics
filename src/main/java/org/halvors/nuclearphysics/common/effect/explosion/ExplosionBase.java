@@ -5,9 +5,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketExplosion;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
-public class ExplosionBase extends net.minecraft.world.Explosion {
+public class ExplosionBase extends Explosion {
     protected final World world;
     protected final BlockPos pos;
     protected final float size;
