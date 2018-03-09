@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.particle.ParticleRadioactive;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
+import org.halvors.nuclearphysics.common.init.ModPotions;
 
 import java.util.List;
 import java.util.Random;
@@ -60,7 +60,7 @@ public abstract class BlockRadioactive extends BlockBase {
                 final List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
                 for (EntityLivingBase entity : entitiesNearby) {
-                    PoisonRadiation.getInstance().poisonEntity(pos, entity, amplifier);
+                    ModPotions.potionRadiation.poisonEntity(pos, entity, amplifier);
                 }
             }
 
@@ -87,7 +87,7 @@ public abstract class BlockRadioactive extends BlockBase {
     @Override
     public void onEntityWalk(World world, BlockPos pos, Entity entity) {
         if (entity instanceof EntityLiving && canWalkPoison) {
-            PoisonRadiation.getInstance().poisonEntity(pos, (EntityLiving) entity);
+            ModPotions.potionRadiation.poisonEntity(pos, (EntityLiving) entity);
         }
     }
 }

@@ -140,7 +140,7 @@ tile.fluid.toxic_waste.name=Toxic Waste
 tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
 
 // Potion
-potion.radiation=Radiation
+effect.radiation=Radiation
 
 // Death
 death.attack.radiation=%1$s died from radiation.

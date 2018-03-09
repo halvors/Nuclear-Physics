@@ -5,7 +5,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
+import org.halvors.nuclearphysics.common.init.ModPotions;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class RadioactiveExplosion extends ExplosionBase {
         List<EntityLiving> entitiesNearby = world.getEntitiesWithinAABB(EntityLiving.class, bounds);
 
         for (EntityLiving entity : entitiesNearby) {
-            PoisonRadiation.getInstance().poisonEntity(entity.getPosition(), entity);
+            ModPotions.potionRadiation.poisonEntity(entity.getPosition(), entity);
         }
 
         super.doExplosionA();
