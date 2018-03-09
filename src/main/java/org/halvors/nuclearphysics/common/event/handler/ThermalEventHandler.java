@@ -47,6 +47,8 @@ public class ThermalEventHandler {
             }
         }
 
+        // TODO: Remove water source blocks?
+
         /*
         final Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
 
@@ -97,26 +99,26 @@ public class ThermalEventHandler {
 
     @SubscribeEvent
     public void onThermalUpdateEvent(ThermalUpdateEvent event) {
-        final World world = (World) event.getWorld();
+        final World world = event.getWorld();
         final BlockPos pos = event.getPos();
         final IBlockState state = world.getBlockState(pos);
         final Block block = state.getBlock();
 
         if (block == ModBlocks.blockElectromagnet) {
-            event.heatLoss = event.deltaTemperature * 0.6F;
+            event.setHeatLoss(event.getDeltaTemperature() * 0.6F);
         }
 
         // TODO: Synchronized maybe not reqiured for all the following code?
         synchronized (world) {
             if (state.getMaterial().equals(Material.AIR)) {
-                event.heatLoss = 0.15F;
+                event.setHeatLoss(0.15F);
             }
 
             if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
-                if (event.temperature >= ThermalPhysics.waterBoilTemperature) {
-                    int volume = (int) (Fluid.BUCKET_VOLUME * (event.temperature / ThermalPhysics.waterBoilTemperature) * ConfigurationManager.General.steamOutputMultiplier);
+                if (event.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                    int volume = (int) (Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * ConfigurationManager.General.steamOutputMultiplier);
 
-                    MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(ModFluids.steam, volume), 2, event.isReactor));
+                    MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(ModFluids.steam, volume), 2, event.isReactor()));
 
                     // Sound of lava flowing randomly plays when above temperature to boil water.
                     if (world.rand.nextInt(80) == 0) {
@@ -136,12 +138,12 @@ public class ThermalEventHandler {
                         ((WorldServer) world).spawnParticle(EnumParticleTypes.WATER_BUBBLE, pos.getX() + world.rand.nextFloat(), pos.getY() + 0.5, pos.getZ() + world.rand.nextFloat(), 0, 0, 1, 0, 0.05);
                     }
 
-                    event.heatLoss = 0.2F;
+                    event.setHeatLoss(0.2F);
                 }
             }
 
             if (block == Blocks.ICE || block == Blocks.PACKED_ICE) {
-                if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
+                if (event.getTemperature() >= ThermalPhysics.iceMeltTemperature) {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override
                         public void update() {
@@ -160,11 +162,11 @@ public class ThermalEventHandler {
                     });
                 }
 
-                event.heatLoss = 0.4F;
+                event.setHeatLoss(0.4F);
             }
 
             if (block == Blocks.SNOW || block == Blocks.SNOW_LAYER) {
-                if (event.temperature >= ThermalPhysics.iceMeltTemperature) {
+                if (event.getTemperature() >= ThermalPhysics.iceMeltTemperature) {
                     UpdateTicker.addNetwork(new IUpdate() {
                         @Override
                         public void update() {
@@ -183,7 +185,7 @@ public class ThermalEventHandler {
                     });
                 }
 
-                event.heatLoss = 0.4F;
+                event.setHeatLoss(0.4F);
             }
         }
     }

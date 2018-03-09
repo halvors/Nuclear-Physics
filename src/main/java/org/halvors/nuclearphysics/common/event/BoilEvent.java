@@ -11,26 +11,30 @@ import net.minecraftforge.fml.common.eventhandler.Event.HasResult;
 public class BoilEvent extends WorldEvent {
     private final BlockPos pos;
     private final FluidStack fluid;
+    private final FluidStack gas;
     private final int maxSpread;
     private final boolean reactor;
 
-    /** @param world - The World Objecto
+    /**
+     * @param world - The world object
      * @param pos - The position in which the boiling happens.
-     * @param result - The fluid being boiled.
+     * @param fluid - The fluid being boiled.
+     * @param gas - The steam made from this event.
      * @param maxSpread - The maximum distance the evaporated fluid can spread.
      * @param reactor - Determined if heat source if from power generation or a weapon.
      */
-    public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack source, FluidStack result, int maxSpread, boolean reactor) {
+    public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack fluid, FluidStack gas, int maxSpread, boolean reactor) {
         super((World) world);
 
         this.pos = pos;
-        this.fluid = result;
+        this.fluid = fluid;
+        this.gas = gas;
         this.maxSpread = maxSpread;
         this.reactor = reactor;
     }
 
-    public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack source, FluidStack result, int maxSpread) {
-        this(world, pos, source, result, maxSpread, false);
+    public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack fluid, FluidStack gas, int maxSpread) {
+        this(world, pos, fluid, gas, maxSpread, false);
     }
 
     public BlockPos getPos() {
@@ -39,6 +43,10 @@ public class BoilEvent extends WorldEvent {
 
     public FluidStack getFluid() {
         return fluid;
+    }
+
+    public FluidStack getGas() {
+        return gas;
     }
 
     public int getMaxSpread() {

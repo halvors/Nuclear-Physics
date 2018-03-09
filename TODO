@@ -29,9 +29,9 @@ Known features not implemented:
 
 New features to add:
     Convenience:
-        - Add electromagnetic cell, a cell capable of holding antimatter.
+        - Randomly remove water source blocks when boiling?
+        - Add electromagnetic cell, a cell capable of holding antimatter?
         - Implement IAntiPoisonBlock and add make radiation resistant blocks.
-        - Add Mekanism recipes? NuclearCraft recipes? IC2 recipes?
 
     Enhancement:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
@@ -54,6 +54,7 @@ New features to add:
         - Make tritium emit light when in a container.
         - Add ghost item support to quantum assembler.
         - Add pill that cures radiation poisoning, use function setCurativeItems() on potion effect to do that.
+        - Add Mekanism recipes? NuclearCraft recipes? IC2 recipes?
 
     Rendering:
         - Render only moving parts in TESR's?
