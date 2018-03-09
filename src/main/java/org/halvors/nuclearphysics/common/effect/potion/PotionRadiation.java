@@ -3,18 +3,19 @@ package org.halvors.nuclearphysics.common.effect.potion;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
-import org.halvors.nuclearphysics.common.effect.damage.CustomDamageSource;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 
 import javax.annotation.Nonnull;
 
 public class PotionRadiation extends PotionBase {
-    private static final CustomDamageSource damageSource = new CustomDamageSource("radiation").setDamageBypassesArmor();
+    private static final String name = "radiation";
+    private static final DamageSource damageSource = new DamageSource(name).setDamageBypassesArmor();
 
     public PotionRadiation() {
-        super(true, 78, 147, 49, "radiation");
+        super(true, 78, 147, 49, name);
 
         setIconIndex(6, 0);
     }
@@ -42,7 +43,7 @@ public class PotionRadiation extends PotionBase {
         }
     }
 
-    public static CustomDamageSource getDamageSource() {
+    public static DamageSource getDamageSource() {
         return damageSource;
     }
 }
