@@ -19,6 +19,7 @@ public class ConfigurationManager {
         public static double fromJoules;
 
         public static boolean enableOreRegeneration;
+        public static boolean enableAntimatterPower;
         public static int uraniumPerChunk;
 
         public static int antimatterDensityMultiplier;
@@ -51,6 +52,7 @@ public class ConfigurationManager {
         General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "fromJoules", 2.5).getDouble();
 
         General.enableOreRegeneration = configuration.get(Configuration.CATEGORY_GENERAL, "enableOreRegeneration", true).getBoolean();
+        General.enableAntimatterPower = configuration.get(Configuration.CATEGORY_GENERAL, "enableAntimatterPower", true).getBoolean();
         General.uraniumPerChunk = configuration.get(Configuration.CATEGORY_GENERAL, "uraniumPerChunk", 9).getInt();
 
         General.antimatterDensityMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "antimatterDensityMultiplier", 1).getInt();
@@ -88,6 +90,7 @@ public class ConfigurationManager {
         General.fromJoules = dataStream.readDouble();
 
         General.enableOreRegeneration = dataStream.readBoolean();
+        General.enableAntimatterPower = dataStream.readBoolean();
         General.uraniumPerChunk = dataStream.readInt();
 
         General.antimatterDensityMultiplier = dataStream.readInt();
@@ -121,6 +124,7 @@ public class ConfigurationManager {
         objects.add(General.fromJoules);
 
         objects.add(General.enableOreRegeneration);
+        objects.add(General.enableAntimatterPower);
         objects.add(General.uraniumPerChunk);
 
         objects.add(General.antimatterDensityMultiplier);
