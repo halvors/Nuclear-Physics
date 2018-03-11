@@ -12,13 +12,13 @@ public class ItemEventHandler {
     @SubscribeEvent
     public void onItemExpireEvent(ItemExpireEvent event) {
         if (General.enableAntimatterPower) {
-            EntityItem entityItem = event.getEntityItem();
+            final EntityItem entityItem = event.getEntityItem();
 
             if (entityItem != null) {
-                ItemStack itemStack = entityItem.getEntityItem();
+                final ItemStack itemStack = entityItem.getEntityItem();
 
                 if (itemStack.getItem() == ModItems.itemAntimatterCell) {
-                    AntimatterExplosion explosion = new AntimatterExplosion(entityItem.getEntityWorld(), entityItem, entityItem.getPosition(), 4, itemStack.getMetadata());
+                    final AntimatterExplosion explosion = new AntimatterExplosion(entityItem.getEntityWorld(), entityItem, entityItem.getPosition(), 4, itemStack.getMetadata());
                     explosion.explode();
                 }
             }

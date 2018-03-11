@@ -5,9 +5,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.eventhandler.Event.HasResult;
 
-@HasResult
 public class BoilEvent extends WorldEvent {
     private final BlockPos pos;
     private final FluidStack fluid;
