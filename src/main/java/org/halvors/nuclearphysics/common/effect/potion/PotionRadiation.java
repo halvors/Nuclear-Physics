@@ -37,7 +37,7 @@ public class PotionRadiation extends PotionBase {
     }
 
     @Override
-    protected void applyPoisonToEntity(BlockPos pos, EntityLivingBase entity, int amplifier) {
+    protected void doEntityPoisoning(BlockPos pos, EntityLivingBase entity, int amplifier) {
         if (ConfigurationManager.General.enableRadiationRoisoning) {
             entity.addPotionEffect(new PotionEffect(ModPotions.potionRadiation, 300 * (amplifier + 1), amplifier));
         }

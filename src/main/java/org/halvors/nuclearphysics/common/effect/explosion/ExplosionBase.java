@@ -6,17 +6,21 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketExplosion;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.Random;
+
 public class ExplosionBase extends Explosion {
+    protected final Random random = new Random();
     protected final World world;
     protected final BlockPos pos;
     protected final float size;
 
-    public ExplosionBase(World world, Entity entity, BlockPos pos, float size, boolean flaming, boolean damagesTerrain) {
-        super(world, entity, pos.getX(), pos.getY(), pos.getZ(), size, flaming, damagesTerrain);
+    public ExplosionBase(IBlockAccess world, Entity entity, BlockPos pos, float size, boolean flaming, boolean damagesTerrain) {
+        super((World) world, entity, pos.getX(), pos.getY(), pos.getZ(), size, flaming, damagesTerrain);
 
-        this.world = world;
+        this.world = (World) world;
         this.pos = pos;
         this.size = size;
     }
