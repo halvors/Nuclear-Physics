@@ -19,7 +19,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.event.BoilEvent;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
@@ -55,7 +55,7 @@ public class ThermalEventHandler {
             }
 
             // Randomly remove water blocks with not in controlled environment like a reactor.
-            if (world.rand.nextInt(1000) == 0 && !event.isReactor()) {
+            if (General.enableBoilingOfWaterBlocks && !event.isReactor() && world.rand.nextInt(1000) == 0) {
                 world.setBlockToAir(pos);
             }
 
@@ -134,7 +134,7 @@ public class ThermalEventHandler {
 
             if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
                 if (event.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                    int volume = (int) (Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * ConfigurationManager.General.steamOutputMultiplier);
+                    int volume = (int) (Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * General.steamOutputMultiplier);
 
                     MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(ModFluids.steam, volume), 2, event.isReactor()));
 

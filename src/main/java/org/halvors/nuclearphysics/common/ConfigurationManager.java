@@ -18,9 +18,10 @@ public class ConfigurationManager {
         public static double fromTesla;
         public static double fromJoules;
 
+        public static boolean enableAntimatterPower;
+        public static boolean enableBoilingOfWaterBlocks;
         public static boolean enableOreRegeneration;
         public static boolean enableRadiationRoisoning;
-        public static boolean enableAntimatterPower;
 
         public static int uraniumPerChunk;
 
@@ -53,9 +54,10 @@ public class ConfigurationManager {
         General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "fromTesla", 1).getDouble();
         General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "fromJoules", 2.5).getDouble();
 
+        General.enableAntimatterPower = configuration.get(Configuration.CATEGORY_GENERAL, "enableAntimatterPower", true).getBoolean();
+        General.enableBoilingOfWaterBlocks = configuration.get(Configuration.CATEGORY_GENERAL, "enableBoilingOfWaterBlocks", true).getBoolean();
         General.enableOreRegeneration = configuration.get(Configuration.CATEGORY_GENERAL, "enableOreRegeneration", true).getBoolean();
         General.enableRadiationRoisoning = configuration.get(Configuration.CATEGORY_GENERAL, "enableRadiationRoisoning", true).getBoolean();
-        General.enableAntimatterPower = configuration.get(Configuration.CATEGORY_GENERAL, "enableAntimatterPower", true).getBoolean();
 
         General.uraniumPerChunk = configuration.get(Configuration.CATEGORY_GENERAL, "uraniumPerChunk", 9).getInt();
 
@@ -92,9 +94,10 @@ public class ConfigurationManager {
         General.fromTesla = dataStream.readDouble();
         General.fromJoules = dataStream.readDouble();
 
+        General.enableAntimatterPower = dataStream.readBoolean();
+        General.enableBoilingOfWaterBlocks = dataStream.readBoolean();
         General.enableOreRegeneration = dataStream.readBoolean();
         General.enableRadiationRoisoning = dataStream.readBoolean();
-        General.enableAntimatterPower = dataStream.readBoolean();
 
         General.uraniumPerChunk = dataStream.readInt();
 
@@ -127,9 +130,10 @@ public class ConfigurationManager {
         objects.add(General.fromTesla);
         objects.add(General.fromJoules);
 
+        objects.add(General.enableAntimatterPower);
+        objects.add(General.enableBoilingOfWaterBlocks);
         objects.add(General.enableOreRegeneration);
         objects.add(General.enableRadiationRoisoning);
-        objects.add(General.enableAntimatterPower);
 
         objects.add(General.uraniumPerChunk);
 
