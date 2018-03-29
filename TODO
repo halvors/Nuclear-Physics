@@ -15,6 +15,7 @@ Known bugs:
         - Store fluids in NBT on machine drop?
 
     High Priority:
+        - Make Fissile Fuel Rods and Breeder Fuel Rods stackable when they have no damage.
         - Reactors are only running when first opening GUI on world load. (NOT CONFIRMED)
         - Verify the breeding process.
             - Should breeding reactors only create heat when actually enriched uranium is present in the middle?
