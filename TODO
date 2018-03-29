@@ -29,9 +29,8 @@ Known features not implemented:
 
 New features to add:
     Convenience:
-        - Randomly remove water source blocks when boiling?
         - Add electromagnetic cell, a cell capable of holding antimatter?
-        - Implement IAntiPoisonBlock and add make radiation resistant blocks.
+        - Implement IAntiPoisonBlock and add make radiation resistant blocks. (Raytrace).
 
     Enhancement:
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
