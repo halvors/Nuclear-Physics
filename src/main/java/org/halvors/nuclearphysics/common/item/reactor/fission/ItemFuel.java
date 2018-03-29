@@ -1,0 +1,30 @@
+package org.halvors.nuclearphysics.common.item.reactor.fission;
+
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.common.item.ItemRadioactive;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+
+public class ItemFuel extends ItemRadioactive {
+    public static final int decay = 2500;
+
+    public ItemFuel(String name) {
+        super(name);
+
+        setMaxDamage(decay);
+        setNoRepair();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
+        list.add(new ItemStack(item));
+        list.add(new ItemStack(item, 1, getMaxDamage() - 1));
+    }
+}

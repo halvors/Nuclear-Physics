@@ -5,13 +5,9 @@ import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 
-public class ItemBreederFuel extends ItemRadioactive implements IReactorComponent {
+public class ItemBreederFuel extends ItemFuel implements IReactorComponent {
     public ItemBreederFuel() {
         super("breeder_fuel");
-
-        setMaxStackSize(1);
-        setMaxDamage(ItemFissileFuel.decay);
-        setNoRepair();
     }
 
     @Override

@@ -1,26 +1,16 @@
 package org.halvors.nuclearphysics.common.item.reactor.fission;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.init.ModFluids;
-import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 
-import javax.annotation.Nonnull;
-import java.util.List;
-
-public class ItemFissileFuel extends ItemRadioactive implements IReactorComponent {
-    public static final int decay = 2500;
-
+public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
     // Temperature at which the fuel rod will begin to re-enrich itself.
     public static final int breedingTemperature = 1200;
 
@@ -32,18 +22,6 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
 
     public ItemFissileFuel() {
         super("fissile_fuel");
-
-        setMaxStackSize(1);
-        setMaxDamage(decay);
-        setNoRepair();
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
-        list.add(new ItemStack(item));
-        list.add(new ItemStack(item, 1, getMaxDamage() - 1));
     }
 
     @Override
