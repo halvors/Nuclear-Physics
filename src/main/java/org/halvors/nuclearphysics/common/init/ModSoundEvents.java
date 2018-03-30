@@ -16,7 +16,6 @@ public class ModSoundEvents {
     public static final SoundEvent REACTOR_CELL = createSoundEvent("block.reactor_cell");
     public static final SoundEvent SIREN = createSoundEvent("block.siren");
 
-
     /**
      * Create a {@link SoundEvent}.
      *

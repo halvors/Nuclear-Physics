@@ -2,15 +2,20 @@ package org.halvors.nuclearphysics.common.effect.potion;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockPos;
+import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.init.ModPotions;
 
 import javax.annotation.Nonnull;
 
-public class PotionRadiation extends CustomPotion {
-    private static final PotionRadiation instance = new PotionRadiation(true, 0x4e9331, "radiation");
+public class PotionRadiation extends PotionBase {
+    private static final String name = "radiation";
+    private static final DamageSource damageSource = new DamageSource(name).setDamageBypassesArmor();
 
-    public PotionRadiation(boolean isBadEffect, int color, String name) {
-        super(isBadEffect, color, name);
+    public PotionRadiation() {
+        super(true, 78, 147, 49, name);
 
         setIconIndex(6, 0);
     }
@@ -18,7 +23,7 @@ public class PotionRadiation extends CustomPotion {
     @Override
     public void performEffect(@Nonnull EntityLivingBase entity, int amplifier) {
         if (entity.getEntityWorld().rand.nextFloat() > 0.9D - amplifier * 0.07D) {
-            entity.attackEntityFrom(PoisonRadiation.getDamageSource(), 1.0F);
+            entity.attackEntityFrom(damageSource, 1.0F);
 
             if (entity instanceof EntityPlayer) {
                 ((EntityPlayer) entity).addExhaustion(0.01F * (amplifier + 1));
@@ -31,7 +36,14 @@ public class PotionRadiation extends CustomPotion {
         return duration % 10 == 0;
     }
 
-    public static PotionRadiation getInstance() {
-        return instance;
+    @Override
+    protected void doEntityPoisoning(BlockPos pos, EntityLivingBase entity, int amplifier) {
+        if (ConfigurationManager.General.enableRadiationRoisoning) {
+            entity.addPotionEffect(new PotionEffect(ModPotions.potionRadiation, 300 * (amplifier + 1), amplifier));
+        }
+    }
+
+    public static DamageSource getDamageSource() {
+        return damageSource;
     }
 }

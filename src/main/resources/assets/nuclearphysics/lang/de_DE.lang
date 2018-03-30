@@ -140,7 +140,7 @@ tile.fluid.toxic_waste.name=Giftmüll
 tile.fluid.toxic_waste.tooltip=Toxische, nukleare Abfälle, die die Welt verschmutzen.
 
 // Potion
-potion.radiation=Strahlung
+effect.radiation=Strahlung
 
 // Death
 death.attack.radiation=%1$s starb an Verstrahlung.
