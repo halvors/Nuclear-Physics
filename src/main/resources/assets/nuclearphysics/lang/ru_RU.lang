@@ -142,7 +142,7 @@ tile.fluid.toxic_waste.name=Токсичные отходы
 tile.fluid.toxic_waste.tooltip=Токсичные, ядерные отходы, которые загрязняют мир.
 
 // Potion – зелья
-potion.radiation=Радиация
+effect.radiation=Радиация
 
 // Death – смерть
 death.attack.radiation=%1$s умер от радиации.

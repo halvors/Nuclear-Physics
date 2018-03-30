@@ -13,7 +13,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.particle.ParticleRadioactive;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
+import org.halvors.nuclearphysics.common.effect.potion.PotionRadiation;
+import org.halvors.nuclearphysics.common.init.ModPotions;
 
 import java.util.Random;
 
@@ -25,8 +26,9 @@ public class BlockFluidRadioactive extends BlockFluidClassic {
     @Override
     public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
         if (entity instanceof EntityLivingBase) {
-            entity.attackEntityFrom(PoisonRadiation.getDamageSource(), 3);
-            PoisonRadiation.getInstance().poisonEntity(pos, (EntityLivingBase) entity, 4);
+            entity.attackEntityFrom(PotionRadiation.getDamageSource(), 3);
+
+            ModPotions.potionRadiation.poisonEntity(pos, (EntityLivingBase) entity, 4);
         }
     }
 

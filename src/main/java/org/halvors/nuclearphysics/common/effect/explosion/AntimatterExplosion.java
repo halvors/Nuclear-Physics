@@ -3,7 +3,7 @@ package org.halvors.nuclearphysics.common.effect.explosion;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockAccess;
 import org.halvors.nuclearphysics.api.explosion.IExplosion;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
@@ -11,7 +11,7 @@ import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 public class AntimatterExplosion extends RadioactiveExplosion implements IExplosion {
     private final int tier;
 
-    public AntimatterExplosion(World world, Entity entity, BlockPos pos, float size, int tier) {
+    public AntimatterExplosion(IBlockAccess world, Entity entity, BlockPos pos, float size, int tier) {
         super(world, entity, pos, size + 2 * tier, false, true);
 
         this.tier = tier;
