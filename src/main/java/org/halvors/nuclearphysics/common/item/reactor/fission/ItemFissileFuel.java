@@ -7,18 +7,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.api.tile.IReactor;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 
 public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
     // Temperature at which the fuel rod will begin to re-enrich itself.
     public static final int breedingTemperature = 1200;
-
-    // The energy in one KG of uranium is: 72PJ, 100TJ in one cell of uranium.
-    public static final long energyDensity = 100000000000L;
-
-    // Approximately 20,000,000J per tick. 400 MW.
-    public static final long energyPerTick = energyDensity / 50000;
 
     public ItemFissileFuel() {
         super("fissile_fuel");
@@ -58,7 +52,7 @@ public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
             }
 
             // Create toxic waste.
-            if (ConfigurationManager.General.allowToxicWaste && world.rand.nextFloat() > 0.5) {
+            if (General.allowToxicWaste && world.rand.nextFloat() > 0.5) {
                 reactor.getTank().fillInternal(new FluidStack(ModFluids.toxicWaste, 1), true);
             }
         }

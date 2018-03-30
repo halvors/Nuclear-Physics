@@ -12,7 +12,7 @@ public class ItemBreederFuel extends ItemFuel implements IReactorComponent {
 
     @Override
     public void onReact(ItemStack itemStack, IReactor reactor) {
-        reactor.heat(ItemFissileFuel.energyPerTick / 2);
+        reactor.heat(energyPerTick / 2);
 
         if (reactor.getWorldObject().getWorldTime() % 20 == 0) {
             itemStack.setItemDamage(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDamage()));
