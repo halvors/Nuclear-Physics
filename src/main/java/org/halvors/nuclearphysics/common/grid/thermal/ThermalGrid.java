@@ -6,6 +6,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
@@ -49,8 +50,8 @@ public class ThermalGrid implements IUpdate {
     public void update() {
         for (Entry<Pair<World, BlockPos>, Float> entry : new HashMap<>(thermalSource).entrySet()) {
             // Distribute temperature
-            World world = entry.getKey().getLeft();
-            BlockPos pos = entry.getKey().getRight();
+            final World world = entry.getKey().getLeft();
+            final BlockPos pos = entry.getKey().getRight();
 
             // Deal with different block types.
             float currentTemperature = getTemperature(world, pos);
@@ -59,9 +60,7 @@ public class ThermalGrid implements IUpdate {
                 thermalSource.remove(new Pair<>(world, pos));
             } else {
                 float deltaFromEquilibrium = getDefaultTemperature(world, pos) - currentTemperature;
-
-                TileEntity tile = world.getTileEntity(pos);
-                boolean isReactor = tile != null && tile instanceof IReactor;
+                boolean isReactor = world.getTileEntity(pos) instanceof IReactor || world.getTileEntity(pos.up()) instanceof IBoilHandler;
 
                 ThermalUpdateEvent event = new ThermalUpdateEvent(world, pos, currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
                 MinecraftForge.EVENT_BUS.post(event);
