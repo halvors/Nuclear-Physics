@@ -2,22 +2,14 @@ package org.halvors.nuclearphysics.common.event;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.event.world.WorldEvent;
 
-public class PlasmaEvent extends WorldEvent {
-    private final BlockPos pos;
+public class PlasmaEvent extends WorldEventBase {
     private final int temperature;
 
     public PlasmaEvent(IBlockAccess world, BlockPos pos, int temperature) {
-        super((World) world);
+        super(world, pos);
 
-        this.pos = pos;
         this.temperature = temperature;
-    }
-
-    public BlockPos getPos() {
-        return pos;
     }
 
     public int getTemperature() {

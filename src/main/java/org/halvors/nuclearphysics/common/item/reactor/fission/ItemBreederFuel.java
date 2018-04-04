@@ -3,7 +3,6 @@ package org.halvors.nuclearphysics.common.item.reactor.fission;
 import net.minecraft.item.ItemStack;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.api.tile.IReactor;
-import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 
 public class ItemBreederFuel extends ItemFuel implements IReactorComponent {
     public ItemBreederFuel() {

@@ -2,12 +2,9 @@ package org.halvors.nuclearphysics.common.event;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fluids.FluidStack;
 
-public class BoilEvent extends WorldEvent {
-    private final BlockPos pos;
+public class BoilEvent extends WorldEventBase {
     private final FluidStack fluid;
     private final FluidStack gas;
     private final int maxSpread;
@@ -22,9 +19,8 @@ public class BoilEvent extends WorldEvent {
      * @param reactor - Determined if heat source if from power generation or a weapon.
      */
     public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack fluid, FluidStack gas, int maxSpread, boolean reactor) {
-        super((World) world);
+        super(world, pos);
 
-        this.pos = pos;
         this.fluid = fluid;
         this.gas = gas;
         this.maxSpread = maxSpread;
@@ -33,10 +29,6 @@ public class BoilEvent extends WorldEvent {
 
     public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack fluid, FluidStack gas, int maxSpread) {
         this(world, pos, fluid, gas, maxSpread, false);
-    }
-
-    public BlockPos getPos() {
-        return pos;
     }
 
     public FluidStack getFluid() {
