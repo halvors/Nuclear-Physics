@@ -6,7 +6,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
@@ -15,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
@@ -38,6 +36,7 @@ import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileRotatable;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
+import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import javax.annotation.Nonnull;
@@ -116,21 +115,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         super.readFromNBT(tag);
 
         temperature = tag.getFloat("temperature");
-
-        if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
-            NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
-
-            for (int i = 0; i < tagList.tagCount(); i++) {
-                NBTTagCompound slotTag = (NBTTagCompound) tagList.get(i);
-                byte slot = slotTag.getByte("Slot");
-
-                if (slot < inventory.getSlots()) {
-                    inventory.setStackInSlot(slot, ItemStack.loadItemStackFromNBT(slotTag));
-                }
-            }
-
-            return;
-        }
+        InventoryUtility.readFromNBT(tag, inventory);
 
         CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag("Slots"));
         CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));

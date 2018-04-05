@@ -44,8 +44,7 @@ public class FulminationEventHandler {
                 for (TileFulminationGenerator tile : list) {
                     if (tile != null) {
                         if (!tile.isInvalid()) {
-                            final Position tilePos = new Position(tile).translate(0.5);
-                            double distance = tilePos.distance(pos.getX(), pos.getY(), pos.getZ());
+                            double distance = new Position(tile).translate(0.5).distance(pos.getX(), pos.getY(), pos.getZ());
 
                             if (distance <= customExplosion.getRadius() && distance > 0) {
                                 //float density = world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));

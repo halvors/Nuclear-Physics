@@ -170,9 +170,9 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
         }
     }
 
-    protected void sendEnergyToFE(TileEntity tile, EnumFacing pFrom) {
-        if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, pFrom.getOpposite())) {
-            IEnergyStorage ies = tile.getCapability(CapabilityEnergy.ENERGY, pFrom.getOpposite());
+    protected void sendEnergyToFE(TileEntity tile, EnumFacing from) {
+        if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, from.getOpposite())) {
+            IEnergyStorage ies = tile.getCapability(CapabilityEnergy.ENERGY, from.getOpposite());
             energyStorage.extractEnergy(ies.receiveEnergy(energyStorage.getEnergyStored(), false), false);
         }
     }

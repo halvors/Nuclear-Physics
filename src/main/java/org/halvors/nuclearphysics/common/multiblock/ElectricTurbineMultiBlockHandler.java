@@ -1,8 +1,8 @@
 package org.halvors.nuclearphysics.common.multiblock;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
-import org.halvors.nuclearphysics.common.type.Position;
 
 public class ElectricTurbineMultiBlockHandler extends MultiBlockHandler<TileElectricTurbine> {
     public ElectricTurbineMultiBlockHandler(TileElectricTurbine wrapper) {
@@ -10,8 +10,8 @@ public class ElectricTurbineMultiBlockHandler extends MultiBlockHandler<TileElec
     }
 
     @Override
-    public TileElectricTurbine getWrapperAt(Position position) {
-        TileEntity tile = position.getTileEntity(self.getWorldObject());
+    public TileElectricTurbine getWrapperAt(BlockPos pos) {
+        TileEntity tile = self.getWorldObject().getTileEntity(pos);
 
         if (tile != null && wrapperClass.isAssignableFrom(tile.getClass())) {
             TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;

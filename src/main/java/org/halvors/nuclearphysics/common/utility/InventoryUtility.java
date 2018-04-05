@@ -5,9 +5,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 
@@ -64,6 +66,21 @@ public class InventoryUtility {
 
             if (itemStack != null) {
                 InventoryUtility.dropItemStack(world, pos, itemStack);
+            }
+        }
+    }
+
+    public static void readFromNBT(NBTTagCompound tag, IItemHandlerModifiable inventory) {
+        if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
+            NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
+
+            for (int i = 0; i < tagList.tagCount(); i++) {
+                NBTTagCompound slotTag = (NBTTagCompound) tagList.get(i);
+                byte slot = slotTag.getByte("Slot");
+
+                if (slot < inventory.getSlots()) {
+                    inventory.setStackInSlot(slot, ItemStack.loadItemStackFromNBT(slotTag));
+                }
             }
         }
     }

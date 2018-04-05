@@ -54,7 +54,6 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
     @Override
     public boolean canSetFacing(EnumFacing facing) {
         return Arrays.asList(EnumFacing.HORIZONTALS).contains(facing);
