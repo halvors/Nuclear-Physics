@@ -233,7 +233,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                         if (meltdownCounter < meltdownCounterMaximum) {
                             meltdownCounter++;
                             shouldUpdate = true;
-                        } else if (meltdownCounter >= meltdownCounterMaximum) {
+                        } else {
                             meltdownCounter = 0;
                             meltDown();
 
