@@ -81,7 +81,6 @@ public class NuclearPhysics {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		// Register event handlers.
-		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ItemEventHandler());
