@@ -9,8 +9,8 @@ public class ItemBlockMetadata extends ItemBlockTooltip {
 	public ItemBlockMetadata(Block block) {
 		super(block);
 
+		setMaxDurability(0);
 		setHasSubtypes(true);
-		setNoRepair();
 	}
 
 	@Override
