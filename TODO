@@ -1,3 +1,14 @@
+Port bugs:
+    - Machine blocks render incorrectly in hand.
+    - Machine blocks have incorrect light in GUI?
+    - Fix particle accelerator not consuming items when accelerating.
+    - Fluids render incorrectly in GUI.
+    - Fix rendering of fissile fuel and plasma in reactor cell.
+
+    - Fix electric turbine not working? Not spinning, maybe IBoilHandler incorrectly implemented.
+
+    - Check if sounds is played on client, and not just server.
+
 Known bugs:
     Before Beta release:
         - Make sure that block is dropped when destroyed in survival mode.
