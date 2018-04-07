@@ -4,9 +4,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import org.halvors.nuclearphysics.client.render.block.BlockRenderingHandler;
+import org.halvors.nuclearphysics.client.render.block.ConnectedTextureRenderer;
 import org.halvors.nuclearphysics.client.render.block.ICustomBlockRenderer;
 import org.halvors.nuclearphysics.client.render.block.ISimpleBlockRenderer;
-import org.halvors.nuclearphysics.client.render.block.ConnectedTextureRenderer;
 
 public class BlockConnectedTexture extends BlockContainerBase implements ICustomBlockRenderer {
     public BlockConnectedTexture(String name, Material material) {

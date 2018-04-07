@@ -5,6 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.oredict.OreDictionary;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockRadioactiveGrass;
 import org.halvors.nuclearphysics.common.block.BlockUraniumOre;
@@ -58,6 +59,8 @@ public class ModBlocks {
 
         OreDictionary.registerOre("oreUranium", blockUraniumOre);
         OreDictionary.registerOre("blockRadioactiveGrass", blockRadioactiveGrass);
+
+        registerTileEntities();
     }
 
     private static void registerTileEntities() {
@@ -78,6 +81,6 @@ public class ModBlocks {
     private static void registerTile(Class<? extends TileEntity> tileClass) {
         String name = tileClass.getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
 
-        GameRegistry.registerTileEntity(tileClass, Reference.PREFIX + name);
+        GameRegistry.registerTileEntity(tileClass, name);
     }
 }

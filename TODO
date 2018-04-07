@@ -5,8 +5,6 @@ Port bugs:
     - Fluids render incorrectly in GUI.
     - Fix rendering of fissile fuel and plasma in reactor cell.
 
-    - Fix electric turbine not working? Not spinning, maybe IBoilHandler incorrectly implemented.
-
     - Check if sounds is played on client, and not just server.
 
 Known bugs:

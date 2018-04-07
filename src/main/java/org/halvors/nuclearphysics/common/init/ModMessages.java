@@ -5,9 +5,9 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.relauncher.Side;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.network.packet.*;
-import org.halvors.nuclearphysics.common.network.packet.PacketParticle.PacketParticleMessage;
 import org.halvors.nuclearphysics.common.network.packet.PacketConfiguration.PacketConfigurationMessage;
 import org.halvors.nuclearphysics.common.network.packet.PacketCreativeBuilder.PacketCreativeBuilderMessage;
+import org.halvors.nuclearphysics.common.network.packet.PacketParticle.PacketParticleMessage;
 import org.halvors.nuclearphysics.common.network.packet.PacketRedstoneControl.PacketRedstoneControlMessage;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity.PacketTileEntityMessage;
 
