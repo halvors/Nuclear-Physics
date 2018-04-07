@@ -87,10 +87,6 @@ public class ModFluids {
     }
 
     public static void registerFluids() {
-        for (final Fluid fluid : fluids) {
-            FluidRegistry.registerFluid(fluid);
-        }
-
         for (final IFluidBlock fluidBlock : fluidBlocks) {
             final Block block = (Block) fluidBlock;
             final Fluid fluid = fluidBlock.getFluid();
