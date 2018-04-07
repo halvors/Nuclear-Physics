@@ -14,6 +14,7 @@ import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.init.ModItems;
+import org.halvors.nuclearphysics.common.init.ModSounds;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.type.Position;
@@ -151,7 +152,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                         entityParticle = null;
                     } else if (velocity > antimatterCreationSpeed) {
                         // Play sound of anti-matter being created.
-                        worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "block.antimatter", 2, 1 - worldObj.rand.nextFloat() * 0.3F);
+                        worldObj.playSoundEffect(xCoord, yCoord, zCoord, ModSounds.ANTIMATTER, 2, 1 - worldObj.rand.nextFloat() * 0.3F);
 
                         // Create anti-matter in the internal reserve.
                         int generatedAntimatter = 5 + worldObj.rand.nextInt(particleDensity);
@@ -165,7 +166,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
 
                     // Plays sound of particle accelerating past the speed based on total velocity at the time of anti-matter creation.
                     if (entityParticle != null) {
-                        worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "block.antimatter", 1.5F, (float) (0.6 + (0.4 * (entityParticle.getVelocity()) / antimatterCreationSpeed)));
+                        worldObj.playSoundEffect(xCoord, yCoord, zCoord, ModSounds.ACCELERATOR, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getVelocity()) / antimatterCreationSpeed)));
                     }
 
                     energyUsed = energyStorage.extractEnergy(energyPerTick, false);

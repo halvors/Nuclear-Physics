@@ -5,6 +5,7 @@ import net.minecraft.world.IBlockAccess;
 import org.halvors.nuclearphysics.api.explosion.IExplosion;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.Reference;
+import org.halvors.nuclearphysics.common.init.ModSounds;
 
 public class AntimatterExplosion extends RadioactiveExplosion implements IExplosion {
     private final int tier;
@@ -17,7 +18,7 @@ public class AntimatterExplosion extends RadioactiveExplosion implements IExplos
 
     @Override
     public void doExplosionB(boolean spawnParticles) {
-        world.playSoundEffect(x, y, z, Reference.PREFIX + "block.antimatter", 3, 1 - world.rand.nextFloat() * 0.3F);
+        world.playSoundEffect(x, y, z, ModSounds.ANTIMATTER, 3, 1 - world.rand.nextFloat() * 0.3F);
 
         super.doExplosionB(spawnParticles);
     }

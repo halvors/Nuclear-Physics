@@ -15,6 +15,7 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
+import org.halvors.nuclearphysics.common.init.ModSounds;
 import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
@@ -130,7 +131,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                     double maxVelocity = (getMaxPower() / torque) * 4;
                     float percentage =Math.min(angularVelocity * 4 / (float) maxVelocity, 1);
 
-                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "block.electric_turbine", percentage, 1);
+                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, ModSounds.ELECTRIC_TURBINE, percentage, 1);
                 }
 
                 // Update rotation.

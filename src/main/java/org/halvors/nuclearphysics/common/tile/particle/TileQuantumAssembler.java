@@ -7,6 +7,7 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
+import org.halvors.nuclearphysics.common.init.ModSounds;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
@@ -84,7 +85,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
         } else  {
             if (operatingTicks > 0) {
                 if (worldObj.getWorldTime() % 600 == 0) {
-                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "block.assembler", 0.7F, 1);
+                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, ModSounds.ASSEMBLER, 0.7F, 1);
                 }
 
                 rotationYaw1 += 3;

@@ -23,6 +23,7 @@ import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModPotions;
+import org.halvors.nuclearphysics.common.init.ModSounds;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileInventory;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
@@ -120,7 +121,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
         if (worldObj.getWorldTime() % 100 == 0 && temperature >= ThermalPhysics.waterBoilTemperature) {
             float percentage = Math.min(temperature / meltingPoint, 1);
 
-            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "block.reactor_cell", percentage, 1);
+            worldObj.playSoundEffect(xCoord, yCoord, zCoord, ModSounds.REACTOR_CELL, percentage, 1);
         }
 
         if (!worldObj.isRemote) {

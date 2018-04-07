@@ -3,6 +3,7 @@ package org.halvors.nuclearphysics.common.tile.reactor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.Reference;
+import org.halvors.nuclearphysics.common.init.ModSounds;
 import org.halvors.nuclearphysics.common.type.Position;
 
 public class TileSiren extends TileEntity {
@@ -27,7 +28,7 @@ public class TileSiren extends TileEntity {
                     }
                 }
 
-                worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "block.siren", volume, 1F - 0.18F * (pitch / 15F));
+                worldObj.playSoundEffect(xCoord, yCoord, zCoord, ModSounds.SIREN, volume, 1F - 0.18F * (pitch / 15F));
             }
         }
     }
