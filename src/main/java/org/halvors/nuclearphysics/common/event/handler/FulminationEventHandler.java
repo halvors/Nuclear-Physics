@@ -49,7 +49,6 @@ public class FulminationEventHandler {
                             double distance = tilePos.distance(x, y, z);
 
                             if (distance <= customExplosion.getRadius() && distance > 0) {
-                                //float density = world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
                                 float density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world, tile.xCoord, tile.yCoord, tile.zCoord)));
 
                                 if (density < 1) {

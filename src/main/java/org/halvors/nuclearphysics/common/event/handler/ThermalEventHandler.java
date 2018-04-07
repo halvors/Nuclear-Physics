@@ -39,11 +39,11 @@ public class ThermalEventHandler {
         if (block == Blocks.water || block == Blocks.flowing_water) {
             // Boil the water into steam.
             for (int height = 1; height <= event.getMaxSpread(); height++) {
-                final TileEntity tile = event.getWorld().getTileEntity(x, y + height, z);
+                final TileEntity tile = world.getTileEntity(x, y + height, z);
 
                 if (tile instanceof IBoilHandler) {
                     IBoilHandler handler = (IBoilHandler) tile;
-                    FluidStack fluidStack = event.getRemainForSpread(height);
+                    FluidStack fluidStack = event.getGas(height);
 
                     if (fluidStack.amount > 0 && handler.receiveGas(ForgeDirection.DOWN, fluidStack, false) > 0) {
                         fluidStack.amount -= handler.receiveGas(ForgeDirection.DOWN, fluidStack, true);
@@ -135,7 +135,7 @@ public class ThermalEventHandler {
                 if (event.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * General.steamOutputMultiplier);
 
-                    MinecraftForge.EVENT_BUS.post(new BoilEvent(world, x, y, z, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(ModFluids.steam, volume), 2, event.isReactor()));
+                    MinecraftForge.EVENT_BUS.post(new BoilEvent(world, x, y, z, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
 
                     event.setHeatLoss(0.2F);
                 }

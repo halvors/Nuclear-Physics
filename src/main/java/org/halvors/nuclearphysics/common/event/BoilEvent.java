@@ -2,40 +2,34 @@ package org.halvors.nuclearphysics.common.event;
 
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fluids.FluidStack;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 
 public class BoilEvent extends WorldEventBase {
-    private final FluidStack fluid;
-    private final FluidStack gas;
+    private final FluidStack fluidStack;
     private final int maxSpread;
     private final boolean reactor;
 
     /**
      * @param world - The world object
      * @param x, y, z - The position in which the boiling happens.
-     * @param fluid - The fluid being boiled.
-     * @param gas - The steam made from this event.
+     * @param fluidStack - The fluid being boiled.
      * @param maxSpread - The maximum distance the evaporated fluid can spread.
      * @param reactor - Determined if heat source if from power generation or a weapon.
      */
-    public BoilEvent(IBlockAccess world, int x, int y, int z, FluidStack fluid, FluidStack gas, int maxSpread, boolean reactor) {
+    public BoilEvent(IBlockAccess world, int x, int y, int z, FluidStack fluidStack, int maxSpread, boolean reactor) {
         super(world, x, y, z);
 
-        this.fluid = fluid;
-        this.gas = gas;
+        this.fluidStack = fluidStack;
         this.maxSpread = maxSpread;
         this.reactor = reactor;
     }
 
-    public BoilEvent(IBlockAccess world, int x, int y, int z, FluidStack fluid, FluidStack gas, int maxSpread) {
-        this(world, x, y, z, fluid, gas, maxSpread, false);
+    public BoilEvent(IBlockAccess world, int x, int y, int z, FluidStack fluidStack, int maxSpread) {
+        this(world, x, y, z, fluidStack, maxSpread, false);
     }
 
     public FluidStack getFluid() {
-        return fluid;
-    }
-
-    public FluidStack getGas() {
-        return gas;
+        return fluidStack;
     }
 
     public int getMaxSpread() {
@@ -46,12 +40,12 @@ public class BoilEvent extends WorldEventBase {
         return reactor;
     }
 
-    // Fluid spread causes loss. Gets the remaining amount of fluid left after spreading.
-    public FluidStack getRemainForSpread(int spread) {
+    // Fluid spread causes loss. Gets the remaining amount of steam left after spreading.
+    public FluidStack getGas(int spread) {
         float spreadPercentage = (float) spread / (float) maxSpread;
-        FluidStack returnFluid = fluid.copy();
-        returnFluid.amount *= spreadPercentage;
+        FluidStack gasStack = new FluidStack(ModFluids.steam, fluidStack.amount);
+        gasStack.amount *= spreadPercentage;
 
-        return returnFluid;
+        return gasStack;
     }
 }
