@@ -120,7 +120,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
         if (worldObj.getWorldTime() % 100 == 0 && temperature >= ThermalPhysics.waterBoilTemperature) {
             float percentage = Math.min(temperature / meltingPoint, 1);
 
-            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "reactor_cell", percentage, 1);
+            worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "block.reactor_cell", percentage, 1);
         }
 
         if (!worldObj.isRemote) {

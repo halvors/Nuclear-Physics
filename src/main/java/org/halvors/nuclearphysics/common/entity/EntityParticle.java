@@ -117,7 +117,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
             // Play sound effects.
             if (ticksExisted % 10 == 0) {
-                worldObj.playSound(posX, posY, posZ, Reference.PREFIX + "antimatter", 1, (float) (0.6 + (0.4 * (getVelocity() / TileParticleAccelerator.antimatterCreationSpeed))), true);
+                worldObj.playSound(posX, posY, posZ, Reference.PREFIX + "block.antimatter", 1, (float) (0.6 + (0.4 * (getVelocity() / TileParticleAccelerator.antimatterCreationSpeed))), true);
             }
 
             // Sanity check
@@ -262,7 +262,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     private void handleCollisionWithEntity() {
-        worldObj.playSound(posX, posY, posZ, Reference.PREFIX + "antimatter", 1.5F, 1F - worldObj.rand.nextFloat() * 0.3F, true);
+        worldObj.playSound(posX, posY, posZ, Reference.PREFIX + "block.antimatter", 1.5F, 1F - worldObj.rand.nextFloat() * 0.3F, true);
 
         if (!worldObj.isRemote) {
             if (getVelocity() > TileParticleAccelerator.antimatterCreationSpeed / 2) {

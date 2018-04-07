@@ -84,7 +84,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
         } else  {
             if (operatingTicks > 0) {
                 if (worldObj.getWorldTime() % 600 == 0) {
-                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "assembler", 0.7F, 1);
+                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "block.assembler", 0.7F, 1);
                 }
 
                 rotationYaw1 += 3;

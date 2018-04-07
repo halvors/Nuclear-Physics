@@ -17,7 +17,7 @@ public class AntimatterExplosion extends RadioactiveExplosion implements IExplos
 
     @Override
     public void doExplosionB(boolean spawnParticles) {
-        world.playSoundEffect(x, y, z, Reference.PREFIX + "antimatter", 3, 1 - world.rand.nextFloat() * 0.3F);
+        world.playSoundEffect(x, y, z, Reference.PREFIX + "block.antimatter", 3, 1 - world.rand.nextFloat() * 0.3F);
 
         super.doExplosionB(spawnParticles);
     }

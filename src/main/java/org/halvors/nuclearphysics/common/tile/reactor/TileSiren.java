@@ -27,7 +27,7 @@ public class TileSiren extends TileEntity {
                     }
                 }
 
-                worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.siren", volume, 1F - 0.18F * (pitch / 15F));
+                worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "block.siren", volume, 1F - 0.18F * (pitch / 15F));
             }
         }
     }

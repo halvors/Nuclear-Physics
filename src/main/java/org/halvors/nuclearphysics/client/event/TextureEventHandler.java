@@ -18,16 +18,16 @@ public class TextureEventHandler {
     private static final Map<String, IIcon> textureMap = new HashMap<>();
 
     public static void registerIcon(String name, TextureMap map) {
-        textureMap.put(name, map.registerIcon(name));
+        textureMap.put(name, map.registerIcon(Reference.PREFIX + name));
     }
 
     public static IIcon getIcon(String name) {
-        return textureMap.get(Reference.PREFIX + name);
+        return textureMap.get(name);
     }
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void preTextureHook(TextureStitchEvent.Pre event) {
+    public void onTextureStitchEventPre(TextureStitchEvent.Pre event) {
         if (event.map.getTextureType() == 0) {
             registerIcon("electromagnet_edge", event.map);
             registerIcon("fulmination_generator_edge", event.map);
@@ -41,7 +41,7 @@ public class TextureEventHandler {
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void postTextureHook(TextureStitchEvent.Post event) {
+    public void onTextureStitchEventPost(TextureStitchEvent.Post event) {
         ModFluids.toxicWaste.setIcons(ModFluids.toxicWaste.getBlock().getIcon(0, 0));
         ModFluids.plasma.setIcons(ModFluids.plasma.getBlock().getIcon(0, 0));
 
@@ -52,10 +52,10 @@ public class TextureEventHandler {
     }
 
     private static void registerIcon(Fluid fluid, TextureMap map) {
-        registerIcon(Reference.PREFIX + "fluids/" + fluid.getName() + "_still", map);
+        registerIcon("fluids/" + fluid.getName() + "_still", map);
     }
 
     private static void setIcon(Fluid fluid) {
-        fluid.setIcons(textureMap.get(Reference.PREFIX + "fluids/" + fluid.getName() + "_still"));
+        fluid.setIcons(textureMap.get("fluids/" + fluid.getName() + "_still"));
     }
 }
