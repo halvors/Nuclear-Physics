@@ -25,8 +25,8 @@ public class BoilEvent extends WorldEventBase {
         this.reactor = reactor;
     }
 
-    public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack fluid, int maxSpread) {
-        this(world, pos, fluid, maxSpread, false);
+    public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack fluidStack, int maxSpread) {
+        this(world, pos, fluidStack, maxSpread, false);
     }
 
     public FluidStack getFluid() {
@@ -43,8 +43,10 @@ public class BoilEvent extends WorldEventBase {
 
     // Fluid spread causes loss. Gets the remaining amount of steam left after spreading.
     public FluidStack getGas(int spread) {
-        int spreadPercentage = spread / maxSpread;
+        float spreadPercentage = (float) spread / (float) maxSpread;
+        FluidStack gasStack = new FluidStack(ModFluids.steam, fluidStack.amount);
+        gasStack.amount *= spreadPercentage;
 
-        return new FluidStack(ModFluids.steam, fluidStack.amount * spreadPercentage);
+        return gasStack;
     }
 }
