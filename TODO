@@ -3,8 +3,9 @@ Known bugs:
         - Make sure that block is dropped when destroyed in survival mode.
         - Handle inventory on destruction of block, drop in world or preserve in item block. (MOSTLY DONE, REVIEW...
         - JEI integration.
-        - Fluids renders strangely in world. (Seems to be a common issue amongst mods).
         - When other mods fluids is used as default, tanks still contain the old one. (SEEMS TO BE FORGE BEHAVIOUR, NOT A BUG)
+
+        - Fix fissile rod stack inserting ghost stack into reactor cell.
 
     Low Priority:
         - Store fluids in NBT on machine drop?
