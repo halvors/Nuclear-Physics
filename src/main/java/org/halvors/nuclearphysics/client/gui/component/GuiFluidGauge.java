@@ -1,12 +1,10 @@
 package org.halvors.nuclearphysics.client.gui.component;
 
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.event.TextureEventHandler;
-import org.halvors.nuclearphysics.client.event.TextureEventHandler.FluidType;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -32,11 +30,11 @@ public class GuiFluidGauge extends GuiGauge {
     }
 
     @Override
-    protected TextureAtlasSprite getTexture() {
+    protected IIcon getTexture() {
         FluidStack fluidStack = fluidInfoHandler.getTank().getFluid();
 
         if (fluidStack != null) {
-            return TextureEventHandler.getFluidTexture(fluidStack.getFluid(), FluidType.STILL);
+            return fluidStack.getFluid().getIcon();
         }
 
         return null;

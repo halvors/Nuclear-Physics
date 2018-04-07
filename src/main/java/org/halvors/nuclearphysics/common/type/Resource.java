@@ -3,9 +3,9 @@ package org.halvors.nuclearphysics.common.type;
 public enum Resource {
 	GUI("textures/gui"),
 	GUI_COMPONENT("textures/gui/components"),
-	MODEL("block"),
+	MODEL("models/block"),
 	SOUND("sounds"),
-	TEXTURE_MODELS("models");
+	TEXTURE_MODELS("textures/models");
 
 	private final String prefix;
 

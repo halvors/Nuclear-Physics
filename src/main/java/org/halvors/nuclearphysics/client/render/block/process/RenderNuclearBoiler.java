@@ -1,38 +1,42 @@
 package org.halvors.nuclearphysics.client.render.block.process;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
+import org.apache.commons.lang3.ArrayUtils;
 import org.halvors.nuclearphysics.client.render.block.RenderTile;
 import org.halvors.nuclearphysics.common.tile.process.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-
-import java.util.Arrays;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderNuclearBoiler extends RenderTile<TileNuclearBoiler> {
-    private static final OBJModelContainer modelPart1 = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "nuclear_boiler.obj"), Arrays.asList("FuelBarSupport1Rotates", "FuelBar1Rotates"));
-    private static final OBJModelContainer modelPart2 = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "nuclear_boiler.obj"), Arrays.asList("FuelBarSupport2Rotates", "FuelBar2Rotates"));
-    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "nuclear_boiler.obj"), Arrays.asList("Base", "RadShieldPlate1", "RadShieldPlate2", "RadShieldPlate3", "Support", "ThermalDisplay", "TopSupport1", "TopSupport2", "TopSupport3"));
+    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(Resource.MODEL, "nuclear_boiler.obj"));
+    private static final String[] modelPart1 = { "FuelBarSupport1Rotates", "FuelBar1Rotates" };
+    private static final String[] modelPart2 = { "FuelBarSupport2Rotates", "FuelBar2Rotates" };
+
+    public RenderNuclearBoiler() {
+        super("nuclear_boiler");
+    }
 
     @Override
     protected void render(TileNuclearBoiler tile, double x, double y, double z) {
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(0.687042, 0, 0.1875);
-        GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
-        GlStateManager.translate(-0.687042, 0, -0.1875);
-        modelPart1.render();
-        GlStateManager.popMatrix();
+        GL11.glPushMatrix();
+        GL11.glTranslated(0.687042, 0, 0.1875);
+        GL11.glRotated((float) Math.toDegrees(tile.rotation), 0, 1, 0);
+        GL11.glTranslated(-0.687042, 0, -0.1875);
+        model.renderOnly(modelPart1);
+        GL11.glPopMatrix();
 
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(0.312958, 0, 0.1875);
-        GlStateManager.rotate((float) -Math.toDegrees(tile.rotation), 0, 1, 0);
-        GlStateManager.translate(-0.312958, 0, -0.1875);
-        modelPart2.render();
-        GlStateManager.popMatrix();
+        GL11.glPushMatrix();
+        GL11.glTranslated(0.312958, 0, 0.1875);
+        GL11.glRotated((float) -Math.toDegrees(tile.rotation), 0, 1, 0);
+        GL11.glTranslated(-0.312958, 0, -0.1875);
+        model.renderOnly(modelPart2);
+        GL11.glPopMatrix();
 
-        model.render();
+        model.renderAllExcept(ArrayUtils.addAll(modelPart1, modelPart2));
     }
 }

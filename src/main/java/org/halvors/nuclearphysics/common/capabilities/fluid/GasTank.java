@@ -3,8 +3,6 @@ package org.halvors.nuclearphysics.common.capabilities.fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 
-import javax.annotation.Nullable;
-
 public class GasTank extends LiquidTank implements IFluidTank {
     public GasTank(int capacity) {
         super(capacity);
@@ -19,6 +17,8 @@ public class GasTank extends LiquidTank implements IFluidTank {
         return 0;
     }
 
+    // TODO: Check if this is really needed in 1.7.10.
+    /*
     @Nullable
     @Override
     public FluidStack drain(FluidStack resource, boolean doDrain) {
@@ -28,4 +28,5 @@ public class GasTank extends LiquidTank implements IFluidTank {
 
         return null;
     }
+    */
 }

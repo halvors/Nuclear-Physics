@@ -3,23 +3,12 @@ package org.halvors.nuclearphysics.common.tile.process;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
-import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.*;
+import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
-import org.halvors.nuclearphysics.common.utility.FluidUtility;
-import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 /*
@@ -39,51 +28,33 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     protected int tankOutputFillSlot;
     protected int tankOutputDrainSlot;
 
-    public TileProcess(EnumMachine type) {
-        super(type);
+    public TileProcess(EnumMachine type, int maxSlots) {
+        super(type, maxSlots);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInput, null, tag.getTag("tankInput"));
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankOutput, null, tag.getTag("tankOutput"));
+        tankInput.readFromNBT(tag.getCompoundTag("tankInput"));
+        tankOutput.readFromNBT(tag.getCompoundTag("tankOutput"));
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tankInput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInput, null));
-        tag.setTag("tankOutput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));
-
-        return tag;
-    }
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return (T) this;
-        }
-
-        return super.getCapability(capability, facing);
+        tankInput.writeToNBT(tag.getCompoundTag("tankInput"));
+        tankOutput.writeToNBT(tag.getCompoundTag("tankOutput"));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void update() {
-        super.update();
+    public void updateEntity() {
+        super.updateEntity();
 
-        if (!world.isRemote) {
+        if (!worldObj.isRemote) {
             if (getInputTank() != null) {
                 fillOrDrainTank(tankInputFillSlot, tankInputDrainSlot, getInputTank());
             }
@@ -100,7 +71,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
-        if (world.isRemote) {
+        if (worldObj.isRemote) {
             tankInput.handlePacketData(dataStream);
             tankOutput.handlePacketData(dataStream);
         }
@@ -119,25 +90,32 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public IFluidTankProperties[] getTankProperties() {
-        return new IFluidTankProperties[] { new FluidTankPropertiesWrapper(tankInput), new FluidTankPropertiesWrapper(tankOutput) };
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        if (resource != null && canFill(from, resource.getFluid())) {
+            return tankInput.fill(resource, doFill);
+        }
+
+        return 0;
     }
 
     @Override
-    public int fill(FluidStack resource, boolean doFill) {
-        return tankInput.fill(resource, doFill);
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+        return drain(from, resource.amount, doDrain);
     }
 
-    @Nullable
     @Override
-    public FluidStack drain(FluidStack resource, boolean doDrain) {
-        return tankOutput.drain(resource, doDrain);
-    }
-
-    @Nullable
-    @Override
-    public FluidStack drain(int maxDrain, boolean doDrain) {
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
         return tankOutput.drain(maxDrain, doDrain);
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        return tankOutput.getFluid() != null && fluid.getID() == tankOutput.getFluid().getFluidID();
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+        return new FluidTankInfo[] { tankInput.getInfo(), tankOutput.getInfo() };
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -145,56 +123,34 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     /*
      * Takes an fluid container item and try to fill the tank, dropping the remains in the output slot.
      */
-    private void fillOrDrainTank(int containerInput, int containerOutput, IFluidHandler tank) {
-        ItemStack itemStackInput = inventory.getStackInSlot(containerInput);
+    public void fillOrDrainTank(int containerInput, int containerOutput, FluidTank tank) {
+        ItemStack inputStack = getStackInSlot(containerInput);
+        ItemStack outputStack = getStackInSlot(containerOutput);
 
-        if (itemStackInput != null) {
-            ItemStack itemStackOutput = inventory.getStackInSlot(containerOutput);
-            boolean isFilled = FluidUtility.isFilledContainer(itemStackInput);
-            ItemStack resultStack;
+        if (FluidContainerRegistry.isFilledContainer(inputStack)) {
+            FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(inputStack);
+            ItemStack result = inputStack.getItem().getContainerItem(inputStack);
 
-            if (isFilled) {
-                resultStack = FluidUtil.tryEmptyContainer(itemStackInput, tank, Integer.MAX_VALUE, null, false);
-            } else {
-                resultStack = FluidUtil.tryFillContainer(itemStackInput, tank, Integer.MAX_VALUE, null, false);
+            if (result != null && tank.fill(fluidStack, false) >= fluidStack.amount && (outputStack == null || result.isItemEqual(outputStack))) {
+                tank.fill(fluidStack, true);
+                decrStackSize(containerInput, 1);
+                incrStackSize(containerOutput, result);
             }
+        } else if (FluidContainerRegistry.isEmptyContainer(inputStack)) {
+            FluidStack avaliable = tank.getFluid();
 
-            if (resultStack != null) {
-                if (itemStackOutput == null || (FluidUtility.isEmptyContainer(itemStackOutput) || FluidUtility.isFilledContainerEqual(resultStack, itemStackOutput)) && resultStack.isItemEqual(itemStackOutput) && itemStackOutput.isStackable() && itemStackOutput.stackSize < itemStackOutput.getMaxStackSize()) {
-                    if (isFilled) {
-                        FluidUtil.tryEmptyContainer(itemStackInput, tank, Integer.MAX_VALUE, null, true);
-                    } else {
-                        FluidUtil.tryFillContainer(itemStackInput, tank, Integer.MAX_VALUE, null, true);
-                    }
+            if (avaliable != null) {
+                ItemStack result = FluidContainerRegistry.fillFluidContainer(avaliable, inputStack);
+                FluidStack filled = FluidContainerRegistry.getFluidForFilledItem(result);
 
-                    InventoryUtility.decrStackSize(inventory, containerInput);
-                    inventory.insertItem(containerOutput, resultStack, false);
+                if (result != null && filled != null && (outputStack == null || result.isItemEqual(outputStack))) {
+                    decrStackSize(containerInput, 1);
+                    incrStackSize(containerOutput, result);
+                    tank.drain(filled.amount, true);
                 }
             }
         }
     }
-
-    /*
-     * Gets the current result of the input set up.
-     */
-    /*
-    public RecipeResource[] getResults() {
-        ItemStack inputStack = getStackInSlot(inputSlot);
-        RecipeResource[] mixedResult = MachineRecipes.INSTANCE.getOutput(machineName, inputStack, getInputTank().getFluid());
-
-        if (mixedResult.length > 0) {
-            return mixedResult;
-        }
-
-        return MachineRecipes.INSTANCE.getOutput(machineName, inputStack);
-
-        return null;
-    }
-
-    public boolean hasResult() {
-        return getResults().length > 0;
-    }
-    */
 
     public FluidTank getInputTank() {
         return tankInput;

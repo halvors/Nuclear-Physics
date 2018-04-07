@@ -1,8 +1,13 @@
 package org.halvors.nuclearphysics.common.container.process;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraftforge.items.SlotItemHandler;
+import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
+import org.halvors.nuclearphysics.common.container.slot.SlotEnergyItem;
+import org.halvors.nuclearphysics.common.container.slot.SlotSpecific;
+import org.halvors.nuclearphysics.common.init.ModBlocks;
+import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.process.TileNuclearBoiler;
 
 public class ContainerNuclearBoiler extends ContainerBase<TileNuclearBoiler> {
@@ -10,19 +15,19 @@ public class ContainerNuclearBoiler extends ContainerBase<TileNuclearBoiler> {
         super(5, inventoryPlayer, tile);
 
         // Battery
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 56, 26));
+        addSlotToContainer(new SlotEnergyItem(tile, 0, 56, 26));
 
         // Yellowcake Input
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 81, 26));
+        addSlotToContainer(new SlotSpecific(tile, 1, 81, 26, new ItemStack(ModItems.itemYellowCake), new ItemStack(ModBlocks.blockUraniumOre)));
 
         // Fluid input fill
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 25, 19));
+        addSlotToContainer(new Slot(tile, 2, 25, 19));
 
         // Fluid input drain
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 25, 50));
+        addSlotToContainer(new Slot(tile, 3, 25, 50));
 
         // Fluid output drain
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 4, 135, 50));
+        addSlotToContainer(new Slot(tile, 4, 135, 50));
 
         // Player inventory
         addPlayerInventory(inventoryPlayer.player);

@@ -2,13 +2,11 @@ package org.halvors.nuclearphysics.common.tile.particle;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundCategory;
-import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.Reference;
+import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
-import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
@@ -27,9 +25,11 @@ public class TileQuantumAssembler extends TileInventoryMachine {
     }
 
     public TileQuantumAssembler(EnumMachine type) {
-        super(type);
+        super(type, 7);
 
         energyStorage = new EnergyStorage(energyPerTick * 2);
+
+        /*
         inventory = new ItemStackHandler(7) {
             @Override
             protected void onContentsChanged(int slot) {
@@ -55,15 +55,16 @@ public class TileQuantumAssembler extends TileInventoryMachine {
                 return super.insertItem(slot, stack, simulate);
             }
         };
+        */
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void update() {
-        super.update();
+    public void updateEntity() {
+        super.updateEntity();
 
-        if (!world.isRemote) {
+        if (!worldObj.isRemote) {
             if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (operatingTicks < ticksRequired) {
                     operatingTicks++;
@@ -73,17 +74,17 @@ public class TileQuantumAssembler extends TileInventoryMachine {
                 }
 
                 energyUsed = energyStorage.extractEnergy(energyPerTick, false);
-            } else if (inventory.getStackInSlot(6) == null) {
+            } else if (getStackInSlot(6) == null) {
                 reset();
             }
 
-            if (world.getWorldTime() % 10 == 0) {
+            if (worldObj.getWorldTime() % 10 == 0) {
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         } else  {
             if (operatingTicks > 0) {
-                if (world.getWorldTime() % 600 == 0) {
-                    world.playSound(null, pos, ModSoundEvents.ASSEMBLER, SoundCategory.BLOCKS, 0.7F, 1);
+                if (worldObj.getWorldTime() % 600 == 0) {
+                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "assembler", 0.7F, 1);
                 }
 
                 rotationYaw1 += 3;
@@ -91,7 +92,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
                 rotationYaw3 += 1;
             }
 
-            ItemStack itemStack = inventory.getStackInSlot(6);
+            ItemStack itemStack = getStackInSlot(6);
 
             if (itemStack != null) {
                 if (entityItem == null || !itemStack.isItemEqual(entityItem.getEntityItem())) {
@@ -106,12 +107,12 @@ public class TileQuantumAssembler extends TileInventoryMachine {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean canProcess() {
-        ItemStack itemStack = inventory.getStackInSlot(6);
+        ItemStack itemStack = getStackInSlot(6);
 
         if (itemStack != null) {
             if (QuantumAssemblerRecipes.hasRecipe(itemStack)) {
                 for (int i = 0; i <= 5; i++) {
-                    ItemStack itemStackInSlot = inventory.getStackInSlot(i);
+                    ItemStack itemStackInSlot = getStackInSlot(i);
 
                     if (!OreDictionaryHelper.isDarkmatterCell(itemStackInSlot)) {
                         return false;
@@ -129,12 +130,14 @@ public class TileQuantumAssembler extends TileInventoryMachine {
     private void process() {
         if (canProcess()) {
             for (int slot = 0; slot <= 5; slot++) {
-                if (inventory.getStackInSlot(slot) != null) {
-                    InventoryUtility.decrStackSize(inventory, slot);
+                ItemStack itemStack = getStackInSlot(slot);
+
+                if (itemStack != null) {
+                    InventoryUtility.decrStackSize(itemStack, slot);
                 }
             }
 
-            ItemStack itemStack = inventory.getStackInSlot(6);
+            ItemStack itemStack = getStackInSlot(6);
 
             if (itemStack != null) {
                 itemStack.stackSize++;
@@ -143,7 +146,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
     }
 
     private EntityItem getEntityForItem(ItemStack itemStack) {
-        EntityItem entityItem = new EntityItem(world, 0, 0, 0, itemStack.copy());
+        EntityItem entityItem = new EntityItem(worldObj, 0, 0, 0, itemStack.copy());
         entityItem.setAgeToCreativeDespawnTime();
 
         return entityItem;

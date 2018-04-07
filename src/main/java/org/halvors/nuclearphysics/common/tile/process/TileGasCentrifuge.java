@@ -3,16 +3,12 @@ package org.halvors.nuclearphysics.common.tile.process;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
@@ -22,8 +18,6 @@ import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileGasCentrifuge extends TileInventoryMachine {
@@ -32,7 +26,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
 
     public float rotation = 0;
 
-    private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 5) {
+    private final GasTank tank = new GasTank(FluidContainerRegistry.BUCKET_VOLUME * 5) {
         @Override
         public int fill(FluidStack resource, boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackUraniumHexaflouride)) {
@@ -41,11 +35,6 @@ public class TileGasCentrifuge extends TileInventoryMachine {
 
             return 0;
         }
-
-        @Override
-        public boolean canDrain() {
-            return false;
-        }
     };
 
     public TileGasCentrifuge() {
@@ -53,9 +42,11 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     }
 
     public TileGasCentrifuge(EnumMachine type) {
-        super(type);
+        super(type, 4);
 
         energyStorage = new EnergyStorage(energyPerTick * 2);
+
+        /*
         inventory = new ItemStackHandler(4) {
             @Override
             protected void onContentsChanged(int slot) {
@@ -69,10 +60,8 @@ public class TileGasCentrifuge extends TileInventoryMachine {
                         return EnergyUtility.canBeDischarged(itemStack);
 
                     // TODO: Add uranium hexaflouride container here.
-                    /*
-                    case 1: // Input tank drain slot.
-                        return OreDictionaryHelper.isEmptyCell(itemStack);
-                    */
+                    //case 1: // Input tank drain slot.
+                    //    return OreDictionaryHelper.isEmptyCell(itemStack);
 
                     case 2: // Item output slot.
                         return itemStack.getItem() == ModItems.itemUranium && itemStack.getMetadata() == EnumUranium.URANIUM_235.ordinal();
@@ -93,45 +82,28 @@ public class TileGasCentrifuge extends TileInventoryMachine {
                 return super.insertItem(slot, stack, simulate);
             }
         };
+        */
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+        tank.readFromNBT(tag.getCompoundTag("tank"));
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
-
-        return tag;
-    }
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return (T) tank;
-        }
-
-        return super.getCapability(capability, facing);
+        tank.writeToNBT(tag.getCompoundTag("tank"));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void update() {
-        super.update();
+    public void updateEntity() {
+        super.updateEntity();
 
         if (operatingTicks > 0) {
             rotation += 0.45;
@@ -139,7 +111,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
             rotation = 0;
         }
 
-        if (!world.isRemote) {
+        if (!worldObj.isRemote) {
             EnergyUtility.discharge(0, this);
 
             if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
@@ -157,7 +129,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
                 reset();
             }
 
-            if (world.getWorldTime() % 10 == 0) {
+            if (worldObj.getWorldTime() % 10 == 0) {
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
@@ -169,7 +141,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
-        if (world.isRemote) {
+        if (worldObj.isRemote) {
             tank.handlePacketData(dataStream);
         }
     }
@@ -218,12 +190,12 @@ public class TileGasCentrifuge extends TileInventoryMachine {
 
     public void process() {
         if (canProcess()) {
-            tank.drainInternal(General.uraniumHexaflourideRatio, true);
+            tank.drain(General.uraniumHexaflourideRatio, true);
 
-            if (world.rand.nextFloat() > 0.6) {
-                inventory.insertItem(2, new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_235.ordinal()), false);
+            if (worldObj.rand.nextFloat() > 0.6) {
+                incrStackSize(2, new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_235.ordinal()));
             } else {
-                inventory.insertItem(3, new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()), false);
+                incrStackSize(3, new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()));
             }
         }
     }

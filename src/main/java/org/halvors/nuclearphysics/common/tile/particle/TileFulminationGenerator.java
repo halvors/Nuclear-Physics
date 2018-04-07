@@ -1,6 +1,6 @@
 package org.halvors.nuclearphysics.common.tile.particle;
 
-import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.tile.TileGenerator;
@@ -29,10 +29,10 @@ public class TileFulminationGenerator extends TileGenerator {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void update() {
-        super.update();
+    public void updateEntity() {
+        super.updateEntity();
 
-        if (!world.isRemote) {
+        if (!worldObj.isRemote) {
             // Slowly lose energy.
             energyStorage.extractEnergy(1, false);
         }
@@ -41,7 +41,7 @@ public class TileFulminationGenerator extends TileGenerator {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public EnumSet<EnumFacing> getExtractingDirections() {
-        return EnumSet.allOf(EnumFacing.class);
+    public EnumSet<ForgeDirection> getExtractingDirections() {
+        return EnumSet.allOf(ForgeDirection.class);
     }
 }

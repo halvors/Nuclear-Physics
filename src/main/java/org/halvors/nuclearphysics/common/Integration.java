@@ -1,6 +1,6 @@
 package org.halvors.nuclearphysics.common;
 
-import net.minecraftforge.fml.common.Loader;
+import cpw.mods.fml.common.Loader;
 
 public class Integration {
     public static final String MEKANISM_MOD_ID = "Mekanism";

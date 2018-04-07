@@ -1,15 +1,15 @@
 package org.halvors.nuclearphysics.client.gui.component;
 
-import net.minecraft.init.SoundEvents;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.sound.SoundHandler;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketRedstoneControl;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
+import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.type.RedstoneControl;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
@@ -73,8 +73,8 @@ public class GuiRedstoneControl extends GuiComponent {
                         ordinalToSet = 0;
                     }
 
-                    SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
-                    NuclearPhysics.getPacketHandler().sendToServer(new PacketRedstoneControl(tile.getPos(), RedstoneControl.values()[ordinalToSet]));
+                    SoundHandler.playSound("gui.button.press");
+                    NuclearPhysics.getPacketHandler().sendToServer(new PacketRedstoneControl(new Position(tile.xCoord, tile.yCoord, tile.zCoord), RedstoneControl.values()[ordinalToSet]));
                 }
 
                 break;

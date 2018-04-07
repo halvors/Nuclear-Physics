@@ -1,12 +1,10 @@
 package org.halvors.nuclearphysics.common.type;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class Range {
 	private World world;
@@ -27,37 +25,37 @@ public class Range {
 		this.maxZ = maxZ;
 	}
 
-	public Range(World world, ChunkPos pos) {
+	public Range(World world, int x, int y, int z) {
 		this.world = world;
-		this.minX = pos.chunkXPos * 16;
+		this.minX = x;
+		this.minY = y;
+		this.minZ = z;
+		this.maxX = x + 1;
+		this.maxY = y + 1;
+		this.maxZ = z + 1;
+	}
+
+	public Range(World world, ChunkPos chunkPos) {
+		this.world = world;
+		this.minX = chunkPos.xCoord*16;
 		this.minY = 0;
-		this.minZ = pos.chunkZPos * 16;
+		this.minZ = chunkPos.zCoord*16;
 		this.maxX = minX + 16;
 		this.maxY = 255;
 		this.maxZ = minZ + 16;
 	}
 
-	public Range(World world, BlockPos pos) {
-		this.world = world;
-		this.minX = pos.getX();
-		this.minY = pos.getY();
-		this.minZ = pos.getZ();
-		this.maxX = pos.getX() + 1;
-		this.maxY = pos.getY() + 1;
-		this.maxZ = pos.getZ() + 1;
-	}
-
 	public Range(Entity entity) {
-		this(entity.getEntityWorld(), entity.getPosition());
+		this(entity.worldObj, (int) entity.posX, (int) entity.posY, (int) entity.posZ);
 	}
 
 	public Range(TileEntity tile) {
-		this(tile.getWorld(), tile.getPos());
+		this(tile.getWorld(), tile.xCoord, tile.yCoord, tile.zCoord);
 	}
 
 	public static Range getChunkRange(EntityPlayer player) {
-		int radius = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getViewDistance();
-		ChunkPos chunkPos = new ChunkPos(player.getPosition());
+		int radius = FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().getViewDistance();
+		ChunkPos chunkPos = new ChunkPos(player);
 
 		return new Range(player.getEntityWorld(), chunkPos).expandChunks(radius);
 	}

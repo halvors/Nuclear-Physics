@@ -1,14 +1,12 @@
 package org.halvors.nuclearphysics.common.item.reactor.fission;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemUranium extends ItemRadioactive {
@@ -16,19 +14,13 @@ public class ItemUranium extends ItemRadioactive {
         super("uranium");
 
         setHasSubtypes(true);
-        setMaxDamage(0);
+        setMaxDurability(0);
     }
 
-    @Override
-    public void registerItemModel() {
-        for (EnumUranium type : EnumUranium.values()) {
-            NuclearPhysics.getProxy().registerItemRenderer(this, type.ordinal(), name);
-        }
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
+    public void getSubItems(Item item, CreativeTabs tab, List list) {
         for (EnumUranium type : EnumUranium.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }

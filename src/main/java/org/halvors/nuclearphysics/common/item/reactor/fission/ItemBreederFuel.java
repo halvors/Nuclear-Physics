@@ -14,7 +14,7 @@ public class ItemBreederFuel extends ItemFuel implements IReactorComponent {
         reactor.heat(energyPerTick / 2);
 
         if (reactor.getWorldObject().getWorldTime() % 20 == 0) {
-            itemStack.setItemDamage(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDamage()));
+            itemStack.setMetadata(Math.min(itemStack.getMetadata() + 1, itemStack.getMaxDurability()));
         }
     }
 }

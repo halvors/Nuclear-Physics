@@ -1,10 +1,9 @@
 package org.halvors.nuclearphysics.client.gui.component;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.IIcon;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.type.Resource;
@@ -32,7 +31,7 @@ public abstract class GuiGauge extends GuiComponent {
 
         gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
 
-        TextureAtlasSprite texture = getTexture();
+        IIcon texture = getTexture();
         int scale = getScaledLevel();
 
         if (texture != null && scale > 0) {
@@ -51,11 +50,9 @@ public abstract class GuiGauge extends GuiComponent {
                     scale = 0;
                 }
 
-                RenderUtility.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+                RenderUtility.bindTexture(TextureMap.locationBlocksTexture);
 
                 gui.drawTexturedRectFromIcon(guiWidth + xLocation + 1, guiHeight + yLocation + height - renderRemaining - start - 1, texture, width - 2, renderRemaining);
-
-                GlStateManager.resetColor();
 
                 start += 16;
 
@@ -108,7 +105,7 @@ public abstract class GuiGauge extends GuiComponent {
 
     protected abstract int getScaledLevel();
 
-    protected abstract TextureAtlasSprite getTexture();
+    protected abstract IIcon getTexture();
 
     protected abstract String getTooltip();
 }

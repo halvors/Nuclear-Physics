@@ -1,19 +1,18 @@
 package org.halvors.nuclearphysics.client.gui;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.component.IGuiComponent;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,13 +50,13 @@ public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
     public void drawScreen(int mouseX, int mouseY, float partialTick) {
         drawDefaultBackground();
 
-        GlStateManager.color(1, 1, 1, 1);
+        GL11.glColor4d(1, 1, 1, 1);
 
         drawGuiScreenBackgroundLayer(partialTick, mouseX, mouseY);
 
         super.drawScreen(mouseX, mouseY, partialTick);
 
-        GlStateManager.translate(guiLeft, guiTop, 0);
+        GL11.glTranslated(guiLeft, guiTop, 0);
 
         drawGuiScreenForegroundLayer(mouseX, mouseY);
     }
@@ -79,7 +78,7 @@ public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
     protected void drawGuiScreenBackgroundLayer(float partialTick, int mouseX, int mouseY) {
         RenderUtility.bindTexture(defaultResource);
 
-        GlStateManager.color(1, 1, 1, 1);
+        GL11.glColor4d(1, 1, 1, 1);
 
         int guiWidth = (width - xSize) / 2;
         int guiHeight = (height - ySize) / 2;
@@ -95,7 +94,7 @@ public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
+    protected void mouseClicked(int mouseX, int mouseY, int button) {
         int xAxis = (mouseX - (width - xSize) / 2);
         int yAxis = (mouseY - (height - ySize) / 2);
 
@@ -135,7 +134,7 @@ public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
     }
 
     @Override
-    public void handleMouseInput() throws java.io.IOException {
+    public void handleMouseInput() {
         super.handleMouseInput();
 
         int xAxis = Mouse.getEventX() * width / mc.displayWidth - getXPos();
@@ -169,8 +168,8 @@ public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
     }
 
     @Override
-    public void drawTexturedRectFromIcon(int x, int y, TextureAtlasSprite icon, int w, int h) {
-        drawTexturedModalRect(x, y, icon, w, h);
+    public void drawTexturedRectFromIcon(int x, int y, IIcon icon, int w, int h) {
+        drawTexturedModalRect(x, y, icon.getIconWidth(), icon.getIconHeight(), w, h);
     }
 
     @Override

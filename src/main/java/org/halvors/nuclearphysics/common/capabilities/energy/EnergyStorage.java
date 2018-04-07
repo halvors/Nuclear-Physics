@@ -1,6 +1,6 @@
 package org.halvors.nuclearphysics.common.capabilities.energy;
 
-public class EnergyStorage extends net.minecraftforge.energy.EnergyStorage {
+public class EnergyStorage extends cofh.api.energy.EnergyStorage {
     public EnergyStorage(int capacity) {
         super(capacity, capacity, capacity);
     }

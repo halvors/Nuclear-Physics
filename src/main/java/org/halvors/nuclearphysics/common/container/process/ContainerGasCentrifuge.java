@@ -1,8 +1,10 @@
 package org.halvors.nuclearphysics.common.container.process;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraftforge.items.SlotItemHandler;
+import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnace;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
+import org.halvors.nuclearphysics.common.container.slot.SlotEnergyItem;
 import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
 
 public class ContainerGasCentrifuge extends ContainerBase<TileGasCentrifuge> {
@@ -10,16 +12,16 @@ public class ContainerGasCentrifuge extends ContainerBase<TileGasCentrifuge> {
         super(4, inventoryPlayer, tile);
 
         // Battery
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 131, 26));
+        addSlotToContainer(new SlotEnergyItem(tile, 0, 131, 26));
 
         // Uranium Gas Tank
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 25, 50));
+        addSlotToContainer(new Slot(tile, 1, 25, 50));
 
         // Output Uranium 235
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 81, 26));
+        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 2, 81, 26));
 
         // Output Uranium 238
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 101, 26));
+        addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 3, 101, 26));
 
         // Player inventory
         addPlayerInventory(inventoryPlayer.player);

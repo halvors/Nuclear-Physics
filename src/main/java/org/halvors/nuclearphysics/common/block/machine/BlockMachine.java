@@ -1,78 +1,89 @@
 package org.halvors.nuclearphysics.common.block.machine;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.client.render.block.BlockRenderingHandler;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
-import org.halvors.nuclearphysics.common.block.states.BlockStateMachine;
-import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
+import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
+import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
+import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
+import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.tile.process.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
-import javax.annotation.Nonnull;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class BlockMachine extends BlockInventory {
+    @SideOnly(Side.CLIENT)
+    private static final Map<EnumMachine, IIcon> iconMap = new HashMap<>();
+
     public BlockMachine() {
-        super("machine", Material.IRON);
+        super("machine", Material.iron);
 
         setHardness(3.5F);
         setResistance(16);
-        setDefaultState(blockState.getBaseState().withProperty(BlockStateMachine.TYPE, EnumMachine.CHEMICAL_EXTRACTOR));
     }
 
     @Override
-    public void registerItemModel(ItemBlock itemBlock) {
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iconRegister) {
         for (EnumMachine type : EnumMachine.values()) {
-            NuclearPhysics.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "facing=north,type=" + type.getName());
+            if (type.hasIcon()) {
+                iconMap.put(type, iconRegister.registerIcon(Reference.PREFIX + type.getName()));
+            }
         }
+
+        super.registerIcons(iconRegister);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    @Nonnull
     @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return state.getValue(BlockStateMachine.TYPE).getRenderType();
+    public IIcon getIcon(int side, int metadata) {
+        EnumMachine type = EnumMachine.values()[metadata];
+
+        if (type.hasIcon()) {
+            return iconMap.get(type);
+        }
+
+        return super.getIcon(side, metadata);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isFullCube(IBlockState state) {
+    public int getRenderType() {
+        return BlockRenderingHandler.getInstance().getRenderId();
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean isOpaqueCube() {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubBlocks(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
+    public void getSubBlocks(Item item, CreativeTabs tab, List list) {
         for (EnumMachine type : EnumMachine.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
@@ -80,17 +91,17 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
-        final EnumMachine type = state.getValue(BlockStateMachine.TYPE);
-        final TileEntity tile = world.getTileEntity(pos);
+    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+        final EnumMachine type = EnumMachine.values()[world.getBlockMetadata(x, y, z)];
+        final TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof TileMachine) {
             final TileMachine tileMachine = (TileMachine) tile;
 
-            EnumParticleTypes particleTypes = null;
-            float xRandom = (float)pos.getX() + 0.5F;
-            float yRandom = (float)pos.getY() + 0.2F + random.nextFloat() * 6.0F / 16.0F;
-            float zRandom = (float)pos.getZ() + 0.5F;
+            String particleTypes = null;
+            float xRandom = (float) x + 0.5F;
+            float yRandom = (float) y + 0.2F + random.nextFloat() * 6.0F / 16.0F;
+            float zRandom = (float) z + 0.5F;
             float iRandom = 0.52F;
             float jRandom = random.nextFloat() * 0.6F - 0.3F;
             double xSpeed = 0;
@@ -100,7 +111,7 @@ public class BlockMachine extends BlockInventory {
             switch (type) {
                 case NUCLEAR_BOILER:
                     if (tileMachine.getOperatingTicks() > 0) {
-                        particleTypes = EnumParticleTypes.CLOUD;
+                        particleTypes = "cloud";
                         ySpeed = 0.05;
                     }
                     break;
@@ -129,25 +140,8 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    @Nonnull
-    public BlockStateContainer createBlockState() {
-        return new BlockStateMachine(this);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public IBlockState getStateFromMeta(int metadata) {
-        return getDefaultState().withProperty(BlockStateMachine.TYPE, EnumMachine.values()[metadata]);
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(BlockStateMachine.TYPE).ordinal();
-    }
-
-    @Override
-    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-        TileEntity tile = world.getTileEntity(pos);
+    public void onBlockAdded(World world, int x, int y, int z) {
+        TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof TileMachine) {
             ((TileMachine) tile).updatePower();
@@ -155,36 +149,36 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
-        world.setBlockState(pos, state.withProperty(BlockStateMachine.TYPE, EnumMachine.values()[itemStack.getItemDamage()]));
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
+        world.setBlockMetadataWithNotify(x, y, z, itemStack.getMetadata(), 2);
 
-        super.onBlockPlacedBy(world, pos, state, entity, itemStack);
+        super.onBlockPlacedBy(world, x, y, z, entity, itemStack);
     }
 
     @Override
-    public int damageDropped(IBlockState state) {
-        return getMetaFromState(state);
+    public int damageDropped(int metadata) {
+        return metadata;
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        final TileEntity tile = world.getTileEntity(pos);
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+        final TileEntity tile = world.getTileEntity(x, y, z);
+        final ItemStack itemStack = player.getHeldItem();
 
         if (tile instanceof TilePlasmaHeater) {
-            return FluidUtility.playerActivatedFluidItem(world, pos, player, itemStack, side);
+            return FluidUtility.playerActivatedFluidItem(world, x, y, z, player, itemStack, ForgeDirection.getOrientation(side));
         } else if (!player.isSneaking()) {
-            PlayerUtility.openGui(player, world, pos);
+            PlayerUtility.openGui(player, world, x, y, z);
 
             return true;
         }
 
-        return super.onBlockActivated(world, pos, state, player, hand, itemStack, side, hitX, hitY, hitZ);
+        return super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block) {
-        TileEntity tile = world.getTileEntity(pos);
+    public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor) {
+        TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof TileMachine) {
             ((TileMachine) tile).updatePower();
@@ -192,9 +186,56 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
-        EnumMachine type = state.getValue(BlockStateMachine.TYPE);
+    public TileEntity createTileEntity(World world, int metadata) {
+        EnumMachine type = EnumMachine.values()[metadata];
 
         return type.getTileAsInstance();
+    }
+
+    public enum EnumMachine {
+        CHEMICAL_EXTRACTOR("chemical_extractor", TileChemicalExtractor.class),
+        GAS_CENTRIFUGE("gas_centrifuge", TileGasCentrifuge.class),
+        NUCLEAR_BOILER("nuclear_boiler", TileNuclearBoiler.class),
+        PARTICLE_ACCELERATOR("particle_accelerator", TileParticleAccelerator.class, true),
+        PLASMA_HEATER("plasma_heater", TilePlasmaHeater.class),
+        QUANTUM_ASSEMBLER("quantum_assembler", TileQuantumAssembler.class);
+
+        private String name;
+        private Class<? extends TileEntity> tileClass;
+        private boolean icon;
+
+        EnumMachine(String name, Class<? extends TileEntity> tileClass) {
+            this.name = name;
+            this.tileClass = tileClass;
+        }
+
+        EnumMachine(String name, Class<? extends TileEntity> tileClass, boolean icon) {
+            this(name, tileClass);
+
+            this.icon = icon;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Class<? extends TileEntity> getTileClass() {
+            return tileClass;
+        }
+
+        public boolean hasIcon() {
+            return icon;
+        }
+
+        public TileEntity getTileAsInstance() {
+            try {
+                return tileClass.newInstance();
+            } catch (Exception e) {
+                NuclearPhysics.getLogger().error("Unable to indirectly create tile entity.");
+                e.printStackTrace();
+
+                return null;
+            }
+        }
     }
 }

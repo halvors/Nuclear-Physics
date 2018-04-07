@@ -1,34 +1,37 @@
 package org.halvors.nuclearphysics.client.render.block.reactor.fusion;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 import org.halvors.nuclearphysics.client.render.block.RenderTaggedTile;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-
-import java.util.Arrays;
+import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
-    private static final OBJModelContainer modelPart = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "plasma_heater.obj"), Arrays.asList("rrot", "srot"));
-    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "plasma_heater.obj"), Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "t", "u", "v", "w", "x", "y"));
+    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(Resource.MODEL, "plasma_heater.obj"));
+    private static final String[] modelPart = { "rrot", "srot" };
+
+    public RenderPlasmaHeater() {
+        super("plasma_heater");
+    }
 
     @Override
     protected void render(TilePlasmaHeater tile, double x, double y, double z) {
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(0.5, 0, 0.5);
-        GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
-        GlStateManager.translate(-0.5, 0, -0.5);
-        modelPart.render();
-        GlStateManager.popMatrix();
+        GL11.glPushMatrix();
+        GL11.glTranslated(0.5, 0, 0.5);
+        GL11.glRotated((float) Math.toDegrees(tile.rotation), 0, 1, 0);
+        GL11.glTranslated(-0.5, 0, -0.5);
+        model.renderOnly(modelPart);
+        GL11.glPopMatrix();
 
-        model.render();
+        model.renderAllExcept(modelPart);
 
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
+        GL11.glPopMatrix();
+        GL11.glPushMatrix();
 
         super.render(tile, x, y, z);
     }

@@ -1,13 +1,12 @@
 package org.halvors.nuclearphysics.common.network.packet;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.tile.ITileNetwork;
 
@@ -25,14 +24,14 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 
 	}
 
-	public PacketTileEntity(BlockPos pos, List<Object> objects) {
-		super(pos);
+	public PacketTileEntity(int x, int y, int z, List<Object> objects) {
+		super(x, y, z);
 
 		this.objects = objects;
 	}
 
 	public <T extends TileEntity & ITileNetwork> PacketTileEntity(T tile) {
-		this(tile.getPos(), tile.getPacketData(new ArrayList<>()));
+		this(tile.xCoord, tile.yCoord, tile.zCoord, tile.getPacketData(new ArrayList<>()));
 	}
 
 	@Override
@@ -55,24 +54,20 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 			EntityPlayer player = PacketHandler.getPlayer(messageContext);
 
 			if (player != null) {
-				PacketHandler.handlePacket(() -> {
-					World world = PacketHandler.getWorld(messageContext);
-                    TileEntity tile = world.getTileEntity(message.getPos());
+				World world = PacketHandler.getWorld(messageContext);
+				TileEntity tile = world.getTileEntity(message.getX(), message.getY(), message.getZ());
 
-                    if (tile instanceof ITileNetwork) {
-                        ITileNetwork tileNetwork = (ITileNetwork) tile;
+				if (tile instanceof ITileNetwork) {
+					ITileNetwork tileNetwork = (ITileNetwork) tile;
 
-                        try {
-                            tileNetwork.handlePacketData(message.storedBuffer);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+					try {
+						tileNetwork.handlePacketData(message.storedBuffer);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 
-                        message.storedBuffer.release();
-                    }
-
-
-                }, player);
+					message.storedBuffer.release();
+				}
 			}
 
 			return null;

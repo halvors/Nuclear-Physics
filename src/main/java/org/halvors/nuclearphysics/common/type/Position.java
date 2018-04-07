@@ -2,14 +2,12 @@ package org.halvors.nuclearphysics.common.type;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.List;
 
@@ -28,10 +26,6 @@ public class Position {
         this.z = z;
     }
 
-    public Position(BlockPos pos) {
-        this(pos.getX(), pos.getY(), pos.getZ());
-    }
-
     public Position(Entity entity) {
         this.x = entity.posX;
         this.y = entity.posY;
@@ -39,11 +33,7 @@ public class Position {
     }
 
     public Position(TileEntity tile) {
-        this(tile.getPos());
-    }
-
-    public Position(RayTraceResult mop) {
-        this(mop.getBlockPos());
+        this(tile.xCoord, tile.yCoord, tile.zCoord);
     }
 
     public Position(NBTTagCompound tag) {
@@ -52,6 +42,14 @@ public class Position {
 
     public Position(ByteBuf dataStream) {
         this(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
+    }
+
+    public Position(ForgeDirection facing) {
+        this(facing.offsetX, facing.offsetY, facing.offsetZ);
+    }
+
+    public Position(MovingObjectPosition position) {
+        this(position.blockX, position.blockY, position.blockZ);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,20 +108,16 @@ public class Position {
         return (int) Math.floor(z);
     }
 
-    public BlockPos getPos() {
-        return new BlockPos(x, y, z);
-    }
-
-    public IBlockState getBlockState(IBlockAccess world) {
-        return world.getBlockState(getPos());
-    }
-
     public Block getBlock(IBlockAccess world) {
-        return getBlockState(world).getBlock();
+        return world.getBlock(getIntX(), getIntY(), getIntZ());
+    }
+
+    public int getBlockMetadata(IBlockAccess world) {
+        return world.getBlockMetadata(getIntX(), getIntY(), getIntZ());
     }
 
     public TileEntity getTileEntity(IBlockAccess world) {
-        return world.getTileEntity(getPos());
+        return world.getTileEntity(getIntX(), getIntY(), getIntZ());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,6 +132,14 @@ public class Position {
 
     public Position translate(Position position) {
         return translate(position.getX(), position.getY(), position.getZ());
+    }
+
+    public Position translate(ForgeDirection facing, double amount) {
+        return translate(new Position(facing).scale(amount));
+    }
+
+    public Position translate(ForgeDirection facing) {
+        return translate(facing, 1);
     }
 
     public Position add(double x, double y, double z) {
@@ -160,11 +162,11 @@ public class Position {
         return new Position(x * amount, y * amount, z * amount);
     }
 
-    public Position offset(EnumFacing side, double amount) {
-        return new Position(x + (side.getFrontOffsetX() * amount), y + (side.getFrontOffsetY() * amount), z + (side.getFrontOffsetZ() * amount));
+    public Position offset(ForgeDirection side, double amount) {
+        return new Position(x + (side.offsetX * amount), y + (side.offsetY * amount), z + (side.offsetZ * amount));
     }
 
-    public Position offset(EnumFacing side) {
+    public Position offset(ForgeDirection side) {
         return offset(side, 1);
     }
 
@@ -195,8 +197,6 @@ public class Position {
 
         return scale(magnitude != 0 ? 1 / magnitude : 0);
     }
-
-
 
     @Override
     public Position clone() {

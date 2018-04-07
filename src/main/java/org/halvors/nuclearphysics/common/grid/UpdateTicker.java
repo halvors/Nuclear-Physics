@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.common.grid;
 
+import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.Event;
 import org.halvors.nuclearphysics.common.Reference;
 
 import java.util.*;

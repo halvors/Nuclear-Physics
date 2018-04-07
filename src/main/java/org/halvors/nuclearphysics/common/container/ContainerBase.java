@@ -29,12 +29,12 @@ public class ContainerBase<T extends TileBase> extends Container {
 
     @Override
     public boolean canInteractWith(EntityPlayer player) {
-        return inventory.isUsableByPlayer(player);
+        return inventory.isUseableByPlayer(player);
     }
 
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-        final Slot slot = inventorySlots.get(index);
+        final Slot slot = (Slot) inventorySlots.get(index);
 
         if (slot != null && slot.getStack() != null) {
             final ItemStack itemStack = slot.getStack();

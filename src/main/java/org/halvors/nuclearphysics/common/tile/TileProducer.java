@@ -1,17 +1,14 @@
 package org.halvors.nuclearphysics.common.tile;
 
+import cofh.api.energy.IEnergyReceiver;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
-public class TileProducer extends TileRotatable {
+public class TileProducer extends TileRotatable implements IEnergyReceiver {
     protected EnergyStorage energyStorage;
 
     public TileProducer() {
@@ -23,35 +20,17 @@ public class TileProducer extends TileRotatable {
         super.readFromNBT(tag);
 
         if (energyStorage != null) {
-            CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag("storedEnergy"));
+            energyStorage.readFromNBT(tag);
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (energyStorage != null) {
-            tag.setTag("storedEnergy", CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));
+            energyStorage.writeToNBT(tag);
         }
-
-        return tag;
-    }
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityEnergy.ENERGY || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY) {
-            return (T) energyStorage;
-        }
-
-        return super.getCapability(capability, facing);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +39,7 @@ public class TileProducer extends TileRotatable {
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
-        if (world.isRemote) {
+        if (worldObj.isRemote) {
             energyStorage.setEnergyStored(dataStream.readInt());
         }
     }
@@ -76,7 +55,29 @@ public class TileProducer extends TileRotatable {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public net.minecraftforge.energy.EnergyStorage getEnergyStorage() {
+    @Override
+    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+        return energyStorage.receiveEnergy(maxReceive, simulate);
+    }
+
+    @Override
+    public int getEnergyStored(ForgeDirection from) {
+        return energyStorage.getEnergyStored();
+    }
+
+    @Override
+    public int getMaxEnergyStored(ForgeDirection from) {
+        return energyStorage.getMaxEnergyStored();
+    }
+
+    @Override
+    public boolean canConnectEnergy(ForgeDirection from) {
+        return true;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public EnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 }

@@ -1,9 +1,8 @@
 package org.halvors.nuclearphysics.client.gui.particle;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.GuiMachine;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
@@ -11,6 +10,7 @@ import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAcc
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.type.Color;
+import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -27,7 +27,7 @@ public class GuiParticleAccelerator extends GuiMachine<TileParticleAccelerator> 
 
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        BlockPos pos = tile.getPos().offset(tile.getFacing().getOpposite());
+        Position pos = new Position(tile).offset(tile.getFacing().getOpposite());
         String status;
 
         if (!EntityParticle.canSpawnParticle(tile.getWorld(), pos)) {

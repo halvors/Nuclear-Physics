@@ -1,42 +1,131 @@
 package org.halvors.nuclearphysics.common.block.reactor.fusion;
 
-import net.minecraft.block.SoundType;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockConnectedTexture;
-import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet;
-import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TileElectromagnet;
+import org.halvors.nuclearphysics.common.type.Position;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class BlockElectromagnet extends BlockConnectedTexture {
+    @SideOnly(Side.CLIENT)
+    private static IIcon iconTop, iconGlass;
+
     public BlockElectromagnet() {
-        super("electromagnet", Material.IRON);
+        super("electromagnet", Material.iron);
 
         setHardness(3.5F);
         setResistance(20);
-        setDefaultState(blockState.getBaseState().withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.NORMAL));
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iconRegister) {
+        super.registerIcons(iconRegister);
+
+        iconTop = iconRegister.registerIcon(Reference.PREFIX + name + "_top");
+        iconGlass = iconRegister.registerIcon(Reference.PREFIX + name + "_glass");
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int metadata) {
+        EnumElectromagnet type = EnumElectromagnet.values()[metadata];
+
+        if (type == EnumElectromagnet.GLASS) {
+            return iconGlass;
+        }
+
+        if (side == 0 || side == 1) {
+            return iconTop;
+        }
+
+        return super.getIcon(side, metadata);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+        Position neighborPosition = new Position(x, y, z).translate(ForgeDirection.getOrientation(side).getOpposite());
+        Block block = world.getBlock(x, y, z);
+        int metadata = world.getBlockMetadata(x, y, z);
+        Block neighborBlock = neighborPosition.getBlock(world);
+        int neighborMetadata = neighborPosition.getBlockMetadata(world);
+
+        // Transparent electromagnetic glass.
+        if (block == this && neighborBlock == this && metadata == 1 && neighborMetadata == 1) {
+            return false;
+        }
+
+        return super.shouldSideBeRendered(world, x, y, z, side);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+        for (EnumElectromagnet type : EnumElectromagnet.values()) {
+            list.add(new ItemStack(item, 1, type.ordinal()));
+        }
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
+        world.setBlockMetadataWithNotify(x, y, z, itemStack.getMetadata(), 2);
+    }
+
+    @Override
+    public int getLightOpacity(IBlockAccess world, int x, int y, int z) {
+        EnumElectromagnet type = EnumElectromagnet.values()[world.getBlockMetadata(x, y, z)];
+
+        if (type == EnumElectromagnet.GLASS) {
+            return 0;
+        }
+
+        return 255;
+    }
+
+    @Override
+    public int damageDropped(int metadata) {
+        return metadata;
+    }
+
+    @Override
+    public TileEntity createTileEntity(World world, int metadata) {
+        return new TileElectromagnet();
+    }
+
+    public enum EnumElectromagnet {
+        NORMAL("normal"),
+        GLASS("glass");
+
+        private String name;
+
+        EnumElectromagnet(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     @Nonnull
@@ -49,123 +138,5 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
         return super.getSoundType(state, world, pos, entity);
     }
-
-    @Override
-    public void registerBlockModel() {
-        NuclearPhysics.getProxy().registerBlockRenderer(this, BlockStateElectromagnet.TYPE, name);
-    }
-
-    @Override
-    public void registerItemModel(ItemBlock itemBlock) {
-        for (EnumElectromagnet type : EnumElectromagnet.values()) {
-            NuclearPhysics.getProxy().registerItemRenderer(itemBlock, type.ordinal(), type.getName() + "_" + name);
-        }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean canRenderInLayer(IBlockState state, @Nonnull BlockRenderLayer layer) {
-        EnumElectromagnet type = state.getValue(BlockStateElectromagnet.TYPE);
-
-        if (type == EnumElectromagnet.GLASS) {
-            return layer == BlockRenderLayer.CUTOUT;
-        }
-
-        return layer == BlockRenderLayer.SOLID;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean isFullCube(IBlockState state) {
-        EnumElectromagnet type = state.getValue(BlockStateElectromagnet.TYPE);
-
-        return type != EnumElectromagnet.GLASS;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
-        EnumElectromagnet type = state.getValue(BlockStateElectromagnet.TYPE);
-
-        return type != EnumElectromagnet.GLASS;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
-        return !canConnect(state, world.getBlockState(pos.offset(side))) && super.shouldSideBeRendered(state, world, pos, side);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubBlocks(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
-        for (EnumElectromagnet type : EnumElectromagnet.values()) {
-            list.add(new ItemStack(item, 1, type.ordinal()));
-        }
-    }
-
-    @Override
-    @Nonnull
-    public BlockStateContainer createBlockState() {
-        return new BlockStateElectromagnet(this);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @Nonnull
-    public IBlockState getStateFromMeta(int metadata) {
-        return getDefaultState().withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.values()[metadata]);
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(BlockStateElectromagnet.TYPE).ordinal();
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
-        world.setBlockState(pos, state.withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.values()[itemStack.getItemDamage()]), 2);
-    }
-
-    @Override
-    public int getLightOpacity(IBlockState state, IBlockAccess world, BlockPos pos) {
-        EnumElectromagnet type = state.getValue(BlockStateElectromagnet.TYPE);
-
-        if (type == EnumElectromagnet.GLASS) {
-            return 0;
-        }
-
-        return 255;
-    }
-
-    @Override
-    public boolean isSideSolid(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
-        return state.getValue(BlockStateElectromagnet.TYPE) == EnumElectromagnet.NORMAL;
-    }
-
-    @Override
-    public int damageDropped(IBlockState state) {
-        return getMetaFromState(state);
-    }
-
-    @Override
-    protected boolean canConnect(@Nonnull IBlockState originalState, @Nonnull IBlockState connectedState) {
-        if (originalState.getBlock() == connectedState.getBlock()) {
-            EnumElectromagnet originalType = originalState.getValue(BlockStateElectromagnet.TYPE);
-            EnumElectromagnet connectedType = connectedState.getValue(BlockStateElectromagnet.TYPE);
-
-            return originalType == connectedType;
-        }
-
-        return super.canConnect(originalState, connectedState);
-    }
-
-    @Override
-    @Nonnull
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
-        return new TileElectromagnet();
-    }
+    */
 }

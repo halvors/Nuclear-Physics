@@ -1,16 +1,17 @@
 package org.halvors.nuclearphysics.common.network.packet;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
+import org.halvors.nuclearphysics.common.type.Pair;
+import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -23,7 +24,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
 
     }
 
-    public PacketCreativeBuilder(BlockPos pos, int schematicId, int size) {
+    public PacketCreativeBuilder(Position pos, int schematicId, int size) {
         super(pos);
 
         this.schematicId = schematicId;
@@ -52,25 +53,27 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
             EntityPlayer player = PacketHandler.getPlayer(messageContext);
 
             if (player != null) {
-                PacketHandler.handlePacket(() -> {
-                    World world = PacketHandler.getWorld(messageContext);
-                    BlockPos pos = message.getPos();
+                World world = PacketHandler.getWorld(messageContext);
+                int x = message.getX();
+                int y = message.getY();
+                int z = message.getZ();
 
-                    if (!world.isRemote) {// && PlayerUtility.isOp(player)) {
-                        try {
-                            if (message.size > 0) {
-                                // TODO: Implement dynamic facing, not just NORTH.
-                                HashMap<BlockPos, IBlockState> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.NORTH, message.size);
+                if (!world.isRemote) {// && PlayerUtility.isOp(player)) {
+                    try {
+                        if (message.size > 0) {
+                            // TODO: Implement dynamic facing, not just NORTH.
+                            HashMap<Position, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(ForgeDirection.NORTH, message.size);
 
-                                for (Entry<BlockPos, IBlockState> entry : map.entrySet()) {
-                                    world.setBlockState(entry.getKey().add(pos), entry.getValue());
-                                }
+                            for (Entry<Position, Pair<Block, Integer>> entry : map.entrySet()) {
+                                Position placePos = entry.getKey().add(x, y, z);
+
+                                world.setBlock(placePos.getIntX(), placePos.getIntY(), placePos.getIntZ(), entry.getValue().getLeft(), entry.getValue().getRight(), 2);
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                }, player);
+                }
             }
 
             return null;

@@ -1,19 +1,15 @@
 package org.halvors.nuclearphysics.common.utility;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
 
 public class InventoryUtility {
+    // TODO: Implement this for 1.7.10.
+    /*
     public static void incrStackSize(IItemHandlerModifiable itemHandler, int slot) {
         ItemStack itemStack = itemHandler.getStackInSlot(slot);
 
@@ -21,13 +17,26 @@ public class InventoryUtility {
             itemHandler.insertItem(slot, ItemHandlerHelper.copyStackWithSize(itemStack, itemStack.stackSize++), false);
         }
     }
+    */
 
-    public static void decrStackSize(IItemHandlerModifiable itemHandler, int slot) {
-        ItemStack itemStack = itemHandler.getStackInSlot(slot);
+    public static ItemStack decrStackSize(ItemStack stack, int amount) {
+        if (stack != null) {
+            ItemStack itemStack = stack.copy();
 
-        if (itemStack != null) {
-            itemHandler.extractItem(slot, 1, false);
+            if (itemStack.stackSize <= amount) {
+                return null;
+            }
+
+            itemStack.stackSize -= amount;
+
+            if (itemStack.stackSize <= 0) {
+                return null;
+            }
+
+            return itemStack;
         }
+
+        return null;
     }
 
     public static NBTTagCompound getNBTTagCompound(ItemStack itemStack) {
@@ -42,11 +51,10 @@ public class InventoryUtility {
         return null;
     }
 
-    public static ItemStack getItemStackWithNBT(IBlockState state, World world, BlockPos pos) {
-        if (state != null) {
-            Block block = state.getBlock();
-            ItemStack dropStack = new ItemStack(block, block.quantityDropped(state, 0, world.rand), block.damageDropped(state));
-            TileEntity tile = world.getTileEntity(pos);
+    public static ItemStack getItemStackWithNBT(Block block, World world, int x, int y, int z) {
+        if (block != null) {
+            ItemStack dropStack = new ItemStack(block, block.quantityDropped(world.rand), block.damageDropped(world.getBlockMetadata(x, y, z)));
+            TileEntity tile = world.getTileEntity(x, y, z);
 
             if (tile != null) {
                 NBTTagCompound tag = new NBTTagCompound();
@@ -60,27 +68,12 @@ public class InventoryUtility {
         return null;
     }
 
-    public static void dropBlockWithNBT(IBlockState state, World world, BlockPos pos) {
-        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops")) {
-            ItemStack itemStack = getItemStackWithNBT(state, world, pos);
+    public static void dropBlockWithNBT(Block block, World world, int x, int y, int z) {
+        if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops")) {
+            ItemStack itemStack = getItemStackWithNBT(block, world, x, y, z);
 
             if (itemStack != null) {
-                InventoryUtility.dropItemStack(world, pos, itemStack);
-            }
-        }
-    }
-
-    public static void readFromNBT(NBTTagCompound tag, IItemHandlerModifiable inventory) {
-        if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
-            NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
-
-            for (int i = 0; i < tagList.tagCount(); i++) {
-                NBTTagCompound slotTag = (NBTTagCompound) tagList.get(i);
-                byte slot = slotTag.getByte("Slot");
-
-                if (slot < inventory.getSlots()) {
-                    inventory.setStackInSlot(slot, ItemStack.loadItemStackFromNBT(slotTag));
-                }
+                InventoryUtility.dropItemStack(world, x, y, z, itemStack);
             }
         }
     }
@@ -89,12 +82,8 @@ public class InventoryUtility {
     /// Old code, maybe not used anymore. //////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void dropItemStack(World world, BlockPos pos, ItemStack itemStack) {
-        dropItemStack(world, pos, itemStack, 10);
-    }
-
-    public static void dropItemStack(World world, BlockPos pos, ItemStack itemStack, int delay) {
-        dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemStack, delay);
+    public static void dropItemStack(World world, int x, int y, int z, ItemStack itemStack) {
+        dropItemStack(world, x, y, z, itemStack, 10);
     }
 
     public static void dropItemStack(World world, double x, double y, double z, ItemStack itemStack, int delay) {
@@ -107,11 +96,11 @@ public class InventoryUtility {
             EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
 
             if (itemStack.hasTagCompound()) {
-                entityItem.getEntityItem().setTagCompound(itemStack.getTagCompound().copy());
+                entityItem.getEntityItem().setTagCompound((NBTTagCompound)itemStack.getTagCompound().copy());
             }
 
-            entityItem.setPickupDelay(delay);
-            world.spawnEntity(entityItem);
+            entityItem.delayBeforeCanPickup = delay;
+            world.spawnEntityInWorld(entityItem);
         }
     }
 }

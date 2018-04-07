@@ -1,24 +1,42 @@
 package org.halvors.nuclearphysics.common.block.reactor;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockConnectedTexture;
 import org.halvors.nuclearphysics.common.tile.reactor.TileGasFunnel;
 
-import javax.annotation.Nonnull;
-
 public class BlockGasFunnel extends BlockConnectedTexture {
+    @SideOnly(Side.CLIENT)
+    private static IIcon iconTop;
+
     public BlockGasFunnel() {
-        super("gas_funnel", Material.IRON);
+        super("gas_funnel", Material.iron);
 
         setHardness(0.6F);
     }
 
     @Override
-    @Nonnull
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iconRegister) {
+        super.registerIcons(iconRegister);
+
+        iconTop = iconRegister.registerIcon(Reference.PREFIX + name + "_top");
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(int side, int metadata) {
+        return side == 1 || side == 0 ? iconTop : super.getIcon(side, metadata);
+    }
+
+    @Override
+    public TileEntity createTileEntity(World world, int metadata) {
         return new TileGasFunnel();
     }
 }

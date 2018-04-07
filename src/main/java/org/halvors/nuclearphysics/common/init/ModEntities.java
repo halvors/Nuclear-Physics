@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.common.init;
 
+import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 

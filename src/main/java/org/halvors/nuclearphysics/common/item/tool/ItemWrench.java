@@ -1,22 +1,16 @@
 package org.halvors.nuclearphysics.common.item.tool;
 
+import cpw.mods.fml.common.Optional.Interface;
+import cpw.mods.fml.common.Optional.InterfaceList;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mekanism.api.IMekWrench;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional.Interface;
-import net.minecraftforge.fml.common.Optional.InterfaceList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.api.item.IWrench;
 import org.halvors.nuclearphysics.common.Integration;
 import org.halvors.nuclearphysics.common.Reference;
@@ -25,37 +19,7 @@ import org.halvors.nuclearphysics.common.type.Color;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
-import javax.annotation.Nonnull;
 import java.util.List;
-
-/*
-@InterfaceList({
-        @Interface(iface = "mekanism.api.IMekWrench", modid = Integration.MEKANISM_MOD_ID)
-})
-public class ItemWrench extends ItemBase { //implements IMekWrench {
-    public ItemWrench(String name) {
-        super(name);
-
-        setMaxStackSize(1);
-    }
-}
-
-@Override
-public EnumActionResult onItemUseFirst(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-    final IBlockState state = world.getBlockState(pos);
-    final Block block = state.getBlock();
-
-    EnumFacing[] validRotations = block.getValidRotations(world, pos);
-
-    if (validRotations != null && validRotations.length > 0) {
-        block.rotateBlock(world, pos, side);
-
-        return EnumActionResult.SUCCESS;
-    }
-
-    return EnumActionResult.PASS;
-}
-*/
 
 @InterfaceList({
         @Interface(iface = "mekanism.api.IMekWrench", modid = Integration.MEKANISM_MOD_ID)
@@ -70,14 +34,14 @@ public class ItemWrench extends ItemBase implements IWrench, IMekWrench {
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, @Nonnull List<String> list, boolean flag) {
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag) {
         list.add(LanguageUtility.transelate("tooltip.state") + ": " + getState(itemStack).getName());
 
         super.addInformation(itemStack, player, list, flag);
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
         if (player.isSneaking()) {
             WrenchState state = getState(itemStack);
             int toSet = state.ordinal() < WrenchState.values().length - 1 ? state.ordinal() + 1 : 0;
@@ -85,44 +49,48 @@ public class ItemWrench extends ItemBase implements IWrench, IMekWrench {
             state = getState(itemStack);
 
             if (!world.isRemote) {
-                player.sendMessage(new TextComponentString(Color.DARK_BLUE + "[" + Reference.NAME + "] " + Color.GREY + LanguageUtility.transelate("tooltip.state") + ": " + state.getColor() + state.getName()));
+                player.addChatMessage(new ChatComponentText(Color.DARK_BLUE + "[" + Reference.NAME + "] " + Color.GREY + LanguageUtility.transelate("tooltip.state") + ": " + state.getColor() + state.getName()));
 
-                return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
+                return itemStack;
             }
         }
 
-        return new ActionResult<>(EnumActionResult.PASS, itemStack);
+        return super.onItemRightClick(itemStack, world, player);
     }
 
     @Override
-    public EnumActionResult onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        final IBlockState state = world.getBlockState(pos);
-        final Block block = state.getBlock();
+    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int facing, float hitX, float hitY, float hitZ) {
+        final Block block = world.getBlock(x, y, z);
 
         switch (getState(itemStack)) {
             case ROTATE:
-                EnumFacing[] validRotations = block.getValidRotations(world, pos);
+                ForgeDirection[] validRotations = block.getValidRotations(world, x, y, z);
 
                 if (validRotations != null && validRotations.length > 0) {
-                    block.rotateBlock(world, pos, facing);
+                    block.rotateBlock(world, x, y, z, ForgeDirection.getOrientation(facing));
 
-                    return EnumActionResult.SUCCESS;
+                    return true;
                 }
         }
 
-        return EnumActionResult.PASS;
+        return false;
     }
 
     @Override
-    public boolean doesSneakBypassUse(ItemStack itemStack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
-        return getState(itemStack) == WrenchState.WRENCH;
+    public boolean doesSneakBypassUse(World world, int x, int y, int z, EntityPlayer player) {
+        return getState(player.getHeldItem()) == WrenchState.WRENCH;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean canUseWrench(ItemStack itemStack, EntityPlayer player, BlockPos pos) {
-        return getState(itemStack) == WrenchState.WRENCH;
+    public boolean canUseWrench(EntityPlayer player, int x, int y, int z) {
+        return getState(player.getHeldItem()) == WrenchState.WRENCH;
+    }
+
+    @Override
+    public boolean canUseWrench(ItemStack itemStack, EntityPlayer player, int x, int y, int z) {
+        return getState(player.getHeldItem()) == WrenchState.WRENCH;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

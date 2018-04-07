@@ -1,35 +1,33 @@
 package org.halvors.nuclearphysics.common.tile.reactor;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.SoundCategory;
-import org.halvors.nuclearphysics.common.block.states.BlockStateSiren;
-import org.halvors.nuclearphysics.common.init.ModSoundEvents;
+import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.common.Reference;
+import org.halvors.nuclearphysics.common.type.Position;
 
-public class TileSiren extends TileEntity implements ITickable {
+public class TileSiren extends TileEntity {
     public TileSiren() {
 
     }
 
     @Override
-    public void update() {
-        if (!world.isRemote && world.getWorldTime() % 30 == 0) {
-            int pitch = world.getBlockState(pos).getValue(BlockStateSiren.PITCH);
+    public void updateEntity() {
+        if (!worldObj.isRemote && worldObj.getWorldTime() % 30 == 0) {
+            int pitch = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
-            if (world.isBlockIndirectlyGettingPowered(pos) > 0) {
+            if (worldObj.getBlockPowerInput(xCoord, yCoord, zCoord) > 0) {
                 float volume = 0.5F;
 
                 // Check in each direction for another siren block, if exists amplify volume.
-                for (EnumFacing side : EnumFacing.values()) {
-                    TileEntity tile = world.getTileEntity(pos.offset(side));
+                for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
+                    TileEntity tile = new Position(xCoord, yCoord, zCoord).offset(side).getTileEntity(worldObj);
 
                     if (tile == this) {
                         volume *= 1.5F;
                     }
                 }
 
-                world.playSound(null, pos, ModSoundEvents.SIREN, SoundCategory.BLOCKS, volume, 1F - 0.18F * (pitch / 15F));
+                worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "tile.siren", volume, 1F - 0.18F * (pitch / 15F));
             }
         }
     }

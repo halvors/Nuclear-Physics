@@ -1,16 +1,15 @@
 package org.halvors.nuclearphysics.client.render.block;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.MovingObjectPosition;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,26 +17,28 @@ import java.util.Map.Entry;
 
 @SideOnly(Side.CLIENT)
 public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<T> {
+    public RenderTaggedTile(String name) {
+        super(name);
+    }
+
     @Override
     protected void render(T tile, double x, double y, double z) {
-        BlockPos pos = tile.getPos();
-
-        if (tile instanceof ITagRender && getPlayer().getDistance(pos.getX(), pos.getY(), pos.getZ()) <= RenderLiving.NAME_TAG_RANGE) {
+        if (tile instanceof ITagRender && getPlayer().getDistance(tile.xCoord, tile.yCoord, tile.zCoord) <= RenderLiving.NAME_TAG_RANGE) {
             HashMap<String, Integer> tags = new HashMap<>();
             float height = ((ITagRender) tile).addInformation(tags, getPlayer());
 
-            EntityPlayer player = Minecraft.getMinecraft().player;
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 
-            if (player.getRidingEntity() == null) {
-                RayTraceResult rayTraceResult = player.rayTrace(8, 1);
+            if (player.ridingEntity == null) {
+                MovingObjectPosition rayTraceResult = player.rayTrace(8, 1);
 
                 if (rayTraceResult != null) {
                     boolean isLooking = false;
 
                     for (int h = 0; h < height; h++) {
-                        BlockPos rayTracePos = rayTraceResult.getBlockPos();
+                        Position rayTracePos = new Position(rayTraceResult.blockX, rayTraceResult.blockY, rayTraceResult.blockZ);
 
-                        if (rayTracePos.getX() == pos.getX() && rayTracePos.getY() == pos.getY() + h && rayTracePos.getZ() == pos.getZ()) {
+                        if (rayTracePos.getX() == tile.xCoord && rayTracePos.getY() == tile.yCoord + h && rayTracePos.getZ() == tile.zCoord) {
                             isLooking = true;
                         }
                     }
@@ -50,7 +51,7 @@ public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<
                             Entry<String, Integer> entry = it.next();
 
                             if (entry.getKey() != null) {
-                                RenderUtility.renderFloatingText(entry.getKey(), new BlockPos(x, y, z).add(0.5, i * 0.25 + height, 0.5), entry.getValue());
+                                RenderUtility.renderFloatingText(entry.getKey(), new Position(x, y, z).translate(0.5, i * 0.25 + height, 0.5), entry.getValue());
                             }
 
                             i++;
@@ -62,12 +63,6 @@ public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<
     }
 
     public EntityPlayer getPlayer() {
-        Entity entity = rendererDispatcher.entity;
-
-        if (entity instanceof EntityPlayer) {
-            return (EntityPlayer) entity;
-        }
-
-        return null;
+        return Minecraft.getMinecraft().thePlayer;
     }
 }

@@ -1,11 +1,11 @@
 package org.halvors.nuclearphysics.client.sound;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.util.SoundEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
 public class SoundHandler {
@@ -13,8 +13,8 @@ public class SoundHandler {
 		Minecraft.getMinecraft().getSoundHandler().playSound(sound);
 	}
 
-	public static void playSound(SoundEvent sound) {
-		playSound(PositionedSoundRecord.getMasterRecord(sound, 1));
+	public static void playSound(String sound) {
+		playSound(PositionedSoundRecord.createPositionedSoundRecord(new ResourceLocation(sound), 1.0F));
 	}
 }
 

@@ -3,8 +3,6 @@ package org.halvors.nuclearphysics.common.item.block;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nonnull;
-
 public class ItemBlockMetadata extends ItemBlockTooltip {
 	public ItemBlockMetadata(Block block) {
 		super(block);
@@ -14,8 +12,12 @@ public class ItemBlockMetadata extends ItemBlockTooltip {
 	}
 
 	@Override
-	@Nonnull
 	public String getUnlocalizedName(ItemStack itemStack) {
 		return super.getUnlocalizedName(itemStack) + "." + itemStack.getMetadata();
+	}
+
+	@Override
+	public int getMetadata(int metadata) {
+		return metadata;
 	}
 }

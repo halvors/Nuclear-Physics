@@ -1,25 +1,22 @@
 package org.halvors.nuclearphysics.common.block.fluid;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
+import org.halvors.nuclearphysics.common.type.Position;
 
-import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockFluidPlasma extends Block implements IFluidBlock {
@@ -33,51 +30,50 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
         this.fluid = fluid;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*
     @Override
     public boolean canRenderInLayer(IBlockState state, @Nonnull BlockRenderLayer layer) {
         return layer == BlockRenderLayer.TRANSLUCENT;
     }
+    */
 
-    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube() {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
-        Block neighborBlock = world.getBlockState(pos.offset(side)).getBlock();
+    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
+        Position pos = new Position(x, y, z).offset(ForgeDirection.getOrientation(side));
+        Block neighborBlock = world.getBlock(pos.getIntX(), pos.getIntY(), pos.getIntZ());
 
-        return neighborBlock != this && super.shouldSideBeRendered(state, world, pos, side);
-
+        return neighborBlock != this && super.shouldSideBeRendered(world, x, y, z, side);
     }
 
     @Override
-    public int getLightValue(@Nonnull IBlockState state, IBlockAccess access, @Nonnull BlockPos pos) {
+    public int getLightValue(IBlockAccess world, int x, int y, int z) {
         return fluid.getLuminosity();
     }
 
     @Override
-    public boolean isBlockSolid(IBlockAccess access, @Nonnull BlockPos pos, EnumFacing side) {
+    public boolean isBlockSolid(IBlockAccess world, int x, int y, int z, int side) {
         return false;
     }
 
+    /*
     @SuppressWarnings("deprecation")
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState state, @Nonnull World world, @Nonnull BlockPos pos) {
         return NULL_AABB;
     }
+    */
 
     @Override
-    public boolean canCollideCheck(IBlockState state, boolean fullHit) {
-        return false;
-    }
-
-    @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
+    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
         entity.attackEntityFrom(DamageSource.inFire, 100);
     }
 
@@ -87,13 +83,12 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     }
 
     @Override
-    public boolean hasTileEntity(IBlockState state) {
+    public boolean hasTileEntity(int metadata) {
         return true;
     }
 
     @Override
-    @Nonnull
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(World world, int metadata) {
         return new TilePlasma();
     }
 
@@ -105,17 +100,17 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     }
 
     @Override
-    public FluidStack drain(World world, BlockPos pos, boolean doDrain) {
+    public FluidStack drain(World world, int x, int y, int z, boolean doDrain) {
         return null;
     }
 
     @Override
-    public boolean canDrain(World world, BlockPos pos) {
+    public boolean canDrain(World world, int x, int y, int z) {
         return false;
     }
 
     @Override
-    public float getFilledPercentage(World world, BlockPos pos) {
-        return Fluid.BUCKET_VOLUME;
+    public float getFilledPercentage(World world, int x, int y, int z) {
+        return FluidContainerRegistry.BUCKET_VOLUME;
     }
 }

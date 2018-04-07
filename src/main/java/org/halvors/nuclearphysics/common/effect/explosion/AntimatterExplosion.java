@@ -1,25 +1,23 @@
 package org.halvors.nuclearphysics.common.effect.explosion;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import org.halvors.nuclearphysics.api.explosion.IExplosion;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
-import org.halvors.nuclearphysics.common.init.ModSoundEvents;
+import org.halvors.nuclearphysics.common.Reference;
 
 public class AntimatterExplosion extends RadioactiveExplosion implements IExplosion {
     private final int tier;
 
-    public AntimatterExplosion(IBlockAccess world, Entity entity, BlockPos pos, float size, int tier) {
-        super(world, entity, pos, size + 2 * tier, false, true);
+    public AntimatterExplosion(IBlockAccess world, Entity entity, int x, int y, int z, float size, int tier) {
+        super(world, entity, x, y, z, size + 2 * tier, false, true);
 
         this.tier = tier;
     }
 
     @Override
     public void doExplosionB(boolean spawnParticles) {
-        world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 3, 1 - world.rand.nextFloat() * 0.3F);
+        world.playSoundEffect(x, y, z, Reference.PREFIX + "antimatter", 3, 1 - world.rand.nextFloat() * 0.3F);
 
         super.doExplosionB(spawnParticles);
     }

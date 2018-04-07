@@ -1,31 +1,70 @@
 package org.halvors.nuclearphysics.client.event;
 
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.type.Resource;
-import org.halvors.nuclearphysics.common.utility.ResourceUtility;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.Reference;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @SideOnly(Side.CLIENT)
-@EventBusSubscriber(Side.CLIENT)
 public class TextureEventHandler {
-    private static final Map<FluidType, Map<Fluid, TextureAtlasSprite>> fluidTextureMap = new HashMap<>();
-    private static final Map<String, TextureAtlasSprite> textureMap = new HashMap<>();
-    private static TextureAtlasSprite missingIcon;
+    private static final Map<FluidType, Map<Fluid, IIcon>> fluidTextureMap = new HashMap<>();
+    private static final Map<String, IIcon> textureMap = new HashMap<>();
 
-    private static final ResourceLocation reactorFissileMaterial = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "reactor_fissile_material");
-    private static final ResourceLocation electric_turbine_large = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "electric_turbine_large");
+    public static void registerIcon(String name, TextureMap map) {
+        textureMap.put(name, map.registerIcon(name));
+    }
 
+    public static IIcon getIcon(String name) {
+        return textureMap.get(name);
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void preTextureHook(TextureStitchEvent.Pre event) {
+        if (event.map.getTextureType() == 0) {
+            registerIcon(Reference.PREFIX + "electromagnet_edge", event.map);
+            registerIcon(Reference.PREFIX + "fulmination_generator_edge", event.map);
+            registerIcon(Reference.PREFIX + "gas_funnel_edge", event.map);
+
+            registerFluidIcon(ModFluids.deuterium, event.map);
+            registerFluidIcon(ModFluids.steam, event.map);
+            registerFluidIcon(ModFluids.tritium, event.map);
+            registerFluidIcon(ModFluids.uraniumHexaflouride, event.map);
+        }
+    }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void postTextureHook(TextureStitchEvent.Post event) {
+        ModFluids.toxicWaste.setIcons(ModFluids.toxicWaste.getBlock().getIcon(0, 0));
+        ModFluids.plasma.setIcons(ModFluids.plasma.getBlock().getIcon(0, 0));
+
+        setFluidIcon(ModFluids.deuterium);
+        setFluidIcon(ModFluids.uraniumHexaflouride);
+        setFluidIcon(ModFluids.steam);
+        setFluidIcon(ModFluids.tritium);
+    }
+
+    private void registerFluidIcon(Fluid fluid, TextureMap map) {
+        NuclearPhysics.getLogger().info("Registering texture for " + fluid.getName() + ", path: " + Reference.PREFIX + fluid.getStillIcon());
+
+        registerIcon(Reference.PREFIX + "fluids/" + fluid.getName() + "_still", map);
+    }
+
+    private void setFluidIcon(Fluid fluid) {
+        fluid.setIcons(textureMap.get(Reference.PREFIX + "fluids/" + fluid.getName() + "_still"));
+    }
+
+    /*
     @SubscribeEvent
     public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
         final TextureMap map = event.getMap();
@@ -70,6 +109,7 @@ public class TextureEventHandler {
     public static TextureAtlasSprite getTexture(String texture) {
         return textureMap.getOrDefault(texture, missingIcon);
     }
+    */
 
     public enum FluidType {
         STILL,

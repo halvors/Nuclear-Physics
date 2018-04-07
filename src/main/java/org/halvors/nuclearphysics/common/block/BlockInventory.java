@@ -1,17 +1,14 @@
 package org.halvors.nuclearphysics.common.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
-import javax.annotation.Nonnull;
 import java.util.Random;
 
 public abstract class BlockInventory extends BlockRotatable {
@@ -20,56 +17,50 @@ public abstract class BlockInventory extends BlockRotatable {
     }
 
     @Override
-    public void breakBlock(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        dropEntireInventory(world, pos, state);
+    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
+        dropEntireInventory(world, x, y, z, metadata);
 
-        super.breakBlock(world, pos, state);
+        super.breakBlock(world, x, y, z, block, metadata);
     }
 
-    public void dropEntireInventory(World world, BlockPos pos, IBlockState state) {
-        final TileEntity tile = world.getTileEntity(pos);
+    public void dropEntireInventory(World world, int x, int y, int z, int metadata) {
+        final TileEntity tile = world.getTileEntity(x, y, z);
 
-        if (tile != null) {
-            if (tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
-                final IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        if (tile != null && tile instanceof IInventory) {
+            final IInventory inventory = (IInventory) tile;
 
-                if (itemHandler instanceof IItemHandlerModifiable) {
-                    final IItemHandlerModifiable inventory = (IItemHandlerModifiable) itemHandler;
+            for (int i = 0; i < inventory.getSizeInventory(); i++) {
+                final ItemStack itemStack = inventory.getStackInSlot(i);
 
-                    for (int i = 0; i < inventory.getSlots(); i++) {
-                        final ItemStack itemStack = inventory.getStackInSlot(i);
+                if (itemStack != null) {
+                    Random random = new Random();
+                    float var8 = random.nextFloat() * 0.8F + 0.1F;
+                    float var9 = random.nextFloat() * 0.8F + 0.1F;
+                    float var10 = random.nextFloat() * 0.8F + 0.1F;
 
-                        if (itemStack != null) {
-                            Random random = new Random();
-                            float var8 = random.nextFloat() * 0.8F + 0.1F;
-                            float var9 = random.nextFloat() * 0.8F + 0.1F;
-                            float var10 = random.nextFloat() * 0.8F + 0.1F;
+                    while (itemStack.stackSize > 0) {
+                        int var11 = random.nextInt(21) + 10;
 
-                            while (itemStack.stackSize > 0) {
-                                int var11 = random.nextInt(21) + 10;
+                        if (var11 > itemStack.stackSize) {
+                            var11 = itemStack.stackSize;
+                        }
 
-                                if (var11 > itemStack.stackSize) {
-                                    var11 = itemStack.stackSize;
-                                }
+                        itemStack.stackSize -= var11;
 
-                                itemStack.stackSize -= var11;
+                        EntityItem entityItem = new EntityItem(world, x + var8, y + var9, z + var10, new ItemStack(itemStack.getItem(), var11, itemStack.getMetadata()));
 
-                                EntityItem entityItem = new EntityItem(world, pos.getX() + var8, pos.getY() + var9, pos.getZ() + var10, new ItemStack(itemStack.getItem(), var11, itemStack.getMetadata()));
+                        if (itemStack.hasTagCompound()) {
+                            entityItem.getEntityItem().setTagCompound((NBTTagCompound) itemStack.getTagCompound().copy());
+                        }
 
-                                if (itemStack.hasTagCompound()) {
-                                    entityItem.getEntityItem().setTagCompound(itemStack.getTagCompound().copy());
-                                }
+                        float var13 = 0.05F;
+                        entityItem.motionX = random.nextGaussian() * var13;
+                        entityItem.motionY = (random.nextGaussian() * var13) + 0.2F;
+                        entityItem.motionZ = random.nextGaussian() * var13;
+                        world.spawnEntityInWorld(entityItem);
 
-                                float var13 = 0.05F;
-                                entityItem.motionX = random.nextGaussian() * var13;
-                                entityItem.motionY = (random.nextGaussian() * var13) + 0.2F;
-                                entityItem.motionZ = random.nextGaussian() * var13;
-                                world.spawnEntity(entityItem);
-
-                                if (itemStack.stackSize <= 0) {
-                                    inventory.setStackInSlot(i, null);
-                                }
-                            }
+                        if (itemStack.stackSize <= 0) {
+                            inventory.setInventorySlotContents(i, null);
                         }
                     }
                 }

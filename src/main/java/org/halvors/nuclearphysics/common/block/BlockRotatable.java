@@ -1,80 +1,42 @@
 package org.halvors.nuclearphysics.common.block;
 
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import org.halvors.nuclearphysics.common.block.states.BlockStateFacing;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 
-import javax.annotation.Nonnull;
-
 public abstract class BlockRotatable extends BlockContainerBase {
+    protected byte rotationMask = Byte.parseByte("111100", 2);
+    protected boolean isFlipPlacement = false;
+
     protected BlockRotatable(String name, Material material) {
         super(name, material);
-
-        setDefaultState(blockState.getBaseState().withProperty(BlockStateFacing.FACING, EnumFacing.NORTH));
     }
 
     @Override
-    @Nonnull
-    public BlockStateContainer createBlockState() {
-        return new BlockStateFacing(this);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @Nonnull
-    public IBlockState getStateFromMeta(int metadata) {
-        return getDefaultState();
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return 0;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @Nonnull
-    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
-        final TileEntity tile = world.getTileEntity(pos);
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemIn) {
+        final TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof ITileRotatable) {
             ITileRotatable tileRotatable = (ITileRotatable) tile;
 
-            state = state.withProperty(BlockStateFacing.FACING, tileRotatable.getFacing());
-        }
-
-        return state;
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-        final TileEntity tile = world.getTileEntity(pos);
-
-        if (tile instanceof ITileRotatable) {
-            ITileRotatable tileRotatable = (ITileRotatable) tile;
-
-            tileRotatable.setFacing(placer.getHorizontalFacing().getOpposite());
+            tileRotatable.setFacing(ForgeDirection.VALID_DIRECTIONS[determineOrientation(world, x, y, z, entity)]);
         }
     }
 
     @Override
-    public EnumFacing[] getValidRotations(World world, BlockPos pos) {
-        TileEntity tile = world.getTileEntity(pos);
-        EnumFacing[] valid = new EnumFacing[6];
+    public ForgeDirection[] getValidRotations(World world, int x, int y, int z) {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        ForgeDirection[] valid = new ForgeDirection[6];
 
         if (tile instanceof ITileRotatable) {
             ITileRotatable tileRotatable = (ITileRotatable) tile;
 
-            for (EnumFacing facing : EnumFacing.VALUES) {
+            for (ForgeDirection facing : ForgeDirection.VALID_DIRECTIONS) {
                 if (tileRotatable.canSetFacing(facing)) {
                     valid[facing.ordinal()] = facing;
                 }
@@ -85,8 +47,8 @@ public abstract class BlockRotatable extends BlockContainerBase {
     }
 
     @Override
-    public boolean rotateBlock(World world, BlockPos pos, EnumFacing side) {
-        final TileEntity tile = world.getTileEntity(pos);
+    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side) {
+        final TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof ITileRotatable) {
             ITileRotatable tileRotatable = (ITileRotatable) tile;
@@ -99,5 +61,32 @@ public abstract class BlockRotatable extends BlockContainerBase {
         }
 
         return false;
+    }
+
+    public boolean canRotate(int ordinal) {
+        return (rotationMask & 1 << ordinal) != 0;
+    }
+
+    public int determineOrientation(World world, int x, int y, int z, EntityLivingBase entity) {
+        if (MathHelper.abs((float) entity.posX - x) < 2 && MathHelper.abs((float) entity.posZ - z) < 2) {
+            double d0 = entity.posY + 1.82D - entity.yOffset;
+
+            if (canRotate(1) && (d0 - y > 2)) {
+                return 1;
+            }
+
+            if (canRotate(0) && (y - d0 > 0)) {
+                return 0;
+            }
+        }
+
+        int playerSide = MathHelper.floor_double(entity.rotationYaw * 4 / 360 + 0.5) & 0x3;
+        int returnSide = playerSide == 3 && canRotate(4) ? 4 : playerSide == 2 && canRotate(3) ? 3 : playerSide == 1 && canRotate(5) ? 5 : playerSide == 0 && canRotate(2) ? 2 : 0;
+
+        if (isFlipPlacement) {
+            return ForgeDirection.getOrientation(returnSide).getOpposite().ordinal();
+        }
+
+        return returnSide;
     }
 }

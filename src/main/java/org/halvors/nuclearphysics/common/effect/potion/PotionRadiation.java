@@ -4,8 +4,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 
 import javax.annotation.Nonnull;
@@ -22,7 +21,7 @@ public class PotionRadiation extends PotionBase {
 
     @Override
     public void performEffect(@Nonnull EntityLivingBase entity, int amplifier) {
-        if (entity.getEntityWorld().rand.nextFloat() > 0.9D - amplifier * 0.07D) {
+        if (entity.worldObj.rand.nextFloat() > 0.9D - amplifier * 0.07D) {
             entity.attackEntityFrom(damageSource, 1.0F);
 
             if (entity instanceof EntityPlayer) {
@@ -37,9 +36,9 @@ public class PotionRadiation extends PotionBase {
     }
 
     @Override
-    protected void doEntityPoisoning(BlockPos pos, EntityLivingBase entity, int amplifier) {
-        if (ConfigurationManager.General.enableRadiationRoisoning) {
-            entity.addPotionEffect(new PotionEffect(ModPotions.potionRadiation, 300 * (amplifier + 1), amplifier));
+    protected void doEntityPoisoning(int x, int y, int z, EntityLivingBase entity, int amplifier) {
+        if (General.enableRadiationRoisoning) {
+            entity.addPotionEffect(new PotionEffect(ModPotions.potionRadiation.getId(), 300 * (amplifier + 1), amplifier));
         }
     }
 

@@ -1,8 +1,9 @@
 package org.halvors.nuclearphysics.common.block.debug.schematic;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.block.Block;
+import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.common.type.Pair;
+import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.HashMap;
 
@@ -19,5 +20,5 @@ public interface ISchematic {
      *
      * @param size - The size multiplier.
      * @return A Hashmap of positions and block states. */
-    HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size);
+    HashMap<Position, Pair<Block, Integer>> getStructure(ForgeDirection facing, int size);
 }

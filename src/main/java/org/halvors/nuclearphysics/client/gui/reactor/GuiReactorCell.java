@@ -1,10 +1,10 @@
 package org.halvors.nuclearphysics.client.gui.reactor;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.GuiComponentContainer;
 import org.halvors.nuclearphysics.client.gui.component.*;
 import org.halvors.nuclearphysics.client.gui.component.GuiBar.BarType;
@@ -29,7 +29,7 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
         components.add(new GuiSlot(SlotType.NORMAL, this, (xSize / 2) - 10, (ySize / 2) - 92));
         components.add(new GuiFluidGauge(tile::getTank, this, (xSize / 2) - 8, (ySize / 2) - 72));
 
-        ItemStack itemStack = tile.getInventory().getStackInSlot(0);
+        ItemStack itemStack = tile.getStackInSlot(0);
         FluidStack fluidStack = tile.getTank().getFluid();
 
         if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
@@ -38,12 +38,12 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
 
         if (itemStack != null) {
             components.add(new GuiBar(new IProgressInfoHandler() {
-                ItemStack itemStack = tile.getInventory().getStackInSlot(0);
+                ItemStack itemStack = tile.getStackInSlot(0);
 
                 @Override
                 public double getProgress() {
                     if (itemStack != null) {
-                        return (double) (itemStack.getMaxDamage() - itemStack.getMetadata()) / itemStack.getMaxDamage();
+                        return (double) (itemStack.getMaxDurability() - itemStack.getMetadata()) / itemStack.getMaxDurability();
                     }
 
                     return 0;
@@ -56,7 +56,7 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
     public void drawGuiContainerForegroundLayer(int x, int y) {
         fontRendererObj.drawString(tile.getLocalizedName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getLocalizedName()) / 2), (ySize / 2) - 102, 0x404040);
 
-        ItemStack itemStack = tile.getInventory().getStackInSlot(0);
+        ItemStack itemStack = tile.getStackInSlot(0);
         FluidStack fluidStack = tile.getTank().getFluid();
 
         if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
@@ -67,7 +67,7 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
 
         if (itemStack != null) {
             // Text field for total number of ticks remaining.
-            int secondsLeft = itemStack.getMaxDamage() - itemStack.getMetadata();
+            int secondsLeft = itemStack.getMaxDurability() - itemStack.getMetadata();
 
             fontRendererObj.drawString(LanguageUtility.transelate("gui.remaining"), (xSize / 2) + 14, 45, 0x404040);
             fontRendererObj.drawString(secondsLeft + "s", (xSize / 2) + 14, 58, 0x404040);

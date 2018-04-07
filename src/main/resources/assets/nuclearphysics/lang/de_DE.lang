@@ -52,6 +52,7 @@ item.nuclearphysics.circuit_advanced.name=Erweiterter Schaltkreis
 item.nuclearphysics.circuit_elite.name=Elite-Schaltkreis
 item.nuclearphysics.plate_bronze.name=Bronzeplatte
 item.nuclearphysics.plate_steel.name=Stahlplatte
+item.nuclearphysics.toxic_waste_bucket.name=Giftmüll Eimer
 item.nuclearphysics.cell.name=Zelle
 item.nuclearphysics.cell.tooltip=Enthält: %d
 item.nuclearphysics.darkmatter_cell.name=Dunkle Materie

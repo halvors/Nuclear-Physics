@@ -1,11 +1,10 @@
 package org.halvors.nuclearphysics.common.event.handler;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.ExplosionEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.nuclearphysics.api.explosion.IExplosion;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.tile.particle.TileFulminationGenerator;
@@ -31,9 +30,11 @@ public class FulminationEventHandler {
 
     @SubscribeEvent
     public void onExplosionDetonate(ExplosionEvent.Detonate event) {
-        final World world = event.getWorld();
-        final Explosion explosion = event.getExplosion();
-        final BlockPos pos = new BlockPos(explosion.getPosition());
+        final World world = event.world;
+        final Explosion explosion = event.explosion;
+        int x = (int) explosion.explosionX;
+        int y = (int) explosion.explosionY;
+        int z = (int) explosion.explosionZ;
 
         if (explosion instanceof IExplosion) {
             final IExplosion customExplosion = (IExplosion) explosion;
@@ -44,11 +45,12 @@ public class FulminationEventHandler {
                 for (TileFulminationGenerator tile : list) {
                     if (tile != null) {
                         if (!tile.isInvalid()) {
-                            double distance = new Position(tile).translate(0.5).distance(pos.getX(), pos.getY(), pos.getZ());
+                            final Position tilePos = new Position(tile).translate(0.5);
+                            double distance = tilePos.distance(x, y, z);
 
                             if (distance <= customExplosion.getRadius() && distance > 0) {
                                 //float density = world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
-                                float density = world.getBlockDensity(new Vec3d(pos), Objects.requireNonNull(ModBlocks.blockFulmination.getDefaultState().getCollisionBoundingBox(world, tile.getPos())));
+                                float density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world, tile.xCoord, tile.yCoord, tile.zCoord)));
 
                                 if (density < 1) {
                                     avaliableGenerators.add(tile);
@@ -63,8 +65,8 @@ public class FulminationEventHandler {
 
                 for (TileFulminationGenerator tile : avaliableGenerators) {
                     //float density = event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tile.getPos()));
-                    float density = world.getBlockDensity(new Vec3d(pos), Objects.requireNonNull(ModBlocks.blockFulmination.getDefaultState().getCollisionBoundingBox(world, tile.getPos())));
-                    double distance = new Position(tile).distance(pos.getX(), pos.getY(), pos.getZ());
+                    float density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world, tile.xCoord, tile.yCoord, tile.zCoord)));
+                    double distance = new Position(tile).distance(x, y, z);
                     int energy = (int) Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (distance / customExplosion.getRadius()));
                     energy = (int) Math.max((1 - density) * energy, 0);
 

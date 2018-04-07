@@ -1,10 +1,10 @@
 package org.halvors.nuclearphysics.client.gui.component;
 
-import net.minecraft.client.renderer.GlStateManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
+import org.lwjgl.opengl.GL11;
 
 import java.util.List;
 
@@ -42,12 +42,12 @@ public abstract class GuiComponent implements IGuiComponent {
             float reverse = 1 / scale;
             float yAdd = 4 - (scale * 8) / 2F;
 
-            GlStateManager.pushMatrix();
+            GL11.glPushMatrix();
 
-            GlStateManager.scale(scale, scale, scale);
+            GL11.glScalef(scale, scale, scale);
             gui.getFontRenderer().drawString(text, (int) (x * reverse), (int) ((y * reverse) + yAdd), color);
 
-            GlStateManager.popMatrix();
+            GL11.glPopMatrix();
         }
     }
 

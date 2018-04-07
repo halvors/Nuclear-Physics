@@ -1,6 +1,6 @@
 package org.halvors.nuclearphysics.common.utility;
 
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.util.StatCollector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,12 +8,12 @@ import java.util.List;
 public class LanguageUtility {
 	@SuppressWarnings("deprecation")
 	public static boolean canTranselate(String text) {
-		return I18n.canTranslate(text);
+		return StatCollector.canTranslate(text);
 	}
 
 	@SuppressWarnings("deprecation")
 	public static String transelate(String text, Object... parameters) {
-		return I18n.translateToLocalFormatted(text, parameters);
+		return StatCollector.translateToLocalFormatted(text, parameters);
 	}
 
 	public static List<String> splitStringPerWord(String text, int wordsPerLine) {

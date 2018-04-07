@@ -1,66 +1,88 @@
 package org.halvors.nuclearphysics.client.render.block.reactor;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
-import org.halvors.nuclearphysics.client.render.block.RenderTile;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
+import org.apache.commons.lang3.ArrayUtils;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-
-import java.util.Arrays;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
-public class RenderElectricTurbine extends RenderTile<TileElectricTurbine> {
-    private static final OBJModelContainer modelLargeBladesSmall = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_large.obj"), Arrays.asList("Blade1", "Blade2", "Blade3", "Blade4", "Blade5", "Blade6"));
-    private static final OBJModelContainer modelLargeBladesLarge = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_large.obj"), Arrays.asList("MediumBlade1", "MediumBlade2", "MediumBlade3", "MediumBlade4", "MediumBlade5", "MediumBlade6"));
-    private static final OBJModelContainer modelLargeBladesMedium = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_large.obj"), Arrays.asList("LargeBlade1", "LargeBlade2", "LargeBlade3", "LargeBlade4", "LargeBlade5", "LargeBlade6"));
-    private static final OBJModelContainer modelLarge = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_large.obj"), Arrays.asList("Shape1", "Shape2", "Shape3", "Shape4", "Shape5", "Shape6", "Shape7", "Shape8", "Shape9", "Shape10", "Shape11", "Shape12", "Shape13",  "Shape14", "Shape15", "Shape16", "Shape17"));
-    private static final OBJModelContainer modelSmallBlades = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_small.obj"), Arrays.asList("Blade1", "Blade2", "Blade3"));
-    private static final OBJModelContainer modelSmallShields = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_small.obj"), Arrays.asList("Shield1", "Shield2", "Shield3", "Shield4", "Shield5", "Shield6"));
-    private static final OBJModelContainer modelSmallBladesMedium = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_small.obj"), Arrays.asList("MediumBlade1", "MediumBlade2", "MediumBlade3"));
-    private static final OBJModelContainer modelSmallShieldsMedium = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_small.obj"), Arrays.asList("MediumShield1", "MediumShield2", "MediumShield3", "MediumShield4", "MediumShield5", "MediumShield6"));
-    private static final OBJModelContainer modelSmall = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_small.obj"), Arrays.asList("Axis", "Head", "Plug", "Support"));
+public class RenderElectricTurbine extends TileEntitySpecialRenderer {
+    private static final IModelCustom modelSmall = AdvancedModelLoader.loadModel(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_small.obj"));
+    private static final IModelCustom modelLarge = AdvancedModelLoader.loadModel(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_large.obj"));
+    private static final ResourceLocation textureSmall = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "electric_turbine_small.png");
+    private static final ResourceLocation textureLarge = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "electric_turbine_large.png");
+
+    private static final String[] modelLargeBladesSmall = { "Blade1", "Blade2", "Blade3", "Blade4", "Blade5", "Blade6" };
+    private static final String[] modelLargeBladesLarge = { "MediumBlade1", "MediumBlade2", "MediumBlade3", "MediumBlade4", "MediumBlade5", "MediumBlade6" };
+    private static final String[] modelLargeBladesMedium = { "LargeBlade1", "LargeBlade2", "LargeBlade3", "LargeBlade4", "LargeBlade5", "LargeBlade6" };
+    private static final String[] modelSmallBlades = { "Blade1", "Blade2", "Blade3" };
+    private static final String[] modelSmallShields = { "Shield1", "Shield2", "Shield3", "Shield4", "Shield5", "Shield6" };
+    private static final String[] modelSmallBladesMedium = { "MediumBlade1", "MediumBlade2", "MediumBlade3" };
+    private static final String[] modelSmallShieldsMedium = { "MediumShield1", "MediumShield2", "MediumShield3", "MediumShield4", "MediumShield5", "MediumShield6" };
 
     @Override
-    protected void render(TileElectricTurbine tile, double x, double y, double z) {
-        if (tile.getMultiBlock().isPrimary()) {
-            if (tile.getMultiBlock().isConstructed()) {
-                GlStateManager.pushMatrix();
-                GlStateManager.translate(0.5, 0, 0.5);
-                GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
-                GlStateManager.translate(-0.5, 0, -0.5);
-                modelLargeBladesSmall.render();
-                modelLargeBladesLarge.render();
-                GlStateManager.popMatrix();
+    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks) {
+        if (tile instanceof TileElectricTurbine) {
+            TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
 
-                GlStateManager.pushMatrix();
-                GlStateManager.translate(0.5, 0, 0.5);
-                GlStateManager.rotate((float) -Math.toDegrees(tile.rotation), 0, 1, 0);
-                GlStateManager.translate(-0.5, 0, -0.5);
-                modelLargeBladesMedium.render();
-                GlStateManager.popMatrix();
+            if (tileTurbine.getMultiBlock().isPrimary()) {
+                GL11.glPushMatrix();
 
-                modelLarge.render();
-            } else {
-                GlStateManager.pushMatrix();
-                GlStateManager.translate(0.5, 0, 0.5);
-                GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
-                GlStateManager.translate(-0.5, 0, -0.5);
-                modelSmallBlades.render();
-                modelSmallShields.render();
-                GlStateManager.popMatrix();
+                // Translate to the location of our tile entity
+                GL11.glTranslated(x, y, z);
+                GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 
-                GlStateManager.pushMatrix();
-                GlStateManager.translate(0.5, 0, 0.5);
-                GlStateManager.rotate((float) -Math.toDegrees(tile.rotation), 0, 1, 0);
-                GlStateManager.translate(-0.5, 0, -0.5);
-                modelSmallBladesMedium.render();
-                modelSmallShieldsMedium.render();
-                GlStateManager.popMatrix();
+                if (tileTurbine.getMultiBlock().isConstructed()) {
+                    bindTexture(textureLarge);
 
-                modelSmall.render();
+                    GL11.glPushMatrix();
+                    GL11.glTranslated(0.5, 0, 0.5);
+                    GL11.glRotated((float) Math.toDegrees(tileTurbine.rotation), 0, 1, 0);
+                    GL11.glTranslated(-0.5, 0, -0.5);
+                    modelLarge.renderOnly(modelLargeBladesSmall);
+                    modelLarge.renderOnly(modelLargeBladesLarge);
+                    GL11.glPopMatrix();
+
+                    GL11.glPushMatrix();
+                    GL11.glTranslated(0.5, 0, 0.5);
+                    GL11.glRotated((float) -Math.toDegrees(tileTurbine.rotation), 0, 1, 0);
+                    GL11.glTranslated(-0.5, 0, -0.5);
+                    modelLarge.renderOnly(modelLargeBladesMedium);
+                    GL11.glPopMatrix();
+
+                    modelLarge.renderAllExcept(ArrayUtils.addAll(ArrayUtils.addAll(modelLargeBladesSmall, modelLargeBladesLarge), modelLargeBladesMedium));
+                } else {
+                    bindTexture(textureSmall);
+
+                    GL11.glPushMatrix();
+                    GL11.glTranslated(0.5, 0, 0.5);
+                    GL11.glRotated((float) Math.toDegrees(tileTurbine.rotation), 0, 1, 0);
+                    GL11.glTranslated(-0.5, 0, -0.5);
+                    modelSmall.renderOnly(modelSmallBlades);
+                    modelSmall.renderOnly(modelSmallShields);
+                    GL11.glPopMatrix();
+
+                    GL11.glPushMatrix();
+                    GL11.glTranslated(0.5, 0, 0.5);
+                    GL11.glRotated((float) -Math.toDegrees(tileTurbine.rotation), 0, 1, 0);
+                    GL11.glTranslated(-0.5, 0, -0.5);
+                    modelSmall.renderOnly(modelSmallBladesMedium);
+                    modelSmall.renderOnly(modelSmallShieldsMedium);
+                    GL11.glPopMatrix();
+
+                    modelSmall.renderAllExcept(ArrayUtils.addAll(ArrayUtils.addAll(ArrayUtils.addAll(modelSmallBlades, modelSmallShields), modelSmallBladesMedium), modelSmallShieldsMedium));
+                }
+
+                GL11.glPopMatrix();
             }
         }
     }

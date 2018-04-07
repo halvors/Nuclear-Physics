@@ -1,23 +1,19 @@
 package org.halvors.nuclearphysics.common.tile;
 
+import cofh.api.energy.IEnergyProvider;
+import cofh.api.energy.IEnergyReceiver;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
+import org.halvors.nuclearphysics.common.type.Position;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
 
-public class TileGenerator extends TileBase implements ITickable, ITileNetwork, IEnergyStorage {
-    private final List<BlockPos> targets = new ArrayList<>();
-    private final Map<BlockPos, EnumFacing> facings = new HashMap<>();
+public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProvider {
+    private final List<Position> targets = new ArrayList<>();
+    private final Map<Position, ForgeDirection> facings = new HashMap<>();
     private int targetStartingIndex;
 
     protected EnergyStorage energyStorage;
@@ -30,44 +26,28 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag("storedEnergy"));
+        if (energyStorage != null) {
+            energyStorage.readFromNBT(tag);
+        }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (energyStorage != null) {
-            tag.setTag("storedEnergy", CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));
+            energyStorage.writeToNBT(tag);
         }
-
-        return tag;
-    }
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) {
-            return (T) energyStorage;
-        }
-
-        return super.getCapability(capability, facing);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void update() {
-        if (!world.isRemote) {
+    public void updateEntity() {
+        if (!worldObj.isRemote) {
             sendEnergyToTargets();
 
-            if (world.getWorldTime() % getTargetRefreshRate() == 0) {
+            if (worldObj.getWorldTime() % getTargetRefreshRate() == 0) {
                 searchTargets();
             }
         }
@@ -77,7 +57,7 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {
-        if (world.isRemote) {
+        if (worldObj.isRemote) {
             energyStorage.setEnergyStored(dataStream.readInt());
         }
     }
@@ -92,39 +72,29 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int receiveEnergy(int maxReceive, boolean simulate) {
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
+    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
         return energyStorage.extractEnergy(maxExtract, simulate);
     }
 
     @Override
-    public int getEnergyStored() {
+    public int getEnergyStored(ForgeDirection from) {
         return energyStorage.getEnergyStored();
     }
 
     @Override
-    public int getMaxEnergyStored() {
+    public int getMaxEnergyStored(ForgeDirection from) {
         return energyStorage.getMaxEnergyStored();
     }
 
     @Override
-    public boolean canExtract() {
-        return energyStorage.canExtract();
-    }
-
-    @Override
-    public boolean canReceive() {
-        return energyStorage.canReceive();
+    public boolean canConnectEnergy(ForgeDirection from) {
+        return true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public EnumSet<EnumFacing> getExtractingDirections() {
-        return EnumSet.noneOf(EnumFacing.class);
+    public EnumSet<ForgeDirection> getExtractingDirections() {
+        return EnumSet.noneOf(ForgeDirection.class);
     }
 
     protected int getTargetRefreshRate() {
@@ -134,8 +104,8 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     protected void searchTargets() {
         targets.clear();
 
-        for (EnumFacing side : EnumFacing.values()) {
-            BlockPos neighbor = pos.offset(side);
+        for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
+            Position neighbor = new Position(xCoord, yCoord, zCoord).offset(side);
 
             if (isValidTarget(neighbor, side)) {
                 targets.add(neighbor);
@@ -147,7 +117,7 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     protected void sendEnergyToTargets() {
         if (targets.size() > 0 && energyStorage.getEnergyStored() > 0) {
             for (int i = 0; i < targets.size(); ++i) {
-                BlockPos pos = targets.get((targetStartingIndex + i) % targets.size());
+                Position pos = targets.get((targetStartingIndex + i) % targets.size());
                 sendEnergyTo(pos, facings.get(pos));
             }
 
@@ -155,25 +125,37 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
         }
     }
 
-    protected boolean isValidTarget(BlockPos pos, EnumFacing to) {
-        TileEntity tile = world.getTileEntity(pos);
+    protected boolean isValidTarget(Position pos, ForgeDirection to) {
+        TileEntity tile = pos.getTileEntity(worldObj);
 
-        return tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, to.getOpposite());
+        if (tile instanceof IEnergyReceiver) {
+            IEnergyReceiver energyReceiver = (IEnergyReceiver) tile;
 
+            return energyReceiver.canConnectEnergy(to.getOpposite());
+        }
+
+        return false;
     }
 
-    protected void sendEnergyTo(BlockPos pos, EnumFacing to) {
-        TileEntity tile = world.getTileEntity(pos);
+    protected void sendEnergyTo(Position pos, ForgeDirection to) {
+        TileEntity tile = pos.getTileEntity(worldObj);
 
-        if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, to.getOpposite())) {
-            sendEnergyToFE(tile, to);
+        if (tile instanceof IEnergyReceiver) {
+            IEnergyReceiver energyReceiver = (IEnergyReceiver) tile;
+
+            if (energyReceiver.canConnectEnergy(to.getOpposite())) {
+                sendEnergyToRF(tile, to);
+            }
         }
     }
 
-    protected void sendEnergyToFE(TileEntity tile, EnumFacing from) {
-        if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, from.getOpposite())) {
-            IEnergyStorage ies = tile.getCapability(CapabilityEnergy.ENERGY, from.getOpposite());
-            energyStorage.extractEnergy(ies.receiveEnergy(energyStorage.getEnergyStored(), false), false);
+    protected void sendEnergyToRF(TileEntity tile, ForgeDirection from) {
+        if (tile instanceof IEnergyReceiver) {
+            IEnergyReceiver energyReceiver = (IEnergyReceiver) tile;
+
+            if (energyReceiver.canConnectEnergy(from.getOpposite())) {
+                energyStorage.extractEnergy(energyReceiver.receiveEnergy(from.getOpposite(), energyStorage.getEnergyStored(), false), false);
+            }
         }
     }
 

@@ -8,7 +8,6 @@ public class ItemBlockBase extends ItemBlock {
     public ItemBlockBase(Block block) {
         super(block);
 
-        setRegistryName(block.getRegistryName());
         setCreativeTab(NuclearPhysics.getCreativeTab());
     }
 }

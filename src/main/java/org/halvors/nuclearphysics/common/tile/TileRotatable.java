@@ -2,7 +2,7 @@ package org.halvors.nuclearphysics.common.tile;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TileRotatable extends TileBase implements ITileNetwork, ITileRotatable {
-    protected EnumFacing facing = EnumFacing.NORTH;
+    protected ForgeDirection facing = ForgeDirection.NORTH;
 
     public TileRotatable() {
 
@@ -21,27 +21,25 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
         super.readFromNBT(tag);
 
         if (tag.hasKey("facing")) {
-            facing = EnumFacing.getFront(tag.getInteger("facing"));
+            facing = ForgeDirection.getOrientation(tag.getInteger("facing"));
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (facing != null) {
             tag.setInteger("facing", facing.ordinal());
         }
-
-        return tag;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void handlePacketData(ByteBuf dataStream) {
-        if (world.isRemote) {
-            facing = EnumFacing.getFront(dataStream.readInt());
+        if (worldObj.isRemote) {
+            facing = ForgeDirection.getOrientation(dataStream.readInt());
         }
     }
 
@@ -54,18 +52,19 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
     @Override
-    public boolean canSetFacing(EnumFacing facing) {
-        return Arrays.asList(EnumFacing.HORIZONTALS).contains(facing);
+    public boolean canSetFacing(ForgeDirection facing) {
+        return Arrays.asList(ForgeDirection.ROTATION_MATRIX).contains(facing);
     }
 
     @Override
-    public EnumFacing getFacing() {
+    public ForgeDirection getFacing() {
         return facing;
     }
 
     @Override
-    public void setFacing(EnumFacing facing) {
+    public void setFacing(ForgeDirection facing) {
         this.facing = facing;
 
         NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);

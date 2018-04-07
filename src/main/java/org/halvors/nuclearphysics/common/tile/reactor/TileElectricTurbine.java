@@ -1,33 +1,26 @@
 package org.halvors.nuclearphysics.common.tile.reactor;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.*;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
+import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
-import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileGenerator;
 import org.halvors.nuclearphysics.common.type.Position;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
@@ -38,17 +31,12 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
-public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, IBoilHandler {
+public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, IBoilHandler, IFluidHandler {
     private final int energyPerSteam = 40;
     private final int defaultTorque = 5000;
     private int torque = defaultTorque;
 
-    private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
-        @Override
-        public boolean canDrain() {
-            return false;
-        }
-    };
+    private final GasTank tank = new GasTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 
     // Radius of large turbine?
     private int multiBlockRadius = 1;
@@ -76,9 +64,8 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     @SideOnly(Side.CLIENT)
-    @Nonnull
     public AxisAlignedBB getRenderBoundingBox() {
-        return new AxisAlignedBB(pos.getX() - multiBlockRadius, pos.getY(), pos.getZ() - multiBlockRadius, pos.getX() + 1 + multiBlockRadius, pos.getY() + 1, pos.getZ() + 1 + multiBlockRadius);
+        return AxisAlignedBB.getBoundingBox(xCoord - multiBlockRadius, yCoord, zCoord - multiBlockRadius, xCoord + 1 + multiBlockRadius, yCoord + 1, zCoord + 1 + multiBlockRadius);
     }
 
     @Override
@@ -87,47 +74,23 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         multiBlockRadius = tag.getInteger("multiBlockRadius");
         getMultiBlock().readFromNBT(tag);
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+        tank.readFromNBT(tag.getCompoundTag("tank"));
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setInteger("multiBlockRadius", multiBlockRadius);
         getMultiBlock().writeToNBT(tag);
-        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
-
-        return tag;
-    }
-
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) || ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) {
-            return (T) energyStorage;
-        } else if (facing == EnumFacing.DOWN) {
-            if (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) {
-                return (T) this;
-            } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-                return (T) tank;
-            }
-        }
-
-        return super.getCapability(capability, facing);
+        tank.writeToNBT(tag.getCompoundTag("tank"));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void update() {
-        super.update();
+    public void updateEntity() {
+        super.updateEntity();
 
         if (getMultiBlock().isConstructed()) {
             torque = defaultTorque * 500 * getArea();
@@ -138,10 +101,10 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         getMultiBlock().update();
 
         if (getMultiBlock().isPrimary()) {
-            if (!world.isRemote) {
+            if (!worldObj.isRemote) {
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
-                    FluidStack fluidStack = tank.drainInternal((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
+                    FluidStack fluidStack = tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
 
                     if (fluidStack != null) {
                         power += fluidStack.amount * energyPerSteam;
@@ -153,7 +116,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 // Set angular velocity based on power and torque.
                 angularVelocity = (float) ((power * 4 * 256) / torque);
 
-                if (world.getWorldTime() % 3 == 0 && previousAngularVelocity != angularVelocity) {
+                if (worldObj.getWorldTime() % 3 == 0 && previousAngularVelocity != angularVelocity) {
                     NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
                     previousAngularVelocity = angularVelocity;
                 }
@@ -162,25 +125,25 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                     energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
                 }
             } else if (angularVelocity != 0) {
-                if (world.getWorldTime() % 26 == 0) {
+                if (worldObj.getWorldTime() % 26 == 0) {
                     // TODO: Tweak this volume, i suspect it is way to loud.
                     double maxVelocity = (getMaxPower() / torque) * 4;
-                    float percentage = Math.min(angularVelocity * 4 / (float) maxVelocity, 1);
+                    float percentage =Math.min(angularVelocity * 4 / (float) maxVelocity, 1);
 
-                    world.playSound(null, pos, ModSoundEvents.ELECTRIC_TURBINE, SoundCategory.BLOCKS, percentage, 1);
+                    worldObj.playSoundEffect(xCoord, yCoord, zCoord, Reference.PREFIX + "electric_turbine", percentage, 1);
                 }
 
                 // Update rotation.
                 rotation = (float) ((rotation + angularVelocity / 20) % (Math.PI * 2));
             }
         } else if (tank.getFluidAmount() > 0) {
-            int amount = getMultiBlock().get().tank.fillInternal(tank.getFluid(), false);
+            int amount = getMultiBlock().get().tank.fill(tank.getFluid(), false);
 
-            getMultiBlock().get().tank.fillInternal(tank.drainInternal(amount, true), true);
+            getMultiBlock().get().tank.fill(tank.drain(amount, true), true);
         }
 
-        if (!world.isRemote) {
-            if (world.getTotalWorldTime() % 60 == 0 && getMultiBlock().isConstructed()) {
+        if (!worldObj.isRemote) {
+            if (worldObj.getTotalWorldTime() % 60 == 0 && getMultiBlock().isConstructed()) {
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
 
@@ -212,17 +175,17 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public World getWorldObject() {
-        return world;
+        return worldObj;
     }
 
     @Override
     public void onMultiBlockChanged() {
-        if (!world.isRemote) {
+        if (!worldObj.isRemote) {
             NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
         }
 
         // Notify neighbor blocks of when multiblock is formed.
-        world.notifyNeighborsOfStateChange(pos, blockType);
+        worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, blockType);
     }
 
     @Override
@@ -242,17 +205,10 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int receiveGas(FluidStack fluidStack, boolean doTransfer) {
-        return tank.fillInternal(fluidStack, doTransfer);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
     public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
-        if (world.isRemote) {
+        if (worldObj.isRemote) {
             getMultiBlock().handlePacketData(dataStream);
             tier = dataStream.readInt();
             angularVelocity = dataStream.readFloat();
@@ -275,12 +231,66 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public EnumSet<EnumFacing> getExtractingDirections() {
+    public EnumSet<ForgeDirection> getExtractingDirections() {
         if (getMultiBlock().isPrimary()) {
-            return EnumSet.of(EnumFacing.UP);
+            return EnumSet.of(ForgeDirection.UP);
         }
 
-        return EnumSet.noneOf(EnumFacing.class);
+        return EnumSet.noneOf(ForgeDirection.class);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean canConnectEnergy(ForgeDirection from) {
+        return from == ForgeDirection.UP && getMultiBlock().isPrimary();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public int receiveGas(ForgeDirection from, FluidStack fluidStack, boolean doTransfer) {
+        if (from == ForgeDirection.DOWN) {
+            return tank.fill(fluidStack, doTransfer);
+        }
+
+        return 0;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        if (from == ForgeDirection.DOWN) {
+            return tank.fill(resource, doFill);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+        return null;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+        return null;
+    }
+
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
+        return from == ForgeDirection.DOWN;
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+        return new FluidTankInfo[] { tank.getInfo() };
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

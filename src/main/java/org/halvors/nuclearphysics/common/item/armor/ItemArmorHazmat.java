@@ -2,30 +2,25 @@ package org.halvors.nuclearphysics.common.item.armor;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
 import org.halvors.nuclearphysics.api.item.armor.IAntiPoisonArmor;
-import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
-import javax.annotation.Nonnull;
-
 public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {
-    private static final ArmorMaterial material = EnumHelper.addArmorMaterial("hazmat" , "hazmat", 0, new int[] { 0, 0, 0, 0 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
+    private static final ItemArmor.ArmorMaterial material = EnumHelper.addArmorMaterial("hazmat", 0, new int[] { 0, 0, 0, 0 }, 0);
 
-    public ItemArmorHazmat(String name, EntityEquipmentSlot slot) {
+    public ItemArmorHazmat(String name, int slot) {
         super(name, material, slot);
 
-        setMaxDamage(200000);
+        setMaxDurability(200000);
     }
 
     @Override
-    @Nonnull
-    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
         return ResourceUtility.getResource(Resource.TEXTURE_MODELS, "hazmat.png").toString();
     }
 
@@ -40,7 +35,7 @@ public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {
     }
 
     @Override
-    public EntityEquipmentSlot getArmorType() {
+    public int getArmorType() {
         return armorType;
     }
 
@@ -54,5 +49,3 @@ public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {
         return true;
     }
 }
-
-

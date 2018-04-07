@@ -52,6 +52,7 @@ item.nuclearphysics.circuit_advanced.name=Advanced Circuit
 item.nuclearphysics.circuit_elite.name=Elite Circuit
 item.nuclearphysics.plate_bronze.name=Bronze Plate
 item.nuclearphysics.plate_steel.name=Steel Plate
+item.nuclearphysics.toxic_waste_bucket.name=Toxic Waste Bucket
 item.nuclearphysics.cell.name=Cell
 item.nuclearphysics.cell.tooltip=Contains: %d
 item.nuclearphysics.darkmatter_cell.name=Dark Matter

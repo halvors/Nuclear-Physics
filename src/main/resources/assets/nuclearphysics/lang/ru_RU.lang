@@ -54,6 +54,7 @@ item.nuclearphysics.circuit_advanced.name=Продвинутая микросх�
 item.nuclearphysics.circuit_elite.name=Улучшенная микросхема
 item.nuclearphysics.plate_bronze.name=Бронзовая пластина
 item.nuclearphysics.plate_steel.name=Стальная пластина
+item.nuclearphysics.toxic_waste_bucket.name=Токсичные отходы ведро
 item.nuclearphysics.cell.name=Ячейка
 item.nuclearphysics.cell.tooltip=Содержит: %d
 item.nuclearphysics.darkmatter_cell.name=Тёмная материя

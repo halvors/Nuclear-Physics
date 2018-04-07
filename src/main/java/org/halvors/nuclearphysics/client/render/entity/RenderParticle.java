@@ -1,31 +1,21 @@
 package org.halvors.nuclearphysics.client.render.entity;
 
-import net.minecraft.client.renderer.GlStateManager;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.lwjgl.opengl.GL11;
 
-import javax.annotation.Nonnull;
 import java.util.Random;
 
 @SideOnly(Side.CLIENT)
-public class RenderParticle extends Render<EntityParticle> {
-    public RenderParticle(RenderManager renderManager) {
-        super(renderManager);
-    }
-
+public class RenderParticle extends Render {
     @Override
-    public void doRender(@Nonnull EntityParticle entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexBuffer = tessellator.getBuffer();
+    public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        Tessellator tessellator = Tessellator.instance;
 
         float age = entity.ticksExisted;
 
@@ -43,54 +33,54 @@ public class RenderParticle extends Render<EntityParticle> {
 
         Random random = new Random(432L);
 
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(x, y, z + 0.3);
-        GlStateManager.scale(0.15, 0.15, 0.15);
+        GL11.glPushMatrix();
+        GL11.glTranslated(x, y, z + 0.3);
+        GL11.glScaled(0.15, 0.15, 0.15);
 
-        GlStateManager.disableTexture2D();
-        GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-        GlStateManager.disableAlpha();
-        GlStateManager.enableCull();
-        GlStateManager.depthMask(false);
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(0.0F, -1.0F, -2.0F);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glDepthMask(false);
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0, -1, -2);
 
         for (int i = 0; i < (f + f * f) / 2 * 60; i++) {
-            GlStateManager.rotate(random.nextFloat() * 360, 1, 0, 0);
-            GlStateManager.rotate(random.nextFloat() * 360, 0, 1, 0);
-            GlStateManager.rotate(random.nextFloat() * 360, 0, 0, 1);
-            GlStateManager.rotate(random.nextFloat() * 360, 1, 0, 0);
-            GlStateManager.rotate(random.nextFloat() * 360, 0, 1, 0);
-            GlStateManager.rotate(random.nextFloat() * 360 + f * 90, 0, 0, 1);
+            GL11.glRotated(random.nextFloat() * 360, 1, 0, 0);
+            GL11.glRotated(random.nextFloat() * 360, 0, 1, 0);
+            GL11.glRotated(random.nextFloat() * 360, 0, 0, 1);
+            GL11.glRotated(random.nextFloat() * 360, 1, 0, 0);
+            GL11.glRotated(random.nextFloat() * 360, 0, 1, 0);
+            GL11.glRotated(random.nextFloat() * 360 + f * 90, 0, 0, 1);
+            tessellator.startDrawing(6);
             float f2 = random.nextFloat() * 20 + 5 + f1 * 10;
             float f3 = random.nextFloat() * 2 + 1 + f1 * 2;
-
-            vertexBuffer.begin(6, DefaultVertexFormats.POSITION_COLOR);
-            vertexBuffer.pos(0, 0, 0).color(255, 255, 255, (int) (255 * (1 - f1))).endVertex();
-            vertexBuffer.pos(-0.866 * f3, f2, -0.5 * f3).color(255, 255, 255, 0).endVertex();
-            vertexBuffer.pos(0.866 * f3, f2, -0.5 * f3).color(255, 255, 255, 0).endVertex();
-            vertexBuffer.pos(0,  f2, 1 * f3).color(255, 255, 255, 0).endVertex();
-            vertexBuffer.pos(-0.866 * f3, f2, -0.5 * f3).color(255, 255, 255, 0).endVertex();
-
+            tessellator.setColorRGBA_I(16777215, (int) (255 * (1 - f1)));
+            tessellator.addVertex(0, 0, 0);
+            tessellator.setColorRGBA_I(0, 0);
+            tessellator.addVertex(-0.866 * f3, f2, -0.5 * f3);
+            tessellator.addVertex(0.866 * f3, f2, -0.5 * f3);
+            tessellator.addVertex(0, f2, 1 * f3);
+            tessellator.addVertex(-0.866 * f3, f2, -0.5 * f3);
             tessellator.draw();
         }
 
-        GlStateManager.popMatrix();
-        GlStateManager.depthMask(true);
-        GlStateManager.disableCull();
-        GlStateManager.disableBlend();
-        GlStateManager.shadeModel(GL11.GL_FLAT);
-        GlStateManager.color(1, 1, 1, 1);
-        GlStateManager.enableTexture2D();
-        GlStateManager.enableAlpha();
+        GL11.glPopMatrix();
+        GL11.glDepthMask(true);
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glShadeModel(GL11.GL_FLAT);
+        GL11.glColor4f(1, 1, 1, 1);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
         RenderHelper.enableStandardItemLighting();
-        GlStateManager.popMatrix();
+        GL11.glPopMatrix();
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityParticle entity) {
+    protected ResourceLocation getEntityTexture(Entity entity) {
         return null;
     }
 }
