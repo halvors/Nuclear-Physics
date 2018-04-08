@@ -83,7 +83,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         tag.setInteger("multiBlockRadius", multiBlockRadius);
         getMultiBlock().writeToNBT(tag);
-        tank.writeToNBT(tag.getCompoundTag("tank"));
+        tag.setTag("tank", tank.writeToNBT(new NBTTagCompound()));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

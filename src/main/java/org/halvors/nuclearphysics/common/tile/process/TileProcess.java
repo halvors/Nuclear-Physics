@@ -45,8 +45,8 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tankInput.writeToNBT(tag.getCompoundTag("tankInput"));
-        tankOutput.writeToNBT(tag.getCompoundTag("tankOutput"));
+        tag.setTag("tankInput", tankInput.writeToNBT(new NBTTagCompound()));
+        tag.setTag("tankOutput", tankOutput.writeToNBT(new NBTTagCompound()));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

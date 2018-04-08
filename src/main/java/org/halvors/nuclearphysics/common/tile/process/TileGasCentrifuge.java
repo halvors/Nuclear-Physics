@@ -58,7 +58,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tank.writeToNBT(tag.getCompoundTag("tank"));
+        tag.setTag("tank", tank.writeToNBT(new NBTTagCompound()));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

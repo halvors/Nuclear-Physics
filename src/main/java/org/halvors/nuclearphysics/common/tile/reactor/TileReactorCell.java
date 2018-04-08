@@ -86,7 +86,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
         super.writeToNBT(tag);
 
         tag.setFloat("temperature", temperature);
-        tank.writeToNBT(tag.getCompoundTag("tank"));
+        tag.setTag("tank", tank.writeToNBT(new NBTTagCompound()));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -25,28 +25,8 @@ public class TileGasFunnel extends TileEntity implements IBoilHandler, IFluidHan
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tank.writeToNBT(tag.getCompoundTag("tank"));
+        tag.setTag("tank", tank.writeToNBT(new NBTTagCompound()));
     }
-
-    /*
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY && facing == EnumFacing.DOWN) || (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == EnumFacing.UP) || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY && facing == EnumFacing.DOWN) {
-            return (T) this;
-        } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == EnumFacing.UP) {
-            return (T) tank;
-        }
-
-        return super.getCapability(capability, facing);
-    }
-    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

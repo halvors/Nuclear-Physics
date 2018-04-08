@@ -79,9 +79,9 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tankInputDeuterium.writeToNBT(tag.getCompoundTag("tankInputDeuterium"));
-        tankInputTritium.writeToNBT(tag.getCompoundTag("tankInputTritium"));
-        tankOutput.writeToNBT(tag.getCompoundTag("tankOutput"));
+        tag.setTag("tankInputDeuterium", tankInputDeuterium.writeToNBT(new NBTTagCompound()));
+        tag.setTag("tankInputTritium", tankInputTritium.writeToNBT(new NBTTagCompound()));
+        tag.setTag("tankOutput", tankOutput.writeToNBT(new NBTTagCompound()));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
