@@ -4,8 +4,6 @@ Port bugs:
     - Machine blocks have incorrect light in GUI?
     - Fix particle accelerator not consuming items when accelerating.
 
-    - Make plasma block transparent.
-
 Known bugs:
     Before Beta release:
         - Make sure that block is dropped when destroyed in survival mode.
