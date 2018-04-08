@@ -7,6 +7,7 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.init.ModSounds;
+import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
@@ -27,34 +28,6 @@ public class TileQuantumAssembler extends TileInventoryMachine {
         super(type, 7);
 
         energyStorage = new EnergyStorage(energyPerTick * 2);
-
-        /*
-        inventory = new ItemStackHandler(7) {
-            @Override
-            protected void onContentsChanged(int slot) {
-                super.onContentsChanged(slot);
-                markDirty();
-            }
-
-            private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-                switch (slot) {
-                    case 6:
-                        return QuantumAssemblerRecipes.hasRecipe(itemStack);
-                }
-
-                return OreDictionaryHelper.isDarkmatterCell(itemStack);
-            }
-
-            @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-                if (!isItemValidForSlot(slot, stack)) {
-                    return stack;
-                }
-
-                return super.insertItem(slot, stack, simulate);
-            }
-        };
-        */
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +74,18 @@ public class TileQuantumAssembler extends TileInventoryMachine {
                 entityItem = null;
             }
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        switch (slot) {
+            case 6:
+                return QuantumAssemblerRecipes.hasRecipe(itemStack);
+        }
+
+        return OreDictionaryHelper.isDarkmatterCell(itemStack);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

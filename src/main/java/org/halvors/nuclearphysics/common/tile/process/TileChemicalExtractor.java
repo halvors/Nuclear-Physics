@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
@@ -30,50 +31,6 @@ public class TileChemicalExtractor extends TileProcess {
         super(type, 7);
 
         energyStorage = new EnergyStorage(energyPerTick * 2);
-
-        /*
-        inventory = new ItemStackHandler(7) {
-            @Override
-            protected void onContentsChanged(int slot) {
-                super.onContentsChanged(slot);
-                markDirty();
-            }
-
-            private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-                switch (slot) {
-                    case 0: // Battery input slot.
-                        return EnergyUtility.canBeDischarged(itemStack);
-
-                    case 1: // Item input slot.
-                        return OreDictionaryHelper.isUraniumOre(itemStack);
-
-                    case 2: // Item output slot.
-                        return OreDictionaryHelper.isYellowCake(itemStack);
-
-                    case 3: // Input tank fill slot.
-                    case 4: // Input tank drain slot.
-                        return FluidUtility.isEmptyContainer(itemStack) || FluidUtility.isFilledContainer(itemStack, FluidRegistry.WATER) || FluidUtility.isFilledContainer(itemStack, ModFluids.deuterium);
-
-                    case 5: // Output tank fill slot.
-                        return FluidUtility.isEmptyContainer(itemStack);
-
-                    case 6: // Output tank drain slot.
-                        return FluidUtility.isEmptyContainer(itemStack) || FluidUtility.isFilledContainer(itemStack, ModFluids.deuterium) || FluidUtility.isFilledContainer(itemStack, ModFluids.tritium);
-                }
-
-                return false;
-            }
-
-            @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-                if (!isItemValidForSlot(slot, stack)) {
-                    return stack;
-                }
-
-                return super.insertItem(slot, stack, simulate);
-            }
-        };
-        */
 
         tankInput = new LiquidTank(FluidContainerRegistry.BUCKET_VOLUME * 10) {
             @Override
@@ -148,6 +105,32 @@ public class TileChemicalExtractor extends TileProcess {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        switch (slot) {
+            case 0: // Battery input slot.
+                return EnergyUtility.canBeDischarged(itemStack);
+
+            case 1: // Item input slot.
+                return OreDictionaryHelper.isUraniumOre(itemStack);
+
+            case 2: // Item output slot.
+                return OreDictionaryHelper.isYellowCake(itemStack);
+
+            case 3: // Input tank fill slot.
+            case 4: // Input tank drain slot.
+                return FluidUtility.isEmptyContainer(itemStack) || FluidUtility.isFilledContainer(itemStack, FluidRegistry.WATER) || FluidUtility.isFilledContainer(itemStack, ModFluids.deuterium);
+
+            case 5: // Output tank fill slot.
+                return FluidUtility.isEmptyContainer(itemStack);
+
+            case 6: // Output tank drain slot.
+                return FluidUtility.isEmptyContainer(itemStack) || FluidUtility.isFilledContainer(itemStack, ModFluids.deuterium) || FluidUtility.isFilledContainer(itemStack, ModFluids.tritium);
+        }
+
+        return false;
+    }
 
     /*
     @Override

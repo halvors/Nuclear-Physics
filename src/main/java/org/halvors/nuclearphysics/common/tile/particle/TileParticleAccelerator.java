@@ -14,6 +14,7 @@ import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.init.ModSounds;
+import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.type.Position;
@@ -48,43 +49,6 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
         super(type, 4);
 
         energyStorage = new EnergyStorage(energyPerTick * 40, energyPerTick);
-
-        /*
-        inventory = new ItemStackHandler(4) {
-            @Override
-            protected void onContentsChanged(int slot) {
-                super.onContentsChanged(slot);
-                markDirty();
-            }
-
-            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-                switch (slot) {
-                    case 0:
-                        return true;
-
-                    case 1:
-                        return OreDictionaryHelper.isEmptyCell(itemStack);
-
-                    case 2:
-                        return itemStack.getItem() instanceof ItemAntimatterCell;
-
-                    case 3:
-                        return OreDictionaryHelper.isDarkmatterCell(itemStack);
-                }
-
-                return false;
-            }
-
-            @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-                if (!isItemValidForSlot(slot, stack)) {
-                    return stack;
-                }
-
-                return super.insertItem(slot, stack, simulate);
-            }
-        };
-        */
     }
 
     @Override
@@ -219,6 +183,25 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        switch (slot) {
+            case 0:
+                return true;
+
+            case 1:
+                return OreDictionaryHelper.isEmptyCell(itemStack);
+
+            case 2:
+                return itemStack.getItem() instanceof ItemAntimatterCell;
+
+            case 3:
+                return OreDictionaryHelper.isDarkmatterCell(itemStack);
+        }
+
+        return false;
+    }
 
     /*
     @Override

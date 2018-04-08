@@ -94,7 +94,11 @@ public class TileGasFunnel extends TileEntity implements IBoilHandler, IFluidHan
 
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-        return tank.drain(maxDrain, doDrain);
+        if (from == ForgeDirection.UP) {
+            return tank.drain(maxDrain, doDrain);
+        }
+
+        return null;
     }
 
     @Override

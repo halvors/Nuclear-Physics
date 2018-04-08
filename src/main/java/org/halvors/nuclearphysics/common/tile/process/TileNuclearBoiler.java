@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
@@ -12,6 +13,7 @@ import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
+import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
@@ -29,45 +31,6 @@ public class TileNuclearBoiler extends TileProcess {
         super(type, 5);
 
         energyStorage = new EnergyStorage(energyPerTick * 2);
-
-        /*
-        inventory = new ItemStackHandler(5) {
-            @Override
-            protected void onContentsChanged(int slot) {
-                super.onContentsChanged(slot);
-                markDirty();
-            }
-
-            private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-                switch (slot) {
-                    case 0: // Battery input slot.
-                        return EnergyUtility.canBeDischarged(itemStack);
-
-                    case 1: // Item input slot.
-                        return OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack);
-
-                    case 2: // Input tank fill slot.
-                    case 3: // Input tank drain slot.
-                        return FluidUtility.isEmptyContainer(itemStack) || FluidUtility.isFilledContainer(itemStack, FluidRegistry.WATER);
-
-                    // TODO: Add uranium hexaflouride container here.
-                    //case 4: // Output tank drain slot.
-                    //    return OreDictionaryHelper.isEmptyCell(itemStack);
-                }
-
-                return false;
-            }
-
-            @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-                if (!isItemValidForSlot(slot, stack)) {
-                    return stack;
-                }
-
-                return super.insertItem(slot, stack, simulate);
-            }
-        };
-        */
 
         tankInput = new LiquidTank(FluidContainerRegistry.BUCKET_VOLUME * 5) {
             @Override
@@ -135,6 +98,27 @@ public class TileNuclearBoiler extends TileProcess {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        switch (slot) {
+            case 0: // Battery input slot.
+                return EnergyUtility.canBeDischarged(itemStack);
+
+            case 1: // Item input slot.
+                return OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack);
+
+            case 2: // Input tank fill slot.
+            case 3: // Input tank drain slot.
+                return FluidUtility.isEmptyContainer(itemStack) || FluidUtility.isFilledContainer(itemStack, FluidRegistry.WATER);
+
+            // TODO: Add uranium hexaflouride container here.
+            //case 4: // Output tank drain slot.
+            //    return OreDictionaryHelper.isEmptyCell(itemStack);
+        }
+
+        return false;
+    }
 
     /*
     @Override

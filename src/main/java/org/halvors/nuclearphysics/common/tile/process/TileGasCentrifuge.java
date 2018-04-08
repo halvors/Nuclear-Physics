@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
@@ -17,6 +18,8 @@ import org.halvors.nuclearphysics.common.item.reactor.fission.ItemUranium.EnumUr
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
+import org.halvors.nuclearphysics.common.utility.FluidUtility;
+import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 import java.util.List;
 
@@ -45,44 +48,6 @@ public class TileGasCentrifuge extends TileInventoryMachine {
         super(type, 4);
 
         energyStorage = new EnergyStorage(energyPerTick * 2);
-
-        /*
-        inventory = new ItemStackHandler(4) {
-            @Override
-            protected void onContentsChanged(int slot) {
-                super.onContentsChanged(slot);
-                markDirty();
-            }
-
-            private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-                switch (slot) {
-                    case 0: // Battery input slot.
-                        return EnergyUtility.canBeDischarged(itemStack);
-
-                    // TODO: Add uranium hexaflouride container here.
-                    //case 1: // Input tank drain slot.
-                    //    return OreDictionaryHelper.isEmptyCell(itemStack);
-
-                    case 2: // Item output slot.
-                        return itemStack.getItem() == ModItems.itemUranium && itemStack.getMetadata() == EnumUranium.URANIUM_235.ordinal();
-
-                    case 3: // Item output slot.
-                        return itemStack.getItem() == ModItems.itemUranium && itemStack.getMetadata() == EnumUranium.URANIUM_238.ordinal();
-                }
-
-                return false;
-            }
-
-            @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-                if (!isItemValidForSlot(slot, stack)) {
-                    return stack;
-                }
-
-                return super.insertItem(slot, stack, simulate);
-            }
-        };
-        */
     }
 
     @Override
@@ -162,6 +127,26 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        switch (slot) {
+            case 0: // Battery input slot.
+                return EnergyUtility.canBeDischarged(itemStack);
+
+            // TODO: Add uranium hexaflouride container here.
+            //case 1: // Input tank drain slot.
+            //    return OreDictionaryHelper.isEmptyCell(itemStack);
+
+            case 2: // Item output slot.
+                return itemStack.getItem() == ModItems.itemUranium && itemStack.getMetadata() == EnumUranium.URANIUM_235.ordinal();
+
+            case 3: // Item output slot.
+                return itemStack.getItem() == ModItems.itemUranium && itemStack.getMetadata() == EnumUranium.URANIUM_238.ordinal();
+        }
+
+        return false;
+    }
 
     /*
     @Override

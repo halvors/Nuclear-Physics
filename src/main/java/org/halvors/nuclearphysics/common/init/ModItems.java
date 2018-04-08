@@ -103,8 +103,8 @@ public class ModItems {
 
         OreDictionary.registerOre("bucketToxicWaste", itemToxicWasteBucket);
 
-        OreDictionary.registerOre("cellDeuterium", FluidUtility.getFilledCell(FluidRegistry.getFluid("deuterium")));
-        OreDictionary.registerOre("cellTritium", FluidUtility.getFilledCell(FluidRegistry.getFluid("tritium")));
+        OreDictionary.registerOre("cellDeuterium", FluidUtility.getFilledCell(ModFluids.deuterium));
+        OreDictionary.registerOre("cellTritium", FluidUtility.getFilledCell(ModFluids.tritium));
         OreDictionary.registerOre("cellWater", FluidUtility.getFilledCell(FluidRegistry.WATER));
 
         OreDictionary.registerOre("ingotUranium", new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_235.ordinal()));

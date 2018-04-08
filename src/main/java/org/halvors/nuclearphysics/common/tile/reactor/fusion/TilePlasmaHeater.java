@@ -84,24 +84,6 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
         tankOutput.writeToNBT(tag.getCompoundTag("tankOutput"));
     }
 
-    /*
-    @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-            return (T) this;
-        }
-
-        return super.getCapability(capability, facing);
-    }
-    */
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override

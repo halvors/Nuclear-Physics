@@ -27,7 +27,10 @@ import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileInventory;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.common.utility.EnergyUtility;
+import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
+import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 import java.util.List;
 
@@ -51,28 +54,6 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
     private int meltdownCounter = 0;
     private int meltdownCounterMaximum = 1000;
 
-    /*
-    private final IItemHandlerModifiable inventory = new ItemStackHandler(1) {
-        @Override
-        protected void onContentsChanged(int slot) {
-            super.onContentsChanged(slot);
-            markDirty();
-        }
-
-        private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-            return !ModFluids.fluidStackPlasma.isFluidEqual(tank.getFluid()) && inventory.getStackInSlot(0) == null && itemStack.getItem() instanceof IReactorComponent;
-        }
-
-        @Override
-        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-            if (!isItemValidForSlot(slot, stack)) {
-                return stack;
-            }
-
-            return super.insertItem(slot, stack, simulate);
-        }
-    };
-    */
 
     private final LiquidTank tank = new LiquidTank(FluidContainerRegistry.BUCKET_VOLUME * 15) {
         @Override
@@ -255,6 +236,13 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
         tank.getPacketData(objects);
 
         return objects;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        return !ModFluids.fluidStackPlasma.isFluidEqual(tank.getFluid()) && getStackInSlot(0) == null && itemStack.getItem() instanceof IReactorComponent;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
