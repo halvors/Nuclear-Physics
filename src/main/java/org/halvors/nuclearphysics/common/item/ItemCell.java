@@ -15,7 +15,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.init.ModFluids;
-import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -30,7 +29,7 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
     public ItemCell() {
         super("cell");
 
-        setContainerItem(ModItems.itemCell);
+        setContainerItem(this);
     }
 
     @Override

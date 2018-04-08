@@ -12,6 +12,7 @@ import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.fluid.BlockFluidPlasma;
 import org.halvors.nuclearphysics.common.block.fluid.BlockFluidRadioactive;
 import org.halvors.nuclearphysics.common.event.handler.ItemEventHandler;
+import org.halvors.nuclearphysics.common.item.ItemCell;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 
 import java.util.HashSet;
@@ -107,15 +108,17 @@ public class ModFluids {
     }
 
     private static void registerFluidContainers() {
-        FluidContainerRegistry.registerFluidContainer(FluidRegistry.WATER, FluidUtility.getFilledCell(FluidRegistry.WATER), new ItemStack(ModItems.itemCell));
+        FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.WATER, ItemCell.capacity), FluidUtility.getFilledCell(FluidRegistry.WATER), new ItemStack(ModItems.itemCell));
 
         for (final Fluid fluid : fluids) {
             if (fluid == deuterium || fluid == tritium) {
-                FluidContainerRegistry.registerFluidContainer(fluid, FluidUtility.getFilledCell(fluid), new ItemStack(ModItems.itemCell));
+                FluidContainerRegistry.registerFluidContainer(new FluidStack(fluid, ItemCell.capacity), FluidUtility.getFilledCell(fluid), new ItemStack(ModItems.itemCell));
             } else if (fluid == toxicWaste) {
                 ItemBucket itemBucket = (ItemBucket) ModItems.itemToxicWasteBucket;
 
+                // Register this bucket so that we handle when picking up fluid.
                 ItemEventHandler.registerBucket(fluid, itemBucket);
+
                 FluidContainerRegistry.registerFluidContainer(fluid, new ItemStack(itemBucket), FluidContainerRegistry.EMPTY_BUCKET);
             }
         }

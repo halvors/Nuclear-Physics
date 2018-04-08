@@ -2,6 +2,7 @@ Port bugs:
     - Machine blocks render incorrectly in hand. (Think this is not possible to fix in BlockRenderingHandler)
     - Machine blocks have incorrect light in GUI?
     - Fix powering machines with batteries not working.
+    - Machines not storing fluids in NBT.
 
 Known bugs:
     Before Beta release:
