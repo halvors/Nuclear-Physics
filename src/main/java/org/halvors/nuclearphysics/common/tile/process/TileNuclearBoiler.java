@@ -181,7 +181,7 @@ public class TileNuclearBoiler extends TileProcess {
             FluidStack fluidStack = new FluidStack(ModFluids.uraniumHexaflouride, General.uraniumHexaflourideRatio * 2);
             tankOutput.fillInternal(fluidStack, true);
 
-            InventoryUtility.decrStackSize(inventory, inputSlot);
+            InventoryUtility.decrStackSize(inventory, 1);
         }
     }
 }
