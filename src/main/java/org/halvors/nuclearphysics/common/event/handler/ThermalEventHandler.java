@@ -58,12 +58,12 @@ public class ThermalEventHandler {
 
             // Sound of lava flowing randomly plays when above temperature to boil water.
             if (world.rand.nextInt(2000) == 0) {
-                world.playSoundEffect(x, y, z, Reference.PREFIX + "liquid.lava", 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
+                world.playSoundEffect(x, y, z, "liquid.lava", 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
             }
 
             // Sounds of lava popping randomly plays when above temperature to boil water.
             if (world.rand.nextInt(4000) == 0) {
-                world.playSoundEffect(x, y, z, Reference.PREFIX + "liquid.lavapop", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+                world.playSoundEffect(x, y, z, "liquid.lavapop", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
             }
 
             if (world.rand.nextInt(5) == 0) {

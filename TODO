@@ -5,8 +5,6 @@ Port bugs:
     - Fluids render incorrectly in GUI.
     - Fix rendering of fissile fuel and plasma in reactor cell.
 
-    - Check if sounds is played on client, and not just server.
-
 Known bugs:
     Before Beta release:
         - Make sure that block is dropped when destroyed in survival mode.
