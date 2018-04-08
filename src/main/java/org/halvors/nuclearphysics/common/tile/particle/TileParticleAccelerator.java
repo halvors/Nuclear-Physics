@@ -135,7 +135,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                             calculateParticleDensity();
 
                             // Decrease particle we want to collide.
-                            InventoryUtility.decrStackSize(getStackInSlot(0), 0);
+                            decrStackSize(0, 1);
                             lastSpawnTick = 0;
                         }
                     }
@@ -247,7 +247,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
         // Do we have an empty cell in slot one
         ItemStack itemStackEmptyCell = getStackInSlot(1);
 
-        if (itemStackEmptyCell != null && OreDictionaryHelper.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.stackSize > 0) {
+        if (OreDictionaryHelper.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.stackSize > 0) {
             // Each cell can only hold 125mg of antimatter
             // TODO: maybe a config for this?
             if (antimatterCount >= 125) {
@@ -259,7 +259,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                         ItemStack newStack = itemStack.copy();
 
                         if (newStack.stackSize < newStack.getMaxStackSize()) {
-                            InventoryUtility.decrStackSize(itemStackEmptyCell, 1);
+                            decrStackSize(1, 1);
                             antimatterCount -= 125;
                             newStack.stackSize++;
                             setInventorySlotContents(2, newStack);
@@ -268,7 +268,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                 } else {
                     // Remove some of the internal reserves of anti-matter and use it to craft an individual item.
                     antimatterCount -= 125;
-                    InventoryUtility.decrStackSize(itemStackEmptyCell, 1);
+                    decrStackSize(1, 1);
                     setInventorySlotContents(2, new ItemStack(ModItems.itemAntimatterCell));
                 }
             }

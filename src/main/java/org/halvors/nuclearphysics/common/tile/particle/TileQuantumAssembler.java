@@ -133,7 +133,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
                 ItemStack itemStack = getStackInSlot(slot);
 
                 if (itemStack != null) {
-                    InventoryUtility.decrStackSize(itemStack, slot);
+                    decrStackSize(slot, 1);
                 }
             }
 
