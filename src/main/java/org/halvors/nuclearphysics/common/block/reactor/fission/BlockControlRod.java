@@ -1,5 +1,7 @@
 package org.halvors.nuclearphysics.common.block.reactor.fission;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import org.halvors.nuclearphysics.common.block.BlockBase;
 
@@ -12,7 +14,14 @@ public class BlockControlRod extends BlockBase {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean renderAsNormalBlock() {
         return false;
     }
 }
