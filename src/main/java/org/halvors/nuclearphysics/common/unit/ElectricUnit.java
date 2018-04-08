@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum ElectricUnit {
-    FORGE_ENERGY("Forge Energy", "FE"),
+    REDSTONE_FLUX("Redstone Flux", "RF"),
     TESLA("Tesla", "T"),
     JOULES("Joule", "J"),
     ELECTRICAL_UNITS("Electrical Unit", "EU");
@@ -26,7 +26,7 @@ public enum ElectricUnit {
     }
 
     public String getPlural() {
-        return this == FORGE_ENERGY ? name : name + "s";
+        return this == REDSTONE_FLUX ? name : name + "s";
     }
 
     public static ElectricUnit fromName(String name) {
@@ -36,7 +36,7 @@ public enum ElectricUnit {
             }
         }
 
-        return FORGE_ENERGY;
+        return REDSTONE_FLUX;
     }
 
     public static ElectricUnit fromSymbol(String symbol) {
@@ -46,7 +46,7 @@ public enum ElectricUnit {
             }
         }
 
-        return FORGE_ENERGY;
+        return REDSTONE_FLUX;
     }
 
     public static List<String> getSymbols() {

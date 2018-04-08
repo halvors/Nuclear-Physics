@@ -47,7 +47,7 @@ public class ConfigurationManager {
     public static void loadConfiguration(Configuration configuration) {
         configuration.load();
 
-        General.electricUnit = ElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", ElectricUnit.FORGE_ENERGY.getSymbol(), null, ElectricUnit.getSymbols().toArray(new String[ElectricUnit.values().length])).getString());
+        General.electricUnit = ElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", ElectricUnit.REDSTONE_FLUX.getSymbol(), null, ElectricUnit.getSymbols().toArray(new String[ElectricUnit.values().length])).getString());
         General.temperatureUnit = TemperatureUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "temperatureUnit", TemperatureUnit.KELVIN.getSymbol(), null, TemperatureUnit.getSymbols().toArray(new String[TemperatureUnit.values().length])).getString());
         General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "toTesla", 1).getDouble();
         General.toJoules = configuration.get(Configuration.CATEGORY_GENERAL, "toJoules", 0.4).getDouble();
