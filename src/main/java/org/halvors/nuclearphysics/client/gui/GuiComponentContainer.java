@@ -140,7 +140,7 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
 
     @Override
     public void drawTexturedRectFromIcon(int x, int y, IIcon icon, int w, int h) {
-        drawTexturedModalRect(x, y, icon.getIconWidth(), icon.getIconHeight(), w, h);
+        drawTexturedModelRectFromIcon(x, y, icon, w, h);
     }
 
     @Override

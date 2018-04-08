@@ -1,8 +1,10 @@
 Port bugs:
+    - Over reimplement inventory.
     - Machine blocks render incorrectly in hand.
     - Machine blocks have incorrect light in GUI?
     - Fix particle accelerator not consuming items when accelerating.
-    - Fluids render incorrectly in GUI.
+
+    - Make plasma block transparent.
 
 Known bugs:
     Before Beta release:
