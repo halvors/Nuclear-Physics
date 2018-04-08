@@ -179,7 +179,7 @@ public class TileChemicalExtractor extends TileProcess {
         if (canProcess()) {
             if (OreDictionaryHelper.isUraniumOre(getStackInSlot(inputSlot))) {
                 tankInput.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                setInventorySlotContents(outputSlot, new ItemStack(ModItems.itemYellowCake, 3));
+                incrStackSize(outputSlot, new ItemStack(ModItems.itemYellowCake, 3));
                 decrStackSize(inputSlot, 1);
 
                 return true;

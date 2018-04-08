@@ -107,7 +107,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                         // On particle collision we roll the dice to see if dark-matter is generated.
                         if (entityParticle.didCollide()) {
                             if (worldObj.rand.nextFloat() <= General.darkMatterSpawnChance) {
-                                setInventorySlotContents(3, new ItemStack(ModItems.itemDarkMatterCell));
+                                incrStackSize(3, new ItemStack(ModItems.itemDarkMatterCell));
                             }
                         }
 
