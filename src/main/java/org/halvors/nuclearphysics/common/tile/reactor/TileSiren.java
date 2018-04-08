@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.common.tile.reactor;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.init.ModSounds;
 import org.halvors.nuclearphysics.common.type.Position;
 

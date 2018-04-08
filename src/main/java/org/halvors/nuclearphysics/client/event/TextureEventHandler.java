@@ -21,8 +21,16 @@ public class TextureEventHandler {
         textureMap.put(name, map.registerIcon(Reference.PREFIX + name));
     }
 
+    public static void registerIcon(Fluid fluid, TextureMap map) {
+        textureMap.put(fluid.getName(), map.registerIcon(Reference.PREFIX + "fluids/" + fluid.getName() + "_still"));
+    }
+
     public static IIcon getIcon(String name) {
         return textureMap.get(name);
+    }
+
+    private static void setIcon(Fluid fluid) {
+        fluid.setIcons(textureMap.get("fluids/" + fluid.getName() + "_still"));
     }
 
     @SubscribeEvent
@@ -49,13 +57,5 @@ public class TextureEventHandler {
         setIcon(ModFluids.uraniumHexaflouride);
         setIcon(ModFluids.steam);
         setIcon(ModFluids.tritium);
-    }
-
-    private static void registerIcon(Fluid fluid, TextureMap map) {
-        registerIcon("fluids/" + fluid.getName() + "_still", map);
-    }
-
-    private static void setIcon(Fluid fluid) {
-        fluid.setIcons(textureMap.get("fluids/" + fluid.getName() + "_still"));
     }
 }

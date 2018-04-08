@@ -3,7 +3,6 @@ Port bugs:
     - Machine blocks have incorrect light in GUI?
     - Fix particle accelerator not consuming items when accelerating.
     - Fluids render incorrectly in GUI.
-    - Fix rendering of fissile fuel and plasma in reactor cell.
 
 Known bugs:
     Before Beta release:

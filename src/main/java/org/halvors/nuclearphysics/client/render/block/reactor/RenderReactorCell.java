@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.client.render.block.reactor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -24,10 +25,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
     private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(Resource.MODEL, "reactor_cell.obj"));
     private static final ResourceLocation texture = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "reactor_cell.png");
     private static final ResourceLocation textureFissile = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "reactor_fissile_material.png");
-    private static final ResourceLocation texturePlasma = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "plasma_still.png");
-
-    //private static final Model3D modelPlasma = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74); // TODO: Fix proper rendering in these dimension for 1.7.10.
-    //private static final Model3D modelFissileFuel = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74); // TODO: Fix proper rendering in these dimension for 1.7.10.
+    private static final ResourceLocation texturePlasma = ResourceUtility.getResource(Resource.TEXTURE_BLOCKS, "fluids/plasma_still.png");
 
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks) {
@@ -59,12 +57,12 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
 
                 // Make glass and fuel transparent.
                 GL11.glEnable(GL11.GL_BLEND);
-                GL11.glDisable(GL11.GL_ALPHA);
 
+                GL11.glTranslated(0.5, 0, 0.5);
+                GL11.glScaled(0.48, 1.8, 0.48);
                 ModelCube.instance.render();
 
                 GL11.glDisable(GL11.GL_BLEND);
-                GL11.glEnable(GL11.GL_ALPHA);
 
                 GL11.glPopMatrix();
             } else if (itemStack != null) {
@@ -72,10 +70,11 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
 
                 bindTexture(textureFissile);
 
-                // Make glass transparent.
-                GL11.glDisable(GL11.GL_ALPHA);
+                GL11.glTranslated(0.5, 0, 0.5);
+                GL11.glScaled(0.48, 1.8, 0.48);
+                RenderHelper.disableStandardItemLighting();
                 ModelCube.instance.render();
-                GL11.glEnable(GL11.GL_ALPHA);
+                RenderHelper.enableStandardItemLighting();
 
                 GL11.glPopMatrix();
             }

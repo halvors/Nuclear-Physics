@@ -5,6 +5,7 @@ public enum Resource {
 	GUI_COMPONENT("textures/gui/components"),
 	MODEL("models/block"),
 	SOUND("sounds"),
+	TEXTURE_BLOCKS("textures/blocks"),
 	TEXTURE_MODELS("textures/models");
 
 	private final String prefix;

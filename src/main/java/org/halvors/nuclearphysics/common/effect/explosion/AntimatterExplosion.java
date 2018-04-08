@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.IBlockAccess;
 import org.halvors.nuclearphysics.api.explosion.IExplosion;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
-import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.init.ModSounds;
 
 public class AntimatterExplosion extends RadioactiveExplosion implements IExplosion {
