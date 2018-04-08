@@ -63,8 +63,6 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
                 if (TileEntityRendererDispatcher.instance.hasSpecialRenderer(tile)) {
                     GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
                     GL11.glPushMatrix();
-                    GL11.glTranslated(-0.5, -1.25, -0.5);
-                    GL11.glRotated(180, 0, 1, 0);
 
                     TileEntitySpecialRenderer tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(tile);
 

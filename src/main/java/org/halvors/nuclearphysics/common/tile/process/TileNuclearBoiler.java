@@ -15,7 +15,6 @@ import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
-import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 public class TileNuclearBoiler extends TileProcess {
@@ -159,9 +158,7 @@ public class TileNuclearBoiler extends TileProcess {
             ItemStack itemStack = getStackInSlot(inputSlot);
 
             if (itemStack != null && (OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack))) {
-                if (tankOutput.getFluidAmount() < tankOutput.getCapacity()) {
-                    return true;
-                }
+                return tankOutput.getFluidAmount() < tankOutput.getCapacity();
             }
         }
 

@@ -34,6 +34,6 @@ public class BlockConnectedTexture extends BlockContainerBase implements ICustom
     @Override
     @SideOnly(Side.CLIENT)
     public ISimpleBlockRenderer getRenderer() {
-        return new ConnectedTextureRenderer(this, blockIcon.getIconName());
+        return new ConnectedTextureRenderer(this, name);
     }
 }
