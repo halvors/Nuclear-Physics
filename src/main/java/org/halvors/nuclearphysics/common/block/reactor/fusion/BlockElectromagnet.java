@@ -59,6 +59,12 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
     @Override
     @SideOnly(Side.CLIENT)
+    public boolean renderAsNormalBlock() {
+        return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
         Position neighborPosition = new Position(x, y, z).translate(ForgeDirection.getOrientation(side).getOpposite());
         Block block = world.getBlock(x, y, z);
