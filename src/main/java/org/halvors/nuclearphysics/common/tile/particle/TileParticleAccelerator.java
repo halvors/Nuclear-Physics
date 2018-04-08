@@ -250,7 +250,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
         // Do we have an empty cell in slot one
         ItemStack itemStackEmptyCell = inventory.getStackInSlot(1);
 
-        if (itemStackEmptyCell != null && OreDictionaryHelper.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.stackSize > 0) {
+        if (OreDictionaryHelper.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.stackSize > 0) {
             // Each cell can only hold 125mg of antimatter
             // TODO: maybe a config for this?
             if (antimatterCount >= 125) {

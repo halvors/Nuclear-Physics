@@ -218,9 +218,7 @@ public class TileChemicalExtractor extends TileProcess {
                 }
 
                 if (inputFluidStack.isFluidEqual(ModFluids.fluidStackWater) && inputFluidStack.amount >= General.waterPerDeutermium * extractSpeed) {
-                    if (outputFluidStack == null || outputFluidStack.getFluid() == ModFluids.deuterium) {
-                        return true;
-                    }
+                    return outputFluidStack == null || outputFluidStack.getFluid() == ModFluids.deuterium;
                 }
             }
         }
