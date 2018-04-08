@@ -14,7 +14,7 @@ public class EnergyUtility {
      * @param tile - TileEntity the item is being charged in.
      */
     public static void discharge(int slot, TileEntity tile) {
-        if (tile != null && tile instanceof IEnergyStorage) {
+        if (tile instanceof IEnergyStorage) {
             final IEnergyStorage energyStorage = (IEnergyStorage) tile;
 
             if (tile instanceof IInventory) {
@@ -44,7 +44,7 @@ public class EnergyUtility {
      * @param tile - TileEntity the item is being discharged in
      */
     public static void charge(int slot, TileEntity tile) {
-        if (tile != null && tile instanceof IEnergyStorage) {
+        if (tile instanceof IEnergyStorage) {
             final IEnergyStorage energyStorage = (IEnergyStorage) tile;
 
             if (tile instanceof IInventory) {
