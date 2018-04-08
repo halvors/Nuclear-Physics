@@ -10,6 +10,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
@@ -25,8 +26,8 @@ public class ItemCell extends ItemTooltip {
 
     public ItemCell() {
         super("cell");
-
-        setContainerItem(ModItems.itemCell);
+        
+        setContainerItem(this);
     }
 
     @Override
