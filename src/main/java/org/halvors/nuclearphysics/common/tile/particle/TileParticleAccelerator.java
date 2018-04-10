@@ -168,7 +168,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
 
                     // Plays sound of particle accelerating past the speed based on total velocity at the time of anti-matter creation.
                     if (entityParticle != null) {
-                        world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getVelocity()) / antimatterCreationSpeed)));
+                        world.playSound(null, pos, ModSoundEvents.ACCELERATOR, SoundCategory.BLOCKS, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getVelocity()) / antimatterCreationSpeed)));
                     }
 
                     energyUsed = energyStorage.extractEnergy(energyPerTick, false);
@@ -250,7 +250,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
         // Do we have an empty cell in slot one
         ItemStack itemStackEmptyCell = inventory.getStackInSlot(1);
 
-        if (!itemStackEmptyCell.isEmpty() && OreDictionaryHelper.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.getCount() > 0) {
+        if (OreDictionaryHelper.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.getCount() > 0) {
             // Each cell can only hold 125mg of antimatter
             // TODO: maybe a config for this?
             if (antimatterCount >= 125) {

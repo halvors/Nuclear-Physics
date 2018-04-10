@@ -28,6 +28,7 @@ import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.type.Position;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class EntityParticle extends Entity implements IEntityAdditionalSpawnData {
@@ -146,10 +147,8 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 movementDirection = dataManager.get(movementDirectionParameter);
             }
 
-            BlockPos pos = new BlockPos(posX, posY, posZ);
-
-            if ((!isElectromagnet(world, pos, movementDirection.rotateAround(Axis.Y)) ||
-                 !isElectromagnet(world, pos, movementDirection.getOpposite().rotateAround(Axis.Y))) && lastTurn <= 0) {
+            if ((!isElectromagnet(world, getPosition(), movementDirection.rotateAround(Axis.Y)) ||
+                 !isElectromagnet(world, getPosition(), movementDirection.getOpposite().rotateAround(Axis.Y))) && lastTurn <= 0) {
                 acceleration = turn();
                 motionX = 0;
                 motionY = 0;
@@ -160,7 +159,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             lastTurn--;
 
             // Checks if the current block condition allows the particle to exist.
-            if (!canSpawnParticle(world, pos) || collided) {
+            if (!canSpawnParticle(world, getPosition()) || collided) {
                 handleCollisionWithEntity();
 
                 return;
@@ -212,13 +211,13 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound tag) {
+    protected void readEntityFromNBT(@Nonnull NBTTagCompound tag) {
         movementPos = new BlockPos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z"));
         movementDirection = EnumFacing.getFront(tag.getByte("direction"));
     }
 
     @Override
-    protected void writeEntityToNBT(NBTTagCompound tag) {
+    protected void writeEntityToNBT(@Nonnull NBTTagCompound tag) {
         tag.setInteger("x", movementPos.getX());
         tag.setInteger("y", movementPos.getY());
         tag.setInteger("z", movementPos.getZ());
@@ -226,7 +225,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public void applyEntityCollision(Entity entity) {
+    public void applyEntityCollision(@Nonnull Entity entity) {
         handleCollisionWithEntity();
     }
 
@@ -244,15 +243,13 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
      */
     private double turn() {
         // TODO: Rewrite to allow for up and down turning
-        BlockPos pos = new BlockPos(posX, posY, posZ);
-
-        EnumFacing rightDirection = movementDirection.rotateAround(Axis.Y);
         EnumFacing leftDirection = movementDirection.getOpposite().rotateAround(Axis.Y);
+        EnumFacing rightDirection = movementDirection.rotateAround(Axis.Y);
 
-        if (world.isAirBlock(pos.offset(rightDirection))) {
-            movementDirection = rightDirection;
-        } else if (world.isAirBlock(pos.offset(leftDirection))) {
+        if (world.isAirBlock(getPosition().offset(leftDirection))) {
             movementDirection = leftDirection;
+        } else if (world.isAirBlock(getPosition().offset(rightDirection))) {
+            movementDirection = rightDirection;
         } else {
             setDead();
 

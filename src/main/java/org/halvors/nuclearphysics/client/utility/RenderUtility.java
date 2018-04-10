@@ -11,10 +11,10 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.type.Position;
 
 @SideOnly(Side.CLIENT)
 public class RenderUtility {
@@ -45,17 +45,12 @@ public class RenderUtility {
         Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
-    ///////////////
-
-    public static void renderFloatingText(String text, Position position) {
-        renderFloatingText(text, position, 0xFFFFFF);
+    public static void renderFloatingText(String text, BlockPos pos) {
+        renderFloatingText(text, pos, 0xFFFFFF);
     }
 
-    /** Renders a floating text in a specific position.
-     *
-     * @author Briman0094 */
-    public static void renderFloatingText(String text, Position position, int color) {
-        renderFloatingText(text, position.getX(), position.getY(), position.getZ(), color);
+    public static void renderFloatingText(String text, BlockPos pos, int color) {
+        renderFloatingText(text, pos.getX(), pos.getY(), pos.getZ(), color);
     }
 
     public static void renderFloatingText(String text, double x, double y, double z, int color) {

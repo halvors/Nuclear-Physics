@@ -196,6 +196,8 @@ public class Position {
         return scale(magnitude != 0 ? 1 / magnitude : 0);
     }
 
+
+
     @Override
     public Position clone() {
         return new Position(x, y, z);

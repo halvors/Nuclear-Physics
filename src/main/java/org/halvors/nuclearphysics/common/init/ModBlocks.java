@@ -75,6 +75,8 @@ public class ModBlocks {
             };
 
             registry.registerAll(registerBlocks);
+
+            registerTileEntities();
         }
 
         /**
@@ -112,8 +114,6 @@ public class ModBlocks {
 
                 itemBlocks.add(item);
             }
-
-            registerTileEntities();
 
             OreDictionary.registerOre("oreUranium", blockUraniumOre);
             OreDictionary.registerOre("blockRadioactiveGrass", blockRadioactiveGrass);
