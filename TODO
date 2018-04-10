@@ -5,6 +5,7 @@ Known bugs:
         - JEI integration.
         - When other mods fluids is used as default, tanks still contain the old one. (SEEMS TO BE FORGE BEHAVIOUR, NOT A BUG)
 
+        - Verify that it's possible to output 1g anitmatter cells.
         - Fix fissile rod stack inserting ghost stack into reactor cell.
 
     Low Priority:
@@ -34,6 +35,7 @@ New features to add:
         - Implement IAntiPoisonBlock and add make radiation resistant blocks. (Raytrace).
 
     Enhancement:
+        - Make antimatter and dark matter fluid items, 200 dl = 200 mg.
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
         - Make reactor make glass if sand is next to it.
         - Make accelerator GUI show energy usage per 5 mg antimatter, as a measure of efficiency.
