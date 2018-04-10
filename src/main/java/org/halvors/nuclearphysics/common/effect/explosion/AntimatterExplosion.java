@@ -30,7 +30,9 @@ public class AntimatterExplosion extends RadioactiveExplosion implements IExplos
     }
 
     @Override
-    public long getEnergy() {
-        return (long) ((2000000000000000L + (2000000000000000L * 9 * tier)) * ConfigurationManager.General.fulminationOutputMultiplier);
+    public int getEnergy() {
+        int multiplier = tier + 1;
+
+        return (int) ((3 * ((29 * 100000 * multiplier^2) + (14 * 10000000 * multiplier) - 124 * 1000000) / 100) * ConfigurationManager.General.fulminationOutputMultiplier);
     }
 }

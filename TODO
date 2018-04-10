@@ -81,9 +81,15 @@ New features to add:
         Quantum Assembler: (DONE)
             Per item = ((2 x 47) * 128MJ) - 22 MJ = (94 * 128 MJ) - 22 MJ = 12010 MJ (4804 RF?)
 
-        Fulmination Generator: (TODO)
-            125mg antimatter = 24.93 MJ
-            1g antimatter = ?
+        Fulmination Generator: (DONE)
+            125mg antimatter = 4523,52 MJ = 11310 FE
+
+            1g antimatter = 35 * 128 MJ = 4480 MJ ~= 11310 FE
+
+            Standard setup: (3 * 3 * 3) - 2 Fulmination Generator
+                (((16 * 55) + 3) * 128) + 64 MJ = 113088 MJ
+                113088 MJ / 25 Fulmination Generator = 4523,52 MJ per Fulmination Generator
+                4523,52 MJ / 0,4 = 11308,8 FE ~= 11310 FE
 
     Useful resources:
         Check this?: https://www.youtube.com/watch?v=sBj8ufrshuk
