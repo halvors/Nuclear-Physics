@@ -54,14 +54,14 @@ public class FluidUtility {
         return getFilledContainer(new ItemStack(ModItems.itemCell), new FluidStack(fluid, ItemCell.capacity));
     }
 
-    public static ItemStack getFilledContainer(ItemStack stack, FluidStack fluidStack) {
-        IFluidHandler fluidHandler = FluidUtil.getFluidHandler(stack);
+    public static ItemStack getFilledContainer(ItemStack itemStack, FluidStack fluidStack) {
+        IFluidHandler fluidHandler = FluidUtil.getFluidHandler(itemStack);
 
         if (fluidHandler != null) {
             fluidHandler.fill(fluidStack, true);
         }
 
-        return stack;
+        return itemStack;
     }
 
     public static void transferFluidToNeighbors(World world, BlockPos pos, IFluidHandler from) {

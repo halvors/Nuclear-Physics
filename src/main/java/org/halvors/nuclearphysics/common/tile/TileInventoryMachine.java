@@ -1,14 +1,12 @@
 package org.halvors.nuclearphysics.common.tile;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,22 +27,7 @@ public abstract class TileInventoryMachine extends TileMachine {
         super.readFromNBT(tag);
 
         operatingTicks = tag.getInteger("operatingTicks");
-
-        if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
-            NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
-
-            for (int i = 0; i < tagList.tagCount(); i++) {
-                NBTTagCompound slotTag = (NBTTagCompound) tagList.get(i);
-                byte slot = slotTag.getByte("Slot");
-
-                if (slot < inventory.getSlots()) {
-                    inventory.setStackInSlot(slot, new ItemStack(slotTag));
-                }
-            }
-
-            return;
-        }
-
+        InventoryUtility.readFromNBT(tag, inventory);
         CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag("Slots"));
     }
 

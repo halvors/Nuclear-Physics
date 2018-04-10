@@ -42,14 +42,14 @@ public class ThermalEventHandler {
         if (state == Blocks.WATER.getDefaultState() || state == Blocks.FLOWING_WATER.getDefaultState()) {
             // Boil the water into steam.
             for (int height = 1; height <= event.getMaxSpread(); height++) {
-                final TileEntity tile = event.getWorld().getTileEntity(pos.up(height));
+                final TileEntity tile = world.getTileEntity(pos.up(height));
 
                 if (tile != null && tile.hasCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
                     final IBoilHandler boilHandler = tile.getCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
-                    final FluidStack fluidStack = event.getRemainForSpread(height);
+                    final FluidStack gasStack = event.getGas(height);
 
-                    if (fluidStack.amount > 0 && boilHandler.receiveGas(fluidStack, false) > 0) {
-                        fluidStack.amount -= boilHandler.receiveGas(fluidStack, true);
+                    if (gasStack.amount > 0 && boilHandler.receiveGas(gasStack, false) > 0) {
+                        gasStack.amount -= boilHandler.receiveGas(gasStack, true);
                     }
                 }
             }
@@ -136,7 +136,7 @@ public class ThermalEventHandler {
                 if (event.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
                     int volume = (int) (Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * General.steamOutputMultiplier);
 
-                    MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(ModFluids.steam, volume), 2, event.isReactor()));
+                    MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
 
                     event.setHeatLoss(0.2F);
                 }

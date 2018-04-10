@@ -29,7 +29,8 @@ import org.halvors.nuclearphysics.common.network.PacketHandler;
 
 @Mod(modid = Reference.ID,
      name = Reference.NAME,
-     version = Reference.VERSION, dependencies = "after:Mekanism",
+     version = Reference.VERSION,
+	 dependencies = "after:mekanism",
 	 guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
 public class NuclearPhysics {
 	// The instance of your mod that Forge uses.
@@ -81,7 +82,6 @@ public class NuclearPhysics {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		// Register event handlers.
-		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ItemEventHandler());

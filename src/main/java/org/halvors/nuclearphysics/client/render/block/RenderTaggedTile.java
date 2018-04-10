@@ -11,7 +11,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -51,7 +50,7 @@ public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<
                             Entry<String, Integer> entry = it.next();
 
                             if (entry.getKey() != null) {
-                                RenderUtility.renderFloatingText(entry.getKey(), new Position(x, y, z).translate(0.5, i * 0.25 + height, 0.5), entry.getValue());
+                                RenderUtility.renderFloatingText(entry.getKey(), new BlockPos(x, y, z).add(0.5, i * 0.25 + height, 0.5), entry.getValue());
                             }
 
                             i++;

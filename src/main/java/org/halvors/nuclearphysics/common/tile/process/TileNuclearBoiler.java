@@ -164,9 +164,7 @@ public class TileNuclearBoiler extends TileProcess {
             ItemStack itemStack = inventory.getStackInSlot(inputSlot);
 
             if (!itemStack.isEmpty() && (OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack))) {
-                if (tankOutput.getFluidAmount() < tankOutput.getCapacity()) {
-                    return true;
-                }
+                return tankOutput.getFluidAmount() < tankOutput.getCapacity();
             }
         }
 
@@ -181,7 +179,7 @@ public class TileNuclearBoiler extends TileProcess {
             FluidStack fluidStack = new FluidStack(ModFluids.uraniumHexaflouride, General.uraniumHexaflourideRatio * 2);
             tankOutput.fillInternal(fluidStack, true);
 
-            InventoryUtility.decrStackSize(inventory, inputSlot);
+            InventoryUtility.decrStackSize(inventory, 1);
         }
     }
 }
