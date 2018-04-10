@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,28 +56,30 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
 
             GL11.glPopMatrix();
             GL11.glPopAttrib();
-        } else {
-            if (block.hasTileEntity(metadata)) {
-                final TileEntity tile = getTileEntityForBlock(block, metadata);
+        } else if (block.hasTileEntity(metadata)) {
+            final TileEntity tile = getTileEntityForBlock(block, metadata);
 
-                if (TileEntityRendererDispatcher.instance.hasSpecialRenderer(tile)) {
-                    GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
-                    GL11.glPushMatrix();
+            if (TileEntityRendererDispatcher.instance.hasSpecialRenderer(tile)) {
+                GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
+                GL11.glPushMatrix();
 
-                    TileEntitySpecialRenderer tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(tile);
+                // Rotate TESR blocks to
+                GL11.glRotated(180, 0, 1, 0);
+                GL11.glTranslated(0, -0.9, 0);
 
-                    try {
-                        tesr.renderTileEntityAt(tile, 0, 0, 0, 0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                TileEntitySpecialRenderer tileSpecialRenderer = TileEntityRendererDispatcher.instance.getSpecialRenderer(tile);
 
-                    GL11.glPopMatrix();
-                    GL11.glPopAttrib();
-                } else {
-                    if (block.renderAsNormalBlock()) {
-                        RenderUtility.renderNormalBlockAsItem(block, metadata, renderer);
-                    }
+                try {
+                    tileSpecialRenderer.renderTileEntityAt(tile, 0, 0, 0, 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                GL11.glPopMatrix();
+                GL11.glPopAttrib();
+            } else {
+                if (block.renderAsNormalBlock()) {
+                    RenderUtility.renderNormalBlockAsItem(block, metadata, renderer);
                 }
             }
         }
