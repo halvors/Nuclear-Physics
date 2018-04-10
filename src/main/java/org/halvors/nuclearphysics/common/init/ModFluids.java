@@ -94,8 +94,6 @@ public class ModFluids {
 
             block.setUnlocalizedName(fluid.getUnlocalizedName());
             block.setTextureName(Reference.PREFIX + "fluids/" + fluid.getName() + "_still");
-            block.setCreativeTab(NuclearPhysics.getCreativeTab());
-            block.setCreativeTab(NuclearPhysics.getCreativeTab());
 
             if (fluid == plasma) {
                 block.setCreativeTab(NuclearPhysics.getCreativeTab());
