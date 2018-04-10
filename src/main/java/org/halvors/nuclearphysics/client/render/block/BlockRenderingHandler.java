@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
-import org.halvors.nuclearphysics.client.render.item.ISimpleItemRenderer;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.lwjgl.opengl.GL11;
 
@@ -67,11 +66,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
                     TileEntitySpecialRenderer tesr = TileEntityRendererDispatcher.instance.getSpecialRenderer(tile);
 
                     try {
-                        if (tesr instanceof ISimpleItemRenderer) {
-                            ((ISimpleItemRenderer) tesr).renderInventoryItem(new ItemStack(block, 1, metadata));
-                        } else {
-                            tesr.renderTileEntityAt(tile, 0, 0, 0, 0);
-                        }
+                        tesr.renderTileEntityAt(tile, 0, 0, 0, 0);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -100,14 +95,6 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
                     return true;
                 }
             } else if (block.renderAsNormalBlock()) {
-                renderer.renderStandardBlock(block, x, y, z);
-
-                return true;
-            }
-        } else {
-            final TileEntity tile = world.getTileEntity(x, y, z);
-
-            if (block.renderAsNormalBlock() && !TileEntityRendererDispatcher.instance.hasSpecialRenderer(tile)) {
                 renderer.renderStandardBlock(block, x, y, z);
 
                 return true;

@@ -7,4 +7,3 @@ import cpw.mods.fml.relauncher.SideOnly;
 public interface ICustomBlockRenderer {
     ISimpleBlockRenderer getRenderer();
 }
-
