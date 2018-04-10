@@ -9,5 +9,5 @@ public interface IExplosion {
 
     /** @return The energy emitted by this explosive. In Joules and approximately based off of a real
      * life equivalent. */
-    long getEnergy();
+    int getEnergy();
 }
