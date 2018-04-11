@@ -12,6 +12,7 @@ import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.type.Pair;
 import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -58,7 +59,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
                 int y = message.getY();
                 int z = message.getZ();
 
-                if (!world.isRemote) {// && PlayerUtility.isOp(player)) {
+                if (!world.isRemote && PlayerUtility.isOp(player)) {
                     try {
                         if (message.size > 0) {
                             // TODO: Implement dynamic facing, not just NORTH.

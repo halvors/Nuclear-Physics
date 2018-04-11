@@ -39,7 +39,10 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
         ignoreFrustumCheck = true;
 
-        //setRenderDistanceWeight(4F); // TODO: This should never be called server-side, why are we setting this globally?
+        if (world.isRemote) {
+            renderDistanceWeight = 4;
+        }
+
         setSize(0.3F, 0.3F);
     }
 

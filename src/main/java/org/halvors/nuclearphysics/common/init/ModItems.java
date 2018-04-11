@@ -40,7 +40,7 @@ public class ModItems {
     public static Item itemCircuitElite = new ItemBase("circuit_elite");
 
     // Buckets
-    public static Item itemToxicWasteBucket = new ItemBucketBase("toxic_waste_bucket", ModFluids.toxicWaste).setContainerItem(Items.bucket);
+    public static Item itemToxicWasteBucket = new ItemBucketBase("toxic_waste_bucket", ModFluids.toxicWaste);
 
     // Cells
     public static Item itemAntimatterCell = new ItemAntimatterCell();
@@ -111,6 +111,7 @@ public class ModItems {
         OreDictionary.registerOre("ingotUranium235", new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_235.ordinal()));
         OreDictionary.registerOre("ingotUranium238", new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()));
 
+        OreDictionary.registerOre("antimatter", new ItemStack(ModItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.MILLIGRAM.ordinal()));
         OreDictionary.registerOre("antimatterMilligram", new ItemStack(ModItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.MILLIGRAM.ordinal()));
         OreDictionary.registerOre("antimatterGram", new ItemStack(ModItems.itemAntimatterCell, 1, ItemAntimatterCell.EnumAntimatterCell.GRAM.ordinal()));
     }

@@ -3,6 +3,7 @@ package org.halvors.nuclearphysics.common.item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemBucket;
 import net.minecraftforge.fluids.Fluid;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
@@ -18,6 +19,7 @@ public class ItemBucketBase extends ItemBucket {
 
 		setUnlocalizedName(Reference.ID + "." + name);
 		setCreativeTab(NuclearPhysics.getCreativeTab());
+		setContainerItem(Items.bucket);
 	}
 
 	@Override

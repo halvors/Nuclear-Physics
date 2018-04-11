@@ -1,5 +1,7 @@
 package org.halvors.nuclearphysics.common.utility;
 
+import buildcraft.api.tools.IToolWrench;
+import cofh.api.item.IToolHammer;
 import mekanism.api.IMekWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -21,32 +23,14 @@ public class WrenchUtility {
             Item item = itemStack.getItem();
 
             if (item instanceof IWrench) {
-                IWrench wrench = (IWrench) item;
-
-                return wrench.canUseWrench(itemStack, player, x, y, z);
-            } else if (Integration.isMekanismLoaded) {
-                if (item instanceof IMekWrench) {
-                    IMekWrench wrench = (IMekWrench) item;
-
-                    return wrench.canUseWrench(player, x, y, z);
-                }
+                return ((IWrench) item).canUseWrench(player, x, y, z);
+            } else if (Integration.isMekanismLoaded && item instanceof IMekWrench) {
+                return ((IMekWrench) item).canUseWrench(player, x, y, z);
+            } else if (Integration.isBuildcraftLoaded && item instanceof IToolWrench) {
+                return ((IToolWrench) item).canWrench(player, x, y, z);
+            } else if (Integration.isCOFHCoreLoaded && item instanceof IToolHammer) {
+                return ((IToolHammer) item).isUsable(itemStack, player, x, y, z);
             }
-
-            /*
-            } else if (ConfigurationManager.Integration.isBuildcraftEnabled) {
-                if (item instanceof IToolWrench) {
-                    IToolWrench wrench = (IToolWrench) item;
-
-                    return wrench.canWrench(player, hand, itemStack, null);
-                }
-            } else if (ConfigurationManager.Integration.isCoFHEnabled) {
-                if (item instanceof IToolHammer) {
-                    IToolHammer wrench = (IToolHammer) item;
-
-                    return wrench.isUsable(itemStack, player, pos);
-                }
-
-            */
         }
 
         return false;

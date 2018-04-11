@@ -4,5 +4,5 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public interface IWrench {
-    boolean canUseWrench(ItemStack itemStack, EntityPlayer player, int x, int y, int z);
+    boolean canUseWrench(EntityPlayer player, int x, int y, int z);
 }
