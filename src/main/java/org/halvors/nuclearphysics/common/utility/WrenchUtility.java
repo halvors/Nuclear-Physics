@@ -25,9 +25,7 @@ public class WrenchUtility {
             Item item = itemStack.getItem();
 
             if (item instanceof IWrench) {
-                IWrench wrench = (IWrench) item;
-
-                return wrench.canUseWrench(itemStack, player, pos);
+                return ((IWrench) item).canUseWrench(itemStack, player, pos);
             } else if (Integration.isMekanismLoaded && item instanceof IMekWrench) {
                 return ((IMekWrench) item).canUseWrench(itemStack, player, pos);
             } else if (Integration.isBuildcraftLoaded && item instanceof IToolWrench) {
