@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class BlockThermometer extends BlockRotatable {
     @SideOnly(Side.CLIENT)
-    private static IIcon iconFront;
+    private static IIcon iconSide;
 
     public BlockThermometer() {
         super("thermometer", Material.piston);
@@ -38,24 +38,19 @@ public class BlockThermometer extends BlockRotatable {
     public void registerIcons(IIconRegister iconRegister) {
         super.registerIcons(iconRegister);
 
-        iconFront = iconRegister.registerIcon(Reference.PREFIX + "machine");
+        iconSide = iconRegister.registerIcon(Reference.PREFIX + "machine");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int side) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        ForgeDirection facing = ForgeDirection.getOrientation(side);
+    public IIcon getIcon(int side, int metadata) {
+        switch (side) {
+            case 1:
+                return blockIcon;
 
-        if (tile instanceof ITileRotatable) {
-            ITileRotatable tileRotatable = (ITileRotatable) tile;
-
-            if (facing == tileRotatable.getFacing()) {
-                return iconFront;
-            }
+            default:
+                return iconSide;
         }
-
-        return super.getIcon(world, x, y, z, side);
     }
 
     @Override
