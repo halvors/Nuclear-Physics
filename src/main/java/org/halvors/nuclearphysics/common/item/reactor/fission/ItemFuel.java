@@ -1,7 +1,6 @@
 package org.halvors.nuclearphysics.common.item.reactor.fission;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
@@ -9,7 +8,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public class ItemFuel extends ItemRadioactive {
     public static final int decay = 2500;

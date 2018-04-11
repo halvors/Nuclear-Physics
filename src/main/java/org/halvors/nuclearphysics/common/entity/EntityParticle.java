@@ -46,7 +46,10 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
         ignoreFrustumCheck = true;
 
-        //setRenderDistanceWeight(4F); // TODO: This should never be called server-side, why are we setting this globally?
+        if (world.isRemote) {
+            setRenderDistanceWeight(4);
+        }
+
         setSize(0.3F, 0.3F);
     }
 
@@ -147,8 +150,10 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 movementDirection = dataManager.get(movementDirectionParameter);
             }
 
-            if ((!isElectromagnet(world, getPosition(), movementDirection.rotateAround(Axis.Y)) ||
-                 !isElectromagnet(world, getPosition(), movementDirection.getOpposite().rotateAround(Axis.Y))) && lastTurn <= 0) {
+            BlockPos pos = getPosition().down();
+
+            if ((!isElectromagnet(world, pos, movementDirection.rotateAround(Axis.Y)) ||
+                 !isElectromagnet(world, pos, movementDirection.getOpposite().rotateAround(Axis.Y))) && lastTurn <= 0) {
                 acceleration = turn();
                 motionX = 0;
                 motionY = 0;
@@ -159,7 +164,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             lastTurn--;
 
             // Checks if the current block condition allows the particle to exist.
-            if (!canSpawnParticle(world, getPosition()) || collided) {
+            if (!canSpawnParticle(world, pos) || collided) {
                 handleCollisionWithEntity();
 
                 return;
@@ -245,10 +250,11 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         // TODO: Rewrite to allow for up and down turning
         EnumFacing leftDirection = movementDirection.getOpposite().rotateAround(Axis.Y);
         EnumFacing rightDirection = movementDirection.rotateAround(Axis.Y);
+        BlockPos pos = getPosition().down();
 
-        if (world.isAirBlock(getPosition().offset(leftDirection))) {
+        if (world.isAirBlock(pos.offset(leftDirection))) {
             movementDirection = leftDirection;
-        } else if (world.isAirBlock(getPosition().offset(rightDirection))) {
+        } else if (world.isAirBlock(pos.offset(rightDirection))) {
             movementDirection = rightDirection;
         } else {
             setDead();

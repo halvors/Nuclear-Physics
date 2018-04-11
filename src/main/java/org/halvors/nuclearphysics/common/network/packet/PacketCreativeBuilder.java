@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
+import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -56,7 +57,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
                     World world = PacketHandler.getWorld(messageContext);
                     BlockPos pos = message.getPos();
 
-                    if (!world.isRemote) {// && PlayerUtility.isOp(player)) {
+                    if (!world.isRemote && PlayerUtility.isOp(player)) {
                         try {
                             if (message.size > 0) {
                                 // TODO: Implement dynamic facing, not just NORTH.
