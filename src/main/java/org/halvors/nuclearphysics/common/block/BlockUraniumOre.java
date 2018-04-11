@@ -14,7 +14,6 @@ public class BlockUraniumOre extends BlockRadioactive {
         setHardness(2.0F);
         setHarvestLevel("pickaxe", 2);
 
-        isRandomlyRadioactive = canWalkPoison = spawnParticle = ConfigurationManager.General.allowRadioactiveOres;
         canSpread = false;
         radius = 1.0F;
         amplifier = 0;
