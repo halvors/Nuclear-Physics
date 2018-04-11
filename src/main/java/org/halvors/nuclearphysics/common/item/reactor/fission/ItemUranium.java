@@ -10,6 +10,7 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class ItemUranium extends ItemRadioactive {
     public ItemUranium() {
@@ -27,7 +28,6 @@ public class ItemUranium extends ItemRadioactive {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     public void getSubItems(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
         for (EnumUranium type : EnumUranium.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
