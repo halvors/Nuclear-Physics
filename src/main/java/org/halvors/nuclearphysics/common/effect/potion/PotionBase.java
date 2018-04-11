@@ -47,9 +47,9 @@ public abstract class PotionBase extends Potion {
         EnumSet<EntityEquipmentSlot> armorWorn = EnumSet.noneOf(EntityEquipmentSlot.class);
 
         if (entity instanceof EntityPlayer) {
-            EntityPlayer entityPlayer = (EntityPlayer) entity;
+            EntityPlayer player = (EntityPlayer) entity;
 
-            for (ItemStack itemStack : entityPlayer.getArmorInventoryList()) {
+            for (ItemStack itemStack : player.getArmorInventoryList()) {
                 if (itemStack != null) {
                     if ((itemStack.getItem() instanceof IAntiPoisonArmor)) {
                         IAntiPoisonArmor armor = (IAntiPoisonArmor) itemStack.getItem();
