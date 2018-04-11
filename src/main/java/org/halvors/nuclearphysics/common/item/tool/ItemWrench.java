@@ -82,7 +82,7 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
             case ROTATE:
                 EnumFacing[] validRotations = block.getValidRotations(world, pos);
 
-                if (validRotations.length > 0) {
+                if (validRotations != null && validRotations.length > 0) {
                     List<EnumFacing> validRotationsList = Arrays.asList(validRotations);
 
                     if (!player.isSneaking() && validRotationsList.contains(facing)) {
