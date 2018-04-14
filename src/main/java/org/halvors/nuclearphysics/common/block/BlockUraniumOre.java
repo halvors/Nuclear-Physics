@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.common.block;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
 
 import java.util.Random;
 
