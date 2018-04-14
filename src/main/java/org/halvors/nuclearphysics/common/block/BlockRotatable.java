@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 
-public abstract class BlockRotatable extends BlockContainerBase {
+public class BlockRotatable extends BlockContainerBase {
     protected byte rotationMask = Byte.parseByte("111100", 2);
     protected boolean isFlipPlacement = false;
 

@@ -18,6 +18,10 @@ Known bugs:
         - Fix electric turbine sound, for both small and large.
         - Check if more turbines is more efficient than one.
 
+        - Fix CapabilityFluidHandler related NPE in TileGasFunnel.
+        - Overlook and implement more configuration options from Calclavia's mod.
+        - Should radioactive blocks be a capabilities?
+
     Low Priority:
         - JEI integration.
         - Store fluids in NBT on machine drop?

@@ -12,13 +12,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.List;
 import java.util.Random;
 
-public abstract class BlockRadioactive extends BlockBase {
+public class BlockRadioactive extends BlockBase {
     protected boolean canSpread;
     protected float radius;
     protected int amplifier;
@@ -37,7 +38,7 @@ public abstract class BlockRadioactive extends BlockBase {
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-        if (spawnParticle && Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
+        if ((spawnParticle || General.allowRadioactiveOres) && Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
             int radius = 3;
 
             for (int i = 0; i < 2; i++) {
@@ -56,7 +57,7 @@ public abstract class BlockRadioactive extends BlockBase {
     @Override
     public void updateTick(World world, int x, int y, int z, Random random) {
         if (!world.isRemote) {
-            if (isRandomlyRadioactive) {
+            if (isRandomlyRadioactive || General.allowRadioactiveOres) {
                 final AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius);
                 final List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
@@ -89,7 +90,7 @@ public abstract class BlockRadioactive extends BlockBase {
      */
     @Override
     public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
-        if (entity instanceof EntityLiving && canWalkPoison) {
+        if (entity instanceof EntityLiving && (canWalkPoison || General.allowRadioactiveOres)) {
             ModPotions.potionRadiation.poisonEntity(x, y, z, (EntityLiving) entity);
         }
     }

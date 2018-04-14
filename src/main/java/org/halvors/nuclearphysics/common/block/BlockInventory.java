@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-public abstract class BlockInventory extends BlockRotatable {
+public class BlockInventory extends BlockRotatable {
     public BlockInventory(String name, Material material) {
         super(name, material);
     }
