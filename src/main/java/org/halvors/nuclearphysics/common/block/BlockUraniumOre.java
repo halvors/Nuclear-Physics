@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.common.block;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
 
 import java.util.Random;
 
@@ -14,7 +13,6 @@ public class BlockUraniumOre extends BlockRadioactive {
         setHardness(2.0F);
         setHarvestLevel("pickaxe", 2);
 
-        isRandomlyRadioactive = canWalkPoison = spawnParticle = ConfigurationManager.General.allowRadioactiveOres;
         canSpread = false;
         radius = 1.0F;
         amplifier = 0;
