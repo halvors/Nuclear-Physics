@@ -24,7 +24,7 @@ public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {
 
     @Override
     @Nonnull
-    public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
+    public String getArmorTexture(ItemStack itemStack, Entity entity, EntityEquipmentSlot slot, String type) {
         return ResourceUtility.getResource(Resource.TEXTURE_MODELS, "hazmat.png").toString();
     }
 

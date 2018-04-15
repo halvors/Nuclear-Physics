@@ -27,7 +27,6 @@ import org.halvors.nuclearphysics.common.tile.reactor.fusion.TileElectromagnet;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class BlockElectromagnet extends BlockConnectedTexture {
     public BlockElectromagnet() {

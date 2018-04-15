@@ -9,7 +9,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public class ItemFuel extends ItemRadioactive {
     public static final int decay = 2500;

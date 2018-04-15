@@ -4,13 +4,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public class ItemUranium extends ItemRadioactive {
     public ItemUranium() {
