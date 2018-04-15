@@ -22,7 +22,7 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockConnectedTexture;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet.EnumElectromagnet;
-import org.halvors.nuclearphysics.common.tile.reactor.fusion.TileElectromagnet;
+import org.halvors.nuclearphysics.common.tile.particle.TileElectromagnet;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
