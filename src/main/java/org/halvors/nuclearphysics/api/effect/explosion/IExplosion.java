@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.api.explosion;
+package org.halvors.nuclearphysics.api.effect.explosion;
 
 public interface IExplosion {
     /** Called to initiate the explosion. */

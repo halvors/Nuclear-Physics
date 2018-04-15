@@ -6,7 +6,7 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.halvors.nuclearphysics.api.explosion.IExplosion;
+import org.halvors.nuclearphysics.api.effect.explosion.IExplosion;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.tile.particle.TileFulminationGenerator;
 import org.halvors.nuclearphysics.common.type.Position;

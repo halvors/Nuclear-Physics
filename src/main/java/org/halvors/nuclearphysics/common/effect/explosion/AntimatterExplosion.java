@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import org.halvors.nuclearphysics.api.explosion.IExplosion;
+import org.halvors.nuclearphysics.api.effect.explosion.IExplosion;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 

@@ -7,13 +7,13 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
-import org.halvors.nuclearphysics.api.item.armor.IAntiPoisonArmor;
+import org.halvors.nuclearphysics.api.item.armor.IRadiationArmor;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import javax.annotation.Nonnull;
 
-public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {
+public class ItemArmorHazmat extends ItemArmorBase implements IRadiationArmor {
     private static final ArmorMaterial material = EnumHelper.addArmorMaterial("hazmat" , "hazmat", 0, new int[] { 0, 0, 0, 0 }, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0);
 
     public ItemArmorHazmat(String name, EntityEquipmentSlot slot) {

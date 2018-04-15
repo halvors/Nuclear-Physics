@@ -6,7 +6,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.BlockPos;
-import org.halvors.nuclearphysics.api.item.armor.IAntiPoisonArmor;
+import org.halvors.nuclearphysics.api.item.armor.IRadiationArmor;
 import org.halvors.nuclearphysics.common.Reference;
 
 import java.awt.*;
@@ -51,8 +51,8 @@ public abstract class PotionBase extends Potion {
 
             for (ItemStack itemStack : player.getArmorInventoryList()) {
                 if (itemStack != null) {
-                    if ((itemStack.getItem() instanceof IAntiPoisonArmor)) {
-                        IAntiPoisonArmor armor = (IAntiPoisonArmor) itemStack.getItem();
+                    if ((itemStack.getItem() instanceof IRadiationArmor)) {
+                        IRadiationArmor armor = (IRadiationArmor) itemStack.getItem();
 
                         if (armor.isProtectedFromPoison(itemStack, entity, name)) {
                             armorWorn.add(EntityEquipmentSlot.values()[(armor.getArmorType().ordinal() % EntityEquipmentSlot.values().length)]);
