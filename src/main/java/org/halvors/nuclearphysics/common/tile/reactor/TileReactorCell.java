@@ -11,6 +11,8 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
@@ -195,13 +197,13 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                     }
 
                     // Emit radiation.
-                    if (world.getTotalWorldTime() % 20 == 0 && world.rand.nextFloat() > 0.65) {
+                    //if (world.getTotalWorldTime() % 20 == 0 && world.rand.nextFloat() > 0.65) {
                         List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - radius * 2, pos.getY() - radius * 2, pos.getZ() - radius * 2, pos.getX() + radius * 2, pos.getY() + radius * 2, pos.getZ() + radius * 2));
 
                         for (EntityLiving entity : entities) {
                             ModPotions.potionRadiation.poisonEntity(pos, entity);
                         }
-                    }
+                    //}
                 }
 
                 // Update the temperature from the thermal grid.
