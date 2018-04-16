@@ -6,8 +6,10 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import org.halvors.nuclearphysics.api.item.armor.IAntiPoisonArmor;
+import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
@@ -25,7 +27,7 @@ public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {
     @Override
     @Nonnull
     public String getArmorTexture(ItemStack itemStack, Entity entity, EntityEquipmentSlot slot, String type) {
-        return ResourceUtility.getResource(Resource.TEXTURE_MODELS, "hazmat.png").toString();
+        return Reference.PREFIX + "textures/models/hazmat.png";
     }
 
     @Override
