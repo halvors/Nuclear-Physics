@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.tile.reactor.fusion;
+package org.halvors.nuclearphysics.common.tile.particle;
 
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;

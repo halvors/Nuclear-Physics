@@ -3,7 +3,7 @@ package org.halvors.nuclearphysics.common.container.particle;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
-import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
+import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 
 public class ContainerQuantumAssembler extends ContainerBase<TileQuantumAssembler> {
     public ContainerQuantumAssembler(InventoryPlayer inventoryPlayer, TileQuantumAssembler tile) {
