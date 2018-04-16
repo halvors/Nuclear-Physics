@@ -5,8 +5,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import org.halvors.nuclearphysics.api.item.armor.IAntiPoisonArmor;
+import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
@@ -21,7 +23,7 @@ public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {
 
     @Override
     public String getArmorTexture(ItemStack itemStack, Entity entity, int slot, String type) {
-        return ResourceUtility.getResource(Resource.TEXTURE_MODELS, "hazmat.png").toString();
+        return Reference.PREFIX + "textures/models/hazmat.png";
     }
 
     @Override

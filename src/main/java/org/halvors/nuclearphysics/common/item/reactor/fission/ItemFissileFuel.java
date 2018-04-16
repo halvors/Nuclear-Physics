@@ -34,9 +34,9 @@ public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
             }
         }
 
-        // Only three reactor cells are required to begin the uranium breeding process instead of four.
+        // Only three reactor cells are required to begin the uranium breeding machine instead of four.
         if (reactors >= 3) {
-            // Breeding - Begin the process of re-enriching the uranium rod but not consistently.
+            // Breeding - Begin the machine of re-enriching the uranium rod but not consistently.
             if (world.rand.nextInt(1000) <= 100 && reactor.getTemperature() > breedingTemperature) {
                 // Cells can regain a random amount of health per tick.
                 int healAmount = world.rand.nextInt(5);
@@ -44,7 +44,7 @@ public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
                 itemStack.setMetadata(Math.max(itemStack.getMetadata() - healAmount, 0));
             }
         } else {
-            // Fission - Begin the process of heating.
+            // Fission - Begin the machine of heating.
             reactor.heat(energyPerTick);
 
             // Consume fuel.

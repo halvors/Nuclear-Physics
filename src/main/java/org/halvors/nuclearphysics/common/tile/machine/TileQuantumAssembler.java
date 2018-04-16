@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.tile.particle;
+package org.halvors.nuclearphysics.common.tile.machine;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;

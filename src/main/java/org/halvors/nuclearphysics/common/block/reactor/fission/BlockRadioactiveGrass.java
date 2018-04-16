@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.block;
+package org.halvors.nuclearphysics.common.block.reactor.fission;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -6,6 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 import org.halvors.nuclearphysics.common.Reference;
+import org.halvors.nuclearphysics.common.block.BlockRadioactive;
 
 import java.util.Random;
 

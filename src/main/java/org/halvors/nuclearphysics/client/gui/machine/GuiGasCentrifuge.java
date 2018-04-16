@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.client.gui.process;
+package org.halvors.nuclearphysics.client.gui.machine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -9,7 +9,7 @@ import org.halvors.nuclearphysics.client.gui.component.GuiProgress;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.process.ContainerGasCentrifuge;
-import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import java.util.List;

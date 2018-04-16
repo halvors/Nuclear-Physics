@@ -8,7 +8,7 @@ import org.halvors.nuclearphysics.common.container.slot.SlotEnergyItem;
 import org.halvors.nuclearphysics.common.container.slot.SlotSpecific;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.init.ModItems;
-import org.halvors.nuclearphysics.common.tile.process.TileNuclearBoiler;
+import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 
 public class ContainerNuclearBoiler extends ContainerBase<TileNuclearBoiler> {
     public ContainerNuclearBoiler(InventoryPlayer inventoryPlayer, TileNuclearBoiler tile) {

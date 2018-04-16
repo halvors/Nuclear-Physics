@@ -5,7 +5,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.container.slot.SlotEnergyItem;
-import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 
 public class ContainerGasCentrifuge extends ContainerBase<TileGasCentrifuge> {
     public ContainerGasCentrifuge(InventoryPlayer inventoryPlayer, TileGasCentrifuge tile) {

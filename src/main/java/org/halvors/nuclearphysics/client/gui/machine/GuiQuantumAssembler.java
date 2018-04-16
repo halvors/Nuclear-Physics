@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.client.gui.particle;
+package org.halvors.nuclearphysics.client.gui.machine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -7,7 +7,7 @@ import org.halvors.nuclearphysics.client.gui.GuiMachine;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.particle.ContainerQuantumAssembler;
-import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
+import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
@@ -35,7 +35,7 @@ public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {
         String displayText;
 
         if (tile.getOperatingTicks() > 0) {
-            displayText = LanguageUtility.transelate("gui.process") + ": " + (int) (((float) tile.getOperatingTicks() / (float) TileQuantumAssembler.ticksRequired) * 100) + "%";
+            displayText = LanguageUtility.transelate("gui.machine") + ": " + (int) (((float) tile.getOperatingTicks() / (float) TileQuantumAssembler.ticksRequired) * 100) + "%";
         } else if (tile.canProcess()) {
             displayText = LanguageUtility.transelate("gui.ready");
         } else {

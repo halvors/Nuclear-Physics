@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.client.render.block.particle;
+package org.halvors.nuclearphysics.client.render.block.machine;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -9,7 +9,7 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.apache.commons.lang3.ArrayUtils;
 import org.halvors.nuclearphysics.client.render.block.RenderTile;
-import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
+import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.type.Resource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.lwjgl.opengl.GL11;

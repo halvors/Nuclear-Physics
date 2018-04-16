@@ -8,7 +8,7 @@ import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.container.slot.SlotEnergyItem;
 import org.halvors.nuclearphysics.common.container.slot.SlotSpecific;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
-import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
+import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 
 public class ContainerChemicalExtractor extends ContainerBase<TileChemicalExtractor> {
     public ContainerChemicalExtractor(InventoryPlayer inventoryPlayer, TileChemicalExtractor tile) {
