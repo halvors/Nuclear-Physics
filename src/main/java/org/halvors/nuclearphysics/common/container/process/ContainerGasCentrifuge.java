@@ -3,7 +3,7 @@ package org.halvors.nuclearphysics.common.container.process;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
-import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 
 public class ContainerGasCentrifuge extends ContainerBase<TileGasCentrifuge> {
     public ContainerGasCentrifuge(InventoryPlayer inventoryPlayer, TileGasCentrifuge tile) {

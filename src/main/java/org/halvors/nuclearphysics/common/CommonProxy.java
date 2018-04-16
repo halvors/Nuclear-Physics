@@ -17,11 +17,11 @@ import org.halvors.nuclearphysics.common.container.process.ContainerChemicalExtr
 import org.halvors.nuclearphysics.common.container.process.ContainerGasCentrifuge;
 import org.halvors.nuclearphysics.common.container.process.ContainerNuclearBoiler;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
+import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
+import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
+import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
-import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
-import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
-import org.halvors.nuclearphysics.common.tile.process.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 
 /**

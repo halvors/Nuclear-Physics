@@ -22,8 +22,8 @@ public class PotionRadiation extends PotionBase {
 
     @Override
     public void performEffect(@Nonnull EntityLivingBase entity, int amplifier) {
-        if (entity.getEntityWorld().rand.nextFloat() > 0.9D - amplifier * 0.07D) {
-            entity.attackEntityFrom(damageSource, 1.0F);
+        if (entity.getEntityWorld().rand.nextFloat() > 0.9 - amplifier * 0.07) {
+            entity.attackEntityFrom(damageSource, 1);
 
             if (entity instanceof EntityPlayer) {
                 ((EntityPlayer) entity).addExhaustion(0.01F * (amplifier + 1));

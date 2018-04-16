@@ -23,14 +23,14 @@ public class TextureEventHandler {
     private static final Map<String, TextureAtlasSprite> textureMap = new HashMap<>();
     private static TextureAtlasSprite missingIcon;
 
+    private static final ResourceLocation electricTurbineLarge = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "electric_turbine_large");
     private static final ResourceLocation reactorFissileMaterial = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "reactor_fissile_material");
-    private static final ResourceLocation electric_turbine_large = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "electric_turbine_large");
 
     @SubscribeEvent
     public static void onTextureStitchEvent(TextureStitchEvent.Pre event) {
         final TextureMap map = event.getMap();
 
-        map.registerSprite(electric_turbine_large);
+        map.registerSprite(electricTurbineLarge);
         map.registerSprite(reactorFissileMaterial);
         textureMap.put("reactor_fissile_material", map.getTextureExtry(reactorFissileMaterial.toString()));
     }

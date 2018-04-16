@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.tile.process;
+package org.halvors.nuclearphysics.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;

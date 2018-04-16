@@ -1,0 +1,172 @@
+// Creative tab
+itemGroup.nuclearphysics=Nuclear Physics
+
+// Blocks
+tile.nuclearphysics.machine.0.name=化学提取器
+tile.nuclearphysics.machine.0.tooltip=用于从铀矿石中提取出黄饼，从水中提取氘和氚。
+tile.nuclearphysics.machine.0.text=提取器能提取铀，氘和氚。
+tile.nuclearphysics.control_rod.name=控制杆
+tile.nuclearphysics.control_rod.tooltip=抑制相邻燃料棒进行链式反应。
+tile.nuclearphysics.creative_builder.name=模块化构建机
+tile.nuclearphysics.creative_builder.tooltip=这是一个创造模式专有的机械它能让你自由快速构建多结构。
+tile.nuclearphysics.creative_builder.text=警告！这将是一个严重的错误！你有可能会失去它。
+tile.nuclearphysics.electromagnet.0.name=电磁铁
+tile.nuclearphysics.electromagnet.0.tooltip=生成一个抑制等离子体和粒子的电磁场。
+tile.nuclearphysics.electromagnet.1.name=磁化玻璃
+tile.nuclearphysics.electromagnet.1.tooltip=生成一个抑制等离子体和粒子的电磁场。
+tile.nuclearphysics.electric_turbine.name=电动涡轮机
+tile.nuclearphysics.electric_turbine.tooltip=将蒸汽动能转化为电能。
+tile.nuclearphysics.fulmination_generator.name=聚爆发电机
+tile.nuclearphysics.fulmination_generator.tooltip=将爆炸动能转化为电能。
+tile.nuclearphysics.machine.1.name=气体离心机
+tile.nuclearphysics.machine.1.tooltip=将六氟化铀精炼为可用铀。
+tile.nuclearphysics.machine.1.text=气体离心机可将六氟化铀离心转化为可供核反应使用的浓缩铀。
+tile.nuclearphysics.gas_funnel.name=气体漏斗
+tile.nuclearphysics.gas_funnel.tooltip=用于捕获气体从而通过管道输送。
+tile.nuclearphysics.machine.2.name=核锅炉
+tile.nuclearphysics.machine.2.tooltip=将黄饼煮沸为六氟化铀。
+tile.nuclearphysics.machine.2.text=核锅炉可将黄饼煮沸为六氟化铀气体。
+tile.nuclearphysics.uranium_ore.name=铀矿石
+tile.nuclearphysics.uranium_ore.tooltip=一种用于裂变反应的稀有矿石。
+tile.nuclearphysics.machine.3.name=粒子加速器
+tile.nuclearphysics.machine.3.tooltip=加速粒子对撞产生反物质以及暗物质。
+tile.nuclearphysics.machine.4.name=等离子体加热器
+tile.nuclearphysics.machine.4.tooltip=等离子体加热器用于将氘和氚加热成等离子体状态以进行聚变能，等离子体必须用单元进行收集。
+tile.nuclearphysics.machine.5.name=量子重组仪
+tile.nuclearphysics.machine.5.tooltip=重组暗物质的原子排序组合转化成可进行使用的材料。
+tile.nuclearphysics.radioactive_grass.name=核废料
+tile.nuclearphysics.radioactive_grass.tooltip=产生有害的辐射，会使有机物发生变异。
+tile.nuclearphysics.reactor_cell.name=核反应单元
+tile.nuclearphysics.reactor_cell.tooltip=一种重要的盛装容器，核燃料以及等离子体都需要装填至此。
+tile.nuclearphysics.siren.name=警报器
+tile.nuclearphysics.siren.tooltip=使用红石信号控制自定义音响的从而发出警报。
+tile.nuclearphysics.thermometer.name=温度计
+tile.nuclearphysics.thermometer.tooltip=读取当前坐标的温度，按住 Shift 右键将读数锁定到指定坐标。
+
+// Items
+item.nuclearphysics.wrench.name=扳手
+item.nuclearphysics.copper_wire.name=铜线
+item.nuclearphysics.motor.name=马达
+item.nuclearphysics.circuit_basic.name=基础电路板
+item.nuclearphysics.circuit_advanced.name=高级电路板
+item.nuclearphysics.circuit_elite.name=精英电路板
+item.nuclearphysics.plate_bronze.name=青铜板
+item.nuclearphysics.plate_steel.name=钢板
+item.nuclearphysics.cell.name=单元
+item.nuclearphysics.cell.tooltip=包含：%d
+item.nuclearphysics.darkmatter_cell.name=暗物质
+item.nuclearphysics.antimatter_cell.0.name=反物质
+item.nuclearphysics.antimatter_cell.0.tooltip=125毫克
+item.nuclearphysics.antimatter_cell.1.name=反物质
+item.nuclearphysics.antimatter_cell.1.tooltip=1克
+item.nuclearphysics.yellowcake.name=黄饼
+item.nuclearphysics.uranium.0.name=铀-235
+item.nuclearphysics.uranium.0.tooltip=浓缩铀
+item.nuclearphysics.uranium.1.name=铀-238
+item.nuclearphysics.uranium.1.tooltip=增殖铀
+item.nuclearphysics.fissile_fuel.name=裂变燃料棒
+item.nuclearphysics.fissile_fuel.tooltip=裂变反应堆的主要燃料来源。
+item.nuclearphysics.breeder_fuel.name=增殖燃料棒
+item.nuclearphysics.breeder_fuel.tooltip=增殖反应堆的主要燃料来源。
+item.nuclearphysics.hazmat_mask.name=防化面具
+item.nuclearphysics.hazmat_body.name=防化服
+item.nuclearphysics.hazmat_leggings.name=防化护腿
+item.nuclearphysics.hazmat_boots.name=防化靴子
+
+// Tooltip
+tooltip.noFluid=缺少流体
+tooltip.energy=能量
+tooltip.inputSlot=输入
+tooltip.state=状态
+tooltip.empty=空
+tooltip.wrench=扳手
+tooltip.rotate=旋转
+tooltip.trackingCoordinate=追踪坐标
+tooltip.clearedTrackingCoordinate=清除追踪坐标
+tooltip.notTrackingTemperature=未追踪温度
+
+tooltip.nuclearphysics.noShift=按住 %dshift %d以查看更多信息
+
+// Gui
+gui.buffer=空闲能量缓冲
+gui.control.disabled=禁用
+gui.control.high=高频
+gui.control.low=低频
+gui.control.pulse=脉冲
+gui.mode=模式
+gui.needed=需求
+gui.remaining=剩余
+gui.temperature=温度
+gui.unit=单位
+gui.using=使用
+gui.process=进度
+gui.processing=运转中
+gui.ready=准备就绪
+gui.idle=空闲
+gui.status=状态
+gui.failedToEmitTryRotating=无法发动，尝试旋转
+gui.accelerating=加速
+gui.velocity=速度
+gui.storedAntimatter=反物质存余
+gui.energyUsed=能量
+gui.facing=方位
+gui.radius=半径
+
+gui.configuration.category.general=General
+gui.configuration.category.general.tooltip=General settings
+gui.configuration.category.machine=Machine
+gui.configuration.category.machine.tooltip=Settings regarding enabling and disabling of specific machines
+gui.configuration.category.integration=Integration
+gui.configuration.category.integration.tooltip=Settings regarding enabling and disabling of specific mod integrations
+gui.configuration.category.client=Client
+gui.configuration.category.client.tooltip=Client-specific settings
+
+// Fluids
+fluid.deuterium=氘
+fluid.uranium_hexafluoride=六氟化铀
+fluid.plasma=等离子体
+fluid.steam=蒸汽
+fluid.tritium=氚
+fluid.toxic_waste=毒废料
+
+// Fluid blocks
+tile.fluid.deuterium.name=氘
+tile.fluid.uranium_hexafluoride.name=六氟化铀
+tile.fluid.plasma.name=等离子体
+tile.fluid.plasma.tooltip=产生大量的热量烧水。
+tile.fluid.steam.name=蒸汽
+tile.fluid.tritium.name=氚
+tile.fluid.toxic_waste.name=毒废料
+tile.fluid.toxic_waste.tooltip=一种具备污染的核废料。
+
+// Potion
+potion.radiation=辐射
+
+// Death
+death.attack.radiation=%1$s死于辐射。
+
+// Schematic
+schematic.accelerator.name=粒子加速器
+schematic.breeding_reactor.name=增殖反应堆
+schematic.fission_reactor.name=裂变反应堆
+schematic.fusion_reactor.name=聚变反应堆
+
+// Color
+color.black=黑色
+color.darkBlue=深蓝色
+color.darkGreen=深绿色
+color.darkAqua=深水绿色
+color.darkRed=深红色
+color.purple=紫色
+color.orange=橙色
+color.grey=灰色
+color.darkGrey=深灰色
+color.indigo=靛蓝色
+color.brightGreen=鲜绿色
+color.aqua=水绿色
+color.red=红色
+color.pink=粉色
+color.yellow=黄色
+color.white=白色
+color.brown=棕色
+color.brightPink=鲜粉色

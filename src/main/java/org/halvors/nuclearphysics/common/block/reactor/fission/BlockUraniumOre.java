@@ -1,7 +1,7 @@
-package org.halvors.nuclearphysics.common.block;
+package org.halvors.nuclearphysics.common.block.reactor.fission;
 
-import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import org.halvors.nuclearphysics.common.block.BlockRadioactive;
 
 import java.util.Random;
 
@@ -9,7 +9,6 @@ public class BlockUraniumOre extends BlockRadioactive {
     public BlockUraniumOre() {
         super("uranium_ore", Material.ROCK);
 
-        setSoundType(SoundType.STONE);
         setHardness(2.0F);
         setHarvestLevel("pickaxe", 2);
 
