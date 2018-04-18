@@ -16,9 +16,4 @@ public class BlockUraniumOre extends BlockRadioactive {
         radius = 1.0F;
         amplifier = 0;
     }
-
-    @Override
-    public int quantityDropped(Random random) {
-        return 1;
-    }
 }
