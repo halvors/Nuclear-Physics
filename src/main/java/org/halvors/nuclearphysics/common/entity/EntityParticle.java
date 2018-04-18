@@ -31,8 +31,8 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     private boolean didCollide;
     private int lastTurn = 60;
 
-    private Position movementPos;
-    private ForgeDirection movementDirection;
+    private Position movementPos = new Position();
+    private ForgeDirection movementDirection = ForgeDirection.NORTH;
 
     public EntityParticle(World world) {
         super(world);
