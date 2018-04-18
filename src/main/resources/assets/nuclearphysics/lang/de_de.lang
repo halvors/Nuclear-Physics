@@ -74,6 +74,33 @@ item.nuclearphysics.hazmat_body.name=Schutzjacke
 item.nuclearphysics.hazmat_leggings.name=Schutzhose
 item.nuclearphysics.hazmat_boots.name=Schutzstiefel
 
+// Fluids
+fluid.deuterium=Deuterium
+fluid.uranium_hexafluoride=Uranhexafluorid
+fluid.plasma=Plasma
+fluid.steam=Dampf
+fluid.tritium=Tritium
+fluid.toxic_waste=Giftmüll
+
+// Fluid blocks
+tile.fluid.deuterium.name=Deuterium
+tile.fluid.uranium_hexafluoride.name=Uranhexafluorid
+tile.fluid.plasma.name=Plasma
+tile.fluid.plasma.tooltip=Erzeugt extreme Hitze für kochendes Wasser.
+tile.fluid.steam.name=Dampf
+tile.fluid.tritium.name=Tritium
+tile.fluid.toxic_waste.name=Giftmüll
+tile.fluid.toxic_waste.tooltip=Toxische, nukleare Abfälle, die die Welt verschmutzen.
+
+// Entities
+entity.nuclearphysics.particle.name=Partikel
+
+// Potion
+effect.radiation=Strahlung
+
+// Death
+death.attack.radiation=%1$s starb an Verstrahlung.
+
 // Tooltip
 tooltip.noFluid=Keine Flüssigkeit
 tooltip.energy=Energie
@@ -121,30 +148,6 @@ gui.configuration.category.integration=Integration
 gui.configuration.category.integration.tooltip=Einstellungen zum Aktivieren und Deaktivieren bestimmter Mod-Integrationen
 gui.configuration.category.client=Client
 gui.configuration.category.client.tooltip=Client-spezifische Einstellungen
-
-// Fluids
-fluid.deuterium=Deuterium
-fluid.uranium_hexafluoride=Uranhexafluorid
-fluid.plasma=Plasma
-fluid.steam=Dampf
-fluid.tritium=Tritium
-fluid.toxic_waste=Giftmüll
-
-// Fluid blocks
-tile.fluid.deuterium.name=Deuterium
-tile.fluid.uranium_hexafluoride.name=Uranhexafluorid
-tile.fluid.plasma.name=Plasma
-tile.fluid.plasma.tooltip=Erzeugt extreme Hitze für kochendes Wasser.
-tile.fluid.steam.name=Dampf
-tile.fluid.tritium.name=Tritium
-tile.fluid.toxic_waste.name=Giftmüll
-tile.fluid.toxic_waste.tooltip=Toxische, nukleare Abfälle, die die Welt verschmutzen.
-
-// Potion
-effect.radiation=Strahlung
-
-// Death
-death.attack.radiation=%1$s starb an Verstrahlung.
 
 // Schematic
 schematic.accelerator.name=Partikelbeschleuniger
