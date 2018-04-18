@@ -4,6 +4,7 @@ Port bugs:
     - Fix powering machines with batteries not working.
     - Fluid level in machines seems to be not syncing properly with client.
     - Fluid slot in machine is somehow merging stacks.
+    - Particle Accelerator block is not rendering.
 
 Known bugs:
     Before Beta release:
