@@ -37,8 +37,8 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     private boolean didCollide;
     private int lastTurn = 60;
 
-    private BlockPos movementPos;
-    private EnumFacing movementDirection;
+    private BlockPos movementPos = new BlockPos(0, 0, 0);
+    private EnumFacing movementDirection = EnumFacing.NORTH;
 
     public EntityParticle(World world) {
         super(world);
