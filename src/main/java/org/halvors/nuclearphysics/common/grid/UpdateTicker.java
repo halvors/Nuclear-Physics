@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.common.grid;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.Event;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
 import java.util.*;
@@ -44,45 +45,45 @@ public class UpdateTicker extends Thread {
 
     @Override
     public void run() {
-        while (!paused) {
-            // Tick all updaters.
-            synchronized (updaters) {
-                Set<IUpdate> removeUpdaters = Collections.newSetFromMap(new WeakHashMap<IUpdate, Boolean>());
-                Iterator<IUpdate> updaterIt = new HashSet<>(updaters).iterator();
+        try {
+            while (!paused) {
+                // Tick all updaters.
+                synchronized (updaters) {
+                    final Set<IUpdate> removeUpdaters = Collections.newSetFromMap(new WeakHashMap<>());
+                    final Iterator<IUpdate> updaterIt = new HashSet<>(updaters).iterator();
 
-                try {
-                    while (updaterIt.hasNext()) {
-                        IUpdate updater = updaterIt.next();
+                    try {
+                        while (updaterIt.hasNext()) {
+                            final IUpdate updater = updaterIt.next();
 
-                        if (updater.canUpdate()) {
-                            updater.update();
+                            if (updater.canUpdate()) {
+                                updater.update();
+                            }
+
+                            if (!updater.continueUpdate()) {
+                                removeUpdaters.add(updater);
+                            }
                         }
 
-                        if (!updater.continueUpdate()) {
-                            removeUpdaters.add(updater);
-                        }
+                        updaters.removeAll(removeUpdaters);
+                    } catch (Exception e) {
+                        NuclearPhysics.getLogger().warn("Threaded Ticker: Failed while ticking updater. This is a bug! Clearing all tickers for self repair.");
+                        updaters.clear();
+                        e.printStackTrace();
                     }
-
-                    updaters.removeAll(removeUpdaters);
-                } catch (Exception e) {
-                    System.out.println("Threaded Ticker: Failed while ticking updater. This is a bug! Clearing all tickers for self repair.");
-                    updaters.clear();
-                    e.printStackTrace();
                 }
-            }
 
-            // Perform all queued events.
-            synchronized (queuedEvents) {
-                while (!queuedEvents.isEmpty()) {
-                    MinecraftForge.EVENT_BUS.post(queuedEvents.poll());
+                // Perform all queued events.
+                synchronized (queuedEvents) {
+                    while (!queuedEvents.isEmpty()) {
+                        MinecraftForge.EVENT_BUS.post(Objects.requireNonNull(queuedEvents.poll()));
+                    }
                 }
-            }
 
-            try {
                 Thread.sleep(50L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
