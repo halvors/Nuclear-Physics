@@ -75,6 +75,33 @@ item.nuclearphysics.hazmat_body.name=Куртка радиохимзащиты
 item.nuclearphysics.hazmat_leggings.name=Штаны радиохимзащиты
 item.nuclearphysics.hazmat_boots.name=Чулки радиохимзащиты
 
+// Fluids – жидкости
+fluid.deuterium=Дейтерий
+fluid.uranium_hexafluoride=Гексафторид урана
+fluid.plasma=Плазма
+fluid.steam=Пар
+fluid.tritium=Тритий
+fluid.toxic_waste=Токсичные отходы
+
+// Fluid blocks – блоки жидкостей
+tile.fluid.deuterium.name=Дейтерий
+tile.fluid.uranium_hexafluoride.name=Гексафторид урана
+tile.fluid.plasma.name=Плазма
+tile.fluid.plasma.tooltip=Создаёт экстремальную температуру для кипячения воды.
+tile.fluid.steam.name=Пар
+tile.fluid.tritium.name=Тритий
+tile.fluid.toxic_waste.name=Токсичные отходы
+tile.fluid.toxic_waste.tooltip=Токсичные, ядерные отходы, которые загрязняют мир.
+
+// Entities
+entity.nuclearphysics.particle.name=частица
+
+// Potion – зелья
+effect.radiation=Радиация
+
+// Death – смерть
+death.attack.radiation=%1$s умер от радиации.
+
 // Tooltip – подпись
 tooltip.noFluid=Пуст
 tooltip.energy=Энергия
@@ -122,30 +149,6 @@ gui.configuration.category.integration=Интеграция
 gui.configuration.category.integration.tooltip=Настройки интеграции с другими модами
 gui.configuration.category.client=Клиент
 gui.configuration.category.client.tooltip=Клиентские настройки
-
-// Fluids – жидкости
-fluid.deuterium=Дейтерий
-fluid.uranium_hexafluoride=Гексафторид урана
-fluid.plasma=Плазма
-fluid.steam=Пар
-fluid.tritium=Тритий
-fluid.toxic_waste=Токсичные отходы
-
-// Fluid blocks – блоки жидкостей
-tile.fluid.deuterium.name=Дейтерий
-tile.fluid.uranium_hexafluoride.name=Гексафторид урана
-tile.fluid.plasma.name=Плазма
-tile.fluid.plasma.tooltip=Создаёт экстремальную температуру для кипячения воды.
-tile.fluid.steam.name=Пар
-tile.fluid.tritium.name=Тритий
-tile.fluid.toxic_waste.name=Токсичные отходы
-tile.fluid.toxic_waste.tooltip=Токсичные, ядерные отходы, которые загрязняют мир.
-
-// Potion – зелья
-effect.radiation=Радиация
-
-// Death – смерть
-death.attack.radiation=%1$s умер от радиации.
 
 // Schematic – схемы
 schematic.accelerator.name=Ускоритель частиц

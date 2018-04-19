@@ -73,6 +73,33 @@ item.nuclearphysics.hazmat_body.name=防化服
 item.nuclearphysics.hazmat_leggings.name=防化护腿
 item.nuclearphysics.hazmat_boots.name=防化靴子
 
+// Fluids
+fluid.deuterium=氘
+fluid.uranium_hexafluoride=六氟化铀
+fluid.plasma=等离子体
+fluid.steam=蒸汽
+fluid.tritium=氚
+fluid.toxic_waste=毒废料
+
+// Fluid blocks
+tile.fluid.deuterium.name=氘
+tile.fluid.uranium_hexafluoride.name=六氟化铀
+tile.fluid.plasma.name=等离子体
+tile.fluid.plasma.tooltip=产生大量的热量烧水。
+tile.fluid.steam.name=蒸汽
+tile.fluid.tritium.name=氚
+tile.fluid.toxic_waste.name=毒废料
+tile.fluid.toxic_waste.tooltip=一种具备污染的核废料。
+
+// Entities
+entity.nuclearphysics.particle.name=粒子
+
+// Potion
+potion.radiation=辐射
+
+// Death
+death.attack.radiation=%1$s死于辐射。
+
 // Tooltip
 tooltip.noFluid=缺少流体
 tooltip.energy=能量
@@ -120,30 +147,6 @@ gui.configuration.category.integration=Integration
 gui.configuration.category.integration.tooltip=Settings regarding enabling and disabling of specific mod integrations
 gui.configuration.category.client=Client
 gui.configuration.category.client.tooltip=Client-specific settings
-
-// Fluids
-fluid.deuterium=氘
-fluid.uranium_hexafluoride=六氟化铀
-fluid.plasma=等离子体
-fluid.steam=蒸汽
-fluid.tritium=氚
-fluid.toxic_waste=毒废料
-
-// Fluid blocks
-tile.fluid.deuterium.name=氘
-tile.fluid.uranium_hexafluoride.name=六氟化铀
-tile.fluid.plasma.name=等离子体
-tile.fluid.plasma.tooltip=产生大量的热量烧水。
-tile.fluid.steam.name=蒸汽
-tile.fluid.tritium.name=氚
-tile.fluid.toxic_waste.name=毒废料
-tile.fluid.toxic_waste.tooltip=一种具备污染的核废料。
-
-// Potion
-potion.radiation=辐射
-
-// Death
-death.attack.radiation=%1$s死于辐射。
 
 // Schematic
 schematic.accelerator.name=粒子加速器
