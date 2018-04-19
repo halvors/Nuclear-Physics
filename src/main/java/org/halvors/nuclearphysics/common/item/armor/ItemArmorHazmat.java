@@ -5,12 +5,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.EnumHelper;
 import org.halvors.nuclearphysics.api.item.armor.IAntiPoisonArmor;
 import org.halvors.nuclearphysics.common.Reference;
-import org.halvors.nuclearphysics.common.type.Resource;
-import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {
     private static final ItemArmor.ArmorMaterial material = EnumHelper.addArmorMaterial("hazmat", 0, new int[] { 0, 0, 0, 0 }, 0);

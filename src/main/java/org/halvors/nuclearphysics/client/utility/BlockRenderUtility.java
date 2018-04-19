@@ -1,5 +1,7 @@
 package org.halvors.nuclearphysics.client.utility;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -11,9 +13,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.utility.RotationUtility;
 import org.lwjgl.opengl.GL11;
 
-/**
- * A block rendering helper class.
- */
+@SideOnly(Side.CLIENT)
 public class BlockRenderUtility {
     public static void setupLight(World world, int x, int y, int z) {
         if (world.getBlock(x, y, z).isOpaqueCube()) {

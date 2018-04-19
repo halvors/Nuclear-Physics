@@ -34,8 +34,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class BlockMachine extends BlockInventory {
-    @SideOnly(Side.CLIENT)
-    private static final Map<EnumMachine, IIcon> iconMap = new HashMap<>();
+    private static final Map<EnumMachine, IIcon> iconMap = new HashMap<>(); // Note: Having this client side only causes crash for unknown reasons.
 
     public BlockMachine() {
         super("machine", Material.iron);
