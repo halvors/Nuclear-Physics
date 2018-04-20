@@ -1,13 +1,16 @@
 package org.halvors.nuclearphysics.common.grid.thermal;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.nuclearphysics.common.grid.IUpdate;
 import org.halvors.nuclearphysics.common.type.Pair;
@@ -59,7 +62,10 @@ public class ThermalGrid implements IUpdate {
                 thermalSource.remove(new Pair<>(world, pos));
             } else {
                 float deltaFromEquilibrium = getDefaultTemperature(world, pos) - currentTemperature;
-                boolean isReactor = world.getTileEntity(pos) instanceof IReactor || world.getTileEntity(pos.up()) instanceof IBoilHandler;
+
+                final TileEntity tile = world.getTileEntity(pos);
+                final TileEntity tileUp = world.getTileEntity(pos.up());
+                boolean isReactor = tile instanceof IReactor || tileUp != null && tileUp.hasCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
 
                 ThermalUpdateEvent event = new ThermalUpdateEvent(world, pos, currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
                 MinecraftForge.EVENT_BUS.post(event);
