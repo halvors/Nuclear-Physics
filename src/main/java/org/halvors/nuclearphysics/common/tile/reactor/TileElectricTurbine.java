@@ -103,20 +103,22 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) || ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) || super.hasCapability(capability, facing);
+        return ((capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP) || ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) && getMultiBlock().isPrimary()) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) {
-            return (T) energyStorage;
-        } else if (facing == EnumFacing.DOWN) {
-            if (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) {
-                return (T) this;
-            } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-                return (T) tank;
+        if (getMultiBlock().isPrimary()) {
+            if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP) {
+                return (T) energyStorage;
+            } else if (facing == EnumFacing.DOWN) {
+                if (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) {
+                    return (T) this;
+                } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+                    return (T) tank;
+                }
             }
         }
 
