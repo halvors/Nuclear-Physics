@@ -22,6 +22,9 @@ public class UpdateTicker extends Thread {
 
     private boolean paused = false;
 
+    // The time in milliseconds between successive updates.
+    private long deltaTime;
+
     public UpdateTicker() {
         setName(Reference.NAME);
         setPriority(MIN_PRIORITY);
@@ -43,10 +46,31 @@ public class UpdateTicker extends Thread {
         }
     }
 
+    public long getDeltaTime() {
+        return deltaTime;
+    }
+
+    public int getUpdaterCount() {
+        return updaters.size();
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
     @Override
     public void run() {
         try {
+            long last = System.currentTimeMillis();
+
             while (!paused) {
+                long current = System.currentTimeMillis();
+                deltaTime = current - last;
+
                 // Tick all updaters.
                 synchronized (updaters) {
                     final Set<IUpdate> removeUpdaters = Collections.newSetFromMap(new WeakHashMap<>());
@@ -80,6 +104,7 @@ public class UpdateTicker extends Thread {
                     }
                 }
 
+                last = current;
                 Thread.sleep(50L);
             }
         } catch (Exception e) {
