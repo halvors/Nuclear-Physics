@@ -103,7 +103,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return ((capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP) || ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) && getMultiBlock().isPrimary()) || super.hasCapability(capability, facing);
+        return (((capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP) || ((capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN)) && getMultiBlock().isPrimary()) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
