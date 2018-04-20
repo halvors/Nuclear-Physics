@@ -4,11 +4,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
 import org.halvors.nuclearphysics.api.effect.poison.PoisonType;
 import org.halvors.nuclearphysics.api.item.armor.IAntiPoisonArmor;
-import org.halvors.nuclearphysics.api.item.armor.IArmorSet;
 import org.halvors.nuclearphysics.common.Reference;
 
 public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {

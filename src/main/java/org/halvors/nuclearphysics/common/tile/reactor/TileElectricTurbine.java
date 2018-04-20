@@ -250,7 +250,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public int receiveGas(ForgeDirection from, FluidStack fluidStack, boolean doTransfer) {
-        if (from == ForgeDirection.DOWN) {
+        if (from == ForgeDirection.DOWN && getMultiBlock().isPrimary()) {
             return tank.fill(fluidStack, doTransfer);
         }
 
@@ -261,7 +261,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-        if (from == ForgeDirection.DOWN) {
+        if (from == ForgeDirection.DOWN && getMultiBlock().isPrimary()) {
             return tank.fill(resource, doFill);
         }
 

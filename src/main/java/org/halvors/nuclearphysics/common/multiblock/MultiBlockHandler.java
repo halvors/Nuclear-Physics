@@ -132,7 +132,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
         return false;
     }
 
-
+    @SuppressWarnings("unchecked")
     public W getWrapperAt(Position position) {
         TileEntity tile = position.getTileEntity(self.getWorldObject());
 

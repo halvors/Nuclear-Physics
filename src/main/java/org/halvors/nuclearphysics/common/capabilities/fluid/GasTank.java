@@ -1,9 +1,8 @@
 package org.halvors.nuclearphysics.common.capabilities.fluid;
 
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
 
-public class GasTank extends LiquidTank implements IFluidTank {
+public class GasTank extends LiquidTank {
     public GasTank(int capacity) {
         super(capacity);
     }
