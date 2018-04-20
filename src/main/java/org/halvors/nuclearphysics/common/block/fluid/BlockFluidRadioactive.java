@@ -13,7 +13,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.particle.ParticleRadioactive;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.effect.potion.PotionRadiation;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 
 import java.util.Random;
@@ -21,15 +20,6 @@ import java.util.Random;
 public class BlockFluidRadioactive extends BlockFluidClassic {
     public BlockFluidRadioactive(final Fluid fluid, final Material material) {
         super(fluid, material);
-    }
-
-    @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
-        if (entity instanceof EntityLivingBase) {
-            entity.attackEntityFrom(PotionRadiation.getDamageSource(), 3);
-
-            ModPotions.potionRadiation.poisonEntity(pos, (EntityLivingBase) entity, 4);
-        }
     }
 
     @Override
@@ -41,6 +31,15 @@ public class BlockFluidRadioactive extends BlockFluidClassic {
             if (random.nextInt(100) == 0) {
                 RenderUtility.renderParticle(new ParticleRadioactive(world, pos.getX() + random.nextFloat(), pos.getY() + 1, pos.getZ() + random.nextFloat(), (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2));
             }
+        }
+    }
+
+    @Override
+    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
+        if (entity instanceof EntityLivingBase) {
+            entity.attackEntityFrom(ModPotions.poisonRadiation.getDamageSource(), 3);
+
+            ModPotions.poisonRadiation.poisonEntity((EntityLivingBase) entity, 4);
         }
     }
 }

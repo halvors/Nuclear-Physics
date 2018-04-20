@@ -21,7 +21,7 @@ public class RadioactiveExplosion extends ExplosionBase {
         List<EntityLiving> entitiesNearby = world.getEntitiesWithinAABB(EntityLiving.class, bounds);
 
         for (EntityLiving entity : entitiesNearby) {
-            ModPotions.potionRadiation.poisonEntity(entity.getPosition(), entity);
+            ModPotions.poisonRadiation.poisonEntity(entity);
         }
 
         super.doExplosionA();

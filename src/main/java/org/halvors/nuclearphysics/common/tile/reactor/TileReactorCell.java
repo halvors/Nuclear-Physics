@@ -199,7 +199,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                         List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - radius * 2, pos.getY() - radius * 2, pos.getZ() - radius * 2, pos.getX() + radius * 2, pos.getY() + radius * 2, pos.getZ() + radius * 2));
 
                         for (EntityLiving entity : entities) {
-                            ModPotions.potionRadiation.poisonEntity(pos, entity);
+                            ModPotions.poisonRadiation.poisonEntity(entity);
                         }
                     }
                 }
