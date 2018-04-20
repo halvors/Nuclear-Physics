@@ -13,7 +13,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.particle.ParticleRadioactive;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 
 import java.util.Random;
