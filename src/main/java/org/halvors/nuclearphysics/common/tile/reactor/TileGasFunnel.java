@@ -89,7 +89,5 @@ public class TileGasFunnel extends TileEntity implements ITickable, IBoilHandler
     public int receiveGas(FluidStack fluidStack, boolean doTransfer) {
         return tank.fillInternal(fluidStack, doTransfer);
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

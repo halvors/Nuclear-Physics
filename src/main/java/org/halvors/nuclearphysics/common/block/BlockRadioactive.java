@@ -61,7 +61,7 @@ public class BlockRadioactive extends BlockBase {
                 final List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
                 for (EntityLivingBase entity : entitiesNearby) {
-                    ModPotions.potionRadiation.poisonEntity(pos, entity, amplifier);
+                    ModPotions.poisonRadiation.poisonEntity(entity, amplifier);
                 }
             }
 
@@ -87,8 +87,8 @@ public class BlockRadioactive extends BlockBase {
      */
     @Override
     public void onEntityWalk(World world, BlockPos pos, Entity entity) {
-        if (entity instanceof EntityLiving && (canWalkPoison || General.allowRadioactiveOres)) {
-            ModPotions.potionRadiation.poisonEntity(pos, (EntityLiving) entity);
+        if (entity instanceof EntityLivingBase && (canWalkPoison || General.allowRadioactiveOres)) {
+            ModPotions.poisonRadiation.poisonEntity((EntityLivingBase) entity);
         }
     }
 }
