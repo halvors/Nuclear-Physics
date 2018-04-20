@@ -79,6 +79,12 @@ public class BlockMachine extends BlockInventory {
         return false;
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean renderAsNormalBlock() {
+        return true;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)

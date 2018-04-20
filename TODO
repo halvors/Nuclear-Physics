@@ -1,5 +1,4 @@
 Port bugs:
-    - Machine blocks render incorrectly in hand. (Think this is not possible to fix in BlockRenderingHandler)
     - Machine blocks have incorrect light in GUI?
     - Fix powering machines with batteries not working.
     - Fluid level in machines seems to be not syncing properly with client.

@@ -63,7 +63,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
                 GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
                 GL11.glPushMatrix();
 
-                // Rotate TESR blocks to
+                // Rotate TESR blocks when rendered in inventory.
                 GL11.glRotated(180, 0, 1, 0);
                 GL11.glTranslated(0, -0.9, 0);
 
@@ -87,6 +87,8 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+        final TileEntity tile = world.getTileEntity(x, y, z);
+
         // Render custom block render.
         if (block instanceof ICustomBlockRenderer) {
             final ISimpleBlockRenderer blockRenderer = ((ICustomBlockRenderer) block).getRenderer();
@@ -94,14 +96,16 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
             if (blockRenderer != null) {
                 if (!blockRenderer.renderStatic(renderer, world, x, y, z)) {
                     renderer.renderStandardBlock(block, x, y, z);
-
-                    return true;
                 }
             } else if (block.renderAsNormalBlock()) {
                 renderer.renderStandardBlock(block, x, y, z);
-
-                return true;
             }
+
+            return true;
+        } else if (block.renderAsNormalBlock() && !TileEntityRendererDispatcher.instance.hasSpecialRenderer(tile)) {
+            renderer.renderStandardBlock(block, x, y, z);
+
+            return true;
         }
 
         return false;
