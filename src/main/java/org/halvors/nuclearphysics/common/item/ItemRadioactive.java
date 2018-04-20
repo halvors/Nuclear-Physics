@@ -14,7 +14,7 @@ public class ItemRadioactive extends ItemTooltip {
     @Override
     public void onUpdate(ItemStack itemStack, World world, Entity entity, int int1, boolean type) {
         if (entity instanceof EntityLivingBase) {
-            ModPotions.potionRadiation.poisonEntity((int) entity.posX, (int) entity.posY, (int) entity.posZ, (EntityLivingBase) entity, 1);
+            ModPotions.poisonRadiation.poisonEntity((EntityLivingBase) entity, 1);
         }
     }
 }

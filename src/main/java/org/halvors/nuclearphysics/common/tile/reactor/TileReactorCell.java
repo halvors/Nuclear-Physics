@@ -137,7 +137,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
                         List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord - radius * 2, yCoord - radius * 2, zCoord - radius * 2, xCoord + radius * 2, yCoord + radius * 2, zCoord + radius * 2));
 
                         for (EntityLiving entity : entities) {
-                            ModPotions.potionRadiation.poisonEntity(xCoord, yCoord, zCoord, entity);
+                            ModPotions.poisonRadiation.poisonEntity(entity);
                         }
                     }
                 }

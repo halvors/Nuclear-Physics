@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.common.grid.thermal;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -59,7 +60,9 @@ public class ThermalGrid implements IUpdate {
                 thermalSource.remove(new Pair<>(world, pos));
             } else {
                 float deltaFromEquilibrium = getDefaultTemperature(world, pos) - currentTemperature;
-                boolean isReactor = pos.getTileEntity(world) instanceof IReactor || world.getTileEntity(pos.getIntX(), pos.getIntY() + 1, pos.getIntZ()) instanceof IBoilHandler;
+                final TileEntity tile = world.getTileEntity(pos.getIntX(), pos.getIntY(), pos.getIntZ());
+                final TileEntity tileUp = world.getTileEntity(pos.getIntX(), pos.getIntY() + 1, pos.getIntZ());
+                boolean isReactor = tile instanceof IReactor || tileUp != null && tile instanceof IBoilHandler;
 
                 ThermalUpdateEvent event = new ThermalUpdateEvent(world, pos.getIntX(), pos.getIntY(), pos.getIntZ(), currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
                 MinecraftForge.EVENT_BUS.post(event);

@@ -5,7 +5,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.ExplosionEvent;
-import org.halvors.nuclearphysics.api.explosion.IExplosion;
+import org.halvors.nuclearphysics.api.effect.explosion.IFulmination;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.tile.particle.TileFulminationGenerator;
 import org.halvors.nuclearphysics.common.type.Position;
@@ -36,8 +36,8 @@ public class FulminationEventHandler {
         int y = (int) explosion.explosionY;
         int z = (int) explosion.explosionZ;
 
-        if (explosion instanceof IExplosion) {
-            final IExplosion customExplosion = (IExplosion) explosion;
+        if (explosion instanceof IFulmination) {
+            final IFulmination customExplosion = (IFulmination) explosion;
 
             if (customExplosion.getRadius() > 0 && customExplosion.getEnergy() > 0) {
                 final HashSet<TileFulminationGenerator> avaliableGenerators = new HashSet<>();

@@ -6,7 +6,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
-import org.halvors.nuclearphysics.api.item.armor.IArmorSet.ArmorType;
+import org.halvors.nuclearphysics.api.item.armor.IArmorSet.EntityEquipmentSlot;
 import org.halvors.nuclearphysics.common.item.ItemBase;
 import org.halvors.nuclearphysics.common.item.ItemBucketBase;
 import org.halvors.nuclearphysics.common.item.ItemCell;
@@ -53,10 +53,10 @@ public class ModItems {
     public static Item itemYellowCake = new ItemRadioactive("yellowcake");
 
     // Hazmat
-    public static ItemArmor itemHazmatMask = new ItemArmorHazmat("hazmat_mask", ArmorType.HEAD.ordinal());
-    public static ItemArmor itemHazmatBody = new ItemArmorHazmat("hazmat_body", ArmorType.CHEST.ordinal());
-    public static ItemArmor itemHazmatLeggings = new ItemArmorHazmat("hazmat_leggings", ArmorType.LEGS.ordinal());
-    public static ItemArmor itemHazmatBoots = new ItemArmorHazmat("hazmat_boots", ArmorType.FEET.ordinal());
+    public static ItemArmor itemHazmatMask = new ItemArmorHazmat("hazmat_mask", EntityEquipmentSlot.HEAD);
+    public static ItemArmor itemHazmatBody = new ItemArmorHazmat("hazmat_body", EntityEquipmentSlot.CHEST);
+    public static ItemArmor itemHazmatLeggings = new ItemArmorHazmat("hazmat_leggings", EntityEquipmentSlot.LEGS);
+    public static ItemArmor itemHazmatBoots = new ItemArmorHazmat("hazmat_boots", EntityEquipmentSlot.FEET);
 
     public static void registerItems() {
         GameRegistry.registerItem(itemWrench, "itemWrench");

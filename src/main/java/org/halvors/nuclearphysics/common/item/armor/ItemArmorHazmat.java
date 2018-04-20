@@ -6,13 +6,15 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.EnumHelper;
+import org.halvors.nuclearphysics.api.effect.poison.PoisonType;
 import org.halvors.nuclearphysics.api.item.armor.IAntiPoisonArmor;
+import org.halvors.nuclearphysics.api.item.armor.IArmorSet;
 import org.halvors.nuclearphysics.common.Reference;
 
 public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {
     private static final ItemArmor.ArmorMaterial material = EnumHelper.addArmorMaterial("hazmat", 0, new int[] { 0, 0, 0, 0 }, 0);
 
-    public ItemArmorHazmat(String name, int slot) {
+    public ItemArmorHazmat(String name, EntityEquipmentSlot slot) {
         super(name, material, slot);
 
         setMaxDurability(200000);
@@ -23,28 +25,22 @@ public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {
         return Reference.PREFIX + "textures/models/hazmat.png";
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
-    public boolean isProtectedFromPoison(ItemStack itemStack, EntityLivingBase entity, String type) {
-        return type.equalsIgnoreCase("radiation") || type.equalsIgnoreCase("chemical") || type.equalsIgnoreCase("contagious");
+    public boolean isProtectedFromPoison(ItemStack itemStack, EntityLivingBase entity, PoisonType type) {
+        switch (type) {
+            case RADIATION:
+            case CHEMICAL:
+            case CONTAGIOUS:
+                return true;
+        }
+
+        return false;
     }
 
     @Override
-    public void onProtectFromPoison(ItemStack itemStack, EntityLivingBase entity, String type) {
+    public void onProtectFromPoison(ItemStack itemStack, EntityLivingBase entity, PoisonType type) {
         itemStack.damageItem(1, entity);
-    }
-
-    @Override
-    public int getArmorType() {
-        return armorType;
-    }
-
-    @Override
-    public boolean isPartOfSet(ItemStack armorStack, ItemStack compareStack) {
-        return armorStack != null && compareStack != null && armorStack.getItem() == compareStack.getItem();
-    }
-
-    @Override
-    public boolean areAllPartsNeeded(ItemStack armorStack, EntityLivingBase entity, DamageSource source, Object... args) {
-        return true;
     }
 }
