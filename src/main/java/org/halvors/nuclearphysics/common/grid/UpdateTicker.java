@@ -1,11 +1,9 @@
 package org.halvors.nuclearphysics.common.grid;
 
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 /*
  * A ticker to update all grids. This is multithreaded.
@@ -14,12 +12,12 @@ public class UpdateTicker extends Thread {
     private static final UpdateTicker instance = new UpdateTicker();
 
     // For updaters to be ticked.
-    private final Set<IUpdate> updaters = Collections.newSetFromMap(new WeakHashMap<IUpdate, Boolean>());
-
-    // For queuing Forge events to be invoked the next tick.
-    private final Queue<Event> queuedEvents = new ConcurrentLinkedQueue<>();
+    private final Set<IUpdate> updaters = Collections.newSetFromMap(new WeakHashMap<>());
 
     private boolean paused = false;
+
+    // The time in milliseconds between successive updates.
+    private long deltaTime;
 
     public UpdateTicker() {
         setName(Reference.NAME);
@@ -36,47 +34,54 @@ public class UpdateTicker extends Thread {
         }
     }
 
-    public static synchronized void queueEvent(Event event) {
-        synchronized (instance.queuedEvents) {
-            instance.queuedEvents.add(event);
-        }
+    public long getDeltaTime() {
+        return deltaTime;
+    }
+
+    public int getUpdaterCount() {
+        return updaters.size();
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 
     @Override
     public void run() {
+        long last = System.currentTimeMillis();
+
         while (!paused) {
+            long current = System.currentTimeMillis();
+            deltaTime = current - last;
+
             // Tick all updaters.
             synchronized (updaters) {
-                Set<IUpdate> removeUpdaters = Collections.newSetFromMap(new WeakHashMap<IUpdate, Boolean>());
-                Iterator<IUpdate> updaterIt = new HashSet<>(updaters).iterator();
+                final Iterator<IUpdate> updaterIterator = new HashSet<>(updaters).iterator();
 
                 try {
-                    while (updaterIt.hasNext()) {
-                        IUpdate updater = updaterIt.next();
+                    while (updaterIterator.hasNext()) {
+                        final IUpdate updater = updaterIterator.next();
 
                         if (updater.canUpdate()) {
                             updater.update();
                         }
 
                         if (!updater.continueUpdate()) {
-                            removeUpdaters.add(updater);
+                            updaterIterator.remove();
                         }
                     }
-
-                    updaters.removeAll(removeUpdaters);
                 } catch (Exception e) {
-                    System.out.println("Threaded Ticker: Failed while ticking updater. This is a bug! Clearing all tickers for self repair.");
+                    NuclearPhysics.getLogger().warn("Threaded Ticker: Failed while ticking updater. This is a bug! Clearing all tickers for self repair.");
                     updaters.clear();
                     e.printStackTrace();
                 }
             }
 
-            // Perform all queued events.
-            synchronized (queuedEvents) {
-                while (!queuedEvents.isEmpty()) {
-                    MinecraftForge.EVENT_BUS.post(queuedEvents.poll());
-                }
-            }
+            last = current;
 
             try {
                 Thread.sleep(50L);

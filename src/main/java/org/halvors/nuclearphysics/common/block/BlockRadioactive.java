@@ -5,7 +5,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -61,7 +60,7 @@ public class BlockRadioactive extends BlockBase {
                 final List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
                 for (EntityLivingBase entity : entitiesNearby) {
-                    ModPotions.potionRadiation.poisonEntity(pos, entity, amplifier);
+                    ModPotions.poisonRadiation.poisonEntity(entity, amplifier);
                 }
             }
 
@@ -87,8 +86,8 @@ public class BlockRadioactive extends BlockBase {
      */
     @Override
     public void onEntityWalk(World world, BlockPos pos, Entity entity) {
-        if (entity instanceof EntityLiving && (canWalkPoison || General.allowRadioactiveOres)) {
-            ModPotions.potionRadiation.poisonEntity(pos, (EntityLiving) entity);
+        if (entity instanceof EntityLivingBase && (canWalkPoison || General.allowRadioactiveOres)) {
+            ModPotions.poisonRadiation.poisonEntity((EntityLivingBase) entity);
         }
     }
 }
