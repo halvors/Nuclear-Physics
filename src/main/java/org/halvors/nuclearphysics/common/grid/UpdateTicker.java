@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.common.grid;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import net.minecraftforge.common.MinecraftForge;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
 import java.util.*;
@@ -20,6 +21,9 @@ public class UpdateTicker extends Thread {
     private final Queue<Event> queuedEvents = new ConcurrentLinkedQueue<>();
 
     private boolean paused = false;
+
+    // The time in milliseconds between successive updates.
+    private long deltaTime;
 
     public UpdateTicker() {
         setName(Reference.NAME);
@@ -42,47 +46,69 @@ public class UpdateTicker extends Thread {
         }
     }
 
+    public long getDeltaTime() {
+        return deltaTime;
+    }
+
+    public int getUpdaterCount() {
+        return updaters.size();
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
     @Override
     public void run() {
-        while (!paused) {
-            // Tick all updaters.
-            synchronized (updaters) {
-                Set<IUpdate> removeUpdaters = Collections.newSetFromMap(new WeakHashMap<IUpdate, Boolean>());
-                Iterator<IUpdate> updaterIt = new HashSet<>(updaters).iterator();
+        try {
+            long last = System.currentTimeMillis();
 
-                try {
-                    while (updaterIt.hasNext()) {
-                        IUpdate updater = updaterIt.next();
+            while (!paused) {
+                long current = System.currentTimeMillis();
+                deltaTime = current - last;
 
-                        if (updater.canUpdate()) {
-                            updater.update();
+                // Tick all updaters.
+                synchronized (updaters) {
+                    final Set<IUpdate> removeUpdaters = Collections.newSetFromMap(new WeakHashMap<>());
+                    final Iterator<IUpdate> updaterIt = new HashSet<>(updaters).iterator();
+
+                    try {
+                        while (updaterIt.hasNext()) {
+                            final IUpdate updater = updaterIt.next();
+
+                            if (updater.canUpdate()) {
+                                updater.update();
+                            }
+
+                            if (!updater.continueUpdate()) {
+                                removeUpdaters.add(updater);
+                            }
                         }
 
-                        if (!updater.continueUpdate()) {
-                            removeUpdaters.add(updater);
-                        }
+                        updaters.removeAll(removeUpdaters);
+                    } catch (Exception e) {
+                        NuclearPhysics.getLogger().warn("Threaded Ticker: Failed while ticking updater. This is a bug! Clearing all tickers for self repair.");
+                        updaters.clear();
+                        e.printStackTrace();
                     }
-
-                    updaters.removeAll(removeUpdaters);
-                } catch (Exception e) {
-                    System.out.println("Threaded Ticker: Failed while ticking updater. This is a bug! Clearing all tickers for self repair.");
-                    updaters.clear();
-                    e.printStackTrace();
                 }
-            }
 
-            // Perform all queued events.
-            synchronized (queuedEvents) {
-                while (!queuedEvents.isEmpty()) {
-                    MinecraftForge.EVENT_BUS.post(queuedEvents.poll());
+                // Perform all queued events.
+                synchronized (queuedEvents) {
+                    while (!queuedEvents.isEmpty()) {
+                        MinecraftForge.EVENT_BUS.post(Objects.requireNonNull(queuedEvents.poll()));
+                    }
                 }
-            }
 
-            try {
+                last = current;
                 Thread.sleep(50L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
