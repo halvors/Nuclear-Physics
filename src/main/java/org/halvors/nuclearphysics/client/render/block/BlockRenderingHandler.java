@@ -26,7 +26,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
     private static final Map<ItemStack, TileEntity> tileEntitiesCache = new HashMap<>();
 
     public TileEntity getTileEntityForBlock(Block block, int metadata) {
-        ItemStack itemStack = new ItemStack(block, 1, metadata);
+        final ItemStack itemStack = new ItemStack(block, 1, metadata);
         TileEntity tile = tileEntitiesCache.get(itemStack);
 
         if (tile == null) {
@@ -41,7 +41,7 @@ public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         // Render custom block render.
         if (block instanceof ICustomBlockRenderer) {
-            ISimpleBlockRenderer blockRenderer = ((ICustomBlockRenderer) block).getRenderer();
+            final ISimpleBlockRenderer blockRenderer = ((ICustomBlockRenderer) block).getRenderer();
 
             GL11.glPushAttrib(GL11.GL_TEXTURE_BIT);
             GL11.glPushMatrix();

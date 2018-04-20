@@ -121,39 +121,4 @@ public class ModFluids {
             }
         }
     }
-
-    /*
-    @EventBusSubscriber
-    public static class RegistrationHandler {
-        @SubscribeEvent
-        public static void registerBlocks(RegistryEvent.Register<Block> event) {
-            final IForgeRegistry<Block> registry = event.getRegistry();
-
-            for (final IFluidBlock fluidBlock : fluidBlocks) {
-                final Block block = (Block) fluidBlock;
-                final Fluid fluid = fluidBlock.getFluid();
-
-                block.setUnlocalizedName(fluid.getUnlocalizedName());
-                block.setRegistryName(fluid.getName());
-
-                if (fluid == plasma) {
-                    block.setCreativeTab(NuclearPhysics.getCreativeTab());
-                }
-
-                registry.register(block);
-            }
-        }
-
-        @SubscribeEvent
-        public static void registerItems(RegistryEvent.Register<Item> event) {
-            final IForgeRegistry<Item> registry = event.getRegistry();
-
-            for (final IFluidBlock fluidBlock : fluidBlocks) {
-                registry.register(new ItemBlockTooltip((Block) fluidBlock));
-            }
-
-            registerFluidContainers();
-        }
-    }
-    */
 }

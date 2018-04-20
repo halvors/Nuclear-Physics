@@ -5,6 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
@@ -125,13 +126,13 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
      * Takes an fluid container item and try to fill the tank, dropping the remains in the output slot.
      */
     public void fillOrDrainTank(int containerInput, int containerOutput, FluidTank tank) {
-        ItemStack itemStackInput = getStackInSlot(containerInput);
-        ItemStack itemStackOutput = getStackInSlot(containerOutput);
+        final ItemStack itemStackInput = getStackInSlot(containerInput);
+        final ItemStack itemStackOutput = getStackInSlot(containerOutput);
 
         if (itemStackInput != null) {
             if (FluidUtility.isFilledContainer(itemStackInput)) {
-                FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStackInput);
-                ItemStack result = itemStackInput.getItem().getContainerItem(itemStackInput);
+                final FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStackInput);
+                final ItemStack result = itemStackInput.getItem().getContainerItem(itemStackInput);
 
                 if (result != null && tank.fill(fluidStack, false) >= fluidStack.amount && (itemStackOutput == null || result.isItemEqual(itemStackOutput))) {
                     tank.fill(fluidStack, true);
@@ -139,11 +140,11 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
                     incrStackSize(containerOutput, result);
                 }
             } else if (FluidUtility.isEmptyContainer(itemStackInput)) {
-                FluidStack avaliable = tank.getFluid();
+                final FluidStack avaliable = tank.getFluid();
 
                 if (avaliable != null) {
-                    ItemStack result = FluidContainerRegistry.fillFluidContainer(avaliable, itemStackInput);
-                    FluidStack filled = FluidContainerRegistry.getFluidForFilledItem(result);
+                    final ItemStack result = FluidContainerRegistry.fillFluidContainer(avaliable, itemStackInput);
+                    final FluidStack filled = FluidContainerRegistry.getFluidForFilledItem(result);
 
                     if (result != null && filled != null && (itemStackOutput == null || result.isItemEqual(itemStackOutput))) {
                         decrStackSize(containerInput, 1);
