@@ -23,6 +23,7 @@ import org.halvors.nuclearphysics.common.event.handler.ItemEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.PlayerEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ThermalEventHandler;
 import org.halvors.nuclearphysics.common.grid.UpdateTicker;
+import org.halvors.nuclearphysics.common.grid.radiation.RadiationGrid;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.init.*;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
@@ -55,6 +56,7 @@ public class NuclearPhysics {
 
 	// Grids
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
+	private static final RadiationGrid radiationGrid = new RadiationGrid();
 
 	static {
 		FluidRegistry.enableUniversalBucket(); // Must be called before preInit
@@ -114,6 +116,7 @@ public class NuclearPhysics {
 
 		// Register our grids.
 		UpdateTicker.addNetwork(thermalGrid);
+		UpdateTicker.addNetwork(radiationGrid);
 
 		// Initialize mod integration.
 		Integration.initialize();
