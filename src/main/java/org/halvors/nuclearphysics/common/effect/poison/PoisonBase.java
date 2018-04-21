@@ -43,7 +43,7 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
             final EntityPlayer player = (EntityPlayer) entity;
 
             for (ItemStack itemStack : player.getArmorInventoryList()) {
-                if (itemStack != null) {
+                if (!itemStack.isEmpty()) {
                     final Item item = itemStack.getItem();
 
                     if (item instanceof IArmorSet) {
