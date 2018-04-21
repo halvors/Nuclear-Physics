@@ -1,9 +1,11 @@
 package org.halvors.nuclearphysics.common;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAccelerator;
 import org.halvors.nuclearphysics.common.container.particle.ContainerQuantumAssembler;
@@ -64,6 +66,18 @@ public class CommonProxy implements IGuiHandler {
 
 	public EntityPlayer getPlayer(MessageContext context) {
 		return context.getServerHandler().playerEntity;
+	}
+
+	public void addScheduledTask(Runnable runnable, IBlockAccess world) {
+		//((WorldServer) world).addScheduledTask(runnable);
+	}
+
+	public boolean isClient() {
+		return false;
+	}
+
+	public boolean isServer() {
+		return FMLCommonHandler.instance().getSide().isServer();
 	}
 
 	public boolean isPaused() {

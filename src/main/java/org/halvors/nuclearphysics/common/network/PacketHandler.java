@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.common.network;
 
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -11,7 +12,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
@@ -40,7 +40,7 @@ public class PacketHandler {
 		networkWrapper.sendToAll(message);
 	}
 
-	public void sendToAllAround(IMessage message, NetworkRegistry.TargetPoint point) {
+	public void sendToAllAround(IMessage message, TargetPoint point) {
 		networkWrapper.sendToAllAround(message, point);
 	}
 
@@ -90,10 +90,6 @@ public class PacketHandler {
 		sendToReceivers(message, new Range(tileEntity));
 	}
 
-	public static Packet getPacketFrom(IMessage message) {
-		return networkWrapper.getPacketFrom(message);
-	}
-
 	public static EntityPlayer getPlayer(MessageContext context) {
 		return NuclearPhysics.getProxy().getPlayer(context);
 	}
@@ -140,16 +136,4 @@ public class PacketHandler {
             writeObject(object, dataStream);
         }
     }
-
-	public static String readString(ByteBuf input) {
-		return ByteBufUtils.readUTF8String(input);
-	}
-
-	public static ItemStack readStack(ByteBuf input) {
-		return ByteBufUtils.readItemStack(input);
-	}
-
-	public static NBTTagCompound readNBT(ByteBuf input) {
-		return ByteBufUtils.readTag(input);
-	}
 }

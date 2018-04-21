@@ -11,7 +11,9 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
@@ -123,9 +125,26 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
+	public void addScheduledTask(Runnable runnable, IBlockAccess world) {
+		if (world == null || isClient()) {
+			Minecraft.getMinecraft().addScheduledTask(runnable);
+		} else {
+			super.addScheduledTask(runnable, world);
+		}
+	}
+
+	@Override
+	public boolean isClient() {
+		return !isServer();
+	}
+
+	@Override
 	public boolean isPaused() {
-		if (FMLClientHandler.instance().getClient().isSingleplayer() && !FMLClientHandler.instance().getClient().getIntegratedServer().getPublic()) {
-			GuiScreen screen = FMLClientHandler.instance().getClient().currentScreen;
+		Minecraft minecraft = FMLClientHandler.instance().getClient();
+		IntegratedServer integratedServer = minecraft.getIntegratedServer();
+
+		if (minecraft.isSingleplayer() && integratedServer != null && !integratedServer.getPublic()) {
+			GuiScreen screen = minecraft.currentScreen;
 
 			return screen != null && screen.doesGuiPauseGame();
 		}

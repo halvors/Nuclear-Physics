@@ -52,6 +52,8 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
 
         if (fluidStack != null) {
             list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
+        } else {
+            list.add(LanguageUtility.transelate("tooltip.empty"));
         }
     }
 
@@ -60,7 +62,7 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs tab, List list) {
         for (EnumCell type : EnumCell.values()) {
-            list.add(type == EnumCell.EMPTY ? new ItemStack(item) : FluidUtility.getFilledCell(type.getFluid()));
+            list.add(type.getFluid() == null ? new ItemStack(item) : FluidUtility.getFilledCell(type.getFluid()));
         }
     }
 
@@ -181,26 +183,24 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public enum EnumCell {
-        EMPTY("empty"),
-        DEUTERIUM("deuterium", ModFluids.deuterium),
-        TRITIUM("tritium", ModFluids.tritium),
-        WATER("water", FluidRegistry.WATER);
+        EMPTY,
+        DEUTERIUM(ModFluids.deuterium),
+        TRITIUM(ModFluids.tritium),
+        WATER(FluidRegistry.WATER),
+        PLASMA(ModFluids.plasma);
 
-        private String name;
         private Fluid fluid;
 
-        EnumCell(String name) {
-            this.name = name;
+        EnumCell() {
+
         }
 
-        EnumCell(String name, Fluid fluid) {
-            this(name);
-
+        EnumCell(Fluid fluid) {
             this.fluid = fluid;
         }
 
         public String getName() {
-            return name;
+            return toString().toLowerCase();
         }
 
         public Fluid getFluid() {

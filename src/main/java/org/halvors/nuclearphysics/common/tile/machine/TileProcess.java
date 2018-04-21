@@ -5,7 +5,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;

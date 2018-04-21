@@ -4,7 +4,6 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
@@ -42,10 +41,8 @@ public class PacketRedstoneControl extends PacketLocation implements IMessage {
     public static class PacketRedstoneControlMessage implements IMessageHandler<PacketRedstoneControl, IMessage> {
         @Override
         public IMessage onMessage(PacketRedstoneControl message, MessageContext messageContext) {
-            EntityPlayer player = PacketHandler.getPlayer(messageContext);
-
-            World world = PacketHandler.getWorld(messageContext);
-            TileEntity tile = world.getTileEntity(message.getX(), message.getY(), message.getZ());
+            final World world = PacketHandler.getWorld(messageContext);
+            final TileEntity tile = world.getTileEntity(message.getX(), message.getY(), message.getZ());
 
             if (tile instanceof ITileRedstoneControl) {
                 ((ITileRedstoneControl) tile).setRedstoneControl(message.redstoneControl);

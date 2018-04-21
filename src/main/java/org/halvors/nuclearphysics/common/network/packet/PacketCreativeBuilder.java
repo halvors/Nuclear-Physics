@@ -51,10 +51,10 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
     public static class PacketCreativeBuilderMessage implements IMessageHandler<PacketCreativeBuilder, IMessage> {
         @Override
         public IMessage onMessage(PacketCreativeBuilder message, MessageContext messageContext) {
-            EntityPlayer player = PacketHandler.getPlayer(messageContext);
+            final World world = PacketHandler.getWorld(messageContext);
+            final EntityPlayer player = PacketHandler.getPlayer(messageContext);
 
             if (player != null) {
-                World world = PacketHandler.getWorld(messageContext);
                 int x = message.getX();
                 int y = message.getY();
                 int z = message.getZ();
@@ -63,10 +63,10 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
                     try {
                         if (message.size > 0) {
                             // TODO: Implement dynamic facing, not just NORTH.
-                            HashMap<Position, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(ForgeDirection.NORTH, message.size);
+                            final HashMap<Position, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(ForgeDirection.NORTH, message.size);
 
                             for (Entry<Position, Pair<Block, Integer>> entry : map.entrySet()) {
-                                Position placePos = entry.getKey().add(x, y, z);
+                                final Position placePos = entry.getKey().add(x, y, z);
 
                                 world.setBlock(placePos.getIntX(), placePos.getIntY(), placePos.getIntZ(), entry.getValue().getLeft(), entry.getValue().getRight(), 2);
                             }

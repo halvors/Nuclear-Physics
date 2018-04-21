@@ -26,6 +26,14 @@ public class ThermalGrid implements IUpdate {
         return ThermalPhysics.getTemperatureForCoordinate(world, pos);
     }
 
+    public static float getTemperature(World world, Position pos) {
+        if (thermalSource.containsKey(new Pair<>(world, pos))) {
+            return thermalSource.get(new Pair<>(world, pos));
+        }
+
+        return ThermalPhysics.getTemperatureForCoordinate(world, pos);
+    }
+
     public static void addTemperature(World world, Position pos, float deltaTemperature) {
         float defaultTemperature = getDefaultTemperature(world, pos);
         float original = thermalSource.getOrDefault(new Pair<>(world, pos), defaultTemperature);
@@ -36,14 +44,6 @@ public class ThermalGrid implements IUpdate {
         } else {
             thermalSource.remove(new Pair<>(world, pos));
         }
-    }
-
-    public static float getTemperature(World world, Position pos) {
-        if (thermalSource.containsKey(new Pair<>(world, pos))) {
-            return thermalSource.get(new Pair<>(world, pos));
-        }
-
-        return ThermalPhysics.getTemperatureForCoordinate(world, pos);
     }
 
     @Override
@@ -66,6 +66,7 @@ public class ThermalGrid implements IUpdate {
 
                 ThermalUpdateEvent event = new ThermalUpdateEvent(world, pos.getIntX(), pos.getIntY(), pos.getIntZ(), currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
                 MinecraftForge.EVENT_BUS.post(event);
+
 
                 addTemperature(world, pos, (deltaFromEquilibrium > 0 ? 1 : -1) * Math.min(Math.abs(deltaFromEquilibrium), Math.abs(event.getHeatLoss())));
 
