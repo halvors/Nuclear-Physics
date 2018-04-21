@@ -9,6 +9,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
@@ -50,18 +51,18 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
     public static class PacketCreativeBuilderMessage implements IMessageHandler<PacketCreativeBuilder, IMessage> {
         @Override
         public IMessage onMessage(PacketCreativeBuilder message, MessageContext messageContext) {
-            EntityPlayer player = PacketHandler.getPlayer(messageContext);
+            final World world = PacketHandler.getWorld(messageContext);
+            final EntityPlayer player = PacketHandler.getPlayer(messageContext);
 
             if (player != null) {
-                PacketHandler.handlePacket(() -> {
-                    World world = PacketHandler.getWorld(messageContext);
-                    BlockPos pos = message.getPos();
+                NuclearPhysics.getProxy().addScheduledTask(() -> {
+                    final BlockPos pos = message.getPos();
 
                     if (!world.isRemote && PlayerUtility.isOp(player)) {
                         try {
                             if (message.size > 0) {
                                 // TODO: Implement dynamic facing, not just NORTH.
-                                HashMap<BlockPos, IBlockState> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.NORTH, message.size);
+                                final HashMap<BlockPos, IBlockState> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.NORTH, message.size);
 
                                 for (Entry<BlockPos, IBlockState> entry : map.entrySet()) {
                                     world.setBlockState(entry.getKey().add(pos), entry.getValue());
@@ -71,7 +72,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
                             e.printStackTrace();
                         }
                     }
-                }, player);
+                }, world);
             }
 
             return null;

@@ -9,10 +9,11 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -139,22 +140,28 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public void handlePacket(Runnable runnable, EntityPlayer player) {
-		if (player == null || player.world.isRemote) {
+	public void addScheduledTask(Runnable runnable, IBlockAccess world) {
+		if (world == null || isClient()) {
 			Minecraft.getMinecraft().addScheduledTask(runnable);
 		} else {
-			((WorldServer) player.world).addScheduledTask(runnable);
+			super.addScheduledTask(runnable, world);
 		}
 	}
 
 	@Override
-	public boolean isPaused() {
-		if (FMLClientHandler.instance().getClient().isSingleplayer() && !FMLClientHandler.instance().getClient().getIntegratedServer().getPublic()) {
-			GuiScreen screen = FMLClientHandler.instance().getClient().currentScreen;
+	public boolean isClient() {
+		return !isServer();
+	}
 
-			if (screen != null && screen.doesGuiPauseGame()) {
-				return true;
-			}
+	@Override
+	public boolean isPaused() {
+		Minecraft minecraft = FMLClientHandler.instance().getClient();
+		IntegratedServer integratedServer = minecraft.getIntegratedServer();
+
+		if (minecraft.isSingleplayer() && integratedServer != null && !integratedServer.getPublic()) {
+			GuiScreen screen = minecraft.currentScreen;
+
+			return screen != null && screen.doesGuiPauseGame();
 		}
 
 		return false;

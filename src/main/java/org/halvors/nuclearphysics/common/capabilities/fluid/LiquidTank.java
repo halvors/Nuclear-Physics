@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
-import org.halvors.nuclearphysics.common.network.PacketHandler;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class LiquidTank extends FluidTank {
 
     public void handlePacketData(ByteBuf dataStream) {
         if (dataStream.readBoolean()) {
-            setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
+            setFluid(FluidStack.loadFluidStackFromNBT(ByteBufUtils.readTag(dataStream)));
         }
     }
 

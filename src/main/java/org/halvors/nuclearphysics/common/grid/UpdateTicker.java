@@ -76,7 +76,7 @@ public class UpdateTicker extends Thread {
                     }
                 } catch (Exception e) {
                     NuclearPhysics.getLogger().warn("Threaded Ticker: Failed while ticking updater. This is a bug! Clearing all tickers for self repair.");
-                    updaters.clear();
+                    //updaters.clear();
                     e.printStackTrace();
                 }
             }
