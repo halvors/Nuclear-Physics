@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -14,6 +15,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimpl
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -41,6 +43,8 @@ public class ItemCell extends ItemTooltip {
 
         if (fluidStack != null) {
             list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
+        } else {
+            list.add(LanguageUtility.transelate("tooltip.empty"));
         }
     }
 
@@ -48,7 +52,7 @@ public class ItemCell extends ItemTooltip {
     @SideOnly(Side.CLIENT)
     public void getSubItems(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
         for (EnumCell type : EnumCell.values()) {
-            list.add(type == EnumCell.EMPTY ? new ItemStack(item) : FluidUtility.getFilledCell(FluidRegistry.getFluid(type.getName())));
+            list.add(type.getFluid() == null ? new ItemStack(item) : FluidUtility.getFilledCell(type.getFluid()));
         }
     }
 
@@ -58,20 +62,31 @@ public class ItemCell extends ItemTooltip {
         return new FluidHandlerItemStackSimple(itemStack, capacity);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public enum EnumCell {
-        EMPTY("empty"),
-        DEUTERIUM("deuterium"),
-        TRITIUM("tritium"),
-        WATER("water");
+        EMPTY,
+        DEUTERIUM(ModFluids.deuterium),
+        TRITIUM(ModFluids.tritium),
+        WATER(FluidRegistry.WATER),
+        PLASMA(ModFluids.plasma);
 
-        private String name;
+        private Fluid fluid;
 
-        EnumCell(String name) {
-            this.name = name;
+        EnumCell() {
+
+        }
+
+        EnumCell(Fluid fluid) {
+            this.fluid = fluid;
         }
 
         public String getName() {
-            return name;
+            return toString().toLowerCase();
+        }
+
+        public Fluid getFluid() {
+            return fluid;
         }
     }
 }
