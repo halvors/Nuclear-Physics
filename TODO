@@ -27,6 +27,8 @@ Known features not implemented:
 
 New features to add:
     Convenience:
+        - Make blocks store radiation. Even after the source is removed.
+
         - Add ducrete, as a way to prevent radiation from seeping through walls? It's a way to reuse depleted uranium as a shielding material for waste storage/transportation
         - Implement IAntiPoisonBlock and add make radiation resistant blocks. (Raytrace).
         - Check if we should have a uranium hexaflouride container for gas centrifuge and nuclear boiler.
