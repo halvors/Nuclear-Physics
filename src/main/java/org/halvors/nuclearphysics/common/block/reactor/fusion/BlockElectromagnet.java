@@ -131,6 +131,8 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     }
 
     /*
+    Note: Impossible due to lacking blockstates in 1.7.10.
+
     @Override
     @SideOnly(Side.CLIENT)
     @Nonnull

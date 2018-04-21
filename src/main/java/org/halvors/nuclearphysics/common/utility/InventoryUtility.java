@@ -8,37 +8,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class InventoryUtility {
-    // TODO: Implement this for 1.7.10.
-    /*
-    public static void incrStackSize(IItemHandlerModifiable itemHandler, int slot) {
-        ItemStack itemStack = itemHandler.getStackInSlot(slot);
-
-        if (itemStack != null) {
-            itemHandler.insertItem(slot, ItemHandlerHelper.copyStackWithSize(itemStack, itemStack.stackSize++), false);
-        }
-    }
-    */
-
-    public static ItemStack decrStackSize(ItemStack stack, int amount) {
-        if (stack != null) {
-            ItemStack itemStack = stack.copy();
-
-            if (itemStack.stackSize <= amount) {
-                return null;
-            }
-
-            itemStack.stackSize -= amount;
-
-            if (itemStack.stackSize <= 0) {
-                return null;
-            }
-
-            return itemStack;
-        }
-
-        return null;
-    }
-
     public static NBTTagCompound getNBTTagCompound(ItemStack itemStack) {
         if (itemStack != null) {
             if (itemStack.getTagCompound() == null) {
