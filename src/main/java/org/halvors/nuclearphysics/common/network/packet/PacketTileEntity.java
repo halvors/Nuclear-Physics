@@ -1,13 +1,13 @@
 package org.halvors.nuclearphysics.common.network.packet;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.tile.ITileNetwork;
 
@@ -52,15 +52,14 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 	public static class PacketTileEntityMessage implements IMessageHandler<PacketTileEntity, IMessage> {
 		@Override
 		public IMessage onMessage(PacketTileEntity message, MessageContext messageContext) {
-			EntityPlayer player = PacketHandler.getPlayer(messageContext);
+			final World world = PacketHandler.getWorld(messageContext);
 
-			if (player != null) {
-				PacketHandler.handlePacket(() -> {
-					World world = PacketHandler.getWorld(messageContext);
-                    TileEntity tile = world.getTileEntity(message.getPos());
+			if (world != null) {
+				NuclearPhysics.getProxy().addScheduledTask(() -> {
+                    final TileEntity tile = world.getTileEntity(message.getPos());
 
                     if (tile instanceof ITileNetwork) {
-                        ITileNetwork tileNetwork = (ITileNetwork) tile;
+                        final ITileNetwork tileNetwork = (ITileNetwork) tile;
 
                         try {
                             tileNetwork.handlePacketData(message.storedBuffer);
@@ -72,7 +71,7 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
                     }
 
 
-                }, player);
+                }, world);
 			}
 
 			return null;
