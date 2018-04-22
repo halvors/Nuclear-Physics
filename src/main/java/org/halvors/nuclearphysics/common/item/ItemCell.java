@@ -186,8 +186,7 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
         EMPTY,
         DEUTERIUM(ModFluids.deuterium),
         TRITIUM(ModFluids.tritium),
-        WATER(FluidRegistry.WATER),
-        PLASMA(ModFluids.plasma);
+        WATER(FluidRegistry.WATER);
 
         private Fluid fluid;
 
