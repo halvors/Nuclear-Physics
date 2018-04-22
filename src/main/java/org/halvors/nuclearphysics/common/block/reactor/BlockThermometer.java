@@ -115,8 +115,8 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public int isProvidingStrongPower(IBlockAccess access, int x, int y, int z, int side) {
-        TileEntity tile = access.getTileEntity(x, y, z);
+    public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side) {
+        TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof TileThermometer) {
             TileThermometer tileThermometer = (TileThermometer) tile;

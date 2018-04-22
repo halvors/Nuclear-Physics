@@ -61,7 +61,8 @@ public class TileThermometer extends TileRotatable {
             if (detectedTemperature != previousDetectedTemperature || isProvidingPower != isOverThreshold()) {
                 previousDetectedTemperature = detectedTemperature;
                 isProvidingPower = isOverThreshold();
-                worldObj.notifyBlockOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
+                
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
 
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
