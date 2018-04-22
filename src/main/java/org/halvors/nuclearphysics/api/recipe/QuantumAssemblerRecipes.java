@@ -1,29 +1,22 @@
 package org.halvors.nuclearphysics.api.recipe;
 
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuantumAssemblerRecipes {
-    public static final List<ItemStack> recipes = new ArrayList<>();
+    private static final List<Item> recipes = new ArrayList<>();
 
-    public static boolean hasRecipe(ItemStack itemStack) {
-        for (ItemStack output : recipes) {
-            if (output.isItemEqual(itemStack)) {
-                return true;
-            }
-        }
-
-        return false;
+    public static boolean hasRecipe(Item item) {
+        return recipes.contains(item);
     }
 
-    public static void addRecipe(ItemStack itemStack) {
-        if (itemStack != null) {
-            if (itemStack.isStackable()) {
-                recipes.add(itemStack);
-            }
+    public static void addRecipe(Item item) {
+        if (item != null) {
+            recipes.add(item);
         }
     }
 }

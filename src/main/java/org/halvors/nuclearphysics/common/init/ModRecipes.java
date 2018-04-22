@@ -1,5 +1,6 @@
 package org.halvors.nuclearphysics.common.init;
 
+import net.minecraft.block.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -12,6 +13,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import org.halvors.nuclearphysics.api.recipe.QuantumAssemblerRecipes;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell.EnumAntimatterCell;
@@ -118,28 +120,51 @@ public class ModRecipes {
 
     private static void registerQuantumAssemblerRecipes() {
         if (General.allowGeneratedQuantumAssemblerRecipes) {
-            String[] prefixList = { "ore", "ingot", "nugget", "dust", "gem", "dye", "block", "stone", "crop", "slab", "stair", "pane", "gear", "rod", "stick", "plate", "dustTiny", "cover" };
+            Block[] blockBanList = {
+                    Blocks.AIR,
+                    Blocks.BEDROCK,
+                    Blocks.FLOWING_WATER,
+                    Blocks.WATER,
+                    Blocks.FLOWING_LAVA,
+                    Blocks.LAVA
+            };
+
+            String[] prefixList = { "block", "cluster", "cobblestone", "crop", "dust", "dye", "gem", "glowstone", "ingot", "nugget", "ore", "pane", "plank", "quicksilver", "record", "sandstone", "shard", "slab", "stair", "stick", "slimeball", "stone", "tree" };
 
             // Add common items and blocks from ore dictionary.
             for (String oreName : OreDictionary.getOreNames()) {
                 for (String prefix : prefixList) {
                     if (oreName.startsWith(prefix)) {
                         for (ItemStack itemStack : OreDictionary.getOres(oreName)) {
-                            QuantumAssemblerRecipes.addRecipe(itemStack);
+                            QuantumAssemblerRecipes.addRecipe(itemStack.getItem());
                         }
                     }
                 }
             }
 
+            // Adding items from Minecraft.
+            for (Item item : Item.REGISTRY) {
+                NuclearPhysics.getLogger().info("Item: " + item.getRegistryName());
+                QuantumAssemblerRecipes.addRecipe(item);
+            }
+
+            // Adding blocks from Minecraft.
+            for (Item item : ItemBlock.REGISTRY) {
+                NuclearPhysics.getLogger().info("Block: " + item.getRegistryName());
+                QuantumAssemblerRecipes.addRecipe(item);
+            }
+
+            /*
             // Add recipes for all items in this mod.
             for (Item item : ModItems.items) {
-                QuantumAssemblerRecipes.addRecipe(new ItemStack(item));
+                QuantumAssemblerRecipes.addRecipe(item);
             }
 
             // Add recipes for all blocks in this mod.
             for (ItemBlock itemBlock : ModBlocks.itemBlocks) {
-                QuantumAssemblerRecipes.addRecipe(new ItemStack(itemBlock));
+                QuantumAssemblerRecipes.addRecipe(itemBlock);
             }
+            */
         }
     }
 }

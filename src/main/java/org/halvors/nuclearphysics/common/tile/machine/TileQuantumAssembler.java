@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.common.tile.machine;
 
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
 import net.minecraftforge.items.ItemStackHandler;
@@ -40,7 +41,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
             private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
                 switch (slot) {
                     case 6:
-                        return QuantumAssemblerRecipes.hasRecipe(itemStack);
+                        return QuantumAssemblerRecipes.hasRecipe(itemStack.getItem());
                 }
 
                 return OreDictionaryHelper.isDarkmatterCell(itemStack);
@@ -109,7 +110,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
         ItemStack itemStack = inventory.getStackInSlot(6);
 
         if (itemStack != null) {
-            if (QuantumAssemblerRecipes.hasRecipe(itemStack)) {
+            if (QuantumAssemblerRecipes.hasRecipe(itemStack.getItem())) {
                 for (int i = 0; i <= 5; i++) {
                     ItemStack itemStackInSlot = inventory.getStackInSlot(i);
 
@@ -137,7 +138,11 @@ public class TileQuantumAssembler extends TileInventoryMachine {
             ItemStack itemStack = inventory.getStackInSlot(6);
 
             if (itemStack != null) {
-                itemStack.stackSize++;
+                final ItemStack itemStackOutput = new ItemStack(itemStack.getItem(), itemStack.stackSize++, itemStack.getMetadata());
+
+                inventory.setStackInSlot(6, itemStackOutput);
+
+                //itemStack.stackSize++;
             }
         }
     }
