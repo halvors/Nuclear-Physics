@@ -26,25 +26,6 @@ public class ItemArmorHazmat extends ItemArmorBase implements IAntiPoisonArmor {
     public String getArmorTexture(ItemStack itemStack, Entity entity, EntityEquipmentSlot slot, String type) {
         return Reference.PREFIX + "textures/models/hazmat.png";
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public boolean isProtectedFromPoison(ItemStack itemStack, EntityLivingBase entity, PoisonType type) {
-        switch (type) {
-            case RADIATION:
-            case CHEMICAL:
-            case CONTAGIOUS:
-                return true;
-        }
-
-        return false;
-    }
-
-    @Override
-    public void onProtectFromPoison(ItemStack itemStack, EntityLivingBase entity, PoisonType type) {
-        itemStack.damageItem(1, entity);
-    }
 }
 
 
