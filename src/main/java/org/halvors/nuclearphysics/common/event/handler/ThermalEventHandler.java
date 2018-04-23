@@ -25,8 +25,6 @@ import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.event.BoilEvent;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
-import org.halvors.nuclearphysics.common.grid.IUpdate;
-import org.halvors.nuclearphysics.common.grid.UpdateTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.init.ModFluids;
