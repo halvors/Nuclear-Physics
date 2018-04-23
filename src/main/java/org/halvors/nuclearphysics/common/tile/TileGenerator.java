@@ -27,14 +27,14 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag("storedEnergy"));
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (energyStorage != null) {
@@ -45,14 +45,14 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final EnumFacing facing) {
         return (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final EnumFacing facing) {
         if (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) {
             return (T) energyStorage;
         }
@@ -76,14 +76,14 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         if (world.isRemote) {
             energyStorage.setEnergyStored(dataStream.readInt());
         }
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         objects.add(energyStorage.getEnergyStored());
 
         return objects;
@@ -92,12 +92,12 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int receiveEnergy(int maxReceive, boolean simulate) {
+    public int receiveEnergy(final int maxReceive, final boolean simulate) {
         return 0;
     }
 
     @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
+    public int extractEnergy(final int maxExtract, final boolean simulate) {
         return energyStorage.extractEnergy(maxExtract, simulate);
     }
 
@@ -135,7 +135,7 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
         targets.clear();
 
         for (EnumFacing side : EnumFacing.values()) {
-            BlockPos neighbor = pos.offset(side);
+            final BlockPos neighbor = pos.offset(side);
 
             if (isValidTarget(neighbor, side)) {
                 targets.add(neighbor);
@@ -147,7 +147,7 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     protected void sendEnergyToTargets() {
         if (targets.size() > 0 && energyStorage.getEnergyStored() > 0) {
             for (int i = 0; i < targets.size(); ++i) {
-                BlockPos pos = targets.get((targetStartingIndex + i) % targets.size());
+                final BlockPos pos = targets.get((targetStartingIndex + i) % targets.size());
                 sendEnergyTo(pos, facings.get(pos));
             }
 
@@ -155,29 +155,29 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
         }
     }
 
-    protected boolean isValidTarget(BlockPos pos, EnumFacing to) {
-        TileEntity tile = world.getTileEntity(pos);
+    protected boolean isValidTarget(final BlockPos pos, final EnumFacing to) {
+        final TileEntity tile = world.getTileEntity(pos);
 
         return tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, to.getOpposite());
 
     }
 
-    protected void sendEnergyTo(BlockPos pos, EnumFacing to) {
-        TileEntity tile = world.getTileEntity(pos);
+    protected void sendEnergyTo(final BlockPos pos, final EnumFacing to) {
+        final TileEntity tile = world.getTileEntity(pos);
 
         if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, to.getOpposite())) {
             sendEnergyToFE(tile, to);
         }
     }
 
-    protected void sendEnergyToFE(TileEntity tile, EnumFacing from) {
+    protected void sendEnergyToFE(final TileEntity tile, final EnumFacing from) {
         if (tile != null && tile.hasCapability(CapabilityEnergy.ENERGY, from.getOpposite())) {
-            IEnergyStorage ies = tile.getCapability(CapabilityEnergy.ENERGY, from.getOpposite());
+            final IEnergyStorage ies = tile.getCapability(CapabilityEnergy.ENERGY, from.getOpposite());
             energyStorage.extractEnergy(ies.receiveEnergy(energyStorage.getEnergyStored(), false), false);
         }
     }
 
-    public EnergyStorage getEnergyStorage() {
+    public IEnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 }

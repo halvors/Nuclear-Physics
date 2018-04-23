@@ -39,7 +39,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
 
     public final LiquidTank tankInputDeuterium = new LiquidTank(Fluid.BUCKET_VOLUME * 10) {
         @Override
-        public int fill(FluidStack resource, boolean doFill) {
+        public int fill(final FluidStack resource, final boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackDeuterium)) {
                 return super.fill(resource, doFill);
             }
@@ -55,7 +55,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
 
     public final LiquidTank tankInputTritium = new LiquidTank(Fluid.BUCKET_VOLUME * 10) {
         @Override
-        public int fill(FluidStack resource, boolean doFill) {
+        public int fill(final FluidStack resource, final boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackTritium)) {
                 return super.fill(resource, doFill);
             }
@@ -82,7 +82,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
         this(EnumMachine.PLASMA_HEATER);
     }
 
-    public TilePlasmaHeater(EnumMachine type) {
+    public TilePlasmaHeater(final EnumMachine type) {
         super(type);
 
         redstoneControl = RedstoneControl.LOW;
@@ -90,7 +90,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInputDeuterium, null, tag.getTag("tankInputDeuterium"));
@@ -99,7 +99,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setTag("tankInputDeuterium", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInputDeuterium, null));
@@ -110,14 +110,14 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final EnumFacing facing) {
         return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final EnumFacing facing) {
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return (T) this;
         }
@@ -162,7 +162,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
@@ -173,7 +173,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         tankInputDeuterium.getPacketData(objects);
@@ -191,7 +191,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     }
 
     @Override
-    public int fill(FluidStack resource, boolean doFill) {
+    public int fill(final FluidStack resource, final boolean doFill) {
         if (resource.isFluidEqual(ModFluids.fluidStackDeuterium)) {
             return tankInputDeuterium.fill(resource, doFill);
         } else if (resource.isFluidEqual(ModFluids.fluidStackTritium)) {
@@ -203,13 +203,13 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
 
     @Nullable
     @Override
-    public FluidStack drain(FluidStack resource, boolean doDrain) {
+    public FluidStack drain(final FluidStack resource, final boolean doDrain) {
         return drain(resource.amount, doDrain);
     }
 
     @Nullable
     @Override
-    public FluidStack drain(int maxDrain, boolean doDrain) {
+    public FluidStack drain(final int maxDrain, final boolean doDrain) {
         return tankOutput.drain(maxDrain, doDrain);
     }
 
@@ -217,7 +217,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
 
     @Override
     @SideOnly(Side.CLIENT)
-    public float addInformation(HashMap<String, Integer> map, EntityPlayer player) {
+    public float addInformation(final HashMap<String, Integer> map, final EntityPlayer player) {
         if (energyStorage.getEnergyStored() > 0) {
             map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
         }

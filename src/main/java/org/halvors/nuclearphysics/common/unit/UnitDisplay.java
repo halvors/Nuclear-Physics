@@ -3,8 +3,8 @@ package org.halvors.nuclearphysics.common.unit;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 
 public class UnitDisplay {
-    public static String getEnergyDisplay(double energy) {
-        ElectricUnit unit = General.electricUnit;
+    public static String getEnergyDisplay(final double energy) {
+        final ElectricUnit unit = General.electricUnit;
 
         switch (unit) {
             case TESLA:
@@ -17,7 +17,7 @@ public class UnitDisplay {
         return getDisplayShort(energy, unit);
     }
 
-    public static String getTemperatureDisplay(double temperature) {
+    public static String getTemperatureDisplay(final double temperature) {
         return getDisplayShort(temperature, General.temperatureUnit);
     }
 
@@ -37,34 +37,34 @@ public class UnitDisplay {
         ZETTA("Zetta", "Z", 1000000000000000000000D),
         YOTTA("Yotta", "Y", 1000000000000000000000000D);
 
-        public String name;
-        public String symbol;
-        public double value;
+        public final String name;
+        public final String symbol;
+        public final double value;
 
-        Prefix(String name, String symbol, double value) {
+        Prefix(final String name, final String symbol, final double value) {
             this.name = name;
             this.symbol = symbol;
             this.value = value;
         }
 
-        public String getName(boolean getShort) {
-            if (getShort) {
+        public String getName(final boolean isShort) {
+            if (isShort) {
                 return symbol;
             } else {
                 return name;
             }
         }
 
-        public double process(double d) {
-            return d / value;
+        public double process(final double value) {
+            return value / value;
         }
 
-        public boolean above(double d) {
-            return d > value;
+        public boolean above(final double value) {
+            return value > value;
         }
 
-        public boolean below(double d) {
-            return d < value;
+        public boolean below(final double value) {
+            return value < value;
         }
     }
 
@@ -73,7 +73,7 @@ public class UnitDisplay {
      * front of the output string showing this. Use string.replace to remove the negative sign if
      * unwanted
      */
-    public static String getDisplay(double value, ElectricUnit unit, int decimalPlaces, boolean isShort) {
+    public static String getDisplay(double value, final ElectricUnit unit, final int decimalPlaces, final boolean isShort) {
         String unitName = unit.getName();
         String prefix = "";
 
@@ -92,7 +92,7 @@ public class UnitDisplay {
             return value + " " + unitName;
         } else {
             for (int i = 0; i < Prefix.values().length; i++) {
-                Prefix lowerMeasure = Prefix.values()[i];
+                final Prefix lowerMeasure = Prefix.values()[i];
 
                 if (lowerMeasure.below(value) && lowerMeasure.ordinal() == 0) {
                     return prefix + roundDecimals(lowerMeasure.process(value), decimalPlaces) + " " + lowerMeasure.getName(isShort) + unitName;
@@ -102,7 +102,7 @@ public class UnitDisplay {
                     return prefix + roundDecimals(lowerMeasure.process(value), decimalPlaces) + " " + lowerMeasure.getName(isShort) + unitName;
                 }
 
-                Prefix upperMeasure = Prefix.values()[i + 1];
+                final Prefix upperMeasure = Prefix.values()[i + 1];
 
                 if ((lowerMeasure.above(value) && upperMeasure.below(value)) || lowerMeasure.value == value) {
                     return prefix + roundDecimals(lowerMeasure.process(value), decimalPlaces) + " " + lowerMeasure.getName(isShort) + unitName;
@@ -113,15 +113,15 @@ public class UnitDisplay {
         return prefix + roundDecimals(value, decimalPlaces) + " " + unitName;
     }
 
-    public static String getDisplayShort(double value, ElectricUnit unit) {
+    public static String getDisplayShort(final double value, final ElectricUnit unit) {
         return getDisplay(value, unit, 2, true);
     }
 
-    public static String getDisplayShort(double value, ElectricUnit unit, int decimalPlaces) {
+    public static String getDisplayShort(final double value, final ElectricUnit unit, final int decimalPlaces) {
         return getDisplay(value, unit, decimalPlaces, true);
     }
 
-    public static String getDisplaySimple(double value, ElectricUnit unit, int decimalPlaces) {
+    public static String getDisplaySimple(final double value, final ElectricUnit unit, final int decimalPlaces) {
         if (value > 1) {
             if (decimalPlaces < 1) {
                 return (int) value + " " + unit.getPlural();
@@ -137,7 +137,7 @@ public class UnitDisplay {
         return roundDecimals(value, decimalPlaces) + " " + unit.getName();
     }
 
-    public static String getDisplay(double value, TemperatureUnit unit, int decimalPlaces, boolean shift, boolean isShort) {
+    public static String getDisplay(double value, final TemperatureUnit unit, final int decimalPlaces, final boolean shift, final boolean isShort) {
         String unitName = unit.getName();
         String prefix = "";
 
@@ -156,7 +156,7 @@ public class UnitDisplay {
             return value + (isShort ? "" : " ") + unitName;
         } else {
             for (int i = 0; i < Prefix.values().length; i++) {
-                Prefix lowerMeasure = Prefix.values()[i];
+                final Prefix lowerMeasure = Prefix.values()[i];
 
                 if (lowerMeasure.below(value) && lowerMeasure.ordinal() == 0) {
                     return prefix + roundDecimals(lowerMeasure.process(value), decimalPlaces) + (isShort ? "" : " ") + lowerMeasure.getName(isShort) + unitName;
@@ -166,7 +166,7 @@ public class UnitDisplay {
                     return prefix + roundDecimals(lowerMeasure.process(value), decimalPlaces) + (isShort ? "" : " ") + lowerMeasure.getName(isShort) + unitName;
                 }
 
-                Prefix upperMeasure = Prefix.values()[i + 1];
+                final Prefix upperMeasure = Prefix.values()[i + 1];
 
                 if ((lowerMeasure.above(value) && upperMeasure.below(value)) || lowerMeasure.value == value) {
                     return prefix + roundDecimals(lowerMeasure.process(value), decimalPlaces) + (isShort ? "" : " ") + lowerMeasure.getName(isShort) + unitName;
@@ -177,24 +177,24 @@ public class UnitDisplay {
         return prefix + roundDecimals(value, decimalPlaces) + (isShort ? "" : " ") + unitName;
     }
 
-    public static String getDisplayShort(double value, TemperatureUnit unit) {
+    public static String getDisplayShort(final double value, final TemperatureUnit unit) {
         return getDisplayShort(value, true, unit);
     }
 
-    public static String getDisplayShort(double value, boolean shift, TemperatureUnit unit) {
+    public static String getDisplayShort(final double value, final boolean shift, final TemperatureUnit unit) {
         return getDisplayShort(value, unit, shift, 2);
     }
 
-    public static String getDisplayShort(double value, TemperatureUnit unit, boolean shift, int decimalPlaces) {
+    public static String getDisplayShort(final double value, final TemperatureUnit unit, final boolean shift, final int decimalPlaces) {
         return getDisplay(value, unit, decimalPlaces, shift, true);
     }
 
-    public static double roundDecimals(double d, int decimalPlaces) {
-        int j = (int) (d * Math.pow(10, decimalPlaces));
+    public static double roundDecimals(final double value, final int decimalPlaces) {
+        int j = (int) (value * Math.pow(10, decimalPlaces));
         return j / Math.pow(10, decimalPlaces);
     }
 
-    public static double roundDecimals(double d) {
-        return roundDecimals(d, 2);
+    public static double roundDecimals(final double value) {
+        return roundDecimals(value, 2);
     }
 }

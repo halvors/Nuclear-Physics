@@ -9,7 +9,7 @@ public enum Resource {
 
 	private final String prefix;
 
-	Resource(String prefix) {
+	Resource(final String prefix) {
 		this.prefix = prefix;
 	}
 

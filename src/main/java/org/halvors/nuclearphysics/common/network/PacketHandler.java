@@ -32,23 +32,23 @@ import java.util.Set;
 public class PacketHandler {
 	public static final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.ID);
 
-	public void sendTo(IMessage message, EntityPlayerMP player) {
+	public void sendTo(final IMessage message, final EntityPlayerMP player) {
 		networkWrapper.sendTo(message, player);
 	}
 
-	public void sendToAll(IMessage message) {
+	public void sendToAll(final IMessage message) {
 		networkWrapper.sendToAll(message);
 	}
 
-	public void sendToAllAround(IMessage message, TargetPoint point) {
+	public void sendToAllAround(final IMessage message, final TargetPoint point) {
 		networkWrapper.sendToAllAround(message, point);
 	}
 
-	public void sendToDimension(IMessage message, int dimensionId) {
+	public void sendToDimension(final IMessage message, final int dimensionId) {
 		networkWrapper.sendToDimension(message, dimensionId);
 	}
 
-	public void sendToServer(IMessage message) {
+	public void sendToServer(final IMessage message) {
 		networkWrapper.sendToServer(message);
 	}
 
@@ -58,7 +58,7 @@ public class PacketHandler {
 	 * @param cuboid - the AABB cuboid to send the packet in
 	 * @param dimensionId - the dimension the cuboid is in
 	 */
-	public void sendToCuboid(IMessage message, AxisAlignedBB cuboid, int dimensionId) {
+	public void sendToCuboid(final IMessage message, final AxisAlignedBB cuboid, final int dimensionId) {
 		if (cuboid != null) {
 			for (EntityPlayerMP player : PlayerUtility.getPlayers()) {
 				if (player.dimension == dimensionId && cuboid.isVecInside(new Vec3d(player.posX, player.posY, player.posZ))) {
@@ -68,13 +68,13 @@ public class PacketHandler {
 		}
 	}
 
-	public void sendToReceivers(IMessage message, Set<EntityPlayer> playerList) {
+	public void sendToReceivers(final IMessage message, final Set<EntityPlayer> playerList) {
 		for (EntityPlayer player : playerList) {
 			sendTo(message, (EntityPlayerMP) player);
 		}
 	}
 
-	public void sendToReceivers(IMessage message, Range range) {
+	public void sendToReceivers(final IMessage message, final Range range) {
 		for (EntityPlayerMP player : PlayerUtility.getPlayers()) {
 			if (player.getEntityWorld().equals(range.getWorld()) && Range.getChunkRange(player).intersects(range)) {
 				sendTo(message, player);
@@ -82,23 +82,23 @@ public class PacketHandler {
 		}
 	}
 
-	public void sendToReceivers(IMessage message, Entity entity) {
+	public void sendToReceivers(final IMessage message, final Entity entity) {
 		sendToReceivers(message, new Range(entity));
 	}
 
-	public void sendToReceivers(IMessage message, TileEntity tileEntity) {
+	public void sendToReceivers(final IMessage message, final TileEntity tileEntity) {
 		sendToReceivers(message, new Range(tileEntity));
 	}
 
-	public static EntityPlayer getPlayer(MessageContext context) {
+	public static EntityPlayer getPlayer(final MessageContext context) {
 		return NuclearPhysics.getProxy().getPlayer(context);
 	}
 
-	public static World getWorld(MessageContext context) {
+	public static World getWorld(final MessageContext context) {
 		return getPlayer(context).getEntityWorld();
 	}
 
-    public static void writeObject(Object object, ByteBuf dataStream) {
+    public static void writeObject(final Object object, final ByteBuf dataStream) {
         try {
             if (object instanceof Boolean) {
                 dataStream.writeBoolean((Boolean) object);
@@ -125,13 +125,13 @@ public class PacketHandler {
             } else if (object instanceof NBTTagCompound) {
 				ByteBufUtils.writeTag(dataStream, (NBTTagCompound) object);
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             NuclearPhysics.getLogger().error("An error occurred when sending packet data.");
             e.printStackTrace();
         }
     }
 
-    public static void writeObjects(List<Object> objects, ByteBuf dataStream) {
+    public static void writeObjects(final List<Object> objects, final ByteBuf dataStream) {
         for (Object object : objects) {
             writeObject(object, dataStream);
         }

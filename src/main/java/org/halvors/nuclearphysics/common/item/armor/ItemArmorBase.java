@@ -17,7 +17,7 @@ import java.util.EnumSet;
 public class ItemArmorBase extends ItemArmor implements IArmorSet, ISpecialArmor {
     protected final String name;
 
-    public ItemArmorBase(String name, ArmorMaterial material, EntityEquipmentSlot slot) {
+    public ItemArmorBase(final String name, final ArmorMaterial material, final EntityEquipmentSlot slot) {
         super(material, 0, slot);
 
         this.name = name;
@@ -37,11 +37,11 @@ public class ItemArmorBase extends ItemArmor implements IArmorSet, ISpecialArmor
     }
 
     @Override
-    public boolean isArmorPartOfSet(ItemStack itemStack) {
+    public boolean isArmorPartOfSet(final ItemStack itemStack) {
         final Item item = itemStack.getItem();
 
         if (item instanceof IArmorSet) {
-            IArmorSet armorSet = (IArmorSet) item;
+            final IArmorSet armorSet = (IArmorSet) item;
 
             return armorSet.getEquipmentSlot() == armorType;
         }
@@ -57,17 +57,17 @@ public class ItemArmorBase extends ItemArmor implements IArmorSet, ISpecialArmor
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public ArmorProperties getProperties(EntityLivingBase entity, ItemStack itemStack, DamageSource damageSource, double damage, int slot) {
+    public ArmorProperties getProperties(final EntityLivingBase entity, final ItemStack itemStack, final DamageSource damageSource, final double damage, final int slot) {
         return new ArmorProperties(0, 0, 0);
     }
 
     @Override
-    public int getArmorDisplay(EntityPlayer player, ItemStack armor, int slot) {
+    public int getArmorDisplay(final EntityPlayer player, final ItemStack itemStack, final int slot) {
         return 0;
     }
 
     @Override
-    public void damageArmor(EntityLivingBase entity, ItemStack itemStack, DamageSource source, int damage, int slot) {
+    public void damageArmor(final EntityLivingBase entity, final ItemStack itemStack, final DamageSource source, final int damage, final int slot) {
 
     }
 }

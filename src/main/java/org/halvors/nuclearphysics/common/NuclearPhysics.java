@@ -4,6 +4,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -61,7 +62,7 @@ public class NuclearPhysics {
 	}
 
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit(final FMLPreInitializationEvent event) {
 		// Initialize configuration.
         configuration = new Configuration(event.getSuggestedConfigurationFile());
 
@@ -80,7 +81,7 @@ public class NuclearPhysics {
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	public void init(final FMLInitializationEvent event) {
 		// Register event handlers.
 		MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
@@ -92,8 +93,8 @@ public class NuclearPhysics {
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, (tickets, world) -> {
             for (Ticket ticket : tickets) {
-                if (ticket.getType() == ForgeChunkManager.Type.ENTITY) {
-					Entity entity = ticket.getEntity();
+                if (ticket.getType() == Type.ENTITY) {
+					final Entity entity = ticket.getEntity();
 
 					if (entity instanceof EntityParticle) {
 						((EntityParticle) entity).updateTicket = ticket;
@@ -107,7 +108,7 @@ public class NuclearPhysics {
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
+	public void postInit(final FMLPostInitializationEvent event) {
 		if (!UpdateTicker.getInstance().isAlive()) {
 			UpdateTicker.getInstance().start();
 		}

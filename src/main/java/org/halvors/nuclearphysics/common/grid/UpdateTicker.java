@@ -28,7 +28,7 @@ public class UpdateTicker extends Thread {
         return instance;
     }
 
-    public static void addNetwork(IUpdate updater) {
+    public static void addNetwork(final IUpdate updater) {
         synchronized (instance.updaters) {
             instance.updaters.add(updater);
         }
@@ -46,7 +46,7 @@ public class UpdateTicker extends Thread {
         return paused;
     }
 
-    public void setPaused(boolean paused) {
+    public void setPaused(final boolean paused) {
         this.paused = paused;
     }
 
@@ -55,7 +55,7 @@ public class UpdateTicker extends Thread {
         long last = System.currentTimeMillis();
 
         while (!paused) {
-            long current = System.currentTimeMillis();
+            final long current = System.currentTimeMillis();
             deltaTime = current - last;
 
             // Tick all updaters.
@@ -76,7 +76,6 @@ public class UpdateTicker extends Thread {
                     }
                 } catch (Exception e) {
                     NuclearPhysics.getLogger().warn("Threaded Ticker: Failed while ticking updater. This is a bug! Clearing all tickers for self repair.");
-                    //updaters.clear();
                     e.printStackTrace();
                 }
             }

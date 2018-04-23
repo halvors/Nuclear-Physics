@@ -44,7 +44,7 @@ public class ConfigurationManager {
         public static boolean allowGeneratedQuantumAssemblerRecipes;
     }
 
-    public static void loadConfiguration(Configuration configuration) {
+    public static void loadConfiguration(final Configuration configuration) {
         configuration.load();
 
         General.electricUnit = ElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", ElectricUnit.FORGE_ENERGY.getSymbol(), null, ElectricUnit.getSymbols().toArray(new String[ElectricUnit.values().length])).getString());
@@ -82,11 +82,11 @@ public class ConfigurationManager {
         configuration.save();
     }
 
-    public static void saveConfiguration(Configuration configuration) {
+    public static void saveConfiguration(final Configuration configuration) {
         configuration.save();
     }
 
-    public static void readConfiguration(ByteBuf dataStream) {
+    public static void readConfiguration(final ByteBuf dataStream) {
         General.electricUnit = ElectricUnit.values()[dataStream.readInt()];
         General.temperatureUnit = TemperatureUnit.values()[dataStream.readInt()];
         General.toTesla = dataStream.readDouble();
@@ -120,8 +120,8 @@ public class ConfigurationManager {
         General.allowGeneratedQuantumAssemblerRecipes = dataStream.readBoolean();
     }
 
-    public static void writeConfiguration(ByteBuf dataStream) {
-        List<Object> objects = new ArrayList<>();
+    public static void writeConfiguration(final ByteBuf dataStream) {
+        final List<Object> objects = new ArrayList<>();
 
         objects.add(General.electricUnit.ordinal());
         objects.add(General.temperatureUnit.ordinal());

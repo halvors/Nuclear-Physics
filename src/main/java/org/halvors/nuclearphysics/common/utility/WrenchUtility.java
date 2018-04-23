@@ -18,11 +18,11 @@ public class WrenchUtility {
      * @param pos - the coordinate of the block being wrenched
      * @return if the player can use the wrench
      */
-    public static boolean hasUsableWrench(EntityPlayer player, EnumHand hand, BlockPos pos) {
-        ItemStack itemStack = player.getHeldItemMainhand();
+    public static boolean hasUsableWrench(final EntityPlayer player, final EnumHand hand, final BlockPos pos) {
+        final ItemStack itemStack = player.getHeldItemMainhand();
 
         if (itemStack != null) {
-            Item item = itemStack.getItem();
+            final Item item = itemStack.getItem();
 
             if (item instanceof IWrench) {
                 return ((IWrench) item).canUseWrench(itemStack, player, pos);

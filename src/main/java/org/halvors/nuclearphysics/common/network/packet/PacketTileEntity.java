@@ -25,7 +25,7 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 
 	}
 
-	public PacketTileEntity(BlockPos pos, List<Object> objects) {
+	public PacketTileEntity(final BlockPos pos, final List<Object> objects) {
 		super(pos);
 
 		this.objects = objects;
@@ -36,14 +36,14 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 	}
 
 	@Override
-	public void fromBytes(ByteBuf dataStream) {
+	public void fromBytes(final ByteBuf dataStream) {
 		super.fromBytes(dataStream);
 
 		storedBuffer = dataStream.copy();
 	}
 
 	@Override
-	public void toBytes(ByteBuf dataStream) {
+	public void toBytes(final ByteBuf dataStream) {
 		super.toBytes(dataStream);
 
 		PacketHandler.writeObjects(objects, dataStream);
@@ -51,7 +51,7 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 
 	public static class PacketTileEntityMessage implements IMessageHandler<PacketTileEntity, IMessage> {
 		@Override
-		public IMessage onMessage(PacketTileEntity message, MessageContext messageContext) {
+		public IMessage onMessage(final PacketTileEntity message, final MessageContext messageContext) {
 			final World world = PacketHandler.getWorld(messageContext);
 
 			if (world != null) {

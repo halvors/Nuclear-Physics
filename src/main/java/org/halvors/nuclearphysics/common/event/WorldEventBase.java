@@ -8,7 +8,7 @@ import net.minecraftforge.event.world.WorldEvent;
 public class WorldEventBase extends WorldEvent {
     private final BlockPos pos;
 
-    public WorldEventBase(IBlockAccess world, BlockPos pos) {
+    public WorldEventBase(final IBlockAccess world, final BlockPos pos) {
         super((World) world);
 
         this.pos = pos;

@@ -19,21 +19,21 @@ public class PacketRedstoneControl extends PacketLocation implements IMessage {
 
     }
 
-    public PacketRedstoneControl(BlockPos pos, RedstoneControl redstoneControl) {
+    public PacketRedstoneControl(final BlockPos pos, final RedstoneControl redstoneControl) {
         super(pos);
 
         this.redstoneControl = redstoneControl;
     }
 
     @Override
-    public void toBytes(ByteBuf dataStream) {
+    public void toBytes(final ByteBuf dataStream) {
         super.toBytes(dataStream);
 
         dataStream.writeInt(redstoneControl.ordinal());
     }
 
     @Override
-    public void fromBytes(ByteBuf dataStream) {
+    public void fromBytes(final ByteBuf dataStream) {
         super.fromBytes(dataStream);
 
         redstoneControl = RedstoneControl.values()[dataStream.readInt()];
@@ -41,7 +41,7 @@ public class PacketRedstoneControl extends PacketLocation implements IMessage {
 
     public static class PacketRedstoneControlMessage implements IMessageHandler<PacketRedstoneControl, IMessage> {
         @Override
-        public IMessage onMessage(PacketRedstoneControl message, MessageContext messageContext) {
+        public IMessage onMessage(final PacketRedstoneControl message, final MessageContext messageContext) {
             final World world = PacketHandler.getWorld(messageContext);
 
             NuclearPhysics.getProxy().addScheduledTask(() -> {

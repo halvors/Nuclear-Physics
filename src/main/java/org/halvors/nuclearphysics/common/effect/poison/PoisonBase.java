@@ -20,14 +20,14 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
     protected final PoisonType type;
     protected final DamageSource damageSource;
 
-    public PoisonBase(boolean isBadEffect, int color, PoisonType type) {
+    public PoisonBase(final boolean isBadEffect, final int color, final PoisonType type) {
         super(isBadEffect, color, type.getName());
 
         this.type = type;
         this.damageSource = new DamageSource(type.getName()).setDamageBypassesArmor();
     }
 
-    public PoisonBase(boolean isBadEffect, int red, int green, int blue, PoisonType type) {
+    public PoisonBase(final boolean isBadEffect, final int red, final int green, final int blue, final PoisonType type) {
         this(isBadEffect, new Color(red, green, blue).getRGB(), type);
     }
 
@@ -36,7 +36,7 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
     }
 
     @Override
-    public boolean isEntityProtected(EntityLivingBase entity, int amplifier) {
+    public boolean isEntityProtected(final EntityLivingBase entity, final int amplifier) {
         final EnumSet<EntityEquipmentSlot> armorWorn = EnumSet.noneOf(EntityEquipmentSlot.class);
 
         if (entity instanceof EntityPlayer) {
@@ -74,15 +74,15 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
     }
 
     @Override
-    public void poisonEntity(EntityLivingBase entity, int amplifier) {
+    public void poisonEntity(final EntityLivingBase entity, final int amplifier) {
         if (!isEntityProtected(entity, amplifier)) {
             performPoisonEffect(entity, amplifier);
         }
     }
 
-    public void poisonEntity(EntityLivingBase entity) {
+    public void poisonEntity(final EntityLivingBase entity) {
         poisonEntity(entity, 0);
     }
 
-    protected abstract void performPoisonEffect(@Nonnull EntityLivingBase entity, int amplifier);
+    protected abstract void performPoisonEffect(@Nonnull final EntityLivingBase entity, final int amplifier);
 }

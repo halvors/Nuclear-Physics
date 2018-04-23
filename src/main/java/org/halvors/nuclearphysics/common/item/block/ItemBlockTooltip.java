@@ -14,14 +14,14 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemBlockTooltip extends ItemBlockBase {
-    public ItemBlockTooltip(Block block) {
+    public ItemBlockTooltip(final Block block) {
         super(block);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, @Nonnull List<String> list, boolean flag) {
-        String tooltip = getUnlocalizedName(itemStack) + ".tooltip";
+    public void addInformation(@Nonnull final ItemStack itemStack, @Nonnull final EntityPlayer player, @Nonnull final List<String> list, final boolean flag) {
+        final String tooltip = getUnlocalizedName(itemStack) + ".tooltip";
 
         if (LanguageUtility.canTranselate(tooltip)) {
             if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {

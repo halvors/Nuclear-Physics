@@ -25,8 +25,6 @@ import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.event.BoilEvent;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
-import org.halvors.nuclearphysics.common.grid.IUpdate;
-import org.halvors.nuclearphysics.common.grid.UpdateTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.init.ModFluids;
@@ -34,7 +32,7 @@ import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 
 public class ThermalEventHandler {
     @SubscribeEvent
-    public void onBoilEvent(BoilEvent event) {
+    public void onBoilEvent(final BoilEvent event) {
         final World world = event.getWorld();
         final BlockPos pos = event.getPos();
         final IBlockState state = world.getBlockState(pos);
@@ -83,7 +81,7 @@ public class ThermalEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlasmaSpawnEvent(PlasmaSpawnEvent event) {
+    public void onPlasmaSpawnEvent(final PlasmaSpawnEvent event) {
         final World world = event.getWorld();
         final BlockPos pos = event.getPos();
         final IBlockState state = world.getBlockState(pos);
@@ -135,7 +133,7 @@ public class ThermalEventHandler {
 
         if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
             if (event.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                int volume = (int) (Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * General.steamOutputMultiplier);
+                final int volume = (int) (Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * General.steamOutputMultiplier);
 
                 MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
 
