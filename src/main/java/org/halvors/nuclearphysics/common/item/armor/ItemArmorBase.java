@@ -49,11 +49,6 @@ public class ItemArmorBase extends ItemArmor implements IArmorSet, ISpecialArmor
         return false;
     }
 
-    @Override
-    public EnumSet<EntityEquipmentSlot> getArmorPartsRequired() {
-        return EnumSet.of(EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.FEET);
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
