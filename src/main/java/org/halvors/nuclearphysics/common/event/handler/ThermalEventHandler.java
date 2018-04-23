@@ -17,7 +17,7 @@ import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.event.BoilEvent;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
-import org.halvors.nuclearphysics.common.grid.IUpdate;
+import org.halvors.nuclearphysics.common.grid.IGrid;
 import org.halvors.nuclearphysics.common.grid.UpdateTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
@@ -142,7 +142,7 @@ public class ThermalEventHandler {
 
             if (block == Blocks.ice || block == Blocks.packed_ice) {
                 if (event.getTemperature() >= ThermalPhysics.iceMeltTemperature) {
-                    UpdateTicker.addNetwork(new IUpdate() {
+                    UpdateTicker.getInstance().addGrid(new IGrid() {
                         @Override
                         public void update() {
                             world.setBlock(x, y, z, Blocks.flowing_water, 0, 3);
@@ -165,7 +165,7 @@ public class ThermalEventHandler {
 
             if (block == Blocks.snow || block == Blocks.snow_layer) {
                 if (event.getTemperature() >= ThermalPhysics.iceMeltTemperature) {
-                    UpdateTicker.addNetwork(new IUpdate() {
+                    UpdateTicker.getInstance().addGrid(new IGrid() {
                         @Override
                         public void update() {
                             world.setBlockToAir(x, y, z);

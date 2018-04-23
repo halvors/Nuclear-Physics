@@ -1,9 +1,9 @@
 package org.halvors.nuclearphysics.common.grid;
 
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
-import java.util.*;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /*
  * A ticker to update all grids. This is multithreaded.
@@ -11,8 +11,8 @@ import java.util.*;
 public class UpdateTicker extends Thread {
     private static final UpdateTicker instance = new UpdateTicker();
 
-    // For updaters to be ticked.
-    private final Set<IUpdate> updaters = Collections.newSetFromMap(new WeakHashMap<>());
+    // Grids to be ticked.
+    private final Set<IGrid> grids = ConcurrentHashMap.newKeySet();
 
     private boolean paused = false;
 
@@ -28,25 +28,23 @@ public class UpdateTicker extends Thread {
         return instance;
     }
 
-    public static void addNetwork(IUpdate updater) {
-        synchronized (instance.updaters) {
-            instance.updaters.add(updater);
-        }
+    public void addGrid(final IGrid grid) {
+        grids.add(grid);
     }
 
     public long getDeltaTime() {
         return deltaTime;
     }
 
-    public int getUpdaterCount() {
-        return updaters.size();
+    public int getGridCount() {
+        return grids.size();
     }
 
     public boolean isPaused() {
         return paused;
     }
 
-    public void setPaused(boolean paused) {
+    public void setPaused(final boolean paused) {
         this.paused = paused;
     }
 
@@ -55,29 +53,17 @@ public class UpdateTicker extends Thread {
         long last = System.currentTimeMillis();
 
         while (!paused) {
-            long current = System.currentTimeMillis();
+            final long current = System.currentTimeMillis();
             deltaTime = current - last;
 
             // Tick all updaters.
-            synchronized (updaters) {
-                final Iterator<IUpdate> updaterIterator = new HashSet<>(updaters).iterator();
+            for (IGrid grid : grids) {
+                if (grid.canUpdate()) {
+                    grid.update();
+                }
 
-                try {
-                    while (updaterIterator.hasNext()) {
-                        final IUpdate updater = updaterIterator.next();
-
-                        if (updater.canUpdate()) {
-                            updater.update();
-                        }
-
-                        if (!updater.continueUpdate()) {
-                            updaterIterator.remove();
-                        }
-                    }
-                } catch (Exception e) {
-                    NuclearPhysics.getLogger().warn("Threaded Ticker: Failed while ticking updater. This is a bug! Clearing all tickers for self repair.");
-                    //updaters.clear();
-                    e.printStackTrace();
+                if (!grid.continueUpdate()) {
+                    grids.remove(grid);
                 }
             }
 
