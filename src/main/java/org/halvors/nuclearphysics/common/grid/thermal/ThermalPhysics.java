@@ -13,41 +13,41 @@ public class ThermalPhysics {
      *
      * @return The temperature of the coordinate in the world in kelvin.
      */
-    public static float getTemperatureForCoordinate(World world, BlockPos pos) {
-        int averageTemperature = 273 + (int) ((world.getBiome(pos).getFloatTemperature(pos) - 0.4) * 50);
-        double dayNightVariance = averageTemperature * 0.05;
+    public static float getTemperatureForCoordinate(final World world, final BlockPos pos) {
+        final int averageTemperature = 273 + (int) ((world.getBiome(pos).getFloatTemperature(pos) - 0.4) * 50);
+        final double dayNightVariance = averageTemperature * 0.05;
 
         return (float) (averageTemperature + (world.isDaytime() ? dayNightVariance : -dayNightVariance));
     }
 
-    public static double getEnergyForTemperatureChange(float mass, double specificHeatCapacity, float temperature) {
+    public static double getEnergyForTemperatureChange(final float mass, final double specificHeatCapacity, final float temperature) {
         return mass * specificHeatCapacity * temperature;
     }
 
-    public static float getTemperatureForEnergy(float mass, long specificHeatCapacity, long energy) {
+    public static float getTemperatureForEnergy(final float mass, final long specificHeatCapacity, final long energy) {
         return energy / (mass * specificHeatCapacity);
     }
 
-    public static double getRequiredBoilWaterEnergy(World world, BlockPos pos) {
+    public static double getRequiredBoilWaterEnergy(final World world, final BlockPos pos) {
         return getRequiredBoilWaterEnergy(world, pos, 1000);
     }
 
-    public static double getRequiredBoilWaterEnergy(World world, BlockPos pos, int volume) {
-        float temperatureChange = waterBoilTemperature - getTemperatureForCoordinate(world, pos);
-        float mass = getMass(volume, 1);
+    public static double getRequiredBoilWaterEnergy(final World world, final BlockPos pos, final int volume) {
+        final float temperatureChange = waterBoilTemperature - getTemperatureForCoordinate(world, pos);
+        final float mass = getMass(volume, 1);
 
         return getEnergyForTemperatureChange(mass, 4200, temperatureChange) + getEnergyForStateChange(mass, 2257000);
     }
 
-    public static double getEnergyForStateChange(float mass, double latentHeatCapacity) {
+    public static double getEnergyForStateChange(final float mass, final double latentHeatCapacity) {
         return mass * latentHeatCapacity;
     }
 
-    public static float getMass(float volume, float density) {
+    public static float getMass(final float volume, final float density) {
         return (volume / 1000 * density);
     }
 
-    public static int getMass(FluidStack fluidStack) {
+    public static int getMass(final FluidStack fluidStack) {
         return (fluidStack.amount / 1000) * fluidStack.getFluid().getDensity(fluidStack);
     }
 }

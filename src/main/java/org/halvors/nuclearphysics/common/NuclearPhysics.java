@@ -113,7 +113,7 @@ public class NuclearPhysics {
 		}
 
 		// Register our grids.
-		UpdateTicker.addNetwork(thermalGrid);
+		UpdateTicker.getInstance().addGrid(thermalGrid);
 
 		// Initialize mod integration.
 		Integration.initialize();
