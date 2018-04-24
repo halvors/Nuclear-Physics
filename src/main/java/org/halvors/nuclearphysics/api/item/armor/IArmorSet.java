@@ -16,5 +16,7 @@ public interface IArmorSet {
 
     boolean isArmorPartOfSet(ItemStack itemStack);
 
-    EnumSet<EntityEquipmentSlot> getArmorPartsRequired();
+    default EnumSet<EntityEquipmentSlot> getArmorPartsRequired() {
+        return EnumSet.of(EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.FEET);
+    }
 }
