@@ -51,35 +51,37 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
             ItemStack itemStack = tileReactorCell.getStackInSlot(0);
 
             if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma) && tank.getFluidAmount() > 0) {
-                GL11.glPushMatrix();
-
-                bindTexture(texturePlasma);
-
-                // Make glass and fuel transparent.
-                GL11.glEnable(GL11.GL_BLEND);
-
-                GL11.glTranslated(0.5, 0, 0.5);
-                GL11.glScaled(0.48, 1.8, 0.48);
-                ModelCube.instance.render();
-
-                GL11.glDisable(GL11.GL_BLEND);
-
-                GL11.glPopMatrix();
+                renderFuel(texturePlasma, true);
             } else if (itemStack != null) {
-                GL11.glPushMatrix();
-
-                bindTexture(textureFissile);
-
-                GL11.glTranslated(0.5, 0, 0.5);
-                GL11.glScaled(0.48, 1.8, 0.48);
-                RenderHelper.disableStandardItemLighting();
-                ModelCube.instance.render();
-                RenderHelper.enableStandardItemLighting();
-
-                GL11.glPopMatrix();
+                renderFuel(textureFissile, false);
             }
 
             GL11.glPopMatrix();
         }
+    }
+
+    private void renderFuel(final ResourceLocation texture, final boolean isTransparent) {
+        GL11.glPushMatrix();
+
+        bindTexture(texture);
+
+        // Make glass and fuel transparent?
+        if (isTransparent) {
+            GL11.glEnable(GL11.GL_BLEND);
+        } else {
+            RenderHelper.disableStandardItemLighting();
+        }
+
+        GL11.glTranslated(0.5, 0.5, 0.5);
+        GL11.glScaled(0.48, 0.9, 0.48);
+        ModelCube.instance.render();
+
+        if (isTransparent) {
+            GL11.glDisable(GL11.GL_BLEND);
+        } else {
+            RenderHelper.enableStandardItemLighting();
+        }
+
+        GL11.glPopMatrix();
     }
 }
