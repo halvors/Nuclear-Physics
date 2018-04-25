@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.client.render.block.reactor;
 
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
@@ -26,37 +27,35 @@ public class RenderReactorCell extends RenderTile<TileReactorCell> {
         ItemStack itemStack = tile.getInventory().getStackInSlot(0);
 
         if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma) && tank.getFluidAmount() > 0) {
-            GlStateManager.pushMatrix();
-
-            // Make glass and fuel transparent.
-            GlStateManager.enableBlend();
-            GlStateManager.disableAlpha();
-
-            if (modelPlasma.getTexture() == null) {
-                modelPlasma.setTexture(TextureEventHandler.getFluidTexture(fluidStack.getFluid(), FluidType.STILL));
-            }
-
-            modelPlasma.render();
-
-            GlStateManager.disableBlend();
-            GlStateManager.enableAlpha();
-
-            GlStateManager.popMatrix();
+            renderFuel(modelPlasma, TextureEventHandler.getFluidTexture(fluidStack.getFluid(), FluidType.STILL), true);
         } else if (itemStack != null) {
-            GlStateManager.pushMatrix();
-
-            // Make glass transparent.
-            GlStateManager.disableAlpha();
-
-            if (modelFissileFuel.getTexture() == null) {
-                modelFissileFuel.setTexture(TextureEventHandler.getTexture("reactor_fissile_material"));
-            }
-
-            modelFissileFuel.render();
-
-            GlStateManager.enableAlpha();
-
-            GlStateManager.popMatrix();
+            renderFuel(modelFissileFuel, TextureEventHandler.getTexture("reactor_fissile_material"), false);
         }
+    }
+
+    private void renderFuel(final Model3D model, final TextureAtlasSprite texture, final boolean isTransparent) {
+        GlStateManager.pushMatrix();
+
+        // Make fuel transparent.
+        if (isTransparent) {
+            GlStateManager.enableBlend();
+        }
+
+        // Make glass transparent.
+        GlStateManager.disableAlpha();
+
+        if (model.getTexture() == null) {
+            model.setTexture(texture);
+        }
+
+        model.render();
+
+        if (isTransparent) {
+            GlStateManager.disableBlend();
+        }
+
+        GlStateManager.enableAlpha();
+
+        GlStateManager.popMatrix();
     }
 }
