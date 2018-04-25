@@ -21,6 +21,7 @@ public class ItemFuel extends ItemRadioactive {
     public ItemFuel(String name) {
         super(name);
 
+        setMaxStackSize(1);
         setMaxDurability(decay);
         setNoRepair();
     }
