@@ -24,6 +24,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive;
+import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive.EnumRadioactive;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.effect.explosion.ReactorExplosion;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
@@ -255,7 +257,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                     Block block = world.getBlockState(leakPos).getBlock();
 
                     if (block == Blocks.GRASS) {
-                        world.setBlockState(leakPos, ModBlocks.blockRadioactiveGrass.getDefaultState());
+                        world.setBlockState(leakPos, ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.URANIUM_ORE));
                         tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                     } else if (world.isAirBlock(leakPos) || block.isReplaceable(world, leakPos)) {
                         if (fluidStack != null) {

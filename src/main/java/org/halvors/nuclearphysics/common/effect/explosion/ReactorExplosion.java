@@ -4,6 +4,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive;
+import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive.EnumRadioactive;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 
 public class ReactorExplosion extends RadioactiveExplosion {
@@ -17,7 +19,7 @@ public class ReactorExplosion extends RadioactiveExplosion {
             IBlockState stateUnder = world.getBlockState(pos.down());
 
             if (world.isAirBlock(pos) && stateUnder.isOpaqueCube() && random.nextInt(3) == 0) {
-                world.setBlockState(pos, ModBlocks.blockRadioactiveGrass.getDefaultState());
+                world.setBlockState(pos, ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.GRASS));
             }
         }
 

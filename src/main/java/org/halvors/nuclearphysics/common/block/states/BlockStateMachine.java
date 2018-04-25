@@ -23,12 +23,12 @@ public class BlockStateMachine extends BlockStateFacing {
     }
 
     public enum EnumMachine implements IStringSerializable {
-        CHEMICAL_EXTRACTOR("chemical_extractor", TileChemicalExtractor.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
-        GAS_CENTRIFUGE("gas_centrifuge", TileGasCentrifuge.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
-        NUCLEAR_BOILER("nuclear_boiler", TileNuclearBoiler.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
+        CHEMICAL_EXTRACTOR("chemical_extractor", TileChemicalExtractor.class),
+        GAS_CENTRIFUGE("gas_centrifuge", TileGasCentrifuge.class),
+        NUCLEAR_BOILER("nuclear_boiler", TileNuclearBoiler.class),
         PARTICLE_ACCELERATOR("particle_accelerator", TileParticleAccelerator.class, EnumBlockRenderType.MODEL),
-        PLASMA_HEATER("plasma_heater", TilePlasmaHeater.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED),
-        QUANTUM_ASSEMBLER("quantum_assembler", TileQuantumAssembler.class, EnumBlockRenderType.ENTITYBLOCK_ANIMATED);
+        PLASMA_HEATER("plasma_heater", TilePlasmaHeater.class),
+        QUANTUM_ASSEMBLER("quantum_assembler", TileQuantumAssembler.class);
 
         private String name;
         private Class<? extends TileEntity> tileClass;
@@ -38,6 +38,10 @@ public class BlockStateMachine extends BlockStateFacing {
             this.name = name;
             this.tileClass = tileClass;
             this.renderType = renderType;
+        }
+
+        EnumMachine(String name, Class<? extends TileEntity> tileClass) {
+            this(name, tileClass, EnumBlockRenderType.ENTITYBLOCK_ANIMATED);
         }
 
         @Override
