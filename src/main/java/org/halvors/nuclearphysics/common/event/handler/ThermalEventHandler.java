@@ -17,8 +17,6 @@ import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.event.BoilEvent;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
-import org.halvors.nuclearphysics.common.grid.IGrid;
-import org.halvors.nuclearphysics.common.grid.UpdateTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.init.ModFluids;
@@ -124,67 +122,34 @@ public class ThermalEventHandler {
             event.setHeatLoss(event.getDeltaTemperature() * 0.6F);
         }
 
-        // TODO: Synchronized maybe not reqiured for all the following code?
-        synchronized (world) {
-            if (block.getMaterial().equals(Material.air)) {
-                event.setHeatLoss(0.15F);
+        if (block.getMaterial().equals(Material.air)) {
+            event.setHeatLoss(0.15F);
+        }
+
+        if (block == Blocks.water || block == Blocks.flowing_water) {
+            if (event.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+                int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * General.steamOutputMultiplier);
+
+                MinecraftForge.EVENT_BUS.post(new BoilEvent(world, x, y, z, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
+
+                event.setHeatLoss(0.2F);
+            }
+        }
+
+        if (block == Blocks.ice || block == Blocks.packed_ice) {
+            if (event.getTemperature() >= ThermalPhysics.iceMeltTemperature) {
+                world.setBlock(x, y, z, Blocks.flowing_water, 0, 3);
             }
 
-            if (block == Blocks.water || block == Blocks.flowing_water) {
-                if (event.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                    int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * General.steamOutputMultiplier);
+            event.setHeatLoss(0.4F);
+        }
 
-                    MinecraftForge.EVENT_BUS.post(new BoilEvent(world, x, y, z, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
-
-                    event.setHeatLoss(0.2F);
-                }
+        if (block == Blocks.snow || block == Blocks.snow_layer) {
+            if (event.getTemperature() >= ThermalPhysics.iceMeltTemperature) {
+                world.setBlockToAir(x, y, z);
             }
 
-            if (block == Blocks.ice || block == Blocks.packed_ice) {
-                if (event.getTemperature() >= ThermalPhysics.iceMeltTemperature) {
-                    UpdateTicker.getInstance().addGrid(new IGrid() {
-                        @Override
-                        public void update() {
-                            world.setBlock(x, y, z, Blocks.flowing_water, 0, 3);
-                        }
-
-                        @Override
-                        public boolean canUpdate() {
-                            return true;
-                        }
-
-                        @Override
-                        public boolean continueUpdate() {
-                            return false;
-                        }
-                    });
-                }
-
-                event.setHeatLoss(0.4F);
-            }
-
-            if (block == Blocks.snow || block == Blocks.snow_layer) {
-                if (event.getTemperature() >= ThermalPhysics.iceMeltTemperature) {
-                    UpdateTicker.getInstance().addGrid(new IGrid() {
-                        @Override
-                        public void update() {
-                            world.setBlockToAir(x, y, z);
-                        }
-
-                        @Override
-                        public boolean canUpdate() {
-                            return true;
-                        }
-
-                        @Override
-                        public boolean continueUpdate() {
-                            return false;
-                        }
-                    });
-                }
-
-                event.setHeatLoss(0.4F);
-            }
+            event.setHeatLoss(0.4F);
         }
     }
 }
