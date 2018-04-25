@@ -64,7 +64,7 @@ public class ThermalGrid implements IGrid {
                 final float deltaFromEquilibrium = getDefaultTemperature(world, pos) - currentTemperature;
                 final TileEntity tile = world.getTileEntity(pos.getIntX(), pos.getIntY(), pos.getIntZ());
                 final TileEntity tileUp = world.getTileEntity(pos.getIntX(), pos.getIntY() + 1, pos.getIntZ());
-                boolean isReactor = tile instanceof IReactor || tileUp != null && tile instanceof IBoilHandler;
+                boolean isReactor = tile instanceof IReactor || tileUp instanceof IBoilHandler;
 
                 final ThermalUpdateEvent event = new ThermalUpdateEvent(world, pos.getIntX(), pos.getIntY(), pos.getIntZ(), currentTemperature, deltaFromEquilibrium, deltaTime, isReactor);
                 MinecraftForge.EVENT_BUS.post(event);
