@@ -1,7 +1,9 @@
 package org.halvors.nuclearphysics.common;
 
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
@@ -130,17 +132,22 @@ public class NuclearPhysics {
 	public void missingMappings(final FMLMissingMappingsEvent event) {
 		for (final MissingMapping missingMapping : event.getAll()) {
 			final String resourceDomain = missingMapping.resourceLocation.getResourceDomain();
+			final String resourcePath = missingMapping.resourceLocation.getResourcePath();
 
 			if (resourceDomain.equals(Reference.ID)) {
-				final String resourcePath = missingMapping.resourceLocation.getResourcePath();
-
 				if (resourcePath.equals("radioactive_grass")) {
-					missingMapping.remap(ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.GRASS).getBlock());
-				} else if (resourcePath.equals("uranium_ore")) {
-					missingMapping.remap(ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.URANIUM_ORE).getBlock());
+					Block block = ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.GRASS).getBlock();
+
+					missingMapping.remap(block);
 				}
 
-				NuclearPhysics.getLogger().info("Remapped block with name '" + missingMapping.name + "' to new version.");
+				if (resourcePath.equals("uranium_ore")) {
+					Block block = ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.URANIUM_ORE).getBlock();
+
+					missingMapping.remap(block);
+				}
+
+				NuclearPhysics.getLogger().info("Remapped block with id '" + missingMapping.name + "' to new version.");
 			}
 		}
 	}
