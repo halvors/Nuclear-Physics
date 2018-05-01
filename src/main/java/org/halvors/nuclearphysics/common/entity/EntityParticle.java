@@ -39,11 +39,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     private int lastTurn = 60;
 
     private BlockPos movementPos;
-<<<<<<< HEAD
-    private EnumFacing movementDirection;
-=======
     private EnumFacing movementDirection = EnumFacing.NORTH;
->>>>>>> 1.11.2
 
     public EntityParticle(World world) {
         super(world);
@@ -214,8 +210,11 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
         if (updateTicket == null) {
             updateTicket = ForgeChunkManager.requestTicket(NuclearPhysics.getInstance(), world, Type.ENTITY);
-            updateTicket.getModData();
-            updateTicket.bindEntity(this);
+
+            if (updateTicket != null) {
+                updateTicket.getModData();
+                updateTicket.bindEntity(this);
+            }
         }
     }
 
