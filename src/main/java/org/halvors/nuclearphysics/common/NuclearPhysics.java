@@ -152,11 +152,13 @@ public class NuclearPhysics {
 							Block block = state.getBlock();
 							NuclearPhysics.getLogger().info("Remapping block with id '" + missingMapping.name + "' to '" + block.getRegistryName());
 							missingMapping.remap(block);
+							break;
 
 						case ITEM:
 							Item item = Objects.requireNonNull(Item.getItemFromBlock(state.getBlock()));
 							NuclearPhysics.getLogger().info("Remapping item with id '" + missingMapping.name + "' to '" + item.getRegistryName());
 							missingMapping.remap(item);
+							break;
 					}
 				}
 			}
