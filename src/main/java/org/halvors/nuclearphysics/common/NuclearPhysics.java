@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.common;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -30,6 +31,8 @@ import org.halvors.nuclearphysics.common.grid.GridTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.init.*;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
+
+import java.util.Objects;
 
 @Mod(modid = Reference.ID,
      name = Reference.NAME,
@@ -135,19 +138,27 @@ public class NuclearPhysics {
 			final String resourcePath = missingMapping.resourceLocation.getResourcePath();
 
 			if (resourceDomain.equals(Reference.ID)) {
+				IBlockState state = null;
+
 				if (resourcePath.equals("radioactive_grass")) {
-					Block block = ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.GRASS).getBlock();
-
-					missingMapping.remap(block);
+					state = ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.GRASS);
+				} else if (resourcePath.equals("uranium_ore")) {
+					state = ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.URANIUM_ORE);
 				}
 
-				if (resourcePath.equals("uranium_ore")) {
-					Block block = ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.URANIUM_ORE).getBlock();
+				if (state != null) {
+					switch (missingMapping.type) {
+						case BLOCK:
+							Block block = state.getBlock();
+							NuclearPhysics.getLogger().info("Remapping block with id '" + missingMapping.name + "' to '" + block.getRegistryName());
+							missingMapping.remap(block);
 
-					missingMapping.remap(block);
+						case ITEM:
+							Item item = Objects.requireNonNull(Item.getItemFromBlock(state.getBlock()));
+							NuclearPhysics.getLogger().info("Remapping item with id '" + missingMapping.name + "' to '" + item.getRegistryName());
+							missingMapping.remap(item);
+					}
 				}
-
-				NuclearPhysics.getLogger().info("Remapped block with id '" + missingMapping.name + "' to new version.");
 			}
 		}
 	}
