@@ -12,13 +12,13 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive;
+import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive.EnumRadioactive;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ItemEventHandler;
@@ -122,8 +122,27 @@ public class NuclearPhysics {
 	}
 
 	@EventHandler
-	public void serverStopping(FMLServerStoppingEvent event) {
+	public void serverStopping(final FMLServerStoppingEvent event) {
 		GridTicker.getInstance().interrupt();
+	}
+
+	@EventHandler
+	public void missingMappings(final FMLMissingMappingsEvent event) {
+		for (final MissingMapping missingMapping : event.getAll()) {
+			final String resourceDomain = missingMapping.resourceLocation.getResourceDomain();
+
+			if (resourceDomain.equals(Reference.ID)) {
+				final String resourcePath = missingMapping.resourceLocation.getResourcePath();
+
+				if (resourcePath.equals("radioactive_grass")) {
+					missingMapping.remap(ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.GRASS).getBlock());
+				} else if (resourcePath.equals("uranium_ore")) {
+					missingMapping.remap(ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.URANIUM_ORE).getBlock());
+				}
+
+				NuclearPhysics.getLogger().info("Remapped block with name '" + missingMapping.name + "' to new version.");
+			}
+		}
 	}
 
 	public static NuclearPhysics getInstance() {
