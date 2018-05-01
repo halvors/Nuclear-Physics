@@ -1,6 +1,5 @@
 package org.halvors.nuclearphysics.common.block.reactor.fission;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -13,6 +12,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -24,7 +24,6 @@ import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockBase;
-import org.halvors.nuclearphysics.common.block.states.BlockStateMachine;
 import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive;
 import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive.EnumRadioactive;
 import org.halvors.nuclearphysics.common.init.ModPotions;
@@ -158,13 +157,26 @@ public class BlockRadioactive extends BlockBase implements IRadioactiveBlock {
         }
     }
 
-    /**
-     * Ticks the block if it's been scheduled
-     */
     @Override
     public void updateTick(final World world, final BlockPos pos, final IBlockState state, final Random random) {
         if (!world.isRemote) {
-            if (canPoisonEntity(state) || General.allowRadioactiveOres) {
+            final EnumRadioactive type = state.getValue(BlockStateRadioactive.TYPE);
+            final boolean isBlockOver = !world.isAirBlock(pos.up());
+
+            // Update block type based on neighbor blocks.
+            switch (type) {
+                case DIRT:
+                    if (!isBlockOver) {
+                        world.setBlockState(pos, getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.GRASS));
+                    }
+
+                case GRASS:
+                    if (isBlockOver) {
+                        world.setBlockState(pos, getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.DIRT));
+                    }
+            }
+
+            if (canPoisonEntity(state) && General.allowRadioactiveOres) {
                 final int radius = getRadius(state);
                 final AxisAlignedBB bounds = new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius);
                 final List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
@@ -175,12 +187,14 @@ public class BlockRadioactive extends BlockBase implements IRadioactiveBlock {
             }
 
             if (canSpread(state)) {
-                for (int side = 0; side < 4; side++) {
-                    final BlockPos newPos = new BlockPos(pos.getX() + random.nextInt(3) - 1, pos.getY() + random.nextInt(5) - 3, pos.getZ() + random.nextInt(3) - 1);
-                    final Block block = world.getBlockState(newPos).getBlock();
+                for (final EnumFacing side : EnumFacing.values()) {
+                    final BlockPos newPos = pos.offset(side);
+                    final IBlockState newState = world.getBlockState(newPos);
 
-                    if (random.nextFloat() > 0.4 && (block == Blocks.FARMLAND || block == Blocks.GRASS)) {
-                        world.setBlockState(newPos, getDefaultState());
+                    if (random.nextFloat() > 0.4 && newState == Blocks.GRASS.getDefaultState() || newState == Blocks.FARMLAND.getDefaultState()) {
+                        final EnumRadioactive newType = world.isAirBlock(newPos.up()) ? EnumRadioactive.GRASS : EnumRadioactive.DIRT;
+
+                        world.setBlockState(newPos, getDefaultState().withProperty(BlockStateRadioactive.TYPE, newType));
                     }
                 }
 
@@ -192,7 +206,7 @@ public class BlockRadioactive extends BlockBase implements IRadioactiveBlock {
     }
 
     /**
-     * Called whenever an entity is walking on top of this block. Args: world, x, y, z, entity
+     * Called whenever an entity is walking on top of this block.
      */
     @Override
     public void onEntityCollidedWithBlock(final World world, final BlockPos pos, final IBlockState state, final Entity entity) {
