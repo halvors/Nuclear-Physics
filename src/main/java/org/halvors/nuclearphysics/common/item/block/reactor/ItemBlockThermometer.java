@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockTooltip;
-import org.halvors.nuclearphysics.common.type.Color;
+import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
@@ -43,9 +43,9 @@ public class ItemBlockThermometer extends ItemBlockTooltip {
 
         if (position != null) {
             list.add(LanguageUtility.transelate("tooltip.trackingCoordinate") + ": ");
-            list.add(Color.DARK_GREEN + "X: " + position.getIntX() + ", Y: " + position.getIntY() + ", Z: " + position.getIntZ());
+            list.add(EnumColor.DARK_GREEN + "X: " + position.getIntX() + ", Y: " + position.getIntY() + ", Z: " + position.getIntZ());
         } else {
-            list.add(Color.DARK_RED + LanguageUtility.transelate("tooltip.notTrackingTemperature"));
+            list.add(EnumColor.DARK_RED + LanguageUtility.transelate("tooltip.notTrackingTemperature"));
         }
 
         super.addInformation(itemStack, player, list, flag);
@@ -77,7 +77,7 @@ public class ItemBlockThermometer extends ItemBlockTooltip {
     public ActionResult<ItemStack> onItemRightClick(@Nonnull final ItemStack itemStack, final World world, final EntityPlayer player, final EnumHand hand) {
         if (!world.isRemote) {
             setSavedCoordinate(itemStack, null);
-            player.sendMessage(new TextComponentString(Color.DARK_BLUE + "[" + Reference.NAME + "] " + Color.GREY + LanguageUtility.transelate("tooltip.clearedTrackingCoordinate") + "."));
+            player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + "[" + Reference.NAME + "] " + EnumColor.GREY + LanguageUtility.transelate("tooltip.clearedTrackingCoordinate") + "."));
 
             return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
         }
@@ -101,7 +101,7 @@ public class ItemBlockThermometer extends ItemBlockTooltip {
             if (!world.isRemote) {
                 setSavedCoordinate(itemStack, new Position(pos));
 
-                player.sendMessage(new TextComponentString(Color.DARK_BLUE + "[" + Reference.NAME + "] " + Color.GREY + LanguageUtility.transelate("tooltip.trackingCoordinate") + ": " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()));
+                player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + "[" + Reference.NAME + "] " + EnumColor.GREY + LanguageUtility.transelate("tooltip.trackingCoordinate") + ": " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()));
             }
 
             return EnumActionResult.SUCCESS;

@@ -1,21 +1,21 @@
 package org.halvors.nuclearphysics.common.tile;
 
-import org.halvors.nuclearphysics.common.type.RedstoneControl;
+import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
 
 public interface ITileRedstoneControl {
     /**
-     * Gets the RedstoneControl type from this block.
+     * Gets the EnumRedstoneControl type from this block.
      *
-     * @return this block's RedstoneControl type
+     * @return this block's EnumRedstoneControl type
      */
-    RedstoneControl getRedstoneControl();
+    EnumRedstoneControl getRedstoneControl();
 
     /**
-     * Sets this block's RedstoneControl type to a new value.
+     * Sets this block's EnumRedstoneControl type to a new value.
      *
-     * @param redstoneControl - RedstoneControl type to set
+     * @param redstoneControl - EnumRedstoneControl type to set
      */
-    void setRedstoneControl(final RedstoneControl redstoneControl);
+    void setRedstoneControl(final EnumRedstoneControl redstoneControl);
 
     /**
      * If the block is getting powered or not by redstone (indirectly).

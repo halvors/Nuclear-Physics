@@ -5,10 +5,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.GuiMachine;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
-import org.halvors.nuclearphysics.client.gui.component.GuiSlot.EnumSlotType;
 import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
@@ -17,7 +16,7 @@ public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {
     public GuiQuantumAssembler(final InventoryPlayer inventoryPlayer, final TileQuantumAssembler tile) {
         super(tile, new ContainerQuantumAssembler(inventoryPlayer, tile));
 
-        defaultResource = ResourceUtility.getResource(Resource.GUI, "quantum_assembler.png");
+        defaultResource = ResourceUtility.getResource(EnumResource.GUI, "quantum_assembler.png");
         ySize = 230;
         titleOffset = -7;
 

@@ -4,14 +4,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
-import org.halvors.nuclearphysics.api.effect.poison.PoisonType;
+import org.halvors.nuclearphysics.api.effect.poison.EnumPoisonType;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 
 import javax.annotation.Nonnull;
 
 public class PoisonRadiation extends PoisonBase {
     public PoisonRadiation() {
-        super(true, 78, 147, 49, PoisonType.RADIATION);
+        super(true, 78, 147, 49, EnumPoisonType.RADIATION);
 
         setIconIndex(6, 0);
     }

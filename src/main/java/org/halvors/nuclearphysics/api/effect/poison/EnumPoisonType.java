@@ -1,6 +1,6 @@
 package org.halvors.nuclearphysics.api.effect.poison;
 
-public enum PoisonType {
+public enum EnumPoisonType {
     RADIATION,
     CHEMICAL,
     CONTAGIOUS;

@@ -9,7 +9,7 @@ import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAccelerator;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
-import org.halvors.nuclearphysics.common.type.Color;
+import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -30,11 +30,11 @@ public class GuiParticleAccelerator extends GuiMachine<TileParticleAccelerator> 
         final String status;
 
         if (!EntityParticle.canSpawnParticle(tile.getWorld(), pos)) {
-            status = Color.DARK_RED + LanguageUtility.transelate("gui.failedToEmitTryRotating");
+            status = EnumColor.DARK_RED + LanguageUtility.transelate("gui.failedToEmitTryRotating");
         } else if (tile.getEntityParticle() != null && tile.getVelocity() > 0) {
-            status = Color.ORANGE + LanguageUtility.transelate("gui.accelerating");
+            status = EnumColor.ORANGE + LanguageUtility.transelate("gui.accelerating");
         } else {
-            status = Color.DARK_GREEN + LanguageUtility.transelate("gui.idle");
+            status = EnumColor.DARK_GREEN + LanguageUtility.transelate("gui.idle");
         }
 
         fontRendererObj.drawString(LanguageUtility.transelate("gui.velocity") + ": " + Math.round((tile.getVelocity() / TileParticleAccelerator.antimatterCreationSpeed) * 100) + "%", (xSize / 2) - 80, (ySize / 2) - 80, 0x404040);

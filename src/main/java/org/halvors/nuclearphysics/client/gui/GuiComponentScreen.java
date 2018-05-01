@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.component.IGuiComponent;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.lwjgl.input.Mouse;
 
@@ -20,7 +20,7 @@ import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
-    protected final ResourceLocation defaultResource = ResourceUtility.getResource(Resource.GUI, "empty.png");
+    protected final ResourceLocation defaultResource = ResourceUtility.getResource(EnumResource.GUI, "empty.png");
     protected final Set<IGuiComponent> components = new HashSet<>();
 
     /** Starting X position for the Gui. Inconsistent use for Gui backgrounds. */

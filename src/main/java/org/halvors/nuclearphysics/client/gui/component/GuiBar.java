@@ -4,7 +4,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.awt.*;
@@ -15,7 +15,7 @@ public class GuiBar extends GuiComponent {
     private final EnumBarType type;
 
     public GuiBar(final IProgressInfoHandler progressInfoHandler, final EnumBarType type, final IGuiWrapper gui, final int x, final int y) {
-        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "bar.png"), gui, x, y);
+        super(ResourceUtility.getResource(EnumResource.GUI_COMPONENT, "bar.png"), gui, x, y);
 
         this.progressInfoHandler = progressInfoHandler;
         this.type = type;

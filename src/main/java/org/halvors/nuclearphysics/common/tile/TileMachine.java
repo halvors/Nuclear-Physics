@@ -6,7 +6,7 @@ import net.minecraft.util.ITickable;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
-import org.halvors.nuclearphysics.common.type.RedstoneControl;
+import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.RedstoneUtility;
 
@@ -18,7 +18,7 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
     protected int energyUsed = 0; // Synced
     protected int operatingTicks = 0; // Synced
 
-    protected RedstoneControl redstoneControl = RedstoneControl.DISABLED;
+    protected EnumRedstoneControl redstoneControl = EnumRedstoneControl.DISABLED;
     protected boolean redstone = false;
     protected boolean redstoneLastTick = false;
 
@@ -36,7 +36,7 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
 
         operatingTicks = tag.getInteger("operatingTicks");
         redstone = tag.getBoolean("redstone");
-        redstoneControl = RedstoneControl.values()[tag.getInteger("redstoneControl")];
+        redstoneControl = EnumRedstoneControl.values()[tag.getInteger("redstoneControl")];
     }
 
     @Override
@@ -69,7 +69,7 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
             energyUsed = dataStream.readInt();
             operatingTicks = dataStream.readInt();
             redstone = dataStream.readBoolean();
-            redstoneControl = RedstoneControl.values()[dataStream.readInt()];
+            redstoneControl = EnumRedstoneControl.values()[dataStream.readInt()];
         }
     }
 
@@ -88,12 +88,12 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public RedstoneControl getRedstoneControl() {
+    public EnumRedstoneControl getRedstoneControl() {
         return redstoneControl;
     }
 
     @Override
-    public void setRedstoneControl(final RedstoneControl redstoneControl) {
+    public void setRedstoneControl(final EnumRedstoneControl redstoneControl) {
         this.redstoneControl = redstoneControl;
     }
 

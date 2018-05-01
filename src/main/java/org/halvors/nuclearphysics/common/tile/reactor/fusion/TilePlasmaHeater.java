@@ -22,8 +22,8 @@ import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
-import org.halvors.nuclearphysics.common.type.Color;
-import org.halvors.nuclearphysics.common.type.RedstoneControl;
+import org.halvors.nuclearphysics.common.type.EnumColor;
+import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
 import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -85,7 +85,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     public TilePlasmaHeater(final EnumMachine type) {
         super(type);
 
-        redstoneControl = RedstoneControl.LOW;
+        redstoneControl = EnumRedstoneControl.LOW;
         energyStorage = new EnergyStorage(energyPerTick * 20);
     }
 
@@ -219,19 +219,19 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     @SideOnly(Side.CLIENT)
     public float addInformation(final HashMap<String, Integer> map, final EntityPlayer player) {
         if (energyStorage.getEnergyStored() > 0) {
-            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), EnumColor.WHITE.getHex());
         }
 
         if (tankInputDeuterium.getFluidAmount() > 0) {
-            map.put(LanguageUtility.transelate("fluid.deuterium") + ": " + tankInputDeuterium.getFluidAmount() + " L", Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("fluid.deuterium") + ": " + tankInputDeuterium.getFluidAmount() + " L", EnumColor.WHITE.getHex());
         }
 
         if (tankInputTritium.getFluidAmount() > 0) {
-            map.put(LanguageUtility.transelate("fluid.tritium") + ": " + tankInputTritium.getFluidAmount() + " L", Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("fluid.tritium") + ": " + tankInputTritium.getFluidAmount() + " L", EnumColor.WHITE.getHex());
         }
 
         if (tankOutput.getFluidAmount() > 0) {
-            map.put(LanguageUtility.transelate("fluid.plasma") + ": " + tankOutput.getFluidAmount() + " L", Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("fluid.plasma") + ": " + tankOutput.getFluidAmount() + " L", EnumColor.WHITE.getHex());
         }
 
         return 1.5F;
