@@ -7,9 +7,9 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
 public class BlockBase extends Block {
-    protected String name;
+    protected final String name;
 
-    public BlockBase(String name, Material material) {
+    public BlockBase(final String name, final Material material) {
         super(material);
 
         this.name = name;
@@ -23,7 +23,7 @@ public class BlockBase extends Block {
 
     }
 
-    public void registerItemModel(ItemBlock itemBlock) {
+    public void registerItemModel(final ItemBlock itemBlock) {
         NuclearPhysics.getProxy().registerItemRenderer(itemBlock, 0, name);
     }
 }

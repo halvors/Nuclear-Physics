@@ -13,12 +13,12 @@ import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiEnergyInfo extends GuiInfo {
-    public GuiEnergyInfo(IInfoHandler infoHandler, IGuiWrapper gui, int x, int y) {
+    public GuiEnergyInfo(final IInfoHandler infoHandler, final IGuiWrapper gui, final int x, final int y) {
         super(infoHandler, ResourceUtility.getResource(Resource.GUI_COMPONENT, "energy_info.png"), gui, x, y);
     }
 
     @Override
-    protected List<String> getInfo(List<String> list) {
+    protected List<String> getInfo(final List<String> list) {
         list.add(LanguageUtility.transelate("gui.unit") + ": " + General.electricUnit.getSymbol());
 
         return list;

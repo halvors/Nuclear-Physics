@@ -83,31 +83,31 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public void registerBlockRenderer(Block block, IProperty property, String name) {
+	public void registerBlockRenderer(final Block block, final IProperty property, final String name) {
 		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).withName(property).withSuffix("_" + name).build());
 	}
 
 	@Override
-	public void registerBlockRendererAndIgnore(Block block, IProperty property) {
+	public void registerBlockRendererAndIgnore(final Block block, final IProperty property) {
 		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).ignore(property).build());
 	}
 
 	@Override
-	public void registerItemRenderer(Item item, int metadata, String id) {
+	public void registerItemRenderer(final Item item, final int metadata, final String id) {
 		registerItemRenderer(item, metadata, id, "inventory");
 	}
 
 	@Override
-	public void registerItemRenderer(Item item, int metadata, String id, String variant) {
+	public void registerItemRenderer(final Item item, final int metadata, final String id, final String variant) {
 		ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Reference.PREFIX + id, variant));
 	}
 
 	@Override
-	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-		BlockPos pos = new BlockPos(x, y, z);
-		TileEntity tile = world.getTileEntity(pos);
-		IBlockState state = world.getBlockState(pos);
-		Block block = state.getBlock();
+	public Object getClientGuiElement(final int id, final EntityPlayer player, final World world, final int x, final int y, final int z) {
+		final BlockPos pos = new BlockPos(x, y, z);
+		final TileEntity tile = world.getTileEntity(pos);
+		final IBlockState state = world.getBlockState(pos);
+		final Block block = state.getBlock();
 
 		if (block instanceof BlockCreativeBuilder) {
 			return new GuiCreativeBuilder(block, pos);
@@ -131,7 +131,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public EntityPlayer getPlayer(MessageContext context) {
+	public EntityPlayer getPlayer(final MessageContext context) {
 		if (context.side.isServer()) {
 			return context.getServerHandler().playerEntity;
 		} else {
@@ -140,7 +140,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public void addScheduledTask(Runnable runnable, IBlockAccess world) {
+	public void addScheduledTask(final Runnable runnable, final IBlockAccess world) {
 		if (world == null || isClient()) {
 			Minecraft.getMinecraft().addScheduledTask(runnable);
 		} else {
@@ -155,11 +155,11 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
 	@Override
 	public boolean isPaused() {
-		Minecraft minecraft = FMLClientHandler.instance().getClient();
-		IntegratedServer integratedServer = minecraft.getIntegratedServer();
+		final Minecraft minecraft = FMLClientHandler.instance().getClient();
+		final IntegratedServer integratedServer = minecraft.getIntegratedServer();
 
 		if (minecraft.isSingleplayer() && integratedServer != null && !integratedServer.getPublic()) {
-			GuiScreen screen = minecraft.currentScreen;
+			final GuiScreen screen = minecraft.currentScreen;
 
 			return screen != null && screen.doesGuiPauseGame();
 		}

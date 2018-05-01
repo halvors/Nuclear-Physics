@@ -19,23 +19,22 @@ import java.util.Map.Entry;
 @SideOnly(Side.CLIENT)
 public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<T> {
     @Override
-    protected void render(T tile, double x, double y, double z) {
-        BlockPos pos = tile.getPos();
+    protected void render(final T tile, final double x, final double y, final double z) {
+        final BlockPos pos = tile.getPos();
 
         if (tile instanceof ITagRender && getPlayer().getDistance(pos.getX(), pos.getY(), pos.getZ()) <= RenderLiving.NAME_TAG_RANGE) {
-            HashMap<String, Integer> tags = new HashMap<>();
-            float height = ((ITagRender) tile).addInformation(tags, getPlayer());
-
-            EntityPlayer player = Minecraft.getMinecraft().player;
+            final HashMap<String, Integer> tags = new HashMap<>();
+            final float height = ((ITagRender) tile).addInformation(tags, getPlayer());
+            final EntityPlayer player = Minecraft.getMinecraft().player;
 
             if (player.getRidingEntity() == null) {
-                RayTraceResult rayTraceResult = player.rayTrace(8, 1);
+                final RayTraceResult rayTraceResult = player.rayTrace(8, 1);
 
                 if (rayTraceResult != null) {
                     boolean isLooking = false;
 
                     for (int h = 0; h < height; h++) {
-                        BlockPos rayTracePos = rayTraceResult.getBlockPos();
+                        final BlockPos rayTracePos = rayTraceResult.getBlockPos();
 
                         if (rayTracePos.getX() == pos.getX() && rayTracePos.getY() == pos.getY() + h && rayTracePos.getZ() == pos.getZ()) {
                             isLooking = true;
@@ -43,11 +42,11 @@ public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<
                     }
 
                     if (isLooking) {
-                        Iterator<Entry<String, Integer>> it = tags.entrySet().iterator();
+                        final Iterator<Entry<String, Integer>> it = tags.entrySet().iterator();
                         int i = 0;
 
                         while (it.hasNext()) {
-                            Entry<String, Integer> entry = it.next();
+                            final Entry<String, Integer> entry = it.next();
 
                             if (entry.getKey() != null) {
                                 RenderUtility.renderFloatingText(entry.getKey(), new BlockPos(x, y, z).add(0.5, i * 0.25 + height, 0.5), entry.getValue());
@@ -62,7 +61,7 @@ public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<
     }
 
     public EntityPlayer getPlayer() {
-        Entity entity = rendererDispatcher.entity;
+        final Entity entity = rendererDispatcher.entity;
 
         if (entity instanceof EntityPlayer) {
             return (EntityPlayer) entity;

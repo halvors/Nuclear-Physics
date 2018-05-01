@@ -28,7 +28,7 @@ public class BlockRadioactive extends BlockBase {
     protected boolean isRandomlyRadioactive;
     protected boolean spawnParticle;
 
-    public BlockRadioactive(String name, Material material) {
+    public BlockRadioactive(final String name, final Material material) {
         super(name, material);
 
         setTickRandomly(true);
@@ -38,12 +38,12 @@ public class BlockRadioactive extends BlockBase {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
+    public void randomDisplayTick(final IBlockState state, final World world, final BlockPos pos, final Random random) {
         if ((spawnParticle || General.allowRadioactiveOres) && Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
             int radius = 3;
 
             for (int i = 0; i < 2; i++) {
-                BlockPos newPos = pos.add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
+                final BlockPos newPos = pos.add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
                 RenderUtility.renderParticle(new ParticleRadioactive(world, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2));
             }
         }
@@ -53,7 +53,7 @@ public class BlockRadioactive extends BlockBase {
      * Ticks the block if it's been scheduled
      */
     @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
+    public void updateTick(final World world, final BlockPos pos, final IBlockState state, final Random random) {
         if (!world.isRemote) {
             if (isRandomlyRadioactive || General.allowRadioactiveOres) {
                 final AxisAlignedBB bounds = new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius);
@@ -85,7 +85,7 @@ public class BlockRadioactive extends BlockBase {
      * Called whenever an entity is walking on top of this block. Args: world, x, y, z, entity
      */
     @Override
-    public void onEntityWalk(World world, BlockPos pos, Entity entity) {
+    public void onEntityWalk(final World world, final BlockPos pos, final Entity entity) {
         if (entity instanceof EntityLivingBase && (canWalkPoison || General.allowRadioactiveOres)) {
             ModPotions.poisonRadiation.poisonEntity((EntityLivingBase) entity);
         }

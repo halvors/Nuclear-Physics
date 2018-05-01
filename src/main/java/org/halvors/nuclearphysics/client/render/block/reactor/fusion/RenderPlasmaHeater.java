@@ -17,7 +17,7 @@ public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
     private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "plasma_heater.obj"), Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "t", "u", "v", "w", "x", "y"));
 
     @Override
-    protected void render(TilePlasmaHeater tile, double x, double y, double z) {
+    protected void render(final TilePlasmaHeater tile, final double x, final double y, final double z) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.5, 0, 0.5);
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);

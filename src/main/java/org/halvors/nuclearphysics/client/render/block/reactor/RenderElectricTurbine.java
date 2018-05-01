@@ -24,7 +24,7 @@ public class RenderElectricTurbine extends RenderTile<TileElectricTurbine> {
     private static final OBJModelContainer modelSmall = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_small.obj"), Arrays.asList("Axis", "Head", "Plug", "Support"));
 
     @Override
-    protected void render(TileElectricTurbine tile, double x, double y, double z) {
+    protected void render(final TileElectricTurbine tile, final double x, final double y, final double z) {
         if (tile.getMultiBlock().isPrimary()) {
             if (tile.getMultiBlock().isConstructed()) {
                 GlStateManager.pushMatrix();

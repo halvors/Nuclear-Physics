@@ -18,7 +18,7 @@ public class RenderNuclearBoiler extends RenderTile<TileNuclearBoiler> {
     private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "nuclear_boiler.obj"), Arrays.asList("Base", "RadShieldPlate1", "RadShieldPlate2", "RadShieldPlate3", "Support", "ThermalDisplay", "TopSupport1", "TopSupport2", "TopSupport3"));
 
     @Override
-    protected void render(TileNuclearBoiler tile, double x, double y, double z) {
+    protected void render(final TileNuclearBoiler tile, final double x, final double y, final double z) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(0.687042, 0, 0.1875);
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);

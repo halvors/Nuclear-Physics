@@ -16,7 +16,7 @@ import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 import javax.annotation.Nonnull;
 
 public class BlockRotatable extends BlockContainerBase {
-    protected BlockRotatable(String name, Material material) {
+    protected BlockRotatable(final String name, final Material material) {
         super(name, material);
 
         setDefaultState(blockState.getBaseState().withProperty(BlockStateFacing.FACING, EnumFacing.NORTH));
@@ -31,48 +31,49 @@ public class BlockRotatable extends BlockContainerBase {
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int metadata) {
+    public IBlockState getStateFromMeta(final int metadata) {
         return getDefaultState();
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(final IBlockState state) {
         return 0;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
+    public IBlockState getActualState(final @Nonnull IBlockState state, final IBlockAccess world, final BlockPos pos) {
+        final TileEntity tile = world.getTileEntity(pos);
+
+        if (tile instanceof ITileRotatable) {
+            final ITileRotatable tileRotatable = (ITileRotatable) tile;
+
+            return state.withProperty(BlockStateFacing.FACING, tileRotatable.getFacing());
+        }
+
+        return super.getActualState(state, world, pos);
+    }
+
+    @Override
+    public void onBlockPlacedBy(final World world, final BlockPos pos, final IBlockState state, final EntityLivingBase entity, final ItemStack itemStack) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof ITileRotatable) {
             ITileRotatable tileRotatable = (ITileRotatable) tile;
 
-            state = state.withProperty(BlockStateFacing.FACING, tileRotatable.getFacing());
+            tileRotatable.setFacing(entity.getHorizontalFacing().getOpposite());
         }
-
-        return state;
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    @Nonnull
+    public EnumFacing[] getValidRotations(final World world, final @Nonnull BlockPos pos) {
         final TileEntity tile = world.getTileEntity(pos);
+        final EnumFacing[] valid = new EnumFacing[6];
 
         if (tile instanceof ITileRotatable) {
-            ITileRotatable tileRotatable = (ITileRotatable) tile;
-
-            tileRotatable.setFacing(placer.getHorizontalFacing().getOpposite());
-        }
-    }
-
-    @Override
-    public EnumFacing[] getValidRotations(World world, BlockPos pos) {
-        TileEntity tile = world.getTileEntity(pos);
-        EnumFacing[] valid = new EnumFacing[6];
-
-        if (tile instanceof ITileRotatable) {
-            ITileRotatable tileRotatable = (ITileRotatable) tile;
+            final ITileRotatable tileRotatable = (ITileRotatable) tile;
 
             for (EnumFacing facing : EnumFacing.VALUES) {
                 if (tileRotatable.canSetFacing(facing)) {
@@ -85,11 +86,11 @@ public class BlockRotatable extends BlockContainerBase {
     }
 
     @Override
-    public boolean rotateBlock(World world, BlockPos pos, EnumFacing side) {
+    public boolean rotateBlock(final World world, final @Nonnull BlockPos pos, final EnumFacing side) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof ITileRotatable) {
-            ITileRotatable tileRotatable = (ITileRotatable) tile;
+            final ITileRotatable tileRotatable = (ITileRotatable) tile;
 
             if (tileRotatable.canSetFacing(side)) {
                 tileRotatable.setFacing(side);

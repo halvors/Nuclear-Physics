@@ -15,18 +15,18 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockInventory extends BlockRotatable {
-    public BlockInventory(String name, Material material) {
+    public BlockInventory(final String name, final Material material) {
         super(name, material);
     }
 
     @Override
-    public void breakBlock(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        dropEntireInventory(world, pos, state);
+    public void breakBlock(final @Nonnull World world, final @Nonnull BlockPos pos, final @Nonnull IBlockState state) {
+        dropEntireInventory(world, pos);
 
         super.breakBlock(world, pos, state);
     }
 
-    public void dropEntireInventory(World world, BlockPos pos, IBlockState state) {
+    public void dropEntireInventory(final World world, final BlockPos pos) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile != null) {
@@ -40,10 +40,10 @@ public class BlockInventory extends BlockRotatable {
                         final ItemStack itemStack = inventory.getStackInSlot(i);
 
                         if (itemStack != null) {
-                            Random random = new Random();
-                            float var8 = random.nextFloat() * 0.8F + 0.1F;
-                            float var9 = random.nextFloat() * 0.8F + 0.1F;
-                            float var10 = random.nextFloat() * 0.8F + 0.1F;
+                            final Random random = new Random();
+                            final float var8 = random.nextFloat() * 0.8F + 0.1F;
+                            final float var9 = random.nextFloat() * 0.8F + 0.1F;
+                            final float var10 = random.nextFloat() * 0.8F + 0.1F;
 
                             while (itemStack.stackSize > 0) {
                                 int var11 = random.nextInt(21) + 10;
@@ -54,13 +54,13 @@ public class BlockInventory extends BlockRotatable {
 
                                 itemStack.stackSize -= var11;
 
-                                EntityItem entityItem = new EntityItem(world, pos.getX() + var8, pos.getY() + var9, pos.getZ() + var10, new ItemStack(itemStack.getItem(), var11, itemStack.getMetadata()));
+                                final EntityItem entityItem = new EntityItem(world, pos.getX() + var8, pos.getY() + var9, pos.getZ() + var10, new ItemStack(itemStack.getItem(), var11, itemStack.getMetadata()));
 
                                 if (itemStack.hasTagCompound()) {
                                     entityItem.getEntityItem().setTagCompound(itemStack.getTagCompound().copy());
                                 }
 
-                                float var13 = 0.05F;
+                                final float var13 = 0.05F;
                                 entityItem.motionX = random.nextGaussian() * var13;
                                 entityItem.motionY = (random.nextGaussian() * var13) + 0.2F;
                                 entityItem.motionZ = random.nextGaussian() * var13;
