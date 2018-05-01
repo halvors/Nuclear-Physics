@@ -209,8 +209,11 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
         if (updateTicket == null) {
             updateTicket = ForgeChunkManager.requestTicket(NuclearPhysics.getInstance(), world, Type.ENTITY);
-            updateTicket.getModData();
-            updateTicket.bindEntity(this);
+
+            if (updateTicket != null) {
+                updateTicket.getModData();
+                updateTicket.bindEntity(this);
+            }
         }
     }
 
