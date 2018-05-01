@@ -6,7 +6,7 @@ import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 
 public class ContainerParticleAccelerator extends ContainerBase<TileParticleAccelerator> {
-    public ContainerParticleAccelerator(InventoryPlayer inventoryPlayer, TileParticleAccelerator tile) {
+    public ContainerParticleAccelerator(final InventoryPlayer inventoryPlayer, final TileParticleAccelerator tile) {
         super(4, inventoryPlayer, tile);
 
         // Inputs

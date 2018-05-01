@@ -17,7 +17,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         if (tag.hasKey("facing")) {
@@ -26,7 +26,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (facing != null) {
@@ -39,14 +39,14 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         if (world.isRemote) {
             facing = EnumFacing.getFront(dataStream.readInt());
         }
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         objects.add(facing.ordinal());
 
         return objects;
@@ -55,7 +55,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean canSetFacing(EnumFacing facing) {
+    public boolean canSetFacing(final EnumFacing facing) {
         return Arrays.asList(EnumFacing.HORIZONTALS).contains(facing);
     }
 
@@ -65,7 +65,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     }
 
     @Override
-    public void setFacing(EnumFacing facing) {
+    public void setFacing(final EnumFacing facing) {
         this.facing = facing;
 
         NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);

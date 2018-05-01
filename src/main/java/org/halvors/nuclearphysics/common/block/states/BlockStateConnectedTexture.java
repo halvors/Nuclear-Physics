@@ -13,11 +13,11 @@ public class BlockStateConnectedTexture extends BlockStateContainer {
     public static final PropertyBool CONNECTED_WEST = PropertyBool.create("connected_west");
     public static final PropertyBool CONNECTED_EAST = PropertyBool.create("connected_east");
 
-    public BlockStateConnectedTexture(BlockConnectedTexture block) {
+    public BlockStateConnectedTexture(final BlockConnectedTexture block) {
         super(block, CONNECTED_DOWN, CONNECTED_UP, CONNECTED_NORTH, CONNECTED_SOUTH, CONNECTED_WEST, CONNECTED_EAST);
     }
 
-    public BlockStateConnectedTexture(BlockConnectedTexture block, PropertyEnum typeProperty) {
+    public BlockStateConnectedTexture(final BlockConnectedTexture block, final PropertyEnum typeProperty) {
         super(block, CONNECTED_DOWN, CONNECTED_UP, CONNECTED_NORTH, CONNECTED_SOUTH, CONNECTED_WEST, CONNECTED_EAST, typeProperty);
     }
 }

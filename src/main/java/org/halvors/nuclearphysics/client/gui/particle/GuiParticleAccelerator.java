@@ -6,7 +6,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.GuiMachine;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
-import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
 import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAccelerator;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
@@ -16,19 +15,19 @@ import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 @SideOnly(Side.CLIENT)
 public class GuiParticleAccelerator extends GuiMachine<TileParticleAccelerator> {
-    public GuiParticleAccelerator(InventoryPlayer inventoryPlayer, TileParticleAccelerator tile) {
+    public GuiParticleAccelerator(final InventoryPlayer inventoryPlayer, final TileParticleAccelerator tile) {
         super(tile, new ContainerParticleAccelerator(inventoryPlayer, tile));
 
-        components.add(new GuiSlot(SlotType.NORMAL, this, 131, 25));
-        components.add(new GuiSlot(SlotType.NORMAL, this, 131, 50));
-        components.add(new GuiSlot(SlotType.NORMAL, this, 131, 74));
-        components.add(new GuiSlot(SlotType.NORMAL, this, 105, 74));
+        components.add(new GuiSlot(this, 131, 25));
+        components.add(new GuiSlot(this, 131, 50));
+        components.add(new GuiSlot(this, 131, 74));
+        components.add(new GuiSlot(this, 105, 74));
     }
 
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        BlockPos pos = tile.getPos().offset(tile.getFacing().getOpposite());
-        String status;
+        final BlockPos pos = tile.getPos().offset(tile.getFacing().getOpposite());
+        final String status;
 
         if (!EntityParticle.canSpawnParticle(tile.getWorld(), pos)) {
             status = Color.DARK_RED + LanguageUtility.transelate("gui.failedToEmitTryRotating");

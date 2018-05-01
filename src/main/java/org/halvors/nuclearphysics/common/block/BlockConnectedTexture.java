@@ -11,7 +11,7 @@ import org.halvors.nuclearphysics.common.block.states.BlockStateConnectedTexture
 import javax.annotation.Nonnull;
 
 public class BlockConnectedTexture extends BlockContainerBase {
-    public BlockConnectedTexture(String name, Material material) {
+    public BlockConnectedTexture(final String name, final Material material) {
         super(name, material);
 
         // By default none of the sides are connected
@@ -26,15 +26,15 @@ public class BlockConnectedTexture extends BlockContainerBase {
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos position) {
+    public IBlockState getActualState(final @Nonnull IBlockState state, final IBlockAccess world, final BlockPos pos) {
         // Creates the state to use for the block. This is where we check if every side is
         // connectable or not.
-        return state.withProperty(BlockStateConnectedTexture.CONNECTED_DOWN,  isSideConnectable(world, position, EnumFacing.DOWN))
-                    .withProperty(BlockStateConnectedTexture.CONNECTED_EAST,  isSideConnectable(world, position, EnumFacing.EAST))
-                    .withProperty(BlockStateConnectedTexture.CONNECTED_NORTH, isSideConnectable(world, position, EnumFacing.NORTH))
-                    .withProperty(BlockStateConnectedTexture.CONNECTED_SOUTH, isSideConnectable(world, position, EnumFacing.SOUTH))
-                    .withProperty(BlockStateConnectedTexture.CONNECTED_UP,    isSideConnectable(world, position, EnumFacing.UP))
-                    .withProperty(BlockStateConnectedTexture.CONNECTED_WEST,  isSideConnectable(world, position, EnumFacing.WEST));
+        return state.withProperty(BlockStateConnectedTexture.CONNECTED_DOWN,  isSideConnectable(world, pos, EnumFacing.DOWN))
+                    .withProperty(BlockStateConnectedTexture.CONNECTED_EAST,  isSideConnectable(world, pos, EnumFacing.EAST))
+                    .withProperty(BlockStateConnectedTexture.CONNECTED_NORTH, isSideConnectable(world, pos, EnumFacing.NORTH))
+                    .withProperty(BlockStateConnectedTexture.CONNECTED_SOUTH, isSideConnectable(world, pos, EnumFacing.SOUTH))
+                    .withProperty(BlockStateConnectedTexture.CONNECTED_UP,    isSideConnectable(world, pos, EnumFacing.UP))
+                    .withProperty(BlockStateConnectedTexture.CONNECTED_WEST,  isSideConnectable(world, pos, EnumFacing.WEST));
     }
 
     @Override
@@ -46,7 +46,7 @@ public class BlockConnectedTexture extends BlockContainerBase {
     // Since the block has state information but we are not switching the meta value, we have
     // to override this method to return 0
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(final IBlockState state) {
         return 0;
     }
 
@@ -59,7 +59,7 @@ public class BlockConnectedTexture extends BlockContainerBase {
      * @param side The side of the block to check.
      * @return Whether or not the side is connectable.
      */
-    private boolean isSideConnectable(IBlockAccess world, BlockPos pos, EnumFacing side) {
+    private boolean isSideConnectable(final IBlockAccess world, final BlockPos pos, final EnumFacing side) {
         final IBlockState originalState = world.getBlockState(pos);
         final IBlockState connectedState = world.getBlockState(pos.offset(side));
 
@@ -72,7 +72,7 @@ public class BlockConnectedTexture extends BlockContainerBase {
      * @param connectedState BlockState to check
      * @return True if the block is valid to connect
      */
-    protected boolean canConnect(@Nonnull IBlockState originalState, @Nonnull IBlockState connectedState) {
+    protected boolean canConnect(final @Nonnull IBlockState originalState, final @Nonnull IBlockState connectedState) {
         return originalState.getBlock() == connectedState.getBlock();
     }
 }

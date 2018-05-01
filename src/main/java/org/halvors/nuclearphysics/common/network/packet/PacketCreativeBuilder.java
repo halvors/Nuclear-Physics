@@ -25,7 +25,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
 
     }
 
-    public PacketCreativeBuilder(BlockPos pos, int schematicId, int size) {
+    public PacketCreativeBuilder(final BlockPos pos, final int schematicId, final int size) {
         super(pos);
 
         this.schematicId = schematicId;
@@ -33,7 +33,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
     }
 
     @Override
-    public void fromBytes(ByteBuf dataStream) {
+    public void fromBytes(final ByteBuf dataStream) {
         super.fromBytes(dataStream);
 
         schematicId = dataStream.readInt();
@@ -41,7 +41,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
     }
 
     @Override
-    public void toBytes(ByteBuf dataStream) {
+    public void toBytes(final ByteBuf dataStream) {
         super.toBytes(dataStream);
 
         dataStream.writeInt(schematicId);
@@ -50,7 +50,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
 
     public static class PacketCreativeBuilderMessage implements IMessageHandler<PacketCreativeBuilder, IMessage> {
         @Override
-        public IMessage onMessage(PacketCreativeBuilder message, MessageContext messageContext) {
+        public IMessage onMessage(final PacketCreativeBuilder message, final MessageContext messageContext) {
             final World world = PacketHandler.getWorld(messageContext);
             final EntityPlayer player = PacketHandler.getPlayer(messageContext);
 

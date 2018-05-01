@@ -9,10 +9,10 @@ public enum ElectricUnit {
     JOULES("Joule", "J"),
     ELECTRICAL_UNITS("Electrical Unit", "EU");
 
-    private String name;
-    private String symbol;
+    private final String name;
+    private final String symbol;
 
-    ElectricUnit(String name, String symbol) {
+    ElectricUnit(final String name, final String symbol) {
         this.name = name;
         this.symbol = symbol;
     }
@@ -29,7 +29,7 @@ public enum ElectricUnit {
         return this == FORGE_ENERGY ? name : name + "s";
     }
 
-    public static ElectricUnit fromName(String name) {
+    public static ElectricUnit fromName(final String name) {
         for (ElectricUnit unit : values()) {
             if (unit.name.equals(name)) {
                 return unit;
@@ -39,7 +39,7 @@ public enum ElectricUnit {
         return FORGE_ENERGY;
     }
 
-    public static ElectricUnit fromSymbol(String symbol) {
+    public static ElectricUnit fromSymbol(final String symbol) {
         for (ElectricUnit unit : values()) {
             if (unit.symbol.equals(symbol)) {
                 return unit;
@@ -50,7 +50,7 @@ public enum ElectricUnit {
     }
 
     public static List<String> getSymbols() {
-        List<String> symbols = new ArrayList<>();
+        final List<String> symbols = new ArrayList<>();
 
         for (ElectricUnit unit : values()) {
             symbols.add(unit.getSymbol());

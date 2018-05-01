@@ -8,16 +8,17 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.halvors.nuclearphysics.common.tile.TileBase;
 
-public class ContainerBase<T extends TileBase> extends Container {
-    protected IInventory inventory;
-    protected T tile;
-    protected int slotCount;
+import javax.annotation.Nonnull;
 
-    protected int xInventoryDisplacement = 8;
+public class ContainerBase<T extends TileBase> extends Container {
+    protected final IInventory inventory;
+    protected final T tile;
+    protected final int slotCount;
+    protected final int xInventoryDisplacement = 8;
     protected int yInventoryDisplacement = 135;
     protected int yHotBarDisplacement = 193;
 
-    public ContainerBase(int slotCount, InventoryPlayer inventory, T tile) {
+    public ContainerBase(final int slotCount, final InventoryPlayer inventory, final T tile) {
         this.slotCount = slotCount;
         this.inventory = inventory;
         this.tile = tile;
@@ -28,12 +29,12 @@ public class ContainerBase<T extends TileBase> extends Container {
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer player) {
+    public boolean canInteractWith(final @Nonnull EntityPlayer player) {
         return inventory.isUsableByPlayer(player);
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+    public ItemStack transferStackInSlot(final EntityPlayer player, final int index) {
         final Slot slot = inventorySlots.get(index);
 
         if (slot != null && slot.getStack() != null) {
@@ -61,7 +62,7 @@ public class ContainerBase<T extends TileBase> extends Container {
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer player) {
+    public void onContainerClosed(final EntityPlayer player) {
         super.onContainerClosed(player);
 
         if (tile != null) {
@@ -69,7 +70,7 @@ public class ContainerBase<T extends TileBase> extends Container {
         }
     }
 
-    protected void addPlayerInventory(EntityPlayer player) {
+    protected void addPlayerInventory(final EntityPlayer player) {
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
                 addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, xInventoryDisplacement + x * 18, yInventoryDisplacement + y * 18));

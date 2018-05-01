@@ -7,7 +7,7 @@ import org.halvors.nuclearphysics.common.block.reactor.BlockSiren;
 public class BlockStateSiren extends BlockStateContainer {
     public static final PropertyInteger PITCH = PropertyInteger.create("pitch", 0, 15);
 
-    public BlockStateSiren(BlockSiren block) {
+    public BlockStateSiren(final BlockSiren block) {
         super(block, PITCH);
     }
 }

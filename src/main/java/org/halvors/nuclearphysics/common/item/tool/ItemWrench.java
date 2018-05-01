@@ -49,8 +49,8 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, @Nonnull List<String> list, boolean flag) {
-        WrenchState state = getState(itemStack);
+    public void addInformation(@Nonnull final ItemStack itemStack, @Nonnull final EntityPlayer player, @Nonnull final List<String> list, final boolean flag) {
+        final WrenchState state = getState(itemStack);
 
         list.add(LanguageUtility.transelate("tooltip.state") + ": " + state.getColor() + state.getName());
 
@@ -58,10 +58,10 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull final ItemStack itemStack, final World world, final EntityPlayer player, final EnumHand hand) {
         if (player.isSneaking()) {
             WrenchState state = getState(itemStack);
-            int toSet = state.ordinal() < WrenchState.values().length - 1 ? state.ordinal() + 1 : 0;
+            final int toSet = state.ordinal() < WrenchState.values().length - 1 ? state.ordinal() + 1 : 0;
             setState(itemStack, WrenchState.values()[toSet]);
             state = getState(itemStack);
 
@@ -76,16 +76,16 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
     }
 
     @Override
-    public EnumActionResult onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(final ItemStack itemStack, final EntityPlayer player, final World world, final BlockPos pos, final EnumHand hand, final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
         final IBlockState state = world.getBlockState(pos);
         final Block block = state.getBlock();
 
         switch (getState(itemStack)) {
             case ROTATE:
-                EnumFacing[] validRotations = block.getValidRotations(world, pos);
+                final EnumFacing[] validRotations = block.getValidRotations(world, pos);
 
-                if (validRotations != null && validRotations.length > 0) {
-                    List<EnumFacing> validRotationsList = Arrays.asList(validRotations);
+                if (validRotations != null && validRotations.length > 0) { // NOTE: Null check here is actually needed, otherwise it causes game crash.
+                    final List<EnumFacing> validRotationsList = Arrays.asList(validRotations);
 
                     if (!player.isSneaking() && validRotationsList.contains(facing)) {
                         block.rotateBlock(world, pos, facing);
@@ -101,58 +101,58 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
     }
 
     @Override
-    public boolean doesSneakBypassUse(ItemStack itemStack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
+    public boolean doesSneakBypassUse(final ItemStack itemStack, final IBlockAccess world, final BlockPos pos, final EntityPlayer player) {
         return getState(itemStack) == WrenchState.WRENCH;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean canUseWrench(ItemStack itemStack, EntityPlayer player, BlockPos pos) {
+    public boolean canUseWrench(final ItemStack itemStack, final EntityPlayer player, final BlockPos pos) {
         return getState(itemStack) == WrenchState.WRENCH;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean canWrench(EntityPlayer player, EnumHand hand, ItemStack itemStack, RayTraceResult rayTrace) {
+    public boolean canWrench(final EntityPlayer player, final EnumHand hand, final ItemStack itemStack, final RayTraceResult rayTrace) {
         return getState(itemStack) == WrenchState.WRENCH;
     }
 
     @Override
-    public void wrenchUsed(EntityPlayer player, EnumHand hand, ItemStack itemStack, RayTraceResult rayTrace) {
+    public void wrenchUsed(final EntityPlayer player, final EnumHand hand, final ItemStack itemStack, final RayTraceResult rayTrace) {
         player.swingArm(hand);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean isUsable(ItemStack itemStack, EntityLivingBase entityLiving, BlockPos pos) {
+    public boolean isUsable(final ItemStack itemStack, final EntityLivingBase entityLiving, final BlockPos pos) {
         return getState(itemStack) == WrenchState.WRENCH;
     }
 
     @Override
-    public boolean isUsable(ItemStack itemStack, EntityLivingBase entityLiving, Entity entity) {
+    public boolean isUsable(final ItemStack itemStack, final EntityLivingBase entityLiving, final Entity entity) {
         return getState(itemStack) == WrenchState.WRENCH;
     }
 
     @Override
-    public void toolUsed(ItemStack itemStack, EntityLivingBase entityLiving, BlockPos pos) {
+    public void toolUsed(final ItemStack itemStack, final EntityLivingBase entityLiving, final BlockPos pos) {
 
     }
 
     @Override
-    public void toolUsed(ItemStack itemStack, EntityLivingBase entityLiving, Entity entity) {
+    public void toolUsed(final ItemStack itemStack, final EntityLivingBase entityLiving, final Entity entity) {
 
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private WrenchState getState(ItemStack itemStack) {
+    private WrenchState getState(final ItemStack itemStack) {
         return WrenchState.values()[InventoryUtility.getNBTTagCompound(itemStack).getInteger("state")];
     }
 
-    private void setState(ItemStack itemStack, WrenchState state) {
+    private void setState(final ItemStack itemStack, final WrenchState state) {
         InventoryUtility.getNBTTagCompound(itemStack).setInteger("state", state.ordinal());
     }
 
@@ -160,10 +160,10 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
         WRENCH("wrench", Color.BRIGHT_GREEN),
         ROTATE("rotate", Color.YELLOW);
 
-        private String name;
-        private Color color;
+        private final String name;
+        private final Color color;
 
-        WrenchState(String name, Color color) {
+        WrenchState(final String name, final Color color) {
             this.name = name;
             this.color = color;
         }

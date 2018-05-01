@@ -15,7 +15,7 @@ public interface ITileRedstoneControl {
      *
      * @param redstoneControl - RedstoneControl type to set
      */
-    void setRedstoneControl(RedstoneControl redstoneControl);
+    void setRedstoneControl(final RedstoneControl redstoneControl);
 
     /**
      * If the block is getting powered or not by redstone (indirectly).

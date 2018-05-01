@@ -8,9 +8,9 @@ public enum RedstoneControl {
     LOW("gui.control.low"),
     PULSE("gui.control.pulse");
 
-    private String display;
+    private final String display;
 
-    RedstoneControl(String display) {
+    RedstoneControl(final String display) {
         this.display = display;
     }
 

@@ -110,7 +110,7 @@ public class ModFluids {
          * @param event The event
          */
         @SubscribeEvent
-        public static void registerBlocks(RegistryEvent.Register<Block> event) {
+        public static void registerBlocks(final RegistryEvent.Register<Block> event) {
             final IForgeRegistry<Block> registry = event.getRegistry();
 
             for (final IFluidBlock fluidBlock : fluidBlocks) {
@@ -134,7 +134,7 @@ public class ModFluids {
          * @param event The event
          */
         @SubscribeEvent
-        public static void registerItems(RegistryEvent.Register<Item> event) {
+        public static void registerItems(final RegistryEvent.Register<Item> event) {
             final IForgeRegistry<Item> registry = event.getRegistry();
 
             for (final IFluidBlock fluidBlock : fluidBlocks) {

@@ -65,17 +65,17 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
     private final IItemHandlerModifiable inventory = new ItemStackHandler(1) {
         @Override
-        protected void onContentsChanged(int slot) {
+        protected void onContentsChanged(final int slot) {
             super.onContentsChanged(slot);
             markDirty();
         }
 
-        private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+        private boolean isItemValidForSlot(final int slot, final ItemStack itemStack) {
             return !ModFluids.fluidStackPlasma.isFluidEqual(tank.getFluid()) && inventory.getStackInSlot(0) == null && itemStack.getItem() instanceof IReactorComponent;
         }
 
         @Override
-        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+        public ItemStack insertItem(final int slot, final ItemStack stack, final boolean simulate) {
             if (!isItemValidForSlot(slot, stack)) {
                 return stack;
             }
@@ -86,7 +86,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
     private final LiquidTank tank = new LiquidTank(Fluid.BUCKET_VOLUME * 15) {
         @Override
-        public int fill(FluidStack resource, boolean doFill) {
+        public int fill(final FluidStack resource, final boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackPlasma)) {
                 return super.fill(resource, doFill);
             }
@@ -95,7 +95,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         }
 
         @Override
-        public FluidStack drain(FluidStack resource, boolean doDrain) {
+        public FluidStack drain(final FluidStack resource, final boolean doDrain) {
             if (resource.isFluidEqual(ModFluids.fluidStackToxicWaste)) {
                 return super.drain(resource, doDrain);
             }
@@ -108,12 +108,12 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         this("reactor_cell");
     }
 
-    public TileReactorCell(String name) {
+    public TileReactorCell(final String name) {
         this.name = name;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         temperature = tag.getFloat("temperature");
@@ -125,7 +125,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setFloat("temperature", temperature);
@@ -136,14 +136,14 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final EnumFacing facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final EnumFacing facing) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return (T) inventory;
         } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
@@ -166,15 +166,15 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         }
 
         if (!world.isRemote) {
-            FluidStack fluidStack = tank.getFluid();
+            final FluidStack fluidStack = tank.getFluid();
 
             if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
                 // Spawn plasma.
-                FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
+                final FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
 
                 if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
-                    EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
-                    BlockPos spawnPos = pos.offset(spawnDir, 2);
+                    final EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
+                    final BlockPos spawnPos = pos.offset(spawnDir, 2);
 
                     if (world.isAirBlock(spawnPos)) {
                         MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(world, spawnPos, TilePlasma.plasmaMaxTemperature));
@@ -185,11 +185,11 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                 previousInternalEnergy = internalEnergy;
 
                 // Handle cell rod interactions.
-                ItemStack fuelRod = inventory.getStackInSlot(0);
+                final ItemStack fuelRod = inventory.getStackInSlot(0);
 
                 if (fuelRod != null && fuelRod.getItem() instanceof IReactorComponent) {
                     // Activate rods.
-                    IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
+                    final IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
                     reactorComponent.onReact(fuelRod, this);
 
                     if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
@@ -198,7 +198,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
                     // Emit radiation.
                     if (world.getTotalWorldTime() % 20 == 0 && world.rand.nextFloat() > 0.65) {
-                        List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - radius * 2, pos.getY() - radius * 2, pos.getZ() - radius * 2, pos.getX() + radius * 2, pos.getY() + radius * 2, pos.getZ() + radius * 2));
+                        final List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - radius * 2, pos.getY() - radius * 2, pos.getZ() - radius * 2, pos.getX() + radius * 2, pos.getY() + radius * 2, pos.getZ() + radius * 2));
 
                         for (EntityLiving entity : entities) {
                             ModPotions.poisonRadiation.poisonEntity(entity);
@@ -215,7 +215,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
                     // Check control rods.
                     for (EnumFacing side : EnumFacing.HORIZONTALS) {
-                        BlockPos checkPos = pos.offset(side);
+                        final BlockPos checkPos = pos.offset(side);
 
                         if (world.getBlockState(checkPos).getBlock() == ModBlocks.blockControlRod) {
                             deltaTemperature /= 2;
@@ -253,8 +253,8 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
                 if (isOverToxic()) {
                     // Randomly leak toxic waste when it is too toxic.
-                    BlockPos leakPos = pos.add(world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10);
-                    Block block = world.getBlockState(leakPos).getBlock();
+                    final BlockPos leakPos = pos.add(world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10, world.rand.nextInt(20) - 10);
+                    final Block block = world.getBlockState(leakPos).getBlock();
 
                     if (block == Blocks.GRASS) {
                         world.setBlockState(leakPos, ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.URANIUM_ORE));
@@ -280,7 +280,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
@@ -290,7 +290,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         objects.add(temperature);
@@ -302,7 +302,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void heat(long energy) {
+    public void heat(final long energy) {
         internalEnergy = Math.max(internalEnergy + energy, 0);
     }
 
@@ -313,7 +313,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
     @Override
     public boolean isOverToxic() {
-        FluidStack fluidStack = tank.getFluid();
+        final FluidStack fluidStack = tank.getFluid();
 
         return fluidStack != null && fluidStack.amount == tank.getCapacity() && fluidStack.isFluidEqual(ModFluids.fluidStackToxicWaste);
     }
@@ -347,7 +347,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         world.setBlockToAir(pos);
 
         // Create the explosion.
-        ReactorExplosion explosion = new ReactorExplosion(world, null, pos, 9);
+        final ReactorExplosion explosion = new ReactorExplosion(world, null, pos, 9);
         explosion.explode();
     }
 }

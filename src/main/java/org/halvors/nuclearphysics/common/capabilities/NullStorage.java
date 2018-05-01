@@ -8,12 +8,12 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 
 public class NullStorage<T> implements IStorage<T> {
     @Override
-    public NBTBase writeNBT(Capability<T> capability, T instance, EnumFacing side) {
+    public NBTBase writeNBT(final Capability<T> capability, final T instance, final EnumFacing side) {
         return new NBTTagCompound();
     }
 
     @Override
-    public void readNBT(Capability<T> capability, T instance, EnumFacing side, NBTBase nbt) {
+    public void readNBT(final Capability<T> capability, final T instance, final EnumFacing side, final NBTBase nbt) {
 
     }
 }

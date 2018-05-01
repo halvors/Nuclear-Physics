@@ -35,38 +35,38 @@ public class BlockReactorCell extends BlockInventory {
     @Override
     @Nonnull
     @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState state) {
+    public EnumBlockRenderType getRenderType(final IBlockState state) {
         return EnumBlockRenderType.MODEL;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean canRenderInLayer(IBlockState state, @Nonnull BlockRenderLayer layer) {
+    public boolean canRenderInLayer(final IBlockState state, final @Nonnull BlockRenderLayer layer) {
         return layer == BlockRenderLayer.CUTOUT;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(final IBlockState state) {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
+    public void randomDisplayTick(final IBlockState state, final World world, final BlockPos pos, final Random random) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileReactorCell) {
-            TileReactorCell tileReactorCell = (TileReactorCell) tile;
-            ItemStack itemStack = tileReactorCell.getInventory().getStackInSlot(0);
+            final TileReactorCell tileReactorCell = (TileReactorCell) tile;
+            final ItemStack itemStack = tileReactorCell.getInventory().getStackInSlot(0);
 
             // Spawn particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
             if (itemStack != null && tileReactorCell.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
@@ -76,14 +76,14 @@ public class BlockReactorCell extends BlockInventory {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World world, final BlockPos pos, final IBlockState state, final EntityPlayer player, final EnumHand hand, final ItemStack itemStack, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileReactorCell) {
-            TileReactorCell tileReactorCell = (TileReactorCell) tile;
-            FluidStack fluidStack = tileReactorCell.getTank().getFluid();
-            IItemHandlerModifiable inventory = tileReactorCell.getInventory();
-            ItemStack itemStackInSlot = inventory.getStackInSlot(0);
+            final TileReactorCell tileReactorCell = (TileReactorCell) tile;
+            final FluidStack fluidStack = tileReactorCell.getTank().getFluid();
+            final IItemHandlerModifiable inventory = tileReactorCell.getInventory();
+            final ItemStack itemStackInSlot = inventory.getStackInSlot(0);
 
             if (player.isSneaking()) {
                 if (!ModFluids.fluidStackPlasma.isFluidEqual(fluidStack) && itemStack == null && itemStackInSlot != null) {
@@ -109,7 +109,7 @@ public class BlockReactorCell extends BlockInventory {
 
     @Override
     @Nonnull
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
         return new TileReactorCell(name);
     }
 }

@@ -26,12 +26,12 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
 
     }
 
-    public TileMachine(EnumMachine type) {
+    public TileMachine(final EnumMachine type) {
         this.type = type;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         operatingTicks = tag.getInteger("operatingTicks");
@@ -40,7 +40,7 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setInteger("operatingTicks", operatingTicks);
@@ -62,7 +62,7 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
@@ -74,7 +74,7 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         objects.add(energyUsed);
@@ -93,7 +93,7 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
     }
 
     @Override
-    public void setRedstoneControl(RedstoneControl redstoneControl) {
+    public void setRedstoneControl(final RedstoneControl redstoneControl) {
         this.redstoneControl = redstoneControl;
     }
 

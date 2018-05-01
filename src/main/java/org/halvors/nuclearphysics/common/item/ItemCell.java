@@ -37,8 +37,8 @@ public class ItemCell extends ItemTooltip {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> list, boolean flag) {
-        FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
+    public void addInformation(final ItemStack itemStack, final EntityPlayer player, final List<String> list, final boolean flag) {
+        final FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
 
         if (fluidStack != null) {
             list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
@@ -49,7 +49,7 @@ public class ItemCell extends ItemTooltip {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
+    public void getSubItems(@Nonnull final Item item, final CreativeTabs tab, final List<ItemStack> list) {
         for (EnumCell type : EnumCell.values()) {
             list.add(type.getFluid() == null ? new ItemStack(item) : FluidUtility.getFilledCell(type.getFluid()));
         }
@@ -57,7 +57,7 @@ public class ItemCell extends ItemTooltip {
 
     @Override
     @Nonnull
-    public ICapabilityProvider initCapabilities(ItemStack itemStack, NBTTagCompound tag) {
+    public ICapabilityProvider initCapabilities(final ItemStack itemStack, final NBTTagCompound tag) {
         return new FluidHandlerItemStackSimple(itemStack, capacity);
     }
 
@@ -75,12 +75,12 @@ public class ItemCell extends ItemTooltip {
 
         }
 
-        EnumCell(Fluid fluid) {
+        EnumCell(final Fluid fluid) {
             this.fluid = fluid;
         }
 
         public String getName() {
-            return toString().toLowerCase();
+            return name().toLowerCase();
         }
 
         public Fluid getFluid() {

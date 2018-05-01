@@ -32,18 +32,18 @@ public class TileChemicalExtractor extends TileProcess {
         this(EnumMachine.CHEMICAL_EXTRACTOR);
     }
 
-    public TileChemicalExtractor(EnumMachine type) {
+    public TileChemicalExtractor(final EnumMachine type) {
         super(type);
 
         energyStorage = new EnergyStorage(energyPerTick * 2);
         inventory = new ItemStackHandler(7) {
             @Override
-            protected void onContentsChanged(int slot) {
+            protected void onContentsChanged(final int slot) {
                 super.onContentsChanged(slot);
                 markDirty();
             }
 
-            private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            private boolean isItemValidForSlot(final int slot, final ItemStack itemStack) {
                 switch (slot) {
                     case 0: // Battery input slot.
                         return EnergyUtility.canBeDischarged(itemStack);
@@ -69,7 +69,7 @@ public class TileChemicalExtractor extends TileProcess {
             }
 
             @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            public ItemStack insertItem(final int slot, final ItemStack stack, final boolean simulate) {
                 if (!isItemValidForSlot(slot, stack)) {
                     return stack;
                 }
@@ -80,7 +80,7 @@ public class TileChemicalExtractor extends TileProcess {
 
         tankInput = new LiquidTank(Fluid.BUCKET_VOLUME * 10) {
             @Override
-            public int fill(FluidStack resource, boolean doFill) {
+            public int fill(final FluidStack resource, final boolean doFill) {
                 if (resource.isFluidEqual(ModFluids.fluidStackWater) || resource.isFluidEqual(ModFluids.fluidStackDeuterium)) {
                     return super.fill(resource, doFill);
                 }
@@ -201,7 +201,7 @@ public class TileChemicalExtractor extends TileProcess {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean canProcess() {
-        FluidStack inputFluidStack = tankInput.getFluid();
+        final FluidStack inputFluidStack = tankInput.getFluid();
 
         if (inputFluidStack != null) {
             if (inputFluidStack.isFluidEqual(ModFluids.fluidStackWater) && inputFluidStack.amount >= Fluid.BUCKET_VOLUME && OreDictionaryHelper.isUraniumOre(inventory.getStackInSlot(inputSlot))) {
@@ -209,7 +209,7 @@ public class TileChemicalExtractor extends TileProcess {
             }
 
             if (tankOutput.getFluidAmount() < tankOutput.getCapacity()) {
-                FluidStack outputFluidStack = tankOutput.getFluid();
+                final FluidStack outputFluidStack = tankOutput.getFluid();
 
                 if (inputFluidStack.isFluidEqual(ModFluids.fluidStackDeuterium) && inputFluidStack.amount >= General.deutermiumPerTritium * extractSpeed) {
                     if (outputFluidStack == null || outputFluidStack.getFluid() == ModFluids.tritium) {
@@ -245,8 +245,8 @@ public class TileChemicalExtractor extends TileProcess {
 
     public boolean extractDeuterium() {
         if (canProcess()) {
-            int waterUsage = General.waterPerDeutermium;
-            FluidStack fluidStack = tankInput.drainInternal(waterUsage * extractSpeed, false);
+            final int waterUsage = General.waterPerDeutermium;
+            final FluidStack fluidStack = tankInput.drainInternal(waterUsage * extractSpeed, false);
 
             if (fluidStack != null && fluidStack.amount >= 1 && fluidStack.isFluidEqual(ModFluids.fluidStackWater)) {
                 if (tankOutput.fillInternal(new FluidStack(ModFluids.deuterium, extractSpeed), true) >= extractSpeed) {
@@ -262,8 +262,8 @@ public class TileChemicalExtractor extends TileProcess {
 
     public boolean extractTritium() {
         if (canProcess()) {
-            int deutermiumUsage = General.deutermiumPerTritium;
-            FluidStack fluidStack = tankInput.drainInternal(deutermiumUsage * extractSpeed, false);
+            final int deutermiumUsage = General.deutermiumPerTritium;
+            final FluidStack fluidStack = tankInput.drainInternal(deutermiumUsage * extractSpeed, false);
 
             if (fluidStack != null && fluidStack.amount >= 1 && fluidStack.isFluidEqual(ModFluids.fluidStackDeuterium)) {
                 if (tankOutput.fillInternal(new FluidStack(ModFluids.tritium, extractSpeed), true) >= extractSpeed) {

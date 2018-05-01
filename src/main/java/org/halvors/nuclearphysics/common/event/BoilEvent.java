@@ -17,7 +17,7 @@ public class BoilEvent extends WorldEventBase {
      * @param maxSpread - The maximum distance the evaporated fluid can spread.
      * @param reactor - Determined if heat source if from power generation or a weapon.
      */
-    public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack fluidStack, int maxSpread, boolean reactor) {
+    public BoilEvent(final IBlockAccess world, final BlockPos pos, final FluidStack fluidStack, final int maxSpread, final boolean reactor) {
         super(world, pos);
 
         this.fluidStack = fluidStack;
@@ -25,7 +25,7 @@ public class BoilEvent extends WorldEventBase {
         this.reactor = reactor;
     }
 
-    public BoilEvent(IBlockAccess world, BlockPos pos, FluidStack fluidStack, int maxSpread) {
+    public BoilEvent(final IBlockAccess world, final BlockPos pos, final FluidStack fluidStack, final int maxSpread) {
         this(world, pos, fluidStack, maxSpread, false);
     }
 
@@ -42,9 +42,9 @@ public class BoilEvent extends WorldEventBase {
     }
 
     // Fluid spread causes loss. Gets the remaining amount of steam left after spreading.
-    public FluidStack getGas(int spread) {
-        float spreadPercentage = (float) spread / (float) maxSpread;
-        FluidStack gasStack = new FluidStack(ModFluids.steam, fluidStack.amount);
+    public FluidStack getGas(final int spread) {
+        final float spreadPercentage = (float) spread / (float) maxSpread;
+        final FluidStack gasStack = new FluidStack(ModFluids.steam, fluidStack.amount);
         gasStack.amount *= spreadPercentage;
 
         return gasStack;

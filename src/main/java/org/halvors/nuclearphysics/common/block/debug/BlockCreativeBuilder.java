@@ -8,6 +8,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.block.BlockBase;
 import org.halvors.nuclearphysics.common.block.debug.schematic.*;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
@@ -29,13 +30,11 @@ public class BlockCreativeBuilder extends BlockBase {
         registerSchematic(new SchematicFusionReactor());
     }
 
-    public static int registerSchematic(ISchematic schematic) {
+    public static void registerSchematic(final ISchematic schematic) {
         schematicRegistry.add(schematic);
-
-        return schematicRegistry.size() - 1;
     }
 
-    public static ISchematic getSchematic(int id) {
+    public static ISchematic getSchematic(final int id) {
         return schematicRegistry.get(id);
     }
 
@@ -49,7 +48,7 @@ public class BlockCreativeBuilder extends BlockBase {
 
     // Called when the block is right clicked by the player.
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World world, final BlockPos pos, final IBlockState state, final EntityPlayer player, final EnumHand hand, final ItemStack itemStack, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (schematicRegistry.size() > 0) {
             PlayerUtility.openGui(player, world, pos);
 
