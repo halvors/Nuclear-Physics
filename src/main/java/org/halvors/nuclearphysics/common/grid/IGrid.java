@@ -1,6 +1,6 @@
 package org.halvors.nuclearphysics.common.grid;
 
-public interface IUpdate {
+public interface IGrid {
     void update();
 
     boolean canUpdate();

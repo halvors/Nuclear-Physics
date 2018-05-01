@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +24,7 @@ import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ItemEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.PlayerEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ThermalEventHandler;
-import org.halvors.nuclearphysics.common.grid.UpdateTicker;
+import org.halvors.nuclearphysics.common.grid.GridTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.init.*;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
@@ -53,9 +54,6 @@ public class NuclearPhysics {
 
 	// Creative Tab
 	private static final CreativeTab creativeTab = new CreativeTab();
-
-	// Grids
-	private static final ThermalGrid thermalGrid = new ThermalGrid();
 
 	static {
 		FluidRegistry.enableUniversalBucket(); // Must be called before preInit
@@ -109,18 +107,23 @@ public class NuclearPhysics {
 
 	@EventHandler
 	public void postInit(final FMLPostInitializationEvent event) {
-		if (!UpdateTicker.getInstance().isAlive()) {
-			UpdateTicker.getInstance().start();
+		if (!GridTicker.getInstance().isAlive()) {
+			GridTicker.getInstance().start();
 		}
 
 		// Register our grids.
-		UpdateTicker.addNetwork(thermalGrid);
+		GridTicker.getInstance().addGrid(new ThermalGrid());
 
 		// Initialize mod integration.
 		Integration.initialize();
 
 		// Calling proxy handler.
 		proxy.postInit();
+	}
+
+	@EventHandler
+	public void serverStopping(FMLServerStoppingEvent event) {
+		GridTicker.getInstance().interrupt();
 	}
 
 	public static NuclearPhysics getInstance() {
