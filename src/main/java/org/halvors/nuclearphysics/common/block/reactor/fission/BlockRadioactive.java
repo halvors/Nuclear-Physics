@@ -44,8 +44,8 @@ public class BlockRadioactive extends BlockBase implements IRadioactiveBlock {
     }
 
     @Override
-    public void registerItemModel(ItemBlock itemBlock) {
-        for (EnumRadioactive type : EnumRadioactive.values()) {
+    public void registerItemModel(final ItemBlock itemBlock) {
+        for (final EnumRadioactive type : EnumRadioactive.values()) {
             NuclearPhysics.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "type=" + type.getName());
         }
     }
@@ -53,7 +53,7 @@ public class BlockRadioactive extends BlockBase implements IRadioactiveBlock {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(@Nonnull final Item item, final CreativeTabs tab, final List<ItemStack> list) {
-        for (EnumRadioactive type : EnumRadioactive.values()) {
+        for (final EnumRadioactive type : EnumRadioactive.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
@@ -98,7 +98,7 @@ public class BlockRadioactive extends BlockBase implements IRadioactiveBlock {
     @Override
     @SideOnly(Side.CLIENT)
     @Nonnull
-    public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity) {
+    public SoundType getSoundType(final IBlockState state, final World world, final BlockPos pos, @Nullable final Entity entity) {
         final EnumRadioactive type = state.getValue(BlockStateRadioactive.TYPE);
 
         return type.getSoundType();
