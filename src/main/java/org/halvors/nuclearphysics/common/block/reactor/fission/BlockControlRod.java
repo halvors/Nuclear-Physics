@@ -19,7 +19,7 @@ public class BlockControlRod extends BlockBase {
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(final @Nonnull IBlockState state, final @Nonnull IBlockAccess access, final @Nonnull BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(final IBlockState state, final IBlockAccess access, final BlockPos pos) {
         return new AxisAlignedBB(0.3125, 0, 0.3125, 0.6875, 1, 0.6875);
     }
 

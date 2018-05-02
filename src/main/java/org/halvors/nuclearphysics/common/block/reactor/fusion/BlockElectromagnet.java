@@ -70,7 +70,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
             return layer == BlockRenderLayer.CUTOUT;
         }
 
-        return layer == BlockRenderLayer.SOLID;
+        return super.canRenderInLayer(state, layer);
     }
 
     @SuppressWarnings("deprecation")
@@ -94,7 +94,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(final IBlockState state, final @Nonnull IBlockAccess world, final @Nonnull BlockPos pos, final EnumFacing side) {
+    public boolean shouldSideBeRendered(final IBlockState state, @Nonnull final IBlockAccess world, @Nonnull final BlockPos pos, final EnumFacing side) {
         return !canConnect(state, world.getBlockState(pos.offset(side))) && super.shouldSideBeRendered(state, world, pos, side);
     }
 
@@ -137,12 +137,12 @@ public class BlockElectromagnet extends BlockConnectedTexture {
             return 0;
         }
 
-        return 255;
+        return super.getLightOpacity(state, world, pos);
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean isSideSolid(final IBlockState state, final @Nonnull IBlockAccess world, final @Nonnull BlockPos pos, final EnumFacing side) {
+    public boolean isSideSolid(final IBlockState state, @Nonnull final IBlockAccess world, @Nonnull final BlockPos pos, final EnumFacing side) {
         return state.getValue(BlockStateElectromagnet.TYPE) == EnumElectromagnet.NORMAL;
     }
 
@@ -152,7 +152,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     }
 
     @Override
-    protected boolean canConnect(final @Nonnull IBlockState originalState, final @Nonnull IBlockState connectedState) {
+    protected boolean canConnect(final IBlockState originalState, final IBlockState connectedState) {
         if (originalState.getBlock() == connectedState.getBlock()) {
             final EnumElectromagnet originalType = originalState.getValue(BlockStateElectromagnet.TYPE);
             final EnumElectromagnet connectedType = connectedState.getValue(BlockStateElectromagnet.TYPE);
@@ -164,8 +164,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     }
 
     @Override
-    @Nonnull
-    public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
         return new TileElectromagnet();
     }
 }

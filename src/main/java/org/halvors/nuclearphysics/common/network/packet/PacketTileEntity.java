@@ -54,25 +54,21 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 		public IMessage onMessage(final PacketTileEntity message, final MessageContext messageContext) {
 			final World world = PacketHandler.getWorld(messageContext);
 
-			if (world != null) {
-				NuclearPhysics.getProxy().addScheduledTask(() -> {
-                    final TileEntity tile = world.getTileEntity(message.getPos());
+			NuclearPhysics.getProxy().addScheduledTask(() -> {
+				final TileEntity tile = world.getTileEntity(message.getPos());
 
-                    if (tile instanceof ITileNetwork) {
-                        final ITileNetwork tileNetwork = (ITileNetwork) tile;
+				if (tile instanceof ITileNetwork) {
+					final ITileNetwork tileNetwork = (ITileNetwork) tile;
 
-                        try {
-                            tileNetwork.handlePacketData(message.storedBuffer);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+					try {
+						tileNetwork.handlePacketData(message.storedBuffer);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 
-                        message.storedBuffer.release();
-                    }
-
-
-                }, world);
-			}
+					message.storedBuffer.release();
+				}
+			}, world);
 
 			return null;
 		}

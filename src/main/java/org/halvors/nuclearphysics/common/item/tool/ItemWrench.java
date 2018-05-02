@@ -60,7 +60,7 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(final World world, final EntityPlayer player, final @Nonnull EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(final World world, final EntityPlayer player, @Nonnull final EnumHand hand) {
         final ItemStack itemStack = player.getHeldItem(hand);
 
         if (player.isSneaking()) {

@@ -18,8 +18,7 @@ public class BlockFulminationGenerator extends BlockConnectedTexture {
     }
 
     @Override
-    @Nonnull
-    public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
         return new TileFulminationGenerator();
     }
 }

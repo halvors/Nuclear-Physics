@@ -25,7 +25,7 @@ public class ItemAntimatterCell extends ItemTooltip {
 
     @Override
     public void registerItemModel() {
-        for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
+        for (final EnumAntimatterCell type : EnumAntimatterCell.values()) {
             NuclearPhysics.getProxy().registerItemRenderer(this, type.ordinal(), name + "_" + type.getName());
         }
     }
@@ -40,7 +40,7 @@ public class ItemAntimatterCell extends ItemTooltip {
     @SideOnly(Side.CLIENT)
     public void getSubItems(@Nonnull final CreativeTabs tab, @Nonnull final NonNullList<ItemStack> list) {
         if (isInCreativeTab(tab)) {
-            for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
+            for (final EnumAntimatterCell type : EnumAntimatterCell.values()) {
                 list.add(new ItemStack(this, 1, type.ordinal()));
             }
         }

@@ -20,7 +20,7 @@ public class BlockInventory extends BlockRotatable {
     }
 
     @Override
-    public void breakBlock(final @Nonnull World world, final @Nonnull BlockPos pos, final @Nonnull IBlockState state) {
+    public void breakBlock(@Nonnull final World world, @Nonnull final BlockPos pos, @Nonnull final IBlockState state) {
         dropEntireInventory(world, pos);
 
         super.breakBlock(world, pos, state);

@@ -33,6 +33,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITagRender {
+    private static final String NBT_TANK_DEUTERIUM = "tankInputDeuterium";
+    private static final String NBT_TANK_TRITIUM = "tankInputTritium";
+    private static final String NBT_TANK_OUTPUT = "tankOutput";
+
     private static int ticksRequired = 20 * 20;
     private static int energyPerTick = 25000;
     private static int plasmaHeatAmount = 100;
@@ -93,18 +97,18 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInputDeuterium, null, tag.getTag("tankInputDeuterium"));
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInputTritium, null, tag.getTag("tankInputTritium"));
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankOutput, null, tag.getTag("tankOutput"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInputDeuterium, null, tag.getTag(NBT_TANK_DEUTERIUM));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInputTritium, null, tag.getTag(NBT_TANK_TRITIUM));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankOutput, null, tag.getTag(NBT_TANK_OUTPUT));
     }
 
     @Override
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tankInputDeuterium", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInputDeuterium, null));
-        tag.setTag("tankInputTritium", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInputTritium, null));
-        tag.setTag("tankOutput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));
+        tag.setTag(NBT_TANK_DEUTERIUM, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInputDeuterium, null));
+        tag.setTag(NBT_TANK_TRITIUM, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInputTritium, null));
+        tag.setTag(NBT_TANK_OUTPUT, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));
 
         return tag;
     }

@@ -55,9 +55,9 @@ public class BlockStateMachine extends BlockStateFacing {
             } catch (Exception e) {
                 NuclearPhysics.getLogger().error("Unable to indirectly create tile entity.");
                 e.printStackTrace();
-
-                return null;
             }
+
+            return null;
         }
 
         public EnumBlockRenderType getRenderType() {

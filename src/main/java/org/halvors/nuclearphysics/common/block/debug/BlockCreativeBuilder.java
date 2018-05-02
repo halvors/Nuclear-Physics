@@ -9,7 +9,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.block.BlockBase;
-import org.halvors.nuclearphysics.common.block.debug.schematic.*;
+import org.halvors.nuclearphysics.common.block.debug.schematic.SchematicAccelerator;
+import org.halvors.nuclearphysics.common.block.debug.schematic.SchematicBreedingReactor;
+import org.halvors.nuclearphysics.common.block.debug.schematic.SchematicFissionReactor;
+import org.halvors.nuclearphysics.common.block.debug.schematic.SchematicFusionReactor;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import java.util.ArrayList;

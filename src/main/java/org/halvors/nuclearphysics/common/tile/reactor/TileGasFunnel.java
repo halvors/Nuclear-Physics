@@ -18,6 +18,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TileGasFunnel extends TileEntity implements ITickable, IBoilHandler {
+    private static final String NBT_TANK = "tank";
+
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
         @Override
         public boolean canFill() {
@@ -33,7 +35,7 @@ public class TileGasFunnel extends TileEntity implements ITickable, IBoilHandler
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag(NBT_TANK));
     }
 
     @Override
@@ -41,7 +43,7 @@ public class TileGasFunnel extends TileEntity implements ITickable, IBoilHandler
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
+        tag.setTag(NBT_TANK, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }

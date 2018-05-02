@@ -27,6 +27,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileGasCentrifuge extends TileInventoryMachine {
+    private static final String NBT_TANK = "tank";
+
     public static final int ticksRequired = 60 * 20;
     private static final int energyPerTick = 20000;
 
@@ -99,14 +101,14 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag(NBT_TANK));
     }
 
     @Override
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
+        tag.setTag(NBT_TANK, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }

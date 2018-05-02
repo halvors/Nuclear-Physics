@@ -66,7 +66,7 @@ public class BlockSiren extends BlockContainerBase {
     }
 
     @Override
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
         return new TileSiren();
     }
 }

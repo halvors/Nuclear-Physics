@@ -29,7 +29,7 @@ public class ContainerBase<T extends TileBase> extends Container {
     }
 
     @Override
-    public boolean canInteractWith(final @Nonnull EntityPlayer player) {
+    public boolean canInteractWith(@Nonnull final EntityPlayer player) {
         return inventory.isUsableByPlayer(player);
     }
 

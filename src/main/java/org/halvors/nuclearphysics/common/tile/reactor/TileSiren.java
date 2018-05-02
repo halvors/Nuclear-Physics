@@ -21,7 +21,7 @@ public class TileSiren extends TileEntity implements ITickable {
                 float volume = 0.5F;
 
                 // Check in each direction for another siren block, if exists amplify volume.
-                for (EnumFacing side : EnumFacing.values()) {
+                for (final EnumFacing side : EnumFacing.values()) {
                     final TileEntity tile = world.getTileEntity(pos.offset(side));
 
                     if (tile == this) {
