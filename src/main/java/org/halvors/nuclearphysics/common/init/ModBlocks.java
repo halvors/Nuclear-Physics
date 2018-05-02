@@ -113,7 +113,7 @@ public class ModBlocks {
                 itemBlocks.add(item);
             }
 
-            OreDictionary.registerOre("blockRadioactiveGrass", new ItemStack(blockRadioactive, 1, EnumRadioactive.DIRT.ordinal()));
+            OreDictionary.registerOre("blockRadioactiveDirt", new ItemStack(blockRadioactive, 1, EnumRadioactive.DIRT.ordinal()));
             OreDictionary.registerOre("blockRadioactiveGrass", new ItemStack(blockRadioactive, 1, EnumRadioactive.GRASS.ordinal()));
             OreDictionary.registerOre("oreUranium", new ItemStack(blockRadioactive, 1, EnumRadioactive.URANIUM_ORE.ordinal()));
         }
