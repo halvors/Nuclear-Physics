@@ -13,6 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -52,7 +53,7 @@ public class BlockRadioactive extends BlockBase implements IRadioactiveBlock {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(@Nonnull final Item item, final CreativeTabs tab, final List<ItemStack> list) {
+    public void getSubBlocks(@Nonnull final Item item, final CreativeTabs tab, final NonNullList<ItemStack> list) {
         for (EnumRadioactive type : EnumRadioactive.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
@@ -117,7 +118,6 @@ public class BlockRadioactive extends BlockBase implements IRadioactiveBlock {
     }
 
     @Override
-    @Nonnull
     public String getHarvestTool(@Nonnull final IBlockState state) {
         final EnumRadioactive type = state.getValue(BlockStateRadioactive.TYPE);
 
