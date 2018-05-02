@@ -27,6 +27,8 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemBlockThermometer extends ItemBlockTooltip {
+    private static final String NBT_TRACK_COORDINATE = "trackCoordinate";
+
     public static final int energy = 1000;
 
     public ItemBlockThermometer(final Block block) {
@@ -62,8 +64,8 @@ public class ItemBlockThermometer extends ItemBlockTooltip {
 
             final NBTTagCompound setNbt = InventoryUtility.getNBTTagCompound(itemStack);
 
-            if (essentialNBT.hasKey("trackCoordinate")) {
-                setNbt.setTag("trackCoordinate", essentialNBT.getCompoundTag("trackCoordinate"));
+            if (essentialNBT.hasKey(NBT_TRACK_COORDINATE)) {
+                setNbt.setTag(NBT_TRACK_COORDINATE, essentialNBT.getCompoundTag(NBT_TRACK_COORDINATE));
             }
 
             tile.readFromNBT(setNbt);
@@ -119,8 +121,8 @@ public class ItemBlockThermometer extends ItemBlockTooltip {
     public Position getSavedCoordinate(final ItemStack itemStack) {
         final NBTTagCompound tag = InventoryUtility.getNBTTagCompound(itemStack);
 
-        if (tag.hasKey("trackCoordinate")) {
-            return new Position(tag.getCompoundTag("trackCoordinate"));
+        if (tag.hasKey(NBT_TRACK_COORDINATE)) {
+            return new Position(tag.getCompoundTag(NBT_TRACK_COORDINATE));
         }
 
         return null;
@@ -130,9 +132,9 @@ public class ItemBlockThermometer extends ItemBlockTooltip {
         final NBTTagCompound tag = InventoryUtility.getNBTTagCompound(itemStack);
 
         if (position != null) {
-            tag.setTag("trackCoordinate", position.writeToNBT(new NBTTagCompound()));
+            tag.setTag(NBT_TRACK_COORDINATE, position.writeToNBT(new NBTTagCompound()));
         } else {
-            tag.removeTag("trackCoordinate");
+            tag.removeTag(NBT_TRACK_COORDINATE);
         }
     }
 }
