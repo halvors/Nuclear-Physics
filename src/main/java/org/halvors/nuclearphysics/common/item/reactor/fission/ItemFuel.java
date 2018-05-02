@@ -1,6 +1,5 @@
 package org.halvors.nuclearphysics.common.item.reactor.fission;
 
-import com.sun.istack.internal.NotNull;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;

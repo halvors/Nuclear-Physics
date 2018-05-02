@@ -1,16 +1,20 @@
 package org.halvors.nuclearphysics.common.init;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.event.RegistryEvent.MissingMappings;
+import net.minecraftforge.event.RegistryEvent.MissingMappings.Mapping;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockBase;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
@@ -21,6 +25,7 @@ import org.halvors.nuclearphysics.common.block.reactor.fission.BlockControlRod;
 import org.halvors.nuclearphysics.common.block.reactor.fission.BlockRadioactive;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive;
 import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive.EnumRadioactive;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockMetadata;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockTooltip;
@@ -116,6 +121,34 @@ public class ModBlocks {
             OreDictionary.registerOre("blockRadioactiveDirt", new ItemStack(blockRadioactive, 1, EnumRadioactive.DIRT.ordinal()));
             OreDictionary.registerOre("blockRadioactiveGrass", new ItemStack(blockRadioactive, 1, EnumRadioactive.GRASS.ordinal()));
             OreDictionary.registerOre("oreUranium", new ItemStack(blockRadioactive, 1, EnumRadioactive.URANIUM_ORE.ordinal()));
+        }
+
+        @SubscribeEvent
+        public static void missingBlockMappings(final MissingMappings<Block> event) {
+            for (final Mapping<Block> mapping : event.getMappings()) {
+                final String resourceDomain = mapping.key.getResourceDomain();
+
+                if (resourceDomain.equals(Reference.ID)) {
+                    final String resourcePath = mapping.key.getResourcePath();
+                    IBlockState state = null;
+
+                    if (resourcePath.equals("radioactive_grass")) {
+                        state = ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.GRASS);
+                    } else if (resourcePath.equals("uranium_ore")) {
+                        state = ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.URANIUM_ORE);
+                    }
+
+                    if (state != null) {
+                        NuclearPhysics.getLogger().info("Remapped block with id '" + mapping.getTarget().getRegistryName() + "' to '" + state.getBlock().getRegistryName() + "'.");
+                        mapping.remap(state.getBlock());
+                    }
+                }
+            }
+        }
+
+        @SubscribeEvent
+        public static void missingItemMappings(final MissingMappings<Item> event) {
+
         }
     }
 

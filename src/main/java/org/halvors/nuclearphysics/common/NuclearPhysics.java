@@ -1,10 +1,7 @@
 package org.halvors.nuclearphysics.common;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
@@ -15,13 +12,13 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
-import net.minecraftforge.fml.common.event.FMLMissingMappingsEvent.MissingMapping;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive;
-import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive.EnumRadioactive;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ItemEventHandler;
@@ -33,8 +30,6 @@ import org.halvors.nuclearphysics.common.init.ModMessages;
 import org.halvors.nuclearphysics.common.init.ModRecipes;
 import org.halvors.nuclearphysics.common.init.ModWorldGenerators;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
-
-import java.util.Objects;
 
 @Mod(modid = Reference.ID,
      name = Reference.NAME,
@@ -131,40 +126,6 @@ public class NuclearPhysics {
 	@EventHandler
 	public void serverStopping(final FMLServerStoppingEvent event) {
 		GridTicker.getInstance().interrupt();
-	}
-
-	@EventHandler
-	public void missingMappings(final FMLMissingMappingsEvent event) {
-		for (final MissingMapping missingMapping : event.getAll()) {
-			final String resourceDomain = missingMapping.resourceLocation.getResourceDomain();
-			final String resourcePath = missingMapping.resourceLocation.getResourcePath();
-
-			if (resourceDomain.equals(Reference.ID)) {
-				IBlockState state = null;
-
-				if (resourcePath.equals("radioactive_grass")) {
-					state = ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.GRASS);
-				} else if (resourcePath.equals("uranium_ore")) {
-					state = ModBlocks.blockRadioactive.getDefaultState().withProperty(BlockStateRadioactive.TYPE, EnumRadioactive.URANIUM_ORE);
-				}
-
-				if (state != null) {
-					switch (missingMapping.type) {
-						case BLOCK:
-							Block block = state.getBlock();
-							NuclearPhysics.getLogger().info("Remapping block with id '" + missingMapping.name + "' to '" + block.getRegistryName());
-							missingMapping.remap(block);
-							break;
-
-						case ITEM:
-							Item item = Objects.requireNonNull(Item.getItemFromBlock(state.getBlock()));
-							NuclearPhysics.getLogger().info("Remapping item with id '" + missingMapping.name + "' to '" + item.getRegistryName());
-							missingMapping.remap(item);
-							break;
-					}
-				}
-			}
-		}
 	}
 
 	public static NuclearPhysics getInstance() {

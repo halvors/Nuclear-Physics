@@ -53,9 +53,9 @@ public class BlockRadioactive extends BlockBase implements IRadioactiveBlock {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(@Nonnull final Item item, final CreativeTabs tab, final NonNullList<ItemStack> list) {
+    public void getSubBlocks(final CreativeTabs tab, final NonNullList<ItemStack> list) {
         for (final EnumRadioactive type : EnumRadioactive.values()) {
-            list.add(new ItemStack(item, 1, type.ordinal()));
+            list.add(new ItemStack(this, 1, type.ordinal()));
         }
     }
 
