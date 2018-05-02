@@ -72,7 +72,7 @@ public class BlockConnectedTexture extends BlockContainerBase {
      * @param connectedState BlockState to check
      * @return True if the block is valid to connect
      */
-    protected boolean canConnect(final @Nonnull IBlockState originalState, final @Nonnull IBlockState connectedState) {
+    protected boolean canConnect(final IBlockState originalState, final IBlockState connectedState) {
         return originalState.getBlock() == connectedState.getBlock();
     }
 }

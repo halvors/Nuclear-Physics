@@ -6,13 +6,12 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import org.halvors.nuclearphysics.api.effect.poison.IPoison;
 import org.halvors.nuclearphysics.api.effect.poison.EnumPoisonType;
+import org.halvors.nuclearphysics.api.effect.poison.IPoison;
 import org.halvors.nuclearphysics.api.item.armor.IAntiPoisonArmor;
 import org.halvors.nuclearphysics.api.item.armor.IArmorSet;
 import org.halvors.nuclearphysics.common.effect.potion.PotionBase;
 
-import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.EnumSet;
 
@@ -42,7 +41,7 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
         if (entity instanceof EntityPlayer) {
             final EntityPlayer player = (EntityPlayer) entity;
 
-            for (ItemStack itemStack : player.getArmorInventoryList()) {
+            for (final ItemStack itemStack : player.getArmorInventoryList()) {
                 if (itemStack != null) {
                     final Item item = itemStack.getItem();
 
@@ -84,5 +83,5 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
         poisonEntity(entity, 0);
     }
 
-    protected abstract void performPoisonEffect(@Nonnull final EntityLivingBase entity, final int amplifier);
+    protected abstract void performPoisonEffect(final EntityLivingBase entity, final int amplifier);
 }

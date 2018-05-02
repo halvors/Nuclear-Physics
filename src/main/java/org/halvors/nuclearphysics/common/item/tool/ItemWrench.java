@@ -49,7 +49,7 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull final ItemStack itemStack, @Nonnull final EntityPlayer player, @Nonnull final List<String> list, final boolean flag) {
+    public void addInformation(final ItemStack itemStack, final EntityPlayer player, final List<String> list, final boolean flag) {
         final EnumWrenchState state = getState(itemStack);
 
         list.add(LanguageUtility.transelate("tooltip.state") + ": " + state.getColor() + state.getName());
@@ -58,6 +58,7 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
     }
 
     @Override
+    @Nonnull
     public ActionResult<ItemStack> onItemRightClick(@Nonnull final ItemStack itemStack, final World world, final EntityPlayer player, final EnumHand hand) {
         if (player.isSneaking()) {
             EnumWrenchState state = getState(itemStack);
@@ -76,6 +77,7 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
     }
 
     @Override
+    @Nonnull
     public EnumActionResult onItemUse(final ItemStack itemStack, final EntityPlayer player, final World world, final BlockPos pos, final EnumHand hand, final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
         final IBlockState state = world.getBlockState(pos);
         final Block block = state.getBlock();

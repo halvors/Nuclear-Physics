@@ -41,7 +41,7 @@ public class BlockReactorCell extends BlockInventory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean canRenderInLayer(final IBlockState state, final @Nonnull BlockRenderLayer layer) {
+    public boolean canRenderInLayer(final IBlockState state, @Nonnull final BlockRenderLayer layer) {
         return layer == BlockRenderLayer.CUTOUT;
     }
 
@@ -109,7 +109,7 @@ public class BlockReactorCell extends BlockInventory {
 
     @Override
     @Nonnull
-    public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
         return new TileReactorCell(name);
     }
 }

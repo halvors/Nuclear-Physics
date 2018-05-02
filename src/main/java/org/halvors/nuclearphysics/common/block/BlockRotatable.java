@@ -43,7 +43,7 @@ public class BlockRotatable extends BlockContainerBase {
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public IBlockState getActualState(final @Nonnull IBlockState state, final IBlockAccess world, final BlockPos pos) {
+    public IBlockState getActualState(@Nonnull final IBlockState state, final IBlockAccess world, final BlockPos pos) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof ITileRotatable) {
@@ -60,7 +60,7 @@ public class BlockRotatable extends BlockContainerBase {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof ITileRotatable) {
-            ITileRotatable tileRotatable = (ITileRotatable) tile;
+            final ITileRotatable tileRotatable = (ITileRotatable) tile;
 
             tileRotatable.setFacing(entity.getHorizontalFacing().getOpposite());
         }
@@ -68,14 +68,14 @@ public class BlockRotatable extends BlockContainerBase {
 
     @Override
     @Nonnull
-    public EnumFacing[] getValidRotations(final World world, final @Nonnull BlockPos pos) {
+    public EnumFacing[] getValidRotations(final World world, @Nonnull final BlockPos pos) {
         final TileEntity tile = world.getTileEntity(pos);
         final EnumFacing[] valid = new EnumFacing[6];
 
         if (tile instanceof ITileRotatable) {
             final ITileRotatable tileRotatable = (ITileRotatable) tile;
 
-            for (EnumFacing facing : EnumFacing.VALUES) {
+            for (final EnumFacing facing : EnumFacing.VALUES) {
                 if (tileRotatable.canSetFacing(facing)) {
                     valid[facing.ordinal()] = facing;
                 }
@@ -86,7 +86,7 @@ public class BlockRotatable extends BlockContainerBase {
     }
 
     @Override
-    public boolean rotateBlock(final World world, final @Nonnull BlockPos pos, final EnumFacing side) {
+    public boolean rotateBlock(final World world, @Nonnull final BlockPos pos, final EnumFacing side) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof ITileRotatable) {

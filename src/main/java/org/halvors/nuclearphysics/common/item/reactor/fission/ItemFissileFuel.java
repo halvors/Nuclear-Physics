@@ -24,7 +24,7 @@ public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
         final World world = tile.getWorld();
         int reactors = 0;
 
-        for (EnumFacing side : EnumFacing.values()) {
+        for (final EnumFacing side : EnumFacing.values()) {
             final TileEntity checkTile = world.getTileEntity(tile.getPos().offset(side));
 
             // Check that the other reactors not only exist but also are running.

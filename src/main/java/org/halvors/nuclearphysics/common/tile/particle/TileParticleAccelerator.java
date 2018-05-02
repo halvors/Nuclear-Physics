@@ -27,6 +27,9 @@ import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 import java.util.List;
 
 public class TileParticleAccelerator extends TileInventoryMachine implements IElectromagnet {
+    private static final String NBT_TOTAL_ENERGY_CONSUMED = "totalEnergyConsumed";
+    private static final String NBT_ANTIMATTER_COUNT = "antimatterCount";
+
     private static final int energyPerTick = 19000;
 
     // Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
@@ -93,16 +96,16 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        totalEnergyConsumed = tag.getInteger("totalEnergyConsumed");
-        antimatterCount = tag.getInteger("antimatterCount");
+        totalEnergyConsumed = tag.getInteger(NBT_TOTAL_ENERGY_CONSUMED);
+        antimatterCount = tag.getInteger(NBT_ANTIMATTER_COUNT);
     }
 
     @Override
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("totalEnergyConsumed", totalEnergyConsumed);
-        tag.setInteger("antimatterCount", antimatterCount);
+        tag.setInteger(NBT_TOTAL_ENERGY_CONSUMED, totalEnergyConsumed);
+        tag.setInteger(NBT_ANTIMATTER_COUNT, antimatterCount);
 
         return tag;
     }

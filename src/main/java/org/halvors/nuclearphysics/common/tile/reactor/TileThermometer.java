@@ -14,6 +14,9 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class TileThermometer extends TileRotatable implements ITickable {
+    private static final String NBT_THRESHOLD = "threshold";
+    private static final String NBT_TRACK_COORDINATE = "trackCoordinate";
+
     private static final int maxThreshold = 5000;
     private float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
     private float previousDetectedTemperature = detectedTemperature; // Synced
@@ -29,10 +32,10 @@ public class TileThermometer extends TileRotatable implements ITickable {
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        threshold = tag.getInteger("threshold");
+        threshold = tag.getInteger(NBT_THRESHOLD);
 
-        if (tag.hasKey("trackCoordinate")) {
-            trackCoordinate = new Position(tag.getCompoundTag("trackCoordinate"));
+        if (tag.hasKey(NBT_TRACK_COORDINATE)) {
+            trackCoordinate = new Position(tag.getCompoundTag(NBT_TRACK_COORDINATE));
         }
     }
 
@@ -41,10 +44,10 @@ public class TileThermometer extends TileRotatable implements ITickable {
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("threshold", threshold);
+        tag.setInteger(NBT_THRESHOLD, threshold);
 
         if (trackCoordinate != null) {
-            tag.setTag("trackCoordinate", trackCoordinate.writeToNBT(new NBTTagCompound()));
+            tag.setTag(NBT_TRACK_COORDINATE, trackCoordinate.writeToNBT(new NBTTagCompound()));
         }
 
         return tag;

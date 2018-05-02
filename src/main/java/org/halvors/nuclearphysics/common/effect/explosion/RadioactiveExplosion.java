@@ -20,7 +20,7 @@ public class RadioactiveExplosion extends ExplosionBase {
         final AxisAlignedBB bounds = new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius);
         final List<EntityLiving> entitiesNearby = world.getEntitiesWithinAABB(EntityLiving.class, bounds);
 
-        for (EntityLiving entity : entitiesNearby) {
+        for (final EntityLiving entity : entitiesNearby) {
             ModPotions.poisonRadiation.poisonEntity(entity);
         }
 

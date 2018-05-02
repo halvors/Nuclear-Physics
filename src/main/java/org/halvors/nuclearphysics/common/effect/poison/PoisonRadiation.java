@@ -35,7 +35,7 @@ public class PoisonRadiation extends PoisonBase {
     }
 
     @Override
-    public void performPoisonEffect(@Nonnull final EntityLivingBase entity, final int amplifier) {
+    public void performPoisonEffect(final EntityLivingBase entity, final int amplifier) {
         if (General.enableRadiationRoisoning) {
             entity.addPotionEffect(new PotionEffect(this, 300 * (amplifier + 1), amplifier));
         }
