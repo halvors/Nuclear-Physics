@@ -75,7 +75,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public boolean removedByPlayer(final @Nonnull IBlockState state, final World world, final @Nonnull BlockPos pos, final @Nonnull EntityPlayer player, final boolean willHarvest) {
+    public boolean removedByPlayer(@Nonnull final IBlockState state, final World world, @Nonnull final BlockPos pos, @Nonnull final EntityPlayer player, final boolean willHarvest) {
         if (!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
             final ItemStack itemStack = InventoryUtility.getItemStackWithNBT(state, world, pos);
             InventoryUtility.dropItemStack(world, pos, itemStack);
@@ -101,7 +101,7 @@ public class BlockThermometer extends BlockRotatable {
             return tileThermometer.isProvidingPower ? 15 : 0;
         }
 
-        return 0;
+        return super.getWeakPower(state, world, pos, side);
     }
 
     @Override
@@ -111,7 +111,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
         return new TileThermometer();
     }
 }

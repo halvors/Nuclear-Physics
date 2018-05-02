@@ -89,7 +89,6 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     }
 
     @Override
-    @Nonnull
     public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
         return new TilePlasma();
     }

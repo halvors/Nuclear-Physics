@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -69,7 +68,7 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(final @Nonnull Item item, final CreativeTabs creativeTabs, final NonNullList<ItemStack> list) {
+    public void getSubBlocks(@Nonnull final Item item, final CreativeTabs creativeTabs, final NonNullList<ItemStack> list) {
         for (final EnumMachine type : EnumMachine.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
@@ -133,6 +132,7 @@ public class BlockMachine extends BlockInventory {
 
     @SuppressWarnings("deprecation")
     @Override
+    @Nonnull
     public IBlockState getStateFromMeta(final int metadata) {
         return getDefaultState().withProperty(BlockStateMachine.TYPE, EnumMachine.values()[metadata]);
     }
@@ -189,7 +189,7 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
         final EnumMachine type = state.getValue(BlockStateMachine.TYPE);
 
         return type.getTileAsInstance();

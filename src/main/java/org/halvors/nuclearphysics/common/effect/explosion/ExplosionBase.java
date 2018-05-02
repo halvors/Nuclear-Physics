@@ -31,7 +31,7 @@ public class ExplosionBase extends Explosion {
 
         // Send explosion packet to the client for client-side explosion.
         if (!world.isRemote) {
-            for (EntityPlayer player : world.playerEntities) {
+            for (final EntityPlayer player : world.playerEntities) {
                 if (player.getDistanceSq(pos) < 4096) {
                     ((EntityPlayerMP) player).connection.sendPacket(new SPacketExplosion(pos.getX(), pos.getY(), pos.getZ(), size, getAffectedBlockPositions(), getPlayerKnockbackMap().get(player)));
                 }

@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.particle.ParticleRadioactive;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 
 import java.util.Random;
@@ -27,7 +28,7 @@ public class BlockFluidRadioactive extends BlockFluidClassic {
     public void randomDisplayTick(final IBlockState state, final World world, final BlockPos pos, final Random random) {
         super.randomDisplayTick(state, world, pos, random);
 
-        if (Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
+        if (General.allowRadioactiveOres && Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
             if (random.nextInt(100) == 0) {
                 RenderUtility.renderParticle(new ParticleRadioactive(world, pos.getX() + random.nextFloat(), pos.getY() + 1, pos.getZ() + random.nextFloat(), (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2));
             }

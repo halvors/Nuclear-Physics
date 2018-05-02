@@ -13,7 +13,7 @@ public class ReactorExplosion extends RadioactiveExplosion {
 
     @Override
     public void doExplosionB(final boolean spawnParticles) {
-        for (BlockPos pos : getAffectedBlockPositions()) {
+        for (final BlockPos pos : getAffectedBlockPositions()) {
             final IBlockState stateUnder = world.getBlockState(pos.down());
 
             if (world.isAirBlock(pos) && stateUnder.isOpaqueCube() && random.nextInt(3) == 0) {

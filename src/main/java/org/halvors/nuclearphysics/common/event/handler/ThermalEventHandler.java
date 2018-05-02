@@ -16,6 +16,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
@@ -30,6 +31,7 @@ import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 
+@EventBusSubscriber
 public class ThermalEventHandler {
     @SubscribeEvent
     public void onBoilEvent(final BoilEvent event) {
