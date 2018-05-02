@@ -26,7 +26,7 @@ public class BlockRadioactive extends BlockBase {
     protected boolean isRandomlyRadioactive;
     protected boolean spawnParticle;
 
-    public BlockRadioactive(String name, Material material) {
+    public BlockRadioactive(final String name, final Material material) {
         super(name, material);
 
         setTickRandomly(true);
@@ -36,14 +36,13 @@ public class BlockRadioactive extends BlockBase {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+    public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random random) {
         if ((spawnParticle || General.allowRadioactiveOres) && Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
             int radius = 3;
 
             for (int i = 0; i < 2; i++) {
-                Position newPos = new Position(x, y, z).add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
-
-                EntitySmokeFX fx = new EntitySmokeFX(world, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
+                final Position newPos = new Position(x, y, z).add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
+                final EntitySmokeFX fx = new EntitySmokeFX(world, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
                 fx.setRBGColorF(0.2F, 0.8F, 0);
                 Minecraft.getMinecraft().effectRenderer.addEffect(fx);
             }
@@ -54,7 +53,7 @@ public class BlockRadioactive extends BlockBase {
      * Ticks the block if it's been scheduled
      */
     @Override
-    public void updateTick(World world, int x, int y, int z, Random random) {
+    public void updateTick(final World world, final int x, final int y, final int z, final Random random) {
         if (!world.isRemote) {
             if (isRandomlyRadioactive || General.allowRadioactiveOres) {
                 final AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(x - radius, y - radius, z - radius, x + radius, y + radius, z + radius);
@@ -88,7 +87,7 @@ public class BlockRadioactive extends BlockBase {
      * Called whenever an entity is walking on top of this block. Args: world, x, y, z, entity
      */
     @Override
-    public void onEntityWalking(World world, int x, int y, int z, Entity entity) {
+    public void onEntityWalking(final World world, final int x, final int y, final int z, final Entity entity) {
         if (entity instanceof EntityLivingBase && (canWalkPoison || General.allowRadioactiveOres)) {
             ModPotions.poisonRadiation.poisonEntity((EntityLivingBase) entity);
         }

@@ -22,21 +22,21 @@ public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<
     }
 
     @Override
-    protected void render(T tile, double x, double y, double z) {
+    protected void render(final T tile, final double x, final double y, final double z) {
         if (tile instanceof ITagRender && getPlayer().getDistance(tile.xCoord, tile.yCoord, tile.zCoord) <= RenderLiving.NAME_TAG_RANGE) {
-            HashMap<String, Integer> tags = new HashMap<>();
-            float height = ((ITagRender) tile).addInformation(tags, getPlayer());
+            final HashMap<String, Integer> tags = new HashMap<>();
+            final float height = ((ITagRender) tile).addInformation(tags, getPlayer());
 
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 
             if (player.ridingEntity == null) {
-                MovingObjectPosition rayTraceResult = player.rayTrace(8, 1);
+                final MovingObjectPosition rayTraceResult = player.rayTrace(8, 1);
 
                 if (rayTraceResult != null) {
                     boolean isLooking = false;
 
                     for (int h = 0; h < height; h++) {
-                        Position rayTracePos = new Position(rayTraceResult.blockX, rayTraceResult.blockY, rayTraceResult.blockZ);
+                        final Position rayTracePos = new Position(rayTraceResult.blockX, rayTraceResult.blockY, rayTraceResult.blockZ);
 
                         if (rayTracePos.getX() == tile.xCoord && rayTracePos.getY() == tile.yCoord + h && rayTracePos.getZ() == tile.zCoord) {
                             isLooking = true;
@@ -44,11 +44,11 @@ public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<
                     }
 
                     if (isLooking) {
-                        Iterator<Entry<String, Integer>> it = tags.entrySet().iterator();
+                        final Iterator<Entry<String, Integer>> it = tags.entrySet().iterator();
                         int i = 0;
 
                         while (it.hasNext()) {
-                            Entry<String, Integer> entry = it.next();
+                            final Entry<String, Integer> entry = it.next();
 
                             if (entry.getKey() != null) {
                                 RenderUtility.renderFloatingText(entry.getKey(), new Position(x, y, z).translate(0.5, i * 0.25 + height, 0.5), entry.getValue());

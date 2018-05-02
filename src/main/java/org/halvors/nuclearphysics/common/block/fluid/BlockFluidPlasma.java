@@ -26,9 +26,9 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     public BlockFluidPlasma(final Fluid fluid, final Material material) {
         super(material);
 
-        fluid.setBlock(this);
-
         this.fluid = fluid;
+
+        fluid.setBlock(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
 
     /*
     @Override
-    public boolean canRenderInLayer(IBlockState state, @Nonnull BlockRenderLayer layer) {
+    public boolean canRenderInLayer(final IBlockState state, final @Nonnull BlockRenderLayer layer) {
         return layer == BlockRenderLayer.TRANSLUCENT;
     }
     */
@@ -53,20 +53,20 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
-        Position pos = new Position(x, y, z).offset(ForgeDirection.getOrientation(side));
-        Block neighborBlock = world.getBlock(pos.getIntX(), pos.getIntY(), pos.getIntZ());
+    public boolean shouldSideBeRendered(final IBlockAccess world, final int x, final int y, final int z, final int side) {
+        final Position pos = new Position(x, y, z).offset(ForgeDirection.getOrientation(side));
+        final Block neighborBlock = world.getBlock(pos.getIntX(), pos.getIntY(), pos.getIntZ());
 
         return neighborBlock != this && super.shouldSideBeRendered(world, x, y, z, side);
     }
 
     @Override
-    public int getLightValue(IBlockAccess world, int x, int y, int z) {
+    public int getLightValue(final IBlockAccess world, final int x, final int y, final int z) {
         return fluid.getLuminosity();
     }
 
     @Override
-    public boolean isBlockSolid(IBlockAccess world, int x, int y, int z, int side) {
+    public boolean isBlockSolid(final IBlockAccess world, final int x, final int y, final int z, final int side) {
         return false;
     }
 
@@ -76,22 +76,22 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity) {
+    public void onEntityCollidedWithBlock(final World world, final int x, final int y, final int z, final Entity entity) {
         entity.attackEntityFrom(DamageSource.inFire, 100);
     }
 
     @Override
-    public int quantityDropped(Random random) {
+    public int quantityDropped(final Random random) {
         return 0;
     }
 
     @Override
-    public boolean hasTileEntity(int metadata) {
+    public boolean hasTileEntity(final int metadata) {
         return true;
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata) {
+    public TileEntity createTileEntity(final World world, final int metadata) {
         return new TilePlasma();
     }
 
@@ -103,17 +103,17 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     }
 
     @Override
-    public FluidStack drain(World world, int x, int y, int z, boolean doDrain) {
+    public FluidStack drain(final World world, final int x, final int y, final int z, final boolean doDrain) {
         return null;
     }
 
     @Override
-    public boolean canDrain(World world, int x, int y, int z) {
+    public boolean canDrain(final World world, final int x, final int y, final int z) {
         return false;
     }
 
     @Override
-    public float getFilledPercentage(World world, int x, int y, int z) {
+    public float getFilledPercentage(final World world, final int x, final int y, final int z) {
         return FluidContainerRegistry.BUCKET_VOLUME;
     }
 }

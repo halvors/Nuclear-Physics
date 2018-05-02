@@ -8,7 +8,7 @@ import org.halvors.nuclearphysics.client.render.block.ConnectedTextureRenderer;
 import org.halvors.nuclearphysics.client.render.block.ISimpleBlockRenderer;
 
 public class BlockConnectedTexture extends BlockContainerBase implements ICustomBlockRenderer {
-    public BlockConnectedTexture(String name, Material material) {
+    public BlockConnectedTexture(final String name, final Material material) {
         super(name, material);
     }
 

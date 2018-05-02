@@ -2,7 +2,7 @@ package org.halvors.nuclearphysics.client.gui.configuration;
 
 import cpw.mods.fml.client.config.DummyConfigElement;
 import cpw.mods.fml.client.config.GuiConfig;
-import cpw.mods.fml.client.config.GuiConfigEntries;
+import cpw.mods.fml.client.config.GuiConfigEntries.IConfigEntry;
 import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,13 +24,13 @@ public class GuiConfiguration extends GuiConfig {
         register(Configuration.CATEGORY_GENERAL, CategoryEntryGeneral.class);
     }
 
-    public GuiConfiguration(GuiScreen parent) {
-        super(parent, configElements, Reference.ID, false, false, Reference.NAME);
+    public GuiConfiguration(final GuiScreen screen) {
+        super(screen, configElements, Reference.ID, false, false, Reference.NAME);
 
         titleLine2 = NuclearPhysics.getConfiguration().getConfigFile().getAbsolutePath();
     }
 
-    private static void register(String category, Class<? extends GuiConfigEntries.IConfigEntry> configEntryClass) {
+    private static void register(final String category, final Class<? extends IConfigEntry> configEntryClass) {
         configElements.add(new DummyConfigElement.DummyCategoryElement(LanguageUtility.transelate("gui.configuration.category." + category), "gui.configuration.category." + category, configEntryClass));
     }
 }

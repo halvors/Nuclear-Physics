@@ -4,8 +4,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
-import org.halvors.nuclearphysics.common.type.Resource;
-import org.halvors.nuclearphysics.common.unit.TemperatureUnit;
+import org.halvors.nuclearphysics.common.type.EnumResource;
+import org.halvors.nuclearphysics.common.unit.EnumTemperatureUnit;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
@@ -13,12 +13,12 @@ import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiTemperatureInfo extends GuiInfo {
-    public GuiTemperatureInfo(IInfoHandler infoHandler, IGuiWrapper gui, int x, int y) {
-        super(infoHandler, ResourceUtility.getResource(Resource.GUI_COMPONENT, "heat_info.png"), gui, x, y);
+    public GuiTemperatureInfo(final IInfoHandler infoHandler, final IGuiWrapper gui, final int x, final int y) {
+        super(infoHandler, ResourceUtility.getResource(EnumResource.GUI_COMPONENT, "heat_info.png"), gui, x, y);
     }
 
     @Override
-    protected List<String> getInfo(List<String> list) {
+    protected List<String> getInfo(final List<String> list) {
         list.add(LanguageUtility.transelate("gui.unit") + ": " + General.temperatureUnit.getSymbol());
 
         return list;
@@ -26,6 +26,6 @@ public class GuiTemperatureInfo extends GuiInfo {
 
     @Override
     protected void buttonClicked() {
-        General.temperatureUnit = TemperatureUnit.values()[(General.temperatureUnit.ordinal() + 1) % TemperatureUnit.values().length];
+        General.temperatureUnit = EnumTemperatureUnit.values()[(General.temperatureUnit.ordinal() + 1) % EnumTemperatureUnit.values().length];
     }
 }

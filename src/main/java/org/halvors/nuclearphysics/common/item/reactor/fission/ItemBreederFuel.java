@@ -10,7 +10,7 @@ public class ItemBreederFuel extends ItemFuel implements IReactorComponent {
     }
 
     @Override
-    public void onReact(ItemStack itemStack, IReactor reactor) {
+    public void onReact(final ItemStack itemStack, final IReactor reactor) {
         reactor.heat(energyPerTick / 2);
 
         if (reactor.getWorldObject().getWorldTime() % 20 == 0) {

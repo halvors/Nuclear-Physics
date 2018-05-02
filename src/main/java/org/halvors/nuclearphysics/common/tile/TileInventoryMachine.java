@@ -16,14 +16,14 @@ public abstract class TileInventoryMachine extends TileMachine implements ISided
 
     }
 
-    public TileInventoryMachine(EnumMachine type, int maxSlots) {
+    public TileInventoryMachine(final EnumMachine type, final int maxSlots) {
         super(type);
 
         inventory = new ItemStack[maxSlots];
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
@@ -39,7 +39,7 @@ public abstract class TileInventoryMachine extends TileMachine implements ISided
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         NBTTagList tagList = new NBTTagList();
@@ -115,7 +115,7 @@ public abstract class TileInventoryMachine extends TileMachine implements ISided
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int index) {
+    public ItemStack getStackInSlotOnClosing(final int index) {
         if (getStackInSlot(index) != null) {
             ItemStack tempStack = getStackInSlot(index);
             setInventorySlotContents(index, null);
@@ -127,7 +127,7 @@ public abstract class TileInventoryMachine extends TileMachine implements ISided
     }
 
     @Override
-    public void setInventorySlotContents(int index, ItemStack itemStack) {
+    public void setInventorySlotContents(final int index, final ItemStack itemStack) {
         inventory[index] = itemStack;
 
         if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
@@ -153,7 +153,7 @@ public abstract class TileInventoryMachine extends TileMachine implements ISided
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
+    public boolean isUseableByPlayer(final EntityPlayer player) {
         return player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) <= 64;
     }
 
@@ -168,13 +168,13 @@ public abstract class TileInventoryMachine extends TileMachine implements ISided
     }
 
     @Override
-    public boolean isItemValidForSlot(int index, ItemStack stack) {
+    public boolean isItemValidForSlot(final int index, final ItemStack stack) {
         return index < getSizeInventory();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void incrStackSize(int slot, ItemStack itemStack) {
+    public void incrStackSize(final int slot, final ItemStack itemStack) {
         if (getStackInSlot(slot) == null) {
             setInventorySlotContents(slot, itemStack.copy());
         } else if (getStackInSlot(slot).isItemEqual(itemStack)) {

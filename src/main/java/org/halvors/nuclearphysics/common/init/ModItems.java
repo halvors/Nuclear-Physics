@@ -27,36 +27,36 @@ public class ModItems {
     public static final Set<Item> items = new HashSet<>();
 
     // Basic Components
-    public static Item itemWrench = new ItemWrench();
-    public static Item itemCopperWire = new ItemBase("copper_wire");
-    public static Item itemMotor = new ItemBase("motor");
+    public static final Item itemWrench = new ItemWrench();
+    public static final Item itemCopperWire = new ItemBase("copper_wire");
+    public static final Item itemMotor = new ItemBase("motor");
 
-    public static Item itemPlateBronze = new ItemBase("plate_bronze");
-    public static Item itemPlateSteel = new ItemBase("plate_steel");
+    public static final Item itemPlateBronze = new ItemBase("plate_bronze");
+    public static final Item itemPlateSteel = new ItemBase("plate_steel");
 
-    public static Item itemCircuitBasic = new ItemBase("circuit_basic");
-    public static Item itemCircuitAdvanced = new ItemBase("circuit_advanced");
-    public static Item itemCircuitElite = new ItemBase("circuit_elite");
+    public static final Item itemCircuitBasic = new ItemBase("circuit_basic");
+    public static final Item itemCircuitAdvanced = new ItemBase("circuit_advanced");
+    public static final Item itemCircuitElite = new ItemBase("circuit_elite");
 
     // Buckets
     public static Item itemToxicWasteBucket = new ItemBucketBase("toxic_waste_bucket", ModFluids.toxicWaste);
 
     // Cells
-    public static Item itemAntimatterCell = new ItemAntimatterCell();
-    public static Item itemBreederFuel = new ItemBreederFuel();
-    public static Item itemCell = new ItemCell();
-    public static Item itemDarkMatterCell = new ItemBase("darkmatter_cell");
-    public static Item itemFissileFuel = new ItemFissileFuel();
+    public static final Item itemAntimatterCell = new ItemAntimatterCell();
+    public static final Item itemBreederFuel = new ItemBreederFuel();
+    public static final Item itemCell = new ItemCell();
+    public static final Item itemDarkMatterCell = new ItemBase("darkmatter_cell");
+    public static final Item itemFissileFuel = new ItemFissileFuel();
 
     // Uranium
-    public static Item itemUranium = new ItemUranium();
-    public static Item itemYellowCake = new ItemRadioactive("yellowcake");
+    public static final Item itemUranium = new ItemUranium();
+    public static final Item itemYellowCake = new ItemRadioactive("yellowcake");
 
     // Hazmat
-    public static ItemArmor itemHazmatMask = new ItemArmorHazmat("hazmat_mask", EntityEquipmentSlot.HEAD);
-    public static ItemArmor itemHazmatBody = new ItemArmorHazmat("hazmat_body", EntityEquipmentSlot.CHEST);
-    public static ItemArmor itemHazmatLeggings = new ItemArmorHazmat("hazmat_leggings", EntityEquipmentSlot.LEGS);
-    public static ItemArmor itemHazmatBoots = new ItemArmorHazmat("hazmat_boots", EntityEquipmentSlot.FEET);
+    public static final ItemArmor itemHazmatMask = new ItemArmorHazmat("hazmat_mask", EntityEquipmentSlot.HEAD);
+    public static final ItemArmor itemHazmatBody = new ItemArmorHazmat("hazmat_body", EntityEquipmentSlot.CHEST);
+    public static final ItemArmor itemHazmatLeggings = new ItemArmorHazmat("hazmat_leggings", EntityEquipmentSlot.LEGS);
+    public static final ItemArmor itemHazmatBoots = new ItemArmorHazmat("hazmat_boots", EntityEquipmentSlot.FEET);
 
     public static void registerItems() {
         GameRegistry.registerItem(itemWrench, "itemWrench");

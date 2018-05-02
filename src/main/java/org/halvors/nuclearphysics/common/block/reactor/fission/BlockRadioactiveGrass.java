@@ -29,7 +29,7 @@ public class BlockRadioactiveGrass extends BlockRadioactive {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
+    public void registerIcons(final IIconRegister iconRegister) {
         super.registerIcons(iconRegister);
 
         iconTop = iconRegister.registerIcon(Reference.PREFIX + name + "_top");
@@ -38,7 +38,7 @@ public class BlockRadioactiveGrass extends BlockRadioactive {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata) {
+    public IIcon getIcon(final int side, final int metadata) {
         switch (side) {
             case 0:
                 return iconBottom;
@@ -52,7 +52,7 @@ public class BlockRadioactiveGrass extends BlockRadioactive {
     }
 
     @Override
-    public int quantityDropped(Random random) {
+    public int quantityDropped(final Random random) {
         return 0;
     }
 }

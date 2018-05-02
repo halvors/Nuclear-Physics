@@ -69,7 +69,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         multiBlockRadius = tag.getInteger("multiBlockRadius");
@@ -78,7 +78,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setInteger("multiBlockRadius", multiBlockRadius);
@@ -104,7 +104,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             if (!worldObj.isRemote) {
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
-                    FluidStack fluidStack = tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
+                    final FluidStack fluidStack = tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
 
                     if (fluidStack != null) {
                         power += fluidStack.amount * energyPerSteam;
@@ -127,8 +127,8 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             } else if (angularVelocity != 0) {
                 if (worldObj.getWorldTime() % 26 == 0) {
                     // TODO: Tweak this volume, i suspect it is way to loud.
-                    double maxVelocity = (getMaxPower() / torque) * 4;
-                    float percentage =Math.min(angularVelocity * 4 / (float) maxVelocity, 1);
+                    final double maxVelocity = (getMaxPower() / torque) * 4;
+                    final float percentage =Math.min(angularVelocity * 4 / (float) maxVelocity, 1);
 
                     worldObj.playSoundEffect(xCoord, yCoord, zCoord, ModSounds.ELECTRIC_TURBINE, percentage, 1);
                 }
@@ -137,7 +137,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 rotation = (float) ((rotation + angularVelocity / 20) % (Math.PI * 2));
             }
         } else if (tank.getFluidAmount() > 0) {
-            int amount = getMultiBlock().get().tank.fill(tank.getFluid(), false);
+            final int amount = getMultiBlock().get().tank.fill(tank.getFluid(), false);
 
             getMultiBlock().get().tank.fill(tank.drain(amount, true), true);
         }
@@ -155,12 +155,12 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public Position[] getMultiBlockVectors() {
-        Set<Position> positions = new HashSet<>();
+        final Set<Position> positions = new HashSet<>();
 
-        EnumFacing dir = EnumFacing.UP;
-        int xMulti = dir.getFrontOffsetX() != 0 ? 0 : 1;
-        int yMulti = dir.getFrontOffsetY() != 0 ? 0 : 1;
-        int zMulti = dir.getFrontOffsetZ() != 0 ? 0 : 1;
+        final EnumFacing dir = EnumFacing.UP;
+        final int xMulti = dir.getFrontOffsetX() != 0 ? 0 : 1;
+        final int yMulti = dir.getFrontOffsetY() != 0 ? 0 : 1;
+        final int zMulti = dir.getFrontOffsetZ() != 0 ? 0 : 1;
 
         for (int x = -multiBlockRadius; x <= multiBlockRadius; x++) {
             for (int y = -multiBlockRadius; y <= multiBlockRadius; y++) {
@@ -205,7 +205,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (worldObj.isRemote) {
@@ -217,7 +217,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         getMultiBlock().getPacketData(objects);
@@ -242,14 +242,14 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean canConnectEnergy(ForgeDirection from) {
+    public boolean canConnectEnergy(final ForgeDirection from) {
         return from == ForgeDirection.UP && getMultiBlock().isPrimary();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int receiveGas(ForgeDirection from, FluidStack fluidStack, boolean doTransfer) {
+    public int receiveGas(final ForgeDirection from, final FluidStack fluidStack, final boolean doTransfer) {
         if (from == ForgeDirection.DOWN && getMultiBlock().isPrimary()) {
             return tank.fill(fluidStack, doTransfer);
         }
@@ -260,7 +260,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(final ForgeDirection from, final FluidStack resource, final boolean doFill) {
         if (from == ForgeDirection.DOWN && getMultiBlock().isPrimary()) {
             return tank.fill(resource, doFill);
         }
@@ -269,27 +269,27 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(final ForgeDirection from, final FluidStack resource, final boolean doDrain) {
         return null;
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(final ForgeDirection from, final int maxDrain, final boolean doDrain) {
         return null;
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
+    public boolean canFill(final ForgeDirection from, final Fluid fluid) {
         return from == ForgeDirection.DOWN;
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+    public boolean canDrain(final ForgeDirection from, final Fluid fluid) {
         return false;
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(final ForgeDirection from) {
         return new FluidTankInfo[] { tank.getInfo() };
     }
 

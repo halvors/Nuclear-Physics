@@ -20,24 +20,18 @@ public class ItemUranium extends ItemRadioactive {
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List list) {
+    public void getSubItems(final Item item, final CreativeTabs tab, final List list) {
         for (EnumUranium type : EnumUranium.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
 
     public enum EnumUranium {
-        URANIUM_235("uranium_235"),
-        URANIUM_238("uranium_238");
-
-        private String name;
-
-        EnumUranium(String name) {
-            this.name = name;
-        }
+        URANIUM_235,
+        URANIUM_238;
 
         public String getName() {
-            return name.toLowerCase();
+            return name().toLowerCase();
         }
     }
 }

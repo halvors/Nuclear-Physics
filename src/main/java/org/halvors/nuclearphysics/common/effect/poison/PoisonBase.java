@@ -6,7 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import org.halvors.nuclearphysics.api.effect.poison.IPoison;
-import org.halvors.nuclearphysics.api.effect.poison.PoisonType;
+import org.halvors.nuclearphysics.api.effect.poison.EnumPoisonType;
 import org.halvors.nuclearphysics.api.item.armor.IAntiPoisonArmor;
 import org.halvors.nuclearphysics.api.item.armor.IArmorSet;
 import org.halvors.nuclearphysics.api.item.armor.IArmorSet.EntityEquipmentSlot;
@@ -17,17 +17,17 @@ import java.awt.*;
 import java.util.EnumSet;
 
 public abstract class PoisonBase extends PotionBase implements IPoison {
-    protected final PoisonType type;
+    protected final EnumPoisonType type;
     protected final DamageSource damageSource;
 
-    public PoisonBase(boolean isBadEffect, int color, PoisonType type) {
+    public PoisonBase(final boolean isBadEffect, final int color, final EnumPoisonType type) {
         super(isBadEffect, color, type.getName());
 
         this.type = type;
         this.damageSource = new DamageSource(type.getName()).setDamageBypassesArmor();
     }
 
-    public PoisonBase(boolean isBadEffect, int red, int green, int blue, PoisonType type) {
+    public PoisonBase(final boolean isBadEffect, final int red, final int green, final int blue, final EnumPoisonType type) {
         this(isBadEffect, new Color(red, green, blue).getRGB(), type);
     }
 
@@ -36,7 +36,7 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
     }
 
     @Override
-    public boolean isEntityProtected(EntityLivingBase entity, int amplifier) {
+    public boolean isEntityProtected(final EntityLivingBase entity, final int amplifier) {
         final EnumSet<EntityEquipmentSlot> armorWorn = EnumSet.noneOf(EntityEquipmentSlot.class);
 
         if (entity instanceof EntityPlayer) {
@@ -74,15 +74,15 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
     }
 
     @Override
-    public void poisonEntity(EntityLivingBase entity, int amplifier) {
+    public void poisonEntity(final EntityLivingBase entity, final int amplifier) {
         if (!isEntityProtected(entity, amplifier)) {
             performPoisonEffect(entity, amplifier);
         }
     }
 
-    public void poisonEntity(EntityLivingBase entity) {
+    public void poisonEntity(final EntityLivingBase entity) {
         poisonEntity(entity, 0);
     }
 
-    protected abstract void performPoisonEffect(@Nonnull EntityLivingBase entity, int amplifier);
+    protected abstract void performPoisonEffect(@Nonnull final EntityLivingBase entity, final int amplifier);
 }

@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.common.tile;
 
 import cofh.api.energy.IEnergyReceiver;
+import cofh.api.energy.IEnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -16,7 +17,7 @@ public class TileProducer extends TileRotatable implements IEnergyReceiver {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         if (energyStorage != null) {
@@ -25,7 +26,7 @@ public class TileProducer extends TileRotatable implements IEnergyReceiver {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (energyStorage != null) {
@@ -36,7 +37,7 @@ public class TileProducer extends TileRotatable implements IEnergyReceiver {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (worldObj.isRemote) {
@@ -45,7 +46,7 @@ public class TileProducer extends TileRotatable implements IEnergyReceiver {
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         objects.add(energyStorage.getEnergyStored());
@@ -56,28 +57,28 @@ public class TileProducer extends TileRotatable implements IEnergyReceiver {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
+    public int receiveEnergy(final ForgeDirection from, final int maxReceive, final boolean simulate) {
         return energyStorage.receiveEnergy(maxReceive, simulate);
     }
 
     @Override
-    public int getEnergyStored(ForgeDirection from) {
+    public int getEnergyStored(final ForgeDirection from) {
         return energyStorage.getEnergyStored();
     }
 
     @Override
-    public int getMaxEnergyStored(ForgeDirection from) {
+    public int getMaxEnergyStored(final ForgeDirection from) {
         return energyStorage.getMaxEnergyStored();
     }
 
     @Override
-    public boolean canConnectEnergy(ForgeDirection from) {
+    public boolean canConnectEnergy(final ForgeDirection from) {
         return true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public EnergyStorage getEnergyStorage() {
+    public IEnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 }

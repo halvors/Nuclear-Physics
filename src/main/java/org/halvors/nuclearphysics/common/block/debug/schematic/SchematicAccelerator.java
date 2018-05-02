@@ -3,6 +3,7 @@ package org.halvors.nuclearphysics.common.block.debug.schematic;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.type.Pair;
@@ -17,7 +18,7 @@ public class SchematicAccelerator implements ISchematic {
     }
 
     @Override
-    public HashMap<Position, Pair<Block, Integer>> getStructure(ForgeDirection facing, int size) {
+    public HashMap<Position, Pair<Block, Integer>> getStructure(final ForgeDirection facing, int size) {
         final HashMap<Position, Pair<Block, Integer>> map = new HashMap<>();
 
         if (size < 4) {

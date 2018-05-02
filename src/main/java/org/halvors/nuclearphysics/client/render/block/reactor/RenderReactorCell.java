@@ -15,22 +15,22 @@ import org.halvors.nuclearphysics.client.render.ModelCube;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
 public class RenderReactorCell extends TileEntitySpecialRenderer {
-    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(Resource.MODEL, "reactor_cell.obj"));
-    private static final ResourceLocation texture = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "reactor_cell.png");
-    private static final ResourceLocation textureFissile = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "reactor_fissile_material.png");
-    private static final ResourceLocation texturePlasma = ResourceUtility.getResource(Resource.TEXTURE_BLOCKS, "fluids/plasma_still.png");
+    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(EnumResource.MODEL, "reactor_cell.obj"));
+    private static final ResourceLocation texture = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "reactor_cell.png");
+    private static final ResourceLocation textureFissile = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "reactor_fissile_material.png");
+    private static final ResourceLocation texturePlasma = ResourceUtility.getResource(EnumResource.TEXTURE_BLOCKS, "fluids/plasma_still.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks) {
+    public void renderTileEntityAt(final TileEntity tile, final double x, final double y, final double z, final float partialTicks) {
         if (tile instanceof TileReactorCell) {
-            TileReactorCell tileReactorCell = (TileReactorCell) tile;
+            final TileReactorCell tileReactorCell = (TileReactorCell) tile;
 
             GL11.glPushMatrix();
 
@@ -46,9 +46,9 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
             model.renderAll();
 
             // Render fissile fuel inside reactor.
-            IFluidTank tank = tileReactorCell.getTank();
-            FluidStack fluidStack = tank.getFluid();
-            ItemStack itemStack = tileReactorCell.getStackInSlot(0);
+            final IFluidTank tank = tileReactorCell.getTank();
+            final FluidStack fluidStack = tank.getFluid();
+            final ItemStack itemStack = tileReactorCell.getStackInSlot(0);
 
             if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma) && tank.getFluidAmount() > 0) {
                 renderFuel(texturePlasma, true);

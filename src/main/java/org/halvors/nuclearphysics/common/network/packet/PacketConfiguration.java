@@ -15,18 +15,18 @@ public class PacketConfiguration implements IMessage {
 	}
 
 	@Override
-	public void fromBytes(ByteBuf dataStream) {
+	public void fromBytes(final ByteBuf dataStream) {
 		ConfigurationManager.readConfiguration(dataStream);
 	}
 
 	@Override
-	public void toBytes(ByteBuf dataStream) {
+	public void toBytes(final ByteBuf dataStream) {
 		ConfigurationManager.writeConfiguration(dataStream);
 	}
 
 	public static class PacketConfigurationMessage implements IMessageHandler<PacketConfiguration, IMessage> {
 		@Override
-		public IMessage onMessage(PacketConfiguration message, MessageContext messageContext) {
+		public IMessage onMessage(final PacketConfiguration message, final MessageContext messageContext) {
 			return null;
 		}
 	}

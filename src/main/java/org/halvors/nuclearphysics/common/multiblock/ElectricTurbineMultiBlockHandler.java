@@ -5,19 +5,19 @@ import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
 import org.halvors.nuclearphysics.common.type.Position;
 
 public class ElectricTurbineMultiBlockHandler extends MultiBlockHandler<TileElectricTurbine> {
-    public ElectricTurbineMultiBlockHandler(TileElectricTurbine wrapper) {
-        super(wrapper);
+    public ElectricTurbineMultiBlockHandler(final TileElectricTurbine tile) {
+        super(tile);
     }
 
     @Override
-    public TileElectricTurbine getWrapperAt(Position position) {
-        TileEntity tile = position.getTileEntity(self.getWorldObject());
+    public TileElectricTurbine getWrapperAt(final Position position) {
+        final TileEntity tile = position.getTileEntity(self.getWorldObject());
 
         if (tile != null && wrapperClass.isAssignableFrom(tile.getClass())) {
-            TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
+            final TileElectricTurbine tileElectricTurbine = (TileElectricTurbine) tile;
 
-            if (tileTurbine.tier == self.tier) {
-                return tileTurbine;
+            if (tileElectricTurbine.tier == self.tier) {
+                return tileElectricTurbine;
             }
         }
 

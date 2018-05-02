@@ -9,7 +9,7 @@ public class WorldEventBase extends WorldEvent {
     private final int y;
     private final int z;
 
-    public WorldEventBase(IBlockAccess world, int x, int y, int z) {
+    public WorldEventBase(final IBlockAccess world, final int x, final int y, final int z) {
         super((World) world);
 
         this.x = x;

@@ -14,15 +14,13 @@ import java.util.Random;
 
 public class WorldGeneratorOre implements IWorldGenerator {
     @Override
-    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-
-    //public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
+    public void generate(final Random random, final int chunkX, final int chunkZ, final World world, final IChunkProvider chunkGenerator, final IChunkProvider chunkProvider) {
         if (!(chunkGenerator instanceof ChunkProviderHell) && !(chunkGenerator instanceof ChunkProviderEnd)) {
             if (General.enableOreRegeneration) {
                 for (int i = 0; i < General.uraniumPerChunk; i++) {
-                    int x = chunkX * 16 + random.nextInt(16);
-                    int y = random.nextInt(25);
-                    int z = (chunkZ * 16) + random.nextInt(16);
+                    final int x = chunkX * 16 + random.nextInt(16);
+                    final int y = random.nextInt(25);
+                    final int z = (chunkZ * 16) + random.nextInt(16);
 
                     new WorldGenMinable(ModBlocks.blockUraniumOre, 3, Blocks.stone).generate(world, random, x, y, z);
                 }

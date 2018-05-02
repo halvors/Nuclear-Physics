@@ -9,11 +9,11 @@ import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
 public class SoundHandler {
-	public static void playSound(ISound sound) {
+	public static void playSound(final ISound sound) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(sound);
 	}
 
-	public static void playSound(String sound) {
+	public static void playSound(final String sound) {
 		playSound(PositionedSoundRecord.createPositionedSoundRecord(new ResourceLocation(sound), 1.0F));
 	}
 }

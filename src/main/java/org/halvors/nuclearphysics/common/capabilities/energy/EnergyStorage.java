@@ -1,19 +1,19 @@
 package org.halvors.nuclearphysics.common.capabilities.energy;
 
 public class EnergyStorage extends cofh.api.energy.EnergyStorage {
-    public EnergyStorage(int capacity) {
+    public EnergyStorage(final int capacity) {
         super(capacity, capacity, capacity);
     }
 
-    public EnergyStorage(int capacity, int maxTransfer) {
+    public EnergyStorage(final int capacity, final int maxTransfer) {
         super(capacity, maxTransfer);
     }
 
-    public EnergyStorage(int capacity, int maxReceive, int maxExtract) {
+    public EnergyStorage(final int capacity, final int maxReceive, final int maxExtract) {
         super(capacity, maxReceive, maxExtract);
     }
 
-    public void setEnergyStored(int energy) {
+    public void setEnergyStored(final int energy) {
         this.energy = energy;
     }
 }

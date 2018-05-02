@@ -25,7 +25,7 @@ import org.halvors.nuclearphysics.common.utility.WorldUtility;
 
 public class ThermalEventHandler {
     @SubscribeEvent
-    public void onBoilEvent(BoilEvent event) {
+    public void onBoilEvent(final BoilEvent event) {
         final World world = event.getWorld();
         final int x = event.getX();
         final int y = event.getY();
@@ -74,7 +74,7 @@ public class ThermalEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlasmaSpawnEvent(PlasmaSpawnEvent event) {
+    public void onPlasmaSpawnEvent(final PlasmaSpawnEvent event) {
         final World world = event.getWorld();
         final int x = event.getX();
         final int y = event.getY();
@@ -128,7 +128,7 @@ public class ThermalEventHandler {
 
         if (block == Blocks.water || block == Blocks.flowing_water) {
             if (event.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * General.steamOutputMultiplier);
+                final int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * General.steamOutputMultiplier);
 
                 MinecraftForge.EVENT_BUS.post(new BoilEvent(world, x, y, z, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
 

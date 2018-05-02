@@ -7,7 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.tile.ITileRotatable;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -16,12 +16,12 @@ import org.lwjgl.opengl.GL12;
 public abstract class RenderTile<T extends TileEntity> extends TileEntitySpecialRenderer {
     private final ResourceLocation texture;
 
-    public RenderTile(String name) {
-        this.texture = ResourceUtility.getResource(Resource.TEXTURE_MODELS, name + ".png");
+    public RenderTile(final String name) {
+        this.texture = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, name + ".png");
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks) {
+    public void renderTileEntityAt(final TileEntity tile, final double x, final double y, final double z, final float partialTicks) {
         GL11.glPushMatrix();
 
         bindTexture(texture);
@@ -40,5 +40,5 @@ public abstract class RenderTile<T extends TileEntity> extends TileEntitySpecial
         GL11.glPopMatrix();
     }
 
-    protected abstract void render(T tile, double x, double y, double z);
+    protected abstract void render(final T tile, final double x, final double y, final double z);
 }

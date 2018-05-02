@@ -12,8 +12,8 @@ import java.util.List;
 public class PlayerUtility {
 	@SuppressWarnings("unchecked")
 	public static List<EntityPlayerMP> getPlayers() {
-		List<EntityPlayerMP> playerList = new ArrayList<>();
-		MinecraftServer server = MinecraftServer.getServer();
+		final List<EntityPlayerMP> playerList = new ArrayList<>();
+		final MinecraftServer server = MinecraftServer.getServer();
 
 		if (server != null) {
 			return server.getConfigurationManager().playerEntityList;
@@ -22,11 +22,11 @@ public class PlayerUtility {
 		return playerList;
 	}
 
-	public static boolean isOp(EntityPlayer player) {
+	public static boolean isOp(final EntityPlayer player) {
 		return player instanceof EntityPlayerMP && ((EntityPlayerMP) player).mcServer.getConfigurationManager().canSendCommands(player.getGameProfile());
 	}
 
-	public static void openGui(EntityPlayer player, World world, int x, int y, int z) {
+	public static void openGui(final EntityPlayer player, final World world, final int x, final int y, final int z) {
 		player.openGui(NuclearPhysics.getInstance(), 0, world, x, y, z);
 	}
 }

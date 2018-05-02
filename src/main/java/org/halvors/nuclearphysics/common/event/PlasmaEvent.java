@@ -5,7 +5,7 @@ import net.minecraft.world.IBlockAccess;
 public class PlasmaEvent extends WorldEventBase {
     private final int temperature;
 
-    public PlasmaEvent(IBlockAccess world, int x, int y, int z, int temperature) {
+    public PlasmaEvent(final IBlockAccess world, final int x, final int y, final int z, final int temperature) {
         super(world, x, y, z);
 
         this.temperature = temperature;
@@ -16,7 +16,7 @@ public class PlasmaEvent extends WorldEventBase {
     }
 
     public static class PlasmaSpawnEvent extends PlasmaEvent {
-        public PlasmaSpawnEvent(IBlockAccess world, int x, int y, int z, int temperature) {
+        public PlasmaSpawnEvent(final IBlockAccess world, final int x, final int y, final int z, final int temperature) {
             super(world, x, y, z, temperature);
         }
     }

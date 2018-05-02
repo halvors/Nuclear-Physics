@@ -23,7 +23,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
         this(EnumMachine.QUANTUM_ASSEMBLER);
     }
 
-    public TileQuantumAssembler(EnumMachine type) {
+    public TileQuantumAssembler(final EnumMachine type) {
         super(type, 7);
 
         energyStorage = new EnergyStorage(energyPerTick * 2);
@@ -63,7 +63,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
                 rotationYaw3 += 1;
             }
 
-            ItemStack itemStack = getStackInSlot(6);
+            final ItemStack itemStack = getStackInSlot(6);
 
             if (itemStack != null) {
                 if (entityItem == null || !itemStack.isItemEqual(entityItem.getEntityItem())) {
@@ -78,7 +78,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+    public boolean isItemValidForSlot(final int slot, final ItemStack itemStack) {
         switch (slot) {
             case 6:
                 return QuantumAssemblerRecipes.hasRecipe(itemStack);
@@ -90,12 +90,12 @@ public class TileQuantumAssembler extends TileInventoryMachine {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean canProcess() {
-        ItemStack itemStack = getStackInSlot(6);
+        final ItemStack itemStack = getStackInSlot(6);
 
         if (itemStack != null) {
             if (QuantumAssemblerRecipes.hasRecipe(itemStack)) {
                 for (int i = 0; i <= 5; i++) {
-                    ItemStack itemStackInSlot = getStackInSlot(i);
+                    final ItemStack itemStackInSlot = getStackInSlot(i);
 
                     if (!OreDictionaryHelper.isDarkmatterCell(itemStackInSlot)) {
                         return false;
@@ -120,7 +120,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
                 }
             }
 
-            ItemStack itemStack = getStackInSlot(6);
+            final ItemStack itemStack = getStackInSlot(6);
 
             if (itemStack != null) {
                 itemStack.stackSize++;
@@ -128,8 +128,8 @@ public class TileQuantumAssembler extends TileInventoryMachine {
         }
     }
 
-    private EntityItem getEntityForItem(ItemStack itemStack) {
-        EntityItem entityItem = new EntityItem(worldObj, 0, 0, 0, itemStack.copy());
+    private EntityItem getEntityForItem(final ItemStack itemStack) {
+        final EntityItem entityItem = new EntityItem(worldObj, 0, 0, 0, itemStack.copy());
         entityItem.setAgeToCreativeDespawnTime();
 
         return entityItem;

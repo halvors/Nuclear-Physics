@@ -17,7 +17,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         if (tag.hasKey("facing")) {
@@ -26,7 +26,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (facing != null) {
@@ -37,14 +37,14 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         if (worldObj.isRemote) {
             facing = ForgeDirection.getOrientation(dataStream.readInt());
         }
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         objects.add(facing.ordinal());
 
         return objects;
@@ -54,7 +54,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
 
 
     @Override
-    public boolean canSetFacing(ForgeDirection facing) {
+    public boolean canSetFacing(final ForgeDirection facing) {
         return Arrays.asList(ForgeDirection.ROTATION_MATRIX).contains(facing);
     }
 
@@ -64,7 +64,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     }
 
     @Override
-    public void setFacing(ForgeDirection facing) {
+    public void setFacing(final ForgeDirection facing) {
         this.facing = facing;
 
         NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);

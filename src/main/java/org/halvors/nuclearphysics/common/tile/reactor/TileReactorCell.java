@@ -51,10 +51,9 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
     private int meltdownCounter = 0;
     private int meltdownCounterMaximum = 1000;
 
-
     private final LiquidTank tank = new LiquidTank(FluidContainerRegistry.BUCKET_VOLUME * 15) {
         @Override
-        public int fill(FluidStack resource, boolean doFill) {
+        public int fill(final FluidStack resource, final boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackPlasma)) {
                 return super.fill(resource, doFill);
             }
@@ -67,14 +66,14 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
         this("reactor_cell");
     }
 
-    public TileReactorCell(String name) {
+    public TileReactorCell(final String name) {
         super(1);
 
         this.name = name;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         temperature = tag.getFloat("temperature");
@@ -82,7 +81,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setFloat("temperature", temperature);
@@ -102,15 +101,15 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
         }
 
         if (!worldObj.isRemote) {
-            FluidStack fluidStack = tank.getFluid();
+            final FluidStack fluidStack = tank.getFluid();
 
             if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
                 // Spawn plasma.
-                FluidStack drain = tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false);
+                final FluidStack drain = tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false);
 
                 if (drain != null && drain.amount >= FluidContainerRegistry.BUCKET_VOLUME) {
-                    ForgeDirection spawnDir = ForgeDirection.getOrientation(worldObj.rand.nextInt(3) + 2);
-                    Position spawnPos = new Position(this).offset(spawnDir, 2);
+                    final ForgeDirection spawnDir = ForgeDirection.getOrientation(worldObj.rand.nextInt(3) + 2);
+                    final Position spawnPos = new Position(this).offset(spawnDir, 2);
 
                     if (worldObj.isAirBlock(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ())) {
                         MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(worldObj, spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ(), TilePlasma.plasmaMaxTemperature));
@@ -121,11 +120,11 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
                 previousInternalEnergy = internalEnergy;
 
                 // Handle cell rod interactions.
-                ItemStack fuelRod = getStackInSlot(0);
+                final ItemStack fuelRod = getStackInSlot(0);
 
                 if (fuelRod != null && fuelRod.getItem() instanceof IReactorComponent) {
                     // Activate rods.
-                    IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
+                    final IReactorComponent reactorComponent = (IReactorComponent) fuelRod.getItem();
                     reactorComponent.onReact(fuelRod, this);
 
                     if (fuelRod.getMetadata() >= fuelRod.getMaxDurability()) {
@@ -134,7 +133,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
                     // Emit radiation.
                     if (worldObj.getTotalWorldTime() % 20 == 0 && worldObj.rand.nextFloat() > 0.65) {
-                        List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord - radius * 2, yCoord - radius * 2, zCoord - radius * 2, xCoord + radius * 2, yCoord + radius * 2, zCoord + radius * 2));
+                        final List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord - radius * 2, yCoord - radius * 2, zCoord - radius * 2, xCoord + radius * 2, yCoord + radius * 2, zCoord + radius * 2));
 
                         for (EntityLiving entity : entities) {
                             ModPotions.poisonRadiation.poisonEntity(entity);
@@ -151,7 +150,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
                     // Check control rods.
                     for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-                        Position checkPos = new Position(this).offset(side);
+                        final Position checkPos = new Position(this).offset(side);
 
                         if (checkPos.getBlock(worldObj) == ModBlocks.blockControlRod) {
                             deltaTemperature /= 2;
@@ -189,8 +188,8 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
                 if (isOverToxic()) {
                     // Randomly leak toxic waste when it is too toxic.
-                    Position leakPos = new Position(this).add(worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10);
-                    Block block = worldObj.getBlock(leakPos.getIntX(), leakPos.getIntY(), leakPos.getIntZ());
+                    final Position leakPos = new Position(this).add(worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10);
+                    final Block block = worldObj.getBlock(leakPos.getIntX(), leakPos.getIntY(), leakPos.getIntZ());
 
                     if (block == Blocks.grass) {
                         worldObj.setBlock(leakPos.getIntX(), leakPos.getIntY(), leakPos.getIntZ(), ModBlocks.blockRadioactiveGrass);
@@ -216,7 +215,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (worldObj.isRemote) {
@@ -226,7 +225,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         objects.add(temperature);
@@ -238,14 +237,14 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+    public boolean isItemValidForSlot(final int slot, final ItemStack itemStack) {
         return !ModFluids.fluidStackPlasma.isFluidEqual(tank.getFluid()) && getStackInSlot(0) == null && itemStack.getItem() instanceof IReactorComponent;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(final ForgeDirection from, final FluidStack resource, final boolean doFill) {
         if (resource.isFluidEqual(ModFluids.fluidStackPlasma)) {
             return tank.fill(resource, doFill);
         }
@@ -254,7 +253,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(final ForgeDirection from, final FluidStack resource, final boolean doDrain) {
         if (resource.isFluidEqual(ModFluids.fluidStackToxicWaste)) {
             return drain(from, resource.amount, doDrain);
         }
@@ -263,29 +262,29 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(final ForgeDirection from, final int maxDrain, final boolean doDrain) {
         return tank.drain(maxDrain, doDrain);
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
+    public boolean canFill(final ForgeDirection from, final Fluid fluid) {
         return fluid.getID() == ModFluids.fluidStackPlasma.getFluidID();
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+    public boolean canDrain(final ForgeDirection from, final Fluid fluid) {
         return fluid.getID() == ModFluids.fluidStackToxicWaste.getFluidID();
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(final ForgeDirection from) {
         return new FluidTankInfo[] { tank.getInfo() };
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void heat(long energy) {
+    public void heat(final long energy) {
         internalEnergy = Math.max(internalEnergy + energy, 0);
     }
 
@@ -296,7 +295,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
     @Override
     public boolean isOverToxic() {
-        FluidStack fluidStack = tank.getFluid();
+        final FluidStack fluidStack = tank.getFluid();
 
         return fluidStack != null && fluidStack.amount == tank.getCapacity() && fluidStack.isFluidEqual(ModFluids.fluidStackToxicWaste);
     }
@@ -326,7 +325,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
         worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 
         // Create the explosion.
-        ReactorExplosion explosion = new ReactorExplosion(worldObj, null, xCoord, yCoord, zCoord, 9);
+        final ReactorExplosion explosion = new ReactorExplosion(worldObj, null, xCoord, yCoord, zCoord, 9);
         explosion.explode();
     }
 }

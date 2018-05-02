@@ -12,11 +12,11 @@ import org.halvors.nuclearphysics.common.item.ItemCell;
 import org.halvors.nuclearphysics.common.type.Position;
 
 public class FluidUtility {
-    public static boolean isEmptyContainer(ItemStack itemStack) {
+    public static boolean isEmptyContainer(final ItemStack itemStack) {
         return FluidContainerRegistry.isEmptyContainer(itemStack);
     }
 
-    public static boolean isFilledContainer(ItemStack itemStack) {
+    public static boolean isFilledContainer(final ItemStack itemStack) {
         final Item item = itemStack.getItem();
 
         if (item instanceof IFluidContainerItem) {
@@ -29,7 +29,7 @@ public class FluidUtility {
         return FluidContainerRegistry.isFilledContainer(itemStack);
     }
 
-    public static boolean isFilledContainer(ItemStack itemStack, Fluid fluid) {
+    public static boolean isFilledContainer(final ItemStack itemStack, final Fluid fluid) {
         final Item item = itemStack.getItem();
         FluidStack fluidStack;
 
@@ -47,11 +47,11 @@ public class FluidUtility {
         return false;
     }
 
-    public static ItemStack getFilledCell(Fluid fluid) {
+    public static ItemStack getFilledCell(final Fluid fluid) {
         return getFilledContainer(new ItemStack(ModItems.itemCell), new FluidStack(fluid, ItemCell.capacity));
     }
 
-    public static ItemStack getFilledContainer(ItemStack itemStack, FluidStack fluidStack) {
+    public static ItemStack getFilledContainer(final ItemStack itemStack, final FluidStack fluidStack) {
         final Item item = itemStack.getItem();
 
         if (item instanceof IFluidContainerItem) {
@@ -62,7 +62,7 @@ public class FluidUtility {
         return itemStack;
     }
 
-    public static void transferFluidToNeighbors(World world, int x, int y, int z, IFluidHandler from) {
+    public static void transferFluidToNeighbors(final World world, final int x, final int y, final int z, final IFluidHandler from) {
         if (from != null) {
             for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
                 final Position pos = new Position(x, y, z).offset(side);
@@ -81,7 +81,7 @@ public class FluidUtility {
     }
 
     // Does all the work needed to fill or drain an item of fluid when a player clicks on the block.
-    public static boolean playerActivatedFluidItem(World world, int x, int y, int z, EntityPlayer player, ItemStack itemStack, ForgeDirection side){
+    public static boolean playerActivatedFluidItem(final World world, final int x, final int y, final int z, final EntityPlayer player, final ItemStack itemStack, final ForgeDirection side) {
         final TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof IFluidHandler) {
@@ -111,7 +111,7 @@ public class FluidUtility {
                         ItemStack itemStackFilled = itemStack.copy();
                         itemStackFilled.stackSize = 1;
                         itemStackFilled = getFilledContainer(itemStackFilled, available);
-                        Item itemFilled = itemStackFilled.getItem();
+                        final Item itemFilled = itemStackFilled.getItem();
 
                         if (itemFilled instanceof IFluidContainerItem) {
                             final FluidStack fluidStack = ((IFluidContainerItem) itemFilled).getFluid(itemStackFilled);

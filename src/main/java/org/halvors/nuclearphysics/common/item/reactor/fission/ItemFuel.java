@@ -18,7 +18,7 @@ public class ItemFuel extends ItemRadioactive {
     // Approximately 20,000,000J per tick. 400 MW.
     public static final long energyPerTick = energyDensity / 50000;
 
-    public ItemFuel(String name) {
+    public ItemFuel(final String name) {
         super(name);
 
         setMaxStackSize(1);
@@ -29,7 +29,7 @@ public class ItemFuel extends ItemRadioactive {
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List list) {
+    public void getSubItems(final Item item, final CreativeTabs tab, final List list) {
         list.add(new ItemStack(item));
         list.add(new ItemStack(item, 1, getMaxDurability() - 1));
     }

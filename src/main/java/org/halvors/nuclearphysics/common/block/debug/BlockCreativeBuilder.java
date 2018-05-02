@@ -3,6 +3,7 @@ package org.halvors.nuclearphysics.common.block.debug;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.block.BlockBase;
 import org.halvors.nuclearphysics.common.block.debug.schematic.*;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
@@ -24,13 +25,11 @@ public class BlockCreativeBuilder extends BlockBase {
         registerSchematic(new SchematicFusionReactor());
     }
 
-    public static int registerSchematic(ISchematic schematic) {
+    public static void registerSchematic(final ISchematic schematic) {
         schematicRegistry.add(schematic);
-
-        return schematicRegistry.size() - 1;
     }
 
-    public static ISchematic getSchematic(int id) {
+    public static ISchematic getSchematic(final int id) {
         return schematicRegistry.get(id);
     }
 
@@ -44,7 +43,7 @@ public class BlockCreativeBuilder extends BlockBase {
 
     // Called when the block is right clicked by the player.
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ) {
         if (schematicRegistry.size() > 0) {
             PlayerUtility.openGui(player, world, x, y, z);
 

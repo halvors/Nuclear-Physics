@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.container.process;
+package org.halvors.nuclearphysics.common.container.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -8,7 +8,7 @@ import org.halvors.nuclearphysics.common.container.slot.SlotEnergyItem;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
 
 public class ContainerGasCentrifuge extends ContainerBase<TileGasCentrifuge> {
-    public ContainerGasCentrifuge(InventoryPlayer inventoryPlayer, TileGasCentrifuge tile) {
+    public ContainerGasCentrifuge(final InventoryPlayer inventoryPlayer, final TileGasCentrifuge tile) {
         super(4, inventoryPlayer, tile);
 
         // Battery

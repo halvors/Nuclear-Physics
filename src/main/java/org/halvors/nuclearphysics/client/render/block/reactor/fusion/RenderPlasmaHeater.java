@@ -6,13 +6,13 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.halvors.nuclearphysics.client.render.block.RenderTaggedTile;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
-    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(Resource.MODEL, "plasma_heater.obj"));
+    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(EnumResource.MODEL, "plasma_heater.obj"));
     private static final String[] modelPart = { "rrot", "srot" };
 
     public RenderPlasmaHeater() {
@@ -20,7 +20,7 @@ public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
     }
 
     @Override
-    protected void render(TilePlasmaHeater tile, double x, double y, double z) {
+    protected void render(final TilePlasmaHeater tile, final double x, final double y, final double z) {
         GL11.glPushMatrix();
         GL11.glTranslated(0.5, 0, 0.5);
         GL11.glRotated((float) Math.toDegrees(tile.rotation), 0, 1, 0);

@@ -7,11 +7,13 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +23,7 @@ import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ItemEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.PlayerEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ThermalEventHandler;
-import org.halvors.nuclearphysics.common.grid.UpdateTicker;
+import org.halvors.nuclearphysics.common.grid.GridTicker;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.init.*;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
@@ -56,7 +58,7 @@ public class NuclearPhysics {
 	private static final ThermalGrid thermalGrid = new ThermalGrid();
 
 	@Mod.EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit(final FMLPreInitializationEvent event) {
 		// Initialize configuration.
         configuration = new Configuration(event.getSuggestedConfigurationFile());
 
@@ -78,7 +80,7 @@ public class NuclearPhysics {
 	}
 
 	@EventHandler
-	public void init(FMLInitializationEvent event) {
+	public void init(final FMLInitializationEvent event) {
 		// Register event handlers.
 		MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
@@ -90,8 +92,8 @@ public class NuclearPhysics {
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, (tickets, world) -> {
             for (Ticket ticket : tickets) {
-                if (ticket.getType() == ForgeChunkManager.Type.ENTITY) {
-					Entity entity = ticket.getEntity();
+                if (ticket.getType() == Type.ENTITY) {
+					final Entity entity = ticket.getEntity();
 
 					if (entity instanceof EntityParticle) {
 						((EntityParticle) entity).updateTicket = ticket;
@@ -105,19 +107,24 @@ public class NuclearPhysics {
 	}
 
 	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
-		if (!UpdateTicker.getInstance().isAlive()) {
-			UpdateTicker.getInstance().start();
+	public void postInit(final FMLPostInitializationEvent event) {
+		if (!GridTicker.getInstance().isAlive()) {
+			GridTicker.getInstance().start();
 		}
 
 		// Register our grids.
-		UpdateTicker.getInstance().addGrid(thermalGrid);
+		GridTicker.getInstance().addGrid(new ThermalGrid());
 
 		// Initialize mod integration.
 		Integration.initialize();
 
 		// Calling proxy handler.
 		proxy.postInit();
+	}
+
+	@EventHandler
+	public void serverStopping(final FMLServerStoppingEvent event) {
+		GridTicker.getInstance().interrupt();
 	}
 
 	public static NuclearPhysics getInstance() {

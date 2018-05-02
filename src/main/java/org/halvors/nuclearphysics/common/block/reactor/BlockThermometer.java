@@ -33,7 +33,7 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
+    public void registerIcons(final IIconRegister iconRegister) {
         super.registerIcons(iconRegister);
 
         iconSide = iconRegister.registerIcon(Reference.PREFIX + "machine");
@@ -41,7 +41,7 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata) {
+    public IIcon getIcon(final int side, final int metadata) {
         switch (side) {
             case 1:
                 return blockIcon;
@@ -52,7 +52,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ) {
         final TileEntity tile = world.getTileEntity(x, y, z);
         final ItemStack itemStack = player.getHeldItem();
 
@@ -84,7 +84,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
+    public void onBlockPlacedBy(final World world, final int x, final int y, final int z, final EntityLivingBase entity, final ItemStack itemStack) {
         final TileEntity tile = world.getTileEntity(x, y, z);
 
         // Fetch saved coordinates from ItemBlockThermometer and apply them to the block.
@@ -98,11 +98,11 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z, boolean willHarvest) {
-        Block block = world.getBlock(x, y, z);
+    public boolean removedByPlayer(final World world, final EntityPlayer player, final int x, final int y, final int z, final boolean willHarvest) {
+        final Block block = world.getBlock(x, y, z);
 
         if (!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
-            ItemStack itemStack = InventoryUtility.getItemStackWithNBT(block, world, x, y, z);
+            final ItemStack itemStack = InventoryUtility.getItemStackWithNBT(block, world, x, y, z);
             InventoryUtility.dropItemStack(world, x, y, z, itemStack);
         }
 
@@ -115,11 +115,11 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public int isProvidingWeakPower(IBlockAccess world, int x, int y, int z, int side) {
-        TileEntity tile = world.getTileEntity(x, y, z);
+    public int isProvidingWeakPower(final IBlockAccess world, final int x, final int y, final int z, final int side) {
+        final TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof TileThermometer) {
-            TileThermometer tileThermometer = (TileThermometer) tile;
+            final TileThermometer tileThermometer = (TileThermometer) tile;
 
             return tileThermometer.isProvidingPower ? 15 : 0;
         }
@@ -128,12 +128,12 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune) {
+    public ArrayList<ItemStack> getDrops(final World world, final int x, final int y, final int z, final int metadata, final int fortune) {
         return new ArrayList<>();
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata) {
+    public TileEntity createTileEntity(final World world, final int metadata) {
         return new TileThermometer();
     }
 }

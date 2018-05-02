@@ -17,7 +17,7 @@ public class ExplosionBase extends Explosion {
     protected final int z;
     protected final float size;
 
-    public ExplosionBase(IBlockAccess world, Entity entity, int x, int y, int z, float size, boolean flaming, boolean damagesTerrain) {
+public ExplosionBase(final IBlockAccess world, final Entity entity, final int x, final int y, final int z, final float size, final boolean flaming, final boolean damagesTerrain) {
         super((World) world, entity, x, y, z, size);
 
         this.world = (World) world;
@@ -37,7 +37,7 @@ public class ExplosionBase extends Explosion {
         // Send explosion packet to the client for client-side explosion.
         if (!world.isRemote) {
             for (Object object : world.playerEntities) {
-                EntityPlayerMP player = (EntityPlayerMP) object;
+                final EntityPlayerMP player = (EntityPlayerMP) object;
 
                 if (player.getDistanceSq(x, y, z) < 4096) {
                     player.playerNetServerHandler.sendPacket(new S27PacketExplosion(x, y, z, size, affectedBlockPositions, null));

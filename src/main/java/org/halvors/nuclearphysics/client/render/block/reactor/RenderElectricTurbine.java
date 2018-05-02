@@ -9,17 +9,17 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.apache.commons.lang3.ArrayUtils;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
 public class RenderElectricTurbine extends TileEntitySpecialRenderer {
-    private static final IModelCustom modelSmall = AdvancedModelLoader.loadModel(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_small.obj"));
-    private static final IModelCustom modelLarge = AdvancedModelLoader.loadModel(ResourceUtility.getResource(Resource.MODEL, "electric_turbine_large.obj"));
-    private static final ResourceLocation textureSmall = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "electric_turbine_small.png");
-    private static final ResourceLocation textureLarge = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "electric_turbine_large.png");
+    private static final IModelCustom modelSmall = AdvancedModelLoader.loadModel(ResourceUtility.getResource(EnumResource.MODEL, "electric_turbine_small.obj"));
+    private static final IModelCustom modelLarge = AdvancedModelLoader.loadModel(ResourceUtility.getResource(EnumResource.MODEL, "electric_turbine_large.obj"));
+    private static final ResourceLocation textureSmall = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "electric_turbine_small.png");
+    private static final ResourceLocation textureLarge = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "electric_turbine_large.png");
 
     private static final String[] modelLargeBladesSmall = { "Blade1", "Blade2", "Blade3", "Blade4", "Blade5", "Blade6" };
     private static final String[] modelLargeBladesLarge = { "MediumBlade1", "MediumBlade2", "MediumBlade3", "MediumBlade4", "MediumBlade5", "MediumBlade6" };
@@ -30,9 +30,9 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
     private static final String[] modelSmallShieldsMedium = { "MediumShield1", "MediumShield2", "MediumShield3", "MediumShield4", "MediumShield5", "MediumShield6" };
 
     @Override
-    public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float partialTicks) {
+    public void renderTileEntityAt(final TileEntity tile, final double x, final double y, final double z, final float partialTicks) {
         if (tile instanceof TileElectricTurbine) {
-            TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
+            final TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
 
             if (tileTurbine.getMultiBlock().isPrimary()) {
                 GL11.glPushMatrix();

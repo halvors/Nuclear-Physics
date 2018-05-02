@@ -34,7 +34,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
+    public void registerIcons(final IIconRegister iconRegister) {
         super.registerIcons(iconRegister);
 
         iconTop = iconRegister.registerIcon(Reference.PREFIX + name + "_top");
@@ -43,7 +43,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata) {
+    public IIcon getIcon(final int side, final int metadata) {
         EnumElectromagnet type = EnumElectromagnet.values()[metadata];
 
         if (type == EnumElectromagnet.GLASS) {
@@ -65,12 +65,12 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess world, int x, int y, int z, int side) {
-        Position neighborPosition = new Position(x, y, z).translate(ForgeDirection.getOrientation(side).getOpposite());
-        Block block = world.getBlock(x, y, z);
-        int metadata = world.getBlockMetadata(x, y, z);
-        Block neighborBlock = neighborPosition.getBlock(world);
-        int neighborMetadata = neighborPosition.getBlockMetadata(world);
+    public boolean shouldSideBeRendered(final IBlockAccess world, final int x, final int y, final int z, final int side) {
+        final Position neighborPosition = new Position(x, y, z).translate(ForgeDirection.getOrientation(side).getOpposite());
+        final Block block = world.getBlock(x, y, z);
+        final int metadata = world.getBlockMetadata(x, y, z);
+        final Block neighborBlock = neighborPosition.getBlock(world);
+        final int neighborMetadata = neighborPosition.getBlockMetadata(world);
 
         // Transparent electromagnetic glass.
         if (block == this && neighborBlock == this && metadata == 1 && neighborMetadata == 1) {
@@ -90,12 +90,12 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
+    public void onBlockPlacedBy(final World world, final int x, final int y, final int z, final EntityLivingBase entity, final ItemStack itemStack) {
         world.setBlockMetadataWithNotify(x, y, z, itemStack.getMetadata(), 2);
     }
 
     @Override
-    public int getLightOpacity(IBlockAccess world, int x, int y, int z) {
+    public int getLightOpacity(final IBlockAccess world, final int x, final int y, final int z) {
         EnumElectromagnet type = EnumElectromagnet.values()[world.getBlockMetadata(x, y, z)];
 
         if (type == EnumElectromagnet.GLASS) {
@@ -106,33 +106,26 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     }
 
     @Override
-    public int damageDropped(int metadata) {
+    public int damageDropped(final int metadata) {
         return metadata;
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata) {
+    public TileEntity createTileEntity(final World world, final int metadata) {
         return new TileElectromagnet();
     }
 
     public enum EnumElectromagnet {
-        NORMAL("normal"),
-        GLASS("glass");
-
-        private String name;
-
-        EnumElectromagnet(String name) {
-            this.name = name;
-        }
+        NORMAL,
+        GLASS;
 
         public String getName() {
-            return name;
+            return name().toLowerCase();
         }
     }
 
     /*
     Note: Impossible due to lacking blockstates in 1.7.10.
-
     @Override
     @SideOnly(Side.CLIENT)
     @Nonnull

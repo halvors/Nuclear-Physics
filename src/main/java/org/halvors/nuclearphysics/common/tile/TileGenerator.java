@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.common.tile;
 
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
+import cofh.api.energy.IEnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -23,7 +24,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         if (energyStorage != null) {
@@ -32,7 +33,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (energyStorage != null) {
@@ -56,14 +57,14 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         if (worldObj.isRemote) {
             energyStorage.setEnergyStored(dataStream.readInt());
         }
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         objects.add(energyStorage.getEnergyStored());
 
         return objects;
@@ -72,22 +73,22 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
+    public int extractEnergy(final ForgeDirection from, final int maxExtract, final boolean simulate) {
         return energyStorage.extractEnergy(maxExtract, simulate);
     }
 
     @Override
-    public int getEnergyStored(ForgeDirection from) {
+    public int getEnergyStored(final ForgeDirection from) {
         return energyStorage.getEnergyStored();
     }
 
     @Override
-    public int getMaxEnergyStored(ForgeDirection from) {
+    public int getMaxEnergyStored(final ForgeDirection from) {
         return energyStorage.getMaxEnergyStored();
     }
 
     @Override
-    public boolean canConnectEnergy(ForgeDirection from) {
+    public boolean canConnectEnergy(final ForgeDirection from) {
         return true;
     }
 
@@ -105,7 +106,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
         targets.clear();
 
         for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-            Position neighbor = new Position(xCoord, yCoord, zCoord).offset(side);
+            final Position neighbor = new Position(xCoord, yCoord, zCoord).offset(side);
 
             if (isValidTarget(neighbor, side)) {
                 targets.add(neighbor);
@@ -117,7 +118,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     protected void sendEnergyToTargets() {
         if (targets.size() > 0 && energyStorage.getEnergyStored() > 0) {
             for (int i = 0; i < targets.size(); ++i) {
-                Position pos = targets.get((targetStartingIndex + i) % targets.size());
+                final Position pos = targets.get((targetStartingIndex + i) % targets.size());
                 sendEnergyTo(pos, facings.get(pos));
             }
 
@@ -125,8 +126,8 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
         }
     }
 
-    protected boolean isValidTarget(Position pos, ForgeDirection to) {
-        TileEntity tile = pos.getTileEntity(worldObj);
+    protected boolean isValidTarget(final Position pos, final ForgeDirection to) {
+        final TileEntity tile = pos.getTileEntity(worldObj);
 
         if (tile instanceof IEnergyReceiver) {
             IEnergyReceiver energyReceiver = (IEnergyReceiver) tile;
@@ -137,11 +138,11 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
         return false;
     }
 
-    protected void sendEnergyTo(Position pos, ForgeDirection to) {
-        TileEntity tile = pos.getTileEntity(worldObj);
+    protected void sendEnergyTo(final Position pos, final ForgeDirection to) {
+        final TileEntity tile = pos.getTileEntity(worldObj);
 
         if (tile instanceof IEnergyReceiver) {
-            IEnergyReceiver energyReceiver = (IEnergyReceiver) tile;
+            final IEnergyReceiver energyReceiver = (IEnergyReceiver) tile;
 
             if (energyReceiver.canConnectEnergy(to.getOpposite())) {
                 sendEnergyToRF(tile, to);
@@ -149,9 +150,9 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
         }
     }
 
-    protected void sendEnergyToRF(TileEntity tile, ForgeDirection from) {
+    protected void sendEnergyToRF(final TileEntity tile, final ForgeDirection from) {
         if (tile instanceof IEnergyReceiver) {
-            IEnergyReceiver energyReceiver = (IEnergyReceiver) tile;
+            final IEnergyReceiver energyReceiver = (IEnergyReceiver) tile;
 
             if (energyReceiver.canConnectEnergy(from.getOpposite())) {
                 energyStorage.extractEnergy(energyReceiver.receiveEnergy(from.getOpposite(), energyStorage.getEnergyStored(), false), false);
@@ -159,7 +160,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
         }
     }
 
-    public EnergyStorage getEnergyStorage() {
+    public IEnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 }

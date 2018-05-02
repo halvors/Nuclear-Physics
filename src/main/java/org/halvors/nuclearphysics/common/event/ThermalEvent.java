@@ -6,10 +6,10 @@ public class ThermalEvent extends WorldEventBase {
     private final float temperature;
     private final float deltaTemperature;
     private final float deltaTime;
-    private float heatLoss = 0.1F;
     private final boolean reactor;
+    private float heatLoss = 0.1F;
 
-    public ThermalEvent(IBlockAccess world, int x, int y, int z, float temperature, float deltaTemperature, float deltaTime, boolean reactor) {
+    public ThermalEvent(final IBlockAccess world, final int x, final int y, final int z, final float temperature, final float deltaTemperature, final float deltaTime, final boolean reactor) {
         super(world, x, y, z);
 
         this.temperature = temperature;
@@ -34,7 +34,7 @@ public class ThermalEvent extends WorldEventBase {
         return heatLoss;
     }
 
-    public void setHeatLoss(float heatLoss) {
+    public void setHeatLoss(final float heatLoss) {
         this.heatLoss = heatLoss;
     }
 
@@ -43,7 +43,7 @@ public class ThermalEvent extends WorldEventBase {
     }
 
     public static class ThermalUpdateEvent extends ThermalEvent {
-        public ThermalUpdateEvent(IBlockAccess world, int x, int y, int z, float temperature, float deltaTemperature, float deltaTime, boolean reactor) {
+        public ThermalUpdateEvent(final IBlockAccess world, final int x, final int y, final int z, final float temperature, final float deltaTemperature, final float deltaTime, final boolean reactor) {
             super(world, x, y, z, temperature, deltaTemperature, deltaTime, reactor);
         }
     }

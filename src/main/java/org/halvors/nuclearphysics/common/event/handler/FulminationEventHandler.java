@@ -18,23 +18,23 @@ import java.util.Objects;
 public class FulminationEventHandler {
     private static final List<TileFulminationGenerator> list = new ArrayList<>();
 
-    public static void register(TileFulminationGenerator tile) {
+    public static void register(final TileFulminationGenerator tile) {
         if (!list.contains(tile)) {
             list.add(tile);
         }
     }
 
-    public static void unregister(TileFulminationGenerator tile) {
+    public static void unregister(final TileFulminationGenerator tile) {
         list.remove(tile);
     }
 
     @SubscribeEvent
-    public void onExplosionDetonate(ExplosionEvent.Detonate event) {
+    public void onExplosionDetonate(final ExplosionEvent.Detonate event) {
         final World world = event.world;
         final Explosion explosion = event.explosion;
-        int x = (int) explosion.explosionX;
-        int y = (int) explosion.explosionY;
-        int z = (int) explosion.explosionZ;
+        final int x = (int) explosion.explosionX;
+        final int y = (int) explosion.explosionY;
+        final int z = (int) explosion.explosionZ;
 
         if (explosion instanceof IFulmination) {
             final IFulmination customExplosion = (IFulmination) explosion;
@@ -46,7 +46,7 @@ public class FulminationEventHandler {
                     if (tile != null) {
                         if (!tile.isInvalid()) {
                             final Position tilePos = new Position(tile).translate(0.5);
-                            double distance = tilePos.distance(x, y, z);
+                            final double distance = tilePos.distance(x, y, z);
 
                             if (distance <= customExplosion.getRadius() && distance > 0) {
                                 float density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world, tile.xCoord, tile.yCoord, tile.zCoord)));
@@ -64,8 +64,8 @@ public class FulminationEventHandler {
 
                 for (TileFulminationGenerator tile : avaliableGenerators) {
                     //float density = event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tile.getPos()));
-                    float density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world, tile.xCoord, tile.yCoord, tile.zCoord)));
-                    double distance = new Position(tile).distance(x, y, z);
+                    final float density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world, tile.xCoord, tile.yCoord, tile.zCoord)));
+                    final double distance = new Position(tile).distance(x, y, z);
                     int energy = (int) Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (distance / customExplosion.getRadius()));
                     energy = (int) Math.max((1 - density) * energy, 0);
 

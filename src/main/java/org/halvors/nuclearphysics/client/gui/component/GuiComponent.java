@@ -10,13 +10,12 @@ import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiComponent implements IGuiComponent {
-    protected ResourceLocation resource;
-    protected IGuiWrapper gui;
+    protected final ResourceLocation resource;
+    protected final IGuiWrapper gui;
+    protected final int xLocation;
+    protected final int yLocation;
 
-    protected int xLocation;
-    protected int yLocation;
-
-    public GuiComponent(ResourceLocation resource, IGuiWrapper gui, int x, int y) {
+    public GuiComponent(final ResourceLocation resource, final IGuiWrapper gui, final int x, final int y) {
         this.resource = resource;
         this.gui = gui;
 
@@ -24,23 +23,23 @@ public abstract class GuiComponent implements IGuiComponent {
         this.yLocation = y;
     }
 
-    public void displayTooltip(String s, int xAxis, int yAxis) {
-        gui.displayTooltip(s, xAxis, yAxis);
+    public void displayTooltip(final String tooltip, final int xAxis, final int yAxis) {
+        gui.displayTooltip(tooltip, xAxis, yAxis);
     }
 
-    public void displayTooltips(List<String> list, int xAxis, int yAxis) {
+    public void displayTooltips(final List<String> list, final int xAxis, final int yAxis) {
         gui.displayTooltips(list, xAxis, yAxis);
     }
 
-    public void renderScaledText(String text, int x, int y, int color, int maxX) {
-        int length = gui.getFontRenderer().getStringWidth(text);
+    public void renderScaledText(final String text, final int x, final int y, final int color, final int maxX) {
+        final int length = gui.getFontRenderer().getStringWidth(text);
 
         if (length <= maxX) {
             gui.getFontRenderer().drawString(text, x, y, color);
         } else {
-            float scale = (float) maxX / length;
-            float reverse = 1 / scale;
-            float yAdd = 4 - (scale * 8) / 2F;
+            final float scale = (float) maxX / length;
+            final float reverse = 1 / scale;
+            final float yAdd = 4 - (scale * 8) / 2F;
 
             GL11.glPushMatrix();
 
@@ -51,7 +50,7 @@ public abstract class GuiComponent implements IGuiComponent {
         }
     }
 
-    protected boolean isPointInRegion(int x, int y, int xAxis, int yAxis, int width, int height) {
+    protected boolean isPointInRegion(final int x, final int y, final int xAxis, final int yAxis, final int width, final int height) {
         return xAxis >= x && xAxis <= x + width - 1 && yAxis >= y && yAxis <= y + height - 1;
     }
 }

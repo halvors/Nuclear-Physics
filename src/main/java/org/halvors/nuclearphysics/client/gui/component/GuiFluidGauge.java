@@ -10,9 +10,9 @@ import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 @SideOnly(Side.CLIENT)
 public class GuiFluidGauge extends GuiGauge {
-    private IFluidInfoHandler fluidInfoHandler;
+    private final IFluidInfoHandler fluidInfoHandler;
 
-    public GuiFluidGauge(IFluidInfoHandler fluidInfoHandler, IGuiWrapper gui, int x, int y) {
+    public GuiFluidGauge(final IFluidInfoHandler fluidInfoHandler, final IGuiWrapper gui, final int x, final int y) {
         super(gui, x, y);
 
         this.fluidInfoHandler = fluidInfoHandler;
@@ -20,7 +20,7 @@ public class GuiFluidGauge extends GuiGauge {
 
     @Override
     protected int getScaledLevel() {
-        IFluidTank tank = fluidInfoHandler.getTank();
+        final IFluidTank tank = fluidInfoHandler.getTank();
 
         if (tank.getFluidAmount() > 0 && tank.getFluid() != null) {
             return tank.getFluidAmount() * (height - 2) / tank.getCapacity();
@@ -31,7 +31,7 @@ public class GuiFluidGauge extends GuiGauge {
 
     @Override
     protected IIcon getTexture() {
-        FluidStack fluidStack = fluidInfoHandler.getTank().getFluid();
+        final FluidStack fluidStack = fluidInfoHandler.getTank().getFluid();
 
         if (fluidStack != null) {
             return fluidStack.getFluid().getIcon();
@@ -42,8 +42,8 @@ public class GuiFluidGauge extends GuiGauge {
 
     @Override
     protected String getTooltip() {
-        IFluidTank tank = fluidInfoHandler.getTank();
-        FluidStack fluidStack = tank.getFluid();
+        final IFluidTank tank = fluidInfoHandler.getTank();
+        final FluidStack fluidStack = tank.getFluid();
 
         if (fluidStack != null && fluidStack.amount > 0) {
             return fluidStack.getLocalizedName() + ": " + tank.getFluidAmount() + " mB";

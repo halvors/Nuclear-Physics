@@ -20,27 +20,27 @@ public class Position {
 
     }
 
-    public Position(double x, double y, double z) {
+    public Position(final double x, final double y, final double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Position(Entity entity) {
+    public Position(final Entity entity) {
         this.x = entity.posX;
         this.y = entity.posY;
         this.z = entity.posZ;
     }
 
-    public Position(TileEntity tile) {
+    public Position(final TileEntity tile) {
         this(tile.xCoord, tile.yCoord, tile.zCoord);
     }
 
-    public Position(NBTTagCompound tag) {
+    public Position(final NBTTagCompound tag) {
         this(tag.getDouble("x"), tag.getDouble("y"), tag.getDouble("z"));
     }
 
-    public Position(ByteBuf dataStream) {
+    public Position(final ByteBuf dataStream) {
         this(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
     }
 
@@ -54,11 +54,11 @@ public class Position {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static Position readFromNBT(NBTTagCompound tag) {
+    public static Position readFromNBT(final NBTTagCompound tag) {
         return new Position(tag.getDouble("x"), tag.getDouble("y"), tag.getDouble("z"));
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         tag.setDouble("x", x);
         tag.setDouble("y", y);
         tag.setDouble("z", z);
@@ -68,13 +68,13 @@ public class Position {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         this.x = dataStream.readDouble();
         this.y = dataStream.readDouble();
         this.z = dataStream.readDouble();
     }
 
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         objects.add(x);
         objects.add(y);
         objects.add(z);
@@ -108,29 +108,29 @@ public class Position {
         return (int) Math.floor(z);
     }
 
-    public Block getBlock(IBlockAccess world) {
+    public Block getBlock(final IBlockAccess world) {
         return world.getBlock(getIntX(), getIntY(), getIntZ());
     }
 
-    public int getBlockMetadata(IBlockAccess world) {
+    public int getBlockMetadata(final IBlockAccess world) {
         return world.getBlockMetadata(getIntX(), getIntY(), getIntZ());
     }
 
-    public TileEntity getTileEntity(IBlockAccess world) {
+    public TileEntity getTileEntity(final IBlockAccess world) {
         return world.getTileEntity(getIntX(), getIntY(), getIntZ());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Position translate(double x, double y, double z) {
+    public Position translate(final double x, final double y, final double z) {
         return new Position(this.x + x, this.y + y, this.z + z);
     }
 
-    public Position translate(double addition) {
+    public Position translate(final double addition) {
         return translate(addition, addition, addition);
     }
 
-    public Position translate(Position position) {
+    public Position translate(final Position position) {
         return translate(position.getX(), position.getY(), position.getZ());
     }
 
@@ -142,31 +142,31 @@ public class Position {
         return translate(facing, 1);
     }
 
-    public Position add(double x, double y, double z) {
+    public Position add(final double x, final double y, final double z) {
         return translate(x, y, z);
     }
 
-    public Position add(Position position) {
+    public Position add(final Position position) {
         return translate(position);
     }
 
-    public Position subtract(double x, double y, double z) {
+    public Position subtract(final double x, final double y, final double z) {
         return translate(-x, -y, -z);
     }
 
-    public Position subtract(Position position) {
+    public Position subtract(final Position position) {
         return subtract(position.getX(), position.getY(), position.getZ());
     }
 
-    public Position scale(double amount) {
+    public Position scale(final double amount) {
         return new Position(x * amount, y * amount, z * amount);
     }
 
-    public Position offset(ForgeDirection side, double amount) {
+    public Position offset(final ForgeDirection side, final double amount) {
         return new Position(x + (side.offsetX * amount), y + (side.offsetY * amount), z + (side.offsetZ * amount));
     }
 
-    public Position offset(ForgeDirection side) {
+    public Position offset(final ForgeDirection side) {
         return offset(side, 1);
     }
 
@@ -182,11 +182,11 @@ public class Position {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public double distance(double x, double y, double z) {
+    public double distance(final double x, final double y, final double z) {
         return subtract(x, y, z).getMagnitude();
     }
 
-    public double distance(Position compare) {
+    public double distance(final Position compare) {
         return distance(compare.getX(), compare.getY(), compare.getZ());
     }
 
@@ -209,11 +209,11 @@ public class Position {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return obj instanceof Position &&
-                ((Position) obj).getX() == x &&
-                ((Position) obj).getY() == y &&
-                ((Position) obj).getZ() == z;
+    public boolean equals(final Object object) {
+        return object instanceof Position &&
+                ((Position) object).getX() == x &&
+                ((Position) object).getY() == y &&
+                ((Position) object).getZ() == z;
     }
 
     @Override

@@ -1,10 +1,10 @@
 package org.halvors.nuclearphysics.common.type;
 
 public class Pair<L, R> {
-    private L left;
-    private R right;
+    private final L left;
+    private final R right;
 
-    public Pair(L left, R right) {
+    public Pair(final L left, final R right) {
         this.left = left;
         this.right = right;
     }
@@ -19,7 +19,7 @@ public class Pair<L, R> {
 
     @Override
     public int hashCode() {
-        if (left != null || right != null) {
+        if (left != null && right != null) {
             return left.hashCode() ^ right.hashCode();
         }
 
@@ -27,9 +27,9 @@ public class Pair<L, R> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o instanceof Pair) {
-            Pair pair = (Pair) o;
+    public boolean equals(final Object object) {
+        if (object instanceof Pair) {
+            final Pair pair = (Pair) object;
 
             return left.equals(pair.getLeft()) && right.equals(pair.getRight());
         }

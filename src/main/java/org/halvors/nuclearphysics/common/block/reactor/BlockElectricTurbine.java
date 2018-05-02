@@ -23,12 +23,12 @@ public class BlockElectricTurbine extends BlockContainerBase {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
+    public void registerIcons(final IIconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon(Reference.PREFIX + "machine");
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ) {
         final TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof TileElectricTurbine) {
@@ -43,11 +43,11 @@ public class BlockElectricTurbine extends BlockContainerBase {
     }
 
     @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int metadata) {
-        TileEntity tile = world.getTileEntity(x, y, z);
+    public void breakBlock(final World world, final int x, final int y, final int z, final Block block, final int metadata) {
+        final TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof TileElectricTurbine) {
-            TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
+            final TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
             tileTurbine.getMultiBlock().deconstruct();
         }
 
@@ -73,7 +73,7 @@ public class BlockElectricTurbine extends BlockContainerBase {
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata) {
+    public TileEntity createTileEntity(final World world, final int metadata) {
         return new TileElectricTurbine();
     }
 }

@@ -14,8 +14,8 @@ import java.util.Random;
 @SideOnly(Side.CLIENT)
 public class RenderParticle extends Render {
     @Override
-    public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        Tessellator tessellator = Tessellator.instance;
+    public void doRender(final Entity entity, final double x, final double y, final double z, final float entityYaw, final float partialTicks) {
+        final Tessellator tessellator = Tessellator.instance;
 
         float age = entity.ticksExisted;
 
@@ -24,14 +24,14 @@ public class RenderParticle extends Render {
         }
 
         RenderHelper.disableStandardItemLighting();
-        float f = (5 + age) / 200;
+        final float f = (5 + age) / 200;
         float f1 = 0;
 
         if (f > 0.8) {
             f1 = (f - 0.8F) / 0.2F;
         }
 
-        Random random = new Random(432L);
+        final Random random = new Random(432L);
 
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z + 0.3);
@@ -55,8 +55,8 @@ public class RenderParticle extends Render {
             GL11.glRotated(random.nextFloat() * 360, 0, 1, 0);
             GL11.glRotated(random.nextFloat() * 360 + f * 90, 0, 0, 1);
             tessellator.startDrawing(6);
-            float f2 = random.nextFloat() * 20 + 5 + f1 * 10;
-            float f3 = random.nextFloat() * 2 + 1 + f1 * 2;
+            final float f2 = random.nextFloat() * 20 + 5 + f1 * 10;
+            final float f3 = random.nextFloat() * 2 + 1 + f1 * 2;
             tessellator.setColorRGBA_I(16777215, (int) (255 * (1 - f1)));
             tessellator.addVertex(0, 0, 0);
             tessellator.setColorRGBA_I(0, 0);
@@ -64,6 +64,7 @@ public class RenderParticle extends Render {
             tessellator.addVertex(0.866 * f3, f2, -0.5 * f3);
             tessellator.addVertex(0, f2, 1 * f3);
             tessellator.addVertex(-0.866 * f3, f2, -0.5 * f3);
+
             tessellator.draw();
         }
 
@@ -80,7 +81,7 @@ public class RenderParticle extends Render {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity) {
+    protected ResourceLocation getEntityTexture(final Entity entity) {
         return null;
     }
 }

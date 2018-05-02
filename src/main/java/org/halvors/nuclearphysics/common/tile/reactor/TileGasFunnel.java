@@ -15,14 +15,14 @@ public class TileGasFunnel extends TileEntity implements IBoilHandler, IFluidHan
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         tank.readFromNBT(tag.getCompoundTag("tank"));
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setTag("tank", tank.writeToNBT(new NBTTagCompound()));
@@ -38,7 +38,6 @@ public class TileGasFunnel extends TileEntity implements IBoilHandler, IFluidHan
 
                 if (tile instanceof IFluidHandler) {
                     final IFluidHandler fluidHandler = (IFluidHandler) tile;
-
                     final FluidStack fluidStack = tank.drain(tank.getCapacity(), false);
 
                     if (fluidStack != null && fluidHandler.fill(ForgeDirection.UP, fluidStack, false) > 0) {
@@ -52,7 +51,7 @@ public class TileGasFunnel extends TileEntity implements IBoilHandler, IFluidHan
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int receiveGas(ForgeDirection from, FluidStack fluidStack, boolean doTransfer) {
+    public int receiveGas(final ForgeDirection from, final FluidStack fluidStack, final boolean doTransfer) {
         if (from == ForgeDirection.DOWN) {
             return tank.fill(fluidStack, doTransfer);
         }
@@ -63,17 +62,17 @@ public class TileGasFunnel extends TileEntity implements IBoilHandler, IFluidHan
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(final ForgeDirection from, final FluidStack resource, final boolean doFill) {
         return 0;
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(final ForgeDirection from, final FluidStack resource, final boolean doDrain) {
         return drain(from, resource.amount, doDrain);
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(final ForgeDirection from, final int maxDrain, final boolean doDrain) {
         if (from == ForgeDirection.UP) {
             return tank.drain(maxDrain, doDrain);
         }
@@ -82,17 +81,17 @@ public class TileGasFunnel extends TileEntity implements IBoilHandler, IFluidHan
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
+    public boolean canFill(final ForgeDirection from, final Fluid fluid) {
         return false;
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+    public boolean canDrain(final ForgeDirection from, final Fluid fluid) {
         return from == ForgeDirection.UP;
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(final ForgeDirection from) {
         return new FluidTankInfo[] { tank.getInfo() };
     }
 }

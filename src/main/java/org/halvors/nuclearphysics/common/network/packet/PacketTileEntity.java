@@ -23,7 +23,7 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 
 	}
 
-	public PacketTileEntity(int x, int y, int z, List<Object> objects) {
+	public PacketTileEntity(final int x, final int y, final int z, final List<Object> objects) {
 		super(x, y, z);
 
 		this.objects = objects;
@@ -34,14 +34,14 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 	}
 
 	@Override
-	public void fromBytes(ByteBuf dataStream) {
+	public void fromBytes(final ByteBuf dataStream) {
 		super.fromBytes(dataStream);
 
 		storedBuffer = dataStream.copy();
 	}
 
 	@Override
-	public void toBytes(ByteBuf dataStream) {
+	public void toBytes(final ByteBuf dataStream) {
 		super.toBytes(dataStream);
 
 		PacketHandler.writeObjects(objects, dataStream);
@@ -49,14 +49,14 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 
 	public static class PacketTileEntityMessage implements IMessageHandler<PacketTileEntity, IMessage> {
 		@Override
-		public IMessage onMessage(PacketTileEntity message, MessageContext messageContext) {
+		public IMessage onMessage(final PacketTileEntity message, final MessageContext messageContext) {
 			final World world = PacketHandler.getWorld(messageContext);
 
 			if (world != null) {
 				final TileEntity tile = world.getTileEntity(message.getX(), message.getY(), message.getZ());
 
 				if (tile instanceof ITileNetwork) {
-					ITileNetwork tileNetwork = (ITileNetwork) tile;
+					final ITileNetwork tileNetwork = (ITileNetwork) tile;
 
 					try {
 						tileNetwork.handlePacketData(message.storedBuffer);

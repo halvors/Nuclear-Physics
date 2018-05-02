@@ -31,7 +31,7 @@ public class BlockReactorCell extends BlockInventory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
+    public void registerIcons(final IIconRegister iconRegister) {
         blockIcon = iconRegister.registerIcon(Reference.PREFIX + "machine");
     }
 
@@ -50,12 +50,12 @@ public class BlockReactorCell extends BlockInventory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+    public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random random) {
         final TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof TileReactorCell) {
-            TileReactorCell tileReactorCell = (TileReactorCell) tile;
-            ItemStack itemStack = tileReactorCell.getStackInSlot(0);
+            final TileReactorCell tileReactorCell = (TileReactorCell) tile;
+            final ItemStack itemStack = tileReactorCell.getStackInSlot(0);
 
             // Spawn particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
             if (itemStack != null && tileReactorCell.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
@@ -65,14 +65,14 @@ public class BlockReactorCell extends BlockInventory {
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ) {
         final TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof TileReactorCell) {
-            TileReactorCell tileReactorCell = (TileReactorCell) tile;
-            ItemStack itemStack = player.getHeldItem();
-            FluidStack fluidStack = tileReactorCell.getTank().getFluid();
-            ItemStack itemStackInSlot = tileReactorCell.getStackInSlot(0);
+            final TileReactorCell tileReactorCell = (TileReactorCell) tile;
+            final ItemStack itemStack = player.getHeldItem();
+            final FluidStack fluidStack = tileReactorCell.getTank().getFluid();
+            final ItemStack itemStackInSlot = tileReactorCell.getStackInSlot(0);
 
             if (player.isSneaking()) {
                 if (!ModFluids.fluidStackPlasma.isFluidEqual(fluidStack) && itemStack == null && itemStackInSlot != null) {
@@ -97,7 +97,7 @@ public class BlockReactorCell extends BlockInventory {
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata) {
+    public TileEntity createTileEntity(final World world, final int metadata) {
         return new TileReactorCell();
     }
 }

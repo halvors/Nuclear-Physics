@@ -26,14 +26,14 @@ public class TileNuclearBoiler extends TileProcess {
         this(EnumMachine.NUCLEAR_BOILER);
     }
 
-    public TileNuclearBoiler(EnumMachine type) {
+    public TileNuclearBoiler(final EnumMachine type) {
         super(type, 5);
 
         energyStorage = new EnergyStorage(energyPerTick * 2);
 
         tankInput = new LiquidTank(FluidContainerRegistry.BUCKET_VOLUME * 5) {
             @Override
-            public int fill(FluidStack resource, boolean doFill) {
+            public int fill(final FluidStack resource, final boolean doFill) {
                 if (resource.isFluidEqual(ModFluids.fluidStackWater)) {
                     return super.fill(resource, doFill);
                 }
@@ -92,14 +92,14 @@ public class TileNuclearBoiler extends TileProcess {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid) {
+    public boolean canFill(final ForgeDirection from, final Fluid fluid) {
         return fluid.getID() == ModFluids.fluidStackWater.getFluidID();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+    public boolean isItemValidForSlot(final int slot, final ItemStack itemStack) {
         switch (slot) {
             case 0: // Battery input slot.
                 return EnergyUtility.canBeDischarged(itemStack);
@@ -135,10 +135,10 @@ public class TileNuclearBoiler extends TileProcess {
 
     // Check all conditions and see if we can start processing
     public boolean canProcess() {
-        FluidStack inputFluidStack = tankInput.getFluid();
+        final FluidStack inputFluidStack = tankInput.getFluid();
 
         if (inputFluidStack != null && inputFluidStack.amount >= FluidContainerRegistry.BUCKET_VOLUME) {
-            ItemStack itemStack = getStackInSlot(inputSlot);
+            final ItemStack itemStack = getStackInSlot(inputSlot);
 
             if (itemStack != null && (OreDictionaryHelper.isUraniumOre(itemStack) || OreDictionaryHelper.isYellowCake(itemStack))) {
                 return tankOutput.getFluidAmount() < tankOutput.getCapacity();
@@ -153,7 +153,7 @@ public class TileNuclearBoiler extends TileProcess {
         if (canProcess()) {
             tankInput.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
 
-            FluidStack fluidStack = new FluidStack(ModFluids.uraniumHexaflouride, General.uraniumHexaflourideRatio * 2);
+            final FluidStack fluidStack = new FluidStack(ModFluids.uraniumHexaflouride, General.uraniumHexaflourideRatio * 2);
             tankOutput.fill(fluidStack, true);
 
             decrStackSize(inputSlot, 1);

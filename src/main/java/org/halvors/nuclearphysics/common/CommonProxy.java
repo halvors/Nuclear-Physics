@@ -7,11 +7,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.common.container.machine.ContainerChemicalExtractor;
+import org.halvors.nuclearphysics.common.container.machine.ContainerGasCentrifuge;
+import org.halvors.nuclearphysics.common.container.machine.ContainerNuclearBoiler;
+import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAccelerator;
-import org.halvors.nuclearphysics.common.container.particle.ContainerQuantumAssembler;
-import org.halvors.nuclearphysics.common.container.process.ContainerChemicalExtractor;
-import org.halvors.nuclearphysics.common.container.process.ContainerGasCentrifuge;
-import org.halvors.nuclearphysics.common.container.process.ContainerNuclearBoiler;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
@@ -39,8 +39,8 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity tile = world.getTileEntity(x, y, z);
+	public Object getServerGuiElement(final int id, final EntityPlayer player, final World world, final int x, final int y, final int z) {
+		final TileEntity tile = world.getTileEntity(x, y, z);
 
 		if (tile instanceof TileParticleAccelerator) {
 			return new ContainerParticleAccelerator(player.inventory, (TileParticleAccelerator) tile);
@@ -60,15 +60,15 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+	public Object getClientGuiElement(final int id, final EntityPlayer player, final World world, final int x, final int y, final int z) {
 		return null;
 	}
 
-	public EntityPlayer getPlayer(MessageContext context) {
+	public EntityPlayer getPlayer(final MessageContext context) {
 		return context.getServerHandler().playerEntity;
 	}
 
-	public void addScheduledTask(Runnable runnable, IBlockAccess world) {
+	public void addScheduledTask(final Runnable runnable, final IBlockAccess world) {
 		//((WorldServer) world).addScheduledTask(runnable);
 	}
 

@@ -29,12 +29,12 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     protected int tankOutputFillSlot;
     protected int tankOutputDrainSlot;
 
-    public TileProcess(EnumMachine type, int maxSlots) {
+    public TileProcess(final EnumMachine type, final int maxSlots) {
         super(type, maxSlots);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         tankInput.readFromNBT(tag.getCompoundTag("tankInput"));
@@ -42,7 +42,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setTag("tankInput", tankInput.writeToNBT(new NBTTagCompound()));
@@ -69,7 +69,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (worldObj.isRemote) {
@@ -79,7 +79,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         tankInput.getPacketData(objects);
@@ -91,7 +91,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+    public int fill(final ForgeDirection from, final FluidStack resource, final boolean doFill) {
         if (resource != null && canFill(from, resource.getFluid())) {
             return tankInput.fill(resource, doFill);
         }
@@ -100,22 +100,22 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+    public FluidStack drain(final ForgeDirection from, final FluidStack resource, final boolean doDrain) {
         return drain(from, resource.amount, doDrain);
     }
 
     @Override
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+    public FluidStack drain(final ForgeDirection from, final int maxDrain, final boolean doDrain) {
         return tankOutput.drain(maxDrain, doDrain);
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+    public boolean canDrain(final ForgeDirection from, final Fluid fluid) {
         return tankOutput.getFluid() != null && fluid.getID() == tankOutput.getFluid().getFluidID();
     }
 
     @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+    public FluidTankInfo[] getTankInfo(final ForgeDirection from) {
         return new FluidTankInfo[] { tankInput.getInfo(), tankOutput.getInfo() };
     }
 
@@ -124,7 +124,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     /*
      * Takes an fluid container item and try to fill the tank, dropping the remains in the output slot.
      */
-    public void fillOrDrainTank(int containerInput, int containerOutput, FluidTank tank) {
+    public void fillOrDrainTank(final int containerInput, final int containerOutput, final FluidTank tank) {
         final ItemStack itemStackInput = getStackInSlot(containerInput);
         final ItemStack itemStackOutput = getStackInSlot(containerOutput);
 

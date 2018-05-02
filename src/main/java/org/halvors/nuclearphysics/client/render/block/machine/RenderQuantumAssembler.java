@@ -10,13 +10,13 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.apache.commons.lang3.ArrayUtils;
 import org.halvors.nuclearphysics.client.render.block.RenderTile;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderQuantumAssembler extends RenderTile<TileQuantumAssembler> {
-    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(Resource.MODEL, "quantum_assembler.obj"));
+    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(EnumResource.MODEL, "quantum_assembler.obj"));
     private static final String[] modelPartHands = { "BackArmLower", "BackArmUpper", "FrontArmLower", "FrontArmUpper", "LeftArmLower", "LeftArmUpper", "RightArmLower", "RightArmUpper" };
     private static final String[] modelPartArms = { "MiddleRotor", "MiddleRotorArmBase", "MiddleRotorFocusLaser", "MiddleRotorLowerArm", "MiddleRotorUpperArm" };
     private static final String[] modelPartLargeArms = { "BottomRotor", "BottomRotorArmBase", "BottomRotorLowerArm", "BottomRotorResonatorArm", "BottomRotorUpperArm" };
@@ -28,7 +28,7 @@ public class RenderQuantumAssembler extends RenderTile<TileQuantumAssembler> {
     }
 
     @Override
-    protected void render(TileQuantumAssembler tile, double x, double y, double z) {
+    protected void render(final TileQuantumAssembler tile, final double x, final double y, final double z) {
         GL11.glPushMatrix();
         GL11.glTranslated(0.5, 0, 0.5);
         GL11.glRotated(-tile.getRotationYaw1(), 0, 1, 0);

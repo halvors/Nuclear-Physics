@@ -8,7 +8,7 @@ import org.halvors.nuclearphysics.common.item.reactor.fission.ItemFissileFuel;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 
 public class ContainerReactorCell extends ContainerBase<TileReactorCell> {
-    public ContainerReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {
+    public ContainerReactorCell(final InventoryPlayer inventoryPlayer, final TileReactorCell tile) {
         super(1, inventoryPlayer, tile);
 
         addSlotToContainer(new SlotSpecific(tile, 0, 79, 17, ItemFissileFuel.class, ItemBreederFuel.class));

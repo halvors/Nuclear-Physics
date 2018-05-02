@@ -9,11 +9,11 @@ import java.util.Set;
 public class TileBase extends TileEntity {
     private final Set<EntityPlayer> playersUsing = new HashSet<>();
 
-    public void open(EntityPlayer player) {
+    public void open(final EntityPlayer player) {
         playersUsing.add(player);
     }
 
-    public void close(EntityPlayer player) {
+    public void close(final EntityPlayer player) {
         playersUsing.remove(player);
     }
 

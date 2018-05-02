@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
-import org.halvors.nuclearphysics.common.type.RedstoneControl;
+import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.RedstoneUtility;
 
@@ -17,7 +17,7 @@ public class TileMachine extends TileProducer implements ITileRedstoneControl {
     protected int energyUsed = 0; // Synced
     protected int operatingTicks = 0; // Synced
 
-    protected RedstoneControl redstoneControl = RedstoneControl.DISABLED;
+    protected EnumRedstoneControl redstoneControl = EnumRedstoneControl.DISABLED;
     protected boolean redstone = false;
     protected boolean redstoneLastTick = false;
 
@@ -25,21 +25,21 @@ public class TileMachine extends TileProducer implements ITileRedstoneControl {
 
     }
 
-    public TileMachine(EnumMachine type) {
+    public TileMachine(final EnumMachine type) {
         this.type = type;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         operatingTicks = tag.getInteger("operatingTicks");
         redstone = tag.getBoolean("redstone");
-        redstoneControl = RedstoneControl.values()[tag.getInteger("redstoneControl")];
+        redstoneControl = EnumRedstoneControl.values()[tag.getInteger("redstoneControl")];
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag) {
+    public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setInteger("operatingTicks", operatingTicks);
@@ -59,19 +59,19 @@ public class TileMachine extends TileProducer implements ITileRedstoneControl {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (worldObj.isRemote) {
             energyUsed = dataStream.readInt();
             operatingTicks = dataStream.readInt();
             redstone = dataStream.readBoolean();
-            redstoneControl = RedstoneControl.values()[dataStream.readInt()];
+            redstoneControl = EnumRedstoneControl.values()[dataStream.readInt()];
         }
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         objects.add(energyUsed);
@@ -85,12 +85,12 @@ public class TileMachine extends TileProducer implements ITileRedstoneControl {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public RedstoneControl getRedstoneControl() {
+    public EnumRedstoneControl getRedstoneControl() {
         return redstoneControl;
     }
 
     @Override
-    public void setRedstoneControl(RedstoneControl redstoneControl) {
+    public void setRedstoneControl(final EnumRedstoneControl redstoneControl) {
         this.redstoneControl = redstoneControl;
     }
 

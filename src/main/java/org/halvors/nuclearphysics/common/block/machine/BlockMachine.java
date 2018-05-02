@@ -45,8 +45,8 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        for (EnumMachine type : EnumMachine.values()) {
+    public void registerIcons(final IIconRegister iconRegister) {
+        for (final EnumMachine type : EnumMachine.values()) {
             if (type.hasIcon()) {
                 iconMap.put(type, iconRegister.registerIcon(Reference.PREFIX + type.getName()));
             }
@@ -57,8 +57,8 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata) {
-        EnumMachine type = EnumMachine.values()[metadata];
+    public IIcon getIcon(final int side, final int metadata) {
+        final EnumMachine type = EnumMachine.values()[metadata];
 
         if (type.hasIcon()) {
             return iconMap.get(type);
@@ -88,7 +88,7 @@ public class BlockMachine extends BlockInventory {
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(Item item, CreativeTabs tab, List list) {
+    public void getSubBlocks(final Item item, final CreativeTabs tab, final List list) {
         for (EnumMachine type : EnumMachine.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
@@ -96,7 +96,7 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, int x, int y, int z, Random random) {
+    public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random random) {
         final EnumMachine type = EnumMachine.values()[world.getBlockMetadata(x, y, z)];
         final TileEntity tile = world.getTileEntity(x, y, z);
 
@@ -104,14 +104,14 @@ public class BlockMachine extends BlockInventory {
             final TileMachine tileMachine = (TileMachine) tile;
 
             String particleTypes = null;
-            float xRandom = (float) x + 0.5F;
-            float yRandom = (float) y + 0.2F + random.nextFloat() * 6.0F / 16.0F;
-            float zRandom = (float) z + 0.5F;
-            float iRandom = 0.52F;
-            float jRandom = random.nextFloat() * 0.6F - 0.3F;
-            double xSpeed = 0;
+            final float xRandom = (float) x + 0.5F;
+            final float yRandom = (float) y + 0.2F + random.nextFloat() * 6.0F / 16.0F;
+            final float zRandom = (float) z + 0.5F;
+            final float iRandom = 0.52F;
+            final float jRandom = random.nextFloat() * 0.6F - 0.3F;
+            final double xSpeed = 0;
             double ySpeed = 0;
-            double zSpeed = 0;
+            final double zSpeed = 0;
 
             switch (type) {
                 case NUCLEAR_BOILER:
@@ -145,7 +145,7 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
+    public void onBlockAdded(final World world, final int x, final int y, final int z) {
         TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof TileMachine) {
@@ -154,19 +154,19 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemStack) {
+    public void onBlockPlacedBy(final World world, final int x, final int y, final int z, final EntityLivingBase entity, final ItemStack itemStack) {
         world.setBlockMetadataWithNotify(x, y, z, itemStack.getMetadata(), 2);
 
         super.onBlockPlacedBy(world, x, y, z, entity, itemStack);
     }
 
     @Override
-    public int damageDropped(int metadata) {
+    public int damageDropped(final int metadata) {
         return metadata;
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ) {
         final TileEntity tile = world.getTileEntity(x, y, z);
         final ItemStack itemStack = player.getHeldItem();
 
@@ -182,7 +182,7 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, Block neighbor) {
+    public void onNeighborBlockChange(final World world, final int x, final int y, final int z, final Block neighbor) {
         TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof TileMachine) {
@@ -191,8 +191,8 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata) {
-        EnumMachine type = EnumMachine.values()[metadata];
+    public TileEntity createTileEntity(final World world, final int metadata) {
+        final EnumMachine type = EnumMachine.values()[metadata];
 
         return type.getTileAsInstance();
     }

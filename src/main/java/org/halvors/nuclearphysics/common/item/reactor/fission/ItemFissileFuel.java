@@ -20,13 +20,13 @@ public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
     }
 
     @Override
-    public void onReact(ItemStack itemStack, IReactor reactor) {
-        TileEntity tile = (TileEntity) reactor;
-        World world = tile.getWorld();
+    public void onReact(final ItemStack itemStack, final IReactor reactor) {
+        final TileEntity tile = (TileEntity) reactor;
+        final World world = tile.getWorld();
         int reactors = 0;
 
         for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-            TileEntity checkTile = new Position(tile).offset(side).getTileEntity(world);
+            final TileEntity checkTile = new Position(tile).offset(side).getTileEntity(world);
 
             // Check that the other reactors not only exist but also are running.
             if (checkTile instanceof IReactor && ((IReactor) checkTile).getTemperature() > breedingTemperature) {
@@ -39,7 +39,7 @@ public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
             // Breeding - Begin the machine of re-enriching the uranium rod but not consistently.
             if (world.rand.nextInt(1000) <= 100 && reactor.getTemperature() > breedingTemperature) {
                 // Cells can regain a random amount of health per tick.
-                int healAmount = world.rand.nextInt(5);
+                final int healAmount = world.rand.nextInt(5);
 
                 itemStack.setMetadata(Math.max(itemStack.getMetadata() - healAmount, 0));
             }

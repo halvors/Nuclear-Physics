@@ -23,7 +23,7 @@ public class BlockGasFunnel extends BlockConnectedTexture {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
+    public void registerIcons(final IIconRegister iconRegister) {
         super.registerIcons(iconRegister);
 
         iconTop = iconRegister.registerIcon(Reference.PREFIX + name + "_top");
@@ -31,12 +31,12 @@ public class BlockGasFunnel extends BlockConnectedTexture {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata) {
+    public IIcon getIcon(final int side, final int metadata) {
         return side == 1 || side == 0 ? iconTop : super.getIcon(side, metadata);
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata) {
+    public TileEntity createTileEntity(final World world, final int metadata) {
         return new TileGasFunnel();
     }
 }

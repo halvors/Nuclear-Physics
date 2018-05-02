@@ -34,8 +34,8 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister) {
-        for (EnumCell type : EnumCell.values()) {
+    public void registerIcons(final IIconRegister iconRegister) {
+        for (final EnumCell type : EnumCell.values()) {
             if (type != EnumCell.EMPTY) {
                 iconMap.put(type, iconRegister.registerIcon(Reference.PREFIX + name + "_" + type.getName()));
             }
@@ -47,8 +47,8 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag) {
-        FluidStack fluidStack = ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack);
+    public void addInformation(final ItemStack itemStack, final EntityPlayer player, final List list, final boolean flag) {
+        final FluidStack fluidStack = ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack);
 
         if (fluidStack != null) {
             list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
@@ -60,8 +60,8 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, List list) {
-        for (EnumCell type : EnumCell.values()) {
+    public void getSubItems(final Item item, final CreativeTabs tab, final List list) {
+        for (final EnumCell type : EnumCell.values()) {
             list.add(type.getFluid() == null ? new ItemStack(item) : FluidUtility.getFilledCell(type.getFluid()));
         }
     }
@@ -78,12 +78,12 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
     }
 
     @Override
-    public int getCapacity(ItemStack itemStack) {
+    public int getCapacity(final ItemStack itemStack) {
         return capacity;
     }
 
     @Override
-    public int fill(ItemStack itemStack, FluidStack resource, boolean doFill) {
+    public int fill(final ItemStack itemStack, final FluidStack resource, final boolean doFill) {
         if (resource == null) {
             return 0;
         }
@@ -93,7 +93,7 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
                 return Math.min(capacity, resource.amount);
             }
 
-            FluidStack stack = FluidStack.loadFluidStackFromNBT(itemStack.stackTagCompound.getCompoundTag("fluid"));
+            final FluidStack stack = FluidStack.loadFluidStackFromNBT(itemStack.stackTagCompound.getCompoundTag("fluid"));
 
             if (stack == null) {
                 return Math.min(capacity, resource.amount);
@@ -111,7 +111,7 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
         }
 
         if (!itemStack.stackTagCompound.hasKey("fluid")) {
-            NBTTagCompound fluidTag = resource.writeToNBT(new NBTTagCompound());
+            final NBTTagCompound fluidTag = resource.writeToNBT(new NBTTagCompound());
 
             if (capacity < resource.amount) {
                 fluidTag.setInteger("amount", capacity);
@@ -125,8 +125,8 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
             return resource.amount;
         }
 
-        NBTTagCompound fluidTag = itemStack.stackTagCompound.getCompoundTag("fluid");
-        FluidStack stack = FluidStack.loadFluidStackFromNBT(fluidTag);
+        final NBTTagCompound fluidTag = itemStack.stackTagCompound.getCompoundTag("fluid");
+        final FluidStack stack = FluidStack.loadFluidStackFromNBT(fluidTag);
 
         if (!stack.isFluidEqual(resource)) {
             return 0;
@@ -147,18 +147,18 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
     }
 
     @Override
-    public FluidStack drain(ItemStack itemStack, int maxDrain, boolean doDrain) {
+    public FluidStack drain(final ItemStack itemStack, final int maxDrain, final boolean doDrain) {
         if (itemStack.stackTagCompound == null || !itemStack.stackTagCompound.hasKey("fluid")) {
             return null;
         }
 
-        FluidStack stack = FluidStack.loadFluidStackFromNBT(itemStack.stackTagCompound.getCompoundTag("fluid"));
+        final FluidStack stack = FluidStack.loadFluidStackFromNBT(itemStack.stackTagCompound.getCompoundTag("fluid"));
 
         if (stack == null) {
             return null;
         }
 
-        int currentAmount = stack.amount;
+        final int currentAmount = stack.amount;
         stack.amount = Math.min(stack.amount, maxDrain);
 
         if (doDrain) {
@@ -172,7 +172,7 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
                 return stack;
             }
 
-            NBTTagCompound fluidTag = itemStack.stackTagCompound.getCompoundTag("fluid");
+            final NBTTagCompound fluidTag = itemStack.stackTagCompound.getCompoundTag("fluid");
             fluidTag.setInteger("amount", currentAmount - stack.amount);
             itemStack.stackTagCompound.setTag("fluid", fluidTag);
         }
@@ -194,12 +194,12 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
 
         }
 
-        EnumCell(Fluid fluid) {
+        EnumCell(final Fluid fluid) {
             this.fluid = fluid;
         }
 
         public String getName() {
-            return toString().toLowerCase();
+            return name().toLowerCase();
         }
 
         public Fluid getFluid() {

@@ -3,6 +3,7 @@ package org.halvors.nuclearphysics.common.block.debug.schematic;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.type.Pair;
 import org.halvors.nuclearphysics.common.type.Position;
@@ -16,7 +17,7 @@ public class SchematicBreedingReactor implements ISchematic {
     }
 
     @Override
-    public HashMap<Position, Pair<Block, Integer>> getStructure(ForgeDirection facing, int size) {
+    public HashMap<Position, Pair<Block, Integer>> getStructure(final ForgeDirection facing, final int size) {
         final HashMap<Position, Pair<Block, Integer>> map = new HashMap<>();
 
         int radius = Math.max(size, 2);
@@ -31,7 +32,7 @@ public class SchematicBreedingReactor implements ISchematic {
 
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
-                Position position = new Position(x, 0, z);
+                final Position position = new Position(x, 0, z);
 
                 if (position.getMagnitude() <= 2) {
                     if (!((x == -radius || x == radius) && (z == -radius || z == radius))) {

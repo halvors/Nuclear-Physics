@@ -10,7 +10,7 @@ import org.halvors.nuclearphysics.client.gui.GuiComponentScreen;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.packet.PacketCreativeBuilder;
-import org.halvors.nuclearphysics.common.type.Color;
+import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -23,7 +23,7 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
     private int mode = 0;
     private GuiTextField textFieldSize;
 
-    public GuiCreativeBuilder(Block block, Position pos) {
+    public GuiCreativeBuilder(final Block block, final Position pos) {
         this.block = block;
         this.pos = pos;
     }
@@ -38,8 +38,8 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
     }
 
     @Override
-    protected void drawGuiScreenForegroundLayer(int mouseX, int mouseY) {
-        String name = LanguageUtility.transelate(block.getUnlocalizedName() + ".name");
+    protected void drawGuiScreenForegroundLayer(final int mouseX, final int mouseY) {
+        final String name = LanguageUtility.transelate(block.getUnlocalizedName() + ".name");
         fontRendererObj.drawString(name, (xSize / 2) - (fontRendererObj.getStringWidth(name) / 2), (ySize / 2) - 102, 0x404040);
 
         List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(block.getUnlocalizedName() + ".tooltip"), 4);
@@ -57,31 +57,31 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
         list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(block.getUnlocalizedName() + ".text"), 4);
 
         for (int i = 0; i < list.size(); i++) {
-            fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 150 + i * 9, Color.DARK_RED.getHex());
+            fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 150 + i * 9, EnumColor.DARK_RED.getHex());
         }
 
         super.drawGuiScreenForegroundLayer(mouseX, mouseY);
     }
 
     @Override
-    protected void keyTyped(char typedChar, int keyCode) {
+    protected void keyTyped(final char typedChar, final int keyCode) {
         super.keyTyped(typedChar, keyCode);
 
         textFieldSize.textboxKeyTyped(typedChar, keyCode);
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int button) {
+    protected void mouseClicked(final int mouseX, final int mouseY, final int button) {
         super.mouseClicked(mouseX, mouseY, button);
 
-        int guiWidth = (width - xSize) / 2;
-        int guiHeight = (height - ySize) / 2;
+        final int guiWidth = (width - xSize) / 2;
+        final int guiHeight = (height - ySize) / 2;
 
         textFieldSize.mouseClicked(mouseX - guiWidth, mouseY - guiHeight, button);
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) {
+    protected void actionPerformed(final GuiButton button) {
         super.actionPerformed(button);
 
         switch (button.id) {

@@ -17,25 +17,25 @@ import java.util.Map;
 public class TextureEventHandler {
     private static final Map<String, IIcon> textureMap = new HashMap<>();
 
-    public static void registerIcon(String name, TextureMap map) {
+    public static void registerIcon(final String name, final TextureMap map) {
         textureMap.put(name, map.registerIcon(Reference.PREFIX + name));
     }
 
-    public static void registerIcon(Fluid fluid, TextureMap map) {
+    public static void registerIcon(final Fluid fluid, final TextureMap map) {
         textureMap.put(fluid.getName(), map.registerIcon(Reference.PREFIX + "fluids/" + fluid.getName() + "_still"));
     }
 
-    public static IIcon getIcon(String name) {
+    public static IIcon getIcon(final String name) {
         return textureMap.get(name);
     }
 
-    private static void setIcon(Fluid fluid) {
+    private static void setIcon(final Fluid fluid) {
         fluid.setIcons(textureMap.get("fluids/" + fluid.getName() + "_still"));
     }
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void onTextureStitchEventPre(TextureStitchEvent.Pre event) {
+    public void onTextureStitchEventPre(final TextureStitchEvent.Pre event) {
         if (event.map.getTextureType() == 0) {
             registerIcon("electromagnet_edge", event.map);
             registerIcon("fulmination_generator_edge", event.map);
@@ -49,7 +49,7 @@ public class TextureEventHandler {
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void onTextureStitchEventPost(TextureStitchEvent.Post event) {
+    public void onTextureStitchEventPost(final TextureStitchEvent.Post event) {
         ModFluids.toxicWaste.setIcons(ModFluids.toxicWaste.getBlock().getIcon(0, 0));
         ModFluids.plasma.setIcons(ModFluids.plasma.getBlock().getIcon(0, 0));
 

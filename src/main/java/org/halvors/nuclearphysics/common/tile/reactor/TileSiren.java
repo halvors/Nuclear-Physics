@@ -19,8 +19,8 @@ public class TileSiren extends TileEntity {
                 float volume = 0.5F;
 
                 // Check in each direction for another siren block, if exists amplify volume.
-                for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-                    TileEntity tile = new Position(xCoord, yCoord, zCoord).offset(side).getTileEntity(worldObj);
+                for (final ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
+                    final TileEntity tile = new Position(xCoord, yCoord, zCoord).offset(side).getTileEntity(worldObj);
 
                     if (tile == this) {
                         volume *= 1.5F;

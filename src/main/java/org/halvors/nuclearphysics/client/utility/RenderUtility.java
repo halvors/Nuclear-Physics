@@ -137,8 +137,8 @@ public class RenderUtility {
         FMLClientHandler.instance().getClient().renderEngine.bindTexture(location);
     }
 
-    public static void rotateBlockBasedOnDirection(ForgeDirection direction) {
-        switch (direction) {
+    public static void rotateBlockBasedOnDirection(final ForgeDirection facing) {
+        switch (facing) {
             case SOUTH:
                 GL11.glTranslated(1, 0, 1);
                 GL11.glRotated(180, 0, 1, 0);
@@ -156,21 +156,21 @@ public class RenderUtility {
         }
     }
 
-    public static void renderFloatingText(String text, Position position) {
+    public static void renderFloatingText(final String text, final Position position) {
         renderFloatingText(text, position, 0xFFFFFF);
     }
 
     /** Renders a floating text in a specific position.
      *
      * @author Briman0094 */
-    public static void renderFloatingText(String text, Position position, int color) {
+    public static void renderFloatingText(final String text, final Position position, final int color) {
         renderFloatingText(text, position.getX(), position.getY(), position.getZ(), color);
     }
 
-    public static void renderFloatingText(String text, double x, double y, double z, int color) {
-        RenderManager renderManager = RenderManager.instance;
-        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
-        float scale = 0.027F;
+    public static void renderFloatingText(final String text, final double x, final double y, final double z, final int color) {
+        final RenderManager renderManager = RenderManager.instance;
+        final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+        final float scale = 0.027F;
 
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
@@ -184,8 +184,8 @@ public class RenderUtility {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        int stringMiddle = fontRenderer.getStringWidth(text) / 2;
-        int yOffset = 0;
+        final int stringMiddle = fontRenderer.getStringWidth(text) / 2;
+        final int yOffset = 0;
 
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         Tessellator tessellator = Tessellator.instance;
@@ -208,14 +208,14 @@ public class RenderUtility {
         GL11.glPopMatrix();
     }
 
-    public static void renderText(String text, ForgeDirection side, float maxScale, double x, double y, double z) {
+    public static void renderText(final String text, final ForgeDirection side, final float maxScale, final double x, final double y, final double z) {
         GL11.glPushMatrix();
 
         GL11.glPolygonOffset(-10, -10);
         GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
 
-        float displayWidth = 1;
-        float displayHeight = 1;
+        final float displayWidth = 1;
+        final float displayHeight = 1;
         GL11.glTranslated(x, y, z);
         GL11.glPushMatrix();
 
@@ -249,25 +249,22 @@ public class RenderUtility {
         GL11.glTranslated(displayWidth / 2, 1F, displayHeight / 2);
         GL11.glRotated(-90, 1, 0, 0);
 
-        FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+        final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 
-        int requiredWidth = Math.max(fontRenderer.getStringWidth(text), 1);
-        int requiredHeight = fontRenderer.FONT_HEIGHT + 2;
-        float scaler = 0.8F;
-        float scaleX = (displayWidth / requiredWidth);
-        float scaleY = (displayHeight / requiredHeight);
-        float scale = Math.min(maxScale, Math.min(scaleX, scaleY) * scaler);
+        final int requiredWidth = Math.max(fontRenderer.getStringWidth(text), 1);
+        final int requiredHeight = fontRenderer.FONT_HEIGHT + 2;
+        final float scaler = 0.8F;
+        final float scaleX = (displayWidth / requiredWidth);
+        final float scaleY = (displayHeight / requiredHeight);
+        final float scale = Math.min(maxScale, Math.min(scaleX, scaleY) * scaler);
 
         GL11.glScaled(scale, -scale, scale);
         GL11.glDepthMask(false);
 
-        int offsetX;
-        int offsetY;
-        int realHeight = (int) Math.floor(displayHeight / scale);
-        int realWidth = (int) Math.floor(displayWidth / scale);
-
-        offsetX = (realWidth - requiredWidth) / 2;
-        offsetY = (realHeight - requiredHeight) / 2;
+        final int realHeight = (int) Math.floor(displayHeight / scale);
+        final int realWidth = (int) Math.floor(displayWidth / scale);
+        final int offsetX = (realWidth - requiredWidth) / 2;
+        final int offsetY = (realHeight - requiredHeight) / 2;
 
         GL11.glDisable(GL11.GL_LIGHTING);
         fontRenderer.drawString(text, offsetX - (realWidth / 2), 1 + offsetY - (realHeight / 2), 1);
@@ -287,10 +284,10 @@ public class RenderUtility {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static void color(int color) {
-        float cR = (color >> 16 & 0xFF) / 255.0F;
-        float cG = (color >> 8 & 0xFF) / 255.0F;
-        float cB = (color & 0xFF) / 255.0F;
+    public static void color(final int color) {
+        final float cR = (color >> 16 & 0xFF) / 255.0F;
+        final float cG = (color >> 8 & 0xFF) / 255.0F;
+        final float cB = (color & 0xFF) / 255.0F;
 
         GL11.glColor3f(cR, cG, cB);
     }

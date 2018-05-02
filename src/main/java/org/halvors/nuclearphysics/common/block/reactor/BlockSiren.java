@@ -16,7 +16,7 @@ public class BlockSiren extends BlockContainerBase {
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int facing, float playerX, float playerY, float playerZ) {
+    public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int facing, final float playerX, final float playerY, final float playerZ) {
         if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
             int pitch = world.getBlockMetadata(x, y, z);
 
@@ -33,7 +33,7 @@ public class BlockSiren extends BlockContainerBase {
     }
 
     @Override
-    public TileEntity createTileEntity(World world, int metadata) {
+    public TileEntity createTileEntity(final World world, final int metadata) {
         return new TileSiren();
     }
 }

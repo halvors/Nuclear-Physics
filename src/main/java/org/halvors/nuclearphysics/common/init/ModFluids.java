@@ -112,7 +112,7 @@ public class ModFluids {
             if (fluid == deuterium || fluid == tritium) {
                 FluidContainerRegistry.registerFluidContainer(new FluidStack(fluid, ItemCell.capacity), FluidUtility.getFilledCell(fluid), new ItemStack(ModItems.itemCell));
             } else if (fluid == toxicWaste) {
-                ItemBucket itemBucket = (ItemBucket) ModItems.itemToxicWasteBucket;
+                final ItemBucket itemBucket = (ItemBucket) ModItems.itemToxicWasteBucket;
 
                 // Register this bucket so that we handle when picking up fluid.
                 ItemEventHandler.registerBucket(fluid, itemBucket);

@@ -29,12 +29,12 @@ public class BlockRotatable extends BlockContainerBase {
     }
 
     @Override
-    public ForgeDirection[] getValidRotations(World world, int x, int y, int z) {
-        TileEntity tile = world.getTileEntity(x, y, z);
-        ForgeDirection[] valid = new ForgeDirection[6];
+    public ForgeDirection[] getValidRotations(final World world, final int x, final int y, final int z) {
+        final TileEntity tile = world.getTileEntity(x, y, z);
+        final ForgeDirection[] valid = new ForgeDirection[6];
 
         if (tile instanceof ITileRotatable) {
-            ITileRotatable tileRotatable = (ITileRotatable) tile;
+            final ITileRotatable tileRotatable = (ITileRotatable) tile;
 
             for (ForgeDirection facing : ForgeDirection.VALID_DIRECTIONS) {
                 if (tileRotatable.canSetFacing(facing)) {
@@ -47,11 +47,11 @@ public class BlockRotatable extends BlockContainerBase {
     }
 
     @Override
-    public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection side) {
+    public boolean rotateBlock(final World world, final int x, final int y, final int z, final ForgeDirection side) {
         final TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof ITileRotatable) {
-            ITileRotatable tileRotatable = (ITileRotatable) tile;
+            final ITileRotatable tileRotatable = (ITileRotatable) tile;
 
             if (tileRotatable.canSetFacing(side)) {
                 tileRotatable.setFacing(side);
