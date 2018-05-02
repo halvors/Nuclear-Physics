@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.component.IGuiComponent;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.lwjgl.input.Mouse;
 
@@ -22,7 +22,7 @@ import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public class GuiComponentContainer<T extends TileEntity> extends GuiContainer implements IGuiWrapper {
-    protected ResourceLocation defaultResource = ResourceUtility.getResource(Resource.GUI, "base.png");
+    protected ResourceLocation defaultResource = ResourceUtility.getResource(EnumResource.GUI, "base.png");
     protected final Set<IGuiComponent> components = new HashSet<>();
     protected final T tile;
 

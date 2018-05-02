@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class TileRotatable extends TileBase implements ITileNetwork, ITileRotatable {
+    private static final String NBT_FACING = "facing";
+
     protected EnumFacing facing = EnumFacing.NORTH;
 
     public TileRotatable() {
@@ -20,8 +22,8 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        if (tag.hasKey("facing")) {
-            facing = EnumFacing.getFront(tag.getInteger("facing"));
+        if (tag.hasKey(NBT_FACING)) {
+            facing = EnumFacing.getFront(tag.getInteger(NBT_FACING));
         }
     }
 
@@ -30,7 +32,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
         super.writeToNBT(tag);
 
         if (facing != null) {
-            tag.setInteger("facing", facing.ordinal());
+            tag.setInteger(NBT_FACING, facing.ordinal());
         }
 
         return tag;

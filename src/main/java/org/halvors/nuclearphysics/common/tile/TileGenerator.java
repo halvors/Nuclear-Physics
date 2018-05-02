@@ -16,6 +16,8 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class TileGenerator extends TileBase implements ITickable, ITileNetwork, IEnergyStorage {
+    private static final String NBT_STORED_ENERGY = "storedEnergy";
+
     private final List<BlockPos> targets = new ArrayList<>();
     private final Map<BlockPos, EnumFacing> facings = new HashMap<>();
     private int targetStartingIndex;
@@ -30,7 +32,9 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag("storedEnergy"));
+        if (energyStorage != null) {
+            CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag(NBT_STORED_ENERGY));
+        }
     }
 
     @Override
@@ -38,7 +42,7 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
         super.writeToNBT(tag);
 
         if (energyStorage != null) {
-            tag.setTag("storedEnergy", CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));
+            tag.setTag(NBT_STORED_ENERGY, CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));
         }
 
         return tag;

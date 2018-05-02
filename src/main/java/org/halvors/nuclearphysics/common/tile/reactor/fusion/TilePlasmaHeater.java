@@ -22,8 +22,8 @@ import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
-import org.halvors.nuclearphysics.common.type.Color;
-import org.halvors.nuclearphysics.common.type.RedstoneControl;
+import org.halvors.nuclearphysics.common.type.EnumColor;
+import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
 import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -33,6 +33,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITagRender {
+    private static final String NBT_TANK_DEUTERIUM = "tankInputDeuterium";
+    private static final String NBT_TANK_TRITIUM = "tankInputTritium";
+    private static final String NBT_TANK_OUTPUT = "tankOutput";
+
     private static int ticksRequired = 20 * 20;
     private static int energyPerTick = 25000;
     private static int plasmaHeatAmount = 100;
@@ -85,7 +89,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     public TilePlasmaHeater(final EnumMachine type) {
         super(type);
 
-        redstoneControl = RedstoneControl.LOW;
+        redstoneControl = EnumRedstoneControl.LOW;
         energyStorage = new EnergyStorage(energyPerTick * 20);
     }
 
@@ -93,18 +97,18 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInputDeuterium, null, tag.getTag("tankInputDeuterium"));
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInputTritium, null, tag.getTag("tankInputTritium"));
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankOutput, null, tag.getTag("tankOutput"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInputDeuterium, null, tag.getTag(NBT_TANK_DEUTERIUM));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInputTritium, null, tag.getTag(NBT_TANK_TRITIUM));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankOutput, null, tag.getTag(NBT_TANK_OUTPUT));
     }
 
     @Override
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tankInputDeuterium", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInputDeuterium, null));
-        tag.setTag("tankInputTritium", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInputTritium, null));
-        tag.setTag("tankOutput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));
+        tag.setTag(NBT_TANK_DEUTERIUM, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInputDeuterium, null));
+        tag.setTag(NBT_TANK_TRITIUM, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInputTritium, null));
+        tag.setTag(NBT_TANK_OUTPUT, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));
 
         return tag;
     }
@@ -219,19 +223,19 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     @SideOnly(Side.CLIENT)
     public float addInformation(final HashMap<String, Integer> map, final EntityPlayer player) {
         if (energyStorage.getEnergyStored() > 0) {
-            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), EnumColor.WHITE.getHex());
         }
 
         if (tankInputDeuterium.getFluidAmount() > 0) {
-            map.put(LanguageUtility.transelate("fluid.deuterium") + ": " + tankInputDeuterium.getFluidAmount() + " L", Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("fluid.deuterium") + ": " + tankInputDeuterium.getFluidAmount() + " L", EnumColor.WHITE.getHex());
         }
 
         if (tankInputTritium.getFluidAmount() > 0) {
-            map.put(LanguageUtility.transelate("fluid.tritium") + ": " + tankInputTritium.getFluidAmount() + " L", Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("fluid.tritium") + ": " + tankInputTritium.getFluidAmount() + " L", EnumColor.WHITE.getHex());
         }
 
         if (tankOutput.getFluidAmount() > 0) {
-            map.put(LanguageUtility.transelate("fluid.plasma") + ": " + tankOutput.getFluidAmount() + " L", Color.WHITE.getHex());
+            map.put(LanguageUtility.transelate("fluid.plasma") + ": " + tankOutput.getFluidAmount() + " L", EnumColor.WHITE.getHex());
         }
 
         return 1.5F;

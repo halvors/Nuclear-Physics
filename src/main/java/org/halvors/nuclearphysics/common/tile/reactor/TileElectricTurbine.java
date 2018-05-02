@@ -39,6 +39,9 @@ import java.util.Set;
  * The front of the turbine is where the output is.
  */
 public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, IBoilHandler {
+    private static final String NBT_MULTI_BLOCK_RADIUS = "multiBlockRadius";
+    private static final String NBT_TANK = "tank";
+
     private final int energyPerSteam = 40;
     private final int defaultTorque = 5000;
     private int torque = defaultTorque;
@@ -85,18 +88,18 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        multiBlockRadius = tag.getInteger("multiBlockRadius");
+        multiBlockRadius = tag.getInteger(NBT_MULTI_BLOCK_RADIUS);
         getMultiBlock().readFromNBT(tag);
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag(NBT_TANK));
     }
 
     @Override
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("multiBlockRadius", multiBlockRadius);
+        tag.setInteger(NBT_MULTI_BLOCK_RADIUS, multiBlockRadius);
         getMultiBlock().writeToNBT(tag);
-        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
+        tag.setTag(NBT_TANK, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }

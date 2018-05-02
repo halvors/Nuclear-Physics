@@ -10,8 +10,8 @@ import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketRedstoneControl;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
-import org.halvors.nuclearphysics.common.type.RedstoneControl;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.awt.*;
@@ -21,7 +21,7 @@ public class GuiRedstoneControl extends GuiComponent {
     private final TileEntity tile;
 
     public <T extends TileEntity & ITileRedstoneControl> GuiRedstoneControl(final T tile, final IGuiWrapper gui, final int x, final int y) {
-        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "redstone_control.png"), gui, x, y);
+        super(ResourceUtility.getResource(EnumResource.GUI_COMPONENT, "redstone_control.png"), gui, x, y);
 
         this.tile = tile;
     }
@@ -66,15 +66,15 @@ public class GuiRedstoneControl extends GuiComponent {
             case 0:
                 if (isPointInRegion(xLocation + 2, yLocation + 3, xAxis, yAxis, 20, 20)) {
                     final ITileRedstoneControl tileRedstoneControl = (ITileRedstoneControl) tile;
-                    final RedstoneControl redstoneControl = tileRedstoneControl.getRedstoneControl();
-                    int ordinalToSet = redstoneControl.ordinal() < (RedstoneControl.values().length - 1) ? redstoneControl.ordinal() + 1 : 0;
+                    final EnumRedstoneControl redstoneControl = tileRedstoneControl.getRedstoneControl();
+                    int ordinalToSet = redstoneControl.ordinal() < (EnumRedstoneControl.values().length - 1) ? redstoneControl.ordinal() + 1 : 0;
 
-                    if (ordinalToSet == RedstoneControl.PULSE.ordinal() && !tileRedstoneControl.canPulse()) {
+                    if (ordinalToSet == EnumRedstoneControl.PULSE.ordinal() && !tileRedstoneControl.canPulse()) {
                         ordinalToSet = 0;
                     }
 
                     SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
-                    NuclearPhysics.getPacketHandler().sendToServer(new PacketRedstoneControl(tile.getPos(), RedstoneControl.values()[ordinalToSet]));
+                    NuclearPhysics.getPacketHandler().sendToServer(new PacketRedstoneControl(tile.getPos(), EnumRedstoneControl.values()[ordinalToSet]));
                 }
 
                 break;

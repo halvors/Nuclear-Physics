@@ -17,20 +17,20 @@ import java.util.List;
 import java.util.Objects;
 
 public class FulminationEventHandler {
-    private static final List<TileFulminationGenerator> list = new ArrayList<>();
+    private static final List<TileFulminationGenerator> generators = new ArrayList<>();
 
     public static void register(final TileFulminationGenerator tile) {
-        if (!list.contains(tile)) {
-            list.add(tile);
+        if (!generators.contains(tile)) {
+            generators.add(tile);
         }
     }
 
     public static void unregister(final TileFulminationGenerator tile) {
-        list.remove(tile);
+        generators.remove(tile);
     }
 
     @SubscribeEvent
-    public void onExplosionDetonate(final ExplosionEvent.Detonate event) {
+    public void onExplosionDetonateEvent(final ExplosionEvent.Detonate event) {
         final World world = event.getWorld();
         final Explosion explosion = event.getExplosion();
         final BlockPos pos = new BlockPos(explosion.getPosition());
@@ -41,17 +41,15 @@ public class FulminationEventHandler {
             if (customExplosion.getRadius() > 0 && customExplosion.getEnergy() > 0) {
                 final HashSet<TileFulminationGenerator> avaliableGenerators = new HashSet<>();
 
-                for (TileFulminationGenerator tile : list) {
-                    if (tile != null) {
-                        if (!tile.isInvalid()) {
-                            final double distance = new Position(tile).translate(0.5).distance(pos.getX(), pos.getY(), pos.getZ());
+                for (final TileFulminationGenerator tile : generators) {
+                    if (tile != null && !tile.isInvalid()) {
+                        final double distance = new Position(tile).translate(0.5).distance(pos.getX(), pos.getY(), pos.getZ());
 
-                            if (distance <= customExplosion.getRadius() && distance > 0) {
-                                final float density = world.getBlockDensity(new Vec3d(pos), Objects.requireNonNull(ModBlocks.blockFulmination.getDefaultState().getCollisionBoundingBox(world, tile.getPos())));
+                        if (distance <= customExplosion.getRadius() && distance > 0) {
+                            final float density = world.getBlockDensity(new Vec3d(pos), Objects.requireNonNull(ModBlocks.blockFulmination.getDefaultState().getCollisionBoundingBox(world, tile.getPos())));
 
-                                if (density < 1) {
-                                    avaliableGenerators.add(tile);
-                                }
+                            if (density < 1) {
+                                avaliableGenerators.add(tile);
                             }
                         }
                     }

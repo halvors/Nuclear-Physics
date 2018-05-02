@@ -63,7 +63,7 @@ public class BlockElectricTurbine extends BlockContainerBase {
     }
 
     @Override
-    public void breakBlock(final @Nonnull World world, final @Nonnull BlockPos pos, final @Nonnull IBlockState state) {
+    public void breakBlock(@Nonnull final World world, @Nonnull final BlockPos pos, @Nonnull final IBlockState state) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileElectricTurbine) {
@@ -76,7 +76,7 @@ public class BlockElectricTurbine extends BlockContainerBase {
 
     @Override
     @Nonnull
-    public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
         return new TileElectricTurbine();
     }
 }

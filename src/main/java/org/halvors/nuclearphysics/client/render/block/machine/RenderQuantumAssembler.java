@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.block.OBJModelContainer;
 import org.halvors.nuclearphysics.client.render.block.RenderTile;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.util.Arrays;
@@ -18,11 +18,11 @@ import java.util.Collections;
 
 @SideOnly(Side.CLIENT)
 public class RenderQuantumAssembler extends RenderTile<TileQuantumAssembler> {
-    private static final OBJModelContainer modelPartHands = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "quantum_assembler.obj"), Arrays.asList("BackArmLower", "BackArmUpper", "FrontArmLower", "FrontArmUpper", "LeftArmLower", "LeftArmUpper", "RightArmLower", "RightArmUpper"));
-    private static final OBJModelContainer modelPartArms = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "quantum_assembler.obj"), Arrays.asList("MiddleRotor", "MiddleRotorArmBase", "MiddleRotorFocusLaser", "MiddleRotorLowerArm", "MiddleRotorUpperArm"));
-    private static final OBJModelContainer modelPartLargeArms = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "quantum_assembler.obj"), Arrays.asList("BottomRotor", "BottomRotorArmBase", "BottomRotorLowerArm", "BottomRotorResonatorArm", "BottomRotorUpperArm"));
-    private static final OBJModelContainer modelPartResonanceCrystal = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "quantum_assembler.obj"), Collections.singletonList("ResonanceCrystal"));
-    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(Resource.MODEL, "quantum_assembler.obj"), Arrays.asList("Circuit1", "Circuit2", "Circuit3", "Circuit4", "ControlPad", "ControlPadRibbonCable", "ControlPadRibbonConnector", "MaterialPlinthBase", "MaterialPlinthCore", "MaterialPlinthStand", "PlinthBasePlate", "PlinthBaseRibbonConnector", "Ram1", "Ram2", "Ram3", "Ram4", "ResonatorAssembly", "ResonatorUnit", "SafetyGlassBack", "SafetyGlassFront", "SafetyGlassLeft", "SafetyGlassRight", "SafetyGlassTop"));
+    private static final OBJModelContainer modelPartHands = new OBJModelContainer(ResourceUtility.getResource(EnumResource.MODEL, "quantum_assembler.obj"), Arrays.asList("BackArmLower", "BackArmUpper", "FrontArmLower", "FrontArmUpper", "LeftArmLower", "LeftArmUpper", "RightArmLower", "RightArmUpper"));
+    private static final OBJModelContainer modelPartArms = new OBJModelContainer(ResourceUtility.getResource(EnumResource.MODEL, "quantum_assembler.obj"), Arrays.asList("MiddleRotor", "MiddleRotorArmBase", "MiddleRotorFocusLaser", "MiddleRotorLowerArm", "MiddleRotorUpperArm"));
+    private static final OBJModelContainer modelPartLargeArms = new OBJModelContainer(ResourceUtility.getResource(EnumResource.MODEL, "quantum_assembler.obj"), Arrays.asList("BottomRotor", "BottomRotorArmBase", "BottomRotorLowerArm", "BottomRotorResonatorArm", "BottomRotorUpperArm"));
+    private static final OBJModelContainer modelPartResonanceCrystal = new OBJModelContainer(ResourceUtility.getResource(EnumResource.MODEL, "quantum_assembler.obj"), Collections.singletonList("ResonanceCrystal"));
+    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(EnumResource.MODEL, "quantum_assembler.obj"), Arrays.asList("Circuit1", "Circuit2", "Circuit3", "Circuit4", "ControlPad", "ControlPadRibbonCable", "ControlPadRibbonConnector", "MaterialPlinthBase", "MaterialPlinthCore", "MaterialPlinthStand", "PlinthBasePlate", "PlinthBaseRibbonConnector", "Ram1", "Ram2", "Ram3", "Ram4", "ResonatorAssembly", "ResonatorUnit", "SafetyGlassBack", "SafetyGlassFront", "SafetyGlassLeft", "SafetyGlassRight", "SafetyGlassTop"));
     private static final Render<EntityItem> itemRenderer = new RenderEntityItem(Minecraft.getMinecraft().getRenderManager(), Minecraft.getMinecraft().getRenderItem()) {
         @Override
         public boolean shouldBob() {

@@ -60,7 +60,7 @@ public class PacketHandler {
 	 */
 	public void sendToCuboid(final IMessage message, final AxisAlignedBB cuboid, final int dimensionId) {
 		if (cuboid != null) {
-			for (EntityPlayerMP player : PlayerUtility.getPlayers()) {
+			for (final EntityPlayerMP player : PlayerUtility.getPlayers()) {
 				if (player.dimension == dimensionId && cuboid.isVecInside(new Vec3d(player.posX, player.posY, player.posZ))) {
 					sendTo(message, player);
 				}
@@ -69,13 +69,13 @@ public class PacketHandler {
 	}
 
 	public void sendToReceivers(final IMessage message, final Set<EntityPlayer> playerList) {
-		for (EntityPlayer player : playerList) {
+		for (final EntityPlayer player : playerList) {
 			sendTo(message, (EntityPlayerMP) player);
 		}
 	}
 
 	public void sendToReceivers(final IMessage message, final Range range) {
-		for (EntityPlayerMP player : PlayerUtility.getPlayers()) {
+		for (final EntityPlayerMP player : PlayerUtility.getPlayers()) {
 			if (player.getEntityWorld().equals(range.getWorld()) && Range.getChunkRange(player).intersects(range)) {
 				sendTo(message, player);
 			}
@@ -132,7 +132,7 @@ public class PacketHandler {
     }
 
     public static void writeObjects(final List<Object> objects, final ByteBuf dataStream) {
-        for (Object object : objects) {
+        for (final Object object : objects) {
             writeObject(object, dataStream);
         }
     }

@@ -12,6 +12,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class TileInventoryMachine extends TileMachine {
+    private static final String NBT_SLOTS = "slots";
+
     protected IItemHandlerModifiable inventory;
 
     public TileInventoryMachine() {
@@ -26,17 +28,16 @@ public abstract class TileInventoryMachine extends TileMachine {
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        operatingTicks = tag.getInteger("operatingTicks");
         InventoryUtility.readFromNBT(tag, inventory);
 
-        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag("Slots"));
+        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag(NBT_SLOTS));
     }
 
     @Override
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
+        tag.setTag(NBT_SLOTS, CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
 
         return tag;
     }

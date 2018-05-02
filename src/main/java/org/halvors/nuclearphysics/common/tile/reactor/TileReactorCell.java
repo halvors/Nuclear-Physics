@@ -46,6 +46,10 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileReactorCell extends TileRotatable implements ITickable, IReactor {
+    private static final String NBT_TEMPERATURE = "temperature";
+    private static final String NBT_SLOTS = "slots";
+    private static final String NBT_TANK = "tank";
+
     private String name;
 
     public static final int radius = 2;
@@ -116,11 +120,11 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        temperature = tag.getFloat("temperature");
+        temperature = tag.getFloat(NBT_TEMPERATURE);
         InventoryUtility.readFromNBT(tag, inventory);
 
-        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag("Slots"));
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+        CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag(NBT_SLOTS));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag(NBT_TANK));
     }
 
     @Override
@@ -128,9 +132,9 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setFloat("temperature", temperature);
-        tag.setTag("Slots", CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
-        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
+        tag.setFloat(NBT_TEMPERATURE, temperature);
+        tag.setTag(NBT_SLOTS, CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
+        tag.setTag(NBT_TANK, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }

@@ -13,6 +13,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileProducer extends TileRotatable {
+    private static final String NBT_STORED_ENERGY = "storedEnergy";
+
     protected EnergyStorage energyStorage;
 
     public TileProducer() {
@@ -24,7 +26,7 @@ public class TileProducer extends TileRotatable {
         super.readFromNBT(tag);
 
         if (energyStorage != null) {
-            CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag("storedEnergy"));
+            CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag(NBT_STORED_ENERGY));
         }
     }
 
@@ -33,7 +35,7 @@ public class TileProducer extends TileRotatable {
         super.writeToNBT(tag);
 
         if (energyStorage != null) {
-            tag.setTag("storedEnergy", CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));
+            tag.setTag(NBT_STORED_ENERGY, CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));
         }
 
         return tag;

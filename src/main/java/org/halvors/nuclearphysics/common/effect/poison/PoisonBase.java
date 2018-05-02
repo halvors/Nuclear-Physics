@@ -6,28 +6,27 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import org.halvors.nuclearphysics.api.effect.poison.EnumPoisonType;
 import org.halvors.nuclearphysics.api.effect.poison.IPoison;
-import org.halvors.nuclearphysics.api.effect.poison.PoisonType;
 import org.halvors.nuclearphysics.api.item.armor.IAntiPoisonArmor;
 import org.halvors.nuclearphysics.api.item.armor.IArmorSet;
 import org.halvors.nuclearphysics.common.effect.potion.PotionBase;
 
-import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.EnumSet;
 
 public abstract class PoisonBase extends PotionBase implements IPoison {
-    protected final PoisonType type;
+    protected final EnumPoisonType type;
     protected final DamageSource damageSource;
 
-    public PoisonBase(final boolean isBadEffect, final int color, final PoisonType type) {
+    public PoisonBase(final boolean isBadEffect, final int color, final EnumPoisonType type) {
         super(isBadEffect, color, type.getName());
 
         this.type = type;
         this.damageSource = new DamageSource(type.getName()).setDamageBypassesArmor();
     }
 
-    public PoisonBase(final boolean isBadEffect, final int red, final int green, final int blue, final PoisonType type) {
+    public PoisonBase(final boolean isBadEffect, final int red, final int green, final int blue, final EnumPoisonType type) {
         this(isBadEffect, new Color(red, green, blue).getRGB(), type);
     }
 
@@ -42,7 +41,7 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
         if (entity instanceof EntityPlayer) {
             final EntityPlayer player = (EntityPlayer) entity;
 
-            for (ItemStack itemStack : player.getArmorInventoryList()) {
+            for (final ItemStack itemStack : player.getArmorInventoryList()) {
                 if (itemStack != null) {
                     final Item item = itemStack.getItem();
 
@@ -84,5 +83,5 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
         poisonEntity(entity, 0);
     }
 
-    protected abstract void performPoisonEffect(@Nonnull final EntityLivingBase entity, final int amplifier);
+    protected abstract void performPoisonEffect(final EntityLivingBase entity, final int amplifier);
 }

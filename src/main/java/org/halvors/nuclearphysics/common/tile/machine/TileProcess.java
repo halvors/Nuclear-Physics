@@ -26,6 +26,9 @@ import java.util.List;
  * General class for all machines that do traditional recipe processing.
  */
 public abstract class TileProcess extends TileInventoryMachine implements IFluidHandler {
+    private static final String NBT_TANK_INPUT = "tankInput";
+    private static final String NBT_TANK_OUTPUT = "tankInOutput";
+
     protected LiquidTank tankInput;
     protected LiquidTank tankOutput;
 
@@ -47,16 +50,16 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInput, null, tag.getTag("tankInput"));
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankOutput, null, tag.getTag("tankOutput"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInput, null, tag.getTag(NBT_TANK_INPUT));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankOutput, null, tag.getTag(NBT_TANK_OUTPUT));
     }
 
     @Override
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tankInput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInput, null));
-        tag.setTag("tankOutput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));
+        tag.setTag(NBT_TANK_INPUT, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInput, null));
+        tag.setTag(NBT_TANK_OUTPUT, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));
 
         return tag;
     }

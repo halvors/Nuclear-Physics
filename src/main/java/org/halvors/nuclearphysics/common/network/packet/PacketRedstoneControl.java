@@ -10,16 +10,16 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
-import org.halvors.nuclearphysics.common.type.RedstoneControl;
+import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
 
 public class PacketRedstoneControl extends PacketLocation implements IMessage {
-    public RedstoneControl redstoneControl;
+    public EnumRedstoneControl redstoneControl;
 
     public PacketRedstoneControl() {
 
     }
 
-    public PacketRedstoneControl(final BlockPos pos, final RedstoneControl redstoneControl) {
+    public PacketRedstoneControl(final BlockPos pos, final EnumRedstoneControl redstoneControl) {
         super(pos);
 
         this.redstoneControl = redstoneControl;
@@ -36,7 +36,7 @@ public class PacketRedstoneControl extends PacketLocation implements IMessage {
     public void fromBytes(final ByteBuf dataStream) {
         super.fromBytes(dataStream);
 
-        redstoneControl = RedstoneControl.values()[dataStream.readInt()];
+        redstoneControl = EnumRedstoneControl.values()[dataStream.readInt()];
     }
 
     public static class PacketRedstoneControlMessage implements IMessageHandler<PacketRedstoneControl, IMessage> {

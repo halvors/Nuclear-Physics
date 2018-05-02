@@ -3,7 +3,7 @@ package org.halvors.nuclearphysics.common.unit;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum ElectricUnit {
+public enum EnumElectricUnit {
     FORGE_ENERGY("Forge Energy", "FE"),
     TESLA("Tesla", "T"),
     JOULES("Joule", "J"),
@@ -12,7 +12,7 @@ public enum ElectricUnit {
     private final String name;
     private final String symbol;
 
-    ElectricUnit(final String name, final String symbol) {
+    EnumElectricUnit(final String name, final String symbol) {
         this.name = name;
         this.symbol = symbol;
     }
@@ -29,8 +29,8 @@ public enum ElectricUnit {
         return this == FORGE_ENERGY ? name : name + "s";
     }
 
-    public static ElectricUnit fromName(final String name) {
-        for (ElectricUnit unit : values()) {
+    public static EnumElectricUnit fromName(final String name) {
+        for (EnumElectricUnit unit : values()) {
             if (unit.name.equals(name)) {
                 return unit;
             }
@@ -39,8 +39,8 @@ public enum ElectricUnit {
         return FORGE_ENERGY;
     }
 
-    public static ElectricUnit fromSymbol(final String symbol) {
-        for (ElectricUnit unit : values()) {
+    public static EnumElectricUnit fromSymbol(final String symbol) {
+        for (EnumElectricUnit unit : values()) {
             if (unit.symbol.equals(symbol)) {
                 return unit;
             }
@@ -52,7 +52,7 @@ public enum ElectricUnit {
     public static List<String> getSymbols() {
         final List<String> symbols = new ArrayList<>();
 
-        for (ElectricUnit unit : values()) {
+        for (EnumElectricUnit unit : values()) {
             symbols.add(unit.getSymbol());
         }
 

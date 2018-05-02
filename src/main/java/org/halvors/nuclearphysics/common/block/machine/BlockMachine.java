@@ -72,7 +72,7 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(final @Nonnull Item item, final CreativeTabs tab, final List<ItemStack> list) {
+    public void getSubBlocks(@Nonnull final Item item, final CreativeTabs tab, final List<ItemStack> list) {
         for (final EnumMachine type : EnumMachine.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
@@ -136,6 +136,7 @@ public class BlockMachine extends BlockInventory {
 
     @SuppressWarnings("deprecation")
     @Override
+    @Nonnull
     public IBlockState getStateFromMeta(final int metadata) {
         return getDefaultState().withProperty(BlockStateMachine.TYPE, EnumMachine.values()[metadata]);
     }
@@ -192,7 +193,8 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
+    @Nonnull
+    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
         final EnumMachine type = state.getValue(BlockStateMachine.TYPE);
 
         return type.getTileAsInstance();

@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.type.Resource;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.util.HashMap;
@@ -23,8 +23,8 @@ public class TextureEventHandler {
     private static final Map<String, TextureAtlasSprite> textureMap = new HashMap<>();
     private static TextureAtlasSprite missingIcon;
 
-    private static final ResourceLocation electricTurbineLarge = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "electric_turbine_large");
-    private static final ResourceLocation reactorFissileMaterial = ResourceUtility.getResource(Resource.TEXTURE_MODELS, "reactor_fissile_material");
+    private static final ResourceLocation electricTurbineLarge = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "electric_turbine_large");
+    private static final ResourceLocation reactorFissileMaterial = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "reactor_fissile_material");
 
     @SubscribeEvent
     public static void onPreTextureStitchEvent(final TextureStitchEvent.Pre event) {

@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.Reference;
-import org.halvors.nuclearphysics.common.type.Color;
+import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.lwjgl.input.Keyboard;
 
@@ -24,7 +24,7 @@ public class ItemTooltip extends ItemBase {
 
         if (LanguageUtility.canTranselate(tooltip)) {
             if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                list.add(LanguageUtility.transelate("tooltip." + Reference.ID + ".noShift", Color.AQUA.toString(), Color.GREY.toString()));
+                list.add(LanguageUtility.transelate("tooltip." + Reference.ID + ".noShift", EnumColor.AQUA.toString(), EnumColor.GREY.toString()));
             } else {
                 list.addAll(LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tooltip), 5));
             }

@@ -54,26 +54,24 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
             final World world = PacketHandler.getWorld(messageContext);
             final EntityPlayer player = PacketHandler.getPlayer(messageContext);
 
-            if (player != null) {
-                NuclearPhysics.getProxy().addScheduledTask(() -> {
-                    final BlockPos pos = message.getPos();
+            NuclearPhysics.getProxy().addScheduledTask(() -> {
+                final BlockPos pos = message.getPos();
 
-                    if (!world.isRemote && PlayerUtility.isOp(player)) {
-                        try {
-                            if (message.size > 0) {
-                                // TODO: Implement dynamic facing, not just NORTH.
-                                final HashMap<BlockPos, IBlockState> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.NORTH, message.size);
+                if (!world.isRemote && PlayerUtility.isOp(player)) {
+                    try {
+                        if (message.size > 0) {
+                            // TODO: Implement dynamic facing, not just NORTH.
+                            final HashMap<BlockPos, IBlockState> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.NORTH, message.size);
 
-                                for (Entry<BlockPos, IBlockState> entry : map.entrySet()) {
-                                    world.setBlockState(entry.getKey().add(pos), entry.getValue());
-                                }
+                            for (final Entry<BlockPos, IBlockState> entry : map.entrySet()) {
+                                world.setBlockState(entry.getKey().add(pos), entry.getValue());
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                }, world);
-            }
+                }
+            }, world);
 
             return null;
         }

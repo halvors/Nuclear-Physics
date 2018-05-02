@@ -11,7 +11,7 @@ import org.halvors.nuclearphysics.client.gui.GuiComponentScreen;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.packet.PacketCreativeBuilder;
-import org.halvors.nuclearphysics.common.type.Color;
+import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import java.io.IOException;
@@ -58,7 +58,7 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
         list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(block.getUnlocalizedName() + ".text"), 4);
 
         for (int i = 0; i < list.size(); i++) {
-            fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 150 + i * 9, Color.DARK_RED.getHex());
+            fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 150 + i * 9, EnumColor.DARK_RED.getHex());
         }
 
         super.drawGuiScreenForegroundLayer(mouseX, mouseY);

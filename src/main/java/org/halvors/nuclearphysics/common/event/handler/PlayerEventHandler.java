@@ -15,7 +15,7 @@ import org.halvors.nuclearphysics.common.network.packet.PacketConfiguration;
  */
 public class PlayerEventHandler {
 	@SubscribeEvent
-	public void onPlayerLoginEvent(final PlayerLoggedInEvent event) {
+	public void onPlayerLoggedInEvent(final PlayerLoggedInEvent event) {
 		final EntityPlayer player = event.player;
 		final World world = player.getEntityWorld();
 
