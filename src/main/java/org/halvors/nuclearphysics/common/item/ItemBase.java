@@ -12,7 +12,7 @@ import org.halvors.nuclearphysics.common.Reference;
 public class ItemBase extends Item {
 	protected final String name;
 
-	public ItemBase(String name) {
+	public ItemBase(final String name) {
 		this.name = name;
 
 		setUnlocalizedName(Reference.ID + "." + name);

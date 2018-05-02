@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.container.process;
+package org.halvors.nuclearphysics.common.container.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.items.SlotItemHandler;
@@ -6,7 +6,7 @@ import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 
 public class ContainerNuclearBoiler extends ContainerBase<TileNuclearBoiler> {
-    public ContainerNuclearBoiler(InventoryPlayer inventoryPlayer, TileNuclearBoiler tile) {
+    public ContainerNuclearBoiler(final InventoryPlayer inventoryPlayer, final TileNuclearBoiler tile) {
         super(5, inventoryPlayer, tile);
 
         // Battery

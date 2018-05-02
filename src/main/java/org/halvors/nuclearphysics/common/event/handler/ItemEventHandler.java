@@ -10,7 +10,7 @@ import org.halvors.nuclearphysics.common.init.ModItems;
 
 public class ItemEventHandler {
     @SubscribeEvent
-    public void onItemExpireEvent(ItemExpireEvent event) {
+    public void onItemExpireEvent(final ItemExpireEvent event) {
         if (General.enableAntimatterPower) {
             final EntityItem entityItem = event.getEntityItem();
 

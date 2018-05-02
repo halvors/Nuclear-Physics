@@ -24,7 +24,7 @@ public class BlockFluidRadioactive extends BlockFluidClassic {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
+    public void randomDisplayTick(final IBlockState state, final World world, final BlockPos pos, final Random random) {
         super.randomDisplayTick(state, world, pos, random);
 
         if (Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
@@ -35,7 +35,7 @@ public class BlockFluidRadioactive extends BlockFluidClassic {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
+    public void onEntityCollidedWithBlock(final World world, final BlockPos pos, final IBlockState state, final Entity entity) {
         if (entity instanceof EntityLivingBase) {
             entity.attackEntityFrom(ModPotions.poisonRadiation.getDamageSource(), 3);
 

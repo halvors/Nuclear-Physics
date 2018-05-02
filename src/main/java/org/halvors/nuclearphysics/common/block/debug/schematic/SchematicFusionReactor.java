@@ -4,6 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
@@ -18,16 +19,16 @@ public class SchematicFusionReactor implements ISchematic {
 
     @Override
     public HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size) {
-        HashMap<BlockPos, IBlockState> map = new HashMap<>();
+        final HashMap<BlockPos, IBlockState> map = new HashMap<>();
 
         // Fusion Torus.
-        int radius = size + 2;
+        final int radius = size + 2;
 
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
                 for (int y = 0; y <= size; y++) {
-                    BlockPos pos = new BlockPos(x, y, z);
-                    double magnitude = Math.sqrt(x * x + z * z);
+                    final BlockPos pos = new BlockPos(x, y, z);
+                    final double magnitude = Math.sqrt(x * x + z * z);
 
                     if (!map.containsKey(pos)) {
                         map.put(pos, Blocks.AIR.getDefaultState());

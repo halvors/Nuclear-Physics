@@ -5,6 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.type.Position;
 
@@ -18,7 +19,7 @@ public class SchematicBreedingReactor implements ISchematic {
 
     @Override
     public HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size) {
-        HashMap<BlockPos, IBlockState> map = new HashMap<>();
+        final HashMap<BlockPos, IBlockState> map = new HashMap<>();
 
         int radius = Math.max(size, 2);
 
@@ -32,7 +33,7 @@ public class SchematicBreedingReactor implements ISchematic {
 
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
-                Position position = new Position(x, 0, z);
+                final Position position = new Position(x, 0, z);
 
                 if (position.getMagnitude() <= 2) {
                     if (!((x == -radius || x == radius) && (z == -radius || z == radius))) {

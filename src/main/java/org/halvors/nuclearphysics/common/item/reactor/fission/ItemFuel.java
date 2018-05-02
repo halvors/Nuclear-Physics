@@ -19,7 +19,7 @@ public class ItemFuel extends ItemRadioactive {
     // Approximately 20,000,000J per tick. 400 MW.
     public static final long energyPerTick = energyDensity / 50000;
 
-    public ItemFuel(String name) {
+    public ItemFuel(final String name) {
         super(name);
 
         setMaxStackSize(1);
@@ -30,7 +30,7 @@ public class ItemFuel extends ItemRadioactive {
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+    public void getSubItems(@Nonnull final Item item, final CreativeTabs tab, final NonNullList<ItemStack> list) {
         list.add(new ItemStack(item));
         list.add(new ItemStack(item, 1, getMaxDamage() - 1));
     }

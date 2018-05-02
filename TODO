@@ -1,3 +1,6 @@
+Code cleanup:
+    Continue upwards from "container" package under common.
+
 Known bugs:
     Before Beta release:
         - Verify that it's possible to output 1g anitmatter cells.

@@ -15,14 +15,14 @@ public class TileSiren extends TileEntity implements ITickable {
     @Override
     public void update() {
         if (!world.isRemote && world.getWorldTime() % 30 == 0) {
-            int pitch = world.getBlockState(pos).getValue(BlockStateSiren.PITCH);
+            final int pitch = world.getBlockState(pos).getValue(BlockStateSiren.PITCH);
 
             if (world.isBlockIndirectlyGettingPowered(pos) > 0) {
                 float volume = 0.5F;
 
                 // Check in each direction for another siren block, if exists amplify volume.
                 for (EnumFacing side : EnumFacing.values()) {
-                    TileEntity tile = world.getTileEntity(pos.offset(side));
+                    final TileEntity tile = world.getTileEntity(pos.offset(side));
 
                     if (tile == this) {
                         volume *= 1.5F;

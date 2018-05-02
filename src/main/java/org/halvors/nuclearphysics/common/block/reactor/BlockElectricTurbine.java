@@ -28,26 +28,26 @@ public class BlockElectricTurbine extends BlockContainerBase {
     @Override
     @Nonnull
     @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState state) {
+    public EnumBlockRenderType getRenderType(final IBlockState state) {
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(final IBlockState state) {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World world, final BlockPos pos, final IBlockState state, final EntityPlayer player, final EnumHand hand, final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileElectricTurbine) {
@@ -62,11 +62,11 @@ public class BlockElectricTurbine extends BlockContainerBase {
     }
 
     @Override
-    public void breakBlock(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void breakBlock(final @Nonnull World world, final @Nonnull BlockPos pos, final @Nonnull IBlockState state) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileElectricTurbine) {
-            TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
+            final TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
             tileTurbine.getMultiBlock().deconstruct();
         }
 
@@ -75,7 +75,7 @@ public class BlockElectricTurbine extends BlockContainerBase {
 
     @Override
     @Nonnull
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
         return new TileElectricTurbine();
     }
 }

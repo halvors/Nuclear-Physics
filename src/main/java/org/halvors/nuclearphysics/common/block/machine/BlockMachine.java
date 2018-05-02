@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -38,8 +39,8 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public void registerItemModel(ItemBlock itemBlock) {
-        for (EnumMachine type : EnumMachine.values()) {
+    public void registerItemModel(final ItemBlock itemBlock) {
+        for (final EnumMachine type : EnumMachine.values()) {
             NuclearPhysics.getProxy().registerItemRenderer(itemBlock, type.ordinal(), name, "facing=north,type=" + type.getName());
         }
     }
@@ -48,35 +49,35 @@ public class BlockMachine extends BlockInventory {
     @Override
     @Nonnull
     @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(IBlockState state) {
+    public EnumBlockRenderType getRenderType(final IBlockState state) {
         return state.getValue(BlockStateMachine.TYPE).getRenderType();
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(final IBlockState state) {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubBlocks(@Nonnull Item item, CreativeTabs creativeTabs, NonNullList<ItemStack> list) {
-        for (EnumMachine type : EnumMachine.values()) {
+    public void getSubBlocks(final @Nonnull Item item, final CreativeTabs creativeTabs, final NonNullList<ItemStack> list) {
+        for (final EnumMachine type : EnumMachine.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
+    public void randomDisplayTick(final IBlockState state, final World world, final BlockPos pos, final Random random) {
         final EnumMachine type = state.getValue(BlockStateMachine.TYPE);
         final TileEntity tile = world.getTileEntity(pos);
 
@@ -84,14 +85,14 @@ public class BlockMachine extends BlockInventory {
             final TileMachine tileMachine = (TileMachine) tile;
 
             EnumParticleTypes particleTypes = null;
-            float xRandom = (float)pos.getX() + 0.5F;
-            float yRandom = (float)pos.getY() + 0.2F + random.nextFloat() * 6.0F / 16.0F;
-            float zRandom = (float)pos.getZ() + 0.5F;
-            float iRandom = 0.52F;
-            float jRandom = random.nextFloat() * 0.6F - 0.3F;
-            double xSpeed = 0;
+            final float xRandom = (float)pos.getX() + 0.5F;
+            final float yRandom = (float)pos.getY() + 0.2F + random.nextFloat() * 6.0F / 16.0F;
+            final float zRandom = (float)pos.getZ() + 0.5F;
+            final float iRandom = 0.52F;
+            final float jRandom = random.nextFloat() * 0.6F - 0.3F;
+            final double xSpeed = 0;
             double ySpeed = 0;
-            double zSpeed = 0;
+            final double zSpeed = 0;
 
             switch (type) {
                 case NUCLEAR_BOILER:
@@ -132,18 +133,18 @@ public class BlockMachine extends BlockInventory {
 
     @SuppressWarnings("deprecation")
     @Override
-    public IBlockState getStateFromMeta(int metadata) {
+    public IBlockState getStateFromMeta(final int metadata) {
         return getDefaultState().withProperty(BlockStateMachine.TYPE, EnumMachine.values()[metadata]);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(BlockStateMachine.TYPE).ordinal();
     }
 
     @Override
-    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-        TileEntity tile = world.getTileEntity(pos);
+    public void onBlockAdded(final World world, final BlockPos pos, final IBlockState state) {
+        final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileMachine) {
             ((TileMachine) tile).updatePower();
@@ -151,19 +152,19 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
+    public void onBlockPlacedBy(final World world, final BlockPos pos, final IBlockState state, final EntityLivingBase entity, final ItemStack itemStack) {
         world.setBlockState(pos, state.withProperty(BlockStateMachine.TYPE, EnumMachine.values()[itemStack.getItemDamage()]));
 
         super.onBlockPlacedBy(world, pos, state, entity, itemStack);
     }
 
     @Override
-    public int damageDropped(IBlockState state) {
+    public int damageDropped(final IBlockState state) {
         return getMetaFromState(state);
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World world, final BlockPos pos, final IBlockState state, final EntityPlayer player, final EnumHand hand, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TilePlasmaHeater) {
@@ -179,8 +180,8 @@ public class BlockMachine extends BlockInventory {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
-        TileEntity tile = world.getTileEntity(pos);
+    public void neighborChanged(final IBlockState state, final World world, final BlockPos pos, final Block block, final BlockPos fromPos) {
+        final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileMachine) {
             ((TileMachine) tile).updatePower();
@@ -188,8 +189,8 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
-        EnumMachine type = state.getValue(BlockStateMachine.TYPE);
+    public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
+        final EnumMachine type = state.getValue(BlockStateMachine.TYPE);
 
         return type.getTileAsInstance();
     }

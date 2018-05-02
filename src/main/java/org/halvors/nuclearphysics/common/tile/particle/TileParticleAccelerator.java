@@ -49,18 +49,18 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
         this(EnumMachine.PARTICLE_ACCELERATOR);
     }
 
-    public TileParticleAccelerator(EnumMachine type) {
+    public TileParticleAccelerator(final EnumMachine type) {
         super(type);
 
         energyStorage = new EnergyStorage(energyPerTick * 40, energyPerTick);
         inventory = new ItemStackHandler(4) {
             @Override
-            protected void onContentsChanged(int slot) {
+            protected void onContentsChanged(final int slot) {
                 super.onContentsChanged(slot);
                 markDirty();
             }
 
-            public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            public boolean isItemValidForSlot(final int slot, final ItemStack itemStack) {
                 switch (slot) {
                     case 0:
                         return true;
@@ -79,7 +79,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
             }
 
             @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            public ItemStack insertItem(final int slot, final ItemStack stack, final boolean simulate) {
                 if (!isItemValidForSlot(slot, stack)) {
                     return stack;
                 }
@@ -90,7 +90,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         totalEnergyConsumed = tag.getInteger("totalEnergyConsumed");
@@ -98,7 +98,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setInteger("totalEnergyConsumed", totalEnergyConsumed);
@@ -119,13 +119,13 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
             outputAntimatter();
 
             // Check if redstone signal is currently being applied.
-            ItemStack itemStack = inventory.getStackInSlot(0);
+            final ItemStack itemStack = inventory.getStackInSlot(0);
 
             if (canFunction() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
                 if (entityParticle == null) {
                     // Creates a accelerated particle if one needs to exist (on world load for example or player login).
                     if (!itemStack.isEmpty() && lastSpawnTick >= 40) {
-                        BlockPos spawnAcceleratedParticlePos = pos.offset(facing.getOpposite());
+                        final BlockPos spawnAcceleratedParticlePos = pos.offset(facing.getOpposite());
 
                         // Only render the particle if container within the proper environment for it.
                         if (EntityParticle.canSpawnParticle(world, spawnAcceleratedParticlePos)) {
@@ -194,7 +194,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
@@ -205,7 +205,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         objects.add(totalEnergyConsumed);
@@ -248,18 +248,18 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
      */
     private void outputAntimatter() {
         // Do we have an empty cell in slot one
-        ItemStack itemStackEmptyCell = inventory.getStackInSlot(1);
+        final ItemStack itemStackEmptyCell = inventory.getStackInSlot(1);
 
         if (OreDictionaryHelper.isEmptyCell(itemStackEmptyCell) && itemStackEmptyCell.getCount() > 0) {
             // Each cell can only hold 125mg of antimatter
             // TODO: maybe a config for this?
             if (antimatterCount >= 125) {
-                ItemStack itemStack = inventory.getStackInSlot(2);
+                final ItemStack itemStack = inventory.getStackInSlot(2);
 
                 if (!itemStack.isEmpty()) {
                     // If the output slot is not empty we must increase stack size
                     if (itemStack.getItem() == ModItems.itemAntimatterCell) {
-                        ItemStack newStack = itemStack.copy();
+                        final ItemStack newStack = itemStack.copy();
 
                         if (newStack.getCount() < newStack.getMaxStackSize()) {
                             InventoryUtility.decrStackSize(inventory, 1);
@@ -279,13 +279,13 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     }
 
     private void calculateParticleDensity() {
-        ItemStack itemStack = inventory.getStackInSlot(0);
+        final ItemStack itemStack = inventory.getStackInSlot(0);
 
         if (!itemStack.isEmpty()) {
-            Item item = itemStack.getItem();
+            final Item item = itemStack.getItem();
 
             if (item instanceof ItemBlock) {
-                IBlockState state = Block.getBlockFromItem(item).getDefaultState();
+                final IBlockState state = Block.getBlockFromItem(item).getDefaultState();
 
                 // Prevent negative numbers and disallow zero for density multiplier.
                 // We can give any BlockPos as argument, it's not used anyway.
@@ -315,7 +315,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
         return entityParticle;
     }
 
-    public void setEntityParticle(EntityParticle entityParticle) {
+    public void setEntityParticle(final EntityParticle entityParticle) {
         this.entityParticle = entityParticle;
     }
 

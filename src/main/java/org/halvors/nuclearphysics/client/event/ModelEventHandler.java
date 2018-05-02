@@ -28,7 +28,7 @@ public class ModelEventHandler {
 	 * @param event The event
 	 */
 	@SubscribeEvent
-	public static void registerAllModels(ModelRegistryEvent event) {
+	public static void registerAllModels(final ModelRegistryEvent event) {
 		instance.registerFluidModels();
 	}
 
@@ -46,12 +46,15 @@ public class ModelEventHandler {
 	 *
 	 * @param fluidBlock The Fluid's Block
 	 */
-	private void registerFluidModel(IFluidBlock fluidBlock) {
+	private void registerFluidModel(final IFluidBlock fluidBlock) {
 		final Item item = Item.getItemFromBlock((Block) fluidBlock);
 		final ModelResourceLocation modelResourceLocation = new ModelResourceLocation(Reference.PREFIX + "fluid", fluidBlock.getFluid().getName());
 
-		ModelBakery.registerItemVariants(item);
-		ModelLoader.setCustomMeshDefinition(item, stack -> modelResourceLocation);
+		if (item != null) {
+			ModelBakery.registerItemVariants(item);
+			ModelLoader.setCustomMeshDefinition(item, stack -> modelResourceLocation);
+		}
+
 		ModelLoader.setCustomStateMapper((Block) fluidBlock, new StateMapperBase() {
 			@Override
 			protected ModelResourceLocation getModelResourceLocation(IBlockState p_178132_1_) {

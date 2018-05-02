@@ -4,6 +4,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 
@@ -25,24 +27,19 @@ public class ItemUranium extends ItemRadioactive {
     }
 
     @Override
-    public void getSubItems(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
+    @SideOnly(Side.CLIENT)
+    public void getSubItems(@Nonnull final Item item, final CreativeTabs tab, final NonNullList<ItemStack> list) {
         for (EnumUranium type : EnumUranium.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
 
     public enum EnumUranium {
-        URANIUM_235("uranium_235"),
-        URANIUM_238("uranium_238");
-
-        private String name;
-
-        EnumUranium(String name) {
-            this.name = name;
-        }
+        URANIUM_235,
+        URANIUM_238;
 
         public String getName() {
-            return name.toLowerCase();
+            return name().toLowerCase();
         }
     }
 }

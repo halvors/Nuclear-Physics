@@ -11,7 +11,7 @@ import java.util.Set;
 @SideOnly(Side.CLIENT)
 public class GuiConfiguationFactory implements IModGuiFactory {
     @Override
-    public void initialize(Minecraft instance) {
+    public void initialize(final Minecraft instance) {
 
     }
 
@@ -37,7 +37,7 @@ public class GuiConfiguationFactory implements IModGuiFactory {
 
     @SuppressWarnings("deprecation")
     @Override
-    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
+    public RuntimeOptionGuiHandler getHandlerFor(final RuntimeOptionCategoryElement element) {
         return null;
     }
 }

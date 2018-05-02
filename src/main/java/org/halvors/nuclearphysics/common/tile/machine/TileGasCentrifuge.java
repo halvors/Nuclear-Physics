@@ -34,7 +34,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
 
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 5) {
         @Override
-        public int fill(FluidStack resource, boolean doFill) {
+        public int fill(final FluidStack resource, final boolean doFill) {
             if (resource.isFluidEqual(ModFluids.fluidStackUraniumHexaflouride)) {
                 return super.fill(resource, doFill);
             }
@@ -52,18 +52,18 @@ public class TileGasCentrifuge extends TileInventoryMachine {
         this(EnumMachine.GAS_CENTRIFUGE);
     }
 
-    public TileGasCentrifuge(EnumMachine type) {
+    public TileGasCentrifuge(final EnumMachine type) {
         super(type);
 
         energyStorage = new EnergyStorage(energyPerTick * 2);
         inventory = new ItemStackHandler(4) {
             @Override
-            protected void onContentsChanged(int slot) {
+            protected void onContentsChanged(final int slot) {
                 super.onContentsChanged(slot);
                 markDirty();
             }
 
-            private boolean isItemValidForSlot(int slot, ItemStack itemStack) {
+            private boolean isItemValidForSlot(final int slot, final ItemStack itemStack) {
                 switch (slot) {
                     case 0: // Battery input slot.
                         return EnergyUtility.canBeDischarged(itemStack);
@@ -85,7 +85,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
             }
 
             @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            public ItemStack insertItem(final int slot, final ItemStack stack, final boolean simulate) {
                 if (!isItemValidForSlot(slot, stack)) {
                     return stack;
                 }
@@ -96,14 +96,14 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
@@ -112,14 +112,14 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final EnumFacing facing) {
         return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final EnumFacing facing) {
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return (T) tank;
         }
@@ -166,7 +166,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
@@ -175,7 +175,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         tank.getPacketData(objects);
@@ -211,7 +211,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean canProcess() {
-        FluidStack fluidStack = tank.getFluid();
+        final FluidStack fluidStack = tank.getFluid();
 
         return fluidStack != null && fluidStack.amount >= General.uraniumHexaflourideRatio;
     }

@@ -29,68 +29,68 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     public BlockFluidPlasma(final Fluid fluid, final Material material) {
         super(material);
 
-        fluid.setBlock(this);
-
         this.fluid = fluid;
+
+        fluid.setBlock(this);
     }
 
     @Override
-    public boolean canRenderInLayer(IBlockState state, @Nonnull BlockRenderLayer layer) {
+    public boolean canRenderInLayer(final IBlockState state, final @Nonnull BlockRenderLayer layer) {
         return layer == BlockRenderLayer.TRANSLUCENT;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
-        Block neighborBlock = world.getBlockState(pos.offset(side)).getBlock();
+    public boolean shouldSideBeRendered(final IBlockState state, final @Nonnull IBlockAccess world, final @Nonnull BlockPos pos, final EnumFacing side) {
+        final IBlockState neighborState = world.getBlockState(pos.offset(side));
 
-        return neighborBlock != this && super.shouldSideBeRendered(state, world, pos, side);
+        return neighborState != state && super.shouldSideBeRendered(state, world, pos, side);
 
     }
 
     @Override
-    public int getLightValue(@Nonnull IBlockState state, IBlockAccess access, @Nonnull BlockPos pos) {
+    public int getLightValue(final @Nonnull IBlockState state, final IBlockAccess access, final @Nonnull BlockPos pos) {
         return fluid.getLuminosity();
     }
 
     @SuppressWarnings("deprecation")
     @Override
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(final IBlockState state, final @Nonnull IBlockAccess world, final @Nonnull BlockPos pos) {
         return NULL_AABB;
     }
 
     @Override
-    public boolean canCollideCheck(IBlockState state, boolean fullHit) {
+    public boolean canCollideCheck(final IBlockState state, final boolean fullHit) {
         return false;
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
+    public void onEntityCollidedWithBlock(final World world, final BlockPos pos, final IBlockState state, final Entity entity) {
         entity.attackEntityFrom(DamageSource.IN_FIRE, 100);
     }
 
     @Override
-    public int quantityDropped(Random random) {
+    public int quantityDropped(final Random random) {
         return 0;
     }
 
     @Override
-    public boolean hasTileEntity(IBlockState state) {
+    public boolean hasTileEntity(final IBlockState state) {
         return true;
     }
 
     @Override
     @Nonnull
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(final @Nonnull World world, final @Nonnull IBlockState state) {
         return new TilePlasma();
     }
 
@@ -102,22 +102,22 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     }
 
     @Override
-    public int place(World world, BlockPos pos, @Nonnull FluidStack fluidStack, boolean doPlace) {
+    public int place(final World world, final BlockPos pos, final @Nonnull FluidStack fluidStack, final boolean doPlace) {
         return 0;
     }
 
     @Override
-    public FluidStack drain(World world, BlockPos pos, boolean doDrain) {
+    public FluidStack drain(final World world, final BlockPos pos, final boolean doDrain) {
         return null;
     }
 
     @Override
-    public boolean canDrain(World world, BlockPos pos) {
+    public boolean canDrain(final World world, final BlockPos pos) {
         return false;
     }
 
     @Override
-    public float getFilledPercentage(World world, BlockPos pos) {
+    public float getFilledPercentage(final World world, final BlockPos pos) {
         return Fluid.BUCKET_VOLUME;
     }
 }
