@@ -4,7 +4,7 @@ import net.minecraft.potion.Potion;
 import org.halvors.nuclearphysics.common.Reference;
 
 public abstract class PotionBase extends Potion {
-    public PotionBase(boolean isBadEffect, int color, String name) {
+    public PotionBase(final boolean isBadEffect, final int color, final String name) {
         super(isBadEffect, color);
 
         setPotionName(this, name);
@@ -16,7 +16,7 @@ public abstract class PotionBase extends Potion {
      * @param potion The potion
      * @param potionName The potion's name
      */
-    public static void setPotionName(Potion potion, String potionName) {
+    public static void setPotionName(final Potion potion, final String potionName) {
         potion.setRegistryName(Reference.ID, potionName);
         potion.setPotionName("effect." + potionName);
     }

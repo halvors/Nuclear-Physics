@@ -10,7 +10,7 @@ import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 public class ModRecipes {
     public static void registerRecipes() {
         if (General.allowGeneratedQuantumAssemblerRecipes) {
-            String[] prefixList = { "ore", "ingot", "nugget", "dust", "gem", "dye", "block", "stone", "crop", "slab", "stair", "pane", "gear", "rod", "stick", "plate", "dustTiny", "cover" };
+            final String[] prefixList = { "ore", "ingot", "nugget", "dust", "gem", "dye", "block", "stone", "crop", "slab", "stair", "pane", "gear", "rod", "stick", "plate", "dustTiny", "cover" };
 
             // Add common items and blocks from ore dictionary.
             for (String oreName : OreDictionary.getOreNames()) {

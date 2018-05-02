@@ -19,19 +19,19 @@ public class BlockControlRod extends BlockBase {
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(@Nonnull IBlockState state, @Nonnull IBlockAccess access, @Nonnull BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(final @Nonnull IBlockState state, final @Nonnull IBlockAccess access, final @Nonnull BlockPos pos) {
         return new AxisAlignedBB(0.3125, 0, 0.3125, 0.6875, 1, 0.6875);
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(final IBlockState state) {
         return false;
     }
 }

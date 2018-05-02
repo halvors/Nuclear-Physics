@@ -27,7 +27,7 @@ public class ItemUranium extends ItemRadioactive {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> list) {
+    public void getSubItems(@Nonnull final CreativeTabs tab, @Nonnull final NonNullList<ItemStack> list) {
         if (isInCreativeTab(tab)) {
             for (EnumUranium type : EnumUranium.values()) {
                 list.add(new ItemStack(this, 1, type.ordinal()));
@@ -36,17 +36,11 @@ public class ItemUranium extends ItemRadioactive {
     }
 
     public enum EnumUranium {
-        URANIUM_235("uranium_235"),
-        URANIUM_238("uranium_238");
-
-        private String name;
-
-        EnumUranium(String name) {
-            this.name = name;
-        }
+        URANIUM_235,
+        URANIUM_238;
 
         public String getName() {
-            return name.toLowerCase();
+            return name().toLowerCase();
         }
     }
 }

@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.event.TextureEventHandler;
-import org.halvors.nuclearphysics.client.event.TextureEventHandler.FluidType;
+import org.halvors.nuclearphysics.client.event.TextureEventHandler.EnumFluidType;
 import org.halvors.nuclearphysics.client.render.block.Model3D;
 import org.halvors.nuclearphysics.client.render.block.RenderTile;
 import org.halvors.nuclearphysics.common.init.ModFluids;
@@ -20,14 +20,14 @@ public class RenderReactorCell extends RenderTile<TileReactorCell> {
     private static final Model3D modelFissileFuel = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74);
 
     @Override
-    protected void render(TileReactorCell tile, double x, double y, double z) {
+    protected void render(final TileReactorCell tile, final double x, final double y, final double z) {
         // Render fissile fuel inside reactor.
-        IFluidTank tank = tile.getTank();
-        FluidStack fluidStack = tank.getFluid();
-        ItemStack itemStack = tile.getInventory().getStackInSlot(0);
+        final IFluidTank tank = tile.getTank();
+        final FluidStack fluidStack = tank.getFluid();
+        final ItemStack itemStack = tile.getInventory().getStackInSlot(0);
 
         if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma) && tank.getFluidAmount() > 0) {
-            renderFuel(modelPlasma, TextureEventHandler.getFluidTexture(fluidStack.getFluid(), FluidType.STILL), true);
+            renderFuel(modelPlasma, TextureEventHandler.getFluidTexture(fluidStack.getFluid(), EnumFluidType.STILL), true);
         } else if (!itemStack.isEmpty()) {
             renderFuel(modelFissileFuel, TextureEventHandler.getTexture("reactor_fissile_material"), false);
         }

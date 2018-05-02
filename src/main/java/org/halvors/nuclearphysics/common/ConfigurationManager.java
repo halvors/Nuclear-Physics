@@ -3,16 +3,16 @@ package org.halvors.nuclearphysics.common;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.common.config.Configuration;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
-import org.halvors.nuclearphysics.common.unit.ElectricUnit;
-import org.halvors.nuclearphysics.common.unit.TemperatureUnit;
+import org.halvors.nuclearphysics.common.unit.EnumElectricUnit;
+import org.halvors.nuclearphysics.common.unit.EnumTemperatureUnit;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigurationManager {
     public static class General {
-        public static ElectricUnit electricUnit;
-        public static TemperatureUnit temperatureUnit;
+        public static EnumElectricUnit electricUnit;
+        public static EnumTemperatureUnit temperatureUnit;
         public static double toTesla;
         public static double toJoules;
         public static double fromTesla;
@@ -44,11 +44,11 @@ public class ConfigurationManager {
         public static boolean allowGeneratedQuantumAssemblerRecipes;
     }
 
-    public static void loadConfiguration(Configuration configuration) {
+    public static void loadConfiguration(final Configuration configuration) {
         configuration.load();
 
-        General.electricUnit = ElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", ElectricUnit.FORGE_ENERGY.getSymbol(), null, ElectricUnit.getSymbols().toArray(new String[ElectricUnit.values().length])).getString());
-        General.temperatureUnit = TemperatureUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "temperatureUnit", TemperatureUnit.KELVIN.getSymbol(), null, TemperatureUnit.getSymbols().toArray(new String[TemperatureUnit.values().length])).getString());
+        General.electricUnit = EnumElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", EnumElectricUnit.FORGE_ENERGY.getSymbol(), null, EnumElectricUnit.getSymbols().toArray(new String[EnumElectricUnit.values().length])).getString());
+        General.temperatureUnit = EnumTemperatureUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "temperatureUnit", EnumTemperatureUnit.KELVIN.getSymbol(), null, EnumTemperatureUnit.getSymbols().toArray(new String[EnumTemperatureUnit.values().length])).getString());
         General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "toTesla", 1).getDouble();
         General.toJoules = configuration.get(Configuration.CATEGORY_GENERAL, "toJoules", 0.4).getDouble();
         General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "fromTesla", 1).getDouble();
@@ -82,13 +82,13 @@ public class ConfigurationManager {
         configuration.save();
     }
 
-    public static void saveConfiguration(Configuration configuration) {
+    public static void saveConfiguration(final Configuration configuration) {
         configuration.save();
     }
 
-    public static void readConfiguration(ByteBuf dataStream) {
-        General.electricUnit = ElectricUnit.values()[dataStream.readInt()];
-        General.temperatureUnit = TemperatureUnit.values()[dataStream.readInt()];
+    public static void readConfiguration(final ByteBuf dataStream) {
+        General.electricUnit = EnumElectricUnit.values()[dataStream.readInt()];
+        General.temperatureUnit = EnumTemperatureUnit.values()[dataStream.readInt()];
         General.toTesla = dataStream.readDouble();
         General.toJoules = dataStream.readDouble();
         General.fromTesla = dataStream.readDouble();
@@ -120,8 +120,8 @@ public class ConfigurationManager {
         General.allowGeneratedQuantumAssemblerRecipes = dataStream.readBoolean();
     }
 
-    public static void writeConfiguration(ByteBuf dataStream) {
-        List<Object> objects = new ArrayList<>();
+    public static void writeConfiguration(final ByteBuf dataStream) {
+        final List<Object> objects = new ArrayList<>();
 
         objects.add(General.electricUnit.ordinal());
         objects.add(General.temperatureUnit.ordinal());

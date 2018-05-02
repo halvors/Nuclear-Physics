@@ -7,14 +7,14 @@ import net.minecraft.world.IBlockAccess;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 
 public class ReactorExplosion extends RadioactiveExplosion {
-    public ReactorExplosion(IBlockAccess world, Entity entity, BlockPos pos, float size) {
+    public ReactorExplosion(final IBlockAccess world, final Entity entity, final BlockPos pos, final float size) {
         super(world, entity, pos, size, false, true);
     }
 
     @Override
-    public void doExplosionB(boolean spawnParticles) {
+    public void doExplosionB(final boolean spawnParticles) {
         for (BlockPos pos : getAffectedBlockPositions()) {
-            IBlockState stateUnder = world.getBlockState(pos.down());
+            final IBlockState stateUnder = world.getBlockState(pos.down());
 
             if (world.isAirBlock(pos) && stateUnder.isOpaqueCube() && random.nextInt(3) == 0) {
                 world.setBlockState(pos, ModBlocks.blockRadioactiveGrass.getDefaultState());

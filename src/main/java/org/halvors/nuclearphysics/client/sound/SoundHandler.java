@@ -9,11 +9,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class SoundHandler {
-	public static void playSound(ISound sound) {
+	public static void playSound(final ISound sound) {
 		Minecraft.getMinecraft().getSoundHandler().playSound(sound);
 	}
 
-	public static void playSound(SoundEvent sound) {
+	public static void playSound(final SoundEvent sound) {
 		playSound(PositionedSoundRecord.getMasterRecord(sound, 1));
 	}
 }

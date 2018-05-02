@@ -15,13 +15,12 @@ import org.halvors.nuclearphysics.common.network.packet.PacketConfiguration;
  */
 public class PlayerEventHandler {
 	@SubscribeEvent
-	public void onPlayerLoginEvent(PlayerLoggedInEvent event) {
+	public void onPlayerLoginEvent(final PlayerLoggedInEvent event) {
 		final EntityPlayer player = event.player;
 		final World world = player.getEntityWorld();
 
 		if (!world.isRemote) {
 			NuclearPhysics.getPacketHandler().sendTo(new PacketConfiguration(), (EntityPlayerMP) player);
-
 			NuclearPhysics.getLogger().info("Sent configuration to '" + player.getDisplayName() + "'.");
 		}
 	}

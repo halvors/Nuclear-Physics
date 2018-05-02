@@ -32,13 +32,13 @@ public class ItemAntimatterCell extends ItemTooltip {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, @Nullable World world, List<String> list, ITooltipFlag flag) {
+    public void addInformation(final ItemStack itemStack, @Nullable final World world, final List<String> list, final ITooltipFlag flag) {
         list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip"));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull CreativeTabs tab, @Nonnull NonNullList<ItemStack> list) {
+    public void getSubItems(@Nonnull final CreativeTabs tab, @Nonnull final NonNullList<ItemStack> list) {
         if (isInCreativeTab(tab)) {
             for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
                 list.add(new ItemStack(this, 1, type.ordinal()));
@@ -47,22 +47,16 @@ public class ItemAntimatterCell extends ItemTooltip {
     }
 
     @Override
-    public int getEntityLifespan(ItemStack itemStack, World world) {
+    public int getEntityLifespan(final ItemStack itemStack, final World world) {
         return 160;
     }
 
     public enum EnumAntimatterCell {
-        MILLIGRAM("milligram"),
-        GRAM("gram");
-
-        private String name;
-
-        EnumAntimatterCell(String name) {
-            this.name = name;
-        }
+        MILLIGRAM,
+        GRAM;
 
         public String getName() {
-            return name.toLowerCase();
+            return name().toLowerCase();
         }
     }
 }

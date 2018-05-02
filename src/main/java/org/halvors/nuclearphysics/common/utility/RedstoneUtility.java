@@ -10,9 +10,9 @@ public class RedstoneUtility {
      * @param tile - TileEntity to check
      * @return if the TileEntity can function with redstone logic
      */
-    public static boolean canFunction(TileEntity tile) {
+    public static boolean canFunction(final TileEntity tile) {
         if (tile instanceof ITileRedstoneControl) {
-            ITileRedstoneControl tileRedstoneControl = (ITileRedstoneControl) tile;
+            final ITileRedstoneControl tileRedstoneControl = (ITileRedstoneControl) tile;
 
             switch (tileRedstoneControl.getRedstoneControl()) {
                 case HIGH:

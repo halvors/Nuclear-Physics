@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.container.process;
+package org.halvors.nuclearphysics.common.container.machine;
 
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.items.SlotItemHandler;
@@ -6,7 +6,7 @@ import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 
 public class ContainerChemicalExtractor extends ContainerBase<TileChemicalExtractor> {
-    public ContainerChemicalExtractor(InventoryPlayer inventoryPlayer, TileChemicalExtractor tile) {
+    public ContainerChemicalExtractor(final InventoryPlayer inventoryPlayer, final TileChemicalExtractor tile) {
         super(7, inventoryPlayer, tile);
 
         // Battery

@@ -8,7 +8,7 @@ import org.halvors.nuclearphysics.common.utility.LanguageUtility;
  *
  * @author aidanBrady
  */
-public enum Color {
+public enum EnumColor {
 	BLACK(	     "\u00a70", "black",       new int[] { 0,   0,   0 },   0x000000, 0),
 	DARK_BLUE(   "\u00a71", "darkBlue",    new int[] { 0,   0,   170 }, 0x0000AA, 4),
 	DARK_GREEN(  "\u00a72", "darkGreen",   new int[] { 0,   170, 0 },   0x00AA00, 2),
@@ -35,7 +35,7 @@ public enum Color {
 	private final int hex;
 	private final int meta;
 
-	Color(String code, String name, int[] rgbCode, int hex, int meta) {
+	EnumColor(final String code, final String name, final int[] rgbCode, final int hex, final int meta) {
 		this.code = code;
 		this.name = name;
 		this.rgbCode = rgbCode;
@@ -64,7 +64,7 @@ public enum Color {
 	 * @param index - R:0, G:1, B:2
 	 * @return the color value
 	 */
-	public float getColor(int index) {
+	public float getColor(final int index) {
 		return (float) rgbCode[index] / 255F;
 	}
 

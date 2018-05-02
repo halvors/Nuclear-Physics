@@ -20,7 +20,7 @@ public class BlockRadioactiveGrass extends BlockRadioactive {
     }
 
     @Override
-    public int quantityDropped(Random random) {
+    public int quantityDropped(final Random random) {
         return 0;
     }
 }

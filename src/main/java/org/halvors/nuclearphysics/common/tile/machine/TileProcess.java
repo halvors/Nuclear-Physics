@@ -40,12 +40,12 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     protected int tankOutputFillSlot;
     protected int tankOutputDrainSlot;
 
-    public TileProcess(EnumMachine type) {
+    public TileProcess(final EnumMachine type) {
         super(type);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInput, null, tag.getTag("tankInput"));
@@ -53,7 +53,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         tag.setTag("tankInput", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInput, null));
@@ -63,14 +63,14 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final EnumFacing facing) {
         return capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final EnumFacing facing) {
         if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return (T) this;
         }
@@ -98,7 +98,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
@@ -108,7 +108,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         tankInput.getPacketData(objects);
@@ -125,19 +125,19 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     }
 
     @Override
-    public int fill(FluidStack resource, boolean doFill) {
+    public int fill(final FluidStack resource, final boolean doFill) {
         return tankInput.fill(resource, doFill);
     }
 
     @Nullable
     @Override
-    public FluidStack drain(FluidStack resource, boolean doDrain) {
+    public FluidStack drain(final FluidStack resource, final boolean doDrain) {
         return tankOutput.drain(resource, doDrain);
     }
 
     @Nullable
     @Override
-    public FluidStack drain(int maxDrain, boolean doDrain) {
+    public FluidStack drain(final int maxDrain, final boolean doDrain) {
         return tankOutput.drain(maxDrain, doDrain);
     }
 
@@ -146,13 +146,13 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     /*
      * Takes an fluid container item and try to fill the tank, dropping the remains in the output slot.
      */
-    private void fillOrDrainTank(int containerInput, int containerOutput, IFluidHandler tank) {
-        ItemStack itemStackInput = inventory.getStackInSlot(containerInput);
+    private void fillOrDrainTank(final int containerInput, final int containerOutput, final IFluidHandler tank) {
+        final ItemStack itemStackInput = inventory.getStackInSlot(containerInput);
 
         if (!itemStackInput.isEmpty()) {
-            ItemStack itemStackOutput = inventory.getStackInSlot(containerOutput);
-            boolean isFilled = FluidUtility.isFilledContainer(itemStackInput);
-            FluidActionResult fluidActionResult;
+            final ItemStack itemStackOutput = inventory.getStackInSlot(containerOutput);
+            final boolean isFilled = FluidUtility.isFilledContainer(itemStackInput);
+            final FluidActionResult fluidActionResult;
 
             if (isFilled) {
                 fluidActionResult = FluidUtil.tryEmptyContainer(itemStackInput, tank, Integer.MAX_VALUE, null, false);

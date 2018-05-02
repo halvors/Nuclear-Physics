@@ -17,7 +17,7 @@ public class ExplosionBase extends Explosion {
     protected final BlockPos pos;
     protected final float size;
 
-    public ExplosionBase(IBlockAccess world, Entity entity, BlockPos pos, float size, boolean flaming, boolean damagesTerrain) {
+    public ExplosionBase(final IBlockAccess world, final Entity entity, final BlockPos pos, final float size, final boolean flaming, final boolean damagesTerrain) {
         super((World) world, entity, pos.getX(), pos.getY(), pos.getZ(), size, flaming, damagesTerrain);
 
         this.world = (World) world;

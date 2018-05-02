@@ -26,7 +26,7 @@ import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class OBJModelContainer {
-    private static Map<String, IBakedModel> loadedModels = Maps.newHashMap();
+    private static final Map<String, IBakedModel> loadedModels = Maps.newHashMap();
 
     private final Map<String, String> textureReplacements = Maps.newHashMap();
     private final ResourceLocation model;
@@ -39,7 +39,7 @@ public class OBJModelContainer {
     private int cacheCount = 0;
     private IBakedModel cacheCopy;
 
-    public OBJModelContainer(ResourceLocation model) {
+    public OBJModelContainer(final ResourceLocation model) {
         this.model = model;
         this.vertexFormat = DefaultVertexFormats.ITEM;
         this.state = null;
@@ -48,7 +48,7 @@ public class OBJModelContainer {
     }
 
     @SuppressWarnings("deprecation")
-    public OBJModelContainer(ResourceLocation model, List<String> parts) {
+    public OBJModelContainer(final ResourceLocation model, final List<String> parts) {
         this.model = model;
         this.vertexFormat = DefaultVertexFormats.ITEM;
         this.state = new OBJState(parts, true);
@@ -56,7 +56,7 @@ public class OBJModelContainer {
         this.key = computeKey();
     }
 
-    public OBJModelContainer(OBJModelContainer handle, String texChannel, String resloc) {
+    public OBJModelContainer(final OBJModelContainer handle, final String texChannel, final String resloc) {
         this.model = handle.model;
         this.vertexFormat = handle.vertexFormat;
         this.state = handle.state;
@@ -66,7 +66,7 @@ public class OBJModelContainer {
         this.key = computeKey();
     }
 
-    public OBJModelContainer(OBJModelContainer handle, VertexFormat fmt) {
+    public OBJModelContainer(final OBJModelContainer handle, final VertexFormat fmt) {
         this.model = handle.model;
         this.vertexFormat = fmt;
         this.state = handle.state;
@@ -75,7 +75,7 @@ public class OBJModelContainer {
         this.key = computeKey();
     }
 
-    public OBJModelContainer(OBJModelContainer handle, IModelState state) {
+    public OBJModelContainer(final OBJModelContainer handle, final IModelState state) {
         this.model = handle.model;
         this.vertexFormat = handle.vertexFormat;
         this.state = state;
@@ -84,7 +84,7 @@ public class OBJModelContainer {
         this.key = computeKey();
     }
 
-    public OBJModelContainer(OBJModelContainer handle, boolean uvLock) {
+    public OBJModelContainer(final OBJModelContainer handle, final boolean uvLock) {
         this.model = handle.model;
         this.vertexFormat = handle.vertexFormat;
         this.state = handle.state;
@@ -94,7 +94,7 @@ public class OBJModelContainer {
     }
 
     private String computeKey() {
-        StringBuilder b = new StringBuilder();
+        final StringBuilder b = new StringBuilder();
         b.append(model.toString());
 
         for (Map.Entry<String, String> entry : textureReplacements.entrySet()) {
@@ -114,7 +114,7 @@ public class OBJModelContainer {
         return b.toString();
     }
 
-    public OBJModelContainer replace(String texChannel, String resloc) {
+    public OBJModelContainer replace(final String texChannel, final String resloc) {
         if (textureReplacements.containsKey(texChannel) && textureReplacements.get(texChannel).equals(resloc)) {
             return this;
         }
@@ -141,7 +141,7 @@ public class OBJModelContainer {
         return vertexFormat;
     }
 
-    public OBJModelContainer setVertexFormat(VertexFormat fmt) {
+    public OBJModelContainer setVertexFormat(final VertexFormat fmt) {
         if (vertexFormat == fmt) {
             return this;
         }
@@ -155,7 +155,7 @@ public class OBJModelContainer {
         return state;
     }
 
-    public OBJModelContainer setState(IModelState newState) {
+    public OBJModelContainer setState(final IModelState newState) {
         if (state == newState) {
             return this;
         }
@@ -168,7 +168,7 @@ public class OBJModelContainer {
         return uvLock;
     }
 
-    public OBJModelContainer setUvLocked(boolean uvLock) {
+    public OBJModelContainer setUvLocked(final boolean uvLock) {
         if (this.uvLock == uvLock) {
             return this;
         }
@@ -189,9 +189,9 @@ public class OBJModelContainer {
         renderModel(get(), getVertexFormat());
     }
 
-    private static void renderModel(IBakedModel model, VertexFormat fmt) {
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
+    private static void renderModel(final IBakedModel model, final VertexFormat fmt) {
+        final Tessellator tessellator = Tessellator.getInstance();
+        final BufferBuilder bufferBuilder = tessellator.getBuffer();
         bufferBuilder.begin(GL11.GL_QUADS, fmt);
 
         for (BakedQuad bakedquad : model.getQuads(null, null, 0)) {
@@ -201,7 +201,7 @@ public class OBJModelContainer {
         tessellator.draw();
     }
 
-    private static IBakedModel loadModel(OBJModelContainer handle) {
+    private static IBakedModel loadModel(final OBJModelContainer handle) {
         IBakedModel model = loadedModels.get(handle.getKey());
 
         if (model != null) {
@@ -213,12 +213,12 @@ public class OBJModelContainer {
 
             /*
             if (mod instanceof IRetexturableModel && handle.getTextureReplacements().size() > 0) {
-                IRetexturableModel rtm = (IRetexturableModel) mod;
+                final IRetexturableModel rtm = (IRetexturableModel) mod;
                 mod = rtm.retexture(ImmutableMap.copyOf(handle.getTextureReplacements()));
             }
 
             if (handle.isUvLocked() && mod instanceof IModelUVLock) {
-                IModelUVLock uvl = (IModelUVLock) mod;
+                final IModelUVLock uvl = (IModelUVLock) mod;
                 mod = uvl.uvlock(true);
             }
             */

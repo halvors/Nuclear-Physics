@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.block.debug.schematic;
+package org.halvors.nuclearphysics.api.schematic;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;

@@ -11,7 +11,7 @@ import java.util.Set;
 @SideOnly(Side.CLIENT)
 public class GuiConfiguationFactory implements IModGuiFactory {
     @Override
-    public void initialize(Minecraft instance) {
+    public void initialize(final Minecraft instance) {
 
     }
 

@@ -10,38 +10,38 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
-import org.halvors.nuclearphysics.common.type.RedstoneControl;
+import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
 
 public class PacketRedstoneControl extends PacketLocation implements IMessage {
-    public RedstoneControl redstoneControl;
+    public EnumRedstoneControl redstoneControl;
 
     public PacketRedstoneControl() {
 
     }
 
-    public PacketRedstoneControl(BlockPos pos, RedstoneControl redstoneControl) {
+    public PacketRedstoneControl(final BlockPos pos, final EnumRedstoneControl redstoneControl) {
         super(pos);
 
         this.redstoneControl = redstoneControl;
     }
 
     @Override
-    public void toBytes(ByteBuf dataStream) {
+    public void toBytes(final ByteBuf dataStream) {
         super.toBytes(dataStream);
 
         dataStream.writeInt(redstoneControl.ordinal());
     }
 
     @Override
-    public void fromBytes(ByteBuf dataStream) {
+    public void fromBytes(final ByteBuf dataStream) {
         super.fromBytes(dataStream);
 
-        redstoneControl = RedstoneControl.values()[dataStream.readInt()];
+        redstoneControl = EnumRedstoneControl.values()[dataStream.readInt()];
     }
 
     public static class PacketRedstoneControlMessage implements IMessageHandler<PacketRedstoneControl, IMessage> {
         @Override
-        public IMessage onMessage(PacketRedstoneControl message, MessageContext messageContext) {
+        public IMessage onMessage(final PacketRedstoneControl message, final MessageContext messageContext) {
             final World world = PacketHandler.getWorld(messageContext);
 
             NuclearPhysics.getProxy().addScheduledTask(() -> {

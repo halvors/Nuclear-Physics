@@ -39,17 +39,17 @@ public class BlockSiren extends BlockContainerBase {
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int metadata) {
+    public IBlockState getStateFromMeta(final int metadata) {
         return getDefaultState().withProperty(BlockStateSiren.PITCH, metadata);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(BlockStateSiren.PITCH);
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World world, final BlockPos pos, final IBlockState state, final EntityPlayer player, final EnumHand hand, final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
         if (WrenchUtility.hasUsableWrench(player, hand, pos)) {
             int pitch = state.getValue(BlockStateSiren.PITCH);
 
@@ -66,7 +66,6 @@ public class BlockSiren extends BlockContainerBase {
     }
 
     @Override
-    @Nonnull
     public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
         return new TileSiren();
     }

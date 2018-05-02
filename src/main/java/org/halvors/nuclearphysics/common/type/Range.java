@@ -17,7 +17,7 @@ public class Range {
 	private int maxY;
 	private int maxZ;
 
-	public Range(World world, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+	public Range(final World world, final int minX, final int minY, final int minZ, final int maxX, final int maxY, final int maxZ) {
 		this.world = world;
 		this.minX = minX;
 		this.minY = minY;
@@ -27,7 +27,7 @@ public class Range {
 		this.maxZ = maxZ;
 	}
 
-	public Range(World world, ChunkPos pos) {
+	public Range(final World world, final ChunkPos pos) {
 		this.world = world;
 		this.minX = pos.x * 16;
 		this.minY = 0;
@@ -37,7 +37,7 @@ public class Range {
 		this.maxZ = minZ + 16;
 	}
 
-	public Range(World world, BlockPos pos) {
+	public Range(final World world, final BlockPos pos) {
 		this.world = world;
 		this.minX = pos.getX();
 		this.minY = pos.getY();
@@ -47,22 +47,22 @@ public class Range {
 		this.maxZ = pos.getZ() + 1;
 	}
 
-	public Range(Entity entity) {
+	public Range(final Entity entity) {
 		this(entity.getEntityWorld(), entity.getPosition());
 	}
 
-	public Range(TileEntity tile) {
+	public Range(final TileEntity tile) {
 		this(tile.getWorld(), tile.getPos());
 	}
 
-	public static Range getChunkRange(EntityPlayer player) {
-		int radius = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getViewDistance();
-		ChunkPos chunkPos = new ChunkPos(player.getPosition());
+	public static Range getChunkRange(final EntityPlayer player) {
+		final int radius = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getViewDistance();
+		final ChunkPos chunkPos = new ChunkPos(player.getPosition());
 
 		return new Range(player.getEntityWorld(), chunkPos).expandChunks(radius);
 	}
 
-	public Range expandChunks(int chunks) {
+	public Range expandChunks(final int chunks) {
 		this.minX -= chunks * 16;
 		this.maxX += chunks * 16;
 		this.minZ -= chunks * 16;
@@ -71,7 +71,7 @@ public class Range {
 		return this;
 	}
 
-	public boolean intersects(Range range) {
+	public boolean intersects(final Range range) {
 		return (maxX + 1 - 1.E-05D > range.minX) &&
 				(range.maxX + 1 - 1.E-05D > minX) &&
 				(maxY + 1 - 1.E-05D > range.minY) &&
@@ -109,7 +109,7 @@ public class Range {
 	}
 
 	@Override
-	public boolean equals(Object object) {
+	public boolean equals(final Object object) {
 		if (object instanceof Range) {
 			Range range = (Range) object;
 

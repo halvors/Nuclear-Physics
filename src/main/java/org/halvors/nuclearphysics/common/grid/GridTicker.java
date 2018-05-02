@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /*
  * A ticker to update all grids. This is multithreaded.
  */
-public class UpdateTicker extends Thread {
-    private static final UpdateTicker instance = new UpdateTicker();
+public class GridTicker extends Thread {
+    private static final GridTicker instance = new GridTicker();
 
     // Grids to be ticked.
     private final Set<IGrid> grids = ConcurrentHashMap.newKeySet();
@@ -19,12 +19,12 @@ public class UpdateTicker extends Thread {
     // The time in milliseconds between successive updates.
     private long deltaTime;
 
-    public UpdateTicker() {
+    public GridTicker() {
         setName(Reference.NAME);
         setPriority(MIN_PRIORITY);
     }
 
-    public static UpdateTicker getInstance() {
+    public static GridTicker getInstance() {
         return instance;
     }
 

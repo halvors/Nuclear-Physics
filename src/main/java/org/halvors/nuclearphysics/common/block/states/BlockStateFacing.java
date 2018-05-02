@@ -9,11 +9,11 @@ import org.halvors.nuclearphysics.common.block.BlockRotatable;
 public class BlockStateFacing extends BlockStateContainer {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
-    public BlockStateFacing(BlockRotatable block) {
+    public BlockStateFacing(final BlockRotatable block) {
         super(block, FACING);
     }
 
-    public BlockStateFacing(BlockRotatable block, PropertyEnum typeProperty) {
+    public BlockStateFacing(final BlockRotatable block, final PropertyEnum typeProperty) {
         super(block, FACING, typeProperty);
     }
 }

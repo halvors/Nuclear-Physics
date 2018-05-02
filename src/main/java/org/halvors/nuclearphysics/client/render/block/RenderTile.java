@@ -12,7 +12,7 @@ import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 @SideOnly(Side.CLIENT)
 public abstract class RenderTile<T extends TileEntity> extends TileEntitySpecialRenderer<T> {
     @Override
-    public void render(T tile, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+    public void render(final T tile, final double x, final double y, final double z, final float partialTicks, final int destroyStage, final float alpha) {
         GlStateManager.pushMatrix();
 
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -31,5 +31,5 @@ public abstract class RenderTile<T extends TileEntity> extends TileEntitySpecial
         GlStateManager.popMatrix();
     }
 
-    protected abstract void render(T tile, double x, double y, double z);
+    protected abstract void render(final T tile, final double x, final double y, final double z);
 }

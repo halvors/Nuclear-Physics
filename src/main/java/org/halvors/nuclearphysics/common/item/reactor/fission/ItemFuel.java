@@ -1,5 +1,6 @@
 package org.halvors.nuclearphysics.common.item.reactor.fission;
 
+import com.sun.istack.internal.NotNull;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -18,7 +19,7 @@ public class ItemFuel extends ItemRadioactive {
     // Approximately 20,000,000J per tick. 400 MW.
     public static final long energyPerTick = energyDensity / 50000;
 
-    public ItemFuel(String name) {
+    public ItemFuel(final String name) {
         super(name);
 
         setMaxStackSize(1);
@@ -29,7 +30,7 @@ public class ItemFuel extends ItemRadioactive {
     @SuppressWarnings("deprecation")
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(CreativeTabs tab, @Nonnull NonNullList<ItemStack> list) {
+    public void getSubItems(@Nonnull final CreativeTabs tab, @Nonnull final NonNullList<ItemStack> list) {
         if (isInCreativeTab(tab)) {
             list.add(new ItemStack(this));
             list.add(new ItemStack(this, 1, getMaxDamage() - 1));

@@ -18,15 +18,14 @@ import java.util.Random;
 
 @SideOnly(Side.CLIENT)
 public class RenderParticle extends Render<EntityParticle> {
-    public RenderParticle(RenderManager renderManager) {
+    public RenderParticle(final RenderManager renderManager) {
         super(renderManager);
     }
 
-
     @Override
-    public void doRender(@Nonnull EntityParticle entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
+    public void doRender(@Nonnull final EntityParticle entity, final double x, final double y, final double z, final float entityYaw, final float partialTicks) {
+        final Tessellator tessellator = Tessellator.getInstance();
+        final BufferBuilder bufferBuilder = tessellator.getBuffer();
 
         float age = entity.ticksExisted;
 
@@ -35,14 +34,14 @@ public class RenderParticle extends Render<EntityParticle> {
         }
 
         RenderHelper.disableStandardItemLighting();
-        float f = (5 + age) / 200;
+        final float f = (5 + age) / 200;
         float f1 = 0;
 
         if (f > 0.8) {
             f1 = (f - 0.8F) / 0.2F;
         }
 
-        Random random = new Random(432L);
+        final Random random = new Random(432L);
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z + 0.3);
@@ -65,8 +64,8 @@ public class RenderParticle extends Render<EntityParticle> {
             GlStateManager.rotate(random.nextFloat() * 360, 1, 0, 0);
             GlStateManager.rotate(random.nextFloat() * 360, 0, 1, 0);
             GlStateManager.rotate(random.nextFloat() * 360 + f * 90, 0, 0, 1);
-            float f2 = random.nextFloat() * 20 + 5 + f1 * 10;
-            float f3 = random.nextFloat() * 2 + 1 + f1 * 2;
+            final float f2 = random.nextFloat() * 20 + 5 + f1 * 10;
+            final float f3 = random.nextFloat() * 2 + 1 + f1 * 2;
 
             bufferBuilder.begin(6, DefaultVertexFormats.POSITION_COLOR);
             bufferBuilder.pos(0, 0, 0).color(255, 255, 255, (int) (255 * (1 - f1))).endVertex();
@@ -91,7 +90,7 @@ public class RenderParticle extends Render<EntityParticle> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntityParticle entity) {
+    protected ResourceLocation getEntityTexture(@Nonnull final EntityParticle entity) {
         return null;
     }
 }
