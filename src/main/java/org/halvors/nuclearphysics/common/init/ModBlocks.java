@@ -3,6 +3,7 @@ package org.halvors.nuclearphysics.common.init;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -17,10 +18,10 @@ import org.halvors.nuclearphysics.common.block.machine.BlockMachine;
 import org.halvors.nuclearphysics.common.block.particle.BlockFulminationGenerator;
 import org.halvors.nuclearphysics.common.block.reactor.*;
 import org.halvors.nuclearphysics.common.block.reactor.fission.BlockControlRod;
-import org.halvors.nuclearphysics.common.block.reactor.fission.BlockRadioactiveGrass;
-import org.halvors.nuclearphysics.common.block.reactor.fission.BlockUraniumOre;
+import org.halvors.nuclearphysics.common.block.reactor.fission.BlockRadioactive;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
+import org.halvors.nuclearphysics.common.block.states.BlockStateRadioactive.EnumRadioactive;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockMetadata;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockTooltip;
 import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
@@ -43,8 +44,7 @@ public class ModBlocks {
     public static final Block blockMachine = new BlockMachine();
     public static final Block blockSiren = new BlockSiren();
     public static final Block blockThermometer = new BlockThermometer();
-    public static final Block blockUraniumOre = new BlockUraniumOre();
-    public static final Block blockRadioactiveGrass = new BlockRadioactiveGrass();
+    public static final Block blockRadioactive = new BlockRadioactive();
     public static final Block blockReactorCell = new BlockReactorCell();
     public static final Block blockCreativeBuilder = new BlockCreativeBuilder();
 
@@ -68,8 +68,7 @@ public class ModBlocks {
                     blockMachine,
                     blockSiren,
                     blockThermometer,
-                    blockUraniumOre,
-                    blockRadioactiveGrass,
+                    blockRadioactive,
                     blockReactorCell,
                     blockCreativeBuilder
             };
@@ -95,8 +94,7 @@ public class ModBlocks {
                     new ItemBlockMetadata(blockMachine),
                     new ItemBlockTooltip(blockSiren),
                     new ItemBlockThermometer(blockThermometer),
-                    new ItemBlockTooltip(blockUraniumOre),
-                    new ItemBlockTooltip(blockRadioactiveGrass),
+                    new ItemBlockMetadata(blockRadioactive),
                     new ItemBlockTooltip(blockReactorCell),
                     new ItemBlockTooltip(blockCreativeBuilder)
             };
@@ -115,8 +113,9 @@ public class ModBlocks {
                 itemBlocks.add(item);
             }
 
-            OreDictionary.registerOre("oreUranium", blockUraniumOre);
-            OreDictionary.registerOre("blockRadioactiveGrass", blockRadioactiveGrass);
+            OreDictionary.registerOre("blockRadioactiveDirt", new ItemStack(blockRadioactive, 1, EnumRadioactive.DIRT.ordinal()));
+            OreDictionary.registerOre("blockRadioactiveGrass", new ItemStack(blockRadioactive, 1, EnumRadioactive.GRASS.ordinal()));
+            OreDictionary.registerOre("oreUranium", new ItemStack(blockRadioactive, 1, EnumRadioactive.URANIUM_ORE.ordinal()));
         }
     }
 

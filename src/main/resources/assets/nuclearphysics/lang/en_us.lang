@@ -43,6 +43,13 @@ tile.nuclearphysics.siren.tooltip=Creates an alarm with customizable pitch and v
 tile.nuclearphysics.thermometer.name=Thermometer
 tile.nuclearphysics.thermometer.tooltip=Reads the temperature at the current coordinate. Shift-right click to lock the reading to a specific coordinate.
 
+tile.nuclearphysics.radioactive.0.name=Radioactive Dirt
+tile.nuclearphysics.radioactive.0.tooltip=Generates harmful radiation and spreads around the world, mutating organisms.
+tile.nuclearphysics.radioactive.1.name=Radioactive Grass
+tile.nuclearphysics.radioactive.1.tooltip=Generates harmful radiation and spreads around the world, mutating organisms.
+tile.nuclearphysics.radioactive.2.name=Uranium Ore
+tile.nuclearphysics.radioactive.2.tooltip=A precious and useful ore used for fission reactions.
+
 // Items
 item.nuclearphysics.wrench.name=Wrench
 item.nuclearphysics.copper_wire.name=Copper Wire

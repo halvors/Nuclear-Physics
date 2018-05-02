@@ -27,8 +27,8 @@ public class BlockReactorCell extends BlockInventory {
     public BlockReactorCell() {
         super("reactor_cell", Material.IRON);
 
-        setHardness(1.0F);
-        setResistance(1.0F);
+        setHardness(1);
+        setResistance(1);
     }
 
     @SuppressWarnings("deprecation")

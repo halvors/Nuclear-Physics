@@ -1,0 +1,38 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all",
+    "uvlock": true
+  },
+  "variants": {
+    "normal": [
+      {}
+    ],
+    "inventory": [
+      {}
+    ],
+    "type": {
+      "dirt": {
+        "textures": {
+          "all": "nuclearphysics:blocks/radioactive_grass_bottom"
+        }
+      },
+      "grass": {
+        "textures": {
+          "particle": "nuclearphysics:blocks/radioactive_grass",
+          "down": "nuclearphysics:blocks/radioactive_grass_bottom",
+          "up": "nuclearphysics:blocks/radioactive_grass_top",
+          "north": "nuclearphysics:blocks/radioactive_grass",
+          "east": "nuclearphysics:blocks/radioactive_grass",
+          "south": "nuclearphysics:blocks/radioactive_grass",
+          "west": "nuclearphysics:blocks/radioactive_grass"
+        }
+      },
+      "uranium_ore": {
+        "textures": {
+          "all": "nuclearphysics:blocks/uranium_ore"
+        }
+      }
+    }
+  }
+}
