@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.system.data;
+package org.halvors.nuclearphysics.common.system.chunk;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -9,15 +9,6 @@ import net.minecraft.world.chunk.Chunk;
 
 import java.util.HashMap;
 
-/**
- * Stores a collection of chunks holding radiation data
- * <p>
- * Radiation is not "rad or rem" value, it is how much radioactive material is present at the location. This
- * is used to calculate the rad value that an entity will be exposed to or can be released into the air.
- *
- * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
- * Created by Dark(DarkGuardsman, Robert) on 4/24/2018.
- */
 public class ChunkDataMap {
     public static final String NBT_CHUNK_DATA = "temperatureData";
 
@@ -75,6 +66,7 @@ public class ChunkDataMap {
 
             return hasChanged;
         }
+
         return true;
     }
 
@@ -89,7 +81,7 @@ public class ChunkDataMap {
                 ChunkData chunk = loadedChunks.get(index);
 
                 if (chunk != null) {
-                    //RadiationSystem.THREAD_RAD_EXPOSURE.queueChunkForRemoval(chunk);
+                    //RadiationChunkHandler.THREAD_RAD_EXPOSURE.queueChunkForRemoval(chunk);
                 }
             }
             */
@@ -130,7 +122,7 @@ public class ChunkDataMap {
         /*
         // Queue to be scanned to update exposure map
         if (isMaterialMap) {
-            //RadiationSystem.THREAD_RAD_EXPOSURE.queueChunkForAddition(radiationChunk);
+            //RadiationChunkHandler.THREAD_RAD_EXPOSURE.queueChunkForAddition(radiationChunk);
         }
         */
     }
@@ -168,5 +160,18 @@ public class ChunkDataMap {
         }
 
         return chunk;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static ChunkDataMap getMap(final HashMap<IBlockAccess, ChunkDataMap> queryMap, final IBlockAccess world, final boolean init) {
+        ChunkDataMap map = queryMap.get(world);
+
+        if (map == null && init) {
+            map = new ChunkDataMap(world);
+            queryMap.put(world, map);
+        }
+
+        return map;
     }
 }

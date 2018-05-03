@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.system.event;
+package org.halvors.nuclearphysics.common.system.event.handler;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;

@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.system.data;
+package org.halvors.nuclearphysics.common.system.chunk;
 
 import com.google.common.primitives.Ints;
 import net.minecraft.nbt.NBTTagCompound;
@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.common.util.Constants;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class ChunkData {
     private static final String NBT_LAYERS = "layers";
     private static final String NBT_LAYER_INDEX = "index";
     private static final String NBT_LAYER_Y = "y";
-    private static final String NBT_LAYER_DATA = "data";
+    private static final String NBT_LAYER_DATA = "chunk";
 
     private final List<ChunkDataLayer> layers = new ArrayList<>();
     private final IBlockAccess world;
@@ -41,19 +41,20 @@ public class ChunkData {
     }
 
     /**
-     * Converts y level to layer getIndex
+     * Converts y level to layer index.
      *
-     * @param y
-     * @return
+     * @param y - y level (0-255)
+     *
+     * @return index
      */
-    protected int getIndex(int y) {
+    public int getIndex(final int y) {
         return y - yStart;
     }
 
     /**
      * End point of the layers, inclusive
      *
-     * @return
+     * @return layer end
      */
     public int getLayerEnd() {
         return yStart + layers.size() - 1;
@@ -66,28 +67,29 @@ public class ChunkData {
      *
      * @return true if layer exists
      */
-    public boolean hasLayer(int y) {
+    public boolean hasLayer(final int y) {
         return y >= yStart && y <= getLayerEnd() && layers.get(getIndex(y)) != null;
     }
 
     public ChunkDataLayer getLayer(int y) {
-        // Init array if not initialized
         if (layers.isEmpty()) {
             yStart = Math.max(0, y - 10);
         } else if (y < yStart) { // Check if we need to increase layer array to fit a new value
             // Increase array size by 5 more than expected y level, if under 10 fully expand to zero
             int increase = yStart > 10 ? ((yStart - y) + 5) : yStart;
 
-            //Set new y start
+            // Set new y start
             yStart = yStart - increase;
         }
 
+        final int index = getIndex(y);
+
         // If layer is null, create layer
-        if (layers.get(getIndex(y)) == null) {
-            layers.add(getIndex(y), new ChunkDataLayer(y));
+        if (layers.get(index) == null) {
+            layers.add(index, new ChunkDataLayer(y));
         }
 
-        return layers.get(getIndex(y));
+        return layers.get(index);
     }
 
     public void removeLayer(final int y) {
@@ -95,17 +97,17 @@ public class ChunkData {
     }
 
     /**
-     * Gets the data from the chunk
+     * Gets the chunk from the chunk
      *
-     * @param cx - location (0-15)
-     * @param y  - location (0-255)
-     * @param cz - location (0-15)
+     * @param x - Chunk x position (0-15)
+     * @param y  - Block y layer (0-255)
+     * @param z - Chunk z position (0-15)
      *
      * @return value stored
      */
-    public int getValue(int cx, int y, int cz) {
+    public int getValue(final int x, final int y, final int z) {
         if (y >= 0 && y < CHUNK_HEIGHT && hasLayer(y)) {
-            return getLayer(y).getData(cx, cz);
+            return getLayer(y).getData(x, z);
         }
 
         return 0;
@@ -115,7 +117,7 @@ public class ChunkData {
      * Sets the value into the chunk
      *
      * @param x     - Chunk x position (0-15)
-     * @param y     - Block y location (0-255)
+     * @param y     - Block y layer (0-255)
      * @param z     - Chunk z position (0-15)
      * @param value - value to set
      */
@@ -124,18 +126,20 @@ public class ChunkData {
         if (y >= 0 && y < CHUNK_HEIGHT) {
             //Only set values that are above zero or have an existing layer
             if (value > 0 || hasLayer(y)) {
-                final int prev = getLayer(y).getData(x, z);
+                final ChunkDataLayer layer = getLayer(y);
 
-                //Set data into layer
-                final boolean success = getLayer(y).setData(x, z, value);
+                final int prev = layer.getData(x, z);
 
-                //Remove layer if empty to save memory
-                if (getLayer(y).isEmpty()) {
+                // Set chunk into layer
+                final boolean success = layer.setData(x, z, value);
+
+                // Remove layer if empty to save memory
+                if (layer.isEmpty()) {
                     removeLayer(y);
                 }
 
-                //Check for change
-                if (prev != getLayer(y).getData(x, z)) {
+                // Check for change
+                if (prev != layer.getData(x, z)) {
                     hasChanged = true;
                 }
 
@@ -174,19 +178,17 @@ public class ChunkData {
         yStart = tag.getInteger(NBT_Y_START);
 
         // Load layers
-        final NBTTagList list = tag.getTagList(NBT_LAYERS, NBT.TAG_COMPOUND);
+        final NBTTagList list = tag.getTagList(NBT_LAYERS, Constants.NBT.TAG_COMPOUND);
 
         for (int i = 0; i < list.tagCount(); i++) {
             final NBTTagCompound save = list.getCompoundTagAt(i);
 
             // Load indexs
-            int index = save.getInteger(NBT_LAYER_INDEX);
-            int y = save.getInteger(NBT_LAYER_Y);
-
+            final int index = save.getInteger(NBT_LAYER_INDEX);
+            final int y = save.getInteger(NBT_LAYER_Y);
             final ChunkDataLayer layer = new ChunkDataLayer(y);
             layer.setData(Ints.asList(save.getIntArray(NBT_LAYER_DATA)));
 
-            // Insert layer
             layers.add(index, layer);
         }
     }

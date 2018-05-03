@@ -1,10 +1,12 @@
-package org.halvors.nuclearphysics.common.system.data;
+package org.halvors.nuclearphysics.common.system.chunk;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChunkDataLayer {
-    /** Stored data in this layer */
+    private static final int CHUNK_WIDTH = 16;
+
+    /** Stored chunk in this layer */
     private final List<Integer> data = new ArrayList<>();
 
     /** The index of this layer */
@@ -28,28 +30,28 @@ public class ChunkDataLayer {
      *
      * @param x - location 0-15
      * @param z - location 0-15
-     * @return getIndex between 0-255, -1 returns if input data is invalid
+     * @return getIndex between 0-255, -1 returns if input chunk is invalid
      */
-    public final int getIndex(int x, int z) {
+    public final int getIndex(final int x, final int z) {
         // Bound check to prevent getIndex values from generating outside range
         // Is needed as a negative z can cause a value to overlap values normally in range
         // Ex: 15x -1z -> 239, which is in range but not the right getIndex
-        if (x >= 0 && x < 16 && z >= 0 && z < 16) {
-            return x * 16 + z;
+        if (x >= 0 && x < CHUNK_WIDTH && z >= 0 && z < CHUNK_WIDTH) {
+            return x * CHUNK_WIDTH + z;
         }
 
         return -1;
     }
 
     /**
-     * Gets the data from the layer
+     * Gets the chunk from the layer
      *
      * @param x - location
      * @param z - location
      * @return value
      */
-    public int getData(int x, int z) {
-        int index = getIndex(x, z);
+    public int getData(final int x, final int z) {
+        final int index = getIndex(x, z);
 
         if (index >= 0) {
             return data.get(index);
@@ -59,15 +61,15 @@ public class ChunkDataLayer {
     }
 
     /**
-     * Sets data into the layer
+     * Sets chunk into the layer
      *
      * @param x     - location
      * @param z     - location
      * @param value - value
-     * @return true if data was set, false if nothing happened (likely means outside of the map)
+     * @return true if chunk was set, false if nothing happened (likely means outside of the map)
      */
-    public boolean setData(int x, int z, int value) {
-        int index = getIndex(x, z);
+    public boolean setData(final int x, final int z, final int value) {
+        final int index = getIndex(x, z);
 
         if (index >= 0) {
             data.add(index, value);
