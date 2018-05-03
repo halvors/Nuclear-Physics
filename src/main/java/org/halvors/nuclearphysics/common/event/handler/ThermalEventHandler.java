@@ -34,7 +34,7 @@ import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 @EventBusSubscriber
 public class ThermalEventHandler {
     @SubscribeEvent
-    public void onBoilEvent(final BoilEvent event) {
+    public static void onBoilEvent(final BoilEvent event) {
         final World world = event.getWorld();
         final BlockPos pos = event.getPos();
         final IBlockState state = world.getBlockState(pos);
@@ -83,7 +83,7 @@ public class ThermalEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlasmaSpawnEvent(final PlasmaSpawnEvent event) {
+    public static void onPlasmaSpawnEvent(final PlasmaSpawnEvent event) {
         final World world = event.getWorld();
         final BlockPos pos = event.getPos();
         final IBlockState state = world.getBlockState(pos);
@@ -119,7 +119,7 @@ public class ThermalEventHandler {
     }
 
     @SubscribeEvent
-    public void onThermalUpdateEvent(ThermalUpdateEvent event) {
+    public static void onThermalUpdateEvent(final ThermalUpdateEvent event) {
         final World world = event.getWorld();
         final BlockPos pos = event.getPos();
         final IBlockState state = world.getBlockState(pos);
@@ -134,8 +134,8 @@ public class ThermalEventHandler {
         }
 
         if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
-            if (event.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
-                final int volume = (int) (Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.waterBoilTemperature) * General.steamOutputMultiplier);
+            if (event.getTemperature() >= ThermalPhysics.WATER_BOIL_TEMPERATURE) {
+                final int volume = (int) (Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.WATER_BOIL_TEMPERATURE) * General.steamOutputMultiplier);
 
                 MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
 
@@ -144,7 +144,7 @@ public class ThermalEventHandler {
         }
 
         if (block == Blocks.ICE || block == Blocks.PACKED_ICE) {
-            if (event.getTemperature() >= ThermalPhysics.iceMeltTemperature) {
+            if (event.getTemperature() >= ThermalPhysics.ICE_MELT_TEMPERATURE) {
                 NuclearPhysics.getProxy().addScheduledTask(() -> world.setBlockState(pos, Blocks.FLOWING_WATER.getDefaultState()), world);
             }
 
@@ -152,7 +152,7 @@ public class ThermalEventHandler {
         }
 
         if (block == Blocks.SNOW || block == Blocks.SNOW_LAYER) {
-            if (event.getTemperature() >= ThermalPhysics.iceMeltTemperature) {
+            if (event.getTemperature() >= ThermalPhysics.ICE_MELT_TEMPERATURE) {
                 NuclearPhysics.getProxy().addScheduledTask(() -> world.setBlockToAir(pos), world);
             }
 

@@ -5,6 +5,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.nuclearphysics.api.effect.explosion.IFulmination;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
@@ -16,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
+@EventBusSubscriber
 public class FulminationEventHandler {
     private static final List<TileFulminationGenerator> generators = new ArrayList<>();
 
@@ -30,7 +32,7 @@ public class FulminationEventHandler {
     }
 
     @SubscribeEvent
-    public void onExplosionDetonateEvent(final ExplosionEvent.Detonate event) {
+    public static void onExplosionDetonateEvent(final ExplosionEvent.Detonate event) {
         final World world = event.getWorld();
         final Explosion explosion = event.getExplosion();
         final BlockPos pos = new BlockPos(explosion.getPosition());

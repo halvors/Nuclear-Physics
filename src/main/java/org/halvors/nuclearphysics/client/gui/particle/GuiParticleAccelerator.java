@@ -37,7 +37,7 @@ public class GuiParticleAccelerator extends GuiMachine<TileParticleAccelerator> 
             status = EnumColor.DARK_GREEN + LanguageUtility.transelate("gui.idle");
         }
 
-        fontRendererObj.drawString(LanguageUtility.transelate("gui.velocity") + ": " + Math.round((tile.getVelocity() / TileParticleAccelerator.antimatterCreationSpeed) * 100) + "%", (xSize / 2) - 80, (ySize / 2) - 80, 0x404040);
+        fontRendererObj.drawString(LanguageUtility.transelate("gui.velocity") + ": " + Math.round((tile.getVelocity() / TileParticleAccelerator.ANTIMATTER_CREATION_SPEED) * 100) + "%", (xSize / 2) - 80, (ySize / 2) - 80, 0x404040);
         fontRendererObj.drawString(LanguageUtility.transelate("gui.storedAntimatter") + ": " + tile.getAntimatterCount() + " mg", (xSize / 2) - 80, (ySize / 2) - 68, 0x404040);
         fontRendererObj.drawString(LanguageUtility.transelate("gui.energyUsed") + ": " + UnitDisplay.getEnergyDisplay(tile.totalEnergyConsumed), (xSize / 2) - 80, (ySize / 2) - 56, 0x404040);
         fontRendererObj.drawString(LanguageUtility.transelate("gui.status") + ": ", (xSize / 2) - 80, (ySize / 2) - 20, 0x404040);

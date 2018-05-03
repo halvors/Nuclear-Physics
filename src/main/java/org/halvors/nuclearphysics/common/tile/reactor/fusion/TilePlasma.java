@@ -10,8 +10,9 @@ import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 
 public class TilePlasma extends TileEntity implements ITickable {
-    public static final int plasmaMaxTemperature = 1000000;
-    private int temperature = plasmaMaxTemperature;
+    public static final int PLASMA_MAX_TEMPERATURE = 1000000;
+
+    private int temperature = PLASMA_MAX_TEMPERATURE;
 
     @Override
     public void update() {
@@ -21,7 +22,7 @@ public class TilePlasma extends TileEntity implements ITickable {
             if (world.getWorldTime() % 20 == 0) {
                 temperature /= 1.5;
 
-                if (temperature <= plasmaMaxTemperature / 10) {
+                if (temperature <= PLASMA_MAX_TEMPERATURE / 10) {
                     // At this temperature, set block to fire.
                     world.setBlockState(pos, Blocks.FIRE.getDefaultState());
                 } else {

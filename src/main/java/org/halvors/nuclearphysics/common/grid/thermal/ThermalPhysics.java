@@ -5,9 +5,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
 public class ThermalPhysics {
-    public static final int roomTemperature = 295;
-    public static final int iceMeltTemperature = 273;
-    public static final int waterBoilTemperature = 373;
+    public static final double ROOM_TEMPERATURE = 295;
+    public static final double ICE_MELT_TEMPERATURE = 273.15;
+    public static final double WATER_BOIL_TEMPERATURE = 373.2;
 
     /** Temperature: 0.5f = 22C
      *
@@ -33,7 +33,7 @@ public class ThermalPhysics {
     }
 
     public static double getRequiredBoilWaterEnergy(final World world, final BlockPos pos, final int volume) {
-        final float temperatureChange = waterBoilTemperature - getTemperatureForCoordinate(world, pos);
+        final float temperatureChange = (float) WATER_BOIL_TEMPERATURE - getTemperatureForCoordinate(world, pos);
         final float mass = getMass(volume, 1);
 
         return getEnergyForTemperatureChange(mass, 4200, temperatureChange) + getEnergyForStateChange(mass, 2257000);
