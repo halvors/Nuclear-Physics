@@ -12,7 +12,7 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataChunk {
+public class ChunkData {
     private static final int CHUNK_HEIGHT = 256;
     private static final String NBT_Y_START = "y_start";
     private static final String NBT_SIZE = "size";
@@ -21,7 +21,7 @@ public class DataChunk {
     private static final String NBT_LAYER_Y = "y";
     private static final String NBT_LAYER_DATA = "data";
 
-    private final List<DataLayer> layers = new ArrayList<>();
+    private final List<ChunkDataLayer> layers = new ArrayList<>();
     private final IBlockAccess world;
     private final ChunkPos pos;
 
@@ -31,12 +31,12 @@ public class DataChunk {
     /** Triggers thread to rescan chunk to calculate exposure values */
     private boolean hasChanged = true;
 
-    public DataChunk(final IBlockAccess world, final ChunkPos pos) {
+    public ChunkData(final IBlockAccess world, final ChunkPos pos) {
         this.world = world;
         this.pos = pos;
     }
 
-    public DataChunk(final Chunk chunk) {
+    public ChunkData(final Chunk chunk) {
         this(chunk.getWorld(), chunk.getChunkCoordIntPair());
     }
 
@@ -70,7 +70,7 @@ public class DataChunk {
         return y >= yStart && y <= getLayerEnd() && layers.get(getIndex(y)) != null;
     }
 
-    public DataLayer getLayer(int y) {
+    public ChunkDataLayer getLayer(int y) {
         // Init array if not initialized
         if (layers.isEmpty()) {
             yStart = Math.max(0, y - 10);
@@ -84,7 +84,7 @@ public class DataChunk {
 
         // If layer is null, create layer
         if (layers.get(getIndex(y)) == null) {
-            layers.add(getIndex(y), new DataLayer(y));
+            layers.add(getIndex(y), new ChunkDataLayer(y));
         }
 
         return layers.get(getIndex(y));
@@ -156,7 +156,7 @@ public class DataChunk {
 
         final NBTTagList list = new NBTTagList();
 
-        for (final DataLayer layer : layers) {
+        for (final ChunkDataLayer layer : layers) {
             if (layer != null && !layer.isEmpty()) {
                 final NBTTagCompound save = new NBTTagCompound();
                 save.setInteger(NBT_LAYER_INDEX, layers.indexOf(layer));
@@ -183,7 +183,7 @@ public class DataChunk {
             int index = save.getInteger(NBT_LAYER_INDEX);
             int y = save.getInteger(NBT_LAYER_Y);
 
-            final DataLayer layer = new DataLayer(y);
+            final ChunkDataLayer layer = new ChunkDataLayer(y);
             layer.setData(Ints.asList(save.getIntArray(NBT_LAYER_DATA)));
 
             // Insert layer

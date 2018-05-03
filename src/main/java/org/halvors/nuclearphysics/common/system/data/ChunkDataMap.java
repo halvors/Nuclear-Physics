@@ -18,14 +18,14 @@ import java.util.HashMap;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 4/24/2018.
  */
-public class DataMap {
+public class ChunkDataMap {
     public static final String NBT_CHUNK_DATA = "temperatureData";
 
-    private final HashMap<Long, DataChunk> loadedChunks = new HashMap<>();
+    private final HashMap<Long, ChunkData> loadedChunks = new HashMap<>();
     private final IBlockAccess world;
     //private final boolean isMaterialMap;
 
-    public DataMap(final IBlockAccess world) {
+    public ChunkDataMap(final IBlockAccess world) {
         this.world = world;
         //this.isMaterialMap = isMaterialMap;
     }
@@ -33,7 +33,7 @@ public class DataMap {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public int getData(int x, int y, int z) {
-        DataChunk chunk = getChunkFromPosition(x, z, false);
+        ChunkData chunk = getChunkFromPosition(x, z, false);
 
         if (chunk != null) {
             return chunk.getValue(x & 15, y, z & 15);
@@ -47,7 +47,7 @@ public class DataMap {
     }
 
     public boolean setData(int x, int y, int z, int value) {
-        final DataChunk chunk = getChunkFromPosition(x, z, value > 0);
+        final ChunkData chunk = getChunkFromPosition(x, z, value > 0);
 
         if (chunk != null) {
             // Fire change event for modification and to trigger exposure map update
@@ -86,7 +86,7 @@ public class DataMap {
         /*if (loadedChunks.containsKey(index)) {
 
             if (isMaterialMap) {
-                DataChunk chunk = loadedChunks.get(index);
+                ChunkData chunk = loadedChunks.get(index);
 
                 if (chunk != null) {
                     //RadiationSystem.THREAD_RAD_EXPOSURE.queueChunkForRemoval(chunk);
@@ -112,20 +112,20 @@ public class DataMap {
         final long index = ChunkPos.asLong(chunk.xPosition, chunk.zPosition);
 
         // Get chunk
-        DataChunk dataChunk = null;
+        ChunkData chunkData = null;
 
         if (loadedChunks.containsKey(index)) {
-            dataChunk = loadedChunks.get(index);
+            chunkData = loadedChunks.get(index);
         }
 
         // Init chunk if missing
-        if (dataChunk == null) {
-            dataChunk = new DataChunk(chunk);
-            loadedChunks.put(index, dataChunk);
+        if (chunkData == null) {
+            chunkData = new ChunkData(chunk);
+            loadedChunks.put(index, chunkData);
         }
 
         // Load
-        dataChunk.readFromNBT(data.getCompoundTag(NBT_CHUNK_DATA));
+        chunkData.readFromNBT(data.getCompoundTag(NBT_CHUNK_DATA));
 
         /*
         // Queue to be scanned to update exposure map
@@ -139,11 +139,11 @@ public class DataMap {
         final long index = ChunkPos.asLong(chunk.xPosition, chunk.zPosition);
 
         if (loadedChunks.containsKey(index)) {
-            final DataChunk dataChunk = loadedChunks.get(index);
+            final ChunkData chunkData = loadedChunks.get(index);
 
-            if (dataChunk != null) {
+            if (chunkData != null) {
                 final NBTTagCompound tag = new NBTTagCompound();
-                dataChunk.writeToNBT(tag);
+                chunkData.writeToNBT(tag);
 
                 if (!tag.hasNoTags()) {
                     data.setTag(NBT_CHUNK_DATA, tag);
@@ -154,16 +154,16 @@ public class DataMap {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public DataChunk getChunkFromPosition(int x, int z, boolean init) {
+    public ChunkData getChunkFromPosition(int x, int z, boolean init) {
         return getChunk(x >> 4, z >> 4, init);
     }
 
-    public DataChunk getChunk(int x, int z, boolean init) {
+    public ChunkData getChunk(int x, int z, boolean init) {
         long index = ChunkPos.asLong(x, z);
-        DataChunk chunk = loadedChunks.get(index);
+        ChunkData chunk = loadedChunks.get(index);
 
         if (chunk == null && init) {
-            chunk = new DataChunk(world, new ChunkPos(x, z));
+            chunk = new ChunkData(world, new ChunkPos(x, z));
             loadedChunks.put(index, chunk);
         }
 

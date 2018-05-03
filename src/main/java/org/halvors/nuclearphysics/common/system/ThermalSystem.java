@@ -2,7 +2,7 @@ package org.halvors.nuclearphysics.common.system;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import org.halvors.nuclearphysics.common.system.data.DataMap;
+import org.halvors.nuclearphysics.common.system.data.ChunkDataMap;
 import org.halvors.nuclearphysics.common.system.event.WorldEventHandler;
 
 public class ThermalSystem {
@@ -15,7 +15,7 @@ public class ThermalSystem {
      * @return radioactive material amount
      */
     public static int getTemperature(final IBlockAccess world, final BlockPos pos) {
-        final DataMap map = WorldEventHandler.getTemperatureMap(world, false);
+        final ChunkDataMap map = WorldEventHandler.getTemperatureMap(world, false);
 
         if (map != null) {
             return map.getData(pos);
@@ -34,7 +34,7 @@ public class ThermalSystem {
      * @return true if the value was set
      */
     public static void setTemperature(final IBlockAccess world, final BlockPos pos, final int temperature) {
-        final DataMap map = WorldEventHandler.getTemperatureMap(world, temperature > 0);
+        final ChunkDataMap map = WorldEventHandler.getTemperatureMap(world, temperature > 0);
 
         if (map != null) {
             map.setData(pos, temperature);
