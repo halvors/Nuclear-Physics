@@ -13,6 +13,7 @@ import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
+import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -32,7 +33,7 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
         final FluidStack fluidStack = tile.getTank().getFluid();
 
         if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
-            components.add(new GuiBar(() -> (tile.getTemperature() - ThermalPhysics.roomTemperature) / TileReactorCell.meltingPoint, EnumBarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
+            components.add(new GuiBar(() -> (tile.getTemperature() - ThermalPhysics.ROOM_TEMPERATURE) / TileReactorCell.MELTING_POINT, EnumBarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
         }
 
         if (itemStack != null) {
@@ -60,8 +61,12 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
 
         if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
             // Text field for actual heat inside of reactor cell.
+            final String meltingPoint = UnitDisplay.getTemperatureDisplay(TileReactorCell.MELTING_POINT);
+            final String meltingPointColor = tile.getTemperature() >= TileReactorCell.MELTING_POINT ? EnumColor.DARK_RED.toString() : null;
+            final String temperature = UnitDisplay.getTemperatureDisplay(Math.floor(tile.getTemperature()));
+
             fontRendererObj.drawString(LanguageUtility.transelate("gui.temperature"), (xSize / 2) - 80, 45, 0x404040);
-            fontRendererObj.drawString(UnitDisplay.getTemperatureDisplay(Math.floor(tile.getTemperature())) + "/" + UnitDisplay.getTemperatureDisplay(TileReactorCell.meltingPoint), (xSize / 2) - 80, 58, 0x404040);
+            fontRendererObj.drawString(temperature + "/" + meltingPointColor + meltingPoint, (xSize / 2) - 80, 58, 0x404040);
         }
 
         if (itemStack != null) {

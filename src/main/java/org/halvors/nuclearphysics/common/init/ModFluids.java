@@ -24,14 +24,14 @@ import java.util.function.Function;
 
 public class ModFluids {
     /**
-     * The fluids registered by this mod. Includes fluids that were already registered by another mod.
+     * The FLUIDS registered by this mod. Includes FLUIDS that were already registered by another mod.
      */
-    public static final Set<Fluid> fluids = new HashSet<>();
+    public static final Set<Fluid> FLUIDS = new HashSet<>();
 
     /**
-     * The fluid blocks from this mod only. Doesn't include blocks for fluids that were already registered by another mod.
+     * The fluid blocks from this mod only. Doesn't include blocks for FLUIDS that were already registered by another mod.
      */
-    public static final Set<IFluidBlock> fluidBlocks = new HashSet<>();
+    public static final Set<IFluidBlock> FLUID_BLOCKS = new HashSet<>();
 
     public static final Fluid deuterium = createFluid("deuterium", false,
             fluid -> fluid.setDensity(1110), // Density: 1.11 g/cm3
@@ -75,7 +75,7 @@ public class ModFluids {
      * @return The fluid and block
      */
     private static <T extends Block & IFluidBlock> Fluid createFluid(String name, boolean hasFlowIcon, Consumer<Fluid> fluidPropertyApplier, Function<Fluid, T> blockFactory) {
-        final String texturePrefix = Reference.PREFIX + "fluids/";
+        final String texturePrefix = Reference.PREFIX + "FLUIDS/";
         final ResourceLocation still = new ResourceLocation(texturePrefix + name + "_still");
         final ResourceLocation flowing = hasFlowIcon ? new ResourceLocation(texturePrefix + name + "_flow") : still;
 
@@ -84,18 +84,18 @@ public class ModFluids {
 
         if (useOwnFluid) {
             fluidPropertyApplier.accept(fluid);
-            fluidBlocks.add(blockFactory.apply(fluid));
+            FLUID_BLOCKS.add(blockFactory.apply(fluid));
         } else {
             fluid = FluidRegistry.getFluid(name);
         }
 
-        fluids.add(fluid);
+        FLUIDS.add(fluid);
 
         return fluid;
     }
 
     private static void registerFluidContainers() {
-        for (final Fluid fluid : fluids) {
+        for (final Fluid fluid : FLUIDS) {
             if (fluid == toxicWaste) {
                 FluidRegistry.addBucketForFluid(fluid);
             }
@@ -113,7 +113,7 @@ public class ModFluids {
         public static void registerBlocks(final RegistryEvent.Register<Block> event) {
             final IForgeRegistry<Block> registry = event.getRegistry();
 
-            for (final IFluidBlock fluidBlock : fluidBlocks) {
+            for (final IFluidBlock fluidBlock : FLUID_BLOCKS) {
                 final Block block = (Block) fluidBlock;
                 final Fluid fluid = fluidBlock.getFluid();
 
@@ -137,7 +137,7 @@ public class ModFluids {
         public static void registerItems(final RegistryEvent.Register<Item> event) {
             final IForgeRegistry<Item> registry = event.getRegistry();
 
-            for (final IFluidBlock fluidBlock : fluidBlocks) {
+            for (final IFluidBlock fluidBlock : FLUID_BLOCKS) {
                 registry.register(new ItemBlockTooltip((Block) fluidBlock));
             }
 

@@ -2,7 +2,7 @@ package org.halvors.nuclearphysics.api.effect.explosion;
 
 public interface IFulmination {
     /**
-     * The radius of effect of the explosion.
+     * The RADIUS of effect of the explosion.
      */
     float getRadius();
 

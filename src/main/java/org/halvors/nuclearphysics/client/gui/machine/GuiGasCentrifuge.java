@@ -22,7 +22,7 @@ public class GuiGasCentrifuge extends GuiMachine<TileGasCentrifuge> {
         components.add(new GuiSlot(this, 80, 25));
         components.add(new GuiSlot(this, 100, 25));
         components.add(new GuiSlot(EnumSlotType.BATTERY, this, 130, 25));
-        components.add(new GuiProgress(() -> (double) tile.getOperatingTicks() / TileGasCentrifuge.ticksRequired, this, 40, 26));
+        components.add(new GuiProgress(() -> (double) tile.getOperatingTicks() / TileGasCentrifuge.TICKS_REQUIRED, this, 40, 26));
         components.add(new GuiFluidGauge(tile::getTank, this, (xSize / 2) - 80, 18));
         components.add(new GuiSlot(EnumSlotType.GAS, this, 24, 49));
     }

@@ -36,7 +36,7 @@ public class ModelEventHandler {
 	 * Register this mod's {@link Fluid} models.
 	 */
 	private void registerFluidModels() {
-		for (final IFluidBlock fluid : ModFluids.fluidBlocks) {
+		for (final IFluidBlock fluid : ModFluids.FLUID_BLOCKS) {
 			registerFluidModel(fluid);
 		}
 	}

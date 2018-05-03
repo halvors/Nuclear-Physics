@@ -36,10 +36,9 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     private static final String NBT_TANK_DEUTERIUM = "tankInputDeuterium";
     private static final String NBT_TANK_TRITIUM = "tankInputTritium";
     private static final String NBT_TANK_OUTPUT = "tankOutput";
-
-    private static int ticksRequired = 20 * 20;
-    private static int energyPerTick = 25000;
-    private static int plasmaHeatAmount = 100;
+    private static final int TICKS_REQUIRED = 20 * 20;
+    private static final int ENERGY_PER_TICK = 25000;
+    private static final int PLASMA_HEAT_AMOUNT = 100;
 
     public final LiquidTank tankInputDeuterium = new LiquidTank(Fluid.BUCKET_VOLUME * 10) {
         @Override
@@ -90,7 +89,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
         super(type);
 
         redstoneControl = EnumRedstoneControl.LOW;
-        energyStorage = new EnergyStorage(energyPerTick * 20);
+        energyStorage = new EnergyStorage(ENERGY_PER_TICK * 20);
     }
 
     @Override
@@ -142,15 +141,15 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
         }
 
         if (!world.isRemote) {
-            if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
-                if (operatingTicks < ticksRequired) {
+            if (canFunction() && canProcess() && energyStorage.extractEnergy(ENERGY_PER_TICK, true) >= ENERGY_PER_TICK) {
+                if (operatingTicks < TICKS_REQUIRED) {
                     operatingTicks++;
                 } else {
                     process();
                     reset();
                 }
 
-                energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+                energyUsed = energyStorage.extractEnergy(ENERGY_PER_TICK, false);
             }
 
             if (!canProcess()) {
@@ -244,14 +243,14 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean canProcess() {
-        return tankOutput.getFluidAmount() < tankOutput.getCapacity() && tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= plasmaHeatAmount;
+        return tankOutput.getFluidAmount() < tankOutput.getCapacity() && tankInputDeuterium.getFluidAmount() >= PLASMA_HEAT_AMOUNT && tankInputTritium.getFluidAmount() >= PLASMA_HEAT_AMOUNT;
     }
 
     public void process() {
         if (canProcess()) {
-            tankInputDeuterium.drainInternal(plasmaHeatAmount, true);
-            tankInputTritium.drainInternal(plasmaHeatAmount, true);
-            tankOutput.fillInternal(new FluidStack(ModFluids.plasma, plasmaHeatAmount), true);
+            tankInputDeuterium.drainInternal(PLASMA_HEAT_AMOUNT, true);
+            tankInputTritium.drainInternal(PLASMA_HEAT_AMOUNT, true);
+            tankOutput.fillInternal(new FluidStack(ModFluids.plasma, PLASMA_HEAT_AMOUNT), true);
         }
     }
 }
