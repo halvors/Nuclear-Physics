@@ -15,6 +15,7 @@ import org.halvors.nuclearphysics.common.item.ItemCell;
 import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 import org.halvors.nuclearphysics.common.item.armor.ItemArmorBase;
 import org.halvors.nuclearphysics.common.item.armor.ItemArmorHazmat;
+import org.halvors.nuclearphysics.common.item.debug.ItemDebug;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemBreederFuel;
 import org.halvors.nuclearphysics.common.item.reactor.fission.ItemFissileFuel;
@@ -58,6 +59,9 @@ public class ModItems {
     public static final ItemArmor itemHazmatLeggings = new ItemArmorHazmat("hazmat_leggings", EntityEquipmentSlot.LEGS);
     public static final ItemArmor itemHazmatBoots = new ItemArmorHazmat("hazmat_boots", EntityEquipmentSlot.FEET);
 
+    // Debug
+    public static final Item itemDebug = new ItemDebug();
+
     @EventBusSubscriber
     public static class RegistrationHandler {
         /**
@@ -89,7 +93,9 @@ public class ModItems {
                     itemHazmatMask,
                     itemHazmatBody,
                     itemHazmatLeggings,
-                    itemHazmatBoots
+                    itemHazmatBoots,
+
+                    itemDebug
             };
 
             final IForgeRegistry<Item> registry = event.getRegistry();
