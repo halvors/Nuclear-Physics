@@ -79,12 +79,6 @@ public class NuclearPhysics {
 
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
-		// Register event handlers.
-		MinecraftForge.EVENT_BUS.register(new FulminationEventHandler());
-		MinecraftForge.EVENT_BUS.register(new ItemEventHandler());
-		MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
-		//MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
-
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
@@ -121,7 +115,7 @@ public class NuclearPhysics {
 	}
 
 	@EventHandler
-	public void serverStopping(FMLServerStoppingEvent event) {
+	public void serverStopping(final FMLServerStoppingEvent event) {
 		GridTicker.getInstance().interrupt();
 	}
 

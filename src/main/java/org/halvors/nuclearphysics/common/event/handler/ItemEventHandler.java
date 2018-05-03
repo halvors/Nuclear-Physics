@@ -3,14 +3,16 @@ package org.halvors.nuclearphysics.common.event.handler;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.effect.explosion.AntimatterExplosion;
 import org.halvors.nuclearphysics.common.init.ModItems;
 
+@EventBusSubscriber
 public class ItemEventHandler {
     @SubscribeEvent
-    public void onItemExpireEvent(final ItemExpireEvent event) {
+    public static void onItemExpireEvent(final ItemExpireEvent event) {
         if (General.enableAntimatterPower) {
             final EntityItem entityItem = event.getEntityItem();
 
