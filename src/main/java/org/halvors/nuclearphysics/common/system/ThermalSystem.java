@@ -33,13 +33,11 @@ public class ThermalSystem {
      *
      * @return true if the value was set
      */
-    public static boolean setTemperature(final IBlockAccess world, final BlockPos pos, final int temperature) {
+    public static void setTemperature(final IBlockAccess world, final BlockPos pos, final int temperature) {
         final DataMap map = WorldEventHandler.getTemperatureMap(world, temperature > 0);
 
         if (map != null) {
-            return map.setData(pos, temperature);
+            map.setData(pos, temperature);
         }
-
-        return true;
     }
 }

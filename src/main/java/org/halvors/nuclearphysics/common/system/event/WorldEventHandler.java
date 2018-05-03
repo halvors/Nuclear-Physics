@@ -14,18 +14,18 @@ import java.util.HashMap;
 
 @EventBusSubscriber
 public class WorldEventHandler {
-    /** Temperature map, saved to world and updated over time */
+    /** Temperature map, saved to world and updated over time. */
     private static final HashMap<IBlockAccess, DataMap> temperatureMap = new HashMap<>();
 
-    /** Radiation map, saved to world and updated over time */
+    /** Radiation map, saved to world and updated over time. */
     private static final HashMap<IBlockAccess, DataMap> radiationMap = new HashMap<>();
 
-    public static DataMap getMap(HashMap<IBlockAccess, DataMap> hashMap, final IBlockAccess world, final boolean init) {
-        DataMap map = hashMap.get(world);
+    public static DataMap getMap(final HashMap<IBlockAccess, DataMap> queryMap, final IBlockAccess world, final boolean init) {
+        DataMap map = queryMap.get(world);
 
         if (map == null && init) {
             map = new DataMap(world);
-            hashMap.put(world, map);
+            queryMap.put(world, map);
         }
 
         return map;
