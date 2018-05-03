@@ -29,7 +29,7 @@ public class ItemDebug extends ItemBase {
             } else {
                 final int amount = 100;
 
-                player.sendMessage(new TextComponentString("Increasing temperature by 100K, temperature is now: " + temperature + amount + "K."));
+                player.sendMessage(new TextComponentString("Increasing temperature by 100K, temperature is now: " + (temperature + amount) + "K."));
                 ThermalSystem.setTemperature(world, pos, amount);
             }
         }

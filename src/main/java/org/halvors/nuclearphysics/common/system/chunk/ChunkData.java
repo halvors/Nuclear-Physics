@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChunkData {
-    private static final int CHUNK_HEIGHT = 256;
+    public static final int CHUNK_HEIGHT = 256;
     private static final String NBT_Y_START = "y_start";
     private static final String NBT_SIZE = "size";
     private static final String NBT_LAYERS = "layers";
@@ -122,12 +122,14 @@ public class ChunkData {
      * @param value - value to set
      */
     public boolean setValue(final int x, final int y, final int z, final int value) {
+        // TODO: Remove debugging message.
+        NuclearPhysics.getLogger().info("Setting ChunkData with value: " + value);
+
         //Keep inside of chunk
         if (y >= 0 && y < CHUNK_HEIGHT) {
             //Only set values that are above zero or have an existing layer
             if (value > 0 || hasLayer(y)) {
                 final ChunkDataLayer layer = getLayer(y);
-
                 final int prev = layer.getData(x, z);
 
                 // Set chunk into layer

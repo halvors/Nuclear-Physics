@@ -1,5 +1,7 @@
 package org.halvors.nuclearphysics.common.system.chunk;
 
+import org.halvors.nuclearphysics.common.NuclearPhysics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +71,9 @@ public class ChunkDataLayer {
      * @return true if chunk was set, false if nothing happened (likely means outside of the map)
      */
     public boolean setData(final int x, final int z, final int value) {
+        // TODO: Remove debugging message.
+        NuclearPhysics.getLogger().info("Setting ChunkDataLayer with value: " + value);
+
         final int index = getIndex(x, z);
 
         if (index >= 0) {
