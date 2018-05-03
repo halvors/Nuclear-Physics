@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.client.gui.reactor;
 
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,6 +14,7 @@ import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
+import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -60,8 +62,12 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
 
         if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
             // Text field for actual heat inside of reactor cell.
+            final String meltingPoint = UnitDisplay.getTemperatureDisplay(TileReactorCell.meltingPoint);
+            final String meltingPointColor = tile.getTemperature() >= TileReactorCell.meltingPoint ? EnumColor.DARK_RED.toString() : null;
+            final String temperature = UnitDisplay.getTemperatureDisplay(Math.floor(tile.getTemperature()));
+
             fontRendererObj.drawString(LanguageUtility.transelate("gui.temperature"), (xSize / 2) - 80, 45, 0x404040);
-            fontRendererObj.drawString(UnitDisplay.getTemperatureDisplay(Math.floor(tile.getTemperature())) + "/" + UnitDisplay.getTemperatureDisplay(TileReactorCell.meltingPoint), (xSize / 2) - 80, 58, 0x404040);
+            fontRendererObj.drawString(temperature + "/" + meltingPointColor + meltingPoint, (xSize / 2) - 80, 58, 0x404040);
         }
 
         if (itemStack != null) {
