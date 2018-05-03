@@ -29,14 +29,11 @@ import java.util.List;
 public class TileParticleAccelerator extends TileInventoryMachine implements IElectromagnet {
     private static final String NBT_TOTAL_ENERGY_CONSUMED = "totalEnergyConsumed";
     private static final String NBT_ANTIMATTER_COUNT = "antimatterCount";
-
-    private static final int energyPerTick = 19000;
+    private static final int ENERGY_PER_TICK = 19000;
+    public static final float ANTIMATTER_CREATION_SPEED = 0.9F; // Speed by which a particle will turn into anitmatter.
 
     // Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
     private int particleDensity = General.antimatterDensityMultiplier;
-
-    // Speed by which a particle will turn into anitmatter.
-    public static final float antimatterCreationSpeed = 0.9F;
 
     // The amount of anti-matter stored within the accelerator. Measured in milligrams.
     private int antimatterCount = 0; // Synced
@@ -44,7 +41,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     // The total amount of energy consumed by this particle.
     public int totalEnergyConsumed = 0; // Synced
 
-    private EntityParticle entityParticle;
+    private EntityParticle entityParticle = null;
     private float velocity = 0; // Synced
     private int lastSpawnTick = 0;
 
@@ -55,7 +52,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     public TileParticleAccelerator(final EnumMachine type) {
         super(type);
 
-        energyStorage = new EnergyStorage(energyPerTick * 40, energyPerTick);
+        energyStorage = new EnergyStorage(ENERGY_PER_TICK * 40, ENERGY_PER_TICK);
         inventory = new ItemStackHandler(4) {
             @Override
             protected void onContentsChanged(final int slot) {
@@ -124,7 +121,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
             // Check if redstone signal is currently being applied.
             final ItemStack itemStack = inventory.getStackInSlot(0);
 
-            if (canFunction() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
+            if (canFunction() && energyStorage.extractEnergy(ENERGY_PER_TICK, true) >= ENERGY_PER_TICK) {
                 if (entityParticle == null) {
                     // Creates a accelerated particle if one needs to exist (on world load for example or player login).
                     if (itemStack != null && lastSpawnTick >= 40) {
@@ -155,7 +152,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                         }
 
                         entityParticle = null;
-                    } else if (velocity > antimatterCreationSpeed) {
+                    } else if (velocity > ANTIMATTER_CREATION_SPEED) {
                         // Play sound of anti-matter being created.
                         world.playSound(null, pos, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 2, 1 - world.rand.nextFloat() * 0.3F);
 
@@ -171,10 +168,10 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
 
                     // Plays sound of particle accelerating past the speed based on total velocity at the time of anti-matter creation.
                     if (entityParticle != null) {
-                        world.playSound(null, pos, ModSoundEvents.ACCELERATOR, SoundCategory.BLOCKS, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getVelocity()) / antimatterCreationSpeed)));
+                        world.playSound(null, pos, ModSoundEvents.ACCELERATOR, SoundCategory.BLOCKS, 1.5F, (float) (0.6 + (0.4 * (entityParticle.getVelocity()) / ANTIMATTER_CREATION_SPEED)));
                     }
 
-                    energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+                    energyUsed = energyStorage.extractEnergy(ENERGY_PER_TICK, false);
                     totalEnergyConsumed += energyUsed;
                 }
             } else {

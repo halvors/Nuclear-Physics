@@ -16,9 +16,9 @@ import java.util.List;
 public class TileThermometer extends TileRotatable implements ITickable {
     private static final String NBT_THRESHOLD = "threshold";
     private static final String NBT_TRACK_COORDINATE = "trackCoordinate";
+    private static final int MAX_THRESHOLD = 5000;
 
-    private static final int maxThreshold = 5000;
-    private float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
+    private float detectedTemperature = (float) ThermalPhysics.ROOM_TEMPERATURE; // Synced
     private float previousDetectedTemperature = detectedTemperature; // Synced
     private Position trackCoordinate = null; // Synced
     private int threshold = 1000; // Synced
@@ -130,10 +130,10 @@ public class TileThermometer extends TileRotatable implements ITickable {
     }
 
     public void setThreshold(final int threshold) {
-        this.threshold = threshold % maxThreshold;
+        this.threshold = threshold % MAX_THRESHOLD;
 
         if (threshold <= 0) {
-            this.threshold = maxThreshold;
+            this.threshold = MAX_THRESHOLD;
         }
     }
 

@@ -126,7 +126,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
             // Play sound effects.
             if (ticksExisted % 10 == 0) {
-                world.playSound(posX, posY, posZ, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1, (float) (0.6 + (0.4 * (getVelocity() / TileParticleAccelerator.antimatterCreationSpeed))), true);
+                world.playSound(posX, posY, posZ, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1, (float) (0.6 + (0.4 * (getVelocity() / TileParticleAccelerator.ANTIMATTER_CREATION_SPEED))), true);
             }
 
             // Sanity check
@@ -171,9 +171,9 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
             final Position accelerationPos = new Position().offset(movementDirection).scale(acceleration);
 
-            motionX = Math.min(accelerationPos.getX() + motionX, TileParticleAccelerator.antimatterCreationSpeed);
-            motionY = Math.min(accelerationPos.getY() + motionY, TileParticleAccelerator.antimatterCreationSpeed);
-            motionZ = Math.min(accelerationPos.getZ() + motionZ, TileParticleAccelerator.antimatterCreationSpeed);
+            motionX = Math.min(accelerationPos.getX() + motionX, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
+            motionY = Math.min(accelerationPos.getY() + motionY, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
+            motionZ = Math.min(accelerationPos.getZ() + motionZ, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
             isAirBorne = true;
 
             lastTickPosX = posX;
@@ -273,7 +273,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         world.playSound(posX, posY, posZ, ModSoundEvents.ANTIMATTER, SoundCategory.BLOCKS, 1.5F, 1F - world.rand.nextFloat() * 0.3F, true);
 
         if (!world.isRemote) {
-            if (getVelocity() > TileParticleAccelerator.antimatterCreationSpeed / 2) {
+            if (getVelocity() > TileParticleAccelerator.ANTIMATTER_CREATION_SPEED / 2) {
                 final float radius = 1;
                 final AxisAlignedBB bounds = new AxisAlignedBB(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius);
                 final List<EntityParticle> entitiesNearby = world.getEntitiesWithinAABB(EntityParticle.class, bounds);

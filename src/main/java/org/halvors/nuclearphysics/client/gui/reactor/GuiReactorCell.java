@@ -1,7 +1,6 @@
 package org.halvors.nuclearphysics.client.gui.reactor;
 
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,7 +33,7 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
         final FluidStack fluidStack = tile.getTank().getFluid();
 
         if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
-            components.add(new GuiBar(() -> (tile.getTemperature() - ThermalPhysics.roomTemperature) / TileReactorCell.meltingPoint, EnumBarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
+            components.add(new GuiBar(() -> (tile.getTemperature() - ThermalPhysics.ROOM_TEMPERATURE) / TileReactorCell.MELTING_POINT, EnumBarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
         }
 
         if (itemStack != null) {
@@ -62,8 +61,8 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
 
         if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
             // Text field for actual heat inside of reactor cell.
-            final String meltingPoint = UnitDisplay.getTemperatureDisplay(TileReactorCell.meltingPoint);
-            final String meltingPointColor = tile.getTemperature() >= TileReactorCell.meltingPoint ? EnumColor.DARK_RED.toString() : null;
+            final String meltingPoint = UnitDisplay.getTemperatureDisplay(TileReactorCell.MELTING_POINT);
+            final String meltingPointColor = tile.getTemperature() >= TileReactorCell.MELTING_POINT ? EnumColor.DARK_RED.toString() : null;
             final String temperature = UnitDisplay.getTemperatureDisplay(Math.floor(tile.getTemperature()));
 
             fontRendererObj.drawString(LanguageUtility.transelate("gui.temperature"), (xSize / 2) - 80, 45, 0x404040);

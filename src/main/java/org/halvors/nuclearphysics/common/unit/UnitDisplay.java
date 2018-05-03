@@ -55,16 +55,16 @@ public class UnitDisplay {
             }
         }
 
-        public double process(final double value) {
-            return value / value;
+        public double process(final double d) {
+            return d / value;
         }
 
-        public boolean above(final double value) {
-            return value > value;
+        public boolean above(final double d) {
+            return d > value;
         }
 
-        public boolean below(final double value) {
-            return value < value;
+        public boolean below(final double d) {
+            return d < value;
         }
     }
 

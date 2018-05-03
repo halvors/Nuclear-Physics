@@ -69,7 +69,7 @@ public class BlockReactorCell extends BlockInventory {
             final ItemStack itemStack = tileReactorCell.getInventory().getStackInSlot(0);
 
             // Spawn particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
-            if (itemStack != null && tileReactorCell.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+            if (itemStack != null && tileReactorCell.getTemperature() >= ThermalPhysics.WATER_BOIL_TEMPERATURE) {
                 world.spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextInt(2), pos.getY() + 1, pos.getZ() + world.rand.nextInt(2), 0, 0.1, 0);
             }
         }
