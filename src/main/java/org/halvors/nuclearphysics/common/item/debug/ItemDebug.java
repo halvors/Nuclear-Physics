@@ -27,10 +27,10 @@ public class ItemDebug extends ItemBase {
             if (!player.isSneaking()) {
                 player.sendMessage(new TextComponentString("Temperature is: " + temperature + "K."));
             } else {
-                final int amount = 100;
+                int amount = temperature * 2 > 0 ? temperature * 2 : 100;
 
-                player.sendMessage(new TextComponentString("Increasing temperature by 100K, temperature is now: " + (temperature + amount) + "K."));
-                ThermalSystem.setTemperature(world, pos, amount);
+                player.sendMessage(new TextComponentString("Increasing temperature by 100K."));
+                ThermalSystem.setTemperature(world, pos, temperature + amount);
             }
         }
 

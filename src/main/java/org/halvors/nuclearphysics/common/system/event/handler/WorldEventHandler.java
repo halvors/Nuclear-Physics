@@ -34,11 +34,11 @@ public class WorldEventHandler {
     public static void onChunkDataLoadEvent(final ChunkDataEvent.Load event) { // Called before chunk load event
         final NBTTagCompound tag = event.getData();
 
-        if (tag != null && tag.hasKey(ChunkDataMap.NBT_CHUNK_DATA)) {
+        if (tag != null && tag.hasKey(ChunkDataMap.NBT_CHUNK_DATA_MAP)) {
             final ChunkDataMap temperatureMap = ThermalSystem.getTemperatureMap(event.getWorld(), true);
 
             if (temperatureMap != null) {
-                temperatureMap.readChunkFromNBT(event.getChunk(), event.getData());
+                temperatureMap.readFromNBT(event.getChunk().getChunkCoordIntPair(), event.getData());
             }
         }
     }
@@ -48,7 +48,7 @@ public class WorldEventHandler {
         final ChunkDataMap temperatureMap = ThermalSystem.getTemperatureMap(event.getWorld(), false);
 
         if (temperatureMap != null) {
-            temperatureMap.writeChunkFromNBT(event.getChunk(), event.getData());
+            temperatureMap.writeToNBT(event.getChunk().getChunkCoordIntPair(), event.getData());
         }
     }
 }

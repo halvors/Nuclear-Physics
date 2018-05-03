@@ -1,83 +1,64 @@
 package org.halvors.nuclearphysics.common.system.chunk;
 
-import org.halvors.nuclearphysics.common.NuclearPhysics;
-
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Single Y level of radiation stores in the world
+ *
+ * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
+ * Created by Dark(DarkGuardsman, Robert) on 4/24/2018.
+ */
 public class ChunkDataLayer {
     private static final int CHUNK_WIDTH = 16;
 
-    /** Stored chunk in this layer */
-    private final List<Integer> data = new ArrayList<>();
-
-    /** The index of this layer */
+    /** Index of this layer */
     private final int y;
 
-    public ChunkDataLayer(final int y) {
+    /** Stored data in this layer */
+    private final int[] data = new int[CHUNK_WIDTH * CHUNK_WIDTH];
+
+    /** Number of non-zero slots, used to track if layer is empty */
+    public int blocksUsed = 0;
+
+    public ChunkDataLayer(int y) {
         this.y = y;
     }
 
     /**
-     * Is the layer empty
-     *
-     * @return true if no blocks were ever set
-     */
-    public boolean isEmpty() {
-        return data.isEmpty();
-    }
-
-    /**
-     * Index of the x z location
-     *
-     * @param x - location 0-15
-     * @param z - location 0-15
-     * @return getIndex between 0-255, -1 returns if input chunk is invalid
-     */
-    public final int getIndex(final int x, final int z) {
-        // Bound check to prevent getIndex values from generating outside range
-        // Is needed as a negative z can cause a value to overlap values normally in range
-        // Ex: 15x -1z -> 239, which is in range but not the right getIndex
-        if (x >= 0 && x < CHUNK_WIDTH && z >= 0 && z < CHUNK_WIDTH) {
-            return x * CHUNK_WIDTH + z;
-        }
-
-        return -1;
-    }
-
-    /**
-     * Gets the chunk from the layer
+     * Gets the data from the layer
      *
      * @param x - location
      * @param z - location
      * @return value
      */
-    public int getData(final int x, final int z) {
-        final int index = getIndex(x, z);
+    public int getData(int x, int z) {
+        int index = index(x, z);
 
         if (index >= 0) {
-            return data.get(index);
+            return data[index];
         }
 
         return 0;
     }
 
     /**
-     * Sets chunk into the layer
+     * Sets data into the layer
      *
      * @param x     - location
      * @param z     - location
      * @param value - value
-     * @return true if chunk was set, false if nothing happened (likely means outside of the map)
+     * @return true if data was set, false if nothing happened (likely means outside of the map)
      */
-    public boolean setData(final int x, final int z, final int value) {
-        // TODO: Remove debugging message.
-        NuclearPhysics.getLogger().info("Setting ChunkDataLayer with value: " + value);
-
-        final int index = getIndex(x, z);
+    public boolean setData(int x, int z, int value) {
+        int index = index(x, z);
 
         if (index >= 0) {
-            data.add(index, value);
+            int prev = data[index];
+            data[index] = value;
+
+            if (prev != 0 && value == 0) {
+                blocksUsed--;
+            } else if (prev == 0 && value != 0) {
+                blocksUsed++;
+            }
 
             return true;
         }
@@ -85,18 +66,36 @@ public class ChunkDataLayer {
         return false;
     }
 
+    /**
+     * Index of the x z location
+     *
+     * @param x - location 0-15
+     * @param z - location 0-15
+     * @return index between 0-255, -1 returns if input data is invalid
+     */
+    public final int index(int x, int z) {
+        // Bound check to prevent index values from generating outside range
+        // Is needed as a negative z can cause a value to overlap values normally in range
+        // Ex: 15x -1z -> 239, which is in range but not the right index
+
+        if (x >= 0 && x < CHUNK_WIDTH && z >= 0 && z < CHUNK_WIDTH) {
+            return x * CHUNK_WIDTH + z;
+        }
+
+        return -1;
+    }
+
+    public boolean isEmpty() {
+        return blocksUsed <= 0;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public List<Integer> getData() {
-        return data;
-    }
-
-    public void setData(final List<Integer> list) {
-        data.clear();
-        data.addAll(list);
-    }
 
     public int getY() {
         return y;
+    }
+
+    public int[] getData() {
+        return data;
     }
 }
