@@ -1,16 +1,16 @@
-package org.halvors.nuclearphysics.common.system;
+package org.halvors.nuclearphysics.common.system.data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaseLayer {
+public class DataLayer {
     /** Stored data in this layer */
     private final List<Integer> data = new ArrayList<>();
 
     /** The index of this layer */
     private final int y;
 
-    public BaseLayer(final int y) {
+    public DataLayer(final int y) {
         this.y = y;
     }
 
