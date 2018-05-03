@@ -6,15 +6,15 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.event.TextureEventHandler;
-import org.halvors.nuclearphysics.client.event.TextureEventHandler.FluidType;
+import org.halvors.nuclearphysics.client.event.TextureEventHandler.EnumFluidType;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 @SideOnly(Side.CLIENT)
 public class GuiFluidGauge extends GuiGauge {
-    private IFluidInfoHandler fluidInfoHandler;
+    private final IFluidInfoHandler fluidInfoHandler;
 
-    public GuiFluidGauge(IFluidInfoHandler fluidInfoHandler, IGuiWrapper gui, int x, int y) {
+    public GuiFluidGauge(final IFluidInfoHandler fluidInfoHandler, final IGuiWrapper gui, final int x, final int y) {
         super(gui, x, y);
 
         this.fluidInfoHandler = fluidInfoHandler;
@@ -22,10 +22,10 @@ public class GuiFluidGauge extends GuiGauge {
 
     @Override
     protected int getScaledLevel() {
-        IFluidTank tank = fluidInfoHandler.getTank();
+        final IFluidTank tank = fluidInfoHandler.getTank();
 
         if (tank.getFluidAmount() > 0 && tank.getFluid() != null) {
-            return tank.getFluidAmount() * (height - 2) / tank.getCapacity();
+            return tank.getFluidAmount() * (HEIGHT - 2) / tank.getCapacity();
         }
 
         return 0;
@@ -33,10 +33,10 @@ public class GuiFluidGauge extends GuiGauge {
 
     @Override
     protected TextureAtlasSprite getTexture() {
-        FluidStack fluidStack = fluidInfoHandler.getTank().getFluid();
+        final FluidStack fluidStack = fluidInfoHandler.getTank().getFluid();
 
         if (fluidStack != null) {
-            return TextureEventHandler.getFluidTexture(fluidStack.getFluid(), FluidType.STILL);
+            return TextureEventHandler.getFluidTexture(fluidStack.getFluid(), EnumFluidType.STILL);
         }
 
         return null;
@@ -44,8 +44,8 @@ public class GuiFluidGauge extends GuiGauge {
 
     @Override
     protected String getTooltip() {
-        IFluidTank tank = fluidInfoHandler.getTank();
-        FluidStack fluidStack = tank.getFluid();
+        final IFluidTank tank = fluidInfoHandler.getTank();
+        final FluidStack fluidStack = tank.getFluid();
 
         if (fluidStack != null && fluidStack.amount > 0) {
             return fluidStack.getLocalizedName() + ": " + tank.getFluidAmount() + " mB";

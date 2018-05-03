@@ -7,13 +7,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.GuiComponentContainer;
 import org.halvors.nuclearphysics.client.gui.component.*;
-import org.halvors.nuclearphysics.client.gui.component.GuiBar.BarType;
-import org.halvors.nuclearphysics.client.gui.component.GuiSlot.SlotType;
+import org.halvors.nuclearphysics.client.gui.component.GuiBar.EnumBarType;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
+import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -22,23 +22,23 @@ import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
-    public GuiReactorCell(InventoryPlayer inventoryPlayer, TileReactorCell tile) {
+    public GuiReactorCell(final InventoryPlayer inventoryPlayer, final TileReactorCell tile) {
         super(tile, new ContainerReactorCell(inventoryPlayer, tile));
 
         components.add(new GuiTemperatureInfo(ArrayList::new, this, -26, 183));
-        components.add(new GuiSlot(SlotType.NORMAL, this, (xSize / 2) - 10, (ySize / 2) - 92));
+        components.add(new GuiSlot(this, (xSize / 2) - 10, (ySize / 2) - 92));
         components.add(new GuiFluidGauge(tile::getTank, this, (xSize / 2) - 8, (ySize / 2) - 72));
 
-        ItemStack itemStack = tile.getInventory().getStackInSlot(0);
-        FluidStack fluidStack = tile.getTank().getFluid();
+        final ItemStack itemStack = tile.getInventory().getStackInSlot(0);
+        final FluidStack fluidStack = tile.getTank().getFluid();
 
         if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
-            components.add(new GuiBar(() -> (tile.getTemperature() - ThermalPhysics.roomTemperature) / TileReactorCell.meltingPoint, BarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
+            components.add(new GuiBar(() -> (tile.getTemperature() - ThermalPhysics.ROOM_TEMPERATURE) / TileReactorCell.MELTING_POINT, EnumBarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
         }
 
         if (itemStack != null) {
             components.add(new GuiBar(new IProgressInfoHandler() {
-                ItemStack itemStack = tile.getInventory().getStackInSlot(0);
+                final ItemStack itemStack = tile.getInventory().getStackInSlot(0);
 
                 @Override
                 public double getProgress() {
@@ -48,21 +48,25 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
 
                     return 0;
                 }
-            }, BarType.TIMER, this, (xSize / 2) + 14, (ySize / 2) - 38));
+            }, EnumBarType.TIMER, this, (xSize / 2) + 14, (ySize / 2) - 38));
         }
     }
 
     @Override
-    public void drawGuiContainerForegroundLayer(int x, int y) {
+    public void drawGuiContainerForegroundLayer(final int x, final int y) {
         fontRendererObj.drawString(tile.getLocalizedName(), (xSize / 2) - (fontRendererObj.getStringWidth(tile.getLocalizedName()) / 2), (ySize / 2) - 102, 0x404040);
 
-        ItemStack itemStack = tile.getInventory().getStackInSlot(0);
-        FluidStack fluidStack = tile.getTank().getFluid();
+        final ItemStack itemStack = tile.getInventory().getStackInSlot(0);
+        final FluidStack fluidStack = tile.getTank().getFluid();
 
         if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
             // Text field for actual heat inside of reactor cell.
+            final String meltingPoint = UnitDisplay.getTemperatureDisplay(TileReactorCell.MELTING_POINT);
+            final String meltingPointColor = tile.getTemperature() >= TileReactorCell.MELTING_POINT ? EnumColor.DARK_RED.toString() : null;
+            final String temperature = UnitDisplay.getTemperatureDisplay(Math.floor(tile.getTemperature()));
+
             fontRendererObj.drawString(LanguageUtility.transelate("gui.temperature"), (xSize / 2) - 80, 45, 0x404040);
-            fontRendererObj.drawString(UnitDisplay.getTemperatureDisplay(Math.floor(tile.getTemperature())) + "/" + UnitDisplay.getTemperatureDisplay(TileReactorCell.meltingPoint), (xSize / 2) - 80, 58, 0x404040);
+            fontRendererObj.drawString(temperature + "/" + meltingPointColor + meltingPoint, (xSize / 2) - 80, 58, 0x404040);
         }
 
         if (itemStack != null) {
@@ -73,7 +77,7 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
             fontRendererObj.drawString(secondsLeft + "s", (xSize / 2) + 14, 58, 0x404040);
         }
 
-        List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate("tile." + Reference.ID + "." + tile.getName() + ".tooltip"), 5);
+        final List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate("tile." + Reference.ID + "." + tile.getName() + ".tooltip"), 5);
 
         for (int i = 0; i < list.size(); i++) {
             fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 85 + i * 9, 0x404040);

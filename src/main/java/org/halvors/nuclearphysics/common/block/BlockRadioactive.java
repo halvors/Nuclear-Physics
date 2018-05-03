@@ -5,7 +5,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -15,12 +14,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.render.particle.ParticleRadioactive;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.effect.poison.PoisonRadiation;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
+import org.halvors.nuclearphysics.common.init.ModPotions;
 
 import java.util.List;
 import java.util.Random;
 
-public abstract class BlockRadioactive extends BlockBase {
+public class BlockRadioactive extends BlockBase {
     protected boolean canSpread;
     protected float radius;
     protected int amplifier;
@@ -28,7 +28,7 @@ public abstract class BlockRadioactive extends BlockBase {
     protected boolean isRandomlyRadioactive;
     protected boolean spawnParticle;
 
-    public BlockRadioactive(String name, Material material) {
+    public BlockRadioactive(final String name, final Material material) {
         super(name, material);
 
         setTickRandomly(true);
@@ -38,12 +38,12 @@ public abstract class BlockRadioactive extends BlockBase {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random random) {
-        if (spawnParticle && Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
+    public void randomDisplayTick(final IBlockState state, final World world, final BlockPos pos, final Random random) {
+        if ((spawnParticle || General.allowRadioactiveOres) && Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
             int radius = 3;
 
             for (int i = 0; i < 2; i++) {
-                BlockPos newPos = pos.add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
+                final BlockPos newPos = pos.add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
                 RenderUtility.renderParticle(new ParticleRadioactive(world, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2));
             }
         }
@@ -53,14 +53,14 @@ public abstract class BlockRadioactive extends BlockBase {
      * Ticks the block if it's been scheduled
      */
     @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
+    public void updateTick(final World world, final BlockPos pos, final IBlockState state, final Random random) {
         if (!world.isRemote) {
-            if (isRandomlyRadioactive) {
+            if (isRandomlyRadioactive || General.allowRadioactiveOres) {
                 final AxisAlignedBB bounds = new AxisAlignedBB(pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius, pos.getX() + radius, pos.getY() + radius, pos.getZ() + radius);
                 final List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
 
                 for (EntityLivingBase entity : entitiesNearby) {
-                    PoisonRadiation.getInstance().poisonEntity(pos, entity, amplifier);
+                    ModPotions.poisonRadiation.poisonEntity(entity, amplifier);
                 }
             }
 
@@ -85,9 +85,9 @@ public abstract class BlockRadioactive extends BlockBase {
      * Called whenever an entity is walking on top of this block. Args: world, x, y, z, entity
      */
     @Override
-    public void onEntityWalk(World world, BlockPos pos, Entity entity) {
-        if (entity instanceof EntityLiving && canWalkPoison) {
-            PoisonRadiation.getInstance().poisonEntity(pos, (EntityLiving) entity);
+    public void onEntityWalk(final World world, final BlockPos pos, final Entity entity) {
+        if (entity instanceof EntityLivingBase && (canWalkPoison || General.allowRadioactiveOres)) {
+            ModPotions.poisonRadiation.poisonEntity((EntityLivingBase) entity);
         }
     }
 }

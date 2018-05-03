@@ -1,14 +1,16 @@
 package org.halvors.nuclearphysics.api.item.armor;
 
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
+
+import java.util.EnumSet;
 
 public interface IArmorSet {
-    EntityEquipmentSlot getArmorType();
+    EntityEquipmentSlot getEquipmentSlot();
 
-    boolean isPartOfSet(ItemStack armorStack, ItemStack compareStack);
+    boolean isArmorPartOfSet(ItemStack itemStack);
 
-    boolean areAllPartsNeeded(ItemStack armorStack, EntityLivingBase entity, DamageSource source, Object... args);
+    default EnumSet<EntityEquipmentSlot> getArmorPartsRequired() {
+        return EnumSet.of(EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS, EntityEquipmentSlot.FEET);
+    }
 }

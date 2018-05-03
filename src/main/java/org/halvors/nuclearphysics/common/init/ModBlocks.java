@@ -12,21 +12,21 @@ import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockBase;
-import org.halvors.nuclearphysics.common.block.BlockRadioactiveGrass;
-import org.halvors.nuclearphysics.common.block.BlockUraniumOre;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine;
 import org.halvors.nuclearphysics.common.block.particle.BlockFulminationGenerator;
 import org.halvors.nuclearphysics.common.block.reactor.*;
 import org.halvors.nuclearphysics.common.block.reactor.fission.BlockControlRod;
+import org.halvors.nuclearphysics.common.block.reactor.fission.BlockRadioactiveGrass;
+import org.halvors.nuclearphysics.common.block.reactor.fission.BlockUraniumOre;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockMetadata;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockTooltip;
 import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
+import org.halvors.nuclearphysics.common.tile.particle.TileElectromagnet;
 import org.halvors.nuclearphysics.common.tile.particle.TileFulminationGenerator;
 import org.halvors.nuclearphysics.common.tile.reactor.*;
-import org.halvors.nuclearphysics.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 
 import java.util.HashSet;
@@ -35,18 +35,18 @@ import java.util.Set;
 public class ModBlocks {
     public static final Set<ItemBlock> itemBlocks = new HashSet<>();
 
-    public static Block blockControlRod = new BlockControlRod();
-    public static Block blockElectricTurbine = new BlockElectricTurbine();
-    public static Block blockElectromagnet = new BlockElectromagnet();
-    public static Block blockFulmination = new BlockFulminationGenerator();
-    public static Block blockGasFunnel = new BlockGasFunnel();
-    public static Block blockMachine = new BlockMachine();
-    public static Block blockSiren = new BlockSiren();
-    public static Block blockThermometer = new BlockThermometer();
-    public static Block blockUraniumOre = new BlockUraniumOre();
-    public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
-    public static Block blockReactorCell = new BlockReactorCell();
-    public static Block blockCreativeBuilder = new BlockCreativeBuilder();
+    public static final Block blockControlRod = new BlockControlRod();
+    public static final Block blockElectricTurbine = new BlockElectricTurbine();
+    public static final Block blockElectromagnet = new BlockElectromagnet();
+    public static final Block blockFulmination = new BlockFulminationGenerator();
+    public static final Block blockGasFunnel = new BlockGasFunnel();
+    public static final Block blockMachine = new BlockMachine();
+    public static final Block blockSiren = new BlockSiren();
+    public static final Block blockThermometer = new BlockThermometer();
+    public static final Block blockUraniumOre = new BlockUraniumOre();
+    public static final Block blockRadioactiveGrass = new BlockRadioactiveGrass();
+    public static final Block blockReactorCell = new BlockReactorCell();
+    public static final Block blockCreativeBuilder = new BlockCreativeBuilder();
 
     @EventBusSubscriber
     public static class RegistrationHandler {
@@ -75,6 +75,8 @@ public class ModBlocks {
             };
 
             registry.registerAll(registerBlocks);
+
+            registerTileEntities();
         }
 
         /**
@@ -113,8 +115,6 @@ public class ModBlocks {
                 itemBlocks.add(item);
             }
 
-            registerTileEntities();
-
             OreDictionary.registerOre("oreUranium", blockUraniumOre);
             OreDictionary.registerOre("blockRadioactiveGrass", blockRadioactiveGrass);
         }
@@ -135,8 +135,8 @@ public class ModBlocks {
         registerTile(TileReactorCell.class);
     }
 
-    private static void registerTile(Class<? extends TileEntity> tileClass) {
-        String name = tileClass.getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
+    private static void registerTile(final Class<? extends TileEntity> tileClass) {
+        final String name = tileClass.getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
 
         GameRegistry.registerTileEntity(tileClass, Reference.PREFIX + name);
     }

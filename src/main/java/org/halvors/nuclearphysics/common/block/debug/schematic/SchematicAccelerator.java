@@ -4,6 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
@@ -17,8 +18,8 @@ public class SchematicAccelerator implements ISchematic {
     }
 
     @Override
-    public HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size) {
-        HashMap<BlockPos, IBlockState> map = new HashMap<>();
+    public HashMap<BlockPos, IBlockState> getStructure(final EnumFacing facing, int size) {
+        final HashMap<BlockPos, IBlockState> map = new HashMap<>();
 
         if (size < 4) {
             size = 4;

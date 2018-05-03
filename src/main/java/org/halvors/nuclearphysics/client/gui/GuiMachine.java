@@ -17,14 +17,14 @@ import java.util.List;
 public class GuiMachine<T extends TileMachine> extends GuiComponentContainer<T> {
     protected int titleOffset;
 
-    public GuiMachine(T tile, Container container) {
+    public GuiMachine(final T tile, final Container container) {
         super(tile, container);
 
         components.add(new GuiEnergyInfo(() -> {
-            List<String> list = new ArrayList<>();
+            final List<String> list = new ArrayList<>();
             list.add(LanguageUtility.transelate("gui.using") + ": " + UnitDisplay.getEnergyDisplay(tile.getEnergyUsed()) + "/t");
 
-            IEnergyStorage energyStorage = tile.getEnergyStorage();
+            final IEnergyStorage energyStorage = tile.getEnergyStorage();
 
             if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
                 list.add(LanguageUtility.transelate("gui.needed") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()));

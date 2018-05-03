@@ -22,45 +22,45 @@ public class Position {
 
     }
 
-    public Position(double x, double y, double z) {
+    public Position(final double x, final double y, final double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Position(BlockPos pos) {
+    public Position(final BlockPos pos) {
         this(pos.getX(), pos.getY(), pos.getZ());
     }
 
-    public Position(Entity entity) {
+    public Position(final Entity entity) {
         this.x = entity.posX;
         this.y = entity.posY;
         this.z = entity.posZ;
     }
 
-    public Position(TileEntity tile) {
+    public Position(final TileEntity tile) {
         this(tile.getPos());
     }
 
-    public Position(RayTraceResult mop) {
+    public Position(final RayTraceResult mop) {
         this(mop.getBlockPos());
     }
 
-    public Position(NBTTagCompound tag) {
+    public Position(final NBTTagCompound tag) {
         this(tag.getDouble("x"), tag.getDouble("y"), tag.getDouble("z"));
     }
 
-    public Position(ByteBuf dataStream) {
+    public Position(final ByteBuf dataStream) {
         this(dataStream.readDouble(), dataStream.readDouble(), dataStream.readDouble());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static Position readFromNBT(NBTTagCompound tag) {
+    public static Position readFromNBT(final NBTTagCompound tag) {
         return new Position(tag.getDouble("x"), tag.getDouble("y"), tag.getDouble("z"));
     }
 
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         tag.setDouble("x", x);
         tag.setDouble("y", y);
         tag.setDouble("z", z);
@@ -70,13 +70,13 @@ public class Position {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         this.x = dataStream.readDouble();
         this.y = dataStream.readDouble();
         this.z = dataStream.readDouble();
     }
 
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         objects.add(x);
         objects.add(y);
         objects.add(z);
@@ -114,57 +114,57 @@ public class Position {
         return new BlockPos(x, y, z);
     }
 
-    public IBlockState getBlockState(IBlockAccess world) {
+    public IBlockState getBlockState(final IBlockAccess world) {
         return world.getBlockState(getPos());
     }
 
-    public Block getBlock(IBlockAccess world) {
+    public Block getBlock(final IBlockAccess world) {
         return getBlockState(world).getBlock();
     }
 
-    public TileEntity getTileEntity(IBlockAccess world) {
+    public TileEntity getTileEntity(final IBlockAccess world) {
         return world.getTileEntity(getPos());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Position translate(double x, double y, double z) {
+    public Position translate(final double x, final double y, final double z) {
         return new Position(this.x + x, this.y + y, this.z + z);
     }
 
-    public Position translate(double addition) {
+    public Position translate(final double addition) {
         return translate(addition, addition, addition);
     }
 
-    public Position translate(Position position) {
+    public Position translate(final Position position) {
         return translate(position.getX(), position.getY(), position.getZ());
     }
 
-    public Position add(double x, double y, double z) {
+    public Position add(final double x, final double y, final double z) {
         return translate(x, y, z);
     }
 
-    public Position add(Position position) {
+    public Position add(final Position position) {
         return translate(position);
     }
 
-    public Position subtract(double x, double y, double z) {
+    public Position subtract(final double x, final double y, final double z) {
         return translate(-x, -y, -z);
     }
 
-    public Position subtract(Position position) {
+    public Position subtract(final Position position) {
         return subtract(position.getX(), position.getY(), position.getZ());
     }
 
-    public Position scale(double amount) {
+    public Position scale(final double amount) {
         return new Position(x * amount, y * amount, z * amount);
     }
 
-    public Position offset(EnumFacing side, double amount) {
+    public Position offset(final EnumFacing side, final double amount) {
         return new Position(x + (side.getFrontOffsetX() * amount), y + (side.getFrontOffsetY() * amount), z + (side.getFrontOffsetZ() * amount));
     }
 
-    public Position offset(EnumFacing side) {
+    public Position offset(final EnumFacing side) {
         return offset(side, 1);
     }
 
@@ -180,11 +180,11 @@ public class Position {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public double distance(double x, double y, double z) {
+    public double distance(final double x, final double y, final double z) {
         return subtract(x, y, z).getMagnitude();
     }
 
-    public double distance(Position compare) {
+    public double distance(final Position compare) {
         return distance(compare.getX(), compare.getY(), compare.getZ());
     }
 
@@ -195,6 +195,8 @@ public class Position {
 
         return scale(magnitude != 0 ? 1 / magnitude : 0);
     }
+
+
 
     @Override
     public Position clone() {
@@ -207,11 +209,11 @@ public class Position {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return obj instanceof Position &&
-                ((Position) obj).getX() == x &&
-                ((Position) obj).getY() == y &&
-                ((Position) obj).getZ() == z;
+    public boolean equals(final Object object) {
+        return object instanceof Position &&
+                ((Position) object).getX() == x &&
+                ((Position) object).getY() == y &&
+                ((Position) object).getZ() == z;
     }
 
     @Override

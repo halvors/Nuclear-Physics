@@ -2,38 +2,50 @@ package org.halvors.nuclearphysics.common.event;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.eventhandler.Event;
 
-public class ThermalEvent extends Event {
-    private final IBlockAccess world;
-    private final BlockPos pos;
-    public final float temperature;
-    public final float deltaTemperature;
-    public final float deltaTime;
-    public float heatLoss = 0.1F;
-    public boolean isReactor = false;
+public class ThermalEvent extends WorldEventBase {
+    private final float temperature;
+    private final float deltaTemperature;
+    private final float deltaTime;
+    private final boolean reactor;
+    private float heatLoss = 0.1F;
 
-    public ThermalEvent(IBlockAccess world, BlockPos pos, float temperature, float deltaTemperature, float deltaTime, boolean isReactor) {
-        this.world = world;
-        this.pos = pos;
+    public ThermalEvent(final IBlockAccess world, final BlockPos pos, final float temperature, final float deltaTemperature, final float deltaTime, final boolean reactor) {
+        super(world, pos);
+
         this.temperature = temperature;
         this.deltaTemperature = deltaTemperature;
         this.deltaTime = deltaTime;
-        this.isReactor = isReactor;
+        this.reactor = reactor;
     }
 
-    public IBlockAccess getWorld() {
-        return world;
+    public float getTemperature() {
+        return temperature;
     }
 
-    public BlockPos getPos() {
-        return pos;
+    public float getDeltaTemperature() {
+        return deltaTemperature;
+    }
+
+    public float getDeltaTime() {
+        return deltaTime;
+    }
+
+    public float getHeatLoss() {
+        return heatLoss;
+    }
+
+    public void setHeatLoss(final float heatLoss) {
+        this.heatLoss = heatLoss;
+    }
+
+    public boolean isReactor() {
+        return reactor;
     }
 
     public static class ThermalUpdateEvent extends ThermalEvent {
-        public ThermalUpdateEvent(World world, BlockPos pos, float temperature, float deltaTemperature, float deltaTime, boolean isReactor) {
-            super(world, pos, temperature, deltaTemperature, deltaTime, isReactor);
+        public ThermalUpdateEvent(final IBlockAccess world, final BlockPos pos, final float temperature, final float deltaTemperature, final float deltaTime, final boolean reactor) {
+            super(world, pos, temperature, deltaTemperature, deltaTime, reactor);
         }
     }
 }

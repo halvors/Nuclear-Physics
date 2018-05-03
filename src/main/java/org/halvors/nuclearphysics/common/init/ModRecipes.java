@@ -118,7 +118,7 @@ public class ModRecipes {
 
     private static void registerQuantumAssemblerRecipes() {
         if (General.allowGeneratedQuantumAssemblerRecipes) {
-            String[] prefixList = { "ore", "ingot", "nugget", "dust", "gem", "dye", "block", "stone", "crop", "slab", "stair", "pane", "gear", "rod", "stick", "plate", "dustTiny", "cover" };
+            final String[] prefixList = { "ore", "ingot", "nugget", "dust", "gem", "dye", "block", "stone", "crop", "slab", "stair", "pane", "gear", "rod", "stick", "plate", "dustTiny", "cover" };
 
             // Add common items and blocks from ore dictionary.
             for (String oreName : OreDictionary.getOreNames()) {
@@ -131,12 +131,12 @@ public class ModRecipes {
                 }
             }
 
-            // Add recipes for all items in this mod.
+            // Add RECIPES for all items in this mod.
             for (Item item : ModItems.items) {
                 QuantumAssemblerRecipes.addRecipe(new ItemStack(item));
             }
 
-            // Add recipes for all blocks in this mod.
+            // Add RECIPES for all blocks in this mod.
             for (ItemBlock itemBlock : ModBlocks.itemBlocks) {
                 QuantumAssemblerRecipes.addRecipe(new ItemStack(itemBlock));
             }

@@ -39,9 +39,10 @@ import java.util.Set;
  * The front of the turbine is where the output is.
  */
 public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, IBoilHandler {
-    private final int energyPerSteam = 40;
-    private final int defaultTorque = 5000;
-    private int torque = defaultTorque;
+    private static final String NBT_MULTI_BLOCK_RADIUS = "multiBlockRadius";
+    private static final String NBT_TANK = "tank";
+    private static final int ENERGY_PER_STEAM = 40;
+    private static final int DEFAULT_TORQUE = 5000;
 
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
         @Override
@@ -82,41 +83,43 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        multiBlockRadius = tag.getInteger("multiBlockRadius");
+        multiBlockRadius = tag.getInteger(NBT_MULTI_BLOCK_RADIUS);
         getMultiBlock().readFromNBT(tag);
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag(NBT_TANK));
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("multiBlockRadius", multiBlockRadius);
+        tag.setInteger(NBT_MULTI_BLOCK_RADIUS, multiBlockRadius);
         getMultiBlock().writeToNBT(tag);
-        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
+        tag.setTag(NBT_TANK, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) || ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) || super.hasCapability(capability, facing);
+    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final EnumFacing facing) {
+        return (((capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP) || ((capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN)) && getMultiBlock().isPrimary()) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) {
-            return (T) energyStorage;
-        } else if (facing == EnumFacing.DOWN) {
-            if (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) {
-                return (T) this;
-            } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
-                return (T) tank;
+    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final EnumFacing facing) {
+        if (getMultiBlock().isPrimary()) {
+            if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP) {
+                return (T) energyStorage;
+            } else if (facing == EnumFacing.DOWN) {
+                if (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) {
+                    return (T) this;
+                } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+                    return (T) tank;
+                }
             }
         }
 
@@ -129,10 +132,10 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public void update() {
         super.update();
 
+        int torque = DEFAULT_TORQUE * 500;
+
         if (getMultiBlock().isConstructed()) {
-            torque = defaultTorque * 500 * getArea();
-        } else {
-            torque = defaultTorque * 500;
+            torque *= getArea();
         }
 
         getMultiBlock().update();
@@ -141,10 +144,10 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             if (!world.isRemote) {
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
-                    FluidStack fluidStack = tank.drainInternal((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
+                    final FluidStack fluidStack = tank.drainInternal((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / ENERGY_PER_STEAM)), true);
 
                     if (fluidStack != null) {
-                        power += fluidStack.amount * energyPerSteam;
+                        power += fluidStack.amount * ENERGY_PER_STEAM;
                     }
                 }
 
@@ -164,8 +167,8 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             } else if (angularVelocity != 0) {
                 if (world.getWorldTime() % 26 == 0) {
                     // TODO: Tweak this volume, i suspect it is way to loud.
-                    double maxVelocity = (getMaxPower() / torque) * 4;
-                    float percentage =Math.min(angularVelocity * 4 / (float) maxVelocity, 1);
+                    final double maxVelocity = (getMaxPower() / torque) * 4;
+                    final float percentage = Math.min(angularVelocity * 4 / (float) maxVelocity, 1);
 
                     world.playSound(null, pos, ModSoundEvents.ELECTRIC_TURBINE, SoundCategory.BLOCKS, percentage, 1);
                 }
@@ -174,7 +177,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 rotation = (float) ((rotation + angularVelocity / 20) % (Math.PI * 2));
             }
         } else if (tank.getFluidAmount() > 0) {
-            int amount = getMultiBlock().get().tank.fillInternal(tank.getFluid(), false);
+            final int amount = getMultiBlock().get().tank.fillInternal(tank.getFluid(), false);
 
             getMultiBlock().get().tank.fillInternal(tank.drainInternal(amount, true), true);
         }
@@ -192,12 +195,12 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
     @Override
     public Position[] getMultiBlockVectors() {
-        Set<Position> positions = new HashSet<>();
+        final Set<Position> positions = new HashSet<>();
 
-        EnumFacing dir = EnumFacing.UP;
-        int xMulti = dir.getFrontOffsetX() != 0 ? 0 : 1;
-        int yMulti = dir.getFrontOffsetY() != 0 ? 0 : 1;
-        int zMulti = dir.getFrontOffsetZ() != 0 ? 0 : 1;
+        final EnumFacing dir = EnumFacing.UP;
+        final int xMulti = dir.getFrontOffsetX() != 0 ? 0 : 1;
+        final int yMulti = dir.getFrontOffsetY() != 0 ? 0 : 1;
+        final int zMulti = dir.getFrontOffsetZ() != 0 ? 0 : 1;
 
         for (int x = -multiBlockRadius; x <= multiBlockRadius; x++) {
             for (int y = -multiBlockRadius; y <= multiBlockRadius; y++) {
@@ -242,14 +245,14 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public int receiveGas(FluidStack fluidStack, boolean doTransfer) {
+    public int receiveGas(final FluidStack fluidStack, final boolean doTransfer) {
         return tank.fillInternal(fluidStack, doTransfer);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
@@ -261,7 +264,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         getMultiBlock().getPacketData(objects);

@@ -1,59 +1,31 @@
 package org.halvors.nuclearphysics.common.item.reactor.fission;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.api.tile.IReactor;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModFluids;
-import org.halvors.nuclearphysics.common.item.ItemRadioactive;
 
-import javax.annotation.Nonnull;
-import java.util.List;
-
-public class ItemFissileFuel extends ItemRadioactive implements IReactorComponent {
-    public static final int decay = 2500;
-
+public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
     // Temperature at which the fuel rod will begin to re-enrich itself.
     public static final int breedingTemperature = 1200;
 
-    // The energy in one KG of uranium is: 72PJ, 100TJ in one cell of uranium.
-    public static final long energyDensity = 100000000000L;
-
-    // Approximately 20,000,000J per tick. 400 MW.
-    public static final long energyPerTick = energyDensity / 50000;
-
     public ItemFissileFuel() {
         super("fissile_fuel");
-
-        setMaxStackSize(1);
-        setMaxDamage(decay);
-        setNoRepair();
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
-        list.add(new ItemStack(item));
-        list.add(new ItemStack(item, 1, getMaxDamage() - 1));
     }
 
     @Override
-    public void onReact(ItemStack itemStack, IReactor reactor) {
-        TileEntity tile = (TileEntity) reactor;
-        World world = tile.getWorld();
+    public void onReact(final ItemStack itemStack, final IReactor reactor) {
+        final TileEntity tile = (TileEntity) reactor;
+        final World world = tile.getWorld();
         int reactors = 0;
 
-        for (EnumFacing side : EnumFacing.values()) {
-            TileEntity checkTile = world.getTileEntity(tile.getPos().offset(side));
+        for (final EnumFacing side : EnumFacing.values()) {
+            final TileEntity checkTile = world.getTileEntity(tile.getPos().offset(side));
 
             // Check that the other reactors not only exist but also are running.
             if (checkTile instanceof IReactor && ((IReactor) checkTile).getTemperature() > breedingTemperature) {
@@ -61,17 +33,17 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
             }
         }
 
-        // Only three reactor cells are required to begin the uranium breeding process instead of four.
+        // Only three reactor cells are required to begin the uranium breeding machine instead of four.
         if (reactors >= 3) {
-            // Breeding - Begin the process of re-enriching the uranium rod but not consistently.
+            // Breeding - Begin the machine of re-enriching the uranium rod but not consistently.
             if (world.rand.nextInt(1000) <= 100 && reactor.getTemperature() > breedingTemperature) {
                 // Cells can regain a random amount of health per tick.
-                int healAmount = world.rand.nextInt(5);
+                final int healAmount = world.rand.nextInt(5);
 
                 itemStack.setItemDamage(Math.max(itemStack.getMetadata() - healAmount, 0));
             }
         } else {
-            // Fission - Begin the process of heating.
+            // Fission - Begin the machine of heating.
             reactor.heat(energyPerTick);
 
             // Consume fuel.
@@ -80,7 +52,7 @@ public class ItemFissileFuel extends ItemRadioactive implements IReactorComponen
             }
 
             // Create toxic waste.
-            if (ConfigurationManager.General.allowToxicWaste && world.rand.nextFloat() > 0.5) {
+            if (General.allowToxicWaste && world.rand.nextFloat() > 0.5) {
                 reactor.getTank().fillInternal(new FluidStack(ModFluids.toxicWaste, 1), true);
             }
         }

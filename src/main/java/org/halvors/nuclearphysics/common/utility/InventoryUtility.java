@@ -5,30 +5,32 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class InventoryUtility {
-    public static void incrStackSize(IItemHandlerModifiable itemHandler, int slot) {
-        ItemStack itemStack = itemHandler.getStackInSlot(slot);
+    public static void incrStackSize(final IItemHandlerModifiable itemHandler, final int slot) {
+        final ItemStack itemStack = itemHandler.getStackInSlot(slot);
 
         if (itemStack != null) {
             itemHandler.insertItem(slot, ItemHandlerHelper.copyStackWithSize(itemStack, itemStack.stackSize++), false);
         }
     }
 
-    public static void decrStackSize(IItemHandlerModifiable itemHandler, int slot) {
-        ItemStack itemStack = itemHandler.getStackInSlot(slot);
+    public static void decrStackSize(final IItemHandlerModifiable itemHandler, final int slot) {
+        final ItemStack itemStack = itemHandler.getStackInSlot(slot);
 
         if (itemStack != null) {
             itemHandler.extractItem(slot, 1, false);
         }
     }
 
-    public static NBTTagCompound getNBTTagCompound(ItemStack itemStack) {
+    public static NBTTagCompound getNBTTagCompound(final ItemStack itemStack) {
         if (itemStack != null) {
             if (itemStack.getTagCompound() == null) {
                 itemStack.setTagCompound(new NBTTagCompound());
@@ -40,14 +42,14 @@ public class InventoryUtility {
         return null;
     }
 
-    public static ItemStack getItemStackWithNBT(IBlockState state, World world, BlockPos pos) {
+    public static ItemStack getItemStackWithNBT(final IBlockState state, final World world, final BlockPos pos) {
         if (state != null) {
-            Block block = state.getBlock();
-            ItemStack dropStack = new ItemStack(block, block.quantityDropped(state, 0, world.rand), block.damageDropped(state));
-            TileEntity tile = world.getTileEntity(pos);
+            final Block block = state.getBlock();
+            final ItemStack dropStack = new ItemStack(block, block.quantityDropped(state, 0, world.rand), block.damageDropped(state));
+            final TileEntity tile = world.getTileEntity(pos);
 
             if (tile != null) {
-                NBTTagCompound tag = new NBTTagCompound();
+                final NBTTagCompound tag = new NBTTagCompound();
                 tile.writeToNBT(tag);
                 dropStack.setTagCompound(tag);
             }
@@ -58,9 +60,9 @@ public class InventoryUtility {
         return null;
     }
 
-    public static void dropBlockWithNBT(IBlockState state, World world, BlockPos pos) {
+    public static void dropBlockWithNBT(final IBlockState state, final World world, final BlockPos pos) {
         if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops")) {
-            ItemStack itemStack = getItemStackWithNBT(state, world, pos);
+            final ItemStack itemStack = getItemStackWithNBT(state, world, pos);
 
             if (itemStack != null) {
                 InventoryUtility.dropItemStack(world, pos, itemStack);
@@ -68,26 +70,37 @@ public class InventoryUtility {
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /// Old code, maybe not used anymore. //////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public static void readFromNBT(NBTTagCompound tag, IItemHandlerModifiable inventory) {
+        if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
+            final NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
 
-    public static void dropItemStack(World world, BlockPos pos, ItemStack itemStack) {
+            for (int i = 0; i < tagList.tagCount(); i++) {
+                final NBTTagCompound slotTag = (NBTTagCompound) tagList.get(i);
+                final byte slot = slotTag.getByte("Slot");
+
+                if (slot < inventory.getSlots()) {
+                    inventory.setStackInSlot(slot, ItemStack.loadItemStackFromNBT(slotTag));
+                }
+            }
+        }
+    }
+
+    public static void dropItemStack(final World world, final BlockPos pos, final ItemStack itemStack) {
         dropItemStack(world, pos, itemStack, 10);
     }
 
-    public static void dropItemStack(World world, BlockPos pos, ItemStack itemStack, int delay) {
+    public static void dropItemStack(final World world, final BlockPos pos, final ItemStack itemStack, final int delay) {
         dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemStack, delay);
     }
 
-    public static void dropItemStack(World world, double x, double y, double z, ItemStack itemStack, int delay) {
+    public static void dropItemStack(final World world, final double x, final double y, final double z, final ItemStack itemStack, final int delay) {
         if (!world.isRemote && itemStack != null) {
-            float motion = 0.7F;
-            double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
-            double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
-            double motionZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+            final float motion = 0.7F;
+            final double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+            final double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+            final double motionZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
 
-            EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
+            final EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
 
             if (itemStack.hasTagCompound()) {
                 entityItem.getEntityItem().setTagCompound(itemStack.getTagCompound().copy());

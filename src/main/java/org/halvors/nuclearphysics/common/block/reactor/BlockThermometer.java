@@ -29,7 +29,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack itemStack, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World world, final BlockPos pos, final IBlockState state, final EntityPlayer player, final EnumHand hand, final ItemStack itemStack, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileThermometer) {
@@ -60,7 +60,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entity, ItemStack itemStack) {
+    public void onBlockPlacedBy(final World world, final BlockPos pos, final IBlockState state, final EntityLivingBase entity, final ItemStack itemStack) {
         final TileEntity tile = world.getTileEntity(pos);
 
         // Fetch saved coordinates from ItemBlockThermometer and apply them to the block.
@@ -74,9 +74,9 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public boolean removedByPlayer(@Nonnull IBlockState state, World world, @Nonnull BlockPos pos, @Nonnull EntityPlayer player, boolean willHarvest) {
+    public boolean removedByPlayer(@Nonnull final IBlockState state, final World world, @Nonnull final BlockPos pos, @Nonnull final EntityPlayer player, final boolean willHarvest) {
         if (!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
-            ItemStack itemStack = InventoryUtility.getItemStackWithNBT(state, world, pos);
+            final ItemStack itemStack = InventoryUtility.getItemStackWithNBT(state, world, pos);
             InventoryUtility.dropItemStack(world, pos, itemStack);
         }
 
@@ -85,33 +85,33 @@ public class BlockThermometer extends BlockRotatable {
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean canProvidePower(IBlockState state) {
+    public boolean canProvidePower(final IBlockState state) {
         return true;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public int getWeakPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
-        TileEntity tile = world.getTileEntity(pos);
+    public int getWeakPower(final IBlockState state, final IBlockAccess world, final BlockPos pos, final EnumFacing side) {
+        final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileThermometer) {
-            TileThermometer tileThermometer = (TileThermometer) tile;
+            final TileThermometer tileThermometer = (TileThermometer) tile;
 
             return tileThermometer.isProvidingPower ? 15 : 0;
         }
 
-        return 0;
+        return super.getWeakPower(state, world, pos, side);
     }
 
     @Override
     @Nonnull
-    public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
+    public List<ItemStack> getDrops(final IBlockAccess world, final BlockPos pos, final @Nonnull IBlockState state, final int fortune) {
         return new ArrayList<>();
     }
 
     @Override
     @Nonnull
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
         return new TileThermometer();
     }
 }
