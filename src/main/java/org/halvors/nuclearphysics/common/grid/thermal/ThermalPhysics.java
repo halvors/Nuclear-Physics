@@ -13,18 +13,18 @@ public class ThermalPhysics {
      *
      * @return The temperature of the coordinate in the world in kelvin.
      */
-    public static float getTemperatureForCoordinate(final World world, final BlockPos pos) {
-        final int averageTemperature = 273 + (int) ((world.getBiome(pos).getFloatTemperature(pos) - 0.4) * 50);
+    public static double getTemperatureForCoordinate(final World world, final BlockPos pos) {
+        final double averageTemperature = ICE_MELT_TEMPERATURE + ((world.getBiome(pos).getFloatTemperature(pos) - 0.4) * 50);
         final double dayNightVariance = averageTemperature * 0.05;
 
-        return (float) (averageTemperature + (world.isDaytime() ? dayNightVariance : -dayNightVariance));
+        return averageTemperature + (world.isDaytime() ? dayNightVariance : -dayNightVariance);
     }
 
-    public static double getEnergyForTemperatureChange(final float mass, final double specificHeatCapacity, final float temperature) {
+    public static double getEnergyForTemperatureChange(final double mass, final double specificHeatCapacity, final double temperature) {
         return mass * specificHeatCapacity * temperature;
     }
 
-    public static float getTemperatureForEnergy(final float mass, final long specificHeatCapacity, final long energy) {
+    public static double getTemperatureForEnergy(final double mass, final long specificHeatCapacity, final long energy) {
         return energy / (mass * specificHeatCapacity);
     }
 
@@ -33,17 +33,17 @@ public class ThermalPhysics {
     }
 
     public static double getRequiredBoilWaterEnergy(final World world, final BlockPos pos, final int volume) {
-        final float temperatureChange = (float) WATER_BOIL_TEMPERATURE - getTemperatureForCoordinate(world, pos);
-        final float mass = getMass(volume, 1);
+        final double temperatureChange = WATER_BOIL_TEMPERATURE - getTemperatureForCoordinate(world, pos);
+        final double mass = getMass(volume, 1);
 
         return getEnergyForTemperatureChange(mass, 4200, temperatureChange) + getEnergyForStateChange(mass, 2257000);
     }
 
-    public static double getEnergyForStateChange(final float mass, final double latentHeatCapacity) {
+    public static double getEnergyForStateChange(final double mass, final double latentHeatCapacity) {
         return mass * latentHeatCapacity;
     }
 
-    public static float getMass(final float volume, final float density) {
+    public static double getMass(final double volume, final double density) {
         return (volume / 1000 * density);
     }
 

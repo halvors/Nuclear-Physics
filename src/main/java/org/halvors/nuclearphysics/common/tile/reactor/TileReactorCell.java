@@ -53,10 +53,10 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     private String name;
 
     private final int specificHeatCapacity = 1000;
-    private final float mass = ThermalPhysics.getMass(1000, 7);
+    private final double mass = ThermalPhysics.getMass(1000, 7);
 
-    private float temperature = (float) ThermalPhysics.ROOM_TEMPERATURE; // Synced
-    private float previousTemperature = temperature;
+    private double temperature = ThermalPhysics.ROOM_TEMPERATURE; // Synced
+    private double previousTemperature = temperature;
 
     private boolean shouldUpdate = false;
 
@@ -118,7 +118,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        temperature = tag.getFloat(NBT_TEMPERATURE);
+        temperature = tag.getDouble(NBT_TEMPERATURE);
         InventoryUtility.readFromNBT(tag, inventory);
 
         CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(inventory, null, tag.getTag(NBT_SLOTS));
@@ -130,7 +130,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setFloat(NBT_TEMPERATURE, temperature);
+        tag.setDouble(NBT_TEMPERATURE, temperature);
         tag.setTag(NBT_SLOTS, CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
         tag.setTag(NBT_TANK, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
@@ -162,9 +162,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         // TODO: Should we do this for fusion reactors as well?
         // Reactor cell plays random idle noises while operating with temperature above boiling water temperature.
         if (world.getWorldTime() % 100 == 0 && temperature >= ThermalPhysics.WATER_BOIL_TEMPERATURE) {
-            float percentage = Math.min(temperature / MELTING_POINT, 1);
-
-            world.playSound(null, pos, ModSoundEvents.REACTOR_CELL, SoundCategory.BLOCKS, percentage, 1);
+            world.playSound(null, pos, ModSoundEvents.REACTOR_CELL, SoundCategory.BLOCKS, (float) Math.min(temperature / MELTING_POINT, 1), 1);
         }
 
         if (!world.isRemote) {
@@ -213,7 +211,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
                 // Only a small percentage of the internal energy is used for temperature.
                 if ((internalEnergy - previousInternalEnergy) > 0) {
-                    float deltaTemperature = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
+                    double deltaTemperature = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
 
                     // Check control rods.
                     for (EnumFacing side : EnumFacing.HORIZONTALS) {
@@ -286,7 +284,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
-            temperature = dataStream.readFloat();
+            temperature = dataStream.readDouble();
             tank.handlePacketData(dataStream);
         }
     }
@@ -309,7 +307,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     }
 
     @Override
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
