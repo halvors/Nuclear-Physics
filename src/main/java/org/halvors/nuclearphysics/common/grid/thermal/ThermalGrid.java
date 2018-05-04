@@ -17,9 +17,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ThermalGrid implements IGrid {
-    private static final Map<Pair<World, BlockPos>, Float> thermalSource = new ConcurrentHashMap<>();
-    private static final double SPREAD = 1 / 7F;
-    private static final double DELTA_TIME = 1 / 20F;
+    private static final Map<Pair<World, BlockPos>, Double> thermalSource = new ConcurrentHashMap<>();
+    private static final double SPREAD = 1 / 7;
+    private static final double DELTA_TIME = 1 / 20;
 
     public static double getDefaultTemperature(final World world, final BlockPos pos) {
         return ThermalPhysics.getTemperatureForCoordinate(world, pos);
@@ -38,11 +38,11 @@ public class ThermalGrid implements IGrid {
     public static void addTemperature(final World world, final BlockPos pos, final double deltaTemperature) {
         final Pair<World, BlockPos> key = new Pair<>(world, pos);
         final double defaultTemperature = getDefaultTemperature(world, pos);
-        final float original = thermalSource.getOrDefault(key, (float) defaultTemperature);
+        final double original = thermalSource.getOrDefault(key, defaultTemperature);
         final double newTemperature = original + deltaTemperature;
 
         if (Math.abs(newTemperature - defaultTemperature) > 0.4) {
-            thermalSource.put(key, (float) (original + deltaTemperature));
+            thermalSource.put(key, newTemperature);
         } else {
             thermalSource.remove(key);
         }

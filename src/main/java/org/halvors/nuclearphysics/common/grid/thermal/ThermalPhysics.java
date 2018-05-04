@@ -9,12 +9,17 @@ public class ThermalPhysics {
     public static final double ICE_MELT_TEMPERATURE = 273.15;
     public static final double WATER_BOIL_TEMPERATURE = 373.2;
 
-    /** Temperature: 0.5f = 22C
+    /**
+     * Temperature: 0.5f = 22C
+     *
+     * @param world - world in this context
+     * @param pos - the block position
      *
      * @return The temperature of the coordinate in the world in kelvin.
      */
     public static double getTemperatureForCoordinate(final World world, final BlockPos pos) {
-        final double averageTemperature = ICE_MELT_TEMPERATURE + ((world.getBiome(pos).getFloatTemperature(pos) - 0.4) * 50);
+        final double worldTemperature = world.getBiome(pos).getFloatTemperature(pos);
+        final double averageTemperature = ICE_MELT_TEMPERATURE + ((worldTemperature - 0.4) * 50);
         final double dayNightVariance = averageTemperature * 0.05;
 
         return averageTemperature + (world.isDaytime() ? dayNightVariance : -dayNightVariance);
@@ -47,7 +52,7 @@ public class ThermalPhysics {
         return (volume / 1000 * density);
     }
 
-    public static int getMass(final FluidStack fluidStack) {
-        return (fluidStack.amount / 1000) * fluidStack.getFluid().getDensity(fluidStack);
+    public static double getMass(final FluidStack fluidStack) {
+        return getMass(fluidStack.amount, fluidStack.getFluid().getDensity());
     }
 }
