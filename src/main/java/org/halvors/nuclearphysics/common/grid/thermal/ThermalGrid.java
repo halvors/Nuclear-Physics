@@ -18,8 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ThermalGrid implements IGrid {
     private static final Map<Pair<World, BlockPos>, Double> thermalSource = new ConcurrentHashMap<>();
-    private static final double SPREAD = 1 / 7;
-    private static final double DELTA_TIME = 1 / 20;
+    private static final double SPREAD = 1D / 7;
+    private static final double DELTA_TIME = 1D / 20;
 
     public static double getDefaultTemperature(final World world, final BlockPos pos) {
         return ThermalPhysics.getTemperatureForCoordinate(world, pos);
