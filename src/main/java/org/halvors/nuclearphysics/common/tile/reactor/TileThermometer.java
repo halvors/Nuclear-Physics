@@ -18,8 +18,8 @@ public class TileThermometer extends TileRotatable implements ITickable {
     private static final String NBT_TRACK_COORDINATE = "trackCoordinate";
     private static final int MAX_THRESHOLD = 5000;
 
-    private float detectedTemperature = (float) ThermalPhysics.ROOM_TEMPERATURE; // Synced
-    private float previousDetectedTemperature = detectedTemperature; // Synced
+    private double detectedTemperature = ThermalPhysics.ROOM_TEMPERATURE; // Synced
+    private double previousDetectedTemperature = detectedTemperature; // Synced
     private Position trackCoordinate = null; // Synced
     private int threshold = 1000; // Synced
     public boolean isProvidingPower = false; // Synced
@@ -83,8 +83,8 @@ public class TileThermometer extends TileRotatable implements ITickable {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
-            detectedTemperature = dataStream.readFloat();
-            previousDetectedTemperature = dataStream.readFloat();
+            detectedTemperature = dataStream.readDouble();
+            previousDetectedTemperature = dataStream.readDouble();
 
             if (dataStream.readBoolean()) {
                 trackCoordinate = new Position(dataStream);
@@ -137,7 +137,7 @@ public class TileThermometer extends TileRotatable implements ITickable {
         }
     }
 
-    public float getDetectedTemperature() {
+    public double getDetectedTemperature() {
         return detectedTemperature;
     }
 

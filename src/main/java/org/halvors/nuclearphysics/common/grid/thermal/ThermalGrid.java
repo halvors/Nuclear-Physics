@@ -17,15 +17,15 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ThermalGrid implements IGrid {
-    private static final Map<Pair<World, BlockPos>, Float> thermalSource = new ConcurrentHashMap<>();
-    private static final float SPREAD = 1 / 7F;
-    private static final float DELTA_TIME = 1 / 20F;
+    private static final Map<Pair<World, BlockPos>, Double> thermalSource = new ConcurrentHashMap<>();
+    private static final double SPREAD = 1D / 7;
+    private static final double DELTA_TIME = 1D / 20;
 
-    public static float getDefaultTemperature(final World world, final BlockPos pos) {
+    public static double getDefaultTemperature(final World world, final BlockPos pos) {
         return ThermalPhysics.getTemperatureForCoordinate(world, pos);
     }
 
-    public static float getTemperature(final World world, final BlockPos pos) {
+    public static double getTemperature(final World world, final BlockPos pos) {
         final Pair<World, BlockPos> key = new Pair<>(world, pos);
 
         if (thermalSource.containsKey(key)) {
@@ -35,14 +35,14 @@ public class ThermalGrid implements IGrid {
         return ThermalPhysics.getTemperatureForCoordinate(world, pos);
     }
 
-    public static void addTemperature(final World world, final BlockPos pos, final float deltaTemperature) {
+    public static void addTemperature(final World world, final BlockPos pos, final double deltaTemperature) {
         final Pair<World, BlockPos> key = new Pair<>(world, pos);
-        final float defaultTemperature = getDefaultTemperature(world, pos);
-        final float original = thermalSource.getOrDefault(key, defaultTemperature);
-        final float newTemperature = original + deltaTemperature;
+        final double defaultTemperature = getDefaultTemperature(world, pos);
+        final double original = thermalSource.getOrDefault(key, defaultTemperature);
+        final double newTemperature = original + deltaTemperature;
 
         if (Math.abs(newTemperature - defaultTemperature) > 0.4) {
-            thermalSource.put(key, original + deltaTemperature);
+            thermalSource.put(key, newTemperature);
         } else {
             thermalSource.remove(key);
         }
@@ -56,12 +56,12 @@ public class ThermalGrid implements IGrid {
 
             NuclearPhysics.getProxy().addScheduledTask(() -> {
                 // Deal with different block types.
-                final float currentTemperature = getTemperature(world, pos);
+                final double currentTemperature = getTemperature(world, pos);
 
                 if (currentTemperature < 0) {
                     thermalSource.remove(key);
                 } else {
-                    final float deltaFromEquilibrium = getDefaultTemperature(world, pos) - currentTemperature;
+                    final double deltaFromEquilibrium = getDefaultTemperature(world, pos) - currentTemperature;
                     final TileEntity tile = world.getTileEntity(pos);
                     final TileEntity tileUp = world.getTileEntity(pos.up());
                     final boolean isReactor = tile instanceof IReactor || tileUp != null && tileUp.hasCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
@@ -75,9 +75,9 @@ public class ThermalGrid implements IGrid {
                     for (EnumFacing side : EnumFacing.values()) {
                         final BlockPos adjacentPos = pos.offset(side);
 
-                        final float deltaTemperature = getTemperature(world, pos) - getTemperature(world, adjacentPos);
+                        final double deltaTemperature = getTemperature(world, pos) - getTemperature(world, adjacentPos);
                         final Material adjacentMaterial = world.getBlockState(adjacentPos).getBlock().getBlockState().getBaseState().getMaterial();
-                        final float deltaSpread = (adjacentMaterial.isSolid() ? SPREAD : SPREAD / 2) * DELTA_TIME;
+                        final double deltaSpread = (adjacentMaterial.isSolid() ? SPREAD : SPREAD / 2) * DELTA_TIME;
 
                         if (deltaTemperature > 0) {
                             addTemperature(world, adjacentPos, deltaTemperature * deltaSpread);
