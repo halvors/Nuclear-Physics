@@ -23,24 +23,18 @@ public class ChunkDataMap {
         //this.isMaterialMap = isMaterialMap;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public int getData(int x, int y, int z) {
-        ChunkData chunk = getChunkFromPosition(x, z, false);
+    public int getData(BlockPos pos) {
+        final ChunkData chunk = getChunkFromPosition(pos, false);
 
         if (chunk != null) {
-            return chunk.getValue(x & 15, y, z & 15);
+            return chunk.getValue(pos.getX() & 15, pos.getY(), pos.getZ() & 15);
         }
 
         return 0;
     }
 
-    public int getData(BlockPos pos) {
-        return getData(pos.getX(), pos.getY(), pos.getZ());
-    }
-
-    public boolean setData(int x, int y, int z, int value) {
-        final ChunkData chunk = getChunkFromPosition(x, z, value > 0);
+    public boolean setData(BlockPos pos, int value) {
+        final ChunkData chunk = getChunkFromPosition(pos, value > 0);
 
         if (chunk != null) {
             // Fire change event for modification and to trigger exposure map update
@@ -59,21 +53,17 @@ public class ChunkDataMap {
             */
 
             // set value
-            boolean hasChanged = chunk.setValue(x & 15, y, z & 15, value);
+            boolean hasChanged = chunk.setValue(pos.getX() & 15, pos.getY(), pos.getZ() & 15, value);
 
             // if changed mark chunk so it saves
             if (hasChanged && world instanceof World) {
-                ((World) world).getChunkFromChunkCoords(x, z).setChunkModified();
+                ((World) world).getChunkFromChunkCoords(pos.getX(), pos.getZ()).setChunkModified();
             }
 
             return hasChanged;
         }
 
         return true;
-    }
-
-    public boolean setData(BlockPos pos, int value) {
-        return setData(pos.getX(), pos.getY(), pos.getZ(), value);
     }
 
     public void remove(long index) {
@@ -102,24 +92,24 @@ public class ChunkDataMap {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void readFromNBT(final ChunkPos chunkPos, final NBTTagCompound data) {
-        final long index = ChunkPos.asLong(chunkPos.chunkXPos, chunkPos.chunkZPos);
+    public void readFromNBT(final ChunkPos pos, final NBTTagCompound data) {
+        final long index = ChunkPos.asLong(pos.chunkXPos, pos.chunkZPos);
 
         // Get chunk
-        ChunkData chunkData = null;
+        ChunkData chunk = null;
 
         if (loadedChunks.containsKey(index)) {
-            chunkData = loadedChunks.get(index);
+            chunk = loadedChunks.get(index);
         }
 
-        // Init chunk if missing
-        if (chunkData == null) {
-            chunkData = new ChunkData(world, chunkPos);
-            loadedChunks.put(index, chunkData);
+        // Init chunk data if missing
+        if (chunk == null) {
+            chunk = new ChunkData(world, pos);
+            loadedChunks.put(index, chunk);
         }
 
         // Load
-        chunkData.readFromNBT(data.getCompoundTag(NBT_CHUNK_DATA_MAP));
+        chunk.readFromNBT(data.getCompoundTag(NBT_CHUNK_DATA_MAP));
 
         /*
         // Queue to be scanned to update exposure map
@@ -129,15 +119,15 @@ public class ChunkDataMap {
         */
     }
 
-    public NBTTagCompound writeToNBT(final ChunkPos chunkPos, final NBTTagCompound tag) {
-        final long index = ChunkPos.asLong(chunkPos.chunkXPos, chunkPos.chunkZPos);
+    public NBTTagCompound writeToNBT(final ChunkPos pos, final NBTTagCompound tag) {
+        final long index = ChunkPos.asLong(pos.chunkXPos, pos.chunkZPos);
 
         if (loadedChunks.containsKey(index)) {
-            final ChunkData chunkData = loadedChunks.get(index);
+            final ChunkData chunk = loadedChunks.get(index);
 
-            if (chunkData != null) {
+            if (chunk != null) {
                 final NBTTagCompound subTag = new NBTTagCompound();
-                chunkData.writeToNBT(subTag);
+                chunk.writeToNBT(subTag);
 
                 if (!subTag.hasNoTags()) {
                     tag.setTag(NBT_CHUNK_DATA_MAP, subTag);
@@ -150,12 +140,8 @@ public class ChunkDataMap {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public ChunkData getChunkFromPosition(int x, int z, boolean init) {
-        return getChunk(x >> 4, z >> 4, init);
-    }
-
     public ChunkData getChunk(int x, int z, boolean init) {
-        long index = ChunkPos.asLong(x, z);
+        final long index = ChunkPos.asLong(x, z);
         ChunkData chunk = loadedChunks.get(index);
 
         if (chunk == null && init) {
@@ -164,6 +150,10 @@ public class ChunkDataMap {
         }
 
         return chunk;
+    }
+
+    public ChunkData getChunkFromPosition(BlockPos pos, boolean init) {
+        return getChunk(pos.getX() >> 4, pos.getZ() >> 4, init);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

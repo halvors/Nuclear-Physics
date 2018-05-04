@@ -1,11 +1,5 @@
 package org.halvors.nuclearphysics.common.system.chunk;
 
-/**
- * Single Y level of radiation stores in the world
- *
- * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
- * Created by Dark(DarkGuardsman, Robert) on 4/24/2018.
- */
 public class ChunkDataLayer {
     private static final int CHUNK_WIDTH = 16;
 
@@ -23,6 +17,29 @@ public class ChunkDataLayer {
     }
 
     /**
+     * Index of the x z location
+     *
+     * @param x - location 0-15
+     * @param z - location 0-15
+     * @return index between 0-255, -1 returns if input data is invalid
+     */
+    public final int getIndex(int x, int z) {
+        // Bound check to prevent index values from generating outside range
+        // Is needed as a negative z can cause a value to overlap values normally in range
+        // Ex: 15x -1z -> 239, which is in range but not the right index
+
+        if (x >= 0 && x < CHUNK_WIDTH && z >= 0 && z < CHUNK_WIDTH) {
+            return x * CHUNK_WIDTH + z;
+        }
+
+        return -1;
+    }
+
+    public boolean isEmpty() {
+        return blocksUsed <= 0;
+    }
+
+    /**
      * Gets the data from the layer
      *
      * @param x - location
@@ -30,7 +47,7 @@ public class ChunkDataLayer {
      * @return value
      */
     public int getData(int x, int z) {
-        int index = index(x, z);
+        int index = getIndex(x, z);
 
         if (index >= 0) {
             return data[index];
@@ -48,7 +65,7 @@ public class ChunkDataLayer {
      * @return true if data was set, false if nothing happened (likely means outside of the map)
      */
     public boolean setData(int x, int z, int value) {
-        int index = index(x, z);
+        int index = getIndex(x, z);
 
         if (index >= 0) {
             int prev = data[index];
@@ -64,29 +81,6 @@ public class ChunkDataLayer {
         }
 
         return false;
-    }
-
-    /**
-     * Index of the x z location
-     *
-     * @param x - location 0-15
-     * @param z - location 0-15
-     * @return index between 0-255, -1 returns if input data is invalid
-     */
-    public final int index(int x, int z) {
-        // Bound check to prevent index values from generating outside range
-        // Is needed as a negative z can cause a value to overlap values normally in range
-        // Ex: 15x -1z -> 239, which is in range but not the right index
-
-        if (x >= 0 && x < CHUNK_WIDTH && z >= 0 && z < CHUNK_WIDTH) {
-            return x * CHUNK_WIDTH + z;
-        }
-
-        return -1;
-    }
-
-    public boolean isEmpty() {
-        return blocksUsed <= 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
