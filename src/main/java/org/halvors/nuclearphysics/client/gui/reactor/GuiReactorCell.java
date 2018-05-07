@@ -10,11 +10,11 @@ import org.halvors.nuclearphysics.client.gui.component.*;
 import org.halvors.nuclearphysics.client.gui.component.GuiBar.EnumBarType;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
-import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
+import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
+import org.halvors.nuclearphysics.common.science.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.type.EnumColor;
-import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import java.util.ArrayList;

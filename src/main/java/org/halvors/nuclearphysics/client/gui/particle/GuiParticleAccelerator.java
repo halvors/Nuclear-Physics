@@ -8,9 +8,9 @@ import org.halvors.nuclearphysics.client.gui.GuiMachine;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAccelerator;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
+import org.halvors.nuclearphysics.common.science.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.type.EnumColor;
-import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 @SideOnly(Side.CLIENT)

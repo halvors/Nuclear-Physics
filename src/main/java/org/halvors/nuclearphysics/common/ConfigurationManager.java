@@ -3,8 +3,8 @@ package org.halvors.nuclearphysics.common;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.common.config.Configuration;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
-import org.halvors.nuclearphysics.common.unit.EnumElectricUnit;
-import org.halvors.nuclearphysics.common.unit.EnumTemperatureUnit;
+import org.halvors.nuclearphysics.common.science.unit.EnumElectricUnit;
+import org.halvors.nuclearphysics.common.science.unit.EnumTemperatureUnit;
 
 import java.util.ArrayList;
 import java.util.List;

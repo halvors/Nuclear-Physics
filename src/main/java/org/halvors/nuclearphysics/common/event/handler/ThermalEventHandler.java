@@ -1,6 +1,5 @@
 package org.halvors.nuclearphysics.common.event.handler;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -26,8 +25,7 @@ import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.event.BoilEvent;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
-import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
-import org.halvors.nuclearphysics.common.init.ModBlocks;
+import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
 
 @EventBusSubscriber
 public class ThermalEventHandler {

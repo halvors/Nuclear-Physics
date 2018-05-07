@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.grid.thermal;
+package org.halvors.nuclearphysics.common.science.physics;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
