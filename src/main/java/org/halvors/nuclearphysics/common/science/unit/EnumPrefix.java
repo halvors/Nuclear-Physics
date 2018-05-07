@@ -11,7 +11,7 @@ public enum EnumPrefix {
     MILLI("Milli", "m", Math.pow(10, -3)),
     //CENTI("Centi", "c", Math.pow(10, -2)),
     //DESI("Desi", "d", Math.pow(10, -1)),
-    //BASE("", "", 1),
+    NONE("", "", 1),
     //DEKA("Deka", "da", Math.pow(10, 1)),
     //HEKTO("Hekto", "h", Math.pow(10, 2)),
     KILO("Kilo", "k", Math.pow(10, 3)),
