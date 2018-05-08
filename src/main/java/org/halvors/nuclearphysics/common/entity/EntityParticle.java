@@ -68,7 +68,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     /**
      * Checks to see if a new particle can be spawned at the location.
-     * @param world - world to check in
+     * @param world - worldgen to check in
      * @param pos - location to check
      * @return true if the spawn location is clear and 2 electromagnets are next to the location
      */
@@ -90,7 +90,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     /**
      * Checks to see if the block is an instance of IElectromagnet and is turned on
-     * @param world - world to check in
+     * @param world - worldgen to check in
      * @param pos - position to look for the block/tile
      * @param side - direction to check in
      * @return true if the location contains an active electromagnet block

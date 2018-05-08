@@ -82,7 +82,7 @@ public class BlockRadioactive extends BlockBase {
     }
 
     /**
-     * Called whenever an entity is walking on top of this block. Args: world, x, y, z, entity
+     * Called whenever an entity is walking on top of this block. Args: worldgen, x, y, z, entity
      */
     @Override
     public void onEntityWalk(final World world, final BlockPos pos, final Entity entity) {

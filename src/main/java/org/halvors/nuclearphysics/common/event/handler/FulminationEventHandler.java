@@ -61,7 +61,7 @@ public class FulminationEventHandler {
                 final float maxEnergyPerGenerator = totalEnergy / avaliableGenerators.size();
 
                 for (TileFulminationGenerator tile : avaliableGenerators) {
-                    //float density = event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tile.getPos()));
+                    //float density = event.worldgen.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.worldgen, tile.getPos()));
                     final double density = world.getBlockDensity(new Vec3d(pos), Objects.requireNonNull(ModBlocks.blockFulmination.getDefaultState().getCollisionBoundingBox(world, tile.getPos())));
                     final double distance = new Position(tile).distance(pos.getX(), pos.getY(), pos.getZ());
                     int energy = (int) Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (distance / customExplosion.getRadius()));
