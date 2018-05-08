@@ -6,6 +6,7 @@ public class Integration {
     public static final String BUILDCRAFT_CORE_ID = "buildcraftcore";
     public static final String COFH_CORE_ID = "cofhcore";
     public static final String MEKANISM_ID = "mekanism";
+    public static final String REDSTONE_FLUX_ID = "redstoneflux";
 
     public static boolean isBuildcraftLoaded;
     public static boolean isCOFHCoreLoaded;
