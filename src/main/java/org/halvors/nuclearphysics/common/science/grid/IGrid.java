@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.grid;
+package org.halvors.nuclearphysics.common.science.grid;
 
 public interface IGrid {
     void update();

@@ -25,7 +25,7 @@ public class SchematicFissionReactor implements ISchematic {
         final HashMap<BlockPos, IBlockState> map = new HashMap<>();
         final int radius = 2;
 
-        // We do not support high reactor towers yet. Forcing HEIGHT.
+        // We do not support high reactor towers yet. Forcing height.
         size = 2;
 
         for (int y = 0; y < size; y++) {
