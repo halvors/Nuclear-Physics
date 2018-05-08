@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.unit;
+package org.halvors.nuclearphysics.common.science.unit;
 
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 
@@ -10,8 +10,8 @@ public class UnitDisplay {
             case TESLA:
                 return UnitDisplay.getDisplayShort(energy * General.toTesla, unit);
 
-            case JOULES:
-                return UnitDisplay.getDisplayShort(energy * General.toJoules, unit);
+            case JOULE:
+                return UnitDisplay.getDisplayShort(energy * General.toJoule, unit);
         }
 
         return getDisplayShort(energy, unit);
@@ -19,53 +19,6 @@ public class UnitDisplay {
 
     public static String getTemperatureDisplay(final double temperature) {
         return getDisplayShort(temperature, General.temperatureUnit);
-    }
-
-    public enum EnumPrefix {
-        FEMTO("Femto", "f", 0.000000000000001D),
-        PICO("Pico", "p", 0.000000000001D),
-        NANO("Nano", "n", 0.000000001D),
-        MICRO("Micro", "u", 0.000001D),
-        MILLI("Milli", "m", 0.001D),
-        BASE("", "", 1),
-        KILO("Kilo", "k", 1000D),
-        MEGA("Mega", "M", 1000000D),
-        GIGA("Giga", "G", 1000000000D),
-        TERA("Tera", "T", 1000000000000D),
-        PETA("Peta", "P", 1000000000000000D),
-        EXA("Exa", "E", 1000000000000000000D),
-        ZETTA("Zetta", "Z", 1000000000000000000000D),
-        YOTTA("Yotta", "Y", 1000000000000000000000000D);
-
-        public final String name;
-        public final String symbol;
-        public final double value;
-
-        EnumPrefix(final String name, final String symbol, final double value) {
-            this.name = name;
-            this.symbol = symbol;
-            this.value = value;
-        }
-
-        public String getName(final boolean isShort) {
-            if (isShort) {
-                return symbol;
-            } else {
-                return name;
-            }
-        }
-
-        public double process(final double d) {
-            return d / value;
-        }
-
-        public boolean above(final double d) {
-            return d > value;
-        }
-
-        public boolean below(final double d) {
-            return d < value;
-        }
     }
 
     /**
@@ -84,8 +37,6 @@ public class UnitDisplay {
 
         if (isShort) {
             unitName = unit.getSymbol();
-        } else if (value > 1) {
-            unitName = unit.getPlural();
         }
 
         if (value == 0) {
@@ -121,27 +72,11 @@ public class UnitDisplay {
         return getDisplay(value, unit, decimalPlaces, true);
     }
 
-    public static String getDisplaySimple(final double value, final EnumElectricUnit unit, final int decimalPlaces) {
-        if (value > 1) {
-            if (decimalPlaces < 1) {
-                return (int) value + " " + unit.getPlural();
-            }
-
-            return roundDecimals(value, decimalPlaces) + " " + unit.getPlural();
-        }
-
-        if (decimalPlaces < 1) {
-            return (int) value + " " + unit.getName();
-        }
-
-        return roundDecimals(value, decimalPlaces) + " " + unit.getName();
-    }
-
     public static String getDisplay(double value, final EnumTemperatureUnit unit, final int decimalPlaces, final boolean shift, final boolean isShort) {
         String unitName = unit.getName();
         String prefix = "";
 
-        value = unit.convertFromK(value, shift);
+        value = unit.convertFromKelvin(value, shift);
 
         if (value < 0) {
             value = Math.abs(value);

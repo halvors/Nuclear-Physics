@@ -75,7 +75,7 @@ public class ModFluids {
      * @return The fluid and block
      */
     private static <T extends Block & IFluidBlock> Fluid createFluid(String name, boolean hasFlowIcon, Consumer<Fluid> fluidPropertyApplier, Function<Fluid, T> blockFactory) {
-        final String texturePrefix = Reference.PREFIX + "FLUIDS/";
+        final String texturePrefix = Reference.PREFIX + "fluids/";
         final ResourceLocation still = new ResourceLocation(texturePrefix + name + "_still");
         final ResourceLocation flowing = hasFlowIcon ? new ResourceLocation(texturePrefix + name + "_flow") : still;
 

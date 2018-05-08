@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.unit;
+package org.halvors.nuclearphysics.common.science.unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +36,17 @@ public enum EnumTemperatureUnit {
         return intervalSize;
     }
 
-    public double convertFromK(final double T, final boolean shift) {
+    public double convertFromKelvin(final double T, final boolean shift) {
         return (T * intervalSize) - (shift ? zeroOffset : 0);
     }
 
-    public double convertToK(final double T, final boolean shift) {
+    public double convertToKelvin(final double T, final boolean shift) {
         return (T + (shift ? zeroOffset : 0)) / intervalSize;
     }
 
     public static EnumTemperatureUnit fromName(final String name) {
         for (EnumTemperatureUnit unit : values()) {
-            if (unit.name.equals(name)) {
+            if (unit.getName().equals(name)) {
                 return unit;
             }
         }
@@ -56,7 +56,7 @@ public enum EnumTemperatureUnit {
 
     public static EnumTemperatureUnit fromSymbol(final String symbol) {
         for (EnumTemperatureUnit unit : values()) {
-            if (unit.symbol.equals(symbol)) {
+            if (unit.getSymbol().equals(symbol)) {
                 return unit;
             }
         }
