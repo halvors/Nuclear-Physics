@@ -13,7 +13,7 @@ public class ReactorExplosion extends RadioactiveExplosion {
     }
 
     @Override
-    public void doExplosionB(boolean spawnParticles) {
+    public void doExplosionB(final boolean spawnParticles) {
         for (final Object affectedBlockPosition : affectedBlockPositions) {
             final ChunkPosition chunkPosition = (ChunkPosition) affectedBlockPosition;
             final int x = chunkPosition.chunkPosX;

@@ -16,20 +16,20 @@ import java.util.List;
 import java.util.Objects;
 
 public class FulminationEventHandler {
-    private static final List<TileFulminationGenerator> list = new ArrayList<>();
+    private static final List<TileFulminationGenerator> generators = new ArrayList<>();
 
     public static void register(final TileFulminationGenerator tile) {
-        if (!list.contains(tile)) {
-            list.add(tile);
+        if (!generators.contains(tile)) {
+            generators.add(tile);
         }
     }
 
     public static void unregister(final TileFulminationGenerator tile) {
-        list.remove(tile);
+        generators.remove(tile);
     }
 
     @SubscribeEvent
-    public void onExplosionDetonate(final ExplosionEvent.Detonate event) {
+    public static void onExplosionDetonateEvent(final ExplosionEvent.Detonate event) {
         final World world = event.world;
         final Explosion explosion = event.explosion;
         final int x = (int) explosion.explosionX;
@@ -42,18 +42,16 @@ public class FulminationEventHandler {
             if (customExplosion.getRadius() > 0 && customExplosion.getEnergy() > 0) {
                 final HashSet<TileFulminationGenerator> avaliableGenerators = new HashSet<>();
 
-                for (TileFulminationGenerator tile : list) {
-                    if (tile != null) {
-                        if (!tile.isInvalid()) {
-                            final Position tilePos = new Position(tile).translate(0.5);
-                            final double distance = tilePos.distance(x, y, z);
+                for (final TileFulminationGenerator tile : generators) {
+                    if (tile != null && !tile.isInvalid()) {
+                        final Position tilePos = new Position(tile).translate(0.5);
+                        final double distance = tilePos.distance(x, y, z);
 
-                            if (distance <= customExplosion.getRadius() && distance > 0) {
-                                float density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world, tile.xCoord, tile.yCoord, tile.zCoord)));
+                        if (distance <= customExplosion.getRadius() && distance > 0) {
+                            final double density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world,tile.xCoord, tile.yCoord, tile.zCoord)));
 
-                                if (density < 1) {
-                                    avaliableGenerators.add(tile);
-                                }
+                            if (density < 1) {
+                                avaliableGenerators.add(tile);
                             }
                         }
                     }
@@ -64,7 +62,7 @@ public class FulminationEventHandler {
 
                 for (TileFulminationGenerator tile : avaliableGenerators) {
                     //float density = event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tile.getPos()));
-                    final float density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world, tile.xCoord, tile.yCoord, tile.zCoord)));
+                    final double density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world, tile.xCoord, tile.yCoord, tile.zCoord)));
                     final double distance = new Position(tile).distance(x, y, z);
                     int energy = (int) Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (distance / customExplosion.getRadius()));
                     energy = (int) Math.max((1 - density) * energy, 0);

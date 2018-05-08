@@ -89,7 +89,7 @@ public class BlockMachine extends BlockInventory {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(final Item item, final CreativeTabs tab, final List list) {
-        for (EnumMachine type : EnumMachine.values()) {
+        for (final EnumMachine type : EnumMachine.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
@@ -198,30 +198,28 @@ public class BlockMachine extends BlockInventory {
     }
 
     public enum EnumMachine {
-        CHEMICAL_EXTRACTOR("chemical_extractor", TileChemicalExtractor.class),
-        GAS_CENTRIFUGE("gas_centrifuge", TileGasCentrifuge.class),
-        NUCLEAR_BOILER("nuclear_boiler", TileNuclearBoiler.class),
-        PARTICLE_ACCELERATOR("particle_accelerator", TileParticleAccelerator.class, true),
-        PLASMA_HEATER("plasma_heater", TilePlasmaHeater.class),
-        QUANTUM_ASSEMBLER("quantum_assembler", TileQuantumAssembler.class);
+        CHEMICAL_EXTRACTOR(TileChemicalExtractor.class),
+        GAS_CENTRIFUGE(TileGasCentrifuge.class),
+        NUCLEAR_BOILER(TileNuclearBoiler.class),
+        PARTICLE_ACCELERATOR(TileParticleAccelerator.class, true),
+        PLASMA_HEATER(TilePlasmaHeater.class),
+        QUANTUM_ASSEMBLER(TileQuantumAssembler.class);
 
-        private String name;
-        private Class<? extends TileEntity> tileClass;
+        private final Class<? extends TileEntity> tileClass;
         private boolean icon;
 
-        EnumMachine(String name, Class<? extends TileEntity> tileClass) {
-            this.name = name;
+        EnumMachine(Class<? extends TileEntity> tileClass) {
             this.tileClass = tileClass;
         }
 
-        EnumMachine(String name, Class<? extends TileEntity> tileClass, boolean icon) {
-            this(name, tileClass);
+        EnumMachine(Class<? extends TileEntity> tileClass, boolean icon) {
+            this(tileClass);
 
             this.icon = icon;
         }
 
         public String getName() {
-            return name;
+            return name().toLowerCase();
         }
 
         public Class<? extends TileEntity> getTileClass() {

@@ -8,14 +8,9 @@ import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketConfiguration;
 
-/**
- * This is the event handler that handles player events.
- *
- * @author halvors
- */
 public class PlayerEventHandler {
 	@SubscribeEvent
-	public void onPlayerLoginEvent(final PlayerLoggedInEvent event) {
+	public static void onPlayerLoggedInEvent(final PlayerLoggedInEvent event) {
 		final EntityPlayer player = event.player;
 		final World world = player.getEntityWorld();
 

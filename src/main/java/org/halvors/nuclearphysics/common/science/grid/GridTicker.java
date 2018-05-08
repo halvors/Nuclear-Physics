@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.grid;
+package org.halvors.nuclearphysics.common.science.grid;
 
 import org.halvors.nuclearphysics.common.Reference;
 

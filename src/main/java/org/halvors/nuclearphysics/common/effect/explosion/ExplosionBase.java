@@ -36,7 +36,7 @@ public ExplosionBase(final IBlockAccess world, final Entity entity, final int x,
 
         // Send explosion packet to the client for client-side explosion.
         if (!world.isRemote) {
-            for (Object object : world.playerEntities) {
+            for (final Object object : world.playerEntities) {
                 final EntityPlayerMP player = (EntityPlayerMP) object;
 
                 if (player.getDistanceSq(x, y, z) < 4096) {

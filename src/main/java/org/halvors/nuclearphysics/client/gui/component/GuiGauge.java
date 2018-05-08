@@ -13,8 +13,8 @@ import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiGauge extends GuiComponent {
-    private static final int width = 14;
-    protected static final int height = 49;
+    private static final int WIDTH = 14;
+    protected static final int HEIGHT = 49;
 
     public GuiGauge(final IGuiWrapper gui, final int x, final int y) {
         super(ResourceUtility.getResource(EnumResource.GUI_COMPONENT, "gauge.png"), gui, x, y);
@@ -22,20 +22,20 @@ public abstract class GuiGauge extends GuiComponent {
 
     @Override
     public Rectangle getBounds(final int guiWidth, final int guiHeight) {
-        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, width, height);
+        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, WIDTH, HEIGHT);
     }
 
     @Override
     public void renderBackground(final int xAxis, final int yAxis, final int guiWidth, final int guiHeight) {
         RenderUtility.bindTexture(resource);
 
-        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
+        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, WIDTH, HEIGHT);
 
         final IIcon texture = getTexture();
         int scale = getScaledLevel();
 
         if (texture != null && scale > 0) {
-            gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, width, height);
+            gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, WIDTH, 0, WIDTH, HEIGHT);
 
             int start = 0;
 
@@ -52,7 +52,7 @@ public abstract class GuiGauge extends GuiComponent {
 
                 RenderUtility.bindTexture(TextureMap.locationBlocksTexture);
 
-                gui.drawTexturedRectFromIcon(guiWidth + xLocation + 1, guiHeight + yLocation + height - renderRemaining - start - 1, texture, width - 2, renderRemaining);
+                gui.drawTexturedRectFromIcon(guiWidth + xLocation + 1, guiHeight + yLocation + HEIGHT - renderRemaining - start - 1, texture, WIDTH - 2, renderRemaining);
 
                 start += 16;
 
@@ -64,12 +64,12 @@ public abstract class GuiGauge extends GuiComponent {
 
         RenderUtility.bindTexture(resource);
 
-        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, width, height);
+        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, WIDTH, 0, WIDTH, HEIGHT);
     }
 
     @Override
     public void renderForeground(final int xAxis, final int yAxis) {
-        if (isPointInRegion(xLocation, yLocation, xAxis, yAxis, width, height)) {
+        if (isPointInRegion(xLocation, yLocation, xAxis, yAxis, WIDTH, HEIGHT)) {
             String tooltip = getTooltip();
 
             if (tooltip != null && !tooltip.isEmpty()) {

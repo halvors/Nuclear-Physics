@@ -12,8 +12,8 @@ import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 public class TileQuantumAssembler extends TileInventoryMachine {
-    public static final int ticksRequired = 120 * 20;
-    private static final int energyPerTick = 2048000;
+    private static final int ENERGY_PER_TICK = 2048000;
+    public static final int TICKS_REQUIRED = 120 * 20;
 
     // Used for rendering.
     private EntityItem entityItem = null;
@@ -26,7 +26,8 @@ public class TileQuantumAssembler extends TileInventoryMachine {
     public TileQuantumAssembler(final EnumMachine type) {
         super(type, 7);
 
-        energyStorage = new EnergyStorage(energyPerTick * 2);
+        energyStorage = new EnergyStorage(ENERGY_PER_TICK * 2);
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,15 +37,15 @@ public class TileQuantumAssembler extends TileInventoryMachine {
         super.updateEntity();
 
         if (!worldObj.isRemote) {
-            if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
-                if (operatingTicks < ticksRequired) {
+            if (canFunction() && canProcess() && energyStorage.extractEnergy(ENERGY_PER_TICK, true) >= ENERGY_PER_TICK) {
+                if (operatingTicks < TICKS_REQUIRED) {
                     operatingTicks++;
                 } else {
                     process();
                     reset();
                 }
 
-                energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+                energyUsed = energyStorage.extractEnergy(ENERGY_PER_TICK, false);
             } else if (getStackInSlot(6) == null) {
                 reset();
             }

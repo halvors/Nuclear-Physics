@@ -84,7 +84,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubBlocks(Item item, CreativeTabs tab, List list) {
-        for (EnumElectromagnet type : EnumElectromagnet.values()) {
+        for (final EnumElectromagnet type : EnumElectromagnet.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
@@ -102,7 +102,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
             return 0;
         }
 
-        return 255;
+        return super.getLightOpacity(world, x, y, z);
     }
 
     @Override

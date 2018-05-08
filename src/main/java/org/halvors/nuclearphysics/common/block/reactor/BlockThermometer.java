@@ -124,7 +124,7 @@ public class BlockThermometer extends BlockRotatable {
             return tileThermometer.isProvidingPower ? 15 : 0;
         }
 
-        return 0;
+        return super.isProvidingWeakPower(world, x, y, z, side);
     }
 
     @Override

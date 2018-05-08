@@ -12,7 +12,7 @@ public class ItemBlockMetadata extends ItemBlockTooltip {
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack itemStack) {
+	public String getUnlocalizedName(final ItemStack itemStack) {
 		return super.getUnlocalizedName(itemStack) + "." + itemStack.getMetadata();
 	}
 

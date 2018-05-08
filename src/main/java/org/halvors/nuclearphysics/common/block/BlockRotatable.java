@@ -22,7 +22,7 @@ public class BlockRotatable extends BlockContainerBase {
         final TileEntity tile = world.getTileEntity(x, y, z);
 
         if (tile instanceof ITileRotatable) {
-            ITileRotatable tileRotatable = (ITileRotatable) tile;
+            final ITileRotatable tileRotatable = (ITileRotatable) tile;
 
             tileRotatable.setFacing(ForgeDirection.VALID_DIRECTIONS[determineOrientation(world, x, y, z, entity)]);
         }
@@ -36,7 +36,7 @@ public class BlockRotatable extends BlockContainerBase {
         if (tile instanceof ITileRotatable) {
             final ITileRotatable tileRotatable = (ITileRotatable) tile;
 
-            for (ForgeDirection facing : ForgeDirection.VALID_DIRECTIONS) {
+            for (final ForgeDirection facing : ForgeDirection.VALID_DIRECTIONS) {
                 if (tileRotatable.canSetFacing(facing)) {
                     valid[facing.ordinal()] = facing;
                 }

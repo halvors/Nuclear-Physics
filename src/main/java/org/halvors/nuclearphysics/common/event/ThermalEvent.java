@@ -3,13 +3,13 @@ package org.halvors.nuclearphysics.common.event;
 import net.minecraft.world.IBlockAccess;
 
 public class ThermalEvent extends WorldEventBase {
-    private final float temperature;
-    private final float deltaTemperature;
-    private final float deltaTime;
+    private final double temperature;
+    private final double deltaTemperature;
+    private final double deltaTime;
     private final boolean reactor;
-    private float heatLoss = 0.1F;
+    private double heatLoss = 0.1;
 
-    public ThermalEvent(final IBlockAccess world, final int x, final int y, final int z, final float temperature, final float deltaTemperature, final float deltaTime, final boolean reactor) {
+    public ThermalEvent(final IBlockAccess world, final int x, final int y, final int z, final double temperature, final double deltaTemperature, final double deltaTime, final boolean reactor) {
         super(world, x, y, z);
 
         this.temperature = temperature;
@@ -18,23 +18,23 @@ public class ThermalEvent extends WorldEventBase {
         this.reactor = reactor;
     }
 
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public float getDeltaTemperature() {
+    public double getDeltaTemperature() {
         return deltaTemperature;
     }
 
-    public float getDeltaTime() {
+    public double getDeltaTime() {
         return deltaTime;
     }
 
-    public float getHeatLoss() {
+    public double getHeatLoss() {
         return heatLoss;
     }
 
-    public void setHeatLoss(final float heatLoss) {
+    public void setHeatLoss(final double heatLoss) {
         this.heatLoss = heatLoss;
     }
 
@@ -43,7 +43,7 @@ public class ThermalEvent extends WorldEventBase {
     }
 
     public static class ThermalUpdateEvent extends ThermalEvent {
-        public ThermalUpdateEvent(final IBlockAccess world, final int x, final int y, final int z, final float temperature, final float deltaTemperature, final float deltaTime, final boolean reactor) {
+        public ThermalUpdateEvent(final IBlockAccess world, final int x, final int y, final int z, final double temperature, final double deltaTemperature, final double deltaTime, final boolean reactor) {
             super(world, x, y, z, temperature, deltaTemperature, deltaTime, reactor);
         }
     }

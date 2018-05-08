@@ -22,14 +22,14 @@ import java.util.function.Function;
 
 public class ModFluids {
     /**
-     * The fluids registered by this mod. Includes fluids that were already registered by another mod.
+     * The FLUIDS registered by this mod. Includes fluids that were already registered by another mod.
      */
-    public static final Set<Fluid> fluids = new HashSet<>();
+    public static final Set<Fluid> FLUIDS = new HashSet<>();
 
     /**
      * The fluid blocks from this mod only. Doesn't include blocks for fluids that were already registered by another mod.
      */
-    public static final Set<IFluidBlock> fluidBlocks = new HashSet<>();
+    public static final Set<IFluidBlock> FLUID_BLOCKS = new HashSet<>();
 
     public static final Fluid deuterium = createFluid("deuterium",
             fluid -> fluid.setDensity(1110), // Density: 1.11 g/cm3
@@ -77,18 +77,18 @@ public class ModFluids {
 
         if (useOwnFluid) {
             fluidPropertyApplier.accept(fluid);
-            fluidBlocks.add(blockFactory.apply(fluid));
+            FLUID_BLOCKS.add(blockFactory.apply(fluid));
         } else {
             fluid = FluidRegistry.getFluid(name);
         }
 
-        fluids.add(fluid);
+        FLUIDS.add(fluid);
 
         return fluid;
     }
 
     public static void registerFluids() {
-        for (final IFluidBlock fluidBlock : fluidBlocks) {
+        for (final IFluidBlock fluidBlock : FLUID_BLOCKS) {
             final Block block = (Block) fluidBlock;
             final Fluid fluid = fluidBlock.getFluid();
 
@@ -108,7 +108,7 @@ public class ModFluids {
     private static void registerFluidContainers() {
         FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.WATER, ItemCell.capacity), FluidUtility.getFilledCell(FluidRegistry.WATER), new ItemStack(ModItems.itemCell));
 
-        for (final Fluid fluid : fluids) {
+        for (final Fluid fluid : FLUIDS) {
             if (fluid == deuterium || fluid == tritium) {
                 FluidContainerRegistry.registerFluidContainer(new FluidStack(fluid, ItemCell.capacity), FluidUtility.getFilledCell(fluid), new ItemStack(ModItems.itemCell));
             } else if (fluid == toxicWaste) {

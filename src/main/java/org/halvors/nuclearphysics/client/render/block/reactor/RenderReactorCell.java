@@ -22,10 +22,10 @@ import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
 public class RenderReactorCell extends TileEntitySpecialRenderer {
-    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(EnumResource.MODEL, "reactor_cell.obj"));
-    private static final ResourceLocation texture = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "reactor_cell.png");
-    private static final ResourceLocation textureFissile = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "reactor_fissile_material.png");
-    private static final ResourceLocation texturePlasma = ResourceUtility.getResource(EnumResource.TEXTURE_BLOCKS, "fluids/plasma_still.png");
+    private static final IModelCustom MODEL = AdvancedModelLoader.loadModel(ResourceUtility.getResource(EnumResource.MODEL, "reactor_cell.obj"));
+    private static final ResourceLocation TEXTURE = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "reactor_cell.png");
+    private static final ResourceLocation TEXTURE_FISSILE = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "reactor_fissile_material.png");
+    private static final ResourceLocation TEXTURE_PLASMA = ResourceUtility.getResource(EnumResource.TEXTURE_BLOCKS, "fluids/plasma_still.png");
 
     @Override
     public void renderTileEntityAt(final TileEntity tile, final double x, final double y, final double z, final float partialTicks) {
@@ -34,7 +34,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
 
             GL11.glPushMatrix();
 
-            bindTexture(texture);
+            bindTexture(TEXTURE);
 
             // Translate to the location of our tile entity
             GL11.glTranslated(x, y, z);
@@ -43,7 +43,7 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
             // Rotate block based on direction.
             RenderUtility.rotateBlockBasedOnDirection(tileReactorCell.getFacing());
 
-            model.renderAll();
+            MODEL.renderAll();
 
             // Render fissile fuel inside reactor.
             final IFluidTank tank = tileReactorCell.getTank();
@@ -51,9 +51,9 @@ public class RenderReactorCell extends TileEntitySpecialRenderer {
             final ItemStack itemStack = tileReactorCell.getStackInSlot(0);
 
             if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma) && tank.getFluidAmount() > 0) {
-                renderFuel(texturePlasma, true);
+                renderFuel(TEXTURE_PLASMA, true);
             } else if (itemStack != null) {
-                renderFuel(textureFissile, false);
+                renderFuel(TEXTURE_FISSILE, false);
             }
 
             GL11.glPopMatrix();
