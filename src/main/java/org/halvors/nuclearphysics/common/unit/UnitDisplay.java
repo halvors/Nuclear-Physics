@@ -1,6 +1,5 @@
 package org.halvors.nuclearphysics.common.unit;
 
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 
 public class UnitDisplay {
@@ -14,6 +13,7 @@ public class UnitDisplay {
             case JOULES:
                 return UnitDisplay.getDisplayShort(energy * General.toJoules, unit);
         }
+
         return getDisplayShort(energy, unit);
     }
 
@@ -33,7 +33,7 @@ public class UnitDisplay {
         GIGA("Giga", "G", 1000000000D),
         TERA("Tera", "T", 1000000000000D),
         PETA("Peta", "P", 1000000000000000D),
-        EXA("Exa", "E",   1000000000000000000D),
+        EXA("Exa", "E", 1000000000000000000D),
         ZETTA("Zetta", "Z", 1000000000000000000000D),
         YOTTA("Yotta", "Y", 1000000000000000000000000D);
 
@@ -56,15 +56,15 @@ public class UnitDisplay {
         }
 
         public double process(final double value) {
-            return value / this.value;
+            return value / value;
         }
 
         public boolean above(final double value) {
-            return value > this.value;
+            return value > value;
         }
 
         public boolean below(final double value) {
-            return value < this.value;
+            return value < value;
         }
     }
 
@@ -93,9 +93,11 @@ public class UnitDisplay {
         } else {
             for (int i = 0; i < EnumPrefix.values().length; i++) {
                 final EnumPrefix lowerMeasure = EnumPrefix.values()[i];
+
                 if (lowerMeasure.below(value) && lowerMeasure.ordinal() == 0) {
                     return prefix + roundDecimals(lowerMeasure.process(value), decimalPlaces) + " " + lowerMeasure.getName(isShort) + unitName;
                 }
+
                 if (lowerMeasure.ordinal() + 1 >= EnumPrefix.values().length) {
                     return prefix + roundDecimals(lowerMeasure.process(value), decimalPlaces) + " " + lowerMeasure.getName(isShort) + unitName;
                 }
@@ -107,6 +109,7 @@ public class UnitDisplay {
                 }
             }
         }
+
         return prefix + roundDecimals(value, decimalPlaces) + " " + unitName;
     }
 
@@ -139,6 +142,7 @@ public class UnitDisplay {
         String prefix = "";
 
         value = unit.convertFromK(value, shift);
+
         if (value < 0) {
             value = Math.abs(value);
             prefix = "-";
@@ -149,7 +153,6 @@ public class UnitDisplay {
         }
 
         if (value == 0) {
-        	
             return value + (isShort ? "" : " ") + unitName;
         } else {
             for (int i = 0; i < EnumPrefix.values().length; i++) {
@@ -170,6 +173,7 @@ public class UnitDisplay {
                 }
             }
         }
+
         return prefix + roundDecimals(value, decimalPlaces) + (isShort ? "" : " ") + unitName;
     }
 
