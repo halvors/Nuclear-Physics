@@ -9,7 +9,7 @@ import net.minecraftforge.common.MinecraftForge;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
-import org.halvors.nuclearphysics.common.science.event.ThermalEvent.ThermalUpdateEvent;
+import org.halvors.nuclearphysics.common.science.event.TemperatureEvent;
 import org.halvors.nuclearphysics.common.science.physics.ThermoPhysics;
 import org.halvors.nuclearphysics.common.type.Pair;
 
@@ -62,7 +62,7 @@ public class ThermalGrid implements IGrid {
                     final TileEntity tileUp = world.getTileEntity(pos.up());
                     final boolean isReactor = tile instanceof IReactor || tileUp != null && tileUp.hasCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
 
-                    final ThermalUpdateEvent event = new ThermalUpdateEvent(world, pos, currentTemperature, deltaFromEquilibrium, DELTA_TIME, isReactor);
+                    final TemperatureEvent.UpdateEvent event = new TemperatureEvent.UpdateEvent(world, pos, currentTemperature, deltaFromEquilibrium, DELTA_TIME, isReactor);
                     MinecraftForge.EVENT_BUS.post(event);
 
                     addTemperature(world, pos, (deltaFromEquilibrium > 0 ? 1 : -1) * Math.min(Math.abs(deltaFromEquilibrium), Math.abs(event.getHeatLoss())));

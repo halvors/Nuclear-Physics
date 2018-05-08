@@ -23,13 +23,14 @@ import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.event.BoilEvent;
-import org.halvors.nuclearphysics.common.science.event.ThermalEvent;
+import org.halvors.nuclearphysics.common.science.event.FluidEvent;
+import org.halvors.nuclearphysics.common.science.event.TemperatureEvent;
 import org.halvors.nuclearphysics.common.science.physics.ThermoPhysics;
 
 @EventBusSubscriber
-public class ThermalEventHandler {
+public class TemperatureEventHandler {
     @SubscribeEvent
-    public static void onThermalUpdateEvent(final ThermalEvent.ThermalUpdateEvent event) {
+    public static void onTemperatureUpdateEvent(final TemperatureEvent.UpdateEvent event) {
         final World world = event.getWorld();
         final BlockPos pos = event.getPos();
         final TileEntity tile = world.getTileEntity(pos);
@@ -72,54 +73,5 @@ public class ThermalEventHandler {
 
             event.setHeatLoss(0.4);
         }
-    }
-
-    @SubscribeEvent
-    public static void onBoilEvent(final BoilEvent event) {
-        final World world = event.getWorld();
-        final BlockPos pos = event.getPos();
-        final IBlockState state = world.getBlockState(pos);
-
-        NuclearPhysics.getProxy().addScheduledTask(() -> {
-            // Only boil water blocks.
-            if (state == Blocks.WATER.getDefaultState() || state == Blocks.FLOWING_WATER.getDefaultState()) {
-                // Boil the water into steam.
-                for (int height = 1; height <= event.getMaxSpread(); height++) {
-                    final TileEntity tile = world.getTileEntity(pos.up(height));
-
-                    if (tile != null && tile.hasCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
-                        final IBoilHandler boilHandler = tile.getCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
-                        final FluidStack gasStack = event.getGas(height);
-
-                        if (gasStack.amount > 0 && boilHandler.receiveGas(gasStack, false) > 0) {
-                            gasStack.amount -= boilHandler.receiveGas(gasStack, true);
-                        }
-                    }
-                }
-
-                // Randomly remove water blocks with not in controlled environment like a reactor.
-                if (ConfigurationManager.General.enableBoilingOfWaterBlocks && !event.isReactor() && world.rand.nextInt(1000) == 0) {
-                    world.setBlockToAir(pos);
-                }
-
-                // Sound of lava flowing randomly plays when above temperature to boil water.
-                if (world.rand.nextInt(2000) == 0) {
-                    world.playSound(null, pos, SoundEvents.BLOCK_LAVA_AMBIENT, SoundCategory.BLOCKS, 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
-                }
-
-                // Sounds of lava popping randomly plays when above temperature to boil water.
-                if (world.rand.nextInt(4000) == 0) {
-                    world.playSound(null, pos, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
-                }
-
-                if (world.rand.nextInt(5) == 0) {
-                    ((WorldServer) world).spawnParticle(EnumParticleTypes.WATER_BUBBLE, pos.getX() + world.rand.nextFloat(), pos.getY() + 0.5, pos.getZ() + world.rand.nextFloat(), 0, 0, 1, 0, 0.05);
-                }
-
-                if (world.rand.nextInt(50) == 0) {
-                    ((WorldServer) world).spawnParticle(EnumParticleTypes.CLOUD, pos.getX() + world.rand.nextFloat(), pos.getY() + 1.2, pos.getZ() + world.rand.nextFloat(), 0, 0, 1, 0, 0.1);
-                }
-            }
-        }, world);
     }
 }
