@@ -7,8 +7,8 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
-import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.init.ModFluids;
+import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 
 public class TilePlasma extends TileEntity implements ITickable {
     public static final int PLASMA_MAX_TEMPERATURE = 1000000;

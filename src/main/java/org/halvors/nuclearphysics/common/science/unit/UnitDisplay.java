@@ -37,8 +37,6 @@ public class UnitDisplay {
 
         if (isShort) {
             unitName = unit.getSymbol();
-        } else if (value > 1) {
-            unitName = unit.getPlural();
         }
 
         if (value == 0) {
@@ -74,27 +72,11 @@ public class UnitDisplay {
         return getDisplay(value, unit, decimalPlaces, true);
     }
 
-    public static String getDisplaySimple(final double value, final EnumElectricUnit unit, final int decimalPlaces) {
-        if (value > 1) {
-            if (decimalPlaces < 1) {
-                return (int) value + " " + unit.getPlural();
-            }
-
-            return roundDecimals(value, decimalPlaces) + " " + unit.getPlural();
-        }
-
-        if (decimalPlaces < 1) {
-            return (int) value + " " + unit.getName();
-        }
-
-        return roundDecimals(value, decimalPlaces) + " " + unit.getName();
-    }
-
     public static String getDisplay(double value, final EnumTemperatureUnit unit, final int decimalPlaces, final boolean shift, final boolean isShort) {
         String unitName = unit.getName();
         String prefix = "";
 
-        value = unit.convertFromK(value, shift);
+        value = unit.convertFromKelvin(value, shift);
 
         if (value < 0) {
             value = Math.abs(value);

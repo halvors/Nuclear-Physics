@@ -25,13 +25,9 @@ public enum EnumElectricUnit {
         return symbol;
     }
 
-    public String getPlural() { // TODO: Is this right?
-        return this == FORGE_ENERGY ? name : name + "s";
-    }
-
     public static EnumElectricUnit fromName(final String name) {
         for (EnumElectricUnit unit : values()) {
-            if (unit.name.equals(name)) {
+            if (unit.getName().equals(name)) {
                 return unit;
             }
         }
@@ -41,7 +37,7 @@ public enum EnumElectricUnit {
 
     public static EnumElectricUnit fromSymbol(final String symbol) {
         for (EnumElectricUnit unit : values()) {
-            if (unit.symbol.equals(symbol)) {
+            if (unit.getSymbol().equals(symbol)) {
                 return unit;
             }
         }
