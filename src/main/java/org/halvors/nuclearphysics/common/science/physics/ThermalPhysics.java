@@ -22,13 +22,18 @@ public class ThermalPhysics {
     private static final Map<Material, Integer> materialSHCMap = new HashMap<>();
 
     static {
-        register(Material.IRON, 4500);
-        register(Material.AIR, 1010);
+        /*
+         * TODO: Data should be fetched from: https://www.engineeringtoolbox.com/specific-heat-capacity-d_391.html
+         *                                    https://www.engineeringtoolbox.com/specific-heat-solids-d_154.html
+         */
+
+        register(Material.IRON, 449); // Updated.
+        register(Material.AIR, 1005); // Updated.
         register(Material.GROUND, 8000);
-        register(Material.WOOD, 1500);
+        register(Material.WOOD, 2000); // Updated.
         register(Material.ROCK, 8400);
         register(Material.ANVIL, 5000);
-        register(Material.WATER, 4200);
+        register(Material.WATER, 4182); // Updated.
         register(Material.LAVA, 9000);
         register(Material.LEAVES, 8400);
         register(Material.PLANTS, 8400);
@@ -36,18 +41,18 @@ public class ThermalPhysics {
         register(Material.SPONGE, 8400);
         register(Material.CLOTH, 1400);
         register(Material.FIRE, 1000);
-        register(Material.SAND, 1381);
+        register(Material.SAND, 800); // Updated.
         register(Material.CIRCUITS, 1000);
         register(Material.CARPET, 1130);
-        register(Material.GLASS, 8400);
+        register(Material.GLASS, 840); // Updated.
         register(Material.REDSTONE_LIGHT, 1000);
         register(Material.TNT, 1000);
         register(Material.CORAL, 8400);
-        register(Material.ICE, 4200);
-        register(Material.SNOW, 4200);
+        register(Material.ICE, 2090); // Updated.
+        register(Material.SNOW, 2090);
         register(Material.CRAFTED_SNOW, 4200);
         register(Material.CACTUS, 8400);
-        register(Material.CLAY, 1381);
+        register(Material.CLAY, 920); // Updated.
         register(Material.GOURD, 8400);
         register(Material.DRAGON_EGG, 8400);
         register(Material.PORTAL, 1000);
@@ -61,7 +66,9 @@ public class ThermalPhysics {
      * @param specificHeatCapacity - The specific heat capacity in J/Kg K
      */
     public static void register(final Material material, int specificHeatCapacity) {
-        materialSHCMap.put(material, specificHeatCapacity);
+        if (material != null && specificHeatCapacity > 0) {
+            materialSHCMap.put(material, specificHeatCapacity);
+        }
     }
 
     /**
@@ -154,9 +161,9 @@ public class ThermalPhysics {
 
      if (block == Blocks.flowing_water || block == Blocks.water) {
      if (evt.temperature >= 373) {
-     if (FluidRegistry.getFluid("steam") != null) {
-     val volume = FluidContainerRegistry.BUCKET_VOLUME * (evt.temperature / 373)
-     MinecraftForge.EVENT_BUS.post(new BoilEvent(pos.world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(FluidRegistry.getFluid("steam"), volume), 2))
+     ifl volume = FluidContainerRegistry.BUCKET_VOLUME * (evt.temperature / 373)
+     MinecraftFo (FluidRegistry.getFluid("steam") != null) {
+     varge.EVENT_BUS.post(new BoilEvent(pos.world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(FluidRegistry.getFluid("steam"), volume), 2))
      }
      }
      }
