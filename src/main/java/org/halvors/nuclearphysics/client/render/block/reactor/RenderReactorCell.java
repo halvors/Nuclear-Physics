@@ -16,8 +16,8 @@ import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 
 @SideOnly(Side.CLIENT)
 public class RenderReactorCell extends RenderTile<TileReactorCell> {
-    private static final Model3D modelPlasma = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74);
-    private static final Model3D modelFissileFuel = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74);
+    private static final Model3D MODEL_PLASMA = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74);
+    private static final Model3D MODEL_FISSILE_FUEL = new Model3D(0.26, 0.1, 0.26, 0.74, 0.9, 0.74);
 
     @Override
     protected void render(final TileReactorCell tile, final double x, final double y, final double z) {
@@ -27,9 +27,9 @@ public class RenderReactorCell extends RenderTile<TileReactorCell> {
         final ItemStack itemStack = tile.getInventory().getStackInSlot(0);
 
         if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma) && tank.getFluidAmount() > 0) {
-            renderFuel(modelPlasma, TextureEventHandler.getFluidTexture(fluidStack.getFluid(), EnumFluidType.STILL), true);
+            renderFuel(MODEL_PLASMA, TextureEventHandler.getFluidTexture(fluidStack.getFluid(), EnumFluidType.STILL), true);
         } else if (!itemStack.isEmpty()) {
-            renderFuel(modelFissileFuel, TextureEventHandler.getTexture("reactor_fissile_material"), false);
+            renderFuel(MODEL_FISSILE_FUEL, TextureEventHandler.getTexture("reactor_fissile_material"), false);
         }
     }
 

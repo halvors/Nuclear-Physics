@@ -19,20 +19,20 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 @EventBusSubscriber(Side.CLIENT)
 public class TextureEventHandler {
-    private static final Map<EnumFluidType, Map<Fluid, TextureAtlasSprite>> fluidTextureMap = new HashMap<>();
-    private static final Map<String, TextureAtlasSprite> textureMap = new HashMap<>();
+    private static final Map<EnumFluidType, Map<Fluid, TextureAtlasSprite>> FLUID_TEXTURE_MAP = new HashMap<>();
+    private static final Map<String, TextureAtlasSprite> TEXTURE_MAP = new HashMap<>();
     private static TextureAtlasSprite missingIcon;
 
-    private static final ResourceLocation electricTurbineLarge = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "electric_turbine_large");
-    private static final ResourceLocation reactorFissileMaterial = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "reactor_fissile_material");
+    private static final ResourceLocation ELECTRIC_TURBINE_LARGE = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "electric_turbine_large");
+    private static final ResourceLocation REACTOR_FISSILE_MATERIAL = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "reactor_fissile_material");
 
     @SubscribeEvent
     public static void onPreTextureStitchEvent(final TextureStitchEvent.Pre event) {
         final TextureMap map = event.getMap();
 
-        map.registerSprite(electricTurbineLarge);
-        map.registerSprite(reactorFissileMaterial);
-        textureMap.put("reactor_fissile_material", map.getTextureExtry(reactorFissileMaterial.toString()));
+        map.registerSprite(ELECTRIC_TURBINE_LARGE);
+        map.registerSprite(REACTOR_FISSILE_MATERIAL);
+        TEXTURE_MAP.put("reactor_fissile_material", map.getTextureExtry(REACTOR_FISSILE_MATERIAL.toString()));
     }
 
     @SubscribeEvent
@@ -40,25 +40,25 @@ public class TextureEventHandler {
         final TextureMap map = event.getMap();
 
         missingIcon = map.getMissingSprite();
-        fluidTextureMap.clear();
+        FLUID_TEXTURE_MAP.clear();
 
         for (EnumFluidType type : EnumFluidType.values()) {
-            fluidTextureMap.put(type, new HashMap<>());
+            FLUID_TEXTURE_MAP.put(type, new HashMap<>());
         }
 
         for (Fluid fluid : FluidRegistry.getRegisteredFluids().values()) {
             if (fluid.getStill() != null) {
-                fluidTextureMap.get(EnumFluidType.STILL).put(fluid, map.getTextureExtry(fluid.getStill().toString()));
+                FLUID_TEXTURE_MAP.get(EnumFluidType.STILL).put(fluid, map.getTextureExtry(fluid.getStill().toString()));
             }
 
             if (fluid.getFlowing() != null) {
-                fluidTextureMap.get(EnumFluidType.FLOWING).put(fluid, map.getTextureExtry(fluid.getFlowing().toString()));
+                FLUID_TEXTURE_MAP.get(EnumFluidType.FLOWING).put(fluid, map.getTextureExtry(fluid.getFlowing().toString()));
             }
         }
     }
 
     public static TextureAtlasSprite getFluidTexture(final Fluid fluid, final EnumFluidType type) {
-        final Map<Fluid, TextureAtlasSprite> map = fluidTextureMap.get(type);
+        final Map<Fluid, TextureAtlasSprite> map = FLUID_TEXTURE_MAP.get(type);
 
         if (fluid == null || type == null) {
             return missingIcon;
@@ -68,7 +68,7 @@ public class TextureEventHandler {
     }
 
     public static TextureAtlasSprite getTexture(final String texture) {
-        return textureMap.getOrDefault(texture, missingIcon);
+        return TEXTURE_MAP.getOrDefault(texture, missingIcon);
     }
 
     public enum EnumFluidType {

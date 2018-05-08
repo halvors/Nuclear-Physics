@@ -6,7 +6,7 @@ import net.minecraftforge.fluids.FluidTank;
 public interface IReactor {
     void heat(long energy);
 
-    float getTemperature();
+    double getTemperature();
 
     boolean isOverToxic();
 

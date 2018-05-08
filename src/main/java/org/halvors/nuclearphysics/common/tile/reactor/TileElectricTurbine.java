@@ -41,10 +41,8 @@ import java.util.Set;
 public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, IBoilHandler {
     private static final String NBT_MULTI_BLOCK_RADIUS = "multiBlockRadius";
     private static final String NBT_TANK = "tank";
-
-    private final int energyPerSteam = 40;
-    private final int defaultTorque = 5000;
-    private int torque = defaultTorque;
+    private static final int ENERGY_PER_STEAM = 40;
+    private static final int DEFAULT_TORQUE = 5000;
 
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
         @Override
@@ -134,10 +132,10 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public void update() {
         super.update();
 
+        int torque = DEFAULT_TORQUE * 500;
+
         if (getMultiBlock().isConstructed()) {
-            torque = defaultTorque * 500 * getArea();
-        } else {
-            torque = defaultTorque * 500;
+            torque *= getArea();
         }
 
         getMultiBlock().update();
@@ -146,10 +144,10 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             if (!world.isRemote) {
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
-                    final FluidStack fluidStack = tank.drainInternal((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
+                    final FluidStack fluidStack = tank.drainInternal((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / ENERGY_PER_STEAM)), true);
 
                     if (fluidStack != null) {
-                        power += fluidStack.amount * energyPerSteam;
+                        power += fluidStack.amount * ENERGY_PER_STEAM;
                     }
                 }
 
