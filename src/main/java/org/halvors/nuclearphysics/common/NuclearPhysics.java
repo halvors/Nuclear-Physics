@@ -19,19 +19,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
-<<<<<<< HEAD
-import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
-import org.halvors.nuclearphysics.common.event.handler.ItemEventHandler;
-import org.halvors.nuclearphysics.common.event.handler.PlayerEventHandler;
-import org.halvors.nuclearphysics.common.grid.GridTicker;
-import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
-import org.halvors.nuclearphysics.common.init.ModCapabilities;
-import org.halvors.nuclearphysics.common.init.ModMessages;
-import org.halvors.nuclearphysics.common.init.ModRecipes;
-import org.halvors.nuclearphysics.common.init.ModWorldGenerators;
-=======
 import org.halvors.nuclearphysics.common.init.*;
->>>>>>> 1.11.2
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.science.grid.GridTicker;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
