@@ -22,7 +22,7 @@ import org.halvors.nuclearphysics.common.utility.WorldUtility;
 
 public class ThermalEventHandler {
     @SubscribeEvent
-    public static void onBoilEvent(final BoilEvent event) {
+    public void onBoilEvent(final BoilEvent event) {
         final World world = event.getWorld();
         final int x = event.getX();
         final int y = event.getY();
@@ -71,7 +71,7 @@ public class ThermalEventHandler {
     }
 
     @SubscribeEvent
-    public static void onPlasmaSpawnEvent(final PlasmaSpawnEvent event) {
+    public void onPlasmaSpawnEvent(final PlasmaSpawnEvent event) {
         final World world = event.getWorld();
         final int x = event.getX();
         final int y = event.getY();
@@ -93,7 +93,7 @@ public class ThermalEventHandler {
     }
 
     @SubscribeEvent
-    public static void onThermalUpdateEvent(final ThermalUpdateEvent event) {
+    public void onThermalUpdateEvent(final ThermalUpdateEvent event) {
         final World world = event.getWorld();
         final int x = event.getX();
         final int y = event.getY();
