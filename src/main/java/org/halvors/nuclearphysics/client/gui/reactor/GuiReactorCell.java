@@ -11,7 +11,7 @@ import org.halvors.nuclearphysics.client.gui.component.GuiBar.EnumBarType;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
 import org.halvors.nuclearphysics.common.init.ModFluids;
-import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
+import org.halvors.nuclearphysics.common.science.physics.ThermoPhysics;
 import org.halvors.nuclearphysics.common.science.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.type.EnumColor;
@@ -33,7 +33,7 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
         final FluidStack fluidStack = tile.getTank().getFluid();
 
         if (itemStack != null || ModFluids.fluidStackPlasma.isFluidEqual(fluidStack)) {
-            components.add(new GuiBar(() -> (tile.getTemperature() - ThermalPhysics.ROOM_TEMPERATURE) / TileReactorCell.MELTING_POINT, EnumBarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
+            components.add(new GuiBar(() -> (tile.getTemperature() - ThermoPhysics.ROOM_TEMPERATURE) / TileReactorCell.MELTING_POINT, EnumBarType.TEMPERATURE, this, (xSize / 2) - 80, (ySize / 2) - 38));
         }
 
         if (itemStack != null) {

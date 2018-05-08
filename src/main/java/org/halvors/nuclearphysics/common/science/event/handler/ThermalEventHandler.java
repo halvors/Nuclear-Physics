@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.event.handler;
+package org.halvors.nuclearphysics.common.science.event.handler;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -19,16 +19,61 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
-import org.halvors.nuclearphysics.common.ConfigurationManager.General;
+import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.event.BoilEvent;
-import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
-import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
-import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
+import org.halvors.nuclearphysics.common.science.event.ThermalEvent;
+import org.halvors.nuclearphysics.common.science.physics.ThermoPhysics;
 
 @EventBusSubscriber
 public class ThermalEventHandler {
+    @SubscribeEvent
+    public static void onThermalUpdateEvent(final ThermalEvent.ThermalUpdateEvent event) {
+        final World world = event.getWorld();
+        final BlockPos pos = event.getPos();
+        final TileEntity tile = world.getTileEntity(pos);
+
+        if (tile instanceof IElectromagnet) {
+            event.setHeatLoss(event.getDeltaTemperature() * 0.6);
+        }
+
+        final IBlockState state = world.getBlockState(pos);
+
+        if (state.getMaterial() == Material.AIR) {
+            event.setHeatLoss(0.15);
+        }
+
+        if (state == Blocks.WATER.getDefaultState() ||
+                state == Blocks.FLOWING_WATER.getDefaultState()) {
+            if (event.getTemperature() >= ThermoPhysics.WATER_BOIL_TEMPERATURE) {
+                final int volume = (int) (Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermoPhysics.WATER_BOIL_TEMPERATURE) * ConfigurationManager.General.steamOutputMultiplier);
+
+                MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
+
+                event.setHeatLoss(0.2);
+            }
+        }
+
+        if (state == Blocks.ICE.getDefaultState() ||
+                state == Blocks.PACKED_ICE.getDefaultState() ||
+                state == Blocks.SNOW.getDefaultState()) {
+            if (event.getTemperature() >= ThermoPhysics.ICE_MELT_TEMPERATURE) {
+                world.setBlockState(pos, Blocks.FLOWING_WATER.getDefaultState());
+            }
+
+            event.setHeatLoss(0.4);
+        }
+
+        if (state == Blocks.SNOW_LAYER.getDefaultState()) {
+            if (event.getTemperature() >= ThermoPhysics.ICE_MELT_TEMPERATURE) {
+                world.setBlockToAir(pos);
+            }
+
+            event.setHeatLoss(0.4);
+        }
+    }
+
     @SubscribeEvent
     public static void onBoilEvent(final BoilEvent event) {
         final World world = event.getWorld();
@@ -53,7 +98,7 @@ public class ThermalEventHandler {
                 }
 
                 // Randomly remove water blocks with not in controlled environment like a reactor.
-                if (General.enableBoilingOfWaterBlocks && !event.isReactor() && world.rand.nextInt(1000) == 0) {
+                if (ConfigurationManager.General.enableBoilingOfWaterBlocks && !event.isReactor() && world.rand.nextInt(1000) == 0) {
                     world.setBlockToAir(pos);
                 }
 
@@ -76,71 +121,5 @@ public class ThermalEventHandler {
                 }
             }
         }, world);
-    }
-
-    @SubscribeEvent
-    public static void onPlasmaSpawnEvent(final PlasmaSpawnEvent event) {
-        final World world = event.getWorld();
-        final BlockPos pos = event.getPos();
-        final IBlockState state = world.getBlockState(pos);
-
-        if (event.isCanceled()) {
-            if (state == Blocks.BEDROCK.getDefaultState() ||
-                    state == Blocks.IRON_BLOCK.getDefaultState()) {
-                event.setCanceled(true);
-            }
-
-            final TileEntity tile = world.getTileEntity(pos);
-
-            if (tile instanceof IElectromagnet) {
-                event.setCanceled(true);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onThermalUpdateEvent(final ThermalUpdateEvent event) {
-        final World world = event.getWorld();
-        final BlockPos pos = event.getPos();
-        final TileEntity tile = world.getTileEntity(pos);
-
-        if (tile instanceof IElectromagnet) {
-            event.setHeatLoss(event.getDeltaTemperature() * 0.6);
-        }
-
-        final IBlockState state = world.getBlockState(pos);
-
-        if (state.getMaterial() == Material.AIR) {
-            event.setHeatLoss(0.15);
-        }
-
-        if (state == Blocks.WATER.getDefaultState() ||
-            state == Blocks.FLOWING_WATER.getDefaultState()) {
-            if (event.getTemperature() >= ThermalPhysics.WATER_BOIL_TEMPERATURE) {
-                final int volume = (int) (Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.WATER_BOIL_TEMPERATURE) * General.steamOutputMultiplier);
-
-                MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
-
-                event.setHeatLoss(0.2);
-            }
-        }
-
-        if (state == Blocks.ICE.getDefaultState() ||
-            state == Blocks.PACKED_ICE.getDefaultState() ||
-            state == Blocks.SNOW.getDefaultState()) {
-            if (event.getTemperature() >= ThermalPhysics.ICE_MELT_TEMPERATURE) {
-                world.setBlockState(pos, Blocks.FLOWING_WATER.getDefaultState());
-            }
-
-            event.setHeatLoss(0.4);
-        }
-
-        if (state == Blocks.SNOW_LAYER.getDefaultState()) {
-            if (event.getTemperature() >= ThermalPhysics.ICE_MELT_TEMPERATURE) {
-                world.setBlockToAir(pos);
-            }
-
-            event.setHeatLoss(0.4);
-        }
     }
 }

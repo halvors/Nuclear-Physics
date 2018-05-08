@@ -33,7 +33,7 @@ import org.halvors.nuclearphysics.common.init.ModPotions;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
-import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
+import org.halvors.nuclearphysics.common.science.physics.ThermoPhysics;
 import org.halvors.nuclearphysics.common.tile.TileRotatable;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
@@ -53,9 +53,9 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     private String name;
 
     private final int specificHeatCapacity = 1000;
-    private final double mass = ThermalPhysics.getMass(1000, 7);
+    private final double mass = ThermoPhysics.getMass(1000, 7);
 
-    private double temperature = ThermalPhysics.ROOM_TEMPERATURE; // Synced
+    private double temperature = ThermoPhysics.ROOM_TEMPERATURE; // Synced
     private double previousTemperature = temperature;
 
     private boolean shouldUpdate = false;
@@ -161,7 +161,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     public void update() {
         // TODO: Should we do this for fusion reactors as well?
         // Reactor cell plays random idle noises while operating with temperature above boiling water temperature.
-        if (world.getWorldTime() % 100 == 0 && temperature >= ThermalPhysics.WATER_BOIL_TEMPERATURE) {
+        if (world.getWorldTime() % 100 == 0 && temperature >= ThermoPhysics.WATER_BOIL_TEMPERATURE) {
             world.playSound(null, pos, ModSoundEvents.REACTOR_CELL, SoundCategory.BLOCKS, (float) Math.min(temperature / MELTING_POINT, 1), 1);
         }
 
@@ -211,7 +211,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
                 // Only a small percentage of the internal energy is used for temperature.
                 if ((internalEnergy - previousInternalEnergy) > 0) {
-                    double deltaTemperature = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
+                    double deltaTemperature = ThermoPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
 
                     // Check control rods.
                     for (EnumFacing side : EnumFacing.HORIZONTALS) {

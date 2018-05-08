@@ -1,7 +1,8 @@
-package org.halvors.nuclearphysics.common.event;
+package org.halvors.nuclearphysics.common.science.event;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import org.halvors.nuclearphysics.common.event.WorldEventBase;
 
 public class ThermalEvent extends WorldEventBase {
     private final double temperature;

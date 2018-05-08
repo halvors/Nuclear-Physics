@@ -6,7 +6,7 @@ import net.minecraft.util.ITickable;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
-import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
+import org.halvors.nuclearphysics.common.science.physics.ThermoPhysics;
 import org.halvors.nuclearphysics.common.tile.TileRotatable;
 import org.halvors.nuclearphysics.common.type.Position;
 
@@ -18,7 +18,7 @@ public class TileThermometer extends TileRotatable implements ITickable {
     private static final String NBT_TRACK_COORDINATE = "trackCoordinate";
     private static final int MAX_THRESHOLD = 5000;
 
-    private double detectedTemperature = ThermalPhysics.ROOM_TEMPERATURE; // Synced
+    private double detectedTemperature = ThermoPhysics.ROOM_TEMPERATURE; // Synced
     private double previousDetectedTemperature = detectedTemperature; // Synced
     private Position trackCoordinate = null; // Synced
     private int threshold = 1000; // Synced

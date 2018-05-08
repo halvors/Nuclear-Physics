@@ -4,7 +4,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.HashMap;
@@ -15,13 +14,13 @@ import java.util.Map;
  *
  * @author Calclavia
  */
-public class ThermalPhysics {
+public class ThermoPhysics {
     public static final double ROOM_TEMPERATURE = 295;
     public static final double ICE_MELT_TEMPERATURE = 273.15;
     public static final double WATER_BOIL_TEMPERATURE = 373.15;
 
-    private static final Map<Material, Integer> materialToSpecificHeatCapacityMap = new HashMap<>();
     private static final Map<IBlockState, Integer> stateToSpecificHeatCapacityMap = new HashMap<>();
+    private static final Map<Material, Integer> materialToSpecificHeatCapacityMap = new HashMap<>();
 
     static {
         /*
@@ -64,17 +63,6 @@ public class ThermalPhysics {
     }
 
     /**
-     * Registers a material with a specific heating value
-     *
-     * @param specificHeatCapacity - The specific heat capacity in J/Kg K
-     */
-    public static void register(final Material material, int specificHeatCapacity) {
-        if (material != null && specificHeatCapacity > 0) {
-            materialToSpecificHeatCapacityMap.put(material, specificHeatCapacity);
-        }
-    }
-
-    /**
      * Registers a block state with a specific heating value
      *
      * @param specificHeatCapacity - The specific heat capacity in J/Kg K
@@ -86,17 +74,32 @@ public class ThermalPhysics {
     }
 
     /**
-     * Gets the specific heat capacity of a certain material
+     * Registers a material with a specific heating value
+     *
+     * @param specificHeatCapacity - The specific heat capacity in J/Kg K
      */
-    public static int getSpecificHeatCapacity(final Material material) {
-        return materialToSpecificHeatCapacityMap.getOrDefault(material, 0);
+    public static void register(final Material material, int specificHeatCapacity) {
+        if (material != null && specificHeatCapacity > 0) {
+            materialToSpecificHeatCapacityMap.put(material, specificHeatCapacity);
+        }
     }
 
     /**
      * Gets the specific heat capacity of a certain material
      */
     public static int getSpecificHeatCapacity(final IBlockState state) {
-        return stateToSpecificHeatCapacityMap.getOrDefault(state, 0);
+        if (stateToSpecificHeatCapacityMap.containsKey(state)) {
+            stateToSpecificHeatCapacityMap.getOrDefault(state, 0);
+        }
+
+        return getSpecificHeatCapacity(state.getMaterial());
+    }
+
+    /**
+     * Gets the specific heat capacity of a certain material
+     */
+    public static int getSpecificHeatCapacity(final Material material) {
+        return materialToSpecificHeatCapacityMap.getOrDefault(material, 0);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,16 +108,25 @@ public class ThermalPhysics {
         return energy / (mass * specificHeatCapacity);
     }
 
-    public static double getRequiredBoilWaterEnergy(World world, int x, int z) {
-        return getRequiredBoilWaterEnergy(world, x, z, Fluid.BUCKET_VOLUME);
-    }
-
+    /**
+     * Q = cmT
+     *
+     * Q = (4.2*10^3 J/kgC^-1) (1 kg) (80C)
+     * Q = 336000 J
+     *
+     * @param world - world this happens in
+     * @param x - coordinate of block
+     * @param z - coordinate of block
+     * @param volume - in liters
+     *
+     * @return The required energy to boil volume of water into steam in joules
+     */
     public static double getRequiredBoilWaterEnergy(World world, int x, int z, int volume) {
         double temperatureChange = WATER_BOIL_TEMPERATURE - getDefaultTemperature(world, new BlockPos(x, 0, z));
         double mass = getMass(volume, 1);
-        int waterSpecificHeatCapactity = getSpecificHeatCapacity(Material.WATER);
+        int specificHeatCapactity = getSpecificHeatCapacity(Material.WATER);
 
-        return getEnergyForTemperatureChange(mass, waterSpecificHeatCapactity, temperatureChange) + ThermalPhysics.getEnergyForStateChange(mass, 2257000);
+        return getEnergyForTemperatureChange(mass, specificHeatCapactity, temperatureChange) + ThermoPhysics.getEnergyForStateChange(mass, 2257000);
     }
 
     /**
@@ -124,18 +136,19 @@ public class ThermalPhysics {
      */
     public static double getDefaultTemperature(final World world, final BlockPos pos) {
         final double averageTemperature = ICE_MELT_TEMPERATURE + (world.getBiome(pos).getFloatTemperature(pos) - 0.4) * 50;
-        final double dayNightVariance = averageTemperature * 0.05;
+        final double dayNightVariance = averageTemperature * 0.05; // TODO: Check if this could be handled differently.
 
         return averageTemperature + (world.isDaytime() ? dayNightVariance : -dayNightVariance);
     }
 
     /**
-     * Q = mcT
+     * Q = cmT
      *
-     * @param mass                 - KG
-     * @param specificHeatCapacity - J/KG K
+     * @param mass                 - kg
+     * @param specificHeatCapacity - J/kg*K
      * @param temperature          - K
-     * @return Q, energy in joules
+     *
+     * @return Q, energy in joules (J)
      */
     public static double getEnergyForTemperatureChange(final double mass, final double specificHeatCapacity, final double temperature) {
         return mass * specificHeatCapacity * temperature;
@@ -144,10 +157,10 @@ public class ThermalPhysics {
     /**
      * Q = mL
      *
-     * @param mass               - KG
-     * @param latentHeatCapacity - J/KG
+     * @param mass               - kg
+     * @param latentHeatCapacity - J/kg
      *
-     * @return Q, energy in J
+     * @return Q, energy in joules (J)
      */
     public static double getEnergyForStateChange(final double mass, final double latentHeatCapacity) {
         return mass * latentHeatCapacity;
@@ -158,6 +171,7 @@ public class ThermalPhysics {
      *
      * @param volume  - in liters
      * @param density - in kg/m^3
+     *
      * @return
      */
     public static double getMass(final double volume, final double density) {

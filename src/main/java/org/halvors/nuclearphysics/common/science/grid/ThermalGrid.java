@@ -9,8 +9,8 @@ import net.minecraftforge.common.MinecraftForge;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
-import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
-import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
+import org.halvors.nuclearphysics.common.science.event.ThermalEvent.ThermalUpdateEvent;
+import org.halvors.nuclearphysics.common.science.physics.ThermoPhysics;
 import org.halvors.nuclearphysics.common.type.Pair;
 
 import java.util.Map;
@@ -28,12 +28,12 @@ public class ThermalGrid implements IGrid {
             return thermalSource.get(key);
         }
 
-        return ThermalPhysics.getDefaultTemperature(world, pos);
+        return ThermoPhysics.getDefaultTemperature(world, pos);
     }
 
     public static void addTemperature(final World world, final BlockPos pos, final double deltaTemperature) {
         final Pair<World, BlockPos> key = new Pair<>(world, pos);
-        final double defaultTemperature = ThermalPhysics.getDefaultTemperature(world, pos);
+        final double defaultTemperature = ThermoPhysics.getDefaultTemperature(world, pos);
         final double original = thermalSource.getOrDefault(key, defaultTemperature);
         final double newTemperature = original + deltaTemperature;
 
@@ -57,7 +57,7 @@ public class ThermalGrid implements IGrid {
                 if (currentTemperature < 0) {
                     thermalSource.remove(key);
                 } else {
-                    final double deltaFromEquilibrium = ThermalPhysics.getDefaultTemperature(world, pos) - currentTemperature;
+                    final double deltaFromEquilibrium = ThermoPhysics.getDefaultTemperature(world, pos) - currentTemperature;
                     final TileEntity tile = world.getTileEntity(pos);
                     final TileEntity tileUp = world.getTileEntity(pos.up());
                     final boolean isReactor = tile instanceof IReactor || tileUp != null && tileUp.hasCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
