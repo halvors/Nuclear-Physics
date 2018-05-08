@@ -21,10 +21,6 @@ public class ThermalGrid implements IGrid {
     private static final double SPREAD = 1D / 7;
     private static final double DELTA_TIME = 1D / 20;
 
-    public static double getDefaultTemperature(final World world, final BlockPos pos) {
-        return ThermalPhysics.getTemperatureForCoordinate(world, pos);
-    }
-
     public static double getTemperature(final World world, final BlockPos pos) {
         final Pair<World, BlockPos> key = new Pair<>(world, pos);
 
@@ -32,12 +28,12 @@ public class ThermalGrid implements IGrid {
             return thermalSource.get(key);
         }
 
-        return ThermalPhysics.getTemperatureForCoordinate(world, pos);
+        return ThermalPhysics.getDefaultTemperature(world, pos);
     }
 
     public static void addTemperature(final World world, final BlockPos pos, final double deltaTemperature) {
         final Pair<World, BlockPos> key = new Pair<>(world, pos);
-        final double defaultTemperature = getDefaultTemperature(world, pos);
+        final double defaultTemperature = ThermalPhysics.getDefaultTemperature(world, pos);
         final double original = thermalSource.getOrDefault(key, defaultTemperature);
         final double newTemperature = original + deltaTemperature;
 
@@ -61,7 +57,7 @@ public class ThermalGrid implements IGrid {
                 if (currentTemperature < 0) {
                     thermalSource.remove(key);
                 } else {
-                    final double deltaFromEquilibrium = getDefaultTemperature(world, pos) - currentTemperature;
+                    final double deltaFromEquilibrium = ThermalPhysics.getDefaultTemperature(world, pos) - currentTemperature;
                     final TileEntity tile = world.getTileEntity(pos);
                     final TileEntity tileUp = world.getTileEntity(pos.up());
                     final boolean isReactor = tile instanceof IReactor || tileUp != null && tileUp.hasCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
