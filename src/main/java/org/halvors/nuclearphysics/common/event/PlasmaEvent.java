@@ -2,9 +2,10 @@ package org.halvors.nuclearphysics.common.event;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.common.eventhandler.Cancelable;
 
 public class PlasmaEvent extends WorldEventBase {
-    private final int temperature;
+    private int temperature;
 
     public PlasmaEvent(final IBlockAccess world, final BlockPos pos, final int temperature) {
         super(world, pos);
@@ -16,6 +17,11 @@ public class PlasmaEvent extends WorldEventBase {
         return temperature;
     }
 
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
+
+    @Cancelable
     public static class PlasmaSpawnEvent extends PlasmaEvent {
         public PlasmaSpawnEvent(final IBlockAccess world, final BlockPos pos, final int temperature) {
             super(world, pos, temperature);

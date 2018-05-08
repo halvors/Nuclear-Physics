@@ -13,8 +13,8 @@ import java.util.Arrays;
 
 @SideOnly(Side.CLIENT)
 public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
-    private static final OBJModelContainer modelPart = new OBJModelContainer(ResourceUtility.getResource(EnumResource.MODEL, "plasma_heater.obj"), Arrays.asList("rrot", "srot"));
-    private static final OBJModelContainer model = new OBJModelContainer(ResourceUtility.getResource(EnumResource.MODEL, "plasma_heater.obj"), Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "t", "u", "v", "w", "x", "y"));
+    private static final OBJModelContainer MODEL_PART = new OBJModelContainer(ResourceUtility.getResource(EnumResource.MODEL, "plasma_heater.obj"), Arrays.asList("rrot", "srot"));
+    private static final OBJModelContainer MODEL = new OBJModelContainer(ResourceUtility.getResource(EnumResource.MODEL, "plasma_heater.obj"), Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "t", "u", "v", "w", "x", "y"));
 
     @Override
     protected void render(final TilePlasmaHeater tile, final double x, final double y, final double z) {
@@ -22,10 +22,10 @@ public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
         GlStateManager.translate(0.5, 0, 0.5);
         GlStateManager.rotate((float) Math.toDegrees(tile.rotation), 0, 1, 0);
         GlStateManager.translate(-0.5, 0, -0.5);
-        modelPart.render();
+        MODEL_PART.render();
         GlStateManager.popMatrix();
 
-        model.render();
+        MODEL.render();
 
         GlStateManager.popMatrix();
         GlStateManager.pushMatrix();

@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuantumAssemblerRecipes {
-    public static final List<ItemStack> recipes = new ArrayList<>();
+    private static final List<ItemStack> RECIPES = new ArrayList<>();
 
     public static boolean hasRecipe(ItemStack itemStack) {
-        for (ItemStack output : recipes) {
+        for (ItemStack output : RECIPES) {
             if (output.isItemEqual(itemStack)) {
                 return true;
             }
@@ -22,7 +22,7 @@ public class QuantumAssemblerRecipes {
     public static void addRecipe(ItemStack itemStack) {
         if (!itemStack.isEmpty()) {
             if (itemStack.isStackable()) {
-                recipes.add(itemStack);
+                RECIPES.add(itemStack);
             }
         }
     }

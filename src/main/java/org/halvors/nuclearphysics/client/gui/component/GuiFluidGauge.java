@@ -25,7 +25,7 @@ public class GuiFluidGauge extends GuiGauge {
         final IFluidTank tank = fluidInfoHandler.getTank();
 
         if (tank.getFluidAmount() > 0 && tank.getFluid() != null) {
-            return tank.getFluidAmount() * (height - 2) / tank.getCapacity();
+            return tank.getFluidAmount() * (HEIGHT - 2) / tank.getCapacity();
         }
 
         return 0;

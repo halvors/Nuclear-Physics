@@ -48,7 +48,7 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
         for (int i = 0; i < list.size(); i++) {
             fontRenderer.drawString(list.get(i), (xSize / 2) - 80, 35 + i * 9, 0x404040);
         }
-
+        
         fontRenderer.drawString(LanguageUtility.transelate("gui.radius") + ": ", (xSize / 2) - 80, (ySize / 2) - 28, 0x404040);
         textFieldSize.drawTextBox();
 
