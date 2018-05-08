@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.common.science.physics;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
@@ -17,9 +18,10 @@ import java.util.Map;
 public class ThermalPhysics {
     public static final double ROOM_TEMPERATURE = 295;
     public static final double ICE_MELT_TEMPERATURE = 273.15;
-    public static final double WATER_BOIL_TEMPERATURE = 373.2;
+    public static final double WATER_BOIL_TEMPERATURE = 373.15;
 
-    private static final Map<Material, Integer> materialSHCMap = new HashMap<>();
+    private static final Map<Material, Integer> materialToSpecificHeatCapacityMap = new HashMap<>();
+    private static final Map<IBlockState, Integer> stateToSpecificHeatCapacityMap = new HashMap<>();
 
     static {
         /*
@@ -62,12 +64,24 @@ public class ThermalPhysics {
     }
 
     /**
-     * Registers a block withPriority a specific heating value
+     * Registers a material with a specific heating value
+     *
      * @param specificHeatCapacity - The specific heat capacity in J/Kg K
      */
     public static void register(final Material material, int specificHeatCapacity) {
         if (material != null && specificHeatCapacity > 0) {
-            materialSHCMap.put(material, specificHeatCapacity);
+            materialToSpecificHeatCapacityMap.put(material, specificHeatCapacity);
+        }
+    }
+
+    /**
+     * Registers a block state with a specific heating value
+     *
+     * @param specificHeatCapacity - The specific heat capacity in J/Kg K
+     */
+    public static void register(final IBlockState state, int specificHeatCapacity) {
+        if (state != null && specificHeatCapacity > 0) {
+            stateToSpecificHeatCapacityMap.put(state, specificHeatCapacity);
         }
     }
 
@@ -75,8 +89,17 @@ public class ThermalPhysics {
      * Gets the specific heat capacity of a certain material
      */
     public static int getSpecificHeatCapacity(final Material material) {
-        return materialSHCMap.getOrDefault(material, 0);
+        return materialToSpecificHeatCapacityMap.getOrDefault(material, 0);
     }
+
+    /**
+     * Gets the specific heat capacity of a certain material
+     */
+    public static int getSpecificHeatCapacity(final IBlockState state) {
+        return stateToSpecificHeatCapacityMap.getOrDefault(state, 0);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public static double getTemperatureForEnergy(double mass, double specificHeatCapacity, double energy) {
         return energy / (mass * specificHeatCapacity);
@@ -89,8 +112,9 @@ public class ThermalPhysics {
     public static double getRequiredBoilWaterEnergy(World world, int x, int z, int volume) {
         double temperatureChange = WATER_BOIL_TEMPERATURE - getDefaultTemperature(world, new BlockPos(x, 0, z));
         double mass = getMass(volume, 1);
+        int waterSpecificHeatCapactity = getSpecificHeatCapacity(Material.WATER);
 
-        return getEnergyForTemperatureChange(mass, getSpecificHeatCapacity(Material.WATER), temperatureChange) + ThermalPhysics.getEnergyForStateChange(mass, 2257000);
+        return getEnergyForTemperatureChange(mass, waterSpecificHeatCapactity, temperatureChange) + ThermalPhysics.getEnergyForStateChange(mass, 2257000);
     }
 
     /**
@@ -137,7 +161,7 @@ public class ThermalPhysics {
      * @return
      */
     public static double getMass(final double volume, final double density) {
-        return volume / 1000 * density;
+        return (volume / Math.pow(10, 3)) * density;
     }
 
     /**
