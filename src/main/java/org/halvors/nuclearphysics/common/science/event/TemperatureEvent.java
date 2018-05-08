@@ -23,6 +23,14 @@ public class TemperatureEvent extends WorldEventBase {
         private final boolean reactor;
         private double heatLoss = 0.1;
 
+        /**
+         * @param world
+         * @param pos
+         * @param temperature - in K
+         * @param deltaTemperature - ΔT
+         * @param deltaTime - Δt
+         * @param reactor
+         */
         public UpdateEvent(final IBlockAccess world, final BlockPos pos, final double temperature, final double deltaTemperature, final double deltaTime, final boolean reactor) {
             super(world, pos, temperature);
 

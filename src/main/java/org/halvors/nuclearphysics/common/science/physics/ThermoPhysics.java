@@ -1,9 +1,13 @@
 package org.halvors.nuclearphysics.common.science.physics;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.HashMap;
@@ -92,14 +96,15 @@ public class ThermoPhysics {
             stateToSpecificHeatCapacityMap.getOrDefault(state, 0);
         }
 
-        return getSpecificHeatCapacity(state.getMaterial());
+        return materialToSpecificHeatCapacityMap.getOrDefault(state.getMaterial(), 0);
     }
 
-    /**
-     * Gets the specific heat capacity of a certain material
-     */
-    public static int getSpecificHeatCapacity(final Material material) {
-        return materialToSpecificHeatCapacityMap.getOrDefault(material, 0);
+    public static int getSpecificHeatCapacity(final Block block) {
+        return getSpecificHeatCapacity(block.getDefaultState());
+    }
+
+    public static int getSpecificHeatCapacity(final Fluid fluid) {
+        return getSpecificHeatCapacity(fluid.getBlock());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,10 +128,10 @@ public class ThermoPhysics {
      */
     public static double getRequiredBoilWaterEnergy(World world, int x, int z, int volume) {
         double temperatureChange = WATER_BOIL_TEMPERATURE - getDefaultTemperature(world, new BlockPos(x, 0, z));
-        double mass = getMass(volume, 1);
-        int specificHeatCapactity = getSpecificHeatCapacity(Material.WATER);
+        double mass = getMass(new FluidStack(FluidRegistry.WATER, volume));
+        int specificHeatCapacity = getSpecificHeatCapacity(Blocks.WATER);
 
-        return getEnergyForTemperatureChange(mass, specificHeatCapactity, temperatureChange) + ThermoPhysics.getEnergyForStateChange(mass, 2257000);
+        return getEnergyForTemperatureChange(mass, specificHeatCapacity, temperatureChange) + ThermoPhysics.getEnergyForStateChange(mass, 2257000);
     }
 
     /**
@@ -144,9 +149,9 @@ public class ThermoPhysics {
     /**
      * Q = cmT
      *
-     * @param mass                 - kg
-     * @param specificHeatCapacity - J/kg*K
-     * @param temperature          - K
+     * @param mass                 - in kg
+     * @param specificHeatCapacity - in J/kg*K
+     * @param temperature          - in K
      *
      * @return Q, energy in joules (J)
      */
@@ -157,8 +162,8 @@ public class ThermoPhysics {
     /**
      * Q = mL
      *
-     * @param mass               - kg
-     * @param latentHeatCapacity - J/kg
+     * @param mass               - in kg
+     * @param latentHeatCapacity - in J/kg
      *
      * @return Q, energy in joules (J)
      */
@@ -169,47 +174,27 @@ public class ThermoPhysics {
     /**
      * Gets the mass of an object from volume and density.
      *
-     * @param volume  - in liters
-     * @param density - in kg/m^3
+     * Mass (kg) = Volume (Cubic Meters) * Densitry (kg/m-cubed)
      *
-     * @return
+     * Formula: m = ρ * V
+     *
+     * @param density - in kg/m^3
+     * @param volume  - in liters
+     *
+     * @return The mass in kg.
      */
     public static double getMass(final double volume, final double density) {
-        return (volume / Math.pow(10, 3)) * density;
+        return density * (volume / Math.pow(10, 3));
     }
 
     /**
-     * Mass (KG) = Volume (Cubic Meters) * Densitry (kg/m-cubed)
+     * Get the mass of a fluid stack.
      *
      * @param fluidStack - the fluid stack to get the mass of.
      *
-     * @return The mass in KG
+     * @return The mass in kg.
      */
     public static double getMass(final FluidStack fluidStack) {
-        return getMass(fluidStack.amount, fluidStack.getFluid().getDensity());
+        return getMass(fluidStack.getFluid().getDensity(), fluidStack.amount);
     }
-
-    /**
-     * Default handler.
-
-     @SubscribeEvent
-     def thermalEventHandler(evt: ThermalEvent.EventThermalUpdate) {
-     val pos = evt.position
-     val block = pos.getBlock
-
-     if (block == Blocks.flowing_water || block == Blocks.water) {
-     if (evt.temperature >= 373) {
-     ifl volume = FluidContainerRegistry.BUCKET_VOLUME * (evt.temperature / 373)
-     MinecraftFo (FluidRegistry.getFluid("steam") != null) {
-     varge.EVENT_BUS.post(new BoilEvent(pos.world, pos, new FluidStack(FluidRegistry.WATER, volume), new FluidStack(FluidRegistry.getFluid("steam"), volume), 2))
-     }
-     }
-     }
-
-     if (block == Blocks.ice) {
-     if (evt.temperature >= 273) {
-     UpdateTicker.threaded.enqueue(() => pos.setBlock(Blocks.flowing_water))
-     }
-     }
-     }*/
 }

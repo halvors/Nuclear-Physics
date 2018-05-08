@@ -53,7 +53,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     private String name;
 
     private final int specificHeatCapacity = 1000;
-    private final double mass = ThermoPhysics.getMass(1000, 7);
+    private final double mass = ThermoPhysics.getMass(7, 1000);
 
     private double temperature = ThermoPhysics.ROOM_TEMPERATURE; // Synced
     private double previousTemperature = temperature;
