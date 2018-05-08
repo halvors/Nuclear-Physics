@@ -12,6 +12,10 @@ import org.halvors.nuclearphysics.common.utility.RedstoneUtility;
 import java.util.List;
 
 public class TileMachine extends TileProducer implements ITileRedstoneControl {
+    private static final String NBT_OPERATING_TICKS = "operatingTicks";
+    private static final String NBT_REDSTONE = "redstone";
+    private static final String NBT_REDSTONE_CONTROL = "redstoneControl";
+
     protected EnumMachine type;
 
     protected int energyUsed = 0; // Synced
@@ -33,18 +37,18 @@ public class TileMachine extends TileProducer implements ITileRedstoneControl {
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        operatingTicks = tag.getInteger("operatingTicks");
-        redstone = tag.getBoolean("redstone");
-        redstoneControl = EnumRedstoneControl.values()[tag.getInteger("redstoneControl")];
+        operatingTicks = tag.getInteger(NBT_OPERATING_TICKS);
+        redstone = tag.getBoolean(NBT_REDSTONE);
+        redstoneControl = EnumRedstoneControl.values()[tag.getInteger(NBT_REDSTONE_CONTROL)];
     }
 
     @Override
     public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("operatingTicks", operatingTicks);
-        tag.setBoolean("redstone", redstone);
-        tag.setInteger("redstoneControl", redstoneControl.ordinal());
+        tag.setInteger(NBT_OPERATING_TICKS, operatingTicks);
+        tag.setBoolean(NBT_REDSTONE, redstone);
+        tag.setInteger(NBT_REDSTONE_CONTROL, redstoneControl.ordinal());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

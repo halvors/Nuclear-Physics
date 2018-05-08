@@ -9,6 +9,8 @@ import net.minecraftforge.common.util.Constants;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 
 public abstract class TileInventoryMachine extends TileMachine implements ISidedInventory {
+    private static final String NBT_SLOTS = "slots";
+
     private ItemStack[] inventory;
     private int[] openSlots;
 
@@ -36,6 +38,8 @@ public abstract class TileInventoryMachine extends TileMachine implements ISided
                 setInventorySlotContents(index, ItemStack.loadItemStackFromNBT(slotTagCompound));
             }
         }
+
+        //InventoryUtility.readFromNBT(tag, inventory);
     }
 
     @Override

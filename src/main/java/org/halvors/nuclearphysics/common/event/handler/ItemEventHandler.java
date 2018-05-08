@@ -32,7 +32,7 @@ public class ItemEventHandler {
     }
 
     @SubscribeEvent
-    public void onItemExpireEvent(final ItemExpireEvent event) {
+    public static void onItemExpireEvent(final ItemExpireEvent event) {
         if (General.enableAntimatterPower) {
             final EntityItem entityItem = event.entityItem;
 

@@ -8,8 +8,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
-import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
+import org.halvors.nuclearphysics.common.type.Position;
 
 public class PacketRedstoneControl extends PacketLocation implements IMessage {
     public EnumRedstoneControl redstoneControl;

@@ -21,8 +21,9 @@ import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import java.util.List;
 
 public class TileGasCentrifuge extends TileInventoryMachine {
-    public static final int ticksRequired = 60 * 20;
-    private static final int energyPerTick = 20000;
+    private static final String NBT_TANK = "tank";
+    private static final int ENERGY_PER_TICK = 20000;
+    public static final int TICKS_REQUIRED = 60 * 20;
 
     public float rotation = 0;
 
@@ -44,21 +45,21 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     public TileGasCentrifuge(final EnumMachine type) {
         super(type, 4);
 
-        energyStorage = new EnergyStorage(energyPerTick * 2);
+        energyStorage = new EnergyStorage(ENERGY_PER_TICK * 2);
     }
 
     @Override
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        tank.readFromNBT(tag.getCompoundTag("tank"));
+        tank.readFromNBT(tag.getCompoundTag(NBT_TANK));
     }
 
     @Override
     public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tank", tank.writeToNBT(new NBTTagCompound()));
+        tag.setTag(NBT_TANK, tank.writeToNBT(new NBTTagCompound()));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,15 +77,15 @@ public class TileGasCentrifuge extends TileInventoryMachine {
         if (!worldObj.isRemote) {
             EnergyUtility.discharge(0, this);
 
-            if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
-                if (operatingTicks < ticksRequired) {
+            if (canFunction() && canProcess() && energyStorage.extractEnergy(ENERGY_PER_TICK, true) >= ENERGY_PER_TICK) {
+                if (operatingTicks < TICKS_REQUIRED) {
                     operatingTicks++;
                 } else {
                     process();
                     reset();
                 }
 
-                energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+                energyUsed = energyStorage.extractEnergy(ENERGY_PER_TICK, false);
             }
 
             if (!canProcess()) {

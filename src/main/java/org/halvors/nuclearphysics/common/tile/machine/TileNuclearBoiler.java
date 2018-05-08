@@ -19,8 +19,8 @@ import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 public class TileNuclearBoiler extends TileProcess {
-    public static final int ticksRequired = 15 * 20;
-    private static final int energyPerTick = 20000;
+    private static final int ENERGY_PER_TICK = 20000;
+    public static final int TICKS_REQUIRED = 15 * 20;
 
     public TileNuclearBoiler() {
         this(EnumMachine.NUCLEAR_BOILER);
@@ -29,8 +29,7 @@ public class TileNuclearBoiler extends TileProcess {
     public TileNuclearBoiler(final EnumMachine type) {
         super(type, 5);
 
-        energyStorage = new EnergyStorage(energyPerTick * 2);
-
+        energyStorage = new EnergyStorage(ENERGY_PER_TICK * 2);
         tankInput = new LiquidTank(FluidContainerRegistry.BUCKET_VOLUME * 5) {
             @Override
             public int fill(final FluidStack resource, final boolean doFill) {
@@ -68,15 +67,15 @@ public class TileNuclearBoiler extends TileProcess {
 
             EnergyUtility.discharge(0, this);
 
-            if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
-                if (operatingTicks < ticksRequired) {
+            if (canFunction() && canProcess() && energyStorage.extractEnergy(ENERGY_PER_TICK, true) >= ENERGY_PER_TICK) {
+                if (operatingTicks < TICKS_REQUIRED) {
                     operatingTicks++;
                 } else {
                     process();
                     reset();
                 }
 
-                energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+                energyUsed = energyStorage.extractEnergy(ENERGY_PER_TICK, false);
             }
 
             if (!canProcess()) {

@@ -32,9 +32,10 @@ import java.util.Set;
  * The front of the turbine is where the output is.
  */
 public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, IBoilHandler, IFluidHandler {
-    private final int energyPerSteam = 40;
-    private final int defaultTorque = 5000;
-    private int torque = defaultTorque;
+    private static final String NBT_MULTI_BLOCK_RADIUS = "multiBlockRadius";
+    private static final String NBT_TANK = "tank";
+    private static final int ENERGY_PER_STEAM = 40;
+    private static final int DEFAULT_TORQUE = 5000;
 
     private final GasTank tank = new GasTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 
@@ -72,18 +73,18 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        multiBlockRadius = tag.getInteger("multiBlockRadius");
+        multiBlockRadius = tag.getInteger(NBT_MULTI_BLOCK_RADIUS);
         getMultiBlock().readFromNBT(tag);
-        tank.readFromNBT(tag.getCompoundTag("tank"));
+        tank.readFromNBT(tag.getCompoundTag(NBT_TANK));
     }
 
     @Override
     public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("multiBlockRadius", multiBlockRadius);
+        tag.setInteger(NBT_MULTI_BLOCK_RADIUS, multiBlockRadius);
         getMultiBlock().writeToNBT(tag);
-        tag.setTag("tank", tank.writeToNBT(new NBTTagCompound()));
+        tag.setTag(NBT_TANK, tank.writeToNBT(new NBTTagCompound()));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,10 +93,10 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     public void updateEntity() {
         super.updateEntity();
 
+        int torque = DEFAULT_TORQUE * 500;
+
         if (getMultiBlock().isConstructed()) {
-            torque = defaultTorque * 500 * getArea();
-        } else {
-            torque = defaultTorque * 500;
+            torque *= getArea();
         }
 
         getMultiBlock().update();
@@ -104,10 +105,10 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
             if (!worldObj.isRemote) {
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
-                    final FluidStack fluidStack = tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
+                    final FluidStack fluidStack = tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / ENERGY_PER_STEAM)), true);
 
                     if (fluidStack != null) {
-                        power += fluidStack.amount * energyPerSteam;
+                        power += fluidStack.amount * ENERGY_PER_STEAM;
                     }
                 }
 

@@ -3,18 +3,22 @@ package org.halvors.nuclearphysics.common.tile.reactor;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
-import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
+import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
+import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
 import org.halvors.nuclearphysics.common.tile.TileRotatable;
 import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.List;
 
 public class TileThermometer extends TileRotatable {
-    private static final int maxThreshold = 5000;
-    private float detectedTemperature = ThermalPhysics.roomTemperature; // Synced
-    private float previousDetectedTemperature = detectedTemperature; // Synced
+    private static final String NBT_THRESHOLD = "threshold";
+    private static final String NBT_TRACK_COORDINATE = "trackCoordinate";
+    private static final int MAX_THRESHOLD = 5000;
+
+    private double detectedTemperature = ThermalPhysics.ROOM_TEMPERATURE; // Synced
+    private double previousDetectedTemperature = detectedTemperature; // Synced
+
     private Position trackCoordinate = null; // Synced
     private int threshold = 1000; // Synced
     public boolean isProvidingPower = false; // Synced
@@ -27,10 +31,10 @@ public class TileThermometer extends TileRotatable {
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        threshold = tag.getInteger("threshold");
+        threshold = tag.getInteger(NBT_THRESHOLD);
 
-        if (tag.hasKey("trackCoordinate")) {
-            trackCoordinate = new Position(tag.getCompoundTag("trackCoordinate"));
+        if (tag.hasKey(NBT_TRACK_COORDINATE)) {
+            trackCoordinate = new Position(tag.getCompoundTag(NBT_TRACK_COORDINATE));
         }
     }
 
@@ -38,10 +42,10 @@ public class TileThermometer extends TileRotatable {
     public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("threshold", threshold);
+        tag.setInteger(NBT_THRESHOLD, threshold);
 
         if (trackCoordinate != null) {
-            tag.setTag("trackCoordinate", trackCoordinate.writeToNBT(new NBTTagCompound()));
+            tag.setTag(NBT_TRACK_COORDINATE, trackCoordinate.writeToNBT(new NBTTagCompound()));
         }
     }
 
@@ -76,8 +80,8 @@ public class TileThermometer extends TileRotatable {
         super.handlePacketData(dataStream);
 
         if (worldObj.isRemote) {
-            detectedTemperature = dataStream.readFloat();
-            previousDetectedTemperature = dataStream.readFloat();
+            detectedTemperature = dataStream.readDouble();
+            previousDetectedTemperature = dataStream.readDouble();
 
             if (dataStream.readBoolean()) {
                 trackCoordinate = new Position(dataStream);
@@ -123,14 +127,14 @@ public class TileThermometer extends TileRotatable {
     }
 
     public void setThreshold(final int threshold) {
-        this.threshold = threshold % maxThreshold;
+        this.threshold = threshold % MAX_THRESHOLD;
 
         if (threshold <= 0) {
-            this.threshold = maxThreshold;
+            this.threshold = MAX_THRESHOLD;
         }
     }
 
-    public float getDetectedTemperature() {
+    public double getDetectedTemperature() {
         return detectedTemperature;
     }
 

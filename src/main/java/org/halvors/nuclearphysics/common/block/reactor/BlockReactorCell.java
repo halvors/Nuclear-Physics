@@ -13,8 +13,8 @@ import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.client.render.block.BlockRenderingHandler;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
-import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
+import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
@@ -58,7 +58,7 @@ public class BlockReactorCell extends BlockInventory {
             final ItemStack itemStack = tileReactorCell.getStackInSlot(0);
 
             // Spawn particles of white smoke will rise from above the reactor chamber when above water boiling temperature.
-            if (itemStack != null && tileReactorCell.getTemperature() >= ThermalPhysics.waterBoilTemperature) {
+            if (itemStack != null && tileReactorCell.getTemperature() >= ThermalPhysics.WATER_BOIL_TEMPERATURE) {
                 world.spawnParticle("cloud", x + world.rand.nextInt(2), y + 1, z + world.rand.nextInt(2), 0, 0.1, 0);
             }
         }

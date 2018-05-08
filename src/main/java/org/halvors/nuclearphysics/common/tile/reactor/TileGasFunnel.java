@@ -8,6 +8,8 @@ import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 
 public class TileGasFunnel extends TileEntity implements IBoilHandler, IFluidHandler {
+    private static final String NBT_TANK = "tank";
+
     private final GasTank tank = new GasTank(FluidContainerRegistry.BUCKET_VOLUME * 16);
 
     public TileGasFunnel() {
@@ -18,14 +20,14 @@ public class TileGasFunnel extends TileEntity implements IBoilHandler, IFluidHan
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        tank.readFromNBT(tag.getCompoundTag("tank"));
+        tank.readFromNBT(tag.getCompoundTag(NBT_TANK));
     }
 
     @Override
     public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tank", tank.writeToNBT(new NBTTagCompound()));
+        tag.setTag(NBT_TANK, tank.writeToNBT(new NBTTagCompound()));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

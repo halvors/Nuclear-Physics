@@ -4,8 +4,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
+import org.halvors.nuclearphysics.common.science.unit.EnumTemperatureUnit;
 import org.halvors.nuclearphysics.common.type.EnumResource;
-import org.halvors.nuclearphysics.common.unit.EnumTemperatureUnit;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 

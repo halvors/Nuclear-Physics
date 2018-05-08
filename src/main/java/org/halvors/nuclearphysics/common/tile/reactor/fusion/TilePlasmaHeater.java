@@ -15,19 +15,22 @@ import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
+import org.halvors.nuclearphysics.common.science.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
 import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
-import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import java.util.HashMap;
 import java.util.List;
 
 public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITagRender {
-    private static int ticksRequired = 20 * 20;
-    private static int energyPerTick = 25000;
-    private static int plasmaHeatAmount = 100;
+    private static final String NBT_TANK_DEUTERIUM = "tankInputDeuterium";
+    private static final String NBT_TANK_TRITIUM = "tankInputTritium";
+    private static final String NBT_TANK_OUTPUT = "tankOutput";
+    private static final int TICKS_REQUIRED = 20 * 20;
+    private static final int ENERGY_PER_TICK = 25000;
+    private static final int PLASMA_HEAT_AMOUNT = 100;
 
     public final LiquidTank tankInputDeuterium = new LiquidTank(FluidContainerRegistry.BUCKET_VOLUME * 10) {
         @Override
@@ -63,25 +66,25 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
         super(type);
 
         redstoneControl = EnumRedstoneControl.LOW;
-        energyStorage = new EnergyStorage(energyPerTick * 20);
+        energyStorage = new EnergyStorage(ENERGY_PER_TICK * 20);
     }
 
     @Override
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        tankInputDeuterium.readFromNBT(tag.getCompoundTag("tankInputDeuterium"));
-        tankInputTritium.readFromNBT(tag.getCompoundTag("tankInputTritium"));
-        tankOutput.readFromNBT(tag.getCompoundTag("tankOutput"));
+        tankInputDeuterium.readFromNBT(tag.getCompoundTag(NBT_TANK_DEUTERIUM));
+        tankInputTritium.readFromNBT(tag.getCompoundTag(NBT_TANK_TRITIUM));
+        tankOutput.readFromNBT(tag.getCompoundTag(NBT_TANK_OUTPUT));
     }
 
     @Override
     public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tankInputDeuterium", tankInputDeuterium.writeToNBT(new NBTTagCompound()));
-        tag.setTag("tankInputTritium", tankInputTritium.writeToNBT(new NBTTagCompound()));
-        tag.setTag("tankOutput", tankOutput.writeToNBT(new NBTTagCompound()));
+        tag.setTag(NBT_TANK_DEUTERIUM, tankInputDeuterium.writeToNBT(new NBTTagCompound()));
+        tag.setTag(NBT_TANK_TRITIUM, tankInputTritium.writeToNBT(new NBTTagCompound()));
+        tag.setTag(NBT_TANK_OUTPUT, tankOutput.writeToNBT(new NBTTagCompound()));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,15 +100,15 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
         }
 
         if (!worldObj.isRemote) {
-            if (canFunction() && canProcess() && energyStorage.extractEnergy(energyPerTick, true) >= energyPerTick) {
-                if (operatingTicks < ticksRequired) {
+            if (canFunction() && canProcess() && energyStorage.extractEnergy(ENERGY_PER_TICK, true) >= ENERGY_PER_TICK) {
+                if (operatingTicks < TICKS_REQUIRED) {
                     operatingTicks++;
                 } else {
                     process();
                     reset();
                 }
 
-                energyUsed = energyStorage.extractEnergy(energyPerTick, false);
+                energyUsed = energyStorage.extractEnergy(ENERGY_PER_TICK, false);
             }
 
             if (!canProcess()) {
@@ -207,14 +210,14 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean canProcess() {
-        return tankOutput.getFluidAmount() < tankOutput.getCapacity() && tankInputDeuterium.getFluidAmount() >= plasmaHeatAmount && tankInputTritium.getFluidAmount() >= plasmaHeatAmount;
+        return tankOutput.getFluidAmount() < tankOutput.getCapacity() && tankInputDeuterium.getFluidAmount() >= PLASMA_HEAT_AMOUNT && tankInputTritium.getFluidAmount() >= PLASMA_HEAT_AMOUNT;
     }
 
     public void process() {
         if (canProcess()) {
-            tankInputDeuterium.drain(plasmaHeatAmount, true);
-            tankInputTritium.drain(plasmaHeatAmount, true);
-            tankOutput.fill(new FluidStack(ModFluids.plasma, plasmaHeatAmount), true);
+            tankInputDeuterium.drain(PLASMA_HEAT_AMOUNT, true);
+            tankInputTritium.drain(PLASMA_HEAT_AMOUNT, true);
+            tankOutput.fill(new FluidStack(ModFluids.plasma, PLASMA_HEAT_AMOUNT), true);
         }
     }
 }

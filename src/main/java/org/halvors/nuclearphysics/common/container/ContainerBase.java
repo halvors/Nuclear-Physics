@@ -8,8 +8,6 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import org.halvors.nuclearphysics.common.tile.TileBase;
 
-import javax.annotation.Nonnull;
-
 public class ContainerBase<T extends TileBase> extends Container {
     protected final IInventory inventory;
     protected final T tile;

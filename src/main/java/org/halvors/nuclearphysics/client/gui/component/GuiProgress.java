@@ -11,8 +11,8 @@ import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public class GuiProgress extends GuiComponent {
-    private static final int width = 22;
-    private static final int height = 16;
+    private static final int WIDTH = 22;
+    private static final int HEIGHT = 16;
 
     private final IProgressInfoHandler progressInfoHandler;
 
@@ -24,21 +24,21 @@ public class GuiProgress extends GuiComponent {
 
     @Override
     public Rectangle getBounds(final int guiWidth, final int guiHeight) {
-        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, width, height);
+        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, WIDTH, HEIGHT);
     }
 
     @Override
     public void renderBackground(final int xAxis, final int yAxis, final int guiWidth, final int guiHeight) {
         RenderUtility.bindTexture(resource);
 
-        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
+        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, WIDTH, HEIGHT);
 
-        final int scale = (int) (progressInfoHandler.getProgress() * (width + 1));
+        final int scale = (int) (progressInfoHandler.getProgress() * (WIDTH + 1));
 
         if (scale > 0) {
             RenderUtility.bindTexture(resource);
 
-            gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, scale, height);
+            gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, WIDTH, 0, scale, HEIGHT);
         }
     }
 

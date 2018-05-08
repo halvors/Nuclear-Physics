@@ -23,10 +23,10 @@ import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ItemEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.PlayerEventHandler;
 import org.halvors.nuclearphysics.common.event.handler.ThermalEventHandler;
-import org.halvors.nuclearphysics.common.grid.GridTicker;
-import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
 import org.halvors.nuclearphysics.common.init.*;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
+import org.halvors.nuclearphysics.common.science.grid.GridTicker;
+import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 
 @Mod(modid = Reference.ID,
      name = Reference.NAME,
@@ -82,10 +82,10 @@ public class NuclearPhysics {
 	@EventHandler
 	public void init(final FMLInitializationEvent event) {
 		// Register event handlers.
+		MinecraftForge.EVENT_BUS.register(new FulminationEventHandler());
+		MinecraftForge.EVENT_BUS.register(new ItemEventHandler());
 		MinecraftForge.EVENT_BUS.register(new PlayerEventHandler());
 		MinecraftForge.EVENT_BUS.register(new ThermalEventHandler());
-		MinecraftForge.EVENT_BUS.register(new ItemEventHandler());
-		MinecraftForge.EVENT_BUS.register(new FulminationEventHandler());
 
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);

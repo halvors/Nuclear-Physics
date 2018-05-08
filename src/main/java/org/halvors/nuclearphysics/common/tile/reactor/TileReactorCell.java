@@ -17,13 +17,13 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.effect.explosion.ReactorExplosion;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
-import org.halvors.nuclearphysics.common.grid.thermal.ThermalGrid;
-import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 import org.halvors.nuclearphysics.common.init.ModSounds;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
+import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
+import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
 import org.halvors.nuclearphysics.common.tile.TileInventory;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.nuclearphysics.common.type.Position;
@@ -32,17 +32,18 @@ import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import java.util.List;
 
 public class TileReactorCell extends TileInventory implements IFluidHandler, IReactor {
+    private static final String NBT_TEMPERATURE = "temperature";
+    private static final String NBT_TANK = "tank";
+    private static final int RADIUS = 2;
+    public static final int MELTING_POINT = 2000;
+
     private String name;
-    private ItemStack[] inventory;
-    private int[] openSlots;
 
-    public static final int radius = 2;
-    public static final int meltingPoint = 2000;
     private final int specificHeatCapacity = 1000;
-    private final float mass = ThermalPhysics.getMass(1000, 7);
+    private final double mass = ThermalPhysics.getMass(1000, 7);
 
-    private float temperature = ThermalPhysics.roomTemperature; // Synced
-    private float previousTemperature = temperature;
+    private double temperature = ThermalPhysics.ROOM_TEMPERATURE; // Synced
+    private double previousTemperature = temperature;
 
     private boolean shouldUpdate = false;
 
@@ -76,16 +77,16 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        temperature = tag.getFloat("temperature");
-        tank.readFromNBT(tag.getCompoundTag("tank"));
+        temperature = tag.getDouble(NBT_TEMPERATURE);
+        tank.readFromNBT(tag.getCompoundTag(NBT_TANK));
     }
 
     @Override
     public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setFloat("temperature", temperature);
-        tag.setTag("tank", tank.writeToNBT(new NBTTagCompound()));
+        tag.setDouble(NBT_TEMPERATURE, temperature);
+        tag.setTag(NBT_TANK, tank.writeToNBT(new NBTTagCompound()));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,10 +95,8 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
     public void updateEntity() {
         // TODO: Should we do this for fusion reactors as well?
         // Reactor cell plays random idle noises while operating with temperature above boiling water temperature.
-        if (worldObj.getWorldTime() % 100 == 0 && temperature >= ThermalPhysics.waterBoilTemperature) {
-            float percentage = Math.min(temperature / meltingPoint, 1);
-
-            worldObj.playSoundEffect(xCoord, yCoord, zCoord, ModSounds.REACTOR_CELL, percentage, 1);
+        if (worldObj.getWorldTime() % 100 == 0 && temperature >= ThermalPhysics.WATER_BOIL_TEMPERATURE) {
+            worldObj.playSoundEffect(xCoord, yCoord, zCoord, ModSounds.REACTOR_CELL, (float) Math.min(temperature / MELTING_POINT, 1), 1);
         }
 
         if (!worldObj.isRemote) {
@@ -112,7 +111,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
                     final Position spawnPos = new Position(this).offset(spawnDir, 2);
 
                     if (worldObj.isAirBlock(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ())) {
-                        MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(worldObj, spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ(), TilePlasma.plasmaMaxTemperature));
+                        MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(worldObj, spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ(), TilePlasma.PLASMA_MAX_TEMPERATURE));
                         tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                     }
                 }
@@ -133,7 +132,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
                     // Emit radiation.
                     if (worldObj.getTotalWorldTime() % 20 == 0 && worldObj.rand.nextFloat() > 0.65) {
-                        final List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord - radius * 2, yCoord - radius * 2, zCoord - radius * 2, xCoord + radius * 2, yCoord + radius * 2, zCoord + radius * 2));
+                        final List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord - RADIUS * 2, yCoord - RADIUS * 2, zCoord - RADIUS * 2, xCoord + RADIUS * 2, yCoord + RADIUS * 2, zCoord + RADIUS * 2));
 
                         for (EntityLiving entity : entities) {
                             ModPotions.poisonRadiation.poisonEntity(entity);
@@ -146,7 +145,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
                 // Only a small percentage of the internal energy is used for temperature.
                 if ((internalEnergy - previousInternalEnergy) > 0) {
-                    float deltaTemperature = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
+                    double deltaTemperature = ThermalPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
 
                     // Check control rods.
                     for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
@@ -166,7 +165,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
                     }
 
                     // If temperature is over the melting point of the reactor, either increase counter or melt down.
-                    if (previousTemperature >= meltingPoint) {
+                    if (previousTemperature >= MELTING_POINT) {
                         if (meltdownCounter < meltdownCounterMaximum) {
                             meltdownCounter++;
                             shouldUpdate = true;
@@ -178,8 +177,8 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
                         }
                     }
 
-                    // If reactor temperature is below meltingPoint and meltdownCounter is over 0, decrease it.
-                    if (previousTemperature < meltingPoint && meltdownCounter > 0) {
+                    // If reactor temperature is below MELTING_POINT and meltdownCounter is over 0, decrease it.
+                    if (previousTemperature < MELTING_POINT && meltdownCounter > 0) {
                         meltdownCounter--;
                     }
                 }
@@ -289,7 +288,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
     }
 
     @Override
-    public float getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 

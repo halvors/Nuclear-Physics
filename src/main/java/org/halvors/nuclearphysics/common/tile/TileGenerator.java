@@ -15,6 +15,7 @@ import java.util.*;
 public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProvider {
     private final List<Position> targets = new ArrayList<>();
     private final Map<Position, ForgeDirection> facings = new HashMap<>();
+
     private int targetStartingIndex;
 
     protected EnergyStorage energyStorage;

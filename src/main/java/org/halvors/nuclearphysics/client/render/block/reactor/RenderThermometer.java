@@ -5,10 +5,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.common.science.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
 import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.type.Position;
-import org.halvors.nuclearphysics.common.unit.UnitDisplay;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)

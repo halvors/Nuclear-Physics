@@ -1,8 +1,6 @@
 package org.halvors.nuclearphysics.common.entity;
 
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -122,7 +120,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
             // Play sound effects.
             if (ticksExisted % 10 == 0) {
-                worldObj.playSound(posX, posY, posZ, ModSounds.ANTIMATTER, 1, (float) (0.6 + (0.4 * (getVelocity() / TileParticleAccelerator.antimatterCreationSpeed))), true);
+                worldObj.playSound(posX, posY, posZ, ModSounds.ANTIMATTER, 1, (float) (0.6 + (0.4 * (getVelocity() / TileParticleAccelerator.ANTIMATTER_CREATION_SPEED))), true);
             }
 
             // Sanity check
@@ -167,9 +165,9 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
             final Position accelerationPos = new Position().offset(movementDirection).scale(acceleration);
 
-            motionX = Math.min(accelerationPos.getX() + motionX, TileParticleAccelerator.antimatterCreationSpeed);
-            motionY = Math.min(accelerationPos.getY() + motionY, TileParticleAccelerator.antimatterCreationSpeed);
-            motionZ = Math.min(accelerationPos.getZ() + motionZ, TileParticleAccelerator.antimatterCreationSpeed);
+            motionX = Math.min(accelerationPos.getX() + motionX, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
+            motionY = Math.min(accelerationPos.getY() + motionY, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
+            motionZ = Math.min(accelerationPos.getZ() + motionZ, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
             isAirBorne = true;
 
             lastTickPosX = posX;
@@ -271,7 +269,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         worldObj.playSound(posX, posY, posZ, ModSounds.ANTIMATTER, 1.5F, 1F - worldObj.rand.nextFloat() * 0.3F, true);
 
         if (!worldObj.isRemote) {
-            if (getVelocity() > TileParticleAccelerator.antimatterCreationSpeed / 2) {
+            if (getVelocity() > TileParticleAccelerator.ANTIMATTER_CREATION_SPEED / 2) {
                 final float radius = 1;
                 final AxisAlignedBB bounds = AxisAlignedBB.getBoundingBox(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius);
                 final List<EntityParticle> entitiesNearby = worldObj.getEntitiesWithinAABB(EntityParticle.class, bounds);

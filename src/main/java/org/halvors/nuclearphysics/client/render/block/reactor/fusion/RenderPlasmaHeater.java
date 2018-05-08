@@ -12,8 +12,8 @@ import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
-    private static final IModelCustom model = AdvancedModelLoader.loadModel(ResourceUtility.getResource(EnumResource.MODEL, "plasma_heater.obj"));
-    private static final String[] modelPart = { "rrot", "srot" };
+    private static final IModelCustom MODEL = AdvancedModelLoader.loadModel(ResourceUtility.getResource(EnumResource.MODEL, "plasma_heater.obj"));
+    private static final String[] MODEL_PART = { "rrot", "srot" };
 
     public RenderPlasmaHeater() {
         super("plasma_heater");
@@ -25,10 +25,10 @@ public class RenderPlasmaHeater extends RenderTaggedTile<TilePlasmaHeater> {
         GL11.glTranslated(0.5, 0, 0.5);
         GL11.glRotated((float) Math.toDegrees(tile.rotation), 0, 1, 0);
         GL11.glTranslated(-0.5, 0, -0.5);
-        model.renderOnly(modelPart);
+        MODEL.renderOnly(MODEL_PART);
         GL11.glPopMatrix();
 
-        model.renderAllExcept(modelPart);
+        MODEL.renderAllExcept(MODEL_PART);
 
         GL11.glPopMatrix();
         GL11.glPushMatrix();

@@ -16,6 +16,9 @@ import java.util.List;
  * General class for all machines that do traditional recipe processing.
  */
 public abstract class TileProcess extends TileInventoryMachine implements IFluidHandler {
+    private static final String NBT_TANK_INPUT = "tankInput";
+    private static final String NBT_TANK_OUTPUT = "tankInOutput";
+
     protected LiquidTank tankInput;
     protected LiquidTank tankOutput;
 
@@ -37,16 +40,16 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        tankInput.readFromNBT(tag.getCompoundTag("tankInput"));
-        tankOutput.readFromNBT(tag.getCompoundTag("tankOutput"));
+        tankInput.readFromNBT(tag.getCompoundTag(NBT_TANK_INPUT));
+        tankOutput.readFromNBT(tag.getCompoundTag(NBT_TANK_OUTPUT));
     }
 
     @Override
     public void writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setTag("tankInput", tankInput.writeToNBT(new NBTTagCompound()));
-        tag.setTag("tankOutput", tankOutput.writeToNBT(new NBTTagCompound()));
+        tag.setTag(NBT_TANK_INPUT, tankInput.writeToNBT(new NBTTagCompound()));
+        tag.setTag(NBT_TANK_OUTPUT, tankOutput.writeToNBT(new NBTTagCompound()));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

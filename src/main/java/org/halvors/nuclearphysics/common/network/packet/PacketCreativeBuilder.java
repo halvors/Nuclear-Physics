@@ -54,26 +54,24 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
             final World world = PacketHandler.getWorld(messageContext);
             final EntityPlayer player = PacketHandler.getPlayer(messageContext);
 
-            if (player != null) {
-                int x = message.getX();
-                int y = message.getY();
-                int z = message.getZ();
+            int x = message.getX();
+            int y = message.getY();
+            int z = message.getZ();
 
-                if (!world.isRemote && PlayerUtility.isOp(player)) {
-                    try {
-                        if (message.size > 0) {
-                            // TODO: Implement dynamic facing, not just NORTH.
-                            final HashMap<Position, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(ForgeDirection.NORTH, message.size);
+            if (!world.isRemote && PlayerUtility.isOp(player)) {
+                try {
+                    if (message.size > 0) {
+                        // TODO: Implement dynamic facing, not just NORTH.
+                        final HashMap<Position, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(ForgeDirection.NORTH, message.size);
 
-                            for (Entry<Position, Pair<Block, Integer>> entry : map.entrySet()) {
-                                final Position placePos = entry.getKey().add(x, y, z);
+                        for (final Entry<Position, Pair<Block, Integer>> entry : map.entrySet()) {
+                            final Position placePos = entry.getKey().add(x, y, z);
 
-                                world.setBlock(placePos.getIntX(), placePos.getIntY(), placePos.getIntZ(), entry.getValue().getLeft(), entry.getValue().getRight(), 2);
-                            }
+                            world.setBlock(placePos.getIntX(), placePos.getIntY(), placePos.getIntZ(), entry.getValue().getLeft(), entry.getValue().getRight(), 2);
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 

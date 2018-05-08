@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 Port bugs:
     - Machine blocks have incorrect light in GUI?
     - Fix powering machines with batteries not working.
@@ -10,6 +11,8 @@ Code cleanup:
     Continue upwards from "container" package under common.
 >>>>>>> 1.10.2
 
+=======
+>>>>>>> 1.10.2
 Known bugs:
     Before Beta release:
         - Verify that it's possible to output 1g anitmatter cells.
@@ -18,57 +21,55 @@ Known bugs:
 
     High Priority:
         - Empty cell having NBT when filled and later emptied.
-        - Fix fissile rod stack inserting ghost stack into reactor cell.
         - Verify the breeding process - Should breeding reactors only create heat when actually enriched uranium is present in the middle?
         - Fix electric turbine sound, for both small and large.
-        - Check if more turbines is more efficient than one.
+        - Check if more turbines is more efficient than one big one.
 
         - Fix CapabilityFluidHandler related NPE in TileGasFunnel.
         - Overlook and implement more configuration options from Calclavia's mod.
-        - Should radioactive blocks be a capabilities?
 
     Low Priority:
         - JEI integration.
         - Store fluids in NBT on machine drop?
         - Add subtitle to sounds.
         - Verify that all sounds is more streamlined.
-        - Implement inventory automation for all machines. (NOT NECESSARY?)
         - Reactors are only running when first opening GUI on world load. (NOT CONFIRMED)
+        - Reactor fuel is not rendered when already in reactor on world load, only visible after entering GUI. Probably a client sync issue.
 
 Known features not implemented:
 
 New features to add:
     Convenience:
-        - Make blocks store radiation. Even after the source is removed.
-
+        - Improve thermal system to be persistent thru NBT storage.
+        - Make blocks store radiation in NBT somehow.
+        - Add a Geiger counter to measure radiation.
         - Add ducrete, as a way to prevent radiation from seeping through walls? It's a way to reuse depleted uranium as a shielding material for waste storage/transportation
         - Implement IAntiPoisonBlock and add make radiation resistant blocks. (Raytrace).
         - Check if we should have a uranium hexaflouride container for gas centrifuge and nuclear boiler.
         - Add electromagnetic cell, a cell capable of holding antimatter?
-        - Add a delay to thermometer redstone output, so that it stays in it current state for a period of time.
+        - Add a delay to thermometer redstone output, so that it stays in it current state for a period of time. (MAYBE TELL USERS TO USE A DELAYER INSTEAD?)
 
     Enhancement:
-        - Preserve items in item block when destroying blocks.
+        - Preserve inventory items in item block when destroying blocks.
         - Make antimatter and dark matter fluid items, 200 dl = 200 mg.
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
-        - Make reactor make glass if sand is next to it.
+        - Turn sand into glass when exposed to high temperatures.
         - Make accelerator GUI show energy usage per 5 mg antimatter, as a measure of efficiency.
         - Make it more toxic to carry larger quantities of radioactive material. Like a whole stack of uranium.
         - Add support for vertical particle accelerators.
-        - Add a Geiger counter to measure radiation.
         - Add radiation resistance block which implements IAntiPoisonBlock. See EntityLivingBase.canEntityBeSeen()
         - Amplify sirens, with sort of multi block structure, also add pitch support for the multi block.
-        - Add metal break sound to machines etc?
         - Add thorium fuel?
         - Add plasma decay event?
         - Add auto update support (https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/)
         - Add thermal capability that can be applied to tile entities.
-        - Use mekanism better performance redstone checks?
+        - Use mekanism's better performance redstone checks?
         - Make boiling water spawn particle rate based in the temperature. (https://gamedev.stackexchange.com/questions/17620/equation-to-make-small-number-big-and-big-number-small-gravity)
         - Make tritium emit light when in a container.
         - Add ghost item support to quantum assembler.
         - Add pill that cures radiation poisoning, use function setCurativeItems() on potion effect to do that.
         - Add Mekanism recipes? NuclearCraft recipes? IC2 recipes?
+        - Implement inventory automation for all machines. (NOT NECESSARY?)
 
     Rendering:
         - Render only moving parts in TESR's?
