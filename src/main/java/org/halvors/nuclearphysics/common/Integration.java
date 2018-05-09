@@ -11,10 +11,12 @@ public class Integration {
     public static boolean isBuildcraftLoaded;
     public static boolean isCOFHCoreLoaded;
     public static boolean isMekanismLoaded;
+    public static boolean isRedstoneFluxLoaded;
 
     public static void initialize() {
         isBuildcraftLoaded = Loader.isModLoaded(BUILDCRAFT_CORE_ID);
         isCOFHCoreLoaded = Loader.isModLoaded(COFH_CORE_ID);
         isMekanismLoaded = Loader.isModLoaded(MEKANISM_ID);
+        isRedstoneFluxLoaded = Loader.isModLoaded(REDSTONE_FLUX_ID);
     }
 }

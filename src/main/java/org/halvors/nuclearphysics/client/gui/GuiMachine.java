@@ -1,11 +1,11 @@
 package org.halvors.nuclearphysics.client.gui;
 
-import cofh.api.energy.IEnergyStorage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.inventory.Container;
 import org.halvors.nuclearphysics.client.gui.component.GuiEnergyInfo;
 import org.halvors.nuclearphysics.client.gui.component.GuiRedstoneControl;
+import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.science.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.tile.TileMachine;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
@@ -24,7 +24,7 @@ public class GuiMachine<T extends TileMachine> extends GuiComponentContainer<T> 
             final List<String> list = new ArrayList<>();
             list.add(LanguageUtility.transelate("gui.using") + ": " + UnitDisplay.getEnergyDisplay(tile.getEnergyUsed()) + "/t");
 
-            final IEnergyStorage energyStorage = tile.getEnergyStorage();
+            final EnergyStorage energyStorage = tile.getEnergyStorage();
 
             if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
                 list.add(LanguageUtility.transelate("gui.needed") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()));

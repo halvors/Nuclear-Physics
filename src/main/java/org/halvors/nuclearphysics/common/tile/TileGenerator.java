@@ -2,7 +2,7 @@ package org.halvors.nuclearphysics.common.tile;
 
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import cofh.api.energy.IEnergyStorage;
+import cpw.mods.fml.common.Optional.InterfaceList;
 import cpw.mods.fml.common.Optional.Interface;
 import cpw.mods.fml.common.Optional.Method;
 import io.netty.buffer.ByteBuf;
@@ -15,7 +15,10 @@ import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.*;
 
-@Interface(iface = "cofh.redstoneflux.api.IEnergyProvider", modid = Integration.REDSTONE_FLUX_ID)
+@InterfaceList({
+        @Interface(iface = "cofh.redstoneflux.api.IEnergyReceiver", modid = Integration.REDSTONE_FLUX_ID),
+        @Interface(iface = "cofh.redstoneflux.api.IEnergyProvider", modid = Integration.REDSTONE_FLUX_ID)
+})
 public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProvider {
     private final List<Position> targets = new ArrayList<>();
     private final Map<Position, ForgeDirection> facings = new HashMap<>();
@@ -138,7 +141,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     protected boolean isValidTarget(final Position pos, final ForgeDirection to) {
         final TileEntity tile = pos.getTileEntity(worldObj);
 
-        if (tile instanceof IEnergyReceiver) {
+        if (Integration.isRedstoneFluxLoaded && tile instanceof IEnergyReceiver) {
             IEnergyReceiver energyReceiver = (IEnergyReceiver) tile;
 
             return energyReceiver.canConnectEnergy(to.getOpposite());
@@ -150,7 +153,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     protected void sendEnergyTo(final Position pos, final ForgeDirection to) {
         final TileEntity tile = pos.getTileEntity(worldObj);
 
-        if (tile instanceof IEnergyReceiver) {
+        if (Integration.isRedstoneFluxLoaded && tile instanceof IEnergyReceiver) {
             final IEnergyReceiver energyReceiver = (IEnergyReceiver) tile;
 
             if (energyReceiver.canConnectEnergy(to.getOpposite())) {
@@ -160,7 +163,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     }
 
     protected void sendEnergyToRF(final TileEntity tile, final ForgeDirection from) {
-        if (tile instanceof IEnergyReceiver) {
+        if (Integration.isRedstoneFluxLoaded && tile instanceof IEnergyReceiver) {
             final IEnergyReceiver energyReceiver = (IEnergyReceiver) tile;
 
             if (energyReceiver.canConnectEnergy(from.getOpposite())) {
@@ -169,7 +172,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
         }
     }
 
-    public IEnergyStorage getEnergyStorage() {
+    public EnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 }

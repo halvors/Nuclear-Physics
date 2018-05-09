@@ -1,5 +1,7 @@
 package org.halvors.nuclearphysics.common.tile.reactor;
 
+import cpw.mods.fml.common.Optional.Interface;
+import cpw.mods.fml.common.Optional.Method;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
@@ -10,7 +12,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
-import org.halvors.nuclearphysics.common.ConfigurationManager;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
+import org.halvors.nuclearphysics.common.Integration;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
@@ -31,6 +34,7 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
+@Interface(iface = "cofh.redstoneflux.api.IEnergyProvider", modid = Integration.REDSTONE_FLUX_ID)
 public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, IBoilHandler, IFluidHandler {
     private static final String NBT_MULTI_BLOCK_RADIUS = "multiBlockRadius";
     private static final String NBT_TANK = "tank";
@@ -123,7 +127,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 }
 
                 if (power > 0) {
-                    energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
+                    energyStorage.receiveEnergy((int) (power * General.turbineOutputMultiplier), false);
                 }
             } else if (angularVelocity != 0) {
                 if (worldObj.getWorldTime() % 26 == 0) {
@@ -243,6 +247,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
+    @Method(modid = Integration.REDSTONE_FLUX_ID)
     public boolean canConnectEnergy(final ForgeDirection from) {
         return from == ForgeDirection.UP && getMultiBlock().isPrimary();
     }

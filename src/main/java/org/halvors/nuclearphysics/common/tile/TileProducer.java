@@ -1,9 +1,7 @@
 package org.halvors.nuclearphysics.common.tile;
 
 import cofh.api.energy.IEnergyReceiver;
-import cofh.api.energy.IEnergyStorage;
 import cpw.mods.fml.common.Optional.Interface;
-import cpw.mods.fml.common.Optional.InterfaceList;
 import cpw.mods.fml.common.Optional.Method;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
@@ -87,7 +85,7 @@ public class TileProducer extends TileRotatable implements IEnergyReceiver {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public IEnergyStorage getEnergyStorage() {
+    public EnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 }
