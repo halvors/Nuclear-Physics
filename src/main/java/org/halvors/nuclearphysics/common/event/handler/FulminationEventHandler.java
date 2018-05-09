@@ -29,7 +29,7 @@ public class FulminationEventHandler {
     }
 
     @SubscribeEvent
-    public static void onExplosionDetonateEvent(final ExplosionEvent.Detonate event) {
+    public void onExplosionDetonateEvent(final ExplosionEvent.Detonate event) {
         final World world = event.world;
         final Explosion explosion = event.explosion;
         final int x = (int) explosion.explosionX;
