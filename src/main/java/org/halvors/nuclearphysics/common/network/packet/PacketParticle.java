@@ -53,8 +53,10 @@ public class PacketParticle implements IMessage {
         public IMessage onMessage(PacketParticle message, MessageContext messageContext) {
             World world = PacketHandler.getWorld(messageContext);
 
-            // Spawn the particle, this is done on the client.
-            world.spawnParticle(message.particleName, message.x, message.y, message.z, message.velocityX, message.velocityY, message.velocityZ);
+            if (world != null) {
+                // Spawn the particle, this is done on the client.
+                world.spawnParticle(message.particleName, message.x, message.y, message.z, message.velocityX, message.velocityY, message.velocityZ);
+            }
 
             return null;
         }

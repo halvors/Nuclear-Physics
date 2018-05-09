@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.common.tile;
 
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
-import cofh.api.energy.IEnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -161,7 +160,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
         }
     }
 
-    public IEnergyStorage getEnergyStorage() {
+    public EnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 }

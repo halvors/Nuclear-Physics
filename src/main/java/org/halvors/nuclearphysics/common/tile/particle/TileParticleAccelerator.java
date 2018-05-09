@@ -83,7 +83,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
 
             if (canFunction() && energyStorage.extractEnergy(ENERGY_PER_TICK, true) >= ENERGY_PER_TICK) {
                 if (entityParticle == null) {
-                    // Creates a accelerated particle if one needs to exist (on world load for example or player login).
+                    // Creates an accelerated particle if one needs to exist (on world load for example or player login).
                     if (itemStack != null && lastSpawnTick >= 40) {
                         final Position spawnAcceleratedParticlePos = new Position(xCoord, yCoord, zCoord).offset(facing.getOpposite());
 

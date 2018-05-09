@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.fluids.Fluid;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 
@@ -30,20 +31,22 @@ public class TextureEventHandler {
     }
 
     private static void setIcon(final Fluid fluid) {
-        fluid.setIcons(textureMap.get("fluids/" + fluid.getName() + "_still"));
+        fluid.setIcons(getIcon(fluid.getName()));
     }
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onTextureStitchEventPre(final TextureStitchEvent.Pre event) {
-        if (event.map.getTextureType() == 0) {
-            registerIcon("electromagnet_edge", event.map);
-            registerIcon("fulmination_generator_edge", event.map);
-            registerIcon("gas_funnel_edge", event.map);
-            registerIcon(ModFluids.deuterium, event.map);
-            registerIcon(ModFluids.steam, event.map);
-            registerIcon(ModFluids.tritium, event.map);
-            registerIcon(ModFluids.uraniumHexaflouride, event.map);
+        final TextureMap map = event.map;
+
+        if (map.getTextureType() == 0) {
+            registerIcon("electromagnet_edge", map);
+            registerIcon("fulmination_generator_edge", map);
+            registerIcon("gas_funnel_edge", map);
+            registerIcon(ModFluids.deuterium, map);
+            registerIcon(ModFluids.steam, map);
+            registerIcon(ModFluids.tritium, map);
+            registerIcon(ModFluids.uraniumHexaflouride, map);
         }
     }
 
