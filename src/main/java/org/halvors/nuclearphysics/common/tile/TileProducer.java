@@ -1,17 +1,14 @@
 package org.halvors.nuclearphysics.common.tile;
 
 import cofh.api.energy.IEnergyReceiver;
-import cpw.mods.fml.common.Optional.Interface;
-import cpw.mods.fml.common.Optional.Method;
+import cofh.api.energy.IEnergyStorage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.nuclearphysics.common.Integration;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 
 import java.util.List;
 
-@Interface(iface = "cofh.redstoneflux.api.IEnergyReceiver", modid = Integration.REDSTONE_FLUX_ID)
 public class TileProducer extends TileRotatable implements IEnergyReceiver {
     protected EnergyStorage energyStorage;
 
@@ -60,32 +57,28 @@ public class TileProducer extends TileRotatable implements IEnergyReceiver {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    @Method(modid = Integration.REDSTONE_FLUX_ID)
     public int receiveEnergy(final ForgeDirection from, final int maxReceive, final boolean simulate) {
         return energyStorage.receiveEnergy(maxReceive, simulate);
     }
 
     @Override
-    @Method(modid = Integration.REDSTONE_FLUX_ID)
     public int getEnergyStored(final ForgeDirection from) {
         return energyStorage.getEnergyStored();
     }
 
     @Override
-    @Method(modid = Integration.REDSTONE_FLUX_ID)
     public int getMaxEnergyStored(final ForgeDirection from) {
         return energyStorage.getMaxEnergyStored();
     }
 
     @Override
-    @Method(modid = Integration.REDSTONE_FLUX_ID)
     public boolean canConnectEnergy(final ForgeDirection from) {
         return true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public EnergyStorage getEnergyStorage() {
+    public IEnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 }
