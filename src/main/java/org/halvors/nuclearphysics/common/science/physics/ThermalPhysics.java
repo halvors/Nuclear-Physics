@@ -12,10 +12,10 @@ public class ThermalPhysics {
     /**
      * Temperature: 0.5f = 22C
      *
-     * @param world - world in this context
+     * @param world - worldgen in this context
      * @param pos - the block position
      *
-     * @return The temperature of the coordinate in the world in kelvin.
+     * @return The temperature of the coordinate in the worldgen in kelvin.
      */
     public static double getTemperatureForCoordinate(final World world, final BlockPos pos) {
         final double worldTemperature = world.getBiome(pos).getTemperature(pos);
