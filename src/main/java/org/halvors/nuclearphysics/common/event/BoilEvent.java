@@ -11,7 +11,7 @@ public class BoilEvent extends WorldEventBase {
     private final boolean reactor;
 
     /**
-     * @param world - The worldgen object
+     * @param world - The world object
      * @param pos - The position in which the boiling happens.
      * @param fluidStack - The fluid being boiled.
      * @param maxSpread - The maximum distance the evaporated fluid can spread.
