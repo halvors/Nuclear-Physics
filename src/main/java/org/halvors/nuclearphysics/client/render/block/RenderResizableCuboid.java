@@ -98,7 +98,7 @@ public class RenderResizableCuboid {
     public static final RenderResizableCuboid INSTANCE = new RenderResizableCuboid();
 
     /**
-     * The AO map assumes that each direction in the worldgen has a different amount of light going towards it.
+     * The AO map assumes that each direction in the world has a different amount of light going towards it.
      */
     private static final Map<EnumFacing, Vec3d> aoMap = Maps.newEnumMap(EnumFacing.class);
 
