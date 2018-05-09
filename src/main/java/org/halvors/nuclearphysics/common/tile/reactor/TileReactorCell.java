@@ -218,7 +218,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
         super.handlePacketData(dataStream);
 
         if (worldObj.isRemote) {
-            temperature = dataStream.readFloat();
+            temperature = dataStream.readDouble();
             tank.handlePacketData(dataStream);
         }
     }
