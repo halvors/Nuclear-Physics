@@ -54,7 +54,7 @@ public class BlockConnectedTexture extends BlockContainerBase {
      * Checks if a specific side of a block can connect to this block. For this example, a side
      * is connectable if the block is the same block as this one.
      *
-     * @param world The world to run the check in.
+     * @param world The worldgen to run the check in.
      * @param pos The position of the block to check for.
      * @param side The side of the block to check.
      * @return Whether or not the side is connectable.

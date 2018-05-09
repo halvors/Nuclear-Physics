@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.world;
+package org.halvors.nuclearphysics.common.worldgen;
 
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
@@ -15,7 +15,7 @@ import org.halvors.nuclearphysics.common.init.ModBlocks;
 
 import java.util.Random;
 
-public class WorldGeneratorOre implements IWorldGenerator {
+public class OreGenerator implements IWorldGenerator {
     @Override
     public void generate(final Random random, final int chunkX, final int chunkZ, final World world, final IChunkGenerator chunkGenerator, final IChunkProvider chunkProvider) {
         if (!(chunkGenerator instanceof ChunkProviderHell) && !(chunkGenerator instanceof ChunkProviderEnd)) {
