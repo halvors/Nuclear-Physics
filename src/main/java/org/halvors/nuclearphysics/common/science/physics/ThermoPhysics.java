@@ -1,12 +1,18 @@
 package org.halvors.nuclearphysics.common.science.physics;
 
+import com.google.common.base.Predicate;
 import net.minecraft.block.*;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidBase;
@@ -14,6 +20,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,9 +51,9 @@ public class ThermoPhysics {
         register(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.DIORITE_SMOOTH), 0);
         register(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE), 0);
         register(Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.ANDESITE_SMOOTH), 0);
-        register(Blocks.GRASS.getDefaultState(), 0);
+        register(Blocks.GRASS.getDefaultState().withProperty(BlockGrass.SNOWY, false), 0);
         register(Blocks.GRASS.getDefaultState().withProperty(BlockGrass.SNOWY, true), 0);
-        register(Blocks.DIRT.getDefaultState(), 0);
+        register(Blocks.DIRT.getDefaultState().withProperty(BlockGrass.SNOWY, false), 0);
         register(Blocks.DIRT.getDefaultState().withProperty(BlockGrass.SNOWY, true), 0);
         register(Blocks.COBBLESTONE.getDefaultState(), 0);
         register(Blocks.PLANKS.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK), 0);
@@ -80,12 +87,6 @@ public class ThermoPhysics {
         register(Blocks.LOG.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), 0);
         register(Blocks.LOG.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), 0);
         register(Blocks.LOG.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), 0);
-        register(Blocks.LOG.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), 0);
-        register(Blocks.LOG.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), 0);
-        register(Blocks.LOG2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK), 0);
-        register(Blocks.LOG2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE), 0);
-        register(Blocks.LOG2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH), 0);
-        register(Blocks.LOG2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE), 0);
         register(Blocks.LOG2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA), 0);
         register(Blocks.LOG2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK), 0);
         register(Blocks.LEAVES.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK).withProperty(BlockLeaves.CHECK_DECAY, true).withProperty(BlockLeaves.DECAYABLE, true), 0);
@@ -94,42 +95,177 @@ public class ThermoPhysics {
         register(Blocks.LEAVES.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, true).withProperty(BlockLeaves.DECAYABLE, true), 0);
         register(Blocks.LEAVES2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA).withProperty(BlockLeaves.CHECK_DECAY, true).withProperty(BlockLeaves.DECAYABLE, true), 0);
         register(Blocks.LEAVES2.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK).withProperty(BlockLeaves.CHECK_DECAY, true).withProperty(BlockLeaves.DECAYABLE, true), 0);
-        register(Blocks.SPONGE.getDefaultState(), 0);
+
+        register(Blocks.SPONGE.getDefaultState().withProperty(BlockSponge.WET, false), 0);
         register(Blocks.SPONGE.getDefaultState().withProperty(BlockSponge.WET, true), 0);
 
-        // Continue.
-        Blocks.GLASS;
-        Blocks.LAPIS_ORE;
-        Blocks.LAPIS_BLOCK;
-        Blocks.DISPENSER;
-        Blocks.SANDSTONE;
-        Blocks.NOTEBLOCK;
-        Blocks.BED;
-        Blocks.GOLDEN_RAIL;
-        Blocks.DETECTOR_RAIL;
-        BlockPistonBase STICKY_PISTON;
-        Blocks.WEB;
-        BlockTallGrass TALLGRASS;
-        BlockDeadBush DEADBUSH;
-        BlockPistonBase PISTON;
-        BlockPistonExtension PISTON_HEAD;
-        Blocks.WOOL;
-        BlockPistonMoving PISTON_EXTENSION;
-        BlockFlower YELLOW_FLOWER;
-        BlockFlower RED_FLOWER;
-        BlockBush BROWN_MUSHROOM;
-        BlockBush RED_MUSHROOM;
-        Blocks.GOLD_BLOCK;
-        Blocks.IRON_BLOCK;
+        register(Blocks.GLASS.getDefaultState(), 0);
+        register(Blocks.LAPIS_ORE.getDefaultState(), 0);
+        register(Blocks.LAPIS_BLOCK.getDefaultState(), 0);
+
+        for (final EnumFacing facing : EnumFacing.values()) {
+            final IBlockState state = Blocks.DISPENSER.getDefaultState().withProperty(BlockDispenser.FACING, facing);
+            final int specificHeatCapacity = 0;
+
+            register(state.withProperty(BlockDispenser.TRIGGERED, false), specificHeatCapacity);
+            register(state.withProperty(BlockDispenser.TRIGGERED, true), specificHeatCapacity);
+        }
+
+        register(Blocks.SANDSTONE.getDefaultState().withProperty(BlockSandStone.TYPE, BlockSandStone.EnumType.DEFAULT), 0);
+        register(Blocks.SANDSTONE.getDefaultState().withProperty(BlockSandStone.TYPE, BlockSandStone.EnumType.CHISELED), 0);
+        register(Blocks.SANDSTONE.getDefaultState().withProperty(BlockSandStone.TYPE, BlockSandStone.EnumType.SMOOTH), 0);
+        register(Blocks.NOTEBLOCK.getDefaultState(), 0);
+
+        for (final EnumFacing facing : EnumFacing.values()) {
+            final IBlockState state = Blocks.BED.getDefaultState().withProperty(BlockDispenser.FACING, facing);
+            final int specificHeatCapacity = 0;
+
+            register(state.withProperty(BlockBed.PART, BlockBed.EnumPartType.FOOT).withProperty(BlockBed.OCCUPIED, false), specificHeatCapacity);
+            register(state.withProperty(BlockBed.PART, BlockBed.EnumPartType.FOOT).withProperty(BlockBed.OCCUPIED, true), specificHeatCapacity);
+            register(state.withProperty(BlockBed.PART, BlockBed.EnumPartType.HEAD).withProperty(BlockBed.OCCUPIED, false), specificHeatCapacity);
+            register(state.withProperty(BlockBed.PART, BlockBed.EnumPartType.HEAD).withProperty(BlockBed.OCCUPIED, true), specificHeatCapacity);
+        }
+
+        for (final BlockRailBase.EnumRailDirection railDirection : BlockRailBase.EnumRailDirection.values()) {
+            final IBlockState state = Blocks.GOLDEN_RAIL.getDefaultState().withProperty(BlockRailPowered.SHAPE, railDirection);
+            final int specificHeatCapacity = 0;
+
+            register(state.withProperty(BlockRailPowered.POWERED, false), specificHeatCapacity);
+            register(state.withProperty(BlockRailPowered.POWERED, true), specificHeatCapacity);
+        }
+
+        for (final BlockRailBase.EnumRailDirection railDirection : BlockRailBase.EnumRailDirection.values()) {
+            final IBlockState state = Blocks.DETECTOR_RAIL.getDefaultState().withProperty(BlockRailDetector.SHAPE, railDirection);
+            final int specificHeatCapacity = 0;
+
+            register(state.withProperty(BlockRailDetector.POWERED, false), specificHeatCapacity);
+            register(state.withProperty(BlockRailDetector.POWERED, true), specificHeatCapacity);
+        }
+
+        for (final EnumFacing facing : EnumFacing.values()) {
+            final IBlockState state = Blocks.STICKY_PISTON.getDefaultState().withProperty(BlockPistonBase.FACING, facing);
+            final int specificHeatCapacity = 0;
+
+            register(state.withProperty(BlockPistonBase.EXTENDED, false), specificHeatCapacity);
+            register(state.withProperty(BlockPistonBase.EXTENDED, true), specificHeatCapacity);
+        }
+
+        register(Blocks.WEB.getDefaultState(), 0);
+        register(Blocks.WEB.getDefaultState().withProperty(BlockTallGrass.TYPE, BlockTallGrass.EnumType.DEAD_BUSH), 0);
+        register(Blocks.WEB.getDefaultState().withProperty(BlockTallGrass.TYPE, BlockTallGrass.EnumType.GRASS), 0);
+        register(Blocks.WEB.getDefaultState().withProperty(BlockTallGrass.TYPE, BlockTallGrass.EnumType.FERN), 0);
+        register(Blocks.DEADBUSH.getDefaultState(), 0);
+
+        for (final EnumFacing facing : EnumFacing.values()) {
+            final IBlockState state = Blocks.PISTON.getDefaultState().withProperty(BlockPistonBase.FACING, facing);
+            final int specificHeatCapacity = 0;
+
+            register(state.withProperty(BlockPistonBase.EXTENDED, false), specificHeatCapacity);
+            register(state.withProperty(BlockPistonBase.EXTENDED, true), specificHeatCapacity);
+        }
+
+        for (final EnumFacing facing : EnumFacing.values()) {
+            final IBlockState state = Blocks.PISTON_HEAD.getDefaultState().withProperty(BlockPistonExtension.FACING, facing);
+            final int specificHeatCapacity = 0;
+
+            register(state.withProperty(BlockPistonExtension.TYPE, BlockPistonExtension.EnumPistonType.DEFAULT).withProperty(BlockPistonExtension.SHORT, false), specificHeatCapacity);
+            register(state.withProperty(BlockPistonExtension.TYPE, BlockPistonExtension.EnumPistonType.DEFAULT).withProperty(BlockPistonExtension.SHORT, true), specificHeatCapacity);
+            register(state.withProperty(BlockPistonExtension.TYPE, BlockPistonExtension.EnumPistonType.STICKY).withProperty(BlockPistonExtension.SHORT, false), specificHeatCapacity);
+            register(state.withProperty(BlockPistonExtension.TYPE, BlockPistonExtension.EnumPistonType.STICKY).withProperty(BlockPistonExtension.SHORT, true), specificHeatCapacity);
+        }
+
+        for (final EnumDyeColor color : EnumDyeColor.values()) {
+            register(Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, color), 0);
+        }
+
+        for (final EnumFacing facing : EnumFacing.values()) {
+            final IBlockState state = Blocks.PISTON_EXTENSION.getDefaultState().withProperty(BlockPistonExtension.FACING, facing);
+            final int specificHeatCapacity = 0;
+
+            register(state.withProperty(BlockPistonExtension.TYPE, BlockPistonExtension.EnumPistonType.DEFAULT), specificHeatCapacity);
+            register(state.withProperty(BlockPistonExtension.TYPE, BlockPistonExtension.EnumPistonType.STICKY), specificHeatCapacity);
+        }
+
+        register(Blocks.YELLOW_FLOWER.getDefaultState(), 0);
+        register(Blocks.RED_FLOWER.getDefaultState(), 0);
+        register(Blocks.BROWN_MUSHROOM.getDefaultState(), 0);
+        register(Blocks.RED_MUSHROOM.getDefaultState(), 0);
+        register(Blocks.GOLD_BLOCK.getDefaultState(), 0);
+        register(Blocks.IRON_BLOCK.getDefaultState(), 0);
+
+
+        /*
+        register(Blocks.DOUBLE_STONE_SLAB.getDefaultState().withProperty(Block), 0);
+
         BlockSlab DOUBLE_STONE_SLAB;
+
+        public static final PropertyEnum<BlockSlab.EnumBlockHalf> HALF = PropertyEnum.<BlockSlab.EnumBlockHalf>create("half", BlockSlab.EnumBlockHalf.class);
+        public static final PropertyBool SEAMLESS = PropertyBool.create("seamless");
+        public static final PropertyEnum<BlockStoneSlab.EnumType> VARIANT = PropertyEnum.<BlockStoneSlab.EnumType>create("variant", BlockStoneSlab.EnumType.class);
+
         BlockSlab STONE_SLAB;
-        Blocks.BRICK_BLOCK;
-        Blocks.TNT;
-        Blocks.BOOKSHELF;
-        Blocks.MOSSY_COBBLESTONE;
-        Blocks.OBSIDIAN;
+        */
+
+        register(Blocks.BRICK_BLOCK.getDefaultState(), 0);
+        register(Blocks.TNT.getDefaultState().withProperty(BlockTNT.EXPLODE, false), 0);
+        register(Blocks.TNT.getDefaultState().withProperty(BlockTNT.EXPLODE, true), 0);
+        register(Blocks.BOOKSHELF.getDefaultState(), 0);
+        register(Blocks.MOSSY_COBBLESTONE.getDefaultState(), 0);
+        register(Blocks.OBSIDIAN.getDefaultState(), 0);
+
+        /*
         Blocks.TORCH;
+        */
+
+        for (int age = 0; age <= 15; age++) {
+            final IBlockState state = Blocks.FIRE.getDefaultState().withProperty(BlockFire.AGE, age);
+            final int specificHeatCapacity = 0;
+
+            register(state.withProperty(BlockFire.NORTH, false), 0);
+            register(state.withProperty(BlockFire.NORTH, true), 0);
+
+            register(state.withProperty(BlockFire.NORTH, false).withProperty(BlockFire.EAST, false), 0);
+            register(state.withProperty(BlockFire.NORTH, false).withProperty(BlockFire.EAST, true), 0);
+            register(state.withProperty(BlockFire.NORTH, true).withProperty(BlockFire.EAST, false), 0);
+            register(state.withProperty(BlockFire.NORTH, true).withProperty(BlockFire.EAST, true), 0);
+
+
+            register(state.withProperty(BlockFire.NORTH, false).withProperty(BlockFire.EAST, false).withProperty(BlockFire.SOUTH, false), 0);
+            register(state.withProperty(BlockFire.NORTH, false).withProperty(BlockFire.EAST, false).withProperty(BlockFire.SOUTH, true), 0);
+            register(state.withProperty(BlockFire.NORTH, false).withProperty(BlockFire.EAST, true).withProperty(BlockFire.SOUTH, false), 0);
+            register(state.withProperty(BlockFire.NORTH, true).withProperty(BlockFire.EAST, false).withProperty(BlockFire.SOUTH, false), 0);
+
+            register(state.withProperty(BlockFire.NORTH, false).withProperty(BlockFire.EAST, false).withProperty(BlockFire.SOUTH, false), 0);
+
+
+            // Continue here....
+
+            register(state.withProperty(BlockFire.NORTH, false).withProperty(BlockFire.EAST, false).withProperty(BlockFire.SOUTH, true), 0);
+            register(state.withProperty(BlockFire.NORTH, false).withProperty(BlockFire.EAST, true).withProperty(BlockFire.SOUTH, false), 0);
+            register(state.withProperty(BlockFire.NORTH, true).withProperty(BlockFire.EAST, false).withProperty(BlockFire.SOUTH, false), 0);
+
+
+
+            register(state.withProperty(BlockFire.NORTH, false).withProperty(BlockFire.EAST, true), 0);
+            register(state.withProperty(BlockFire.NORTH, true).withProperty(BlockFire.EAST, false), 0);
+            register(state.withProperty(BlockFire.NORTH, true).withProperty(BlockFire.EAST, true), 0);
+
+            register(state.withProperty(BlockFire.NORTH, true).withProperty(BlockFire.EAST, false), 0);
+            register(state, 0);
+            register(state, 0);
+        }
+
+        public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
+        public static final PropertyBool NORTH = PropertyBool.create("north");
+        public static final PropertyBool EAST = PropertyBool.create("east");
+        public static final PropertyBool SOUTH = PropertyBool.create("south");
+        public static final PropertyBool WEST = PropertyBool.create("west");
+        public static final PropertyBool UPPER = PropertyBool.create("up");
+
+
         BlockFire FIRE;
+
+        /*
         Blocks.MOB_SPAWNER;
         Blocks.OAK_STAIRS;
         BlockChest CHEST;
@@ -295,9 +431,26 @@ public class ThermoPhysics {
         Blocks.BONE_BLOCK;
         Blocks.STRUCTURE_VOID;
         Blocks.STRUCTURE_BLOCK;
-        
+        */
+
+        /*
+        protected PropertyEnum<BlockFlower.EnumFlowerType> type;
+
+        DANDELION(BlockFlower.EnumFlowerColor.YELLOW, 0, "dandelion"),
+                POPPY(BlockFlower.EnumFlowerColor.RED, 0, "poppy"),
+                BLUE_ORCHID(BlockFlower.EnumFlowerColor.RED, 1, "blue_orchid", "blueOrchid"),
+                ALLIUM(BlockFlower.EnumFlowerColor.RED, 2, "allium"),
+                HOUSTONIA(BlockFlower.EnumFlowerColor.RED, 3, "houstonia"),
+                RED_TULIP(BlockFlower.EnumFlowerColor.RED, 4, "red_tulip", "tulipRed"),
+                ORANGE_TULIP(BlockFlower.EnumFlowerColor.RED, 5, "orange_tulip", "tulipOrange"),
+                WHITE_TULIP(BlockFlower.EnumFlowerColor.RED, 6, "white_tulip", "tulipWhite"),
+                PINK_TULIP(BlockFlower.EnumFlowerColor.RED, 7, "pink_tulip", "tulipPink"),
+                OXEYE_DAISY(BlockFlower.EnumFlowerColor.RED, 8, "oxeye_daisy", "oxeyeDaisy");
+        */
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+
+        /*
         register(Material.IRON, 449); // Updated.
         register(Material.AIR, 1005); // Updated.
         register(Material.GROUND, 8000);
@@ -330,6 +483,7 @@ public class ThermoPhysics {
         register(Material.CAKE, 2000);
         register(Material.WEB, 8400);
         register(Material.PISTON, 4500);
+        */
     }
 
     /**
