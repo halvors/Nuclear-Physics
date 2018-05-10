@@ -2,16 +2,20 @@ package org.halvors.nuclearphysics.common.tile;
 
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.energy.IEnergyStorage;
+import cpw.mods.fml.common.Optional.Interface;
+import cpw.mods.fml.common.Optional.Method;
 import ic2.api.energy.tile.IEnergySink;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
+import org.halvors.nuclearphysics.common.Integration;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 
 import java.util.List;
 
+@Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = Integration.IC2_ID)
 public class TileConsumer extends TileRotatable implements IEnergyReceiver, IEnergySink {
     protected EnergyStorage energyStorage;
 
@@ -88,21 +92,25 @@ public class TileConsumer extends TileRotatable implements IEnergyReceiver, IEne
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
+    @Method(modid = Integration.IC2_ID)
     public double getDemandedEnergy() {
         return (energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()) * General.toIC2;
     }
 
     @Override
+    @Method(modid = Integration.IC2_ID)
     public int getSinkTier() {
         return 4;
     }
 
     @Override
+    @Method(modid = Integration.IC2_ID)
     public double injectEnergy(ForgeDirection from, double amount, double voltage) {
         return receiveEnergy(from, (int) (amount * General.fromIC2), false);
     }
 
     @Override
+    @Method(modid = Integration.IC2_ID)
     public boolean acceptsEnergyFrom(TileEntity tile, ForgeDirection from) {
         return canConnectEnergy(from);
     }

@@ -2,17 +2,21 @@ package org.halvors.nuclearphysics.common.tile;
 
 import cofh.api.energy.IEnergyProvider;
 import cofh.api.energy.IEnergyReceiver;
+import cpw.mods.fml.common.Optional.Interface;
+import cpw.mods.fml.common.Optional.Method;
 import ic2.api.energy.tile.IEnergySource;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
+import org.halvors.nuclearphysics.common.Integration;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.*;
 
+@Interface(iface = "ic2.api.energy.tile.IEnergySource", modid = Integration.IC2_ID)
 public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProvider, IEnergySource {
     private final List<Position> targets = new ArrayList<>();
     private final Map<Position, ForgeDirection> facings = new HashMap<>();
@@ -169,21 +173,25 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
+    @Method(modid = Integration.IC2_ID)
     public double getOfferedEnergy() {
         return energyStorage.getEnergyStored() * General.toIC2;
     }
 
     @Override
+    @Method(modid = Integration.IC2_ID)
     public void drawEnergy(double amount) {
         extractEnergy(null, (int) (amount * General.fromIC2), false);
     }
 
     @Override
+    @Method(modid = Integration.IC2_ID)
     public int getSourceTier() {
         return 4;
     }
 
     @Override
+    @Method(modid = Integration.IC2_ID)
     public boolean emitsEnergyTo(TileEntity tile, ForgeDirection from) {
         return canConnectEnergy(from);
     }

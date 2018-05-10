@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
+import org.halvors.nuclearphysics.common.Integration;
 
 public class EnergyUtility {
     /**
@@ -27,14 +28,14 @@ public class EnergyUtility {
                 if (canBeDischarged(itemStack)) {
                     final Item item = itemStack.getItem();
 
-                    if (item instanceof IEnergyContainerItem) {
+                    if (Integration.isRedstoneFluxLoaded && item instanceof IEnergyContainerItem) {
                         final IEnergyContainerItem itemEnergyContainer = (IEnergyContainerItem) item;
                         final int needed = Math.round(Math.min(Integer.MAX_VALUE, (energyReceiver.getMaxEnergyStored(null) - energyReceiver.getEnergyStored(null))));
 
                         if (energyReceiver.receiveEnergy(null, itemEnergyContainer.extractEnergy(itemStack, needed, true), true) > 0) {
                             energyReceiver.receiveEnergy(null, itemEnergyContainer.extractEnergy(itemStack, needed, false), false);
                         }
-                    } else if (item instanceof IElectricItem) {
+                    } else if (Integration.isIC2Loaded && item instanceof IElectricItem) {
                         final IElectricItem electricItem = (IElectricItem) item;
 
                         if (electricItem.canProvideEnergy(itemStack)) {

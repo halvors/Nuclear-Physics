@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.common.utility;
 
 import buildcraft.api.tools.IToolWrench;
 import cofh.api.item.IToolHammer;
+import cpw.mods.fml.common.Loader;
 import mekanism.api.IMekWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -24,12 +25,12 @@ public class WrenchUtility {
 
             if (item instanceof IWrench) {
                 return ((IWrench) item).canUseWrench(player, x, y, z);
-            } else if (Integration.isMekanismLoaded && item instanceof IMekWrench) {
-                return ((IMekWrench) item).canUseWrench(player, x, y, z);
             } else if (Integration.isBuildcraftLoaded && item instanceof IToolWrench) {
                 return ((IToolWrench) item).canWrench(player, x, y, z);
             } else if (Integration.isCOFHCoreLoaded && item instanceof IToolHammer) {
                 return ((IToolHammer) item).isUsable(itemStack, player, x, y, z);
+            } else if (Integration.isMekanismLoaded && item instanceof IMekWrench) {
+                return ((IMekWrench) item).canUseWrench(player, x, y, z);
             }
         }
 
