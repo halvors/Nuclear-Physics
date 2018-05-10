@@ -4,9 +4,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.GuiMachine;
-import org.halvors.nuclearphysics.client.gui.component.GuiFluidGauge;
-import org.halvors.nuclearphysics.client.gui.component.GuiProgress;
-import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
+import org.halvors.nuclearphysics.client.gui.component.*;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot.EnumSlotType;
 import org.halvors.nuclearphysics.common.container.machine.ContainerChemicalExtractor;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
@@ -29,6 +27,8 @@ public class GuiChemicalExtractor extends GuiMachine<TileChemicalExtractor> {
         components.add(new GuiSlot(EnumSlotType.LIQUID, this, 134, 18));
         components.add(new GuiSlot(EnumSlotType.LIQUID, this, 134, 49));
         components.add(new GuiFluidGauge(tile::getOutputTank, this, 154, 18));
+
+        components.add(new GuiPowerBar(tile.getEnergyStorage(), this, 170, 18));
     }
 
     @Override
