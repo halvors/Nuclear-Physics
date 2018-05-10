@@ -1,6 +1,10 @@
 package org.halvors.nuclearphysics.common.utility;
 
+import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.tile.TileProducer;
+
 import cofh.api.energy.IEnergyContainerItem;
+import cofh.api.energy.IEnergyReceiver;
 import cofh.api.energy.IEnergyStorage;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -14,8 +18,9 @@ public class EnergyUtility {
      * @param tile - TileEntity the item is being charged in.
      */
     public static void discharge(final int slot, final TileEntity tile) {
+    	NuclearPhysics.getLogger().warn("EnergyUtility::discharge()");
         if (tile instanceof IEnergyStorage) {
-            final IEnergyStorage energyStorage = (IEnergyStorage) tile;
+            final IEnergyStorage energyStorage = (IEnergyStorage) tile;	// no, IEnergyReceiver
 
             if (tile instanceof IInventory) {
                 final IInventory inventory = (IInventory) tile;
@@ -35,6 +40,26 @@ public class EnergyUtility {
                     }
                 }
             }
+        }
+        else if(tile instanceof TileProducer){
+        	final IEnergyStorage energyStorage = ((TileProducer)tile).getEnergyStorage();	// tile's capacitor
+        	if(tile instanceof IInventory) {
+                final IInventory inventory = (IInventory) tile;
+                final ItemStack itemStack = inventory.getStackInSlot(slot);
+                if (itemStack != null && energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
+                    final Item item = itemStack.getItem();
+
+                    if (item instanceof IEnergyContainerItem) {
+                        final IEnergyContainerItem itemEnergyContainer = (IEnergyContainerItem) item; // battery
+
+                        if (canBeDischarged(itemStack)) {
+                            int needed = Math.round(Math.min(Integer.MAX_VALUE, (energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored())));
+                            energyStorage.receiveEnergy(itemEnergyContainer.extractEnergy(itemStack, needed, false), false);
+                        }
+                    }
+                }
+
+        	}
         }
     }
 
