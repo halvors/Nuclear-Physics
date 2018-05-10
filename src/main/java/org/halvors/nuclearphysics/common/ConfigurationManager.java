@@ -15,8 +15,10 @@ public class ConfigurationManager {
         public static EnumTemperatureUnit temperatureUnit;
         public static double toTesla;
         public static double toJoule;
+        public static double toIC2;
         public static double fromTesla;
         public static double fromJoules;
+        public static double fromIC2;
 
         public static boolean enableAntimatterPower;
         public static boolean enableBoilingOfWaterBlocks;
@@ -51,8 +53,10 @@ public class ConfigurationManager {
         General.temperatureUnit = EnumTemperatureUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "temperatureUnit", EnumTemperatureUnit.KELVIN.getSymbol(), null, EnumTemperatureUnit.getSymbols().toArray(new String[EnumTemperatureUnit.values().length])).getString());
         General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "toTesla", 1).getDouble();
         General.toJoule = configuration.get(Configuration.CATEGORY_GENERAL, "toJoule", 0.4).getDouble();
+        General.toIC2 = configuration.get(Configuration.CATEGORY_GENERAL, "toIC2", 4).getDouble();
         General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "fromTesla", 1).getDouble();
         General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "fromJoules", 2.5).getDouble();
+        General.fromIC2 = configuration.get(Configuration.CATEGORY_GENERAL, "fromIC2", 0.25).getDouble();
 
         General.enableAntimatterPower = configuration.get(Configuration.CATEGORY_GENERAL, "enableAntimatterPower", true).getBoolean();
         General.enableBoilingOfWaterBlocks = configuration.get(Configuration.CATEGORY_GENERAL, "enableBoilingOfWaterBlocks", true).getBoolean();

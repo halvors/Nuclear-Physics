@@ -12,6 +12,9 @@ public class UnitDisplay {
 
             case JOULE:
                 return UnitDisplay.getDisplayShort(energy * General.toJoule, unit);
+
+            case ELECTRICAL_UNITS:
+                return UnitDisplay.getDisplayShort(energy * General.toIC2, unit);
         }
 
         return getDisplayShort(energy, unit);

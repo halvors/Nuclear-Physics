@@ -2,11 +2,13 @@ package org.halvors.nuclearphysics.common.utility;
 
 import cofh.api.energy.IEnergyContainerItem;
 import cofh.api.energy.IEnergyReceiver;
-import cofh.api.energy.IEnergyStorage;
+import ic2.api.item.ElectricItem;
+import ic2.api.item.IElectricItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 
 public class EnergyUtility {
     /**
@@ -32,6 +34,16 @@ public class EnergyUtility {
                         if (energyReceiver.receiveEnergy(null, itemEnergyContainer.extractEnergy(itemStack, needed, true), true) > 0) {
                             energyReceiver.receiveEnergy(null, itemEnergyContainer.extractEnergy(itemStack, needed, false), false);
                         }
+                    } else if (item instanceof IElectricItem) {
+                        final IElectricItem electricItem = (IElectricItem) item;
+
+                        if (electricItem.canProvideEnergy(itemStack)) {
+                            final int needed = (int) ((energyReceiver.getMaxEnergyStored(null) - energyReceiver.getEnergyStored(null)) * General.toIC2);
+
+                            if (energyReceiver.receiveEnergy(null, (int) (ElectricItem.manager.discharge(itemStack, needed, 4, true, true, true) * General.fromIC2), true) > 0) {
+                                energyReceiver.receiveEnergy(null, (int) (ElectricItem.manager.discharge(itemStack, needed, 4, true, true, false) * General.fromIC2), false);
+                            }
+                        }
                     }
                 }
             }
@@ -47,7 +59,8 @@ public class EnergyUtility {
         if (itemStack != null) {
             final Item item = itemStack.getItem();
 
-            return item instanceof IEnergyContainerItem && ((IEnergyContainerItem) item).extractEnergy(itemStack, 1, true) > 0;
+            return item instanceof IEnergyContainerItem && ((IEnergyContainerItem) item).extractEnergy(itemStack, 1, true) > 0 ||
+                   item instanceof IElectricItem && ((IElectricItem) item).canProvideEnergy(itemStack);
         }
 
         return false;

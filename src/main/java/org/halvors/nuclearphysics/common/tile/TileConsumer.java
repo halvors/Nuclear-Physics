@@ -2,14 +2,17 @@ package org.halvors.nuclearphysics.common.tile;
 
 import cofh.api.energy.IEnergyReceiver;
 import cofh.api.energy.IEnergyStorage;
+import ic2.api.energy.tile.IEnergySink;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 
 import java.util.List;
 
-public class TileConsumer extends TileRotatable implements IEnergyReceiver {
+public class TileConsumer extends TileRotatable implements IEnergyReceiver, IEnergySink {
     protected EnergyStorage energyStorage;
 
     public TileConsumer() {
@@ -80,5 +83,27 @@ public class TileConsumer extends TileRotatable implements IEnergyReceiver {
 
     public IEnergyStorage getEnergyStorage() {
         return energyStorage;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public double getDemandedEnergy() {
+        return (energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()) * General.toIC2;
+    }
+
+    @Override
+    public int getSinkTier() {
+        return 4;
+    }
+
+    @Override
+    public double injectEnergy(ForgeDirection from, double amount, double voltage) {
+        return receiveEnergy(from, (int) (amount * General.fromIC2), false);
+    }
+
+    @Override
+    public boolean acceptsEnergyFrom(TileEntity tile, ForgeDirection from) {
+        return canConnectEnergy(from);
     }
 }
