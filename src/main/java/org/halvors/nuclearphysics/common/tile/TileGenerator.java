@@ -193,6 +193,6 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     @Override
     @Method(modid = Integration.IC2_ID)
     public boolean emitsEnergyTo(TileEntity tile, ForgeDirection from) {
-        return canConnectEnergy(from);
+        return true; //canConnectEnergy(from);
     }
 }

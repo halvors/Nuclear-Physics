@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.common.utility;
 
 import buildcraft.api.tools.IToolWrench;
 import cofh.api.item.IToolHammer;
-import cpw.mods.fml.common.Loader;
 import mekanism.api.IMekWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

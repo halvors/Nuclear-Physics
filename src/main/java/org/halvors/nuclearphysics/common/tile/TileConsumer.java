@@ -112,6 +112,6 @@ public class TileConsumer extends TileRotatable implements IEnergyReceiver, IEne
     @Override
     @Method(modid = Integration.IC2_ID)
     public boolean acceptsEnergyFrom(TileEntity tile, ForgeDirection from) {
-        return canConnectEnergy(from);
+        return true; //canConnectEnergy(from);
     }
 }
