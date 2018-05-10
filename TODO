@@ -1,18 +1,8 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 Port bugs:
     - Machine blocks have incorrect light in GUI?
-    - Fix powering machines with batteries not working.
     - Fluid level in machines seems to be not syncing properly with client.
     - Fluid slot in machine is somehow merging stacks.
-    - Particle Accelerator block is not rendering.
-=======
-Code cleanup:
-    Continue upwards from "container" package under common.
->>>>>>> 1.10.2
 
-=======
->>>>>>> 1.10.2
 Known bugs:
     Before Beta release:
         - Verify that it's possible to output 1g anitmatter cells.
