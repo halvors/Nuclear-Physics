@@ -21,11 +21,11 @@ public class EnergyUtility {
                 final IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
                 final ItemStack itemStack = inventory.getStackInSlot(slot);
 
-                if (itemStack != null && energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
+                if (canBeDischarged(itemStack)) {
                     if (itemStack.hasCapability(CapabilityEnergy.ENERGY, null)) {
                         final IEnergyStorage itemEnergyStorage = itemStack.getCapability(CapabilityEnergy.ENERGY, null);
 
-                        if (itemEnergyStorage.canExtract()) {
+                        if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
                             final int needed = Math.round(Math.min(Integer.MAX_VALUE, (energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored())));
 
                             energyStorage.receiveEnergy(itemEnergyStorage.extractEnergy(needed, false), false);
@@ -42,6 +42,6 @@ public class EnergyUtility {
      * @return if the ItemStack can be discharged
      */
     public static boolean canBeDischarged(final ItemStack itemStack) {
-        return itemStack.hasCapability(CapabilityEnergy.ENERGY, null) && itemStack.getCapability(CapabilityEnergy.ENERGY, null).canExtract();
+        return itemStack != null && itemStack.hasCapability(CapabilityEnergy.ENERGY, null) && itemStack.getCapability(CapabilityEnergy.ENERGY, null).canExtract();
     }
 }
