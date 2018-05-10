@@ -12,6 +12,7 @@ public class ThermoPhysics {
     public static final double WATER_BOIL_TEMPERATURE = 373.15;
 
     public static final double LATENT_HEAT_EVAPORATION_WATER = 2257 * Math.pow(10, 3);
+    public static final double LATENT_HEAT_MELTING_ICE = 334 * Math.pow(10, 3);
 
     /**
      * Temperature: 0.5f = 22C
@@ -29,8 +30,6 @@ public class ThermoPhysics {
 
     /**
      * Gets the mass of an object from volume and density.
-     *
-     * Mass (kg) = Volume (Cubic Meters) * Densitry (kg/m-cubed)
      *
      * Formula: m = ρ * V
      *
@@ -57,20 +56,20 @@ public class ThermoPhysics {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Q = cmT
+     * Formula: Q = cmΔT
      *
-     * @param mass                 - in kg
      * @param specificHeatCapacity - in J/kg*K
-     * @param temperature          - in K
+     * @param mass                 - in kg
+     * @param deltaTemperature     - in K
      *
      * @return Q, energy in joules (J)
      */
-    public static double getEnergyForTemperatureChange(final double mass, final double specificHeatCapacity, final double temperature) {
-        return mass * specificHeatCapacity * temperature;
+    public static double getEnergyForTemperatureChange(final double specificHeatCapacity, final double mass, final double deltaTemperature) {
+        return specificHeatCapacity * mass * deltaTemperature;
     }
 
     /**
-     * Q = mL
+     * Formula: Q = mL
      *
      * @param mass               - in kg
      * @param latentHeatCapacity - in J/kg
@@ -81,24 +80,24 @@ public class ThermoPhysics {
         return mass * latentHeatCapacity;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////,
 
     /**
-     * Q = cmT + mL
+     * Formula: Q = cmΔT + mL
      *
      * @param world - world this happens in
      * @param x - coordinate of block
      * @param z - coordinate of block
      * @param volume - in liters
      *
-     * @return The required energy to boil volume of water into steam in joules
+     * @return Q, The required energy to boil volume of water into steam in joules
      */
     public static double getRequiredBoilWaterEnergy(World world, int x, int z, int volume) {
-        double temperatureChange = WATER_BOIL_TEMPERATURE - getDefaultTemperature(world, new BlockPos(x, 0, z));
-        double mass = getMass(new FluidStack(FluidRegistry.WATER, volume));
-        int specificHeatCapacity = ThermalProperties.getSpecificHeatCapacity(Blocks.WATER);
+        final double deltaTemperature = WATER_BOIL_TEMPERATURE - getDefaultTemperature(world, new BlockPos(x, 0, z));
+        final double mass = getMass(new FluidStack(FluidRegistry.WATER, volume));
+        final int specificHeatCapacity = ThermalProperties.getSpecificHeatCapacity(Blocks.WATER);
 
-        return getEnergyForTemperatureChange(mass, specificHeatCapacity, temperatureChange) + getEnergyForStateChange(mass, LATENT_HEAT_EVAPORATION_WATER);
+        return getEnergyForTemperatureChange(mass, specificHeatCapacity, deltaTemperature) + getEnergyForStateChange(mass, LATENT_HEAT_EVAPORATION_WATER);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
