@@ -5,6 +5,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
+
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
@@ -59,7 +61,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
         super.updateEntity();
 
         if (!worldObj.isRemote) {
-            if (getInputTank() != null) {
+            if (getInputTank() != null) {	// if tank presents
                 fillOrDrainTank(tankInputFillSlot, tankInputDrainSlot, getInputTank());
             }
 
@@ -130,16 +132,38 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     public void fillOrDrainTank(final int containerInput, final int containerOutput, final FluidTank tank) {
         final ItemStack itemStackInput = getStackInSlot(containerInput);
         final ItemStack itemStackOutput = getStackInSlot(containerOutput);
+        final IFluidContainerItem fluidContainerItem;
 
         if (itemStackInput != null) {
             if (FluidUtility.isFilledContainer(itemStackInput)) {
-                final FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStackInput);
-                final ItemStack result = itemStackInput.getItem().getContainerItem(itemStackInput);
+                FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStackInput);
 
-                if (result != null && tank.fill(fluidStack, false) >= fluidStack.amount && (itemStackOutput == null || result.isItemEqual(itemStackOutput))) {
-                    tank.fill(fluidStack, true);
-                    decrStackSize(containerInput, 1);
-                    incrStackSize(containerOutput, result);
+                //*** Mekanism tanks begin 
+                if(fluidStack == null) {
+                	fluidContainerItem = (IFluidContainerItem)itemStackInput.getItem();
+                	fluidStack = fluidContainerItem.getFluid(itemStackInput);
+                	ItemStack fluidCont = itemStackInput.getItem().getContainerItem(itemStackInput);
+                	if(fluidCont == null) {
+                		// 
+                		int amount = Math.min(fluidStack.amount, tank.fill(fluidStack, false));
+                		tank.fill(fluidContainerItem.drain(itemStackInput, amount, true), true);
+                		FluidStack fs_tmp = fluidContainerItem.getFluid(itemStackInput);
+                		if(fs_tmp == null) {
+                			ItemStack empty = itemStackInput.copy();
+                			decrStackSize(containerInput, 1);
+                			incrStackSize(containerOutput, empty); // move empty tank to lower slot
+                		}
+                	}
+                }
+                //*** Mekanism tanks end
+                else {
+                	final ItemStack result = itemStackInput.getItem().getContainerItem(itemStackInput);
+
+                	if (result != null && tank.fill(fluidStack, false) >= fluidStack.amount && (itemStackOutput == null || result.isItemEqual(itemStackOutput))) {
+                		tank.fill(fluidStack, true);
+                		decrStackSize(containerInput, 1);
+                		incrStackSize(containerOutput, result);
+                	}
                 }
             } else if (FluidUtility.isEmptyContainer(itemStackInput)) {
                 final FluidStack avaliable = tank.getFluid();
