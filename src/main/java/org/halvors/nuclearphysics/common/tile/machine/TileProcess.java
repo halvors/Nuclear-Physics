@@ -138,7 +138,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
             if (FluidUtility.isFilledContainer(itemStackInput)) {
                 FluidStack fluidStack = FluidContainerRegistry.getFluidForFilledItem(itemStackInput);
 
-                //*** Mekanism tanks begin
+                //*** Mekanism tanks begin 
                 if(fluidStack == null) {
                 	fluidContainerItem = (IFluidContainerItem)itemStackInput.getItem();
                 	fluidStack = fluidContainerItem.getFluid(itemStackInput);
