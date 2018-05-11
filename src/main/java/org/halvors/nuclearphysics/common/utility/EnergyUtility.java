@@ -1,11 +1,16 @@
 package org.halvors.nuclearphysics.common.utility;
 
+import ic2.api.item.ElectricItem;
+import ic2.api.item.IElectricItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
+import org.halvors.nuclearphysics.common.Integration;
 
 public class EnergyUtility {
     /**
@@ -21,15 +26,18 @@ public class EnergyUtility {
                 final IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
                 final ItemStack itemStack = inventory.getStackInSlot(slot);
 
-                if (canBeDischarged(itemStack)) {
+                if (canBeDischarged(itemStack) && energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
+                    final Item item = itemStack.getItem();
+
                     if (itemStack.hasCapability(CapabilityEnergy.ENERGY, null)) {
                         final IEnergyStorage itemEnergyStorage = itemStack.getCapability(CapabilityEnergy.ENERGY, null);
+                        final int needed = Math.round(Math.min(Integer.MAX_VALUE, (energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored())));
 
-                        if (energyStorage.getEnergyStored() < energyStorage.getMaxEnergyStored()) {
-                            final int needed = Math.round(Math.min(Integer.MAX_VALUE, (energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored())));
+                        energyStorage.receiveEnergy(itemEnergyStorage.extractEnergy(needed, false), false);
+                    } else if (Integration.isIC2Loaded && item instanceof IElectricItem) {
+                        final int needed = (int) ((energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()) * General.toIC2);
 
-                            energyStorage.receiveEnergy(itemEnergyStorage.extractEnergy(needed, false), false);
-                        }
+                        energyStorage.receiveEnergy((int) (ElectricItem.manager.discharge(itemStack, needed, 4, true, true, false) * General.fromIC2), false);
                     }
                 }
             }
@@ -42,6 +50,13 @@ public class EnergyUtility {
      * @return if the ItemStack can be discharged
      */
     public static boolean canBeDischarged(final ItemStack itemStack) {
-        return itemStack != null && itemStack.hasCapability(CapabilityEnergy.ENERGY, null) && itemStack.getCapability(CapabilityEnergy.ENERGY, null).canExtract();
+        if (itemStack != null) {
+            final Item item = itemStack.getItem();
+
+            return itemStack.hasCapability(CapabilityEnergy.ENERGY, null) && itemStack.getCapability(CapabilityEnergy.ENERGY, null).canExtract() ||
+                   item instanceof IElectricItem && ((IElectricItem) item).canProvideEnergy(itemStack);
+        }
+
+        return false;
     }
 }

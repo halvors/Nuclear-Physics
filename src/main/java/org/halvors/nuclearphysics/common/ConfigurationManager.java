@@ -13,10 +13,12 @@ public class ConfigurationManager {
     public static class General {
         public static EnumElectricUnit electricUnit;
         public static EnumTemperatureUnit temperatureUnit;
-        public static double toTesla;
         public static double toJoule;
+        public static double fromJoule;
+        public static double toTesla;
         public static double fromTesla;
-        public static double fromJoules;
+        public static double toIC2;
+        public static double fromIC2;
 
         public static boolean enableAntimatterPower;
         public static boolean enableBoilingOfWaterBlocks;
@@ -49,10 +51,12 @@ public class ConfigurationManager {
 
         General.electricUnit = EnumElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", EnumElectricUnit.JOULE.getSymbol(), null, EnumElectricUnit.getSymbols().toArray(new String[EnumElectricUnit.values().length])).getString());
         General.temperatureUnit = EnumTemperatureUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "temperatureUnit", EnumTemperatureUnit.KELVIN.getSymbol(), null, EnumTemperatureUnit.getSymbols().toArray(new String[EnumTemperatureUnit.values().length])).getString());
-        General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "toTesla", 1).getDouble();
         General.toJoule = configuration.get(Configuration.CATEGORY_GENERAL, "toJoule", 0.4).getDouble();
+        General.fromJoule = configuration.get(Configuration.CATEGORY_GENERAL, "fromJoule", 2.5).getDouble();
+        General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "toTesla", 1).getDouble();
         General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "fromTesla", 1).getDouble();
-        General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "fromJoules", 2.5).getDouble();
+        General.toIC2 = configuration.get(Configuration.CATEGORY_GENERAL, "toIC2", 4).getDouble();
+        General.fromIC2 = configuration.get(Configuration.CATEGORY_GENERAL, "fromIC2", 0.25).getDouble();
 
         General.enableAntimatterPower = configuration.get(Configuration.CATEGORY_GENERAL, "enableAntimatterPower", true).getBoolean();
         General.enableBoilingOfWaterBlocks = configuration.get(Configuration.CATEGORY_GENERAL, "enableBoilingOfWaterBlocks", true).getBoolean();
@@ -89,10 +93,12 @@ public class ConfigurationManager {
     public static void readConfiguration(final ByteBuf dataStream) {
         General.electricUnit = EnumElectricUnit.values()[dataStream.readInt()];
         General.temperatureUnit = EnumTemperatureUnit.values()[dataStream.readInt()];
-        General.toTesla = dataStream.readDouble();
         General.toJoule = dataStream.readDouble();
+        General.fromJoule = dataStream.readDouble();
+        General.toTesla = dataStream.readDouble();
         General.fromTesla = dataStream.readDouble();
-        General.fromJoules = dataStream.readDouble();
+        General.toIC2 = dataStream.readDouble();
+        General.fromIC2 = dataStream.readDouble();
 
         General.enableAntimatterPower = dataStream.readBoolean();
         General.enableBoilingOfWaterBlocks = dataStream.readBoolean();
@@ -125,10 +131,12 @@ public class ConfigurationManager {
 
         objects.add(General.electricUnit.ordinal());
         objects.add(General.temperatureUnit.ordinal());
-        objects.add(General.toTesla);
         objects.add(General.toJoule);
+        objects.add(General.fromJoule);
+        objects.add(General.toTesla);
         objects.add(General.fromTesla);
-        objects.add(General.fromJoules);
+        objects.add(General.toIC2);
+        objects.add(General.fromIC2);
 
         objects.add(General.enableAntimatterPower);
         objects.add(General.enableBoilingOfWaterBlocks);
