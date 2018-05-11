@@ -1,21 +1,18 @@
 package org.halvors.nuclearphysics.common.tile;
 
-import ic2.api.energy.tile.IEnergyEmitter;
-import ic2.api.energy.tile.IEnergySink;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
-import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TileConsumer extends TileRotatable implements IEnergySink {
+public class TileConsumer extends TileRotatable {
     private static final String NBT_STORED_ENERGY = "storedEnergy";
 
     protected EnergyStorage energyStorage;
@@ -84,27 +81,5 @@ public class TileConsumer extends TileRotatable implements IEnergySink {
 
     public IEnergyStorage getEnergyStorage() {
         return energyStorage;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public double getDemandedEnergy() {
-        return (energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored()) * General.toIC2;
-    }
-
-    @Override
-    public int getSinkTier() {
-        return 4;
-    }
-
-    @Override
-    public double injectEnergy(EnumFacing from, double amount, double voltage) {
-        return energyStorage.receiveEnergy((int) (amount * General.fromIC2), false);
-    }
-
-    @Override
-    public boolean acceptsEnergyFrom(IEnergyEmitter iEnergyEmitter, EnumFacing enumFacing) {
-        return true;
     }
 }

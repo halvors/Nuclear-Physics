@@ -1,7 +1,5 @@
 package org.halvors.nuclearphysics.common.tile;
 
-import ic2.api.energy.tile.IEnergyAcceptor;
-import ic2.api.energy.tile.IEnergySource;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -11,14 +9,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
-import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class TileGenerator extends TileBase implements ITickable, ITileNetwork, IEnergySource {
+public class TileGenerator extends TileBase implements ITickable, ITileNetwork {
     private static final String NBT_STORED_ENERGY = "storedEnergy";
 
     private final List<BlockPos> targets = new ArrayList<>();
@@ -97,7 +94,7 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    
     public EnumSet<EnumFacing> getExtractingDirections() {
         return EnumSet.noneOf(EnumFacing.class);
     }
@@ -158,23 +155,5 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public double getOfferedEnergy() {
-        return energyStorage.getEnergyStored() * General.toIC2;
-    }
 
-    @Override
-    public void drawEnergy(double amount) {
-        energyStorage.extractEnergy((int) (amount * General.fromIC2), false);
-    }
-
-    @Override
-    public int getSourceTier() {
-        return 4;
-    }
-
-    @Override
-    public boolean emitsEnergyTo(IEnergyAcceptor energyAcceptor, EnumFacing from) {
-        return getExtractingDirections().contains(from);
-    }
 }

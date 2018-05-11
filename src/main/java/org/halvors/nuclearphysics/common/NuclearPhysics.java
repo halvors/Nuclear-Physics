@@ -27,7 +27,7 @@ import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 @Mod(modid = Reference.ID,
      name = Reference.NAME,
      version = Reference.VERSION,
-	 dependencies = "after:" + Integration.BUILDCRAFT_CORE_ID + ";after:" + Integration.COFH_CORE_ID + ";after:" + Integration.IC2_ID + ";after:" + Integration.MEKANISM_ID,
+	 dependencies = "after:" + Integration.BUILDCRAFT_CORE_ID + ";after:" + Integration.COFH_CORE_ID + ";after:" + Integration.MEKANISM_ID,
 	 guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
 public class NuclearPhysics {
 	// The instance of your mod that Forge uses.
