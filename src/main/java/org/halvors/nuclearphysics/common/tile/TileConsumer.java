@@ -9,10 +9,10 @@ import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 
 import java.util.List;
 
-public class TileProducer extends TileRotatable implements IEnergyReceiver {
+public class TileConsumer extends TileRotatable implements IEnergyReceiver {
     protected EnergyStorage energyStorage;
 
-    public TileProducer() {
+    public TileConsumer() {
 
     }
 
