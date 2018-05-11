@@ -11,7 +11,7 @@ import org.halvors.nuclearphysics.common.utility.RedstoneUtility;
 
 import java.util.List;
 
-public class TileMachine extends TileProducer implements ITileRedstoneControl {
+public class TileMachine extends TileConsumer implements ITileRedstoneControl {
     private static final String NBT_OPERATING_TICKS = "operatingTicks";
     private static final String NBT_REDSTONE = "redstone";
     private static final String NBT_REDSTONE_CONTROL = "redstoneControl";
