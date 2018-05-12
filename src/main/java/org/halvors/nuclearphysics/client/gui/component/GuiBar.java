@@ -7,7 +7,6 @@ import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.science.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.type.EnumResource;
-import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.awt.*;
@@ -27,8 +26,8 @@ public class GuiBar extends GuiComponent {
     public GuiBar(final IEnergyStorage energyStorage, final IGuiWrapper gui, final int x, final int y) {
         this(new IBarInfoHandler() {
             @Override
-            public int getLevel() {
-                return energyStorage.getEnergyStored() / energyStorage.getMaxEnergyStored();
+            public double getLevel() {
+                return 0.1; //energyStorage.getEnergyStored() / energyStorage.getMaxEnergyStored();
             }
 
             @Override
@@ -49,21 +48,35 @@ public class GuiBar extends GuiComponent {
 
         gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.getTextureX(), type.getTextureY(), type.getWidth(), type.getHeight());
 
-        final int scale = barInfoHandler.getLevel() * type.getWidth();
+        if (type.isHorizontal()) {
+            final double scale = barInfoHandler.getLevel() * type.getWidth();
 
-        if (scale > 0) {
-            RenderUtility.bindTexture(resource);
+            if (scale > 0) {
+                RenderUtility.bindTexture(resource);
+                
+                gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.getTextureX() + type.getWidth(), type.getTextureY(), 1, type.getHeight());
+            }
+        } else {
+            final double level = barInfoHandler.getLevel();
 
-            gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.getTextureX() + type.getWidth(), type.getTextureY(), scale, type.getHeight());
+            if (level > 0) {
+                int displayInt = (int) (level * 52) + 2;
+
+                gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation + type.getHeight() - displayInt, type.getWidth(), type.getHeight() - displayInt, type.getWidth(), displayInt);
+            }
         }
+
+        RenderUtility.bindTexture(resource);
     }
 
     @Override
     public void renderForeground(final int xAxis, final int yAxis) {
         RenderUtility.bindTexture(resource);
 
-        if (barInfoHandler.getTooltip() != null && xAxis >= xLocation && xAxis <= xLocation + type.getWidth() && yAxis >= yLocation && yAxis <= yLocation + type.getHeight()) {
-            displayTooltip(barInfoHandler.getTooltip(), xAxis, yAxis);
+        final String tooltip = barInfoHandler.getTooltip();
+
+        if (tooltip != null && !tooltip.isEmpty() && xAxis >= xLocation && xAxis <= xLocation + type.getWidth() && yAxis >= yLocation && yAxis <= yLocation + type.getHeight()) {
+            displayTooltip(tooltip, xAxis, yAxis);
         }
 
         RenderUtility.bindTexture(resource);
@@ -98,18 +111,24 @@ public class GuiBar extends GuiComponent {
         TEMPERATURE(64, 11, 0, 0),
         TIMER(64, 11, 0, 11),
         PROGRESS(22, 16, 0, 22),
-        POWER(6, 49, 0, 38);
+        POWER(6, 49, 0, 38, false);
 
         private final int width;
         private final int height;
         private final int textureX;
         private final int textureY;
+        private boolean horizontal;
 
-        EnumBarType(int w, int h, int x, int y) {
-            this.width = w;
-            this.height = h;
+        EnumBarType(final int width, final int height, final int x, final int y, final boolean horizontal) {
+            this.width = width;
+            this.height = height;
             this.textureX = x;
             this.textureY = y;
+            this.horizontal = horizontal;
+        }
+
+        EnumBarType(final int width, final int height, final int x, final int y) {
+            this(width, height, x, y, true);
         }
 
         public int getWidth() {
@@ -126,6 +145,10 @@ public class GuiBar extends GuiComponent {
 
         public int getTextureY() {
             return textureY;
+        }
+
+        public boolean isHorizontal() {
+            return horizontal;
         }
     }
 }
