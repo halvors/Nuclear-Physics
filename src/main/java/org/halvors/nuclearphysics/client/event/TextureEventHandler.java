@@ -25,7 +25,6 @@ public class TextureEventHandler {
 
     private static final ResourceLocation ELECTRIC_TURBINE_LARGE = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "electric_turbine_large");
     private static final ResourceLocation REACTOR_FISSILE_MATERIAL = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "reactor_fissile_material");
-    private static final ResourceLocation ENERGY = ResourceUtility.getResource(EnumResource.TEXTURE_MODELS, "energy");
 
     @SubscribeEvent
     public static void onPreTextureStitchEvent(final TextureStitchEvent.Pre event) {
@@ -33,7 +32,6 @@ public class TextureEventHandler {
 
         TEXTURE_MAP.put("electric_turbine_large", map.registerSprite(ELECTRIC_TURBINE_LARGE));
         TEXTURE_MAP.put("reactor_fissile_material", map.registerSprite(REACTOR_FISSILE_MATERIAL));
-        TEXTURE_MAP.put("energy", map.registerSprite(ENERGY));
     }
 
     @SubscribeEvent
