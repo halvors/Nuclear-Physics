@@ -4,11 +4,15 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.container.slot.SlotEnergyItem;
 import org.halvors.nuclearphysics.common.container.slot.SlotSpecific;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContainerChemicalExtractor extends ContainerBase<TileChemicalExtractor> {
     public ContainerChemicalExtractor(final InventoryPlayer inventoryPlayer, final TileChemicalExtractor tile) {
@@ -16,6 +20,9 @@ public class ContainerChemicalExtractor extends ContainerBase<TileChemicalExtrac
 
         // Battery
         addSlotToContainer(new SlotEnergyItem(tile, 0, 80, 50));
+        
+        // Yellowcake Input
+        addSlotToContainer(new SlotSpecific(tile, 1, 81, 26, OreDictionary.getOres("oreUranium").toArray(new ItemStack[0])));
 
         // Process Input (Uranium)
         addSlotToContainer(new SlotSpecific(tile, 1, 53, 25, new ItemStack(ModBlocks.blockUraniumOre)));
