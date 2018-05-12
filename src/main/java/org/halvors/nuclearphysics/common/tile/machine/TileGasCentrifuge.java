@@ -3,9 +3,8 @@ package org.halvors.nuclearphysics.common.tile.machine;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.*;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
@@ -20,7 +19,7 @@ import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 
 import java.util.List;
 
-public class TileGasCentrifuge extends TileInventoryMachine {
+public class TileGasCentrifuge extends TileInventoryMachine implements IFluidHandler {
     private static final String NBT_TANK = "tank";
     private static final int ENERGY_PER_TICK = 20000;
     public static final int TICKS_REQUIRED = 60 * 20;
@@ -120,12 +119,6 @@ public class TileGasCentrifuge extends TileInventoryMachine {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public IFluidTank getTank() {
-        return tank;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
         switch (slot) {
@@ -162,6 +155,48 @@ public class TileGasCentrifuge extends TileInventoryMachine {
         return slot == 2 || slot == 3;
     }
     */
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        if (resource != null && canFill(from, resource.getFluid())) {
+            return tank.fill(resource, doFill);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+        return null;
+    }
+
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+        return null;
+    }
+
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
+        return fluid.getID() == ModFluids.uraniumHexaflouride.getID();
+    }
+
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        return false;
+    }
+
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+        return new FluidTankInfo[] { tank.getInfo() };
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public IFluidTank getTank() {
+        return tank;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

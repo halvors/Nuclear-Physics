@@ -92,7 +92,7 @@ public class TileNuclearBoiler extends TileProcess {
 
     @Override
     public boolean canFill(final ForgeDirection from, final Fluid fluid) {
-        return fluid.getID() == ModFluids.fluidStackWater.getFluidID();
+        return fluid.getID() == FluidRegistry.WATER.getID();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
