@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class TileGenerator extends TileBase implements ITickable, ITileNetwork, IEnergyStorage {
+public class TileGenerator extends TileBase implements ITickable, ITileNetwork {
     private static final String NBT_STORED_ENERGY = "storedEnergy";
 
     private final List<BlockPos> targets = new ArrayList<>();
@@ -94,39 +94,7 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public int receiveEnergy(final int maxReceive, final boolean simulate) {
-        return 0;
-    }
-
-    @Override
-    public int extractEnergy(final int maxExtract, final boolean simulate) {
-        return energyStorage.extractEnergy(maxExtract, simulate);
-    }
-
-    @Override
-    public int getEnergyStored() {
-        return energyStorage.getEnergyStored();
-    }
-
-    @Override
-    public int getMaxEnergyStored() {
-        return energyStorage.getMaxEnergyStored();
-    }
-
-    @Override
-    public boolean canExtract() {
-        return energyStorage.canExtract();
-    }
-
-    @Override
-    public boolean canReceive() {
-        return energyStorage.canReceive();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    
     public EnumSet<EnumFacing> getExtractingDirections() {
         return EnumSet.noneOf(EnumFacing.class);
     }
@@ -184,4 +152,8 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork, 
     public IEnergyStorage getEnergyStorage() {
         return energyStorage;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 }

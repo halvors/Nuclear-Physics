@@ -131,12 +131,12 @@ public class ModRecipes {
                 }
             }
 
-            // Add RECIPES for all items in this mod.
+            // Add recipes for all items in this mod.
             for (Item item : ModItems.items) {
                 QuantumAssemblerRecipes.addRecipe(new ItemStack(item));
             }
 
-            // Add RECIPES for all blocks in this mod.
+            // Add recipes for all blocks in this mod.
             for (ItemBlock itemBlock : ModBlocks.itemBlocks) {
                 QuantumAssemblerRecipes.addRecipe(new ItemStack(itemBlock));
             }

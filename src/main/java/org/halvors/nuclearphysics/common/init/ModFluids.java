@@ -24,12 +24,12 @@ import java.util.function.Function;
 
 public class ModFluids {
     /**
-     * The FLUIDS registered by this mod. Includes FLUIDS that were already registered by another mod.
+     * The FLUIDS registered by this mod. Includes fluids that were already registered by another mod.
      */
     public static final Set<Fluid> FLUIDS = new HashSet<>();
 
     /**
-     * The fluid blocks from this mod only. Doesn't include blocks for FLUIDS that were already registered by another mod.
+     * The fluid blocks from this mod only. Doesn't include blocks for fluids that were already registered by another mod.
      */
     public static final Set<IFluidBlock> FLUID_BLOCKS = new HashSet<>();
 

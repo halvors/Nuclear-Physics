@@ -49,7 +49,7 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
             fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 35 + i * 9, 0x404040);
         }
 
-        fontRendererObj.drawString(LanguageUtility.transelate("gui.RADIUS") + ": ", (xSize / 2) - 80, (ySize / 2) - 28, 0x404040);
+        fontRendererObj.drawString(LanguageUtility.transelate("gui.radius") + ": ", (xSize / 2) - 80, (ySize / 2) - 28, 0x404040);
         textFieldSize.drawTextBox();
 
         buttonList.get(0).displayString = LanguageUtility.transelate(BlockCreativeBuilder.getSchematic(mode).getName());
