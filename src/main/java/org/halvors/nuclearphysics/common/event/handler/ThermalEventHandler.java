@@ -81,19 +81,19 @@ public class ThermalEventHandler {
         final Block block = world.getBlock(x, y, z);
 
         if (!event.isCanceled()) {	// ??? and if not?
+        	block.setBlockUnbreakable();
+        	if(block.getBlockHardness(world, x, y, z)== -1.0F) event.setCanceled(true);
+        	/*
             if (block == Blocks.bedrock ||
                 block == Blocks.iron_block) {
                 event.setCanceled(true);
             }
-
+			*/
             final TileEntity tile = world.getTileEntity(x, y, z);
 
             if (tile instanceof IElectromagnet) {
                 event.setCanceled(true);
             }
-        }
-        if(!event.isCanceled()) {
-        	world.setBlock(x, y, z, ModFluids.plasma.getBlock());
         }
     }
 

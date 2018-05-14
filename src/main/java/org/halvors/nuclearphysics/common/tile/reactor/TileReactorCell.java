@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -102,20 +103,36 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
         if (!worldObj.isRemote) {
             final FluidStack fluidStack = tank.getFluid();
 
-            if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
+            if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {  // in case of fusion
+
                 // Spawn plasma.
                 final FluidStack drain = tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false);
 
                 if (drain != null && drain.amount >= FluidContainerRegistry.BUCKET_VOLUME) {
+
                     final ForgeDirection spawnDir = ForgeDirection.getOrientation(worldObj.rand.nextInt(3) + 2);
                     final Position spawnPos = new Position(this).offset(spawnDir, 2);
 
                     if (worldObj.isAirBlock(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ())) {
-                        MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(worldObj, spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ(), TilePlasma.PLASMA_MAX_TEMPERATURE));
+                    	PlasmaSpawnEvent event = new PlasmaSpawnEvent(worldObj, spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ(), TilePlasma.PLASMA_MAX_TEMPERATURE);
+                        MinecraftForge.EVENT_BUS.post(event);
                         tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+                        if(!event.isCanceled()) {
+                        	worldObj.setBlock(event.getX(), event.getY(), event.getZ(), ModFluids.plasma.getBlock());
+                        }
+                    }
+                    else {
+                    	TileEntity te = worldObj.getTileEntity(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ());
+                    	if(te instanceof TilePlasma) {
+                    		// do boost
+                    		if(TilePlasma.PLASMA_MAX_TEMPERATURE - ((TilePlasma)te).getTemperature() > 100000) {
+                    			((TilePlasma)te).setTemperature(((TilePlasma)te).getTemperature()+ 100000);
+                    			tank.drain(100, true);
+                    		}
+                    	}
                     }
                 }
-            } else {
+            } else {	// in case of nuclear reactor
                 previousInternalEnergy = internalEnergy;
 
                 // Handle cell rod interactions.

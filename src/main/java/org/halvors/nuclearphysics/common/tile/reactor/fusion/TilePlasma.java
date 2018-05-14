@@ -4,6 +4,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
@@ -26,6 +28,7 @@ public class TilePlasma extends TileEntity {
 
                 if (temperature <= PLASMA_MAX_TEMPERATURE / 10) {
                     // At this temperature, set block to fire.
+                	// TODO:check first for non-air substrate
                     worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.fire);
                 } else {
                     for (final ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
@@ -40,7 +43,8 @@ public class TilePlasma extends TileEntity {
 
                                 if (!event.isCanceled()) {
                                     // Replacing block with plasma.
-                                    worldObj.setBlock(spreadPos.getIntX(), spreadPos.getIntY(), spreadPos.getIntZ(), ModFluids.plasma.getBlock());
+                                	// secondary spawn will be commented
+                                    //worldObj.setBlock(spreadPos.getIntX(), spreadPos.getIntY(), spreadPos.getIntZ(), ModFluids.plasma.getBlock());
 
                                     // We need to update the tile entity with the one from the plasma block that didn't exist before.
                                     final TileEntity spreadTile = spreadPos.getTileEntity(worldObj);
@@ -68,5 +72,9 @@ public class TilePlasma extends TileEntity {
 
     public void setTemperature(final int temperature) {
         this.temperature = temperature;
+        NuclearPhysics.getLogger().warn("PLASM ["+this.xCoord+";"+this.yCoord+";"+this.zCoord+";"+this.temperature+"]");
+    }
+    public int getTemperature() {
+    	return this.temperature;
     }
 }
