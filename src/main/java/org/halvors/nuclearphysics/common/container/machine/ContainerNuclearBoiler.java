@@ -3,12 +3,14 @@ package org.halvors.nuclearphysics.common.container.machine;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.container.slot.SlotEnergyItem;
 import org.halvors.nuclearphysics.common.container.slot.SlotSpecific;
-import org.halvors.nuclearphysics.common.init.ModBlocks;
-import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContainerNuclearBoiler extends ContainerBase<TileNuclearBoiler> {
     public ContainerNuclearBoiler(final InventoryPlayer inventoryPlayer, final TileNuclearBoiler tile) {
@@ -17,8 +19,12 @@ public class ContainerNuclearBoiler extends ContainerBase<TileNuclearBoiler> {
         // Battery
         addSlotToContainer(new SlotEnergyItem(tile, 0, 56, 26));
 
+        final List<ItemStack> itemStackList = new ArrayList<>();
+        itemStackList.addAll(OreDictionary.getOres("oreUranium"));
+        itemStackList.addAll(OreDictionary.getOres("dustUranium"));
+
         // Yellowcake Input
-        addSlotToContainer(new SlotSpecific(tile, 1, 81, 26, new ItemStack(ModItems.itemYellowCake), new ItemStack(ModBlocks.blockUraniumOre)));
+        addSlotToContainer(new SlotSpecific(tile, 1, 81, 26, itemStackList.toArray(new ItemStack[0])));
 
         // Fluid input fill
         addSlotToContainer(new Slot(tile, 2, 25, 19));

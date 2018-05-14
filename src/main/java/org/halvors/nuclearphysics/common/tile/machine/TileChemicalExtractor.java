@@ -101,7 +101,7 @@ public class TileChemicalExtractor extends TileProcess {
 
     @Override
     public boolean canFill(final ForgeDirection from, final Fluid fluid) {
-        return fluid.getID() == ModFluids.fluidStackWater.getFluidID() || fluid.getID() == ModFluids.fluidStackDeuterium.getFluidID();
+        return fluid.getID() == FluidRegistry.WATER.getID() || fluid.getID() == ModFluids.deuterium.getID();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
