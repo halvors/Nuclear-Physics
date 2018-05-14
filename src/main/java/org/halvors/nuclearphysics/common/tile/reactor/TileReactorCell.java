@@ -110,16 +110,19 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
                 if (drain != null && drain.amount >= FluidContainerRegistry.BUCKET_VOLUME) {
 
-                    final ForgeDirection spawnDir = ForgeDirection.getOrientation(worldObj.rand.nextInt(3) + 2);
+                    final ForgeDirection spawnDir = ForgeDirection.getOrientation(worldObj.rand.nextInt(4) + 2);
                     final Position spawnPos = new Position(this).offset(spawnDir, 2);
 
                     if (worldObj.isAirBlock(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ())) {
                     	PlasmaSpawnEvent event = new PlasmaSpawnEvent(worldObj, spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ(), TilePlasma.PLASMA_MAX_TEMPERATURE);
                         MinecraftForge.EVENT_BUS.post(event);
-                        tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+
                         if(!event.isCanceled()) {
+                        	NuclearPhysics.getLogger().warn("PLASM: spawning at "+event.getX()+";"+event.getY()+";"+event.getZ());
                         	worldObj.setBlock(event.getX(), event.getY(), event.getZ(), ModFluids.plasma.getBlock());
+                            tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                         }
+                        else NuclearPhysics.getLogger().warn("PLASM: event is cancelled");
                     }
                     else {
                     	TileEntity te = worldObj.getTileEntity(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ());

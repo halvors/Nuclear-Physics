@@ -82,13 +82,15 @@ public class ThermalEventHandler {
 
         if (!event.isCanceled()) {	// ??? and if not?
         	block.setBlockUnbreakable();
-        	if(block.getBlockHardness(world, x, y, z)== -1.0F) event.setCanceled(true);
-        	/*
+        	//if(block.getBlockHardness(world, x, y, z)== -1.0F) event.setCanceled(true);	// is AIR hardness is like bedrock?
+        	
             if (block == Blocks.bedrock ||
-                block == Blocks.iron_block) {
+                block == Blocks.iron_block ||
+            	block == Blocks.end_portal_frame ||
+            	block == Blocks.command_block) {
                 event.setCanceled(true);
             }
-			*/
+			
             final TileEntity tile = world.getTileEntity(x, y, z);
 
             if (tile instanceof IElectromagnet) {

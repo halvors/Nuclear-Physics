@@ -43,14 +43,14 @@ public class TilePlasma extends TileEntity {
 
                                 if (!event.isCanceled()) {
                                     // Replacing block with plasma.
-                                	// secondary spawn will be commented
-                                    //worldObj.setBlock(spreadPos.getIntX(), spreadPos.getIntY(), spreadPos.getIntZ(), ModFluids.plasma.getBlock());
+                                	// secondary spawn
+                                    worldObj.setBlock(spreadPos.getIntX(), spreadPos.getIntY(), spreadPos.getIntZ(), ModFluids.plasma.getBlock());
 
                                     // We need to update the tile entity with the one from the plasma block that didn't exist before.
                                     final TileEntity spreadTile = spreadPos.getTileEntity(worldObj);
 
                                     if (spreadTile instanceof TilePlasma) {
-                                        temperature = event.getTemperature();
+                                        temperature = event.getTemperature(); // temp down??
                                     }
                                 }
                             }
