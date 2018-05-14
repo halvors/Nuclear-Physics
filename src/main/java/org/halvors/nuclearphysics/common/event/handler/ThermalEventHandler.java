@@ -84,9 +84,11 @@ public class ThermalEventHandler {
         final BlockPos pos = event.getPos();
         final IBlockState state = world.getBlockState(pos);
 
-        if (event.isCanceled()) {
+        if (!event.isCanceled()) {
             if (state == Blocks.BEDROCK.getDefaultState() ||
-                    state == Blocks.IRON_BLOCK.getDefaultState()) {
+                    state == Blocks.IRON_BLOCK.getDefaultState() ||
+                    state == Blocks.END_PORTAL_FRAME.getDefaultState() ||
+                    state == Blocks.COMMAND_BLOCK.getDefaultState()) {
                 event.setCanceled(true);
             }
 

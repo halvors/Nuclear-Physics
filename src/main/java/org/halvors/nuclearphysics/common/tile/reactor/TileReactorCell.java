@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
@@ -173,12 +174,26 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                 final FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
 
                 if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
-                    final EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
+                    final EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(4) + 2);
                     final BlockPos spawnPos = pos.offset(spawnDir, 2);
 
                     if (world.isAirBlock(spawnPos)) {
-                        MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(world, spawnPos, TilePlasma.PLASMA_MAX_TEMPERATURE));
-                        tank.drainInternal(Fluid.BUCKET_VOLUME, true);
+                    	PlasmaSpawnEvent event = new PlasmaSpawnEvent(world, spawnPos, TilePlasma.PLASMA_MAX_TEMPERATURE);
+                        MinecraftForge.EVENT_BUS.post(event);
+                        if(!event.isCanceled()) {
+                        	world.setBlockState(spawnPos, ModFluids.plasma.getBlock().getDefaultState(), 2);
+                        	tank.drainInternal(Fluid.BUCKET_VOLUME, true);
+                        }
+                    }
+                    else {
+                    	TileEntity te = world.getTileEntity(spawnPos);
+                    	if(te instanceof TilePlasma) {
+                    		// do boost
+                    		if(TilePlasma.PLASMA_MAX_TEMPERATURE - ((TilePlasma)te).getTemperature() > (TilePlasma.PLASMA_MAX_TEMPERATURE/10)) {
+                    			((TilePlasma)te).setTemperature(((TilePlasma)te).getTemperature() + (TilePlasma.PLASMA_MAX_TEMPERATURE/10));
+                    			tank.drain(100, true);
+                    		}
+                    	}
                     }
                 }
             } else {
