@@ -49,17 +49,14 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     private static final String NBT_TANK = "tank";
     private static final int RADIUS = 2;
     public static final int MELTING_POINT = 2000;
+    private static final int SPECIFIC_HEAT_CAPACITY = 1000;
+    private static final double MASS = ThermoPhysics.getMass(7, 1000);
 
     private String name;
-
-    private final int specificHeatCapacity = 1000;
-    private final double mass = ThermoPhysics.getMass(7, 1000);
-
+    
     private double temperature = ThermoPhysics.ROOM_TEMPERATURE; // Synced
     private double previousTemperature = temperature;
-
     private boolean shouldUpdate = false;
-
     private long internalEnergy = 0;
     private long previousInternalEnergy = 0;
     private int meltdownCounter = 0;
@@ -210,14 +207,16 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                 temperature = ThermalGrid.getTemperature(world, pos);
 
                 // Only a small percentage of the internal energy is used for temperature.
-                if ((internalEnergy - previousInternalEnergy) > 0) {
-                    double deltaTemperature = ThermoPhysics.getTemperatureForEnergy((long) ((internalEnergy - previousInternalEnergy) * 0.15), specificHeatCapacity, mass);
+                final long energy = internalEnergy - previousInternalEnergy;
+
+                if (energy > 0) {
+                    double deltaTemperature = ThermoPhysics.getTemperatureForEnergy(energy * 0.15, SPECIFIC_HEAT_CAPACITY, MASS);
 
                     // Check control rods.
                     for (EnumFacing side : EnumFacing.HORIZONTALS) {
                         final BlockPos checkPos = pos.offset(side);
 
-                        if (world.getBlockState(checkPos).getBlock() == ModBlocks.blockControlRod) {
+                        if (world.getBlockState(checkPos) == ModBlocks.blockControlRod.getDefaultState()) {
                             deltaTemperature /= 2;
                         }
                     }
