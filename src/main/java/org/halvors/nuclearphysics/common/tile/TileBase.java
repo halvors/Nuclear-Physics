@@ -2,8 +2,6 @@ package org.halvors.nuclearphysics.common.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 
 import javax.annotation.Nonnull;
 

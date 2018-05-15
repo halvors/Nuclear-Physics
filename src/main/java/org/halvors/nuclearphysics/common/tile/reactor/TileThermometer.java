@@ -2,12 +2,9 @@ package org.halvors.nuclearphysics.common.tile.reactor;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
@@ -16,7 +13,6 @@ import org.halvors.nuclearphysics.common.tile.TileRotatable;
 import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileThermometer extends TileRotatable implements ITickable, ITileNetwork {
