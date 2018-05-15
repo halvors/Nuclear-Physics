@@ -157,7 +157,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
             }
 
             if (world.getWorldTime() % 10 == 0) {
-                notifyBlockUpdate();
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
     }

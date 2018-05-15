@@ -184,7 +184,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
             }
 
             if (world.getWorldTime() % 10 == 0) {
-                notifyBlockUpdate();
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
 
             lastSpawnTick++;

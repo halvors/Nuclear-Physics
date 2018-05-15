@@ -125,7 +125,7 @@ public class TileMachine extends TileConsumer implements ITickable, ITileRedston
             if (redstone != power) {
                 redstone = power;
 
-                notifyBlockUpdate();
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
     }

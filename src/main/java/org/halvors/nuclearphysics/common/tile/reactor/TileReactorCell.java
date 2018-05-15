@@ -292,7 +292,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                 shouldUpdate = false;
                 world.notifyNeighborsOfStateChange(pos, blockType);
 
-                notifyBlockUpdate();
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
     }
