@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-public class TileRotatable extends TileBase implements ITileRotatable {
+public class TileRotatable extends TileBase implements ITileNetwork, ITileRotatable {
     private static final String NBT_FACING = "facing";
 
     protected EnumFacing facing = EnumFacing.NORTH;
@@ -29,7 +29,6 @@ public class TileRotatable extends TileBase implements ITileRotatable {
     }
 
     @Override
-    @Nonnull
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
@@ -44,8 +43,6 @@ public class TileRotatable extends TileBase implements ITileRotatable {
 
     @Override
     public void handlePacketData(final ByteBuf dataStream) {
-        super.handlePacketData(dataStream);
-
         if (world.isRemote) {
             facing = EnumFacing.getFront(dataStream.readInt());
         }
@@ -53,8 +50,6 @@ public class TileRotatable extends TileBase implements ITileRotatable {
 
     @Override
     public List<Object> getPacketData(final List<Object> objects) {
-        super.getPacketData(objects);
-
         objects.add(facing.ordinal());
 
         return objects;
@@ -76,6 +71,6 @@ public class TileRotatable extends TileBase implements ITileRotatable {
     public void setFacing(final EnumFacing facing) {
         this.facing = facing;
 
-        notifyBlockUpdate();
+        NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
     }
 }

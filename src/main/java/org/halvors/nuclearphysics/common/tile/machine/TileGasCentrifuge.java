@@ -159,7 +159,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
             }
 
             if (world.getWorldTime() % 10 == 0) {
-                notifyBlockUpdate();
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
     }

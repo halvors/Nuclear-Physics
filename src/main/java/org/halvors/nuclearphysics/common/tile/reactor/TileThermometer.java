@@ -11,6 +11,7 @@ import org.halvors.nuclearphysics.common.event.handler.FulminationEventHandler;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
+import org.halvors.nuclearphysics.common.tile.ITileNetwork;
 import org.halvors.nuclearphysics.common.tile.TileRotatable;
 import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
@@ -18,7 +19,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TileThermometer extends TileRotatable implements ITickable {
+public class TileThermometer extends TileRotatable implements ITickable, ITileNetwork {
     private static final String NBT_THRESHOLD = "threshold";
     private static final String NBT_TRACK_COORDINATE = "trackCoordinate";
     private static final int MAX_THRESHOLD = 5000;
@@ -76,7 +77,7 @@ public class TileThermometer extends TileRotatable implements ITickable {
                 isProvidingPower = isOverThreshold();
 
                 world.notifyNeighborsOfStateChange(pos, getBlockType());
-                notifyBlockUpdate();
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
     }

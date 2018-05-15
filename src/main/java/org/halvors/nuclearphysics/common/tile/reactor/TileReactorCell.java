@@ -290,9 +290,9 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
             if (world.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
                 shouldUpdate = false;
-                world.notifyNeighborsOfStateChange(pos, blockType);
+                world.notifyNeighborsOfStateChange(pos, getBlockType());
 
-                notifyBlockUpdate();
+                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
     }
