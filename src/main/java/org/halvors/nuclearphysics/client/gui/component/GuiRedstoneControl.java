@@ -9,9 +9,9 @@ import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketRedstoneControl;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
 import org.halvors.nuclearphysics.common.type.EnumResource;
-import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.awt.*;
@@ -74,7 +74,7 @@ public class GuiRedstoneControl extends GuiComponent {
                     }
 
                     SoundHandler.playSound("gui.button.press");
-                    NuclearPhysics.getPacketHandler().sendToServer(new PacketRedstoneControl(new Position(tile.xCoord, tile.yCoord, tile.zCoord), EnumRedstoneControl.values()[ordinalToSet]));
+                    NuclearPhysics.getPacketHandler().sendToServer(new PacketRedstoneControl(new BlockPos(tile), EnumRedstoneControl.values()[ordinalToSet]));
                 }
 
                 break;

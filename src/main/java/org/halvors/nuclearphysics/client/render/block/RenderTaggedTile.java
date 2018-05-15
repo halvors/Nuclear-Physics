@@ -9,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<
                     boolean isLooking = false;
 
                     for (int h = 0; h < height; h++) {
-                        final Position rayTracePos = new Position(rayTraceResult.blockX, rayTraceResult.blockY, rayTraceResult.blockZ);
+                        final BlockPos rayTracePos = new BlockPos(rayTraceResult);
 
                         if (rayTracePos.getX() == tile.xCoord && rayTracePos.getY() == tile.yCoord + h && rayTracePos.getZ() == tile.zCoord) {
                             isLooking = true;

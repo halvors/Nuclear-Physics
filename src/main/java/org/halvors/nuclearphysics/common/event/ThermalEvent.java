@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.common.event;
 
 import net.minecraft.world.IBlockAccess;
+import org.halvors.nuclearphysics.api.BlockPos;
 
 public class ThermalEvent extends WorldEventBase {
     private final double temperature;
@@ -9,8 +10,8 @@ public class ThermalEvent extends WorldEventBase {
     private final boolean reactor;
     private double heatLoss = 0.1;
 
-    public ThermalEvent(final IBlockAccess world, final int x, final int y, final int z, final double temperature, final double deltaTemperature, final double deltaTime, final boolean reactor) {
-        super(world, x, y, z);
+    public ThermalEvent(final IBlockAccess world, final BlockPos pos, final double temperature, final double deltaTemperature, final double deltaTime, final boolean reactor) {
+        super(world, pos);
 
         this.temperature = temperature;
         this.deltaTemperature = deltaTemperature;
@@ -43,8 +44,8 @@ public class ThermalEvent extends WorldEventBase {
     }
 
     public static class ThermalUpdateEvent extends ThermalEvent {
-        public ThermalUpdateEvent(final IBlockAccess world, final int x, final int y, final int z, final double temperature, final double deltaTemperature, final double deltaTime, final boolean reactor) {
-            super(world, x, y, z, temperature, deltaTemperature, deltaTime, reactor);
+        public ThermalUpdateEvent(final IBlockAccess world, final BlockPos pos, final double temperature, final double deltaTemperature, final double deltaTime, final boolean reactor) {
+            super(world, pos, temperature, deltaTemperature, deltaTime, reactor);
         }
     }
 }

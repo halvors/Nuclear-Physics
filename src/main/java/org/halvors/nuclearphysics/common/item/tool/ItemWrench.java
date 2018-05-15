@@ -18,6 +18,7 @@ import org.halvors.nuclearphysics.api.item.IWrench;
 import org.halvors.nuclearphysics.common.Integration;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.item.ItemBase;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
@@ -68,7 +69,8 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
 
     @Override
     public boolean onItemUse(final ItemStack itemStack, final EntityPlayer player, final World world, final int x, final int y, final int z, final int side, final float hitX, final float hitY, final float hitZ) {
-        final Block block = world.getBlock(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final Block block = pos.getBlock(world);
 
         switch (getState(itemStack)) {
             case ROTATE:

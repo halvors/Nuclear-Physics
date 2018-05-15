@@ -9,8 +9,8 @@ import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAcc
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.science.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.EnumColor;
-import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 @SideOnly(Side.CLIENT)
@@ -26,7 +26,7 @@ public class GuiParticleAccelerator extends GuiMachine<TileParticleAccelerator> 
 
     @Override
     public void drawGuiContainerForegroundLayer(int x, int y) {
-        final Position pos = new Position(tile).offset(tile.getFacing().getOpposite());
+        final BlockPos pos = tile.getPos().offset(tile.getFacing().getOpposite());
         final String status;
 
         if (!EntityParticle.canSpawnParticle(tile.getWorld(), pos)) {

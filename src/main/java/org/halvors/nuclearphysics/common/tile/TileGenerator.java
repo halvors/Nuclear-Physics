@@ -20,7 +20,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     protected EnergyStorage energyStorage;
 
     public TileGenerator() {
-
+        super();
     }
 
     @Override

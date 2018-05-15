@@ -19,6 +19,7 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 import org.halvors.nuclearphysics.common.init.ModSounds;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.utility.RotationUtility;
 
@@ -31,7 +32,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     private boolean didCollide;
     private int lastTurn = 60;
 
-    private Position movementPos = new Position();
+    private BlockPos movementPos = new BlockPos(0, 0, 0);
     private ForgeDirection movementDirection = ForgeDirection.NORTH;
 
     public EntityParticle(final World world) {
@@ -46,7 +47,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         setSize(0.3F, 0.3F);
     }
 
-    public EntityParticle(final World world, final Position pos, final Position movementPos, final ForgeDirection movementDirection) {
+    public EntityParticle(final World world, final BlockPos pos, final BlockPos movementPos, final ForgeDirection movementDirection) {
         this(world);
 
         this.movementPos = movementPos;
@@ -66,8 +67,8 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
      * @param pos - location to check
      * @return true if the spawn location is clear and 2 electromagnets are next to the location
      */
-    public static boolean canSpawnParticle(final World world, final Position pos) {
-        if (world.isAirBlock(pos.getIntX(), pos.getIntY(), pos.getIntZ())) {
+    public static boolean canSpawnParticle(final World world, final BlockPos pos) {
+        if (pos.isAirBlock(world)) {
             int electromagnetCount = 0;
 
             for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
@@ -89,8 +90,8 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
      * @param facing - direction to check in
      * @return true if the location contains an active electromagnet block
      */
-    public static boolean isElectromagnet(final World world, final Position pos, final ForgeDirection facing) {
-        final Position checkPos = pos.offset(facing);
+    public static boolean isElectromagnet(final World world, final BlockPos pos, final ForgeDirection facing) {
+        final BlockPos checkPos = pos.offset(facing);
         final TileEntity tile = checkPos.getTileEntity(world);
 
         return tile instanceof IElectromagnet && ((IElectromagnet) tile).isRunning();
@@ -98,15 +99,15 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     @Override
     public void writeSpawnData(final ByteBuf data) {
-        data.writeInt(movementPos.getIntX());
-        data.writeInt(movementPos.getIntY());
-        data.writeInt(movementPos.getIntZ());
+        data.writeInt(movementPos.getX());
+        data.writeInt(movementPos.getY());
+        data.writeInt(movementPos.getZ());
         data.writeInt(movementDirection.ordinal());
     }
 
     @Override
     public void readSpawnData(final ByteBuf data) {
-        movementPos = new Position(data.readInt(), data.readInt(), data.readInt());
+        movementPos = new BlockPos(data.readInt(), data.readInt(), data.readInt());
         movementDirection = ForgeDirection.getOrientation(data.readInt());
     }
 
@@ -143,7 +144,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 movementDirection = ForgeDirection.getOrientation(dataWatcher.getWatchableObjectByte(movementDirectionId));
             }
 
-            final Position pos = new Position(this);
+            final BlockPos pos = new BlockPos(this);
 
             if ((!isElectromagnet(worldObj, pos, movementDirection.getRotation(ForgeDirection.UP)) ||
                  !isElectromagnet(worldObj, pos, movementDirection.getRotation(ForgeDirection.DOWN))) && lastTurn <= 0) {
@@ -213,15 +214,15 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
     @Override
     protected void readEntityFromNBT(final NBTTagCompound tag) {
-        movementPos = new Position(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z"));
+        movementPos = new BlockPos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z"));
         movementDirection = ForgeDirection.getOrientation(tag.getByte("direction"));
     }
 
     @Override
     protected void writeEntityToNBT(final NBTTagCompound tag) {
-        tag.setInteger("x", movementPos.getIntX());
-        tag.setInteger("y", movementPos.getIntY());
-        tag.setInteger("z", movementPos.getIntZ());
+        tag.setInteger("x", movementPos.getX());
+        tag.setInteger("y", movementPos.getY());
+        tag.setInteger("z", movementPos.getZ());
         tag.setByte("direction", (byte) movementDirection.ordinal());
     }
 

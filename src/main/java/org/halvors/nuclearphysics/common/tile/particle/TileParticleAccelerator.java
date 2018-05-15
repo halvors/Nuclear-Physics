@@ -17,7 +17,7 @@ import org.halvors.nuclearphysics.common.init.ModSounds;
 import org.halvors.nuclearphysics.common.item.particle.ItemAntimatterCell;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
-import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
 import java.util.List;
@@ -85,13 +85,13 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                 if (entityParticle == null) {
                     // Creates an accelerated particle if one needs to exist (on world load for example or player login).
                     if (itemStack != null && lastSpawnTick >= 40) {
-                        final Position spawnAcceleratedParticlePos = new Position(xCoord, yCoord, zCoord).offset(facing.getOpposite());
+                        final BlockPos spawnAcceleratedParticlePos = new BlockPos(this).offset(facing.getOpposite());
 
                         // Only render the particle if container within the proper environment for it.
                         if (EntityParticle.canSpawnParticle(worldObj, spawnAcceleratedParticlePos)) {
                             // Spawn the particle.
                             totalEnergyConsumed = 0;
-                            entityParticle = new EntityParticle(worldObj, spawnAcceleratedParticlePos, new Position(xCoord, yCoord, zCoord), facing.getOpposite());
+                            entityParticle = new EntityParticle(worldObj, spawnAcceleratedParticlePos, new BlockPos(xCoord, yCoord, zCoord), facing.getOpposite());
                             worldObj.spawnEntityInWorld(entityParticle);
 
                             // Grabs input block hardness if available, otherwise defaults are used.

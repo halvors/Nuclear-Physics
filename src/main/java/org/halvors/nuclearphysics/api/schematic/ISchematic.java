@@ -2,8 +2,8 @@ package org.halvors.nuclearphysics.api.schematic;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.Pair;
-import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.HashMap;
 
@@ -20,5 +20,5 @@ public interface ISchematic {
      *
      * @param size - The size multiplier.
      * @return A Hashmap of positions and block states. */
-    HashMap<Position, Pair<Block, Integer>> getStructure(ForgeDirection facing, int size);
+    HashMap<BlockPos, Pair<Block, Integer>> getStructure(ForgeDirection facing, int size);
 }

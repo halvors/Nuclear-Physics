@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.tile.ITileNetwork;
+import org.halvors.nuclearphysics.api.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +24,14 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 
 	}
 
-	public PacketTileEntity(final int x, final int y, final int z, final List<Object> objects) {
-		super(x, y, z);
+	public PacketTileEntity(final BlockPos pos, final List<Object> objects) {
+		super(pos);
 
 		this.objects = objects;
 	}
 
 	public <T extends TileEntity & ITileNetwork> PacketTileEntity(T tile) {
-		this(tile.xCoord, tile.yCoord, tile.zCoord, tile.getPacketData(new ArrayList<>()));
+		this(new BlockPos(tile), tile.getPacketData(new ArrayList<>()));
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class PacketTileEntity extends PacketLocation implements IMessage {
 			final World world = PacketHandler.getWorld(messageContext);
 
 			if (world != null) {
-				final TileEntity tile = world.getTileEntity(message.getX(), message.getY(), message.getZ());
+				final TileEntity tile = message.getPos().getTileEntity(world);
 
 				if (tile instanceof ITileNetwork) {
 					final ITileNetwork tileNetwork = (ITileNetwork) tile;

@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.api.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class PlayerUtility {
 		return player instanceof EntityPlayerMP && ((EntityPlayerMP) player).mcServer.getConfigurationManager().canSendCommands(player.getGameProfile());
 	}
 
-	public static void openGui(final EntityPlayer player, final World world, final int x, final int y, final int z) {
-		player.openGui(NuclearPhysics.getInstance(), 0, world, x, y, z);
+	public static void openGui(final EntityPlayer player, final World world, final BlockPos pos) {
+		player.openGui(NuclearPhysics.getInstance(), 0, world, pos.getX(), pos.getY(), pos.getZ());
 	}
 }

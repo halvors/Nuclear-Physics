@@ -9,7 +9,7 @@ import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModFluids;
-import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.api.BlockPos;
 
 public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
     // Temperature at which the fuel rod will begin to re-enrich itself.
@@ -26,7 +26,7 @@ public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
         int reactors = 0;
 
         for (final ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-            final TileEntity checkTile = new Position(tile).offset(side).getTileEntity(world);
+            final TileEntity checkTile = new BlockPos(tile).offset(side).getTileEntity(world);
 
             // Check that the other reactors not only exist but also are running.
             if (checkTile instanceof IReactor && ((IReactor) checkTile).getTemperature() > breedingTemperature) {

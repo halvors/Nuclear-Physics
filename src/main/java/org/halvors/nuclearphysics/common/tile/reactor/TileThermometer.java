@@ -7,6 +7,7 @@ import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
 import org.halvors.nuclearphysics.common.tile.TileRotatable;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.List;
@@ -56,9 +57,9 @@ public class TileThermometer extends TileRotatable {
         if (!worldObj.isRemote && worldObj.getWorldTime() % 10 == 0) {
             // Grab temperature from target or from ourselves.
             if (trackCoordinate != null) {
-                detectedTemperature = ThermalGrid.getTemperature(worldObj, new Position(trackCoordinate.getIntX(), trackCoordinate.getIntY(), trackCoordinate.getIntZ()));
+                detectedTemperature = ThermalGrid.getTemperature(worldObj, new BlockPos(trackCoordinate.getIntX(), trackCoordinate.getIntY(), trackCoordinate.getIntZ()));
             } else {
-                detectedTemperature = ThermalGrid.getTemperature(worldObj, new Position(xCoord, yCoord, zCoord));
+                detectedTemperature = ThermalGrid.getTemperature(worldObj, pos);
             }
 
             // Send update packet if temperature is different or over temperature threshold.

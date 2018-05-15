@@ -66,7 +66,7 @@ public class TileChemicalExtractor extends TileProcess {
 
         if (!worldObj.isRemote) {
             if (worldObj.getWorldTime() % 20 == 0) {
-                FluidUtility.transferFluidToNeighbors(worldObj, xCoord, yCoord, zCoord, this);
+                FluidUtility.transferFluidToNeighbors(worldObj, pos, this);
             }
 
             EnergyUtility.discharge(0, this);

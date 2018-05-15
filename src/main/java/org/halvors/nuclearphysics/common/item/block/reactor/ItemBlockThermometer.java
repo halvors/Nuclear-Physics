@@ -11,6 +11,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockTooltip;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
@@ -47,7 +48,8 @@ public class ItemBlockThermometer extends ItemBlockTooltip {
 
     @Override
     public boolean placeBlockAt(final ItemStack stack, final EntityPlayer player, final World world, final int x, final int y, final int z, final int side, final float hitX, final float hitY, final float hitZ, final int metadata) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
         final ItemStack itemStack = player.getHeldItem();
 
         if (!world.isRemote && tile != null) {

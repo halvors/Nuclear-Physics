@@ -27,6 +27,7 @@ import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
 import org.halvors.nuclearphysics.common.tile.TileInventory;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -109,19 +110,19 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
                 if (drain != null && drain.amount >= FluidContainerRegistry.BUCKET_VOLUME) {
                     final ForgeDirection spawnDir = ForgeDirection.getOrientation(worldObj.rand.nextInt(4) + 2);
-                    final Position spawnPos = new Position(this).offset(spawnDir, 2);
+                    final BlockPos spawnPos = pos.offset(spawnDir, 2);
 
-                    if (worldObj.isAirBlock(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ())) {
-                        final PlasmaSpawnEvent event = new PlasmaSpawnEvent(worldObj, spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ(), TilePlasma.PLASMA_MAX_TEMPERATURE);
+                    if (pos.isAirBlock(worldObj)) {
+                        final PlasmaSpawnEvent event = new PlasmaSpawnEvent(worldObj, spawnPos, TilePlasma.PLASMA_MAX_TEMPERATURE);
                         MinecraftForge.EVENT_BUS.post(event);
 
                         // Spawn plasma.
                         if (!event.isCanceled()) {
-                            worldObj.setBlock(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ(), ModFluids.plasma.getBlock(), 0, 2);
+                            pos.setBlock(ModFluids.plasma.getBlock(), 0, 2, worldObj);
                             tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                         }
                     } else {
-                    	final TileEntity tile = worldObj.getTileEntity(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ());
+                    	final TileEntity tile = spawnPos.getTileEntity(worldObj);
 
                         // Do plasma boost.
                     	if (tile instanceof TilePlasma) {
@@ -161,7 +162,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
                 }
 
                 // Update the temperature from the thermal grid.
-                temperature = ThermalGrid.getTemperature(worldObj, new Position(this));
+                temperature = ThermalGrid.getTemperature(worldObj, pos);
 
                 // Only a small percentage of the internal energy is used for temperature.
                 if ((internalEnergy - previousInternalEnergy) > 0) {
@@ -177,7 +178,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
                     }
 
                     // Add heat to surrounding blocks in the thermal grid.
-                    ThermalGrid.addTemperature(worldObj, new Position(this), deltaTemperature);
+                    ThermalGrid.addTemperature(worldObj, pos, deltaTemperature);
 
                     if (previousTemperature != temperature && !shouldUpdate) {
                         shouldUpdate = true;
@@ -344,7 +345,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
         worldObj.setBlockToAir(xCoord, yCoord, zCoord);
 
         // Create the explosion.
-        final ReactorExplosion explosion = new ReactorExplosion(worldObj, null, xCoord, yCoord, zCoord, 9);
+        final ReactorExplosion explosion = new ReactorExplosion(worldObj, null, pos, 9);
         explosion.explode();
     }
 }
