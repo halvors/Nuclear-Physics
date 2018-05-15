@@ -81,8 +81,6 @@ public class ThermalEventHandler {
         final Block block = world.getBlock(x, y, z);
 
         if (!event.isCanceled()) {	// ??? and if not?
-        	block.setBlockUnbreakable();
-        	//if(block.getBlockHardness(world, x, y, z)== -1.0F) event.setCanceled(true);	// is AIR hardness is like bedrock?
         	
             if (block == Blocks.bedrock ||
                 block == Blocks.iron_block ||

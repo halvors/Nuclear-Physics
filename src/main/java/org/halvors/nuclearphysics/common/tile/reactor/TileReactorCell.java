@@ -118,11 +118,9 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
                         MinecraftForge.EVENT_BUS.post(event);
 
                         if(!event.isCanceled()) {
-                        	NuclearPhysics.getLogger().warn("PLASM: spawning at "+event.getX()+";"+event.getY()+";"+event.getZ());
                         	worldObj.setBlock(event.getX(), event.getY(), event.getZ(), ModFluids.plasma.getBlock());
                             tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                         }
-                        else NuclearPhysics.getLogger().warn("PLASM: event is cancelled");
                     }
                     else {
                     	TileEntity te = worldObj.getTileEntity(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ());
