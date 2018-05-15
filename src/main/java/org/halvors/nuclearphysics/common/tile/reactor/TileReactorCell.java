@@ -169,8 +169,8 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         if (!world.isRemote) {
             final FluidStack fluidStack = tank.getFluid();
 
+            // Nuclear fusion.
             if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
-                // Spawn plasma.
                 final FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
 
                 if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
@@ -178,25 +178,30 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                     final BlockPos spawnPos = pos.offset(spawnDir, 2);
 
                     if (world.isAirBlock(spawnPos)) {
-                    	PlasmaSpawnEvent event = new PlasmaSpawnEvent(world, spawnPos, TilePlasma.PLASMA_MAX_TEMPERATURE);
+                    	final PlasmaSpawnEvent event = new PlasmaSpawnEvent(world, spawnPos, TilePlasma.PLASMA_MAX_TEMPERATURE);
                         MinecraftForge.EVENT_BUS.post(event);
-                        if(!event.isCanceled()) {
+
+                        // Spawn plasma.
+                        if (!event.isCanceled()) {
                         	world.setBlockState(spawnPos, ModFluids.plasma.getBlock().getDefaultState(), 2);
                         	tank.drainInternal(Fluid.BUCKET_VOLUME, true);
                         }
-                    }
-                    else {
-                    	TileEntity te = world.getTileEntity(spawnPos);
-                    	if(te instanceof TilePlasma) {
-                    		// do boost
-                    		if(TilePlasma.PLASMA_MAX_TEMPERATURE - ((TilePlasma)te).getTemperature() > (TilePlasma.PLASMA_MAX_TEMPERATURE/10)) {
-                    			((TilePlasma)te).setTemperature(((TilePlasma)te).getTemperature() + (TilePlasma.PLASMA_MAX_TEMPERATURE/10));
+                    } else {
+                    	final TileEntity tile = world.getTileEntity(spawnPos);
+
+                        // Do plasma boost.
+                    	if (tile instanceof TilePlasma) {
+                    	    final TilePlasma tilePlasma = (TilePlasma) tile;
+                            final int increaseTemperature = TilePlasma.PLASMA_MAX_TEMPERATURE / 10;
+
+                    		if (TilePlasma.PLASMA_MAX_TEMPERATURE - tilePlasma.getTemperature() > increaseTemperature) {
+                                tilePlasma.setTemperature(tilePlasma.getTemperature() + increaseTemperature);
                     			tank.drain(100, true);
                     		}
                     	}
                     }
                 }
-            } else {
+            } else { // Nuclear fission.
                 previousInternalEnergy = internalEnergy;
 
                 // Handle cell rod interactions.
