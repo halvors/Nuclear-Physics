@@ -21,10 +21,10 @@ public class TileThermometer extends TileRotatable implements ITickable, ITileNe
     private static final int MAX_THRESHOLD = 5000;
 
     private double detectedTemperature = ThermalPhysics.ROOM_TEMPERATURE; // Synced
-    private double previousDetectedTemperature = detectedTemperature; // Synced
+    private double previousDetectedTemperature = detectedTemperature;
     private BlockPos trackCoordinate = null; // Synced
     private int threshold = 1000; // Synced
-    public boolean isProvidingPower = false; // Synced
+    public boolean isProvidingPower = false;
 
     public TileThermometer() {
 
@@ -92,7 +92,6 @@ public class TileThermometer extends TileRotatable implements ITickable, ITileNe
             }
 
             detectedTemperature = dataStream.readDouble();
-            isProvidingPower = dataStream.readBoolean();
         }
     }
 
@@ -110,7 +109,6 @@ public class TileThermometer extends TileRotatable implements ITickable, ITileNe
         }
 
         objects.add(detectedTemperature);
-        objects.add(isProvidingPower);
 
         return objects;
     }
