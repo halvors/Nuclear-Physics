@@ -211,7 +211,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
                 // Only a small percentage of the internal energy is used for temperature.
                 if ((internalEnergy - previousInternalEnergy) > 0) {
-                    double deltaTemperature = ThermoPhysics.getTemperatureForEnergy(mass, specificHeatCapacity, (long) ((internalEnergy - previousInternalEnergy) * 0.15));
+                    double deltaTemperature = ThermoPhysics.getTemperatureForEnergy((long) ((internalEnergy - previousInternalEnergy) * 0.15), specificHeatCapacity, mass);
 
                     // Check control rods.
                     for (EnumFacing side : EnumFacing.HORIZONTALS) {

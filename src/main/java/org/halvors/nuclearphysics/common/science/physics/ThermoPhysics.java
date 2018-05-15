@@ -90,7 +90,7 @@ public class ThermoPhysics {
      * @param z - coordinate of block
      * @param volume - in liters
      *
-     * @return Q, The required energy to boil volume of water into steam in joules
+     * @return Q, the required energy to boil volume of water into steam in joules
      */
     public static double getRequiredBoilWaterEnergy(World world, int x, int z, int volume) {
         final double deltaTemperature = WATER_BOIL_TEMPERATURE - getDefaultTemperature(world, new BlockPos(x, 0, z));
@@ -102,8 +102,16 @@ public class ThermoPhysics {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-    public static double getTemperatureForEnergy(double mass, double specificHeatCapacity, double energy) {
-        return energy / (mass * specificHeatCapacity);
+    /**
+     * Formula: ΔT = Q / cm
+     *
+     * @param energy
+     * @param specificHeatCapacity
+     * @param mass
+     *
+     * @return ΔT, delta temperature in kelvin (K)
+     */
+    public static double getTemperatureForEnergy(final double energy, final double specificHeatCapacity, final double mass) {
+        return energy / (specificHeatCapacity * mass);
     }
 }
