@@ -5,11 +5,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModFluids;
-import org.halvors.nuclearphysics.api.BlockPos;
 
 public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
     // Temperature at which the fuel rod will begin to re-enrich itself.

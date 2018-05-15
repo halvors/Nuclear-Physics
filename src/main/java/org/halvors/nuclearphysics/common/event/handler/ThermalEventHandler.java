@@ -11,6 +11,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
@@ -18,7 +19,6 @@ import org.halvors.nuclearphysics.common.event.BoilEvent;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.utility.WorldUtility;
 
 public class ThermalEventHandler {

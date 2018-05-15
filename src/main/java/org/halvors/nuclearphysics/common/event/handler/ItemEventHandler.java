@@ -12,10 +12,10 @@ import net.minecraftforge.event.entity.item.ItemExpireEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.IFluidBlock;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.effect.explosion.AntimatterExplosion;
 import org.halvors.nuclearphysics.common.init.ModItems;
-import org.halvors.nuclearphysics.api.BlockPos;
 
 import java.util.HashMap;
 import java.util.Map;

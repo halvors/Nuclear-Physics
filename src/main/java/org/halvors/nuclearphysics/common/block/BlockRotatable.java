@@ -7,8 +7,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 import org.halvors.nuclearphysics.api.BlockPos;
+import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 
 public class BlockRotatable extends BlockContainerBase {
     protected byte rotationMask = Byte.parseByte("111100", 2);

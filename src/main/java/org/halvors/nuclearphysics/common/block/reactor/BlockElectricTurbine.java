@@ -8,11 +8,11 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.client.render.block.BlockRenderingHandler;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockContainerBase;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.utility.WrenchUtility;
 
 public class BlockElectricTurbine extends BlockContainerBase {

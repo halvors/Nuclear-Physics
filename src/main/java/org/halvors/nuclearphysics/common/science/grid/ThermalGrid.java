@@ -5,12 +5,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.event.ThermalEvent.ThermalUpdateEvent;
 import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.Pair;
 
 import java.util.Map;

@@ -4,8 +4,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.api.BlockPos;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 
 import java.util.ArrayList;
 import java.util.List;

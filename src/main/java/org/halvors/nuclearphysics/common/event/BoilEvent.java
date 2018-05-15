@@ -2,8 +2,8 @@ package org.halvors.nuclearphysics.common.event;
 
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fluids.FluidStack;
-import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.api.BlockPos;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 
 public class BoilEvent extends WorldEventBase {
     private final FluidStack fluidStack;

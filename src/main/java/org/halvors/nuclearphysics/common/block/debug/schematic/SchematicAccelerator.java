@@ -3,10 +3,10 @@ package org.halvors.nuclearphysics.common.block.debug.schematic;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.Pair;
 
 import java.util.HashMap;

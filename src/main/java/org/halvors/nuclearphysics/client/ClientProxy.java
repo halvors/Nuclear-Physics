@@ -17,6 +17,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.client.event.TextureEventHandler;
 import org.halvors.nuclearphysics.client.gui.debug.GuiCreativeBuilder;
 import org.halvors.nuclearphysics.client.gui.machine.GuiChemicalExtractor;
@@ -49,7 +50,6 @@ import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
-import org.halvors.nuclearphysics.api.BlockPos;
 
 /**
  * This is the client proxy used only by the client.

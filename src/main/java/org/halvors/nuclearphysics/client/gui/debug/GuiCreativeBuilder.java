@@ -6,11 +6,11 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.client.gui.GuiComponentScreen;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.packet.PacketCreativeBuilder;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 

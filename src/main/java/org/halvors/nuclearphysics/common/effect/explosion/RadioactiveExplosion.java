@@ -4,8 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
-import org.halvors.nuclearphysics.common.init.ModPotions;
 import org.halvors.nuclearphysics.api.BlockPos;
+import org.halvors.nuclearphysics.common.init.ModPotions;
 
 import java.util.List;
 

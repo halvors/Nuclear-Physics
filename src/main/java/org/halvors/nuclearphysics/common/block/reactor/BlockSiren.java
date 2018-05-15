@@ -4,9 +4,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.block.BlockContainerBase;
 import org.halvors.nuclearphysics.common.tile.reactor.TileSiren;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.utility.WrenchUtility;
 
 public class BlockSiren extends BlockContainerBase {

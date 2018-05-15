@@ -8,9 +8,9 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.Pair;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 

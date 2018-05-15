@@ -6,9 +6,9 @@ import mekanism.api.IMekWrench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.item.IWrench;
 import org.halvors.nuclearphysics.common.Integration;
-import org.halvors.nuclearphysics.api.BlockPos;
 
 public class WrenchUtility {
     /**

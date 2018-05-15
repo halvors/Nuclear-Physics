@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.client.render.block.BlockRenderingHandler;
 import org.halvors.nuclearphysics.common.Reference;
@@ -16,7 +17,6 @@ import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;

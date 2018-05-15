@@ -12,11 +12,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockRotatable;
 import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.WrenchUtility;
 

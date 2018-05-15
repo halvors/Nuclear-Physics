@@ -11,9 +11,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModPotions;
-import org.halvors.nuclearphysics.api.BlockPos;
 
 import java.util.List;
 import java.util.Random;

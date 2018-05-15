@@ -6,9 +6,9 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
 
 public class PacketRedstoneControl extends PacketLocation implements IMessage {

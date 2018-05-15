@@ -15,8 +15,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidBlock;
-import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 import org.halvors.nuclearphysics.api.BlockPos;
+import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 
 import java.util.Random;
 

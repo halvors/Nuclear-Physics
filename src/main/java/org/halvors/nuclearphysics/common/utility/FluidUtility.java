@@ -7,9 +7,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.item.ItemCell;
-import org.halvors.nuclearphysics.api.BlockPos;
 
 public class FluidUtility {
     public static boolean isEmptyContainer(final ItemStack itemStack) {

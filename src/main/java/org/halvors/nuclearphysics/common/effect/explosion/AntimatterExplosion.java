@@ -2,10 +2,10 @@ package org.halvors.nuclearphysics.common.effect.explosion;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.world.IBlockAccess;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.effect.explosion.IFulmination;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModSounds;
-import org.halvors.nuclearphysics.api.BlockPos;
 
 public class AntimatterExplosion extends RadioactiveExplosion implements IFulmination {
     private final int tier;
