@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.common.tile.reactor.fusion;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -10,9 +11,30 @@ import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 import org.halvors.nuclearphysics.common.type.Position;
 
 public class TilePlasma extends TileEntity {
+    private static final String NBT_TEMPERATURE = "temperature";
     public static final int PLASMA_MAX_TEMPERATURE = 1000000;
 
     private int temperature = PLASMA_MAX_TEMPERATURE;
+
+    public TilePlasma() {
+
+    }
+
+    @Override
+    public void readFromNBT(final NBTTagCompound tag) {
+        super.readFromNBT(tag);
+
+        temperature = tag.getInteger(NBT_TEMPERATURE);
+    }
+
+    @Override
+    public void writeToNBT(final NBTTagCompound tag) {
+        super.writeToNBT(tag);
+
+        tag.setInteger(NBT_TEMPERATURE, temperature);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void updateEntity() {
@@ -65,6 +87,10 @@ public class TilePlasma extends TileEntity {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public int getTemperature() {
+        return temperature;
+    }
 
     public void setTemperature(final int temperature) {
         this.temperature = temperature;

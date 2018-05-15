@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -102,20 +103,39 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
         if (!worldObj.isRemote) {
             final FluidStack fluidStack = tank.getFluid();
 
+            // Nuclear fusion.
             if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
-                // Spawn plasma.
                 final FluidStack drain = tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false);
 
                 if (drain != null && drain.amount >= FluidContainerRegistry.BUCKET_VOLUME) {
-                    final ForgeDirection spawnDir = ForgeDirection.getOrientation(worldObj.rand.nextInt(3) + 2);
+                    final ForgeDirection spawnDir = ForgeDirection.getOrientation(worldObj.rand.nextInt(4) + 2);
                     final Position spawnPos = new Position(this).offset(spawnDir, 2);
 
                     if (worldObj.isAirBlock(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ())) {
-                        MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(worldObj, spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ(), TilePlasma.PLASMA_MAX_TEMPERATURE));
-                        tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+                        final PlasmaSpawnEvent event = new PlasmaSpawnEvent(worldObj, spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ(), TilePlasma.PLASMA_MAX_TEMPERATURE);
+                        MinecraftForge.EVENT_BUS.post(event);
+
+                        // Spawn plasma.
+                        if (!event.isCanceled()) {
+                            worldObj.setBlock(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ(), ModFluids.plasma.getBlock(), 0, 2);
+                            tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+                        }
+                    } else {
+                    	final TileEntity tile = worldObj.getTileEntity(spawnPos.getIntX(), spawnPos.getIntY(), spawnPos.getIntZ());
+
+                        // Do plasma boost.
+                    	if (tile instanceof TilePlasma) {
+                    	    final TilePlasma tilePlasma = (TilePlasma) tile;
+                            final int increaseTemperature = TilePlasma.PLASMA_MAX_TEMPERATURE / 10;
+
+                    		if (TilePlasma.PLASMA_MAX_TEMPERATURE - tilePlasma.getTemperature() > increaseTemperature) {
+                                tilePlasma.setTemperature(tilePlasma.getTemperature() + increaseTemperature);
+                    			tank.drain(100, true);
+                    		}
+                    	}
                     }
                 }
-            } else {
+            } else { // Nuclear fission.
                 previousInternalEnergy = internalEnergy;
 
                 // Handle cell rod interactions.
@@ -177,7 +197,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
                         }
                     }
 
-                    // If reactor temperature is below MELTING_POINT and meltdownCounter is over 0, decrease it.
+                    // If reactor temperature is below melting point and meltdownCounter is over 0, decrease it.
                     if (previousTemperature < MELTING_POINT && meltdownCounter > 0) {
                         meltdownCounter--;
                     }

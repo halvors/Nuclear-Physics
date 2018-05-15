@@ -78,8 +78,9 @@ public class ThermalEventHandler {
         final int z = event.getZ();
         final Block block = world.getBlock(x, y, z);
 
-        if (event.isCanceled()) {
-            if (block == Blocks.bedrock ||
+        if (!event.isCanceled()) {
+            // Checking if block is breakable, if not it's bedrock, portal, command block etc.
+            if (block.getBlockHardness(world, x, y, z) < 0 ||
                 block == Blocks.iron_block) {
                 event.setCanceled(true);
             }
@@ -113,7 +114,6 @@ public class ThermalEventHandler {
             block == Blocks.flowing_water) {
             if (event.getTemperature() >= ThermalPhysics.WATER_BOIL_TEMPERATURE) {
                 final int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.WATER_BOIL_TEMPERATURE) * General.steamOutputMultiplier);
-
                 MinecraftForge.EVENT_BUS.post(new BoilEvent(world, x, y, z, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
 
                 event.setHeatLoss(0.2);
