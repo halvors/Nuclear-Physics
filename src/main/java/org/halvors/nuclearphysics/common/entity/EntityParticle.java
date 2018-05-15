@@ -14,14 +14,14 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 import org.halvors.nuclearphysics.common.init.ModSounds;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
-import org.halvors.nuclearphysics.api.BlockPos;
-import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.utility.RotationUtility;
+import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
 import java.util.List;
 
@@ -164,7 +164,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 return;
             }
 
-            final Position accelerationPos = new Position().offset(movementDirection).scale(acceleration);
+            final BlockPos accelerationPos = VectorUtility.scale(BlockPos.ORIGIN.offset(movementDirection), acceleration);
 
             motionX = Math.min(accelerationPos.getX() + motionX, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
             motionY = Math.min(accelerationPos.getY() + motionY, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
@@ -245,15 +245,15 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
      */
     private double turn() {
         // TODO: Rewrite to allow for up and down turning
-        final Position pos = new Position(this);
+        final BlockPos pos = new BlockPos(this);
         final ForgeDirection leftDirection = ForgeDirection.getOrientation(RotationUtility.relativeMatrix[movementDirection.ordinal()][ForgeDirection.WEST.ordinal()]);
         final ForgeDirection rightDirection = ForgeDirection.getOrientation(RotationUtility.relativeMatrix[movementDirection.ordinal()][ForgeDirection.EAST.ordinal()]);
-        final Position leftPos = pos.offset(leftDirection);
-        final Position rightPos = pos.offset(rightDirection);
+        final BlockPos leftPos = pos.offset(leftDirection);
+        final BlockPos rightPos = pos.offset(rightDirection);
 
-        if (worldObj.isAirBlock(leftPos.getIntX(), leftPos.getIntY(), leftPos.getIntZ())) {
+        if (leftPos.isAirBlock(worldObj)) {
             movementDirection = leftDirection;
-        } else if (worldObj.isAirBlock(rightPos.getIntX(), rightPos.getIntY(), rightPos.getIntZ())) {
+        } else if (rightPos.isAirBlock(worldObj)) {
             movementDirection = rightDirection;
         } else {
             setDead();

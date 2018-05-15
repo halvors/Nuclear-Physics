@@ -4,7 +4,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.init.ModSounds;
 import org.halvors.nuclearphysics.common.tile.TileBase;
-import org.halvors.nuclearphysics.common.type.Position;
 
 public class TileSiren extends TileBase {
     public TileSiren() {

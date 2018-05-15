@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.ForgeDirection;
-import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -156,14 +156,14 @@ public class RenderUtility {
         }
     }
 
-    public static void renderFloatingText(final String text, final Position position) {
+    public static void renderFloatingText(final String text, final BlockPos position) {
         renderFloatingText(text, position, 0xFFFFFF);
     }
 
     /** Renders a floating text in a specific position.
      *
      * @author Briman0094 */
-    public static void renderFloatingText(final String text, final Position position, final int color) {
+    public static void renderFloatingText(final String text, final BlockPos position, final int color) {
         renderFloatingText(text, position.getX(), position.getY(), position.getZ(), color);
     }
 

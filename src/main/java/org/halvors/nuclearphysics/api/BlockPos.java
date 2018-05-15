@@ -74,6 +74,10 @@ public class BlockPos {
         return world.getBlockMetadata(x, y, z);
     }
 
+    public boolean isBlockReplaceable(final Block block, final IBlockAccess world) {
+        return block.isReplaceable(world, x, y, z);
+    }
+
     public TileEntity getTileEntity(final IBlockAccess world) {
         return world.getTileEntity(x, y, z);
     }
@@ -105,8 +109,22 @@ public class BlockPos {
     /**
      * Add the given Vector to this BlockPos
      */
-    public BlockPos add(BlockPos pos) {
-        return pos.getX() == 0 && pos.getY() == 0 && pos.getZ() == 0 ? this : new BlockPos(this.x + pos.getX(), this.y + pos.getY(), this.z + pos.getZ());
+    public BlockPos add(final BlockPos pos) {
+        return pos.getX() == 0 && pos.getY() == 0 && pos.getZ() == 0 ? this : new BlockPos(x + pos.getX(), y + pos.getY(), z + pos.getZ());
+    }
+
+    /**
+     * Subtract the given Vector from this BlockPos
+     */
+    public BlockPos subtract(final BlockPos pos) {
+        return pos.getX() == 0 && pos.getY() == 0 && pos.getZ() == 0 ? this : new BlockPos(x - pos.getX(), y - pos.getY(), z - pos.getZ());
+    }
+
+    public double getDistance(int x, int y, int z) {
+        double d0 = (double)(this.x - x);
+        double d1 = (double)(this.y - y);
+        double d2 = (double)(this.z - z);
+        return Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
     }
 
     /**

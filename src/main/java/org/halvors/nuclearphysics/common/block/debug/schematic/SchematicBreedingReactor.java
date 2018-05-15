@@ -3,11 +3,11 @@ package org.halvors.nuclearphysics.common.block.debug.schematic;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.Pair;
-import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
 import java.util.HashMap;
 
@@ -33,9 +33,9 @@ public class SchematicBreedingReactor implements ISchematic {
 
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
-                final Position position = new Position(x, 0, z);
+                final BlockPos pos = new BlockPos(x, 0, z);
 
-                if (position.getMagnitude() <= 2) {
+                if (VectorUtility.getMagnitude(pos) <= 2) {
                     if (!((x == -radius || x == radius) && (z == -radius || z == radius))) {
                         map.put(new BlockPos(x, 0, z), new Pair<>(ModBlocks.blockReactorCell, 0));
                         map.put(new BlockPos(x, -1, z), new Pair<>(ModBlocks.blockThermometer, 0));
@@ -49,9 +49,9 @@ public class SchematicBreedingReactor implements ISchematic {
             }
         }
 
-        map.put(new BlockPos(0, -2, 0), new Pair<>(Blocks.stone, 0));
-        map.put(new BlockPos(0, -3, 0), new Pair<>(Blocks.stone, 0));
-        map.put(new BlockPos(0, 0, 0), new Pair<>(ModBlocks.blockReactorCell, 0));
+        map.put(BlockPos.ORIGIN.down(2), new Pair<>(Blocks.stone, 0));
+        map.put(BlockPos.ORIGIN.down(3), new Pair<>(Blocks.stone, 0));
+        map.put(BlockPos.ORIGIN, new Pair<>(ModBlocks.blockReactorCell, 0));
 
         return map;
     }

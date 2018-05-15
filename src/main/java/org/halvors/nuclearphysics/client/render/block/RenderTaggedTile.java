@@ -7,10 +7,9 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.tile.ITagRender;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.api.BlockPos;
-import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -52,7 +51,7 @@ public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<
                             final Entry<String, Integer> entry = it.next();
 
                             if (entry.getKey() != null) {
-                                RenderUtility.renderFloatingText(entry.getKey(), new Position(x, y, z).translate(0.5, i * 0.25 + height, 0.5), entry.getValue());
+                                RenderUtility.renderFloatingText(entry.getKey(), new BlockPos(x, y, z).add(0.5, i * 0.25 + height, 0.5), entry.getValue());
                             }
 
                             i++;

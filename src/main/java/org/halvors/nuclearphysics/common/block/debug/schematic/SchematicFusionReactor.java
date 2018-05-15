@@ -3,10 +3,10 @@ package org.halvors.nuclearphysics.common.block.debug.schematic;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet.EnumElectromagnet;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
-import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.type.Pair;
 
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class SchematicFusionReactor implements ISchematic {
             map.put(new BlockPos(-1, y, 0), new Pair<>(ModBlocks.blockElectromagnet, EnumElectromagnet.NORMAL.ordinal()));
         }
 
-        map.put(new BlockPos(0, 0, 0), new Pair<>(ModBlocks.blockReactorCell, 0));
+        map.put(BlockPos.ORIGIN, new Pair<>(ModBlocks.blockReactorCell, 0));
 
         return map;
     }

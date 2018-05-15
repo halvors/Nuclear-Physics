@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
@@ -27,8 +28,6 @@ import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
 import org.halvors.nuclearphysics.common.tile.TileInventory;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.nuclearphysics.api.BlockPos;
-import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import java.util.List;
@@ -170,7 +169,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
                     // Check control rods.
                     for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-                        final Position checkPos = new Position(this).offset(side);
+                        final BlockPos checkPos = pos.offset(side);
 
                         if (checkPos.getBlock(worldObj) == ModBlocks.blockControlRod) {
                             deltaTemperature /= 2;
@@ -208,15 +207,15 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
                 if (isOverToxic()) {
                     // Randomly leak toxic waste when it is too toxic.
-                    final Position leakPos = new Position(this).add(worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10);
-                    final Block block = worldObj.getBlock(leakPos.getIntX(), leakPos.getIntY(), leakPos.getIntZ());
+                    final BlockPos leakPos = pos.add(worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10, worldObj.rand.nextInt(20) - 10);
+                    final Block block = leakPos.getBlock(worldObj);
 
                     if (block == Blocks.grass) {
-                        worldObj.setBlock(leakPos.getIntX(), leakPos.getIntY(), leakPos.getIntZ(), ModBlocks.blockRadioactiveGrass);
+                        leakPos.setBlock(ModBlocks.blockRadioactiveGrass, worldObj);
                         tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-                    } else if (worldObj.isAirBlock(leakPos.getIntX(), leakPos.getIntY(), leakPos.getIntZ()) || block.isReplaceable(worldObj, leakPos.getIntX(), leakPos.getIntY(), leakPos.getIntZ())) {
+                    } else if (leakPos.isAirBlock(worldObj) || leakPos.isBlockReplaceable(block, worldObj)) {
                         if (fluidStack != null) {
-                            worldObj.setBlock(leakPos.getIntX(), leakPos.getIntY(), leakPos.getIntZ(), fluidStack.getFluid().getBlock());
+                            leakPos.setBlock(fluidStack.getFluid().getBlock(), worldObj);
                             tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
                         }
                     }
@@ -225,7 +224,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
             if (worldObj.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
                 shouldUpdate = false;
-                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, blockType);
+                worldObj.notifyBlocksOfNeighborChange(xCoord, yCoord, zCoord, getBlockType());
 
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
