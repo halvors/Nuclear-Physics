@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class TileGenerator extends TileBase implements ITickable, ITileNetwork {
+public class TileGenerator extends TileBase implements ITickable {
     private static final String NBT_STORED_ENERGY = "storedEnergy";
 
     private final List<BlockPos> targets = new ArrayList<>();
@@ -81,6 +81,8 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork {
 
     @Override
     public void handlePacketData(final ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
         if (world.isRemote) {
             energyStorage.setEnergyStored(dataStream.readInt());
         }
@@ -88,6 +90,8 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork {
 
     @Override
     public List<Object> getPacketData(final List<Object> objects) {
+        super.getPacketData(objects);
+
         objects.add(energyStorage.getEnergyStored());
 
         return objects;
