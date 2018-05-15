@@ -31,6 +31,7 @@ public class TileConsumer extends TileRotatable {
     }
 
     @Override
+    @Nonnull
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 

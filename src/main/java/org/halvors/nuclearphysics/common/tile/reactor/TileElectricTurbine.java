@@ -157,7 +157,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 angularVelocity = (float) ((power * 4 * 256) / torque);
 
                 if (world.getWorldTime() % 3 == 0 && previousAngularVelocity != angularVelocity) {
-                    NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+                    notifyBlockUpdate();
                     previousAngularVelocity = angularVelocity;
                 }
 
@@ -184,7 +184,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
 
         if (!world.isRemote) {
             if (world.getTotalWorldTime() % 60 == 0 && getMultiBlock().isConstructed()) {
-                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+                notifyBlockUpdate();
             }
 
             power = 0;
@@ -221,7 +221,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     @Override
     public void onMultiBlockChanged() {
         if (!world.isRemote) {
-            NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+            notifyBlockUpdate();
         }
 
         // Notify neighbor blocks of when multiblock is formed.

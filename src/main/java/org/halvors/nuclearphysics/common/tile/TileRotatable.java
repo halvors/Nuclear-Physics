@@ -6,10 +6,11 @@ import net.minecraft.util.EnumFacing;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-public class TileRotatable extends TileBase implements ITileNetwork, ITileRotatable {
+public class TileRotatable extends TileBase implements ITileRotatable {
     private static final String NBT_FACING = "facing";
 
     protected EnumFacing facing = EnumFacing.NORTH;
@@ -28,6 +29,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     }
 
     @Override
+    @Nonnull
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
@@ -42,6 +44,8 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
 
     @Override
     public void handlePacketData(final ByteBuf dataStream) {
+        super.handlePacketData(dataStream);
+
         if (world.isRemote) {
             facing = EnumFacing.getFront(dataStream.readInt());
         }
@@ -49,6 +53,8 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
 
     @Override
     public List<Object> getPacketData(final List<Object> objects) {
+        super.getPacketData(objects);
+
         objects.add(facing.ordinal());
 
         return objects;
@@ -70,6 +76,6 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     public void setFacing(final EnumFacing facing) {
         this.facing = facing;
 
-        NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+        notifyBlockUpdate();
     }
 }

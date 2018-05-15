@@ -151,7 +151,7 @@ public class TileChemicalExtractor extends TileProcess {
             }
 
             if (world.getWorldTime() % 10 == 0) {
-                NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
+                notifyBlockUpdate();
             }
         }
     }
