@@ -243,7 +243,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                         }
                     }
 
-                    // If reactor temperature is below MELTING_POINT and meltdownCounter is over 0, decrease it.
+                    // If reactor temperature is below melting point and meltdownCounter is over 0, decrease it.
                     if (previousTemperature < MELTING_POINT && meltdownCounter > 0) {
                         meltdownCounter--;
                     }
