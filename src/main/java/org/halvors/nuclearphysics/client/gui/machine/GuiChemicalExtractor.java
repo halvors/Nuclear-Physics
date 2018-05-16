@@ -20,8 +20,6 @@ public class GuiChemicalExtractor extends GuiMachine<TileChemicalExtractor> {
     public GuiChemicalExtractor(final InventoryPlayer inventory, final TileChemicalExtractor tile) {
         super(tile, new ContainerChemicalExtractor(inventory, tile));
 
-        final int centerX = xSize / 2;
-
         components.add(new GuiBar(tile.getEnergyStorage(), this, centerX - 80, 18));
         components.add(new GuiFluidGauge(tile::getInputTank, this, centerX - 70, 18));
         components.add(new GuiSlot(EnumSlotType.LIQUID, this, centerX - 54, 18));
@@ -40,7 +38,7 @@ public class GuiChemicalExtractor extends GuiMachine<TileChemicalExtractor> {
         final List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tile.getBlockType().getUnlocalizedName() + "." + tile.getType().ordinal() + ".text"), 4);
 
         for (int i = 0; i < list.size(); i++) {
-            fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 85 + i * 9, 0x404040);
+            fontRendererObj.drawString(list.get(i), centerX - 80, 85 + i * 9, 0x404040);
         }
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);

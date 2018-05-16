@@ -15,6 +15,7 @@ import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiMachine<T extends TileMachine> extends GuiComponentContainer<T> {
+    protected final int centerX = xSize / 2;
     protected int titleOffset;
 
     public GuiMachine(final T tile, final Container container) {

@@ -20,14 +20,17 @@ public class GuiNuclearBoiler extends GuiMachine<TileNuclearBoiler> {
     public GuiNuclearBoiler(final InventoryPlayer inventoryPlayer, final TileNuclearBoiler tile) {
         super(tile, new ContainerNuclearBoiler(inventoryPlayer, tile));
 
-        components.add(new GuiSlot(EnumSlotType.BATTERY, this, 55, 25));
-        components.add(new GuiSlot(this, 80, 25));
-        components.add(new GuiBar(() -> tile.getOperatingTicks() / TileNuclearBoiler.TICKS_REQUIRED, EnumBarType.PROGRESS, this, 110, 26));
-        components.add(new GuiFluidGauge(tile::getInputTank, this, (xSize / 2) - 80, 18));
-        components.add(new GuiSlot(EnumSlotType.LIQUID, this, 24, 18));
-        components.add(new GuiSlot(EnumSlotType.LIQUID, this, 24, 49));
-        components.add(new GuiFluidGauge(tile::getOutputTank, this, 154, 18));
-        components.add(new GuiSlot(EnumSlotType.GAS, this, 134, 49));
+        final int centerX = xSize / 2;
+
+        components.add(new GuiBar(tile.getEnergyStorage(), this, centerX - 80, 18));
+        components.add(new GuiFluidGauge(tile::getInputTank, this, centerX - 70, 18));
+        components.add(new GuiSlot(EnumSlotType.LIQUID, this, centerX - 54, 18));
+        components.add(new GuiSlot(EnumSlotType.LIQUID, this, centerX - 54, 49));
+        components.add(new GuiSlot(this, centerX - 24, 25));
+        components.add(new GuiSlot(EnumSlotType.BATTERY, this, centerX - 4, 25));
+        components.add(new GuiBar(() -> tile.getOperatingTicks() / TileNuclearBoiler.TICKS_REQUIRED, EnumBarType.PROGRESS, this, centerX + 30, 26));
+        components.add(new GuiSlot(EnumSlotType.GAS, this, centerX + 46, 49));
+        components.add(new GuiFluidGauge(tile::getOutputTank, this, centerX + 66, 18));
     }
 
     @Override
@@ -35,7 +38,7 @@ public class GuiNuclearBoiler extends GuiMachine<TileNuclearBoiler> {
         final List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tile.getBlockType().getUnlocalizedName() + "." + tile.getType().ordinal() + ".text"), 4);
 
         for (int i = 0; i < list.size(); i++) {
-            fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 85 + i * 9, 0x404040);
+            fontRendererObj.drawString(list.get(i), centerX - 80, 85 + i * 9, 0x404040);
         }
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);

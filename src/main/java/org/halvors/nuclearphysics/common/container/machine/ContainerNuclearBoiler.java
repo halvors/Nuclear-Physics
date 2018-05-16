@@ -9,19 +9,19 @@ public class ContainerNuclearBoiler extends ContainerBase<TileNuclearBoiler> {
     public ContainerNuclearBoiler(final InventoryPlayer inventoryPlayer, final TileNuclearBoiler tile) {
         super(5, inventoryPlayer, tile);
 
-        // Battery
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 56, 26));
-
-        // Yellowcake Input
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 81, 26));
-
         // Fluid input fill
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 25, 19));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 35, 19));
 
         // Fluid input drain
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 25, 50));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 35, 50));
 
-        // Fluid output drain
+        // Yellowcake Input
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 65, 26));
+
+        // Battery
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 85, 26));
+
+        // Gas output drain
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 4, 135, 50));
 
         // Player inventory

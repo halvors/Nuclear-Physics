@@ -10,12 +10,12 @@ public class ContainerParticleAccelerator extends ContainerBase<TileParticleAcce
         super(4, inventoryPlayer, tile);
 
         // Inputs
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 132, 26));
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 132, 51));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 151, 19));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 151, 43));
 
         // Output
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 132, 75));
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 106, 75));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 151, 67));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 128, 67));
 
         // Player inventory
         addPlayerInventory(inventoryPlayer.player);

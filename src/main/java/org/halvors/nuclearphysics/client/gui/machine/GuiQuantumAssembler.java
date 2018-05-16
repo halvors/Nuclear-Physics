@@ -41,7 +41,7 @@ public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {
             displayText = LanguageUtility.transelate("gui.idle");
         }
 
-        fontRendererObj.drawString(displayText, (xSize / 2) - 80, ySize - 106, 0x404040);
+        fontRendererObj.drawString(displayText, centerX - 80, ySize - 106, 0x404040);
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
     }

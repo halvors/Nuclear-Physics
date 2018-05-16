@@ -20,12 +20,13 @@ public class GuiGasCentrifuge extends GuiMachine<TileGasCentrifuge> {
     public GuiGasCentrifuge(final InventoryPlayer inventoryPlayer, final TileGasCentrifuge tile) {
         super(tile, new ContainerGasCentrifuge(inventoryPlayer, tile));
 
-        components.add(new GuiSlot(this, 80, 25));
-        components.add(new GuiSlot(this, 100, 25));
-        components.add(new GuiSlot(EnumSlotType.BATTERY, this, 130, 25));
-        components.add(new GuiBar(() -> tile.getOperatingTicks() / TileGasCentrifuge.TICKS_REQUIRED, EnumBarType.PROGRESS, this, 40, 26));
-        components.add(new GuiFluidGauge(tile::getTank, this, (xSize / 2) - 80, 18));
-        components.add(new GuiSlot(EnumSlotType.GAS, this, 24, 49));
+        components.add(new GuiBar(tile.getEnergyStorage(), this, centerX - 80, 18));
+        components.add(new GuiFluidGauge(tile::getTank, this, centerX - 70, 18));
+        components.add(new GuiSlot(EnumSlotType.GAS, this, centerX - 54, 49));
+        components.add(new GuiBar(() -> tile.getOperatingTicks() / TileGasCentrifuge.TICKS_REQUIRED, EnumBarType.PROGRESS, this, centerX - 40, 25));
+        components.add(new GuiSlot(this, centerX - 8, 25));
+        components.add(new GuiSlot(this, centerX + 12, 25));
+        components.add(new GuiSlot(EnumSlotType.BATTERY, this, centerX + 42, 25));
     }
 
     @Override
@@ -40,12 +41,12 @@ public class GuiGasCentrifuge extends GuiMachine<TileGasCentrifuge> {
             displayText = "gui.idle";
         }
 
-        fontRendererObj.drawString(LanguageUtility.transelate("gui.status") + ": " + LanguageUtility.transelate(displayText), 70, 50, 0x404040);
+        fontRendererObj.drawString(LanguageUtility.transelate("gui.status") + ": " + LanguageUtility.transelate(displayText), 70, 55, 0x404040);
 
         final List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tile.getBlockType().getUnlocalizedName() + "." + tile.getType().ordinal() + ".text"), 4);
 
         for (int i = 0; i < list.size(); i++) {
-            fontRendererObj.drawString(list.get(i), (xSize / 2) - 80, 85 + i * 9, 0x404040);
+            fontRendererObj.drawString(list.get(i), centerX - 80, 85 + i * 9, 0x404040);
         }
 
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
