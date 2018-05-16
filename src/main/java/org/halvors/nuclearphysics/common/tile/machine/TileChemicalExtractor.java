@@ -4,9 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.RangedWrapper;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
@@ -20,13 +18,15 @@ import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
 
+import javax.annotation.Nonnull;
+
 public class TileChemicalExtractor extends TileProcess {
     private static final int ENERGY_PER_TICK = 20000;
     private static final int EXTRACT_SPEED = 100;
     public static final int TICKS_REQUIRED = 14 * 20;
 
-    private IItemHandler top = new RangedWrapper(inventory, 2, 3);
-    private IItemHandler sides = new RangedWrapper(inventory, 0, 2);
+    //private IItemHandler top = new RangedWrapper(inventory, 2, 3);
+    //private IItemHandler sides = new RangedWrapper(inventory, 0, 2);
 
     public TileChemicalExtractor() {
         this(EnumMachine.CHEMICAL_EXTRACTOR);
@@ -69,12 +69,12 @@ public class TileChemicalExtractor extends TileProcess {
             }
 
             @Override
-            public ItemStack insertItem(final int slot, final ItemStack stack, final boolean simulate) {
-                if (!isItemValidForSlot(slot, stack)) {
-                    return stack;
+            public ItemStack insertItem(final int slot, @Nonnull final ItemStack itemStack, final boolean simulate) {
+                if (!isItemValidForSlot(slot, itemStack)) {
+                    return itemStack;
                 }
 
-                return super.insertItem(slot, stack, simulate);
+                return super.insertItem(slot, itemStack, simulate);
             }
         };
 

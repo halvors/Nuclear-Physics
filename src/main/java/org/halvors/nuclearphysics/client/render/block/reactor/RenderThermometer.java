@@ -2,13 +2,13 @@ package org.halvors.nuclearphysics.client.render.block.reactor;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.science.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
 import org.halvors.nuclearphysics.common.type.EnumColor;
-import org.halvors.nuclearphysics.common.type.Position;
 
 @SideOnly(Side.CLIENT)
 public class RenderThermometer extends TileEntitySpecialRenderer<TileThermometer> {
@@ -20,10 +20,10 @@ public class RenderThermometer extends TileEntitySpecialRenderer<TileThermometer
         RenderUtility.renderText((tile.isOverThreshold() ? EnumColor.DARK_RED : EnumColor.BLACK) + UnitDisplay.getTemperatureDisplay(Math.round(tile.getDetectedTemperature())), tile.getFacing(), 0.8F, x, y + 0.1, z);
         RenderUtility.renderText((tile.isOverThreshold() ? EnumColor.DARK_RED : EnumColor.DARK_BLUE) + "Threshold: " + UnitDisplay.getTemperatureDisplay(tile.getThershold()), tile.getFacing(), 1, x, y - 0.1, z);
 
-        final Position trackCoordinate = tile.getTrackCoordinate();
+        final BlockPos trackCoordinate = tile.getTrackCoordinate();
 
         if (tile.getTrackCoordinate() != null) {
-            RenderUtility.renderText(trackCoordinate.getIntX() + ", " + trackCoordinate.getIntY() + ", " + trackCoordinate.getIntZ(), tile.getFacing(), 0.5F, x, y - 0.3, z);
+            RenderUtility.renderText(trackCoordinate.getX() + ", " + trackCoordinate.getY() + ", " + trackCoordinate.getZ(), tile.getFacing(), 0.5F, x, y - 0.3, z);
         }
 
         GlStateManager.popMatrix();

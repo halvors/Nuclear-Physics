@@ -12,12 +12,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TileProducer extends TileRotatable {
+public class TileConsumer extends TileRotatable {
     private static final String NBT_STORED_ENERGY = "storedEnergy";
 
     protected EnergyStorage energyStorage;
 
-    public TileProducer() {
+    public TileConsumer() {
 
     }
 

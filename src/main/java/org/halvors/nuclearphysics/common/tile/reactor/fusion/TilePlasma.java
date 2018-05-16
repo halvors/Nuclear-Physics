@@ -1,6 +1,7 @@
 package org.halvors.nuclearphysics.common.tile.reactor.fusion;
 
 import net.minecraft.init.Blocks;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -9,11 +10,38 @@ import net.minecraftforge.common.MinecraftForge;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
+import org.halvors.nuclearphysics.common.tile.TileBase;
 
-public class TilePlasma extends TileEntity implements ITickable {
+import javax.annotation.Nonnull;
+
+public class TilePlasma extends TileBase implements ITickable {
+    private static final String NBT_TEMPERATURE = "temperature";
     public static final int PLASMA_MAX_TEMPERATURE = 1000000;
 
     private int temperature = PLASMA_MAX_TEMPERATURE;
+
+    public TilePlasma() {
+
+    }
+
+    @Override
+    public void readFromNBT(final NBTTagCompound tag) {
+        super.readFromNBT(tag);
+
+        temperature = tag.getInteger(NBT_TEMPERATURE);
+    }
+
+    @Override
+    @Nonnull
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
+        super.writeToNBT(tag);
+
+        tag.setInteger(NBT_TEMPERATURE, temperature);
+
+        return tag;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public void update() {
@@ -64,6 +92,10 @@ public class TilePlasma extends TileEntity implements ITickable {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public int getTemperature() {
+        return temperature;
+    }
 
     public void setTemperature(final int temperature) {
         this.temperature = temperature;

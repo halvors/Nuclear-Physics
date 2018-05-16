@@ -2,7 +2,6 @@ Known bugs:
     Before Beta release:
         - Verify that it's possible to output 1g anitmatter cells.
         - When other mods fluids is used as default, tanks still contain the old one. (SEEMS TO BE FORGE BEHAVIOUR, NOT A BUG)
-        - Fix strange Celsius character. (NOT A PROBLEM ANYMORE)?
 
     High Priority:
         - Empty cell having NBT when filled and later emptied.
@@ -32,7 +31,6 @@ New features to add:
         - Implement IAntiPoisonBlock and add make radiation resistant blocks. (Raytrace).
         - Check if we should have a uranium hexaflouride container for gas centrifuge and nuclear boiler.
         - Add electromagnetic cell, a cell capable of holding antimatter?
-        - Add a delay to thermometer redstone output, so that it stays in it current state for a period of time. (MAYBE TELL USERS TO USE A DELAYER INSTEAD?)
 
     Enhancement:
         - Preserve inventory items in item block when destroying blocks.
