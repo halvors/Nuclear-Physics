@@ -183,7 +183,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                 reset();
             }
 
-            if (world.getWorldTime() % 5 == 0) {
+            if (world.getWorldTime() % 10 == 0) {
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
 

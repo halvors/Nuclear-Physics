@@ -10,9 +10,10 @@ import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.RedstoneUtility;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileMachine extends TileProducer implements ITickable, ITileRedstoneControl {
+public class TileMachine extends TileConsumer implements ITickable, ITileRedstoneControl {
     private static final String NBT_OPERATING_TICKS = "operatingTicks";
     private static final String NBT_REDSTONE = "redstone";
     private static final String NBT_REDSTONE_CONTROL = "redstoneControl";
@@ -44,6 +45,7 @@ public class TileMachine extends TileProducer implements ITickable, ITileRedston
     }
 
     @Override
+    @Nonnull
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
