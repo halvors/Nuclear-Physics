@@ -12,7 +12,6 @@ import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
 import java.util.List;
 
-
 public class TileThermometer extends TileRotatable {
     private static final String NBT_THRESHOLD = "threshold";
     private static final String NBT_TRACK_COORDINATE = "trackCoordinate";
