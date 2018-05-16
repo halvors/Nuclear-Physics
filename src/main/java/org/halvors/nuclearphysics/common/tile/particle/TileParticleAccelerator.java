@@ -30,7 +30,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     private static final String NBT_TOTAL_ENERGY_CONSUMED = "totalEnergyConsumed";
     private static final String NBT_ANTIMATTER_COUNT = "antimatterCount";
     private static final int ENERGY_PER_TICK = 19000;
-    public static final float ANTIMATTER_CREATION_SPEED = 0.9F; // Speed by which a particle will turn into anitmatter.
+    public static final double ANTIMATTER_CREATION_SPEED = 0.9F; // Speed by which a particle will turn into anitmatter.
 
     // Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
     private int particleDensity = General.antimatterDensityMultiplier;
@@ -42,7 +42,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     public int totalEnergyConsumed = 0; // Synced
 
     private EntityParticle entityParticle = null;
-    private float velocity = 0; // Synced
+    private double velocity = 0; // Synced
     private int lastSpawnTick = 0;
 
     public TileParticleAccelerator() {
@@ -146,7 +146,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
                     if (entityParticle.isDead) {
                         // On particle collision we roll the dice to see if dark-matter is generated.
                         if (entityParticle.didCollide()) {
-                            if (world.rand.nextFloat() <= General.darkMatterSpawnChance) {
+                            if (world.rand.nextDouble() <= General.darkMatterSpawnChance) {
                                 inventory.insertItem(3, new ItemStack(ModItems.itemDarkMatterCell), false);
                             }
                         }
@@ -200,7 +200,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
         if (world.isRemote) {
             totalEnergyConsumed = dataStream.readInt();
             antimatterCount = dataStream.readInt();
-            velocity = dataStream.readFloat();
+            velocity = dataStream.readDouble();
         }
     }
 
@@ -302,10 +302,10 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
         }
     }
 
-    // Get velocity for the particle and @return it as a float.
-    public float getParticleVelocity() {
+    // Get velocity for the particle and @return it as a double.
+    public double getParticleVelocity() {
         if (entityParticle != null) {
-            return (float) entityParticle.getVelocity();
+            return entityParticle.getVelocity();
         }
 
         return 0;
@@ -323,7 +323,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
         return antimatterCount;
     }
 
-    public float getVelocity() {
+    public double getVelocity() {
         return velocity;
     }
 }

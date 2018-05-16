@@ -24,7 +24,7 @@ public abstract class RenderTaggedTile<T extends TileEntity> extends RenderTile<
 
         if (tile instanceof ITagRender && getPlayer().getDistance(pos.getX(), pos.getY(), pos.getZ()) <= RenderLiving.NAME_TAG_RANGE) {
             final HashMap<String, Integer> tags = new HashMap<>();
-            final float height = ((ITagRender) tile).addInformation(tags, getPlayer());
+            final double height = ((ITagRender) tile).addInformation(tags, getPlayer());
             final EntityPlayer player = Minecraft.getMinecraft().player;
 
             if (player.getRidingEntity() == null) {

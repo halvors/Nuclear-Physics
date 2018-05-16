@@ -217,7 +217,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                     }
 
                     // Emit radiation.
-                    if (world.getTotalWorldTime() % 20 == 0 && world.rand.nextFloat() > 0.65) {
+                    if (world.getTotalWorldTime() % 20 == 0 && world.rand.nextDouble() > 0.65) {
                         final List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - RADIUS * 2, pos.getY() - RADIUS * 2, pos.getZ() - RADIUS * 2, pos.getX() + RADIUS * 2, pos.getY() + RADIUS * 2, pos.getZ() + RADIUS * 2));
 
                         for (EntityLiving entity : entities) {

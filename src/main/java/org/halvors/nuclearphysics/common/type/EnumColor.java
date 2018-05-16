@@ -64,8 +64,8 @@ public enum EnumColor {
 	 * @param index - R:0, G:1, B:2
 	 * @return the color value
 	 */
-	public float getColor(final int index) {
-		return (float) rgbCode[index] / 255;
+	public double getColor(final int index) {
+		return (double) rgbCode[index] / 255;
 	}
 
 	public int getHex() {

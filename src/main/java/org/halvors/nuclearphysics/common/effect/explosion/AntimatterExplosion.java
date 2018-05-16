@@ -25,7 +25,7 @@ public class AntimatterExplosion extends RadioactiveExplosion implements IFulmin
     }
 
     @Override
-    public float getRadius() {
+    public double getRadius() {
         return size;
     }
 

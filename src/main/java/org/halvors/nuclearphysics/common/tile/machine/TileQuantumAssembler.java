@@ -20,7 +20,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
 
     // Used for rendering.
     private EntityItem entityItem = null;
-    private float rotationYaw1, rotationYaw2, rotationYaw3;
+    private double rotationYaw1, rotationYaw2, rotationYaw3;
 
     public TileQuantumAssembler() {
         this(EnumMachine.QUANTUM_ASSEMBLER);
@@ -153,15 +153,15 @@ public class TileQuantumAssembler extends TileInventoryMachine {
         return entityItem;
     }
 
-    public float getRotationYaw1() {
+    public double getRotationYaw1() {
         return rotationYaw1;
     }
 
-    public float getRotationYaw2() {
+    public double getRotationYaw2() {
         return rotationYaw2;
     }
 
-    public float getRotationYaw3() {
+    public double getRotationYaw3() {
         return rotationYaw3;
     }
 }

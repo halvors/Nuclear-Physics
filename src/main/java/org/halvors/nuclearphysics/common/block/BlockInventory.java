@@ -41,9 +41,9 @@ public class BlockInventory extends BlockRotatable {
 
                         if (itemStack != null) {
                             final Random random = new Random();
-                            final float var8 = random.nextFloat() * 0.8F + 0.1F;
-                            final float var9 = random.nextFloat() * 0.8F + 0.1F;
-                            final float var10 = random.nextFloat() * 0.8F + 0.1F;
+                            final double var8 = random.nextDouble() * 0.8 + 0.1;
+                            final double var9 = random.nextDouble() * 0.8 + 0.1;
+                            final double var10 = random.nextDouble() * 0.8 + 0.1;
 
                             while (itemStack.stackSize > 0) {
                                 int var11 = random.nextInt(21) + 10;
@@ -60,9 +60,9 @@ public class BlockInventory extends BlockRotatable {
                                     entityItem.getEntityItem().setTagCompound(itemStack.getTagCompound().copy());
                                 }
 
-                                final float var13 = 0.05F;
+                                final double var13 = 0.05F;
                                 entityItem.motionX = random.nextGaussian() * var13;
-                                entityItem.motionY = (random.nextGaussian() * var13) + 0.2F;
+                                entityItem.motionY = (random.nextGaussian() * var13) + 0.2;
                                 entityItem.motionZ = random.nextGaussian() * var13;
                                 world.spawnEntity(entityItem);
 

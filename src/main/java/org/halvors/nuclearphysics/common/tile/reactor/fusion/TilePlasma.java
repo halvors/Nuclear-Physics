@@ -57,7 +57,7 @@ public class TilePlasma extends TileBase implements ITickable {
                 } else {
                     for (final EnumFacing side : EnumFacing.values()) {
                         // Randomize spread direction.
-                        if (world.rand.nextFloat() < 0.4) {
+                        if (world.rand.nextDouble() < 0.4) {
                             final BlockPos spreadPos = pos.offset(side);
                             TileEntity tile = world.getTileEntity(spreadPos);
 

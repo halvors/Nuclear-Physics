@@ -22,7 +22,7 @@ import java.util.Random;
 
 public class BlockRadioactive extends BlockBase {
     protected boolean canSpread;
-    protected float radius;
+    protected double radius;
     protected int amplifier;
     protected boolean canWalkPoison;
     protected boolean isRandomlyRadioactive;
@@ -69,12 +69,12 @@ public class BlockRadioactive extends BlockBase {
                     final BlockPos newPos = new BlockPos(pos.getX() + random.nextInt(3) - 1, pos.getY() + random.nextInt(5) - 3, pos.getZ() + random.nextInt(3) - 1);
                     final Block block = world.getBlockState(newPos).getBlock();
 
-                    if (random.nextFloat() > 0.4 && (block == Blocks.FARMLAND || block == Blocks.GRASS)) {
+                    if (random.nextDouble() > 0.4 && (block == Blocks.FARMLAND || block == Blocks.GRASS)) {
                         world.setBlockState(newPos, getDefaultState());
                     }
                 }
 
-                if (random.nextFloat() > 0.85) {
+                if (random.nextDouble() > 0.85) {
                     world.setBlockState(pos, Blocks.DIRT.getDefaultState());
                 }
             }

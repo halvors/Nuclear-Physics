@@ -31,7 +31,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
     private static final int ENERGY_PER_TICK = 20000;
     public static final int TICKS_REQUIRED = 60 * 20;
 
-    public float rotation = 0;
+    public double rotation = 0;
 
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 5) {
         @Override
@@ -221,7 +221,7 @@ public class TileGasCentrifuge extends TileInventoryMachine {
         if (canProcess()) {
             tank.drainInternal(General.uraniumHexaflourideRatio, true);
 
-            if (world.rand.nextFloat() > 0.6) {
+            if (world.rand.nextDouble() > 0.6) {
                 inventory.insertItem(2, new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_235.ordinal()), false);
             } else {
                 inventory.insertItem(3, new ItemStack(ModItems.itemUranium, 1, EnumUranium.URANIUM_238.ordinal()), false);

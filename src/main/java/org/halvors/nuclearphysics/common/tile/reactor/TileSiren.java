@@ -19,18 +19,18 @@ public class TileSiren extends TileBase implements ITickable {
             final int pitch = world.getBlockState(pos).getValue(BlockStateSiren.PITCH);
 
             if (world.isBlockIndirectlyGettingPowered(pos) > 0) {
-                float volume = 0.5F;
+                double volume = 0.5;
 
                 // Check in each direction for another siren block, if exists amplify volume.
                 for (final EnumFacing side : EnumFacing.values()) {
                     final TileEntity tile = world.getTileEntity(pos.offset(side));
 
                     if (tile == this) {
-                        volume *= 1.5F;
+                        volume *= 1.5;
                     }
                 }
 
-                world.playSound(null, pos, ModSoundEvents.SIREN, SoundCategory.BLOCKS, volume, 1F - 0.18F * (pitch / 15F));
+                world.playSound(null, pos, ModSoundEvents.SIREN, SoundCategory.BLOCKS, (float) volume, 1F - 0.18F * (pitch / 15F));
             }
         }
     }

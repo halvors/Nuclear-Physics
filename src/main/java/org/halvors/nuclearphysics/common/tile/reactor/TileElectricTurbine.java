@@ -61,12 +61,12 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     private int maxPower = 128000;
 
     // Current rotation of the turbine in radians.
-    public float rotation = 0;
+    public double rotation = 0;
 
     public int tier = 0; // Synced
 
-    private float angularVelocity = 0; // Synced
-    private float previousAngularVelocity = 0;
+    private double angularVelocity = 0; // Synced
+    private double previousAngularVelocity = 0;
 
     // MutliBlock methods.
     private ElectricTurbineMultiBlockHandler multiBlock;
@@ -154,7 +154,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 // Set angular velocity based on power and torque.
-                angularVelocity = (float) ((power * 4 * 256) / torque);
+                angularVelocity = (double) ((power * 4 * 256) / torque);
 
                 if (world.getWorldTime() % 3 == 0 && previousAngularVelocity != angularVelocity) {
                     NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
@@ -168,13 +168,13 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
                 if (world.getWorldTime() % 26 == 0) {
                     // TODO: Tweak this volume, i suspect it is way to loud.
                     final double maxVelocity = (getMaxPower() / torque) * 4;
-                    final float percentage = Math.min(angularVelocity * 4 / (float) maxVelocity, 1);
+                    final double percentage = Math.min(angularVelocity * 4 / maxVelocity, 1);
 
-                    world.playSound(null, pos, ModSoundEvents.ELECTRIC_TURBINE, SoundCategory.BLOCKS, percentage, 1);
+                    world.playSound(null, pos, ModSoundEvents.ELECTRIC_TURBINE, SoundCategory.BLOCKS, (float) percentage, 1);
                 }
 
                 // Update rotation.
-                rotation = (float) ((rotation + angularVelocity / 20) % (Math.PI * 2));
+                rotation = (rotation + angularVelocity / 20) % (Math.PI * 2);
             }
         } else if (tank.getFluidAmount() > 0) {
             final int amount = getMultiBlock().get().tank.fillInternal(tank.getFluid(), false);
@@ -258,7 +258,7 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         if (world.isRemote) {
             getMultiBlock().handlePacketData(dataStream);
             tier = dataStream.readInt();
-            angularVelocity = dataStream.readFloat();
+            angularVelocity = dataStream.readDouble();
             tank.handlePacketData(dataStream);
         }
     }

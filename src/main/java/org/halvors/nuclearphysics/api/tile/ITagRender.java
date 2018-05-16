@@ -15,6 +15,6 @@ public interface ITagRender {
      * @param map HashMap of strings followed by their color.
      * @return The height in which the render should happen.
      */
-    float addInformation(HashMap<String, Integer> map, EntityPlayer player);
+    double addInformation(HashMap<String, Integer> map, EntityPlayer player);
 }
 

@@ -79,7 +79,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
         }
     };
 
-    public float rotation = 0;
+    public double rotation = 0;
 
     public TilePlasmaHeater() {
         this(EnumMachine.PLASMA_HEATER);
@@ -220,7 +220,7 @@ public class TilePlasmaHeater extends TileMachine implements IFluidHandler, ITag
 
     @Override
     @SideOnly(Side.CLIENT)
-    public float addInformation(final HashMap<String, Integer> map, final EntityPlayer player) {
+    public double addInformation(final HashMap<String, Integer> map, final EntityPlayer player) {
         if (energyStorage.getEnergyStored() > 0) {
             map.put(LanguageUtility.transelate("tooltip.energy") + ": " + UnitDisplay.getEnergyDisplay(energyStorage.getEnergyStored()), EnumColor.WHITE.getHex());
         }

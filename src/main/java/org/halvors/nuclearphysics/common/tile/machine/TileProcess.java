@@ -32,7 +32,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     protected LiquidTank tankInput;
     protected LiquidTank tankOutput;
 
-    public float rotation = 0;
+    public double rotation = 0;
 
     protected int inputSlot;
     protected int outputSlot;

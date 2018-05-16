@@ -4,6 +4,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.GuiMachine;
+import org.halvors.nuclearphysics.client.gui.component.GuiBar;
 import org.halvors.nuclearphysics.client.gui.component.GuiSlot;
 import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
@@ -20,6 +21,9 @@ public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {
         ySize = 230;
         titleOffset = -7;
 
+        components.add(new GuiBar(tile.getEnergyStorage(), this, centerX - 80, 18));
+
+
         components.add(new GuiSlot(this, 79, 39));
         components.add(new GuiSlot(this, 52, 55));
         components.add(new GuiSlot(this, 106, 55));
@@ -34,7 +38,7 @@ public class GuiQuantumAssembler extends GuiMachine<TileQuantumAssembler> {
         final String displayText;
 
         if (tile.getOperatingTicks() > 0) {
-            displayText = LanguageUtility.transelate("gui.machine") + ": " + (int) (((float) tile.getOperatingTicks() / (float) TileQuantumAssembler.TICKS_REQUIRED) * 100) + "%";
+            displayText = LanguageUtility.transelate("gui.machine") + ": " + ((tile.getOperatingTicks() / TileQuantumAssembler.TICKS_REQUIRED) * 100) + "%";
         } else if (tile.canProcess()) {
             displayText = LanguageUtility.transelate("gui.ready");
         } else {
