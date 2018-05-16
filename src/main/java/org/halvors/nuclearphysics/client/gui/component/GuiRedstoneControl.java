@@ -10,34 +10,34 @@ import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketRedstoneControl;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
+import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.RedstoneControl;
-import org.halvors.nuclearphysics.common.utility.type.Resource;
 
 import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public class GuiRedstoneControl extends GuiComponent {
-    private TileEntity tile;
+    private final TileEntity tile;
 
-    public <T extends TileEntity & ITileRedstoneControl> GuiRedstoneControl(T tile, IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "redstone_control.png"), gui, x, y);
+    public <T extends TileEntity & ITileRedstoneControl> GuiRedstoneControl(final T tile, final IGuiWrapper gui, final int x, final int y) {
+        super(ResourceUtility.getResource(EnumResource.GUI_COMPONENT, "redstone_control.png"), gui, x, y);
 
         this.tile = tile;
     }
 
     @Override
-    public Rectangle getBounds(int guiWidth, int guiHeight) {
+    public Rectangle getBounds(final int guiWidth, final int guiHeight) {
         return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, 26, 26);
     }
 
     @Override
-    public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
+    public void renderBackground(final int xAxis, final int yAxis, final int guiWidth, final int guiHeight) {
         RenderUtility.bindTexture(resource);
 
         gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, 26, 26);
 
-        int renderX = 26 + (20 * ((ITileRedstoneControl) tile).getRedstoneControl().ordinal());
+        final int renderX = 26 + (20 * ((ITileRedstoneControl) tile).getRedstoneControl().ordinal());
 
         if (isPointInRegion(xLocation + 2, yLocation + 3, xAxis, yAxis, 20, 20)) {
             gui.drawTexturedRect(guiWidth + xLocation + 2, guiHeight + yLocation + 3, renderX, 0, 20, 20);
@@ -47,7 +47,7 @@ public class GuiRedstoneControl extends GuiComponent {
     }
 
     @Override
-    public void renderForeground(int xAxis, int yAxis) {
+    public void renderForeground(final int xAxis, final int yAxis) {
         RenderUtility.bindTexture(resource);
 
         if (isPointInRegion(xLocation + 2, yLocation + 3, xAxis, yAxis, 20, 20)) {
@@ -56,25 +56,25 @@ public class GuiRedstoneControl extends GuiComponent {
     }
 
     @Override
-    public void preMouseClicked(int xAxis, int yAxis, int button) {
+    public void preMouseClicked(final int xAxis, final int yAxis, final int button) {
 
     }
 
     @Override
-    public void mouseClicked(int xAxis, int yAxis, int button) {
+    public void mouseClicked(final int xAxis, final int yAxis, final int button) {
         switch (button) {
             case 0:
                 if (isPointInRegion(xLocation + 2, yLocation + 3, xAxis, yAxis, 20, 20)) {
-                    ITileRedstoneControl tileRedstoneControl = (ITileRedstoneControl) tile;
-                    RedstoneControl redstoneControl = tileRedstoneControl.getRedstoneControl();
-                    int ordinalToSet = redstoneControl.ordinal() < (RedstoneControl.values().length - 1) ? redstoneControl.ordinal() + 1 : 0;
+                    final ITileRedstoneControl tileRedstoneControl = (ITileRedstoneControl) tile;
+                    final EnumRedstoneControl redstoneControl = tileRedstoneControl.getRedstoneControl();
+                    int ordinalToSet = redstoneControl.ordinal() < (EnumRedstoneControl.values().length - 1) ? redstoneControl.ordinal() + 1 : 0;
 
-                    if (ordinalToSet == RedstoneControl.PULSE.ordinal() && !tileRedstoneControl.canPulse()) {
+                    if (ordinalToSet == EnumRedstoneControl.PULSE.ordinal() && !tileRedstoneControl.canPulse()) {
                         ordinalToSet = 0;
                     }
 
                     SoundHandler.playSound(SoundEvents.UI_BUTTON_CLICK);
-                    NuclearPhysics.getPacketHandler().sendToServer(new PacketRedstoneControl(tile.getPos(), RedstoneControl.values()[ordinalToSet]));
+                    NuclearPhysics.getPacketHandler().sendToServer(new PacketRedstoneControl(tile.getPos(), EnumRedstoneControl.values()[ordinalToSet]));
                 }
 
                 break;
@@ -82,17 +82,17 @@ public class GuiRedstoneControl extends GuiComponent {
     }
 
     @Override
-    public void mouseClickMove(int mouseX, int mouseY, int button, long ticks) {
+    public void mouseClickMove(final int mouseX, final int mouseY, final int button, final long ticks) {
 
     }
 
     @Override
-    public void mouseReleased(int x, int y, int type) {
+    public void mouseReleased(final int x, final int y, final int type) {
 
     }
 
     @Override
-    public void mouseWheel(int x, int y, int delta) {
+    public void mouseWheel(final int x, final int y, final int delta) {
 
     }
 }

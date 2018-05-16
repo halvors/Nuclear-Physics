@@ -3,25 +3,26 @@ package org.halvors.nuclearphysics.common;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import org.halvors.nuclearphysics.common.container.machine.ContainerChemicalExtractor;
+import org.halvors.nuclearphysics.common.container.machine.ContainerGasCentrifuge;
+import org.halvors.nuclearphysics.common.container.machine.ContainerNuclearBoiler;
+import org.halvors.nuclearphysics.common.container.machine.ContainerQuantumAssembler;
 import org.halvors.nuclearphysics.common.container.particle.ContainerParticleAccelerator;
-import org.halvors.nuclearphysics.common.container.particle.ContainerQuantumAssembler;
-import org.halvors.nuclearphysics.common.container.process.ContainerChemicalExtractor;
-import org.halvors.nuclearphysics.common.container.process.ContainerGasCentrifuge;
-import org.halvors.nuclearphysics.common.container.process.ContainerNuclearBoiler;
 import org.halvors.nuclearphysics.common.container.reactor.ContainerReactorCell;
+import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
+import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
+import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
-import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
-import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
-import org.halvors.nuclearphysics.common.tile.process.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 
 /**
@@ -42,25 +43,25 @@ public class CommonProxy implements IGuiHandler {
 
 	}
 
-	public void registerBlockRenderer(Block block, IProperty property, String name) {
+	public void registerBlockRenderer(final Block block, final IProperty property, final String name) {
 
 	}
 
-	public void registerBlockRendererAndIgnore(Block block, IProperty property) {
+	public void registerBlockRendererAndIgnore(final Block block, final IProperty property) {
 
 	}
 
-	public void registerItemRenderer(Item item, int metadata, String id) {
+	public void registerItemRenderer(final Item item, int metadata, final String id) {
 
 	}
 
-	public void registerItemRenderer(Item item, int metadata, String id, String variant) {
+	public void registerItemRenderer(final Item item, int metadata, final String id, final String variant) {
 
 	}
 
 	@Override
-	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-		TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
+	public Object getServerGuiElement(final int id, final EntityPlayer player, final World world, final int x, final int y, final int z) {
+		final TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
 
 		if (tile instanceof TileParticleAccelerator) {
 			return new ContainerParticleAccelerator(player.inventory, (TileParticleAccelerator) tile);
@@ -80,18 +81,24 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+	public Object getClientGuiElement(final int id, final EntityPlayer player, final World world, final int x, final int y, final int z) {
 		return null;
 	}
 
-	public EntityPlayer getPlayer(MessageContext context) {
+	public EntityPlayer getPlayer(final MessageContext context) {
 		return context.getServerHandler().playerEntity;
 	}
 
-	public void handlePacket(Runnable runnable, EntityPlayer player) {
-		if (player instanceof EntityPlayerMP) {
-			((WorldServer) player.world).addScheduledTask(runnable);
-		}
+	public void addScheduledTask(final Runnable runnable, final IBlockAccess world) {
+		((WorldServer) world).addScheduledTask(runnable);
+	}
+
+	public boolean isClient() {
+		return false;
+	}
+
+	public boolean isServer() {
+		return FMLCommonHandler.instance().getSide().isServer();
 	}
 
 	public boolean isPaused() {

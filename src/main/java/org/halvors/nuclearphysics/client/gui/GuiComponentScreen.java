@@ -9,8 +9,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.component.IGuiComponent;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.Resource;
 import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
@@ -20,20 +20,20 @@ import java.util.Set;
 
 @SideOnly(Side.CLIENT)
 public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
-    protected final ResourceLocation defaultResource = ResourceUtility.getResource(Resource.GUI, "empty.png");
-    protected Set<IGuiComponent> components = new HashSet<>();
+    protected final ResourceLocation defaultResource = ResourceUtility.getResource(EnumResource.GUI, "empty.png");
+    protected final Set<IGuiComponent> components = new HashSet<>();
+
+    /** Starting X position for the Gui. Inconsistent use for Gui backgrounds. */
+    private int guiLeft;
+
+    /** Starting Y position for the Gui. Inconsistent use for Gui backgrounds. */
+    private int guiTop;
 
     /** The X size of the inventory window in pixels. */
     protected int xSize = 176;
 
     /** The Y size of the inventory window in pixels. */
     protected int ySize = 217;
-
-    /** Starting X position for the Gui. Inconsistent use for Gui backgrounds. */
-    protected int guiLeft;
-
-    /** Starting Y position for the Gui. Inconsistent use for Gui backgrounds. */
-    protected int guiTop;
 
     public GuiComponentScreen() {
 
@@ -48,7 +48,7 @@ public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTick) {
+    public void drawScreen(final int mouseX, final int mouseY, final float partialTick) {
         drawDefaultBackground();
 
         GlStateManager.color(1, 1, 1, 1);
@@ -67,69 +67,69 @@ public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
         return false;
     }
 
-    protected void drawGuiScreenForegroundLayer(int mouseX, int mouseY) {
-        int xAxis = (mouseX - (width - xSize) / 2);
-        int yAxis = (mouseY - (height - ySize) / 2);
+    protected void drawGuiScreenForegroundLayer(final int mouseX, final int mouseY) {
+        final int xAxis = (mouseX - (width - xSize) / 2);
+        final int yAxis = (mouseY - (height - ySize) / 2);
 
-        for (IGuiComponent component : components) {
+        for (final IGuiComponent component : components) {
             component.renderForeground(xAxis, yAxis);
         }
     }
 
-    protected void drawGuiScreenBackgroundLayer(float partialTick, int mouseX, int mouseY) {
+    protected void drawGuiScreenBackgroundLayer(final float partialTick, final int mouseX, final int mouseY) {
         RenderUtility.bindTexture(defaultResource);
 
         GlStateManager.color(1, 1, 1, 1);
 
-        int guiWidth = (width - xSize) / 2;
-        int guiHeight = (height - ySize) / 2;
+        final int guiWidth = (width - xSize) / 2;
+        final int guiHeight = (height - ySize) / 2;
 
         drawTexturedModalRect(guiWidth, guiHeight, 0, 0, xSize, ySize);
 
-        int xAxis = mouseX - guiWidth;
-        int yAxis = mouseY - guiHeight;
+        final int xAxis = mouseX - guiWidth;
+        final int yAxis = mouseY - guiHeight;
 
-        for (IGuiComponent component : components) {
+        for (final IGuiComponent component : components) {
             component.renderBackground(xAxis, yAxis, guiWidth, guiHeight);
         }
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
-        int xAxis = (mouseX - (width - xSize) / 2);
-        int yAxis = (mouseY - (height - ySize) / 2);
+    protected void mouseClicked(final int mouseX, final int mouseY, final int button) throws IOException {
+        final int xAxis = (mouseX - (width - xSize) / 2);
+        final int yAxis = (mouseY - (height - ySize) / 2);
 
-        for (IGuiComponent component : components) {
+        for (final IGuiComponent component : components) {
             component.preMouseClicked(xAxis, yAxis, button);
         }
 
         super.mouseClicked(mouseX, mouseY, button);
 
-        for (IGuiComponent component : components) {
+        for (final IGuiComponent component : components) {
             component.mouseClicked(xAxis, yAxis, button);
         }
     }
 
     @Override
-    protected void mouseClickMove(int mouseX, int mouseY, int button, long ticks) {
+    protected void mouseClickMove(final int mouseX, final int mouseY, final int button, final long ticks) {
         super.mouseClickMove(mouseX, mouseY, button, ticks);
 
-        int xAxis = (mouseX - (width - xSize) / 2);
-        int yAxis = (mouseY - (height - ySize) / 2);
+        final int xAxis = (mouseX - (width - xSize) / 2);
+        final int yAxis = (mouseY - (height - ySize) / 2);
 
-        for (IGuiComponent component : components) {
+        for (final IGuiComponent component : components) {
             component.mouseClickMove(xAxis, yAxis, button, ticks);
         }
     }
 
     @Override
-    protected void mouseReleased(int mouseX, int mouseY, int type) {
+    protected void mouseReleased(final int mouseX, final int mouseY, final int type) {
         super.mouseReleased(mouseX, mouseY, type);
 
-        int xAxis = (mouseX - (width - xSize) / 2);
-        int yAxis = (mouseY - (height - ySize) / 2);
+        final int xAxis = (mouseX - (width - xSize) / 2);
+        final int yAxis = (mouseY - (height - ySize) / 2);
 
-        for (IGuiComponent component : components) {
+        for (final IGuiComponent component : components) {
             component.mouseReleased(xAxis, yAxis, type);
         }
     }
@@ -138,17 +138,17 @@ public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
     public void handleMouseInput() throws java.io.IOException {
         super.handleMouseInput();
 
-        int xAxis = Mouse.getEventX() * width / mc.displayWidth - getXPos();
-        int yAxis = height - Mouse.getEventY() * height / mc.displayHeight - 1 - getYPos();
-        int delta = Mouse.getEventDWheel();
+        final int xAxis = Mouse.getEventX() * width / mc.displayWidth - getXPos();
+        final int yAxis = height - Mouse.getEventY() * height / mc.displayHeight - 1 - getYPos();
+        final int delta = Mouse.getEventDWheel();
 
         if (delta != 0) {
             mouseWheel(xAxis, yAxis, delta);
         }
     }
 
-    public void mouseWheel(int xAxis, int yAxis, int delta) {
-        for (IGuiComponent component : components) {
+    public void mouseWheel(final int xAxis, final int yAxis, final int delta) {
+        for (final IGuiComponent component : components) {
             component.mouseWheel(xAxis, yAxis, delta);
         }
     }
@@ -164,22 +164,22 @@ public class GuiComponentScreen extends GuiScreen implements IGuiWrapper {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void drawTexturedRect(int x, int y, int u, int v, int w, int h) {
+    public void drawTexturedRect(final int x, final int y, final int u, final int v, final int w, final int h) {
         drawTexturedModalRect(x, y, u, v, w, h);
     }
 
     @Override
-    public void drawTexturedRectFromIcon(int x, int y, TextureAtlasSprite icon, int w, int h) {
+    public void drawTexturedRectFromIcon(final int x, final int y, final TextureAtlasSprite icon, final int w, final int h) {
         drawTexturedModalRect(x, y, icon, w, h);
     }
 
     @Override
-    public void displayTooltip(String text, int xAxis, int yAxis) {
+    public void displayTooltip(final String text, final int xAxis, final int yAxis) {
         drawCreativeTabHoveringText(text, xAxis, yAxis);
     }
 
     @Override
-    public void displayTooltips(List<String> list, int xAxis, int yAxis) {
+    public void displayTooltips(final List<String> list, final int xAxis, final int yAxis) {
         drawHoveringText(list, xAxis, yAxis);
     }
 

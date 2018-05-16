@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -13,6 +14,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
@@ -22,8 +24,7 @@ import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHandler;
 import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
-import org.halvors.nuclearphysics.common.tile.TileProducer;
-import org.halvors.nuclearphysics.common.utility.location.Position;
+import org.halvors.nuclearphysics.common.tile.TileGenerator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,14 +38,15 @@ import java.util.Set;
  *
  * The front of the turbine is where the output is.
  */
-public class TileElectricTurbine extends TileProducer implements IMultiBlockStructure<TileElectricTurbine> {
-    private final int energyPerSteam = 40;
-    private final int defaultTorque = 5000;
-    private int torque = defaultTorque;
+public class TileElectricTurbine extends TileGenerator implements IMultiBlockStructure<TileElectricTurbine>, IBoilHandler {
+    private static final String NBT_MULTI_BLOCK_RADIUS = "multiBlockRadius";
+    private static final String NBT_TANK = "tank";
+    private static final int ENERGY_PER_STEAM = 40;
+    private static final int DEFAULT_TORQUE = 5000;
 
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
         @Override
-        public boolean canFill() {
+        public boolean canDrain() {
             return false;
         }
     };
@@ -81,38 +83,44 @@ public class TileElectricTurbine extends TileProducer implements IMultiBlockStru
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
-        multiBlockRadius = tag.getInteger("multiBlockRadius");
+        multiBlockRadius = tag.getInteger(NBT_MULTI_BLOCK_RADIUS);
         getMultiBlock().readFromNBT(tag);
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag("tank"));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tank, null, tag.getTag(NBT_TANK));
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
-        tag.setInteger("multiBlockRadius", multiBlockRadius);
+        tag.setInteger(NBT_MULTI_BLOCK_RADIUS, multiBlockRadius);
         getMultiBlock().writeToNBT(tag);
-        tag.setTag("tank", CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
+        tag.setTag(NBT_TANK, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tank, null));
 
         return tag;
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) || ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) || super.hasCapability(capability, facing);
+    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final EnumFacing facing) {
+        return (((capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP) || ((capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN)) && getMultiBlock().isPrimary()) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP && getMultiBlock().isPrimary()) {
-            return (T) energyStorage;
-        } else if ((capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) && facing == EnumFacing.DOWN) {
-            return (T) tank;
+    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final EnumFacing facing) {
+        if (getMultiBlock().isPrimary()) {
+            if (capability == CapabilityEnergy.ENERGY && facing == EnumFacing.UP) {
+                return (T) energyStorage;
+            } else if (facing == EnumFacing.DOWN) {
+                if (capability == CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY) {
+                    return (T) this;
+                } else if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+                    return (T) tank;
+                }
+            }
         }
 
         return super.getCapability(capability, facing);
@@ -124,10 +132,10 @@ public class TileElectricTurbine extends TileProducer implements IMultiBlockStru
     public void update() {
         super.update();
 
+        int torque = DEFAULT_TORQUE * 500;
+
         if (getMultiBlock().isConstructed()) {
-            torque = defaultTorque * 500 * getArea();
-        } else {
-            torque = defaultTorque * 500;
+            torque *= getArea();
         }
 
         getMultiBlock().update();
@@ -136,10 +144,10 @@ public class TileElectricTurbine extends TileProducer implements IMultiBlockStru
             if (!world.isRemote) {
                 // Increase spin rate and consume steam.
                 if (tank.getFluidAmount() > 0 && power < maxPower) {
-                    FluidStack fluidStack = tank.drain((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / energyPerSteam)), true);
+                    final FluidStack fluidStack = tank.drainInternal((int) Math.ceil(Math.min(tank.getFluidAmount() * 0.1, getMaxPower() / ENERGY_PER_STEAM)), true);
 
                     if (fluidStack != null) {
-                        power += fluidStack.amount * energyPerSteam;
+                        power += fluidStack.amount * ENERGY_PER_STEAM;
                     }
                 }
 
@@ -156,13 +164,11 @@ public class TileElectricTurbine extends TileProducer implements IMultiBlockStru
                 if (power > 0) {
                     energyStorage.receiveEnergy((int) (power * ConfigurationManager.General.turbineOutputMultiplier), false);
                 }
-            }
-
-            if (angularVelocity != 0) {
+            } else if (angularVelocity != 0) {
                 if (world.getWorldTime() % 26 == 0) {
                     // TODO: Tweak this volume, i suspect it is way to loud.
-                    double maxVelocity = (getMaxPower() / torque) * 4;
-                    float percentage =Math.min(angularVelocity * 4 / (float) maxVelocity, 1);
+                    final double maxVelocity = (getMaxPower() / torque) * 4;
+                    final float percentage = Math.min(angularVelocity * 4 / (float) maxVelocity, 1);
 
                     world.playSound(null, pos, ModSoundEvents.ELECTRIC_TURBINE, SoundCategory.BLOCKS, percentage, 1);
                 }
@@ -171,7 +177,7 @@ public class TileElectricTurbine extends TileProducer implements IMultiBlockStru
                 rotation = (float) ((rotation + angularVelocity / 20) % (Math.PI * 2));
             }
         } else if (tank.getFluidAmount() > 0) {
-            int amount = getMultiBlock().get().tank.fillInternal(tank.getFluid(), false);
+            final int amount = getMultiBlock().get().tank.fillInternal(tank.getFluid(), false);
 
             getMultiBlock().get().tank.fillInternal(tank.drainInternal(amount, true), true);
         }
@@ -188,23 +194,23 @@ public class TileElectricTurbine extends TileProducer implements IMultiBlockStru
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public Position[] getMultiBlockVectors() {
-        Set<Position> positions = new HashSet<>();
+    public BlockPos[] getMultiBlockVectors() {
+        final Set<BlockPos> positions = new HashSet<>();
 
-        EnumFacing dir = EnumFacing.UP;
-        int xMulti = dir.getFrontOffsetX() != 0 ? 0 : 1;
-        int yMulti = dir.getFrontOffsetY() != 0 ? 0 : 1;
-        int zMulti = dir.getFrontOffsetZ() != 0 ? 0 : 1;
+        final EnumFacing dir = EnumFacing.UP;
+        final int xMulti = dir.getFrontOffsetX() != 0 ? 0 : 1;
+        final int yMulti = dir.getFrontOffsetY() != 0 ? 0 : 1;
+        final int zMulti = dir.getFrontOffsetZ() != 0 ? 0 : 1;
 
         for (int x = -multiBlockRadius; x <= multiBlockRadius; x++) {
             for (int y = -multiBlockRadius; y <= multiBlockRadius; y++) {
                 for (int z = -multiBlockRadius; z <= multiBlockRadius; z++) {
-                    positions.add(new Position(x * xMulti, y * yMulti, z * zMulti));
+                    positions.add(new BlockPos(x * xMulti, y * yMulti, z * zMulti));
                 }
             }
         }
 
-        return positions.toArray(new Position[0]);
+        return positions.toArray(new BlockPos[0]);
     }
 
     @Override
@@ -219,12 +225,12 @@ public class TileElectricTurbine extends TileProducer implements IMultiBlockStru
         }
 
         // Notify neighbor blocks of when multiblock is formed.
-        world.notifyNeighborsOfStateChange(pos, blockType);
+        world.notifyNeighborsOfStateChange(pos, getBlockType());
     }
 
     @Override
-    public Position getPosition() {
-        return new Position(this);
+    public BlockPos getPosition() {
+        return pos;
     }
 
     @Override
@@ -239,7 +245,14 @@ public class TileElectricTurbine extends TileProducer implements IMultiBlockStru
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public int receiveGas(final FluidStack fluidStack, final boolean doTransfer) {
+        return tank.fillInternal(fluidStack, doTransfer);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
@@ -251,7 +264,7 @@ public class TileElectricTurbine extends TileProducer implements IMultiBlockStru
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         getMultiBlock().getPacketData(objects);

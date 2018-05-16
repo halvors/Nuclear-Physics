@@ -4,7 +4,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.DummyConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
-import net.minecraftforge.fml.client.config.GuiConfigEntries;
+import net.minecraftforge.fml.client.config.GuiConfigEntries.IConfigEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -18,19 +18,19 @@ import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class GuiConfiguration extends GuiConfig {
-    private static final List<IConfigElement> configElements = new ArrayList<>();
+    private static final List<IConfigElement> CONFIG_ELEMENTS = new ArrayList<>();
 
     static {
         register(Configuration.CATEGORY_GENERAL, CategoryEntryGeneral.class);
     }
 
-    public GuiConfiguration(GuiScreen parent) {
-        super(parent, configElements, Reference.ID, false, false, Reference.NAME);
+    public GuiConfiguration(final GuiScreen screen) {
+        super(screen, CONFIG_ELEMENTS, Reference.ID, false, false, Reference.NAME);
 
         titleLine2 = NuclearPhysics.getConfiguration().getConfigFile().getAbsolutePath();
     }
 
-    private static void register(String category, Class<? extends GuiConfigEntries.IConfigEntry> configEntryClass) {
-        configElements.add(new DummyConfigElement.DummyCategoryElement(LanguageUtility.transelate("gui.configuration.category." + category), "gui.configuration.category." + category, configEntryClass));
+    private static void register(final String category, final Class<? extends IConfigEntry> configEntryClass) {
+        CONFIG_ELEMENTS.add(new DummyConfigElement.DummyCategoryElement(LanguageUtility.transelate("gui.configuration.category." + category), "gui.configuration.category." + category, configEntryClass));
     }
 }

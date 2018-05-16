@@ -14,14 +14,14 @@ import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 @SideOnly(Side.CLIENT)
 public class CategoryEntryGeneral extends GuiConfigEntries.CategoryEntry {
-    public CategoryEntryGeneral(GuiConfig guiConfig, GuiConfigEntries guiConfigEntries, IConfigElement configElement) {
+    public CategoryEntryGeneral(final GuiConfig guiConfig, final GuiConfigEntries guiConfigEntries, final IConfigElement configElement) {
         super(guiConfig, guiConfigEntries, configElement);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     protected GuiScreen buildChildScreen() {
-        String category = Configuration.CATEGORY_GENERAL;
+        final String category = Configuration.CATEGORY_GENERAL;
 
         return new GuiConfig(owningScreen,
                 new ConfigElement(NuclearPhysics.getConfiguration().getCategory(category)).getChildElements(),

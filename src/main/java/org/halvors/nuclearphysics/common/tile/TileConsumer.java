@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
 
 import javax.annotation.Nonnull;
@@ -13,6 +14,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileConsumer extends TileRotatable {
+    private static final String NBT_STORED_ENERGY = "storedEnergy";
+
     protected EnergyStorage energyStorage;
 
     public TileConsumer() {
@@ -20,34 +23,34 @@ public class TileConsumer extends TileRotatable {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
+    public void readFromNBT(final NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         if (energyStorage != null) {
-            CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag("storedEnergy"));
+            CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag(NBT_STORED_ENERGY));
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (energyStorage != null) {
-            tag.setTag("storedEnergy", CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));
+            tag.setTag(NBT_STORED_ENERGY, CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));
         }
 
         return tag;
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final EnumFacing facing) {
         return capability == CapabilityEnergy.ENERGY || capability == TeslaCapabilities.CAPABILITY_CONSUMER || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final EnumFacing facing) {
         if (capability == CapabilityEnergy.ENERGY || capability == TeslaCapabilities.CAPABILITY_CONSUMER) {
             return (T) energyStorage;
         }
@@ -58,7 +61,7 @@ public class TileConsumer extends TileRotatable {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
@@ -67,7 +70,7 @@ public class TileConsumer extends TileRotatable {
     }
 
     @Override
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
         objects.add(energyStorage.getEnergyStored());
@@ -77,7 +80,7 @@ public class TileConsumer extends TileRotatable {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public net.minecraftforge.energy.EnergyStorage getEnergyStorage() {
+    public IEnergyStorage getEnergyStorage() {
         return energyStorage;
     }
 }

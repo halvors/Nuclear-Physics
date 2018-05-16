@@ -14,17 +14,17 @@ public abstract class PacketLocation implements IMessage {
 
 	}
 
-	public PacketLocation(BlockPos pos) {
+	public PacketLocation(final BlockPos pos) {
 		this.pos = pos;
 	}
 
 	@Override
-	public void fromBytes(ByteBuf dataStream) {
+	public void fromBytes(final ByteBuf dataStream) {
 		this.pos = new BlockPos(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
 	}
 
 	@Override
-	public void toBytes(ByteBuf dataStream) {
+	public void toBytes(final ByteBuf dataStream) {
 		dataStream.writeInt(pos.getX());
 		dataStream.writeInt(pos.getY());
 		dataStream.writeInt(pos.getZ());

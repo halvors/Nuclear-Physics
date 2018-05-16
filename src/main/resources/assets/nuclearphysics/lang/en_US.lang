@@ -12,19 +12,19 @@ tile.nuclearphysics.creative_builder.tooltip=This is a creative only cheat which
 tile.nuclearphysics.creative_builder.text=Warning! This will replace blocks without dropping it! You may lose items.
 tile.nuclearphysics.electromagnet.0.name=Electromagnet
 tile.nuclearphysics.electromagnet.0.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
-tile.nuclearphysics.electromagnet.1.name=Electromagnet Glass
+tile.nuclearphysics.electromagnet.1.name=Electromagnetic Glass
 tile.nuclearphysics.electromagnet.1.tooltip=Creates an electromagnetic field preventing plasma and particles from getting near.
 tile.nuclearphysics.electric_turbine.name=Electric Turbine
 tile.nuclearphysics.electric_turbine.tooltip=Transform the kinetic energy from moving steam into electrical energy.
-tile.nuclearphysics.fulmination.name=Fulmination Generator
-tile.nuclearphysics.fulmination.tooltip=Transforms the kinetic energy from explosions into electrical energy.
+tile.nuclearphysics.fulmination_generator.name=Fulmination Generator
+tile.nuclearphysics.fulmination_generator.tooltip=Transforms the kinetic energy from explosions into electrical energy.
 tile.nuclearphysics.machine.1.name=Gas Centrifuge
 tile.nuclearphysics.machine.1.tooltip=Refines Uranium Hexafluoride gas into usable uranium.
 tile.nuclearphysics.machine.1.text=The gas centrifuge spins uranium hexafluoride gas into enriched uranium for reactor.
 tile.nuclearphysics.gas_funnel.name=Gas Funnel
 tile.nuclearphysics.gas_funnel.tooltip=Captures gas to allow it to be transported with piping.
 tile.nuclearphysics.machine.2.name=Nuclear Boiler
-tile.nuclearphysics.machine.2.tooltip=Boils yellowcake into uranium hexaflouride gas.
+tile.nuclearphysics.machine.2.tooltip=Boils yellowcake into uranium hexafluoride gas.
 tile.nuclearphysics.machine.2.text=The nuclear boiler can boil yellow cake into uranium hexafluoride gas.
 tile.nuclearphysics.uranium_ore.name=Uranium Ore
 tile.nuclearphysics.uranium_ore.tooltip=A precious and useful ore used for fission reactions.
@@ -53,7 +53,7 @@ item.nuclearphysics.circuit_elite.name=Elite Circuit
 item.nuclearphysics.plate_bronze.name=Bronze Plate
 item.nuclearphysics.plate_steel.name=Steel Plate
 item.nuclearphysics.cell.name=Cell
-item.nuclearphysics.darkmatter_cell.name=Dark Matter
+item.nuclearphysics.cell.tooltip=Contains: %d
 item.nuclearphysics.darkmatter_cell.name=Dark Matter
 item.nuclearphysics.antimatter_cell.0.name=Antimatter
 item.nuclearphysics.antimatter_cell.0.tooltip=125 Milligrams
@@ -72,6 +72,33 @@ item.nuclearphysics.hazmat_mask.name=Hazmat Mask
 item.nuclearphysics.hazmat_body.name=Hazmat Body
 item.nuclearphysics.hazmat_leggings.name=Hazmat Leggings
 item.nuclearphysics.hazmat_boots.name=Hazmat Boots
+
+// Fluids
+fluid.deuterium=Deuterium
+fluid.uranium_hexafluoride=Uranium Hexafluoride
+fluid.plasma=Plasma
+fluid.steam=Steam
+fluid.tritium=Tritium
+fluid.toxic_waste=Toxic Waste
+
+// Fluid blocks
+tile.fluid.deuterium.name=Deuterium
+tile.fluid.uranium_hexafluoride.name=Uranium Hexafluoride
+tile.fluid.plasma.name=Plasma
+tile.fluid.plasma.tooltip=Generates extreme heat for boiling water.
+tile.fluid.steam.name=Steam
+tile.fluid.tritium.name=Tritium
+tile.fluid.toxic_waste.name=Toxic Waste
+tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
+
+// Entities
+entity.nuclearphysics.particle.name=Particle
+
+// Potion
+effect.radiation=Radiation
+
+// Death
+death.attack.radiation=%1$s died from radiation.
 
 // Tooltip
 tooltip.noFluid=No fluid
@@ -120,30 +147,6 @@ gui.configuration.category.integration=Integration
 gui.configuration.category.integration.tooltip=Settings regarding enabling and disabling of specific mod integrations
 gui.configuration.category.client=Client
 gui.configuration.category.client.tooltip=Client-specific settings
-
-// Fluids
-fluid.deuterium=Deuterium
-fluid.uranium_hexafluoride=Uranium Hexafluoride
-fluid.plasma=Plasma
-fluid.steam=Steam
-fluid.tritium=Tritium
-fluid.toxic_waste=Toxic Waste
-
-// Fluid blocks
-tile.fluid.deuterium.name=Deuterium
-tile.fluid.uranium_hexafluoride.name=Uranium Hexafluoride
-tile.fluid.plasma.name=Plasma
-tile.fluid.plasma.tooltip=Generates extreme heat for boiling water.
-tile.fluid.steam.name=Steam
-tile.fluid.tritium.name=Tritium
-tile.fluid.toxic_waste.name=Toxic Waste
-tile.fluid.toxic_waste.tooltip=Toxic, nuclear waste that pollutes the world.
-
-// Potion
-potion.radiation=Radiation
-
-// Death
-death.attack.radiation=%1$s died from radiation.
 
 // Schematic
 schematic.accelerator.name=Particle Accelerator

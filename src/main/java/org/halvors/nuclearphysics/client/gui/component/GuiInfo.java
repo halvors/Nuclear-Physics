@@ -11,40 +11,40 @@ import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public abstract class GuiInfo extends GuiComponent {
-    private IInfoHandler infoHandler;
+    private final IInfoHandler infoHandler;
 
-    public GuiInfo(IInfoHandler infoHandler, ResourceLocation resource, IGuiWrapper gui, int x, int y) {
+    public GuiInfo(final IInfoHandler infoHandler, final ResourceLocation resource, final IGuiWrapper gui, final int x, final int y) {
         super(resource, gui, x, y);
 
         this.infoHandler = infoHandler;
     }
 
     @Override
-    public Rectangle getBounds(int guiWidth, int guiHeight) {
+    public Rectangle getBounds(final int guiWidth, final int guiHeight) {
         return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, 26, 26);
     }
 
     @Override
-    public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
+    public void renderBackground(final int xAxis, final int yAxis, final int guiWidth, final int guiHeight) {
         RenderUtility.bindTexture(resource);
 
         gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, 26, 26);
     }
 
     @Override
-    public void renderForeground(int xAxis, int yAxis) {
+    public void renderForeground(final int xAxis, final int yAxis) {
         if (isPointInRegion(xLocation + 3, yLocation + 3, xAxis, yAxis, 21, 20)) {
             displayTooltips(getInfo(infoHandler.getInfo()), xAxis, yAxis);
         }
     }
 
     @Override
-    public void preMouseClicked(int xAxis, int yAxis, int button) {
+    public void preMouseClicked(final int xAxis, final int yAxis, final int button) {
 
     }
 
     @Override
-    public void mouseClicked(int xAxis, int yAxis, int button) {
+    public void mouseClicked(final int xAxis, final int yAxis, final int button) {
         switch (button) {
             case 0:
                 if (isPointInRegion(xLocation + 3, yLocation + 3, xAxis, yAxis, 21, 20)) {
@@ -55,21 +55,21 @@ public abstract class GuiInfo extends GuiComponent {
     }
 
     @Override
-    public void mouseClickMove(int mouseX, int mouseY, int button, long ticks) {
+    public void mouseClickMove(final int mouseX, final int mouseY, final int button, final long ticks) {
 
     }
 
     @Override
-    public void mouseReleased(int x, int y, int type) {
+    public void mouseReleased(final int x, final int y, final int type) {
 
     }
 
     @Override
-    public void mouseWheel(int x, int y, int delta) {
+    public void mouseWheel(final int x, final int y, final int delta) {
 
     }
 
-    protected abstract List<String> getInfo(List<String> list);
+    protected abstract List<String> getInfo(final List<String> list);
 
     protected abstract void buttonClicked();
 }

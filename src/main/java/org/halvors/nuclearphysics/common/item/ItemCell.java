@@ -1,10 +1,12 @@
 package org.halvors.nuclearphysics.common.item;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
@@ -12,7 +14,7 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimpl
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
-import org.halvors.nuclearphysics.common.init.ModItems;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -24,8 +26,8 @@ public class ItemCell extends ItemTooltip {
 
     public ItemCell() {
         super("cell");
-
-        setContainerItem(ModItems.itemCell);
+        
+        setContainerItem(this);
     }
 
     @Override
@@ -34,43 +36,55 @@ public class ItemCell extends ItemTooltip {
     }
 
     @Override
-    @Nonnull
     @SideOnly(Side.CLIENT)
-    public String getItemStackDisplayName(@Nonnull ItemStack itemStack) {
-        FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
-        String fluidName = fluidStack != null ? fluidStack.getLocalizedName() : LanguageUtility.transelate("tooltip.empty");
+    public void addInformation(final ItemStack itemStack, final EntityPlayer player, final List<String> list, final boolean flag) {
+        final FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
 
-        return fluidName + " " + LanguageUtility.transelate(getUnlocalizedName() + ".name");
+        if (fluidStack != null) {
+            list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
+        } else {
+            list.add(LanguageUtility.transelate("tooltip.empty"));
+        }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
-        for (EnumCell type : EnumCell.values()) {
-            list.add(type == EnumCell.EMPTY ? new ItemStack(item) : FluidUtility.getFilledCell(FluidRegistry.getFluid(type.getName())));
+    public void getSubItems(@Nonnull final Item item, final CreativeTabs tab, final List<ItemStack> list) {
+        for (final EnumCell type : EnumCell.values()) {
+            list.add(type.getFluid() == null ? new ItemStack(item) : FluidUtility.getFilledCell(type.getFluid()));
         }
     }
 
     @Override
     @Nonnull
-    public ICapabilityProvider initCapabilities(ItemStack stack, NBTTagCompound nbt) {
-        return new FluidHandlerItemStackSimple(stack, capacity);
+    public ICapabilityProvider initCapabilities(final ItemStack itemStack, final NBTTagCompound tag) {
+        return new FluidHandlerItemStackSimple(itemStack, capacity);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public enum EnumCell {
-        EMPTY("empty"),
-        DEUTERIUM("deuterium"),
-        TRITIUM("tritium"),
-        WATER("water");
+        EMPTY,
+        DEUTERIUM(ModFluids.deuterium),
+        TRITIUM(ModFluids.tritium),
+        WATER(FluidRegistry.WATER);
 
-        private String name;
+        private Fluid fluid;
 
-        EnumCell(String name) {
-            this.name = name;
+        EnumCell() {
+
+        }
+
+        EnumCell(final Fluid fluid) {
+            this.fluid = fluid;
         }
 
         public String getName() {
-            return name;
+            return name().toLowerCase();
+        }
+
+        public Fluid getFluid() {
+            return fluid;
         }
     }
 }

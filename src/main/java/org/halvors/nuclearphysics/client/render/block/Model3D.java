@@ -28,10 +28,11 @@ public class Model3D {
     public double textureOffsetY = 0;
     public double textureOffsetZ = 0;
 
-    private TextureAtlasSprite texture;
     public int[] textureFlips = new int[] { 2, 2, 2, 2, 2, 2 };
 
-    public Model3D(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+    private TextureAtlasSprite texture;
+
+    public Model3D(final double minX, final double minY, final double minZ, final double maxX, final double maxY, final double maxZ) {
         this.minX = minX;
         this.minY = minY;
         this.minZ = minZ;
@@ -44,7 +45,7 @@ public class Model3D {
         return texture;
     }
 
-    public void setTexture(TextureAtlasSprite texture) {
+    public void setTexture(final TextureAtlasSprite texture) {
         this.texture = texture;
     }
 

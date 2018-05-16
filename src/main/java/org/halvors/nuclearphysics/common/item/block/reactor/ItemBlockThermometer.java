@@ -18,18 +18,20 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockTooltip;
+import org.halvors.nuclearphysics.common.type.EnumColor;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
-import org.halvors.nuclearphysics.common.utility.location.Position;
-import org.halvors.nuclearphysics.common.utility.type.Color;
+import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemBlockThermometer extends ItemBlockTooltip {
+    private static final String NBT_TRACK_COORDINATE = "trackCoordinate";
+
     public static final int energy = 1000;
 
-    public ItemBlockThermometer(Block block) {
+    public ItemBlockThermometer(final Block block) {
         super(block);
 
         setMaxStackSize(1);
@@ -38,32 +40,32 @@ public class ItemBlockThermometer extends ItemBlockTooltip {
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, @Nonnull List<String> list, boolean flag) {
-        Position position = getSavedCoordinate(itemStack);
+    public void addInformation(@Nonnull final ItemStack itemStack, @Nonnull final EntityPlayer player, @Nonnull final List<String> list, final boolean flag) {
+        final BlockPos pos = getSavedCoordinate(itemStack);
 
-        if (position != null) {
+        if (pos != null) {
             list.add(LanguageUtility.transelate("tooltip.trackingCoordinate") + ": ");
-            list.add(Color.DARK_GREEN + "X: " + position.getIntX() + ", Y: " + position.getIntY() + ", Z: " + position.getIntZ());
+            list.add(EnumColor.DARK_GREEN + "X: " + pos.getX() + ", Y: " + pos.getY() + ", Z: " + pos.getZ());
         } else {
-            list.add(Color.DARK_RED + LanguageUtility.transelate("tooltip.notTrackingTemperature"));
+            list.add(EnumColor.DARK_RED + LanguageUtility.transelate("tooltip.notTrackingTemperature"));
         }
 
         super.addInformation(itemStack, player, list, flag);
     }
 
     @Override
-    public boolean placeBlockAt(@Nonnull ItemStack itemStack, @Nonnull EntityPlayer player, World world, @Nonnull BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, @Nonnull IBlockState state) {
-        TileEntity tile = world.getTileEntity(pos);
+    public boolean placeBlockAt(@Nonnull final ItemStack itemStack, @Nonnull final EntityPlayer player, final World world, @Nonnull final BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ, @Nonnull final IBlockState state) {
+        final TileEntity tile = world.getTileEntity(pos);
 
         if (!world.isRemote && tile != null) {
             // Inject essential tile data.
-            NBTTagCompound essentialNBT = new NBTTagCompound();
+            final NBTTagCompound essentialNBT = new NBTTagCompound();
             tile.writeToNBT(essentialNBT);
 
-            NBTTagCompound setNbt = InventoryUtility.getNBTTagCompound(itemStack);
+            final NBTTagCompound setNbt = InventoryUtility.getNBTTagCompound(itemStack);
 
-            if (essentialNBT.hasKey("trackCoordinate")) {
-                setNbt.setTag("trackCoordinate", essentialNBT.getCompoundTag("trackCoordinate"));
+            if (essentialNBT.hasKey(NBT_TRACK_COORDINATE)) {
+                setNbt.setTag(NBT_TRACK_COORDINATE, essentialNBT.getCompoundTag(NBT_TRACK_COORDINATE));
             }
 
             tile.readFromNBT(setNbt);
@@ -74,11 +76,10 @@ public class ItemBlockThermometer extends ItemBlockTooltip {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull final ItemStack itemStack, final World world, final EntityPlayer player, final EnumHand hand) {
         if (!world.isRemote) {
             setSavedCoordinate(itemStack, null);
-            player.sendMessage(new TextComponentString(Color.DARK_BLUE + "[" + Reference.NAME + "] " + Color.GREY + LanguageUtility.transelate("tooltip.clearedTrackingCoordinate") + "."));
-
+            player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + "[" + Reference.NAME + "] " + EnumColor.GREY + LanguageUtility.transelate("tooltip.clearedTrackingCoordinate") + "."));
 
             return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
         }
@@ -91,18 +92,18 @@ public class ItemBlockThermometer extends ItemBlockTooltip {
      * TODO: Review this for 1.11 and 1.12.
      */
     @Override
-    public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player) {
+    public boolean doesSneakBypassUse(final ItemStack stack, final IBlockAccess world, final BlockPos pos, final EntityPlayer player) {
         return true;
     }
 
     @Override
     @Nonnull
-    public EnumActionResult onItemUse(ItemStack itemStack, @Nonnull EntityPlayer player, World world, @Nonnull BlockPos pos, EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(final ItemStack itemStack, @Nonnull final EntityPlayer player, final World world, @Nonnull final BlockPos pos, final EnumHand hand, @Nonnull final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
         if (player.isSneaking()) {
             if (!world.isRemote) {
-                setSavedCoordinate(itemStack, new Position(pos));
+                setSavedCoordinate(itemStack, pos);
 
-                player.sendMessage(new TextComponentString(Color.DARK_BLUE + "[" + Reference.NAME + "] " + Color.GREY + LanguageUtility.transelate("tooltip.trackingCoordinate") + ": " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()));
+                player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + "[" + Reference.NAME + "] " + EnumColor.GREY + LanguageUtility.transelate("tooltip.trackingCoordinate") + ": " + pos.getX() + ", " + pos.getY() + ", " + pos.getZ()));
             }
 
             return EnumActionResult.SUCCESS;
@@ -113,23 +114,23 @@ public class ItemBlockThermometer extends ItemBlockTooltip {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Position getSavedCoordinate(ItemStack itemStack) {
-        NBTTagCompound tag = InventoryUtility.getNBTTagCompound(itemStack);
+    public BlockPos getSavedCoordinate(final ItemStack itemStack) {
+        final NBTTagCompound tag = InventoryUtility.getNBTTagCompound(itemStack);
 
-        if (tag.hasKey("trackCoordinate")) {
-            return new Position(tag.getCompoundTag("trackCoordinate"));
+        if (tag.hasKey(NBT_TRACK_COORDINATE)) {
+            return VectorUtility.readFromNBT(tag.getCompoundTag(NBT_TRACK_COORDINATE));
         }
 
         return null;
     }
 
-    public void setSavedCoordinate(ItemStack itemStack, Position position) {
-        NBTTagCompound tag = InventoryUtility.getNBTTagCompound(itemStack);
+    public void setSavedCoordinate(final ItemStack itemStack, final BlockPos pos) {
+        final NBTTagCompound tag = InventoryUtility.getNBTTagCompound(itemStack);
 
-        if (position != null) {
-            tag.setTag("trackCoordinate", position.writeToNBT(new NBTTagCompound()));
+        if (pos != null) {
+            tag.setTag(NBT_TRACK_COORDINATE, VectorUtility.writeToNBT(pos, new NBTTagCompound()));
         } else {
-            tag.removeTag("trackCoordinate");
+            tag.removeTag(NBT_TRACK_COORDINATE);
         }
     }
 }

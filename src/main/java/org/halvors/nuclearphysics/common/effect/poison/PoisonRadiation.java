@@ -1,35 +1,43 @@
 package org.halvors.nuclearphysics.common.effect.poison;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.math.BlockPos;
-import org.halvors.nuclearphysics.common.effect.damage.CustomDamageSource;
-import org.halvors.nuclearphysics.common.effect.potion.CustomPotionEffect;
-import org.halvors.nuclearphysics.common.effect.potion.PotionRadiation;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.effect.poison.EnumPoisonType;
+import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 
-public class PoisonRadiation extends Poison {
-    private static final PoisonRadiation instance = new PoisonRadiation("radiation");
-    private static final CustomDamageSource damageSource = new CustomDamageSource("radiation").setDamageBypassesArmor();
+import javax.annotation.Nonnull;
 
-    public PoisonRadiation(String name) {
-        super(name);
+public class PoisonRadiation extends PoisonBase {
+    public PoisonRadiation() {
+        super(true, 78, 147, 49, EnumPoisonType.RADIATION);
+
+        setIconIndex(6, 0);
     }
 
     @Override
-    public boolean isEntityProtected(BlockPos pos, EntityLivingBase entity, int amplifier) {
-        return pos != null && super.isEntityProtected(pos, entity, amplifier);
+    public void performEffect(@Nonnull final EntityLivingBase entity, final int amplifier) {
+        final World world = entity.getEntityWorld();
+
+        if (world.rand.nextFloat() > 0.9 - amplifier * 0.07) {
+            entity.attackEntityFrom(damageSource, 1);
+
+            if (entity instanceof EntityPlayer) {
+                ((EntityPlayer) entity).addExhaustion(0.01F * (amplifier + 1));
+            }
+        }
     }
 
     @Override
-    protected void doPoisonEntity(BlockPos pos, EntityLivingBase entity, int amplifier) {
-        // TODO: Add option to disable poisoning?
-        entity.addPotionEffect(new CustomPotionEffect(PotionRadiation.getInstance(), 300 * (amplifier + 1), amplifier, null));
+    public boolean isReady(final int duration, final int amplifier) {
+        return duration % 10 == 0;
     }
 
-    public static PoisonRadiation getInstance() {
-        return instance;
-    }
-
-    public static CustomDamageSource getDamageSource() {
-        return damageSource;
+    @Override
+    public void performPoisonEffect(final EntityLivingBase entity, final int amplifier) {
+        if (General.enableRadiationRoisoning) {
+            entity.addPotionEffect(new PotionEffect(this, 300 * (amplifier + 1), amplifier));
+        }
     }
 }

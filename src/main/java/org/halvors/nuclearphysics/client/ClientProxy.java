@@ -9,10 +9,11 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -23,16 +24,16 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.debug.GuiCreativeBuilder;
+import org.halvors.nuclearphysics.client.gui.machine.GuiChemicalExtractor;
+import org.halvors.nuclearphysics.client.gui.machine.GuiGasCentrifuge;
+import org.halvors.nuclearphysics.client.gui.machine.GuiNuclearBoiler;
+import org.halvors.nuclearphysics.client.gui.machine.GuiQuantumAssembler;
 import org.halvors.nuclearphysics.client.gui.particle.GuiParticleAccelerator;
-import org.halvors.nuclearphysics.client.gui.particle.GuiQuantumAssembler;
-import org.halvors.nuclearphysics.client.gui.process.GuiChemicalExtractor;
-import org.halvors.nuclearphysics.client.gui.process.GuiGasCentrifuge;
-import org.halvors.nuclearphysics.client.gui.process.GuiNuclearBoiler;
 import org.halvors.nuclearphysics.client.gui.reactor.GuiReactorCell;
-import org.halvors.nuclearphysics.client.render.block.particle.RenderQuantumAssembler;
-import org.halvors.nuclearphysics.client.render.block.process.RenderChemicalExtractor;
-import org.halvors.nuclearphysics.client.render.block.process.RenderGasCentrifuge;
-import org.halvors.nuclearphysics.client.render.block.process.RenderNuclearBoiler;
+import org.halvors.nuclearphysics.client.render.block.machine.RenderChemicalExtractor;
+import org.halvors.nuclearphysics.client.render.block.machine.RenderGasCentrifuge;
+import org.halvors.nuclearphysics.client.render.block.machine.RenderNuclearBoiler;
+import org.halvors.nuclearphysics.client.render.block.machine.RenderQuantumAssembler;
 import org.halvors.nuclearphysics.client.render.block.reactor.RenderElectricTurbine;
 import org.halvors.nuclearphysics.client.render.block.reactor.RenderReactorCell;
 import org.halvors.nuclearphysics.client.render.block.reactor.RenderThermometer;
@@ -42,11 +43,11 @@ import org.halvors.nuclearphysics.common.CommonProxy;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
+import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
+import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
+import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
+import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
-import org.halvors.nuclearphysics.common.tile.particle.TileQuantumAssembler;
-import org.halvors.nuclearphysics.common.tile.process.TileChemicalExtractor;
-import org.halvors.nuclearphysics.common.tile.process.TileGasCentrifuge;
-import org.halvors.nuclearphysics.common.tile.process.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
@@ -82,31 +83,31 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public void registerBlockRenderer(Block block, IProperty property, String name) {
+	public void registerBlockRenderer(final Block block, final IProperty property, final String name) {
 		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).withName(property).withSuffix("_" + name).build());
 	}
 
 	@Override
-	public void registerBlockRendererAndIgnore(Block block, IProperty property) {
+	public void registerBlockRendererAndIgnore(final Block block, final IProperty property) {
 		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).ignore(property).build());
 	}
 
 	@Override
-	public void registerItemRenderer(Item item, int metadata, String id) {
+	public void registerItemRenderer(final Item item, final int metadata, final String id) {
 		registerItemRenderer(item, metadata, id, "inventory");
 	}
 
 	@Override
-	public void registerItemRenderer(Item item, int metadata, String id, String variant) {
+	public void registerItemRenderer(final Item item, final int metadata, final String id, final String variant) {
 		ModelLoader.setCustomModelResourceLocation(item, metadata, new ModelResourceLocation(Reference.PREFIX + id, variant));
 	}
 
 	@Override
-	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-		BlockPos pos = new BlockPos(x, y, z);
-		TileEntity tile = world.getTileEntity(pos);
-		IBlockState state = world.getBlockState(pos);
-		Block block = state.getBlock();
+	public Object getClientGuiElement(final int id, final EntityPlayer player, final World world, final int x, final int y, final int z) {
+		final BlockPos pos = new BlockPos(x, y, z);
+		final TileEntity tile = world.getTileEntity(pos);
+		final IBlockState state = world.getBlockState(pos);
+		final Block block = state.getBlock();
 
 		if (block instanceof BlockCreativeBuilder) {
 			return new GuiCreativeBuilder(block, pos);
@@ -130,7 +131,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public EntityPlayer getPlayer(MessageContext context) {
+	public EntityPlayer getPlayer(final MessageContext context) {
 		if (context.side.isServer()) {
 			return context.getServerHandler().playerEntity;
 		} else {
@@ -139,22 +140,28 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 	}
 
 	@Override
-	public void handlePacket(Runnable runnable, EntityPlayer player) {
-		if (player == null || player.world.isRemote) {
+	public void addScheduledTask(final Runnable runnable, final IBlockAccess world) {
+		if (world == null || isClient()) {
 			Minecraft.getMinecraft().addScheduledTask(runnable);
 		} else {
-			((WorldServer) player.world).addScheduledTask(runnable);
+			super.addScheduledTask(runnable, world);
 		}
 	}
 
 	@Override
-	public boolean isPaused() {
-		if (FMLClientHandler.instance().getClient().isSingleplayer() && !FMLClientHandler.instance().getClient().getIntegratedServer().getPublic()) {
-			GuiScreen screen = FMLClientHandler.instance().getClient().currentScreen;
+	public boolean isClient() {
+		return !isServer();
+	}
 
-			if (screen != null && screen.doesGuiPauseGame()) {
-				return true;
-			}
+	@Override
+	public boolean isPaused() {
+		final Minecraft minecraft = FMLClientHandler.instance().getClient();
+		final IntegratedServer integratedServer = minecraft.getIntegratedServer();
+
+		if (minecraft.isSingleplayer() && integratedServer != null && !integratedServer.getPublic()) {
+			final GuiScreen screen = minecraft.currentScreen;
+
+			return screen != null && screen.doesGuiPauseGame();
 		}
 
 		return false;

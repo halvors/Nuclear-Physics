@@ -5,8 +5,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
-import org.halvors.nuclearphysics.common.utility.location.Position;
+import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
 import java.util.HashMap;
 
@@ -18,7 +19,7 @@ public class SchematicBreedingReactor implements ISchematic {
 
     @Override
     public HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size) {
-        HashMap<BlockPos, IBlockState> map = new HashMap<>();
+        final HashMap<BlockPos, IBlockState> map = new HashMap<>();
 
         int radius = Math.max(size, 2);
 
@@ -32,9 +33,9 @@ public class SchematicBreedingReactor implements ISchematic {
 
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
-                Position position = new Position(x, 0, z);
+                final BlockPos pos = new BlockPos(x, 0, z);
 
-                if (position.getMagnitude() <= 2) {
+                if (VectorUtility.getMagnitude(pos) <= 2) {
                     if (!((x == -radius || x == radius) && (z == -radius || z == radius))) {
                         map.put(new BlockPos(x, 0, z), ModBlocks.blockReactorCell.getDefaultState());
                         map.put(new BlockPos(x, -1, z), ModBlocks.blockThermometer.getDefaultState());
@@ -48,9 +49,9 @@ public class SchematicBreedingReactor implements ISchematic {
             }
         }
 
-        map.put(new BlockPos(0, -2, 0), Blocks.STONE.getDefaultState());
-        map.put(new BlockPos(0, -3, 0), Blocks.STONE.getDefaultState());
-        map.put(new BlockPos(0, 0, 0), ModBlocks.blockReactorCell.getDefaultState());
+        map.put(BlockPos.ORIGIN.down(2), Blocks.STONE.getDefaultState());
+        map.put(BlockPos.ORIGIN.down(3), Blocks.STONE.getDefaultState());
+        map.put(BlockPos.ORIGIN, ModBlocks.blockReactorCell.getDefaultState());
 
         return map;
     }

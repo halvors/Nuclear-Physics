@@ -1,0 +1,177 @@
+// Russian Translation by Adaptivity and Xottab_DUTY
+
+// Creative tab – вкладка творчества
+itemGroup.nuclearphysics=Nuclear Physics
+
+// Blocks – блоки
+tile.nuclearphysics.machine.0.name=Химический экстрактор
+tile.nuclearphysics.machine.0.tooltip=Извлекает урановый концентрат из урановых руд, дейтерий из воды и тритий из дейтерия.
+tile.nuclearphysics.machine.0.text=Экстрактор может извлекать уран, дейтерий и тритий.
+tile.nuclearphysics.control_rod.name=Контролирующий стержень
+tile.nuclearphysics.control_rod.tooltip=Подавляет реакцию деления в соседних ячейках реакторов.
+tile.nuclearphysics.creative_builder.name=Творческий строитель
+tile.nuclearphysics.creative_builder.tooltip=Только для режима Творчества! Позволяет строить структуры автоматически.
+tile.nuclearphysics.creative_builder.text=Внимание! Будет заменять блоки безвозвратно. Вы можете потерять что-нибудь.
+tile.nuclearphysics.electromagnet.0.name=Электромагнит
+tile.nuclearphysics.electromagnet.0.tooltip=Создаёт электромагнитное поле, предотвращающее приближение плазмы и частиц.
+tile.nuclearphysics.electromagnet.1.name=Электромагнитное стекло
+tile.nuclearphysics.electromagnet.1.tooltip=Создаёт электромагнитное поле, предотвращающее приближение плазмы и частиц.
+tile.nuclearphysics.electric_turbine.name=Электротурбина
+tile.nuclearphysics.electric_turbine.tooltip=Преобразует кинетическую энергию пара в электрическую энергию.
+tile.nuclearphysics.fulmination_generator.name=Генератор детонирования
+tile.nuclearphysics.fulmination_generator.tooltip=Превращает кинетическую энергию взрыва в электрическую энергию.
+tile.nuclearphysics.machine.1.name=Газовая центрифуга
+tile.nuclearphysics.machine.1.tooltip=Обощает уран, используя гексафторид урана.
+tile.nuclearphysics.machine.1.text=Газовая центрифуга обощает уран для реактора, используя гексафторид урана.
+tile.nuclearphysics.gas_funnel.name=Газовая воронка
+tile.nuclearphysics.gas_funnel.tooltip=Захватывает газ, позволяя транспортировать его по трубам.
+tile.nuclearphysics.machine.2.name=Ядерный бойлер
+tile.nuclearphysics.machine.2.tooltip=Получает гексафторид урана из концентрированного урана.
+tile.nuclearphysics.machine.2.text=Ядерный бойлер может скипятить концентрированный уран в гексафторид урана в газообразном состоянии.
+tile.nuclearphysics.uranium_ore.name=Урановая руда
+tile.nuclearphysics.uranium_ore.tooltip=Дорогая и полезная руда, используемая для ядерных реакций.
+tile.nuclearphysics.machine.3.name=Ускоритель частиц
+tile.nuclearphysics.machine.3.tooltip=Ускоряет частицы и создаёт антиматерию, а также тёмную материю.
+tile.nuclearphysics.machine.4.name=Плазменный нагреватель
+tile.nuclearphysics.machine.4.tooltip=Плазменный нагреватель используется для нагревания дейтерия и трития до состояния плазмы, для термоядерной энергии. Плазма должна быть перемещена в ячейку реактора.
+tile.nuclearphysics.machine.5.name=Квантовый сборщик
+tile.nuclearphysics.machine.5.tooltip=Собирает атомы тёмной материи в пригодные для использования материалы.
+tile.nuclearphysics.radioactive_grass.name=Радиоактивные отходы
+tile.nuclearphysics.radioactive_grass.tooltip=Создаёт вредное излучение и распространяется по всему миру, вызывая мутации организмов.
+tile.nuclearphysics.reactor_cell.name=Реакторная ячейка
+tile.nuclearphysics.reactor_cell.tooltip=Основной компонент для всех типов реакторов. Топливные стержни или плазма могут быть введены в ячейку.
+tile.nuclearphysics.siren.name=Сирена
+tile.nuclearphysics.siren.tooltip=Создаёт сигнал тревоги, с настраиваемым уровнем и громкостью по сигналу красного камня.
+tile.nuclearphysics.thermometer.name=Термометр
+tile.nuclearphysics.thermometer.tooltip=Считывает температуру по текущим координатам. Shift-ПКМ, чтобы считывать показания по определённым координатам.
+
+// Items – предметы
+item.nuclearphysics.wrench.name=Гаечный ключ
+item.nuclearphysics.copper_wire.name=Медный провод
+item.nuclearphysics.motor.name=Мотор
+item.nuclearphysics.circuit_basic.name=Микросхема
+item.nuclearphysics.circuit_advanced.name=Продвинутая микросхема
+item.nuclearphysics.circuit_elite.name=Улучшенная микросхема
+item.nuclearphysics.plate_bronze.name=Бронзовая пластина
+item.nuclearphysics.plate_steel.name=Стальная пластина
+item.nuclearphysics.cell.name=Ячейка
+item.nuclearphysics.cell.tooltip=Содержит: %d
+item.nuclearphysics.darkmatter_cell.name=Тёмная материя
+item.nuclearphysics.antimatter_cell.0.name=Антиматерия
+item.nuclearphysics.antimatter_cell.0.tooltip=125 миллиграмм
+item.nuclearphysics.antimatter_cell.1.name=Антиматерия
+item.nuclearphysics.antimatter_cell.1.tooltip=1 грамм
+item.nuclearphysics.yellowcake.name=Урановый концентрат
+item.nuclearphysics.uranium.0.name=Уран-235
+item.nuclearphysics.uranium.0.tooltip=Обогащённый уран
+item.nuclearphysics.uranium.1.name=Уран-238
+item.nuclearphysics.uranium.1.tooltip=Размножающийся уран
+item.nuclearphysics.fissile_fuel.name=ТВЭЛ
+item.nuclearphysics.fissile_fuel.tooltip=Основное топливо для ядерного реактора.
+item.nuclearphysics.breeder_fuel.name=ТВЭЛ-размножитель
+item.nuclearphysics.breeder_fuel.tooltip=Топливо для реактора-размножителя.
+item.nuclearphysics.hazmat_mask.name=Маска радиохимзащиты
+item.nuclearphysics.hazmat_body.name=Куртка радиохимзащиты
+item.nuclearphysics.hazmat_leggings.name=Штаны радиохимзащиты
+item.nuclearphysics.hazmat_boots.name=Чулки радиохимзащиты
+
+// Fluids – жидкости
+fluid.deuterium=Дейтерий
+fluid.uranium_hexafluoride=Гексафторид урана
+fluid.plasma=Плазма
+fluid.steam=Пар
+fluid.tritium=Тритий
+fluid.toxic_waste=Токсичные отходы
+
+// Fluid blocks – блоки жидкостей
+tile.fluid.deuterium.name=Дейтерий
+tile.fluid.uranium_hexafluoride.name=Гексафторид урана
+tile.fluid.plasma.name=Плазма
+tile.fluid.plasma.tooltip=Создаёт экстремальную температуру для кипячения воды.
+tile.fluid.steam.name=Пар
+tile.fluid.tritium.name=Тритий
+tile.fluid.toxic_waste.name=Токсичные отходы
+tile.fluid.toxic_waste.tooltip=Токсичные, ядерные отходы, которые загрязняют мир.
+
+// Entities
+entity.nuclearphysics.particle.name=частица
+
+// Potion – зелья
+effect.radiation=Радиация
+
+// Death – смерть
+death.attack.radiation=%1$s умер от радиации.
+
+// Tooltip – подпись
+tooltip.noFluid=Пуст
+tooltip.energy=Энергия
+tooltip.inputSlot=Ячейка ввода
+tooltip.state=Состояние
+tooltip.empty=Пустой
+tooltip.wrench=Ключ
+tooltip.rotate=Вращение
+tooltip.trackingCoordinate=Отслеживание координат
+tooltip.clearedTrackingCoordinate=Отслеживаемые координаты очищены
+tooltip.notTrackingTemperature=Не отслеживает температуру
+
+tooltip.nuclearphysics.noShift=Нажмите %dshift%d для подробной информации
+
+// GUI – ГИП
+gui.buffer=Буфер
+gui.control.disabled=Выкл
+gui.control.high=Высоко
+gui.control.low=Низко
+gui.control.pulse=Пульс
+gui.mode=Режим
+gui.needed=Необходимо
+gui.remaining=Осталось
+gui.temperature=Температура
+gui.unit=Единица
+gui.using=Используется
+gui.process=Процесс
+gui.processing=Обработка
+gui.ready=Готов
+gui.idle=Ожидание
+gui.status=Статус
+gui.failedToEmitTryRotating=Не удалось выпустить частицу, попробуйте покрутить
+gui.accelerating=Ускорение
+gui.velocity=Скорость
+gui.storedAntimatter=Сохранённая антиматерия
+gui.energyUsed=Использовано энергии
+gui.facing=Направление
+gui.radius=Радиус
+
+gui.configuration.category.general=Основное
+gui.configuration.category.general.tooltip=Основные настройки
+gui.configuration.category.machine=Механизмы
+gui.configuration.category.machine.tooltip=Настройки включения и выключения различных механизмов
+gui.configuration.category.integration=Интеграция
+gui.configuration.category.integration.tooltip=Настройки интеграции с другими модами
+gui.configuration.category.client=Клиент
+gui.configuration.category.client.tooltip=Клиентские настройки
+
+// Schematic – схемы
+schematic.accelerator.name=Ускоритель частиц
+schematic.breeding_reactor.name=Реактор-размножитель
+schematic.fission_reactor.name=Ядерный реактор
+schematic.fusion_reactor.name=Термоядерный реактор
+
+// Color – цвета
+color.black=Чёрный
+color.darkBlue=Тёмно-синий
+color.darkGreen=Тёмно-зелёный
+color.darkAqua=Тёмно-голубой
+color.darkRed=Тёмно-красный
+color.purple=Фиолетовый
+color.orange=Оранжевый
+color.grey=Серый
+color.darkGrey=Тёмно-серый
+color.indigo=Индиго
+color.brightGreen=Ярко-зелёный
+color.aqua=Голубой
+color.red=Красный
+color.pink=Розовый
+color.yellow=Жёлтый
+color.white=Белый
+color.brown=Коричневый
+color.brightPink=Ярко-розовый

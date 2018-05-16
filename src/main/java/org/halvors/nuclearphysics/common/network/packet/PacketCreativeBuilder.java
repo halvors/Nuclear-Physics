@@ -9,8 +9,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
+import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -23,7 +25,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
 
     }
 
-    public PacketCreativeBuilder(BlockPos pos, int schematicId, int size) {
+    public PacketCreativeBuilder(final BlockPos pos, final int schematicId, final int size) {
         super(pos);
 
         this.schematicId = schematicId;
@@ -31,7 +33,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
     }
 
     @Override
-    public void fromBytes(ByteBuf dataStream) {
+    public void fromBytes(final ByteBuf dataStream) {
         super.fromBytes(dataStream);
 
         schematicId = dataStream.readInt();
@@ -39,7 +41,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
     }
 
     @Override
-    public void toBytes(ByteBuf dataStream) {
+    public void toBytes(final ByteBuf dataStream) {
         super.toBytes(dataStream);
 
         dataStream.writeInt(schematicId);
@@ -48,30 +50,28 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
 
     public static class PacketCreativeBuilderMessage implements IMessageHandler<PacketCreativeBuilder, IMessage> {
         @Override
-        public IMessage onMessage(PacketCreativeBuilder message, MessageContext messageContext) {
-            EntityPlayer player = PacketHandler.getPlayer(messageContext);
+        public IMessage onMessage(final PacketCreativeBuilder message, final MessageContext messageContext) {
+            final World world = PacketHandler.getWorld(messageContext);
+            final EntityPlayer player = PacketHandler.getPlayer(messageContext);
 
-            if (player != null) {
-                PacketHandler.handlePacket(() -> {
-                    World world = PacketHandler.getWorld(messageContext);
-                    BlockPos pos = message.getPos();
+            NuclearPhysics.getProxy().addScheduledTask(() -> {
+                final BlockPos pos = message.getPos();
 
-                    if (!world.isRemote) {// && PlayerUtility.isOp(player)) {
-                        try {
-                            if (message.size > 0) {
-                                // TODO: Implement dynamic facing, not just NORTH.
-                                HashMap<BlockPos, IBlockState> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.NORTH, message.size);
+                if (!world.isRemote && PlayerUtility.isOp(player)) {
+                    try {
+                        if (message.size > 0) {
+                            // TODO: Implement dynamic facing, not just NORTH.
+                            final HashMap<BlockPos, IBlockState> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(EnumFacing.NORTH, message.size);
 
-                                for (Entry<BlockPos, IBlockState> entry : map.entrySet()) {
-                                    world.setBlockState(entry.getKey().add(pos), entry.getValue());
-                                }
+                            for (final Entry<BlockPos, IBlockState> entry : map.entrySet()) {
+                                world.setBlockState(entry.getKey().add(pos), entry.getValue());
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                }, player);
-            }
+                }
+            }, world);
 
             return null;
         }

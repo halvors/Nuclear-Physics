@@ -3,8 +3,9 @@ package org.halvors.nuclearphysics.common.multiblock;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import org.halvors.nuclearphysics.api.nbt.ISaveObject;
-import org.halvors.nuclearphysics.common.utility.location.Position;
+import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;
@@ -16,24 +17,26 @@ import java.util.Set;
  * have a reference of this object.
  */
 public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveObject {
+    private static final String NBT_PRIMARY_MULTIBLOCK = "primaryMultiBlock";
+
     protected final W self;
 
     /** The main block used for reference */
     protected WeakReference<W> primary = null;
 
     /** The relative primary block position to be loaded in once the tile is initiated. */
-    protected Position newPrimary = null;
-    protected Class<? extends W> wrapperClass;
+    protected BlockPos newPrimary = null;
+    protected final Class<? extends W> wrapperClass;
 
     @SuppressWarnings("unchecked")
-    public MultiBlockHandler(W wrapper) {
+    public MultiBlockHandler(final W wrapper) {
         self = wrapper;
         wrapperClass = (Class<? extends W>) wrapper.getClass();
     }
 
     public void update() {
         if (self.getWorldObject() != null && newPrimary != null) {
-            W checkWrapper = getWrapperAt(newPrimary.clone().add(self.getPosition()));
+            final W checkWrapper = getWrapperAt(newPrimary.add(self.getPosition()));
 
             if (checkWrapper != null) {
                 newPrimary = null;
@@ -58,11 +61,11 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
      *
      * @return Null if structure cannot be created. */
     public Set<W> getStructure() {
-        Set<W> structure = new LinkedHashSet<>();
-        Position[] positions = self.getMultiBlockVectors();
+        final Set<W> structure = new LinkedHashSet<>();
+        final BlockPos[] positions = self.getMultiBlockVectors();
 
-        for (Position position : positions) {
-            W checkWrapper = getWrapperAt(position.add(self.getPosition()));
+        for (final BlockPos position : positions) {
+            final W checkWrapper = getWrapperAt(position.add(self.getPosition()));
 
             if (checkWrapper != null) {
                 structure.add(checkWrapper);
@@ -82,7 +85,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
      * @return True if the construction was successful. */
     public boolean construct() {
         if (!isConstructed()) {
-            Set<W> structures = getStructure();
+            final Set<W> structures = getStructure();
 
             if (structures != null) {
                 for (W structure : structures) {
@@ -111,7 +114,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     public boolean deconstruct() {
         if (isConstructed()) {
             if (isPrimary()) {
-                Set<W> structures = getStructure();
+                final Set<W> structures = getStructure();
 
                 if (structures != null) {
                     for (W structure : structures) {
@@ -132,9 +135,9 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
         return false;
     }
 
-
-    public W getWrapperAt(Position position) {
-        TileEntity tile = position.getTileEntity(self.getWorldObject());
+    @SuppressWarnings("unchecked")
+    public W getWrapperAt(final BlockPos pos) {
+        final TileEntity tile = self.getWorldObject().getTileEntity(pos);
 
         if (tile != null && wrapperClass.isAssignableFrom(tile.getClass())) {
             return (W) tile;
@@ -162,9 +165,9 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
     /** Only the primary wrapper of the multiblock saves and loads data. */
     @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        if (tag.hasKey("primaryMultiBlock")) {
-            newPrimary = new Position(tag.getCompoundTag("primaryMultiBlock"));
+    public void readFromNBT(final NBTTagCompound tag) {
+        if (tag.hasKey(NBT_PRIMARY_MULTIBLOCK)) {
+            newPrimary = VectorUtility.readFromNBT(tag.getCompoundTag(NBT_PRIMARY_MULTIBLOCK));
             update();
         } else {
             primary = null;
@@ -172,27 +175,27 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         if (isConstructed()) {
-            tag.setTag("primaryMultiBlock", getPrimary().getPosition().subtract(self.getPosition()).writeToNBT(new NBTTagCompound()));
+            tag.setTag(NBT_PRIMARY_MULTIBLOCK, VectorUtility.writeToNBT(getPrimary().getPosition().subtract(self.getPosition()), new NBTTagCompound()));
         }
 
         return tag;
     }
 
-    public void handlePacketData(ByteBuf dataStream) {
+    public void handlePacketData(final ByteBuf dataStream) {
         if (dataStream.readBoolean()) {
-            newPrimary = new Position(dataStream);
+            newPrimary = VectorUtility.handlePacketData(dataStream);
             update();
         } else {
             primary = null;
         }
     }
 
-    public List<Object> getPacketData(List<Object> objects) {
+    public List<Object> getPacketData(final List<Object> objects) {
         if (isConstructed()) {
             objects.add(true);
-            getPrimary().getPosition().subtract(self.getPosition()).getPacketData(objects);
+            VectorUtility.getPacketData(getPrimary().getPosition().subtract(self.getPosition()), objects);
         } else {
             objects.add(false);
         }

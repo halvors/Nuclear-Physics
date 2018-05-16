@@ -6,20 +6,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
+import org.halvors.nuclearphysics.common.type.Range;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
-import org.halvors.nuclearphysics.common.utility.location.Range;
 
 import java.util.List;
 import java.util.Set;
@@ -32,23 +32,23 @@ import java.util.Set;
 public class PacketHandler {
 	public static final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.ID);
 
-	public void sendTo(IMessage message, EntityPlayerMP player) {
+	public void sendTo(final IMessage message, final EntityPlayerMP player) {
 		networkWrapper.sendTo(message, player);
 	}
 
-	public void sendToAll(IMessage message) {
+	public void sendToAll(final IMessage message) {
 		networkWrapper.sendToAll(message);
 	}
 
-	public void sendToAllAround(IMessage message, NetworkRegistry.TargetPoint point) {
+	public void sendToAllAround(final IMessage message, final TargetPoint point) {
 		networkWrapper.sendToAllAround(message, point);
 	}
 
-	public void sendToDimension(IMessage message, int dimensionId) {
+	public void sendToDimension(final IMessage message, final int dimensionId) {
 		networkWrapper.sendToDimension(message, dimensionId);
 	}
 
-	public void sendToServer(IMessage message) {
+	public void sendToServer(final IMessage message) {
 		networkWrapper.sendToServer(message);
 	}
 
@@ -58,9 +58,9 @@ public class PacketHandler {
 	 * @param cuboid - the AABB cuboid to send the packet in
 	 * @param dimensionId - the dimension the cuboid is in
 	 */
-	public void sendToCuboid(IMessage message, AxisAlignedBB cuboid, int dimensionId) {
+	public void sendToCuboid(final IMessage message, final AxisAlignedBB cuboid, final int dimensionId) {
 		if (cuboid != null) {
-			for (EntityPlayerMP player : PlayerUtility.getPlayers()) {
+			for (final EntityPlayerMP player : PlayerUtility.getPlayers()) {
 				if (player.dimension == dimensionId && cuboid.isVecInside(new Vec3d(player.posX, player.posY, player.posZ))) {
 					sendTo(message, player);
 				}
@@ -68,45 +68,37 @@ public class PacketHandler {
 		}
 	}
 
-	public void sendToReceivers(IMessage message, Set<EntityPlayer> playerList) {
-		for (EntityPlayer player : playerList) {
+	public void sendToReceivers(final IMessage message, final Set<EntityPlayer> playerList) {
+		for (final EntityPlayer player : playerList) {
 			sendTo(message, (EntityPlayerMP) player);
 		}
 	}
 
-	public void sendToReceivers(IMessage message, Range range) {
-		for (EntityPlayerMP player : PlayerUtility.getPlayers()) {
+	public void sendToReceivers(final IMessage message, final Range range) {
+		for (final EntityPlayerMP player : PlayerUtility.getPlayers()) {
 			if (player.getEntityWorld().equals(range.getWorld()) && Range.getChunkRange(player).intersects(range)) {
 				sendTo(message, player);
 			}
 		}
 	}
 
-	public void sendToReceivers(IMessage message, Entity entity) {
+	public void sendToReceivers(final IMessage message, final Entity entity) {
 		sendToReceivers(message, new Range(entity));
 	}
 
-	public void sendToReceivers(IMessage message, TileEntity tileEntity) {
+	public void sendToReceivers(final IMessage message, final TileEntity tileEntity) {
 		sendToReceivers(message, new Range(tileEntity));
 	}
 
-	public static void handlePacket(Runnable runnable, EntityPlayer player) {
-		NuclearPhysics.getProxy().handlePacket(runnable, player);
-	}
-
-	public static Packet getPacketFrom(IMessage message) {
-		return networkWrapper.getPacketFrom(message);
-	}
-
-	public static EntityPlayer getPlayer(MessageContext context) {
+	public static EntityPlayer getPlayer(final MessageContext context) {
 		return NuclearPhysics.getProxy().getPlayer(context);
 	}
 
-	public static World getWorld(MessageContext context) {
+	public static World getWorld(final MessageContext context) {
 		return getPlayer(context).getEntityWorld();
 	}
 
-    public static void writeObject(Object object, ByteBuf dataStream) {
+    public static void writeObject(final Object object, final ByteBuf dataStream) {
         try {
             if (object instanceof Boolean) {
                 dataStream.writeBoolean((Boolean) object);
@@ -133,27 +125,15 @@ public class PacketHandler {
             } else if (object instanceof NBTTagCompound) {
 				ByteBufUtils.writeTag(dataStream, (NBTTagCompound) object);
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             NuclearPhysics.getLogger().error("An error occurred when sending packet data.");
             e.printStackTrace();
         }
     }
 
-    public static void writeObjects(List<Object> objects, ByteBuf dataStream) {
-        for (Object object : objects) {
+    public static void writeObjects(final List<Object> objects, final ByteBuf dataStream) {
+        for (final Object object : objects) {
             writeObject(object, dataStream);
         }
     }
-
-	public static String readString(ByteBuf input) {
-		return ByteBufUtils.readUTF8String(input);
-	}
-
-	public static ItemStack readStack(ByteBuf input) {
-		return ByteBufUtils.readItemStack(input);
-	}
-
-	public static NBTTagCompound readNBT(ByteBuf input) {
-		return ByteBufUtils.readTag(input);
-	}
 }

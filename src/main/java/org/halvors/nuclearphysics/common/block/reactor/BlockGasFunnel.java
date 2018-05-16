@@ -12,11 +12,13 @@ import javax.annotation.Nonnull;
 public class BlockGasFunnel extends BlockConnectedTexture {
     public BlockGasFunnel() {
         super("gas_funnel", Material.IRON);
+
+        setHardness(0.6F);
     }
 
     @Override
     @Nonnull
-    public TileEntity createTileEntity(@Nonnull World world, @Nonnull IBlockState state) {
+    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
         return new TileGasFunnel();
     }
 }

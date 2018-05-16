@@ -4,42 +4,46 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.Resource;
 
 import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public class GuiSlot extends GuiComponent {
-    private SlotType type;
+    private final EnumSlotType type;
     private String tooltip;
 
-    public GuiSlot(SlotType type, IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "slot.png"), gui, x, y);
+    public GuiSlot(final EnumSlotType type, final IGuiWrapper gui, final int x, final int y) {
+        super(ResourceUtility.getResource(EnumResource.GUI_COMPONENT, "slot.png"), gui, x, y);
 
         this.type = type;
     }
 
-    public GuiSlot(SlotType type, IGuiWrapper gui, int x, int y, String tooltip) {
+    public GuiSlot(final IGuiWrapper gui, final int x, final int y) {
+        this(EnumSlotType.NORMAL, gui, x, y);
+    }
+
+    public GuiSlot(final EnumSlotType type, final IGuiWrapper gui, final int x, final int y, final String tooltip) {
         this(type, gui, x, y);
 
         this.tooltip = tooltip;
     }
 
     @Override
-    public Rectangle getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, type.width, type.height);
+    public Rectangle getBounds(final int guiWidth, final int guiHeight) {
+        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, type.getWidth(), type.getHeight());
     }
 
     @Override
-    public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
+    public void renderBackground(final int xAxis, final int yAxis, final int guiWidth, final int guiHeight) {
         RenderUtility.bindTexture(resource);
 
-        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.textureX, type.textureY, type.width, type.height);
+        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.getTextureX(), type.getTextureY(), type.getWidth(), type.getHeight());
     }
 
     @Override
-    public void renderForeground(int xAxis, int yAxis) {
+    public void renderForeground(final int xAxis, final int yAxis) {
         if (isPointInRegion(xLocation, yLocation, xAxis, yAxis, type.width, type.height)) {
             if (tooltip != null && !tooltip.isEmpty()) {
                 gui.displayTooltip(tooltip, xAxis, yAxis);
@@ -48,46 +52,62 @@ public class GuiSlot extends GuiComponent {
     }
 
     @Override
-    public void preMouseClicked(int xAxis, int yAxis, int button) {
+    public void preMouseClicked(final int xAxis, final int yAxis, final int button) {
 
     }
 
     @Override
-    public void mouseClicked(int xAxis, int yAxis, int button) {
+    public void mouseClicked(final int xAxis, final int yAxis, final int button) {
 
     }
 
     @Override
-    public void mouseClickMove(int mouseX, int mouseY, int button, long ticks) {
+    public void mouseClickMove(final int mouseX, final int mouseY, final int button, final long ticks) {
 
     }
 
     @Override
-    public void mouseReleased(int x, int y, int type) {
+    public void mouseReleased(final int x, final int y, final int type) {
 
     }
 
     @Override
-    public void mouseWheel(int x, int y, int delta) {
+    public void mouseWheel(final int x, final int y, final int delta) {
 
     }
 
-    public enum SlotType {
+    public enum EnumSlotType {
         NORMAL(18, 18, 0, 0),
         BATTERY(18, 18, 18, 0),
         LIQUID(18, 18, 36, 0),
         GAS(18, 18, 54, 0);
 
-        public int width;
-        public int height;
-        public int textureX;
-        public int textureY;
+        private final int width;
+        private final int height;
+        private final int textureX;
+        private final int textureY;
 
-        SlotType(int w, int h, int x, int y) {
-            this.width = w;
-            this.height = h;
-            this.textureX = x;
-            this.textureY = y;
+        EnumSlotType(int width, int height, int textureX, int textureY) {
+            this.width = width;
+            this.height = height;
+            this.textureX = textureX;
+            this.textureY = textureY;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public int getTextureX() {
+            return textureX;
+        }
+
+        public int getTextureY() {
+            return textureY;
         }
     }
 }

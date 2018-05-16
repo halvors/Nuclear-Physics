@@ -4,71 +4,71 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
-import org.halvors.nuclearphysics.common.utility.type.Resource;
 
 import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public class GuiProgress extends GuiComponent {
-    private static final int width = 22;
-    private static final int height = 16;
+    private static final int WIDTH = 22;
+    private static final int HEIGHT = 16;
 
-    private IProgressInfoHandler progressInfoHandler;
+    private final IProgressInfoHandler progressInfoHandler;
 
-    public GuiProgress(IProgressInfoHandler progressInfoHandler, IGuiWrapper gui, int x, int y) {
-        super(ResourceUtility.getResource(Resource.GUI_COMPONENT, "progress.png"), gui, x, y);
+    public GuiProgress(final IProgressInfoHandler progressInfoHandler, final IGuiWrapper gui, final int x, final int y) {
+        super(ResourceUtility.getResource(EnumResource.GUI_COMPONENT, "progress.png"), gui, x, y);
 
         this.progressInfoHandler = progressInfoHandler;
     }
 
     @Override
-    public Rectangle getBounds(int guiWidth, int guiHeight) {
-        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, width, height);
+    public Rectangle getBounds(final int guiWidth, final int guiHeight) {
+        return new Rectangle(guiWidth + xLocation, guiHeight + yLocation, WIDTH, HEIGHT);
     }
 
     @Override
-    public void renderBackground(int xAxis, int yAxis, int guiWidth, int guiHeight) {
+    public void renderBackground(final int xAxis, final int yAxis, final int guiWidth, final int guiHeight) {
         RenderUtility.bindTexture(resource);
 
-        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, width, height);
+        gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, 0, 0, WIDTH, HEIGHT);
 
-        int scale = (int) (progressInfoHandler.getProgress() * (width + 1));
+        final int scale = (int) (progressInfoHandler.getProgress() * (WIDTH + 1));
 
         if (scale > 0) {
             RenderUtility.bindTexture(resource);
 
-            gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, width, 0, scale, height);
+            gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, WIDTH, 0, scale, HEIGHT);
         }
     }
 
     @Override
-    public void renderForeground(int xAxis, int yAxis) {
+    public void renderForeground(final int xAxis, final int yAxis) {
 
     }
 
     @Override
-    public void preMouseClicked(int xAxis, int yAxis, int button) {
+    public void preMouseClicked(final int xAxis, final int yAxis, final int button) {
 
     }
 
     @Override
-    public void mouseClicked(int xAxis, int yAxis, int button) {
+    public void mouseClicked(final int xAxis, final int yAxis, final int button) {
 
     }
 
     @Override
-    public void mouseClickMove(int mouseX, int mouseY, int button, long ticks) {
+    public void mouseClickMove(final int mouseX, final int mouseY, final int button, final long ticks) {
 
     }
 
     @Override
-    public void mouseReleased(int x, int y, int type) {
+    public void mouseReleased(final int x, final int y, final int type) {
 
     }
 
     @Override
-    public void mouseWheel(int x, int y, int delta) {
+    public void mouseWheel(final int x, final int y, final int delta) {
 
     }
 }

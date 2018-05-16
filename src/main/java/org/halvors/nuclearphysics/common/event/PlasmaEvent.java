@@ -1,31 +1,30 @@
 package org.halvors.nuclearphysics.common.event;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.fml.common.eventhandler.Cancelable;
 
-public class PlasmaEvent extends WorldEvent {
-    public PlasmaEvent(World world) {
-        super(world);
+public class PlasmaEvent extends WorldEventBase {
+    private int temperature;
+
+    public PlasmaEvent(final IBlockAccess world, final BlockPos pos, final int temperature) {
+        super(world, pos);
+
+        this.temperature = temperature;
     }
 
+    public int getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
+
+    @Cancelable
     public static class PlasmaSpawnEvent extends PlasmaEvent {
-        private final BlockPos pos;
-        private final int temperature;
-
-        public PlasmaSpawnEvent(World world, BlockPos pos, int temperature) {
-            super(world);
-
-            this.pos = pos;
-            this.temperature = temperature;
-        }
-
-        public BlockPos getPos() {
-            return pos;
-        }
-
-        public int getTemperature() {
-            return temperature;
+        public PlasmaSpawnEvent(final IBlockAccess world, final BlockPos pos, final int temperature) {
+            super(world, pos, temperature);
         }
     }
 }

@@ -12,45 +12,44 @@ import net.minecraftforge.fml.common.registry.IForgeRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockBase;
-import org.halvors.nuclearphysics.common.block.BlockRadioactiveGrass;
-import org.halvors.nuclearphysics.common.block.BlockUraniumOre;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine;
-import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
-import org.halvors.nuclearphysics.common.block.particle.BlockFulmination;
+import org.halvors.nuclearphysics.common.block.particle.BlockFulminationGenerator;
 import org.halvors.nuclearphysics.common.block.reactor.*;
 import org.halvors.nuclearphysics.common.block.reactor.fission.BlockControlRod;
+import org.halvors.nuclearphysics.common.block.reactor.fission.BlockRadioactiveGrass;
+import org.halvors.nuclearphysics.common.block.reactor.fission.BlockUraniumOre;
 import org.halvors.nuclearphysics.common.block.reactor.fusion.BlockElectromagnet;
+import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockMetadata;
 import org.halvors.nuclearphysics.common.item.block.ItemBlockTooltip;
 import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
-import org.halvors.nuclearphysics.common.tile.particle.TileFulmination;
+import org.halvors.nuclearphysics.common.tile.particle.TileElectromagnet;
+import org.halvors.nuclearphysics.common.tile.particle.TileFulminationGenerator;
 import org.halvors.nuclearphysics.common.tile.reactor.*;
-import org.halvors.nuclearphysics.common.tile.reactor.fusion.TileElectromagnet;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class ModBlocks {
-    public static Block blockControlRod = new BlockControlRod();
-    public static Block blockElectricTurbine = new BlockElectricTurbine();
-    public static Block blockElectromagnet = new BlockElectromagnet();
-    public static Block blockFulmination = new BlockFulmination();
-    public static Block blockGasFunnel = new BlockGasFunnel();
-    public static Block blockMachineModel = new BlockMachine();
-    public static Block blockSiren = new BlockSiren();
-    public static Block blockThermometer = new BlockThermometer();
-    public static Block blockUraniumOre = new BlockUraniumOre();
-    public static Block blockRadioactiveGrass = new BlockRadioactiveGrass();
-    public static Block blockReactorCell = new BlockReactorCell();
+    public static final Set<ItemBlock> itemBlocks = new HashSet<>();
 
-    public static Block blockCreativeBuilder = new BlockCreativeBuilder();
+    public static final Block blockControlRod = new BlockControlRod();
+    public static final Block blockElectricTurbine = new BlockElectricTurbine();
+    public static final Block blockElectromagnet = new BlockElectromagnet();
+    public static final Block blockFulmination = new BlockFulminationGenerator();
+    public static final Block blockGasFunnel = new BlockGasFunnel();
+    public static final Block blockMachine = new BlockMachine();
+    public static final Block blockSiren = new BlockSiren();
+    public static final Block blockThermometer = new BlockThermometer();
+    public static final Block blockUraniumOre = new BlockUraniumOre();
+    public static final Block blockRadioactiveGrass = new BlockRadioactiveGrass();
+    public static final Block blockReactorCell = new BlockReactorCell();
+    public static final Block blockCreativeBuilder = new BlockCreativeBuilder();
 
     @EventBusSubscriber
     public static class RegistrationHandler {
-        public static final Set<ItemBlock> ITEM_BLOCKS = new HashSet<>();
-
         /**
          * Register this mod's {@link Block}s.
          *
@@ -60,13 +59,13 @@ public class ModBlocks {
         public static void registerBlocks(final Register<Block> event) {
             final IForgeRegistry<Block> registry = event.getRegistry();
 
-            final Block[] blocks = {
+            final Block[] registerBlocks = {
                     blockControlRod,
                     blockElectricTurbine,
                     blockElectromagnet,
                     blockFulmination,
                     blockGasFunnel,
-                    blockMachineModel,
+                    blockMachine,
                     blockSiren,
                     blockThermometer,
                     blockUraniumOre,
@@ -75,7 +74,9 @@ public class ModBlocks {
                     blockCreativeBuilder
             };
 
-            registry.registerAll(blocks);
+            registry.registerAll(registerBlocks);
+
+            registerTileEntities();
         }
 
         /**
@@ -85,13 +86,13 @@ public class ModBlocks {
          */
         @SubscribeEvent
         public static void registerItemBlocks(final Register<Item> event) {
-            final ItemBlock[] items = {
+            final ItemBlock[] registerItems = {
                     new ItemBlockTooltip(blockControlRod),
                     new ItemBlockTooltip(blockElectricTurbine),
                     new ItemBlockMetadata(blockElectromagnet),
                     new ItemBlockTooltip(blockFulmination),
                     new ItemBlockTooltip(blockGasFunnel),
-                    new ItemBlockMetadata(blockMachineModel),
+                    new ItemBlockMetadata(blockMachine),
                     new ItemBlockTooltip(blockSiren),
                     new ItemBlockThermometer(blockThermometer),
                     new ItemBlockTooltip(blockUraniumOre),
@@ -102,7 +103,7 @@ public class ModBlocks {
 
             final IForgeRegistry<Item> registry = event.getRegistry();
 
-            for (final ItemBlock item : items) {
+            for (final ItemBlock item : registerItems) {
                 final BlockBase block = (BlockBase) item.getBlock();
                 //final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
                 //registry.register(item.setRegistryName(registryName));
@@ -111,10 +112,8 @@ public class ModBlocks {
                 block.registerItemModel(item);
                 block.registerBlockModel();
 
-                ITEM_BLOCKS.add(item);
+                itemBlocks.add(item);
             }
-
-            registerTileEntities();
 
             OreDictionary.registerOre("oreUranium", blockUraniumOre);
             OreDictionary.registerOre("blockRadioactiveGrass", blockRadioactiveGrass);
@@ -128,7 +127,7 @@ public class ModBlocks {
 
         registerTile(TileElectricTurbine.class);
         registerTile(TileElectromagnet.class);
-        registerTile(TileFulmination.class);
+        registerTile(TileFulminationGenerator.class);
         registerTile(TileGasFunnel.class);
         registerTile(TileSiren.class);
         registerTile(TileThermometer.class);
@@ -136,8 +135,8 @@ public class ModBlocks {
         registerTile(TileReactorCell.class);
     }
 
-    private static void registerTile(Class<? extends TileEntity> tileClass) {
-        String name = tileClass.getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
+    private static void registerTile(final Class<? extends TileEntity> tileClass) {
+        final String name = tileClass.getSimpleName().replaceAll("(.)(\\p{Lu})", "$1_$2").toLowerCase();
 
         GameRegistry.registerTileEntity(tileClass, Reference.PREFIX + name);
     }
