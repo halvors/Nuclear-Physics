@@ -5,6 +5,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.science.unit.UnitDisplay;
 import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
@@ -13,21 +14,21 @@ import java.awt.*;
 
 @SideOnly(Side.CLIENT)
 public class GuiBar extends GuiComponent {
-    private final IBarInfoHandler barInfoHandler;
     private final EnumBarType type;
+    private final IBarInfoHandler barInfoHandler;
 
     public GuiBar(final IBarInfoHandler barInfoHandler, final EnumBarType type, final IGuiWrapper gui, final int x, final int y) {
         super(ResourceUtility.getResource(EnumResource.GUI_COMPONENT, "bar.png"), gui, x, y);
 
-        this.barInfoHandler = barInfoHandler;
         this.type = type;
+        this.barInfoHandler = barInfoHandler;
     }
 
     public GuiBar(final IEnergyStorage energyStorage, final IGuiWrapper gui, final int x, final int y) {
         this(new IBarInfoHandler() {
             @Override
             public double getLevel() {
-                return 0.1; //energyStorage.getEnergyStored() / energyStorage.getMaxEnergyStored();
+                return energyStorage.getEnergyStored() / energyStorage.getMaxEnergyStored();
             }
 
             @Override
@@ -48,21 +49,17 @@ public class GuiBar extends GuiComponent {
 
         gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.getTextureX(), type.getTextureY(), type.getWidth(), type.getHeight());
 
-        if (type.isHorizontal()) {
-            final double scale = barInfoHandler.getLevel() * type.getWidth();
+        final double level = barInfoHandler.getLevel();
 
-            if (scale > 0) {
-                RenderUtility.bindTexture(resource);
-                
-                gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.getTextureX() + type.getWidth(), type.getTextureY(), 1, type.getHeight());
-            }
-        } else {
-            final double level = barInfoHandler.getLevel();
+        if (level > 0) {
+            if (type.isHorizontal()) {
+                int scale = (int) (level * type.getWidth());
 
-            if (level > 0) {
-                int displayInt = (int) (level * 52) + 2;
+                gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation, type.getTextureX() + type.getWidth(), type.getTextureY(), scale, type.getHeight());
+            } else {
+                int scale = (int) (level * type.getHeight());
 
-                gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation + type.getHeight() - displayInt, type.getWidth(), type.getHeight() - displayInt, type.getWidth(), displayInt);
+                gui.drawTexturedRect(guiWidth + xLocation, guiHeight + yLocation + type.getHeight() - scale, type.getTextureX() + type.getWidth(), type.getTextureY() + type.getHeight() - scale, type.getWidth(), scale);
             }
         }
 

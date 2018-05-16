@@ -27,7 +27,7 @@ public class GuiChemicalExtractor extends GuiMachine<TileChemicalExtractor> {
         components.add(new GuiSlot(EnumSlotType.LIQUID, this, centerX - 54, 18));
         components.add(new GuiSlot(EnumSlotType.LIQUID, this, centerX - 54, 49));
         components.add(new GuiSlot(EnumSlotType.NORMAL, this, centerX - 30, 24, LanguageUtility.transelate("tooltip.inputSlot")));
-        components.add(new GuiBar(() -> 100/*tile.getOperatingTicks() / TileChemicalExtractor.TICKS_REQUIRED*/, EnumBarType.PROGRESS, this, centerX - 6, 24));
+        components.add(new GuiBar(() -> tile.getOperatingTicks() / TileChemicalExtractor.TICKS_REQUIRED, EnumBarType.PROGRESS, this, centerX - 6, 24));
         components.add(new GuiSlot(EnumSlotType.BATTERY, this, centerX - 4, 49));
         components.add(new GuiSlot(this, centerX + 22, 24));
         components.add(new GuiSlot(EnumSlotType.LIQUID, this, centerX + 46, 18));

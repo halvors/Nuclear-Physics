@@ -9,20 +9,20 @@ public class ContainerChemicalExtractor extends ContainerBase<TileChemicalExtrac
     public ContainerChemicalExtractor(final InventoryPlayer inventoryPlayer, final TileChemicalExtractor tile) {
         super(7, inventoryPlayer, tile);
 
-        // Battery
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 80, 50));
-
-        // Process Input (Uranium)
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 53, 25));
-
-        // Process Output
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 107, 25));
-
         // Fluid input fill
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 25, 19));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 35, 19));
 
         // Fluid input drain
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 4, 25, 50));
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 4, 35, 50));
+
+        // Process Input (Uranium)
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 59, 25));
+
+        // Process Output
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 111, 25));
+
+        // Battery
+        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 85, 50));
 
         // Fluid output fill
         addSlotToContainer(new SlotItemHandler(tile.getInventory(), 5, 135, 19));
