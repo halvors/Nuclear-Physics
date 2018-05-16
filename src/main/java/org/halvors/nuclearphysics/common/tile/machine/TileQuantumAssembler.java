@@ -142,7 +142,7 @@ public class TileQuantumAssembler extends TileInventoryMachine {
         }
     }
 
-    private EntityItem getEntityForItem(ItemStack itemStack) {
+    private EntityItem getEntityForItem(final ItemStack itemStack) {
         final EntityItem entityItem = new EntityItem(world, 0, 0, 0, itemStack.copy());
         entityItem.setAgeToCreativeDespawnTime();
 

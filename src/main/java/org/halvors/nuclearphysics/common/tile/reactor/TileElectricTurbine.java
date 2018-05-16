@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -24,7 +25,6 @@ import org.halvors.nuclearphysics.common.multiblock.ElectricTurbineMultiBlockHan
 import org.halvors.nuclearphysics.common.multiblock.IMultiBlockStructure;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.tile.TileGenerator;
-import org.halvors.nuclearphysics.common.type.Position;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -194,8 +194,8 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public Position[] getMultiBlockVectors() {
-        final Set<Position> positions = new HashSet<>();
+    public BlockPos[] getMultiBlockVectors() {
+        final Set<BlockPos> positions = new HashSet<>();
 
         final EnumFacing dir = EnumFacing.UP;
         final int xMulti = dir.getFrontOffsetX() != 0 ? 0 : 1;
@@ -205,12 +205,12 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         for (int x = -multiBlockRadius; x <= multiBlockRadius; x++) {
             for (int y = -multiBlockRadius; y <= multiBlockRadius; y++) {
                 for (int z = -multiBlockRadius; z <= multiBlockRadius; z++) {
-                    positions.add(new Position(x * xMulti, y * yMulti, z * zMulti));
+                    positions.add(new BlockPos(x * xMulti, y * yMulti, z * zMulti));
                 }
             }
         }
 
-        return positions.toArray(new Position[0]);
+        return positions.toArray(new BlockPos[0]);
     }
 
     @Override
@@ -225,12 +225,12 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         }
 
         // Notify neighbor blocks of when multiblock is formed.
-        world.notifyNeighborsOfStateChange(pos, blockType);
+        world.notifyNeighborsOfStateChange(pos, getBlockType());
     }
 
     @Override
-    public Position getPosition() {
-        return new Position(this);
+    public BlockPos getPosition() {
+        return pos;
     }
 
     @Override

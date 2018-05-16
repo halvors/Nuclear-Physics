@@ -1,14 +1,14 @@
 package org.halvors.nuclearphysics.common.multiblock;
 
-import net.minecraft.world.World;
-import org.halvors.nuclearphysics.common.type.Position;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 
 public interface IMultiBlockStructure<W extends IMultiBlockStructure> extends IMultiBlock {
-    World getWorldObject();
+    IBlockAccess getWorldObject();
 
     void onMultiBlockChanged();
 
-    Position getPosition();
+    BlockPos getPosition();
 
     MultiBlockHandler<W> getMultiBlock();
 }
