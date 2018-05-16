@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.nuclearphysics.api.nbt.ISaveObject;
-import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
 import java.lang.ref.WeakReference;
 import java.util.LinkedHashSet;
@@ -17,13 +17,15 @@ import java.util.Set;
  * have a reference of this object.
  */
 public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveObject {
+    private static final String NBT_PRIMARY_MULTIBLOCK = "primaryMultiBlock";
+
     protected final W self;
 
     /** The main block used for reference */
     protected WeakReference<W> primary = null;
 
     /** The relative primary block position to be loaded in once the tile is initiated. */
-    protected Position newPrimary = null;
+    protected BlockPos newPrimary = null;
     protected final Class<? extends W> wrapperClass;
 
     @SuppressWarnings("unchecked")
@@ -34,7 +36,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
     public void update() {
         if (self.getWorldObject() != null && newPrimary != null) {
-            final W checkWrapper = getWrapperAt(newPrimary.clone().add(self.getPosition()).getPos());
+            final W checkWrapper = getWrapperAt(newPrimary.add(self.getPosition()));
 
             if (checkWrapper != null) {
                 newPrimary = null;
@@ -60,10 +62,10 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
      * @return Null if structure cannot be created. */
     public Set<W> getStructure() {
         final Set<W> structure = new LinkedHashSet<>();
-        final Position[] positions = self.getMultiBlockVectors();
+        final BlockPos[] positions = self.getMultiBlockVectors();
 
-        for (Position position : positions) {
-            final W checkWrapper = getWrapperAt(position.add(self.getPosition()).getPos());
+        for (final BlockPos position : positions) {
+            final W checkWrapper = getWrapperAt(position.add(self.getPosition()));
 
             if (checkWrapper != null) {
                 structure.add(checkWrapper);
@@ -164,8 +166,8 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     /** Only the primary wrapper of the multiblock saves and loads data. */
     @Override
     public void readFromNBT(final NBTTagCompound tag) {
-        if (tag.hasKey("primaryMultiBlock")) {
-            newPrimary = new Position(tag.getCompoundTag("primaryMultiBlock"));
+        if (tag.hasKey(NBT_PRIMARY_MULTIBLOCK)) {
+            newPrimary = VectorUtility.readFromNBT(tag.getCompoundTag(NBT_PRIMARY_MULTIBLOCK));
             update();
         } else {
             primary = null;
@@ -175,7 +177,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     @Override
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         if (isConstructed()) {
-            tag.setTag("primaryMultiBlock", getPrimary().getPosition().subtract(self.getPosition()).writeToNBT(new NBTTagCompound()));
+            tag.setTag(NBT_PRIMARY_MULTIBLOCK, VectorUtility.writeToNBT(getPrimary().getPosition().subtract(self.getPosition()), new NBTTagCompound()));
         }
 
         return tag;
@@ -183,7 +185,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
     public void handlePacketData(final ByteBuf dataStream) {
         if (dataStream.readBoolean()) {
-            newPrimary = new Position(dataStream);
+            newPrimary = VectorUtility.handlePacketData(dataStream);
             update();
         } else {
             primary = null;
@@ -193,7 +195,7 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     public List<Object> getPacketData(final List<Object> objects) {
         if (isConstructed()) {
             objects.add(true);
-            getPrimary().getPosition().subtract(self.getPosition()).getPacketData(objects);
+            VectorUtility.getPacketData(getPrimary().getPosition().subtract(self.getPosition()), objects);
         } else {
             objects.add(false);
         }

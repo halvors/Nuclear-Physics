@@ -7,7 +7,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
@@ -92,6 +91,10 @@ public class TilePlasma extends TileEntity implements ITickable {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public int getTemperature() {
+        return temperature;
+    }
 
     public void setTemperature(final int temperature) {
         this.temperature = temperature;

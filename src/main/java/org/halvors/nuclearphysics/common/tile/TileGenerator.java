@@ -152,8 +152,4 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork {
     public IEnergyStorage getEnergyStorage() {
         return energyStorage;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 }

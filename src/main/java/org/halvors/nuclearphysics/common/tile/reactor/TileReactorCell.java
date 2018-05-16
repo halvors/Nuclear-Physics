@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
@@ -165,20 +166,39 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
         if (!world.isRemote) {
             final FluidStack fluidStack = tank.getFluid();
 
+            // Nuclear fusion.
             if (fluidStack != null && fluidStack.isFluidEqual(ModFluids.fluidStackPlasma)) {
-                // Spawn plasma.
                 final FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
 
                 if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
-                    final EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(3) + 2);
+                    final EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(4) + 2);
                     final BlockPos spawnPos = pos.offset(spawnDir, 2);
 
                     if (world.isAirBlock(spawnPos)) {
-                        MinecraftForge.EVENT_BUS.post(new PlasmaSpawnEvent(world, spawnPos, TilePlasma.PLASMA_MAX_TEMPERATURE));
-                        tank.drainInternal(Fluid.BUCKET_VOLUME, true);
+                    	final PlasmaSpawnEvent event = new PlasmaSpawnEvent(world, spawnPos, TilePlasma.PLASMA_MAX_TEMPERATURE);
+                        MinecraftForge.EVENT_BUS.post(event);
+
+                        // Spawn plasma.
+                        if (!event.isCanceled()) {
+                        	world.setBlockState(spawnPos, ModFluids.plasma.getBlock().getDefaultState(), 2);
+                        	tank.drainInternal(Fluid.BUCKET_VOLUME, true);
+                        }
+                    } else {
+                    	final TileEntity tile = world.getTileEntity(spawnPos);
+
+                        // Do plasma boost.
+                    	if (tile instanceof TilePlasma) {
+                    	    final TilePlasma tilePlasma = (TilePlasma) tile;
+                            final int increaseTemperature = TilePlasma.PLASMA_MAX_TEMPERATURE / 10;
+
+                    		if (TilePlasma.PLASMA_MAX_TEMPERATURE - tilePlasma.getTemperature() > increaseTemperature) {
+                                tilePlasma.setTemperature(tilePlasma.getTemperature() + increaseTemperature);
+                    			tank.drain(100, true);
+                    		}
+                    	}
                     }
                 }
-            } else {
+            } else { // Nuclear fission.
                 previousInternalEnergy = internalEnergy;
 
                 // Handle cell rod interactions.
@@ -269,7 +289,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
 
             if (world.getTotalWorldTime() % 60 == 0 || shouldUpdate) {
                 shouldUpdate = false;
-                world.notifyNeighborsOfStateChange(pos, blockType);
+                world.notifyNeighborsOfStateChange(pos, getBlockType());
 
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }

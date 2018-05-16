@@ -25,8 +25,8 @@ public class TileChemicalExtractor extends TileProcess {
     private static final int EXTRACT_SPEED = 100;
     public static final int TICKS_REQUIRED = 14 * 20;
 
-    private IItemHandler top = new RangedWrapper(inventory, 2, 3);
-    private IItemHandler sides = new RangedWrapper(inventory, 0, 2);
+    //private IItemHandler top = new RangedWrapper(inventory, 2, 3);
+    //private IItemHandler sides = new RangedWrapper(inventory, 0, 2);
 
     public TileChemicalExtractor() {
         this(EnumMachine.CHEMICAL_EXTRACTOR);

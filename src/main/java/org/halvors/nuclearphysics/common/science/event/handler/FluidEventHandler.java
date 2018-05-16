@@ -14,9 +14,11 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
+import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.ConfigurationManager;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
+import org.halvors.nuclearphysics.common.event.PlasmaEvent;
 import org.halvors.nuclearphysics.common.science.event.FluidEvent;
 
 @EventBusSubscriber
@@ -68,5 +70,26 @@ public class FluidEventHandler {
                 }
             }
         }, world);
+    }
+
+    @SubscribeEvent
+    public static void onPlasmaSpawnEvent(final PlasmaEvent.PlasmaSpawnEvent event) {
+        final World world = event.getWorld();
+        final BlockPos pos = event.getPos();
+        final IBlockState state = world.getBlockState(pos);
+
+        if (!event.isCanceled()) {
+            // Checking if block is breakable, if not it's bedrock, portal, command block etc.
+            if (state.getBlockHardness(world, pos) < 0 ||
+                state == Blocks.IRON_BLOCK.getDefaultState()) {
+                event.setCanceled(true);
+            }
+
+            final TileEntity tile = world.getTileEntity(pos);
+
+            if (tile instanceof IElectromagnet) {
+                event.setCanceled(true);
+            }
+        }
     }
 }
