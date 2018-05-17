@@ -51,7 +51,7 @@ public class FluidUtility {
     }
 
     public static ItemStack getFilledCell(final Fluid fluid) {
-        return getFilledContainer(new ItemStack(ModItems.itemCell), new FluidStack(fluid, ItemCell.capacity));
+        return getFilledContainer(new ItemStack(ModItems.itemCell), new FluidStack(fluid, ItemCell.CAPACITY));
     }
 
     public static ItemStack getFilledContainer(final ItemStack itemStack, final FluidStack fluidStack) {

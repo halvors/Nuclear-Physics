@@ -72,7 +72,7 @@ public class GridTicker extends Thread {
             try {
                 Thread.sleep(50L);
             } catch (InterruptedException e) {
-                return;
+                // This means the server has stopped this thread because it is shutting down.
             }
         }
     }
