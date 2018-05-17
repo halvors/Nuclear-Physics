@@ -15,9 +15,8 @@ Known bugs:
     Low Priority:
         - JEI integration.
         - Store fluids in NBT on machine drop?
-        - Add subtitle to sounds.
         - Verify that all sounds is more streamlined.
-        - Reactors are only running when first opening GUI on world load. (NOT CONFIRMED)
+        - Reactors are only running when first opening GUI on world load. (NOT CONFIRMED).
         - Reactor fuel is not rendered when already in reactor on world load, only visible after entering GUI. Probably a client sync issue.
 
 Known features not implemented:
