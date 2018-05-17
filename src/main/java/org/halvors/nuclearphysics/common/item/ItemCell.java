@@ -23,13 +23,16 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemCell extends ItemTooltip implements IFluidContainerItem {
+    public static final int CAPACITY = 200; // In gram / mL.
     public static final Map<EnumCell, IIcon> iconMap = new HashMap<>();
-    public static final int capacity = 200;
+
+    private final ItemStack itemStackEmpty = new ItemStack(this);
 
     public ItemCell() {
         super("cell");
 
-        setContainerItem(this);
+        // Add empty NBT tag to empty cell because Forge does not remove tag when emptying.
+        itemStackEmpty.setTagCompound(new NBTTagCompound());
     }
 
     @Override
@@ -62,8 +65,23 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
     @SideOnly(Side.CLIENT)
     public void getSubItems(final Item item, final CreativeTabs tab, final List list) {
         for (final EnumCell type : EnumCell.values()) {
-            list.add(type.getFluid() == null ? new ItemStack(item) : FluidUtility.getFilledCell(type.getFluid()));
+            list.add(type.getFluid() == null ? itemStackEmpty : FluidUtility.getFilledCell(type.getFluid()));
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public boolean hasContainerItem(final ItemStack itemStack) {
+        return itemStackEmpty != null;
+    }
+
+    @Override
+    public ItemStack getContainerItem(final ItemStack itemStack) {
+        if (hasContainerItem(itemStack)) {
+            return itemStackEmpty.copy();
+        }
+
+        return super.getContainerItem(itemStack);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +97,7 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
 
     @Override
     public int getCapacity(final ItemStack itemStack) {
-        return capacity;
+        return CAPACITY;
     }
 
     @Override
@@ -90,20 +108,20 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
 
         if (!doFill) {
             if (itemStack.stackTagCompound == null || !itemStack.stackTagCompound.hasKey("fluid")) {
-                return Math.min(capacity, resource.amount);
+                return Math.min(CAPACITY, resource.amount);
             }
 
             final FluidStack stack = FluidStack.loadFluidStackFromNBT(itemStack.stackTagCompound.getCompoundTag("fluid"));
 
             if (stack == null) {
-                return Math.min(capacity, resource.amount);
+                return Math.min(CAPACITY, resource.amount);
             }
 
             if (!stack.isFluidEqual(resource)) {
                 return 0;
             }
 
-            return Math.min(capacity - stack.amount, resource.amount);
+            return Math.min(CAPACITY - stack.amount, resource.amount);
         }
 
         if (itemStack.stackTagCompound == null) {
@@ -113,11 +131,11 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
         if (!itemStack.stackTagCompound.hasKey("fluid")) {
             final NBTTagCompound fluidTag = resource.writeToNBT(new NBTTagCompound());
 
-            if (capacity < resource.amount) {
-                fluidTag.setInteger("amount", capacity);
+            if (CAPACITY < resource.amount) {
+                fluidTag.setInteger("amount", CAPACITY);
                 itemStack.stackTagCompound.setTag("fluid", fluidTag);
 
-                return capacity;
+                return CAPACITY;
             }
 
             itemStack.stackTagCompound.setTag("fluid", fluidTag);
@@ -132,13 +150,13 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
             return 0;
         }
 
-        int filled = capacity - stack.amount;
+        int filled = CAPACITY - stack.amount;
 
         if (resource.amount < filled) {
             stack.amount += resource.amount;
             filled = resource.amount;
         } else {
-            stack.amount = capacity;
+            stack.amount = CAPACITY;
         }
 
         itemStack.stackTagCompound.setTag("fluid", stack.writeToNBT(fluidTag));
