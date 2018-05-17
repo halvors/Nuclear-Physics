@@ -4,21 +4,17 @@ Known bugs:
         - When other mods fluids is used as default, tanks still contain the old one. (SEEMS TO BE FORGE BEHAVIOUR, NOT A BUG)
 
     High Priority:
-        - Empty cell having NBT when filled and later emptied.
         - Verify the breeding process - Should breeding reactors only create heat when actually enriched uranium is present in the middle?
         - Fix electric turbine sound, for both small and large.
         - Check if more turbines is more efficient than one big one.
 
-        - Fix CapabilityFluidHandler related NPE in TileGasFunnel.
-        - Overlook and implement more configuration options from Calclavia's mod.
-
     Low Priority:
         - JEI integration.
         - Store fluids in NBT on machine drop?
-        - Add subtitle to sounds.
         - Verify that all sounds is more streamlined.
-        - Reactors are only running when first opening GUI on world load. (NOT CONFIRMED)
+        - Reactors are only running when first opening GUI on world load. (NOT CONFIRMED).
         - Reactor fuel is not rendered when already in reactor on world load, only visible after entering GUI. Probably a client sync issue.
+        - Overlook and implement more configuration options from Calclavia's mod.
 
 Known features not implemented:
 
