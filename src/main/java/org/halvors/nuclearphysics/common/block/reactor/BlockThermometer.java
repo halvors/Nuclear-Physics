@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockRotatable;
 import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
@@ -53,14 +54,15 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
         final ItemStack itemStack = player.getHeldItem();
 
         if (tile instanceof TileThermometer) {
             final TileThermometer tileThermometer = (TileThermometer) tile;
 
             if (itemStack != null) {
-                if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
+                if (WrenchUtility.hasUsableWrench(player, pos)) {
                     if (player.isSneaking()) {
                         tileThermometer.setThreshold(tileThermometer.getThershold() - 10);
                     } else {
@@ -85,7 +87,8 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     public void onBlockPlacedBy(final World world, final int x, final int y, final int z, final EntityLivingBase entity, final ItemStack itemStack) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
 
         // Fetch saved coordinates from ItemBlockThermometer and apply them to the block.
         if (tile instanceof TileThermometer) {
@@ -99,14 +102,15 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     public boolean removedByPlayer(final World world, final EntityPlayer player, final int x, final int y, final int z, final boolean willHarvest) {
-        final Block block = world.getBlock(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final Block block = pos.getBlock(world);
 
         if (!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
-            final ItemStack itemStack = InventoryUtility.getItemStackWithNBT(block, world, x, y, z);
-            InventoryUtility.dropItemStack(world, x, y, z, itemStack);
+            final ItemStack itemStack = InventoryUtility.getItemStackWithNBT(block, world, pos);
+            InventoryUtility.dropItemStack(world, pos, itemStack);
         }
 
-        return world.setBlockToAir(x, y, z);
+        return pos.setBlockToAir(world);
     }
 
     @Override
@@ -116,7 +120,8 @@ public class BlockThermometer extends BlockRotatable {
 
     @Override
     public int isProvidingWeakPower(final IBlockAccess world, final int x, final int y, final int z, final int side) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof TileThermometer) {
             final TileThermometer tileThermometer = (TileThermometer) tile;

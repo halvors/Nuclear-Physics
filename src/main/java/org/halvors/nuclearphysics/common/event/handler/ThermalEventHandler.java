@@ -11,6 +11,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
@@ -25,16 +26,15 @@ public class ThermalEventHandler {
     @SubscribeEvent
     public void onBoilEvent(final BoilEvent event) {
         final World world = event.getWorld();
-        final int x = event.getX();
-        final int y = event.getY();
-        final int z = event.getZ();
-        final Block block = world.getBlock(x, y, z);
+        final BlockPos pos = event.getPos();
+        final Block block = pos.getBlock(world);
 
         // Only boil water blocks.
         if (block == Blocks.water || block == Blocks.flowing_water) {
             // Boil the water into steam.
             for (int height = 1; height <= event.getMaxSpread(); height++) {
-                final TileEntity tile = world.getTileEntity(x, y + height, z);
+
+                final TileEntity tile = pos.up(height).getTileEntity(world);
 
                 if (tile instanceof IBoilHandler) {
                     IBoilHandler handler = (IBoilHandler) tile;
@@ -48,25 +48,25 @@ public class ThermalEventHandler {
 
             // Randomly remove water blocks with not in controlled environment like a reactor.
             if (General.enableBoilingOfWaterBlocks && !event.isReactor() && world.rand.nextInt(1000) == 0) {
-                world.setBlockToAir(x, y, z);
+                pos.setBlockToAir(world);
             }
 
             // Sound of lava flowing randomly plays when above temperature to boil water.
             if (world.rand.nextInt(2000) == 0) {
-                world.playSoundEffect(x, y, z, "liquid.lava", 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
+                world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "liquid.lava", 0.5F, 2.1F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.85F);
             }
 
             // Sounds of lava popping randomly plays when above temperature to boil water.
             if (world.rand.nextInt(4000) == 0) {
-                world.playSoundEffect(x, y, z, "liquid.lavapop", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
+                world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), "liquid.lavapop", 0.5F, 2.6F + (world.rand.nextFloat() - world.rand.nextFloat()) * 0.8F);
             }
 
             if (world.rand.nextInt(5) == 0) {
-                WorldUtility.spawnParticle(world, "bubble", x + world.rand.nextFloat(), y + 0.5, z + world.rand.nextFloat(), 0, 0.05, 0);
+                WorldUtility.spawnParticle(world, "bubble", pos.getX() + world.rand.nextFloat(), pos.getY() + 0.5, pos.getZ() + world.rand.nextFloat(), 0, 0.05, 0);
             }
 
             if (world.rand.nextInt(50) == 0) {
-                WorldUtility.spawnParticle(world, "cloud", x + world.rand.nextFloat(), y + 1.2, z + world.rand.nextFloat(), 0, 0.1, 0);
+                WorldUtility.spawnParticle(world, "cloud", pos.getX() + world.rand.nextFloat(), pos.getY() + 1.2, pos.getZ() + world.rand.nextFloat(), 0, 0.1, 0);
             }
         }
     }
@@ -75,21 +75,17 @@ public class ThermalEventHandler {
     public void onPlasmaSpawnEvent(final PlasmaSpawnEvent event) {
     	
         final World world = event.getWorld();
-        final int x = event.getX();
-        final int y = event.getY();
-        final int z = event.getZ();
-        final Block block = world.getBlock(x, y, z);
+        final BlockPos pos = event.getPos();
+        final Block block = pos.getBlock(world);
 
-        if (!event.isCanceled()) {	// ??? and if not?
-        	
-            if (block == Blocks.bedrock ||
-                block == Blocks.iron_block ||
-            	block == Blocks.end_portal_frame ||
-            	block == Blocks.command_block) {
+        if (!event.isCanceled()) {
+            // Checking if block is breakable, if not it's bedrock, portal, command block etc.
+            if (pos.getBlockHardness(block, world) < 0 ||
+                block == Blocks.iron_block) {
                 event.setCanceled(true);
             }
-			
-            final TileEntity tile = world.getTileEntity(x, y, z);
+
+            final TileEntity tile = pos.getTileEntity(world);
 
             if (tile instanceof IElectromagnet) {
                 event.setCanceled(true);
@@ -100,11 +96,9 @@ public class ThermalEventHandler {
     @SubscribeEvent
     public void onThermalUpdateEvent(final ThermalUpdateEvent event) {
         final World world = event.getWorld();
-        final int x = event.getX();
-        final int y = event.getY();
-        final int z = event.getZ();
-        final Block block = world.getBlock(x, y, z);
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = event.getPos();
+        final Block block = pos.getBlock(world);
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof IElectromagnet) {
             event.setHeatLoss(event.getDeltaTemperature() * 0.6);
@@ -118,8 +112,7 @@ public class ThermalEventHandler {
             block == Blocks.flowing_water) {
             if (event.getTemperature() >= ThermalPhysics.WATER_BOIL_TEMPERATURE) {
                 final int volume = (int) (FluidContainerRegistry.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.WATER_BOIL_TEMPERATURE) * General.steamOutputMultiplier);
-
-                MinecraftForge.EVENT_BUS.post(new BoilEvent(world, x, y, z, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
+                MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
 
                 event.setHeatLoss(0.2);
             }
@@ -129,7 +122,7 @@ public class ThermalEventHandler {
             block == Blocks.packed_ice ||
             block == Blocks.snow) {
             if (event.getTemperature() >= ThermalPhysics.ICE_MELT_TEMPERATURE) {
-                world.setBlock(x, y, z, Blocks.flowing_water, 0, 3);
+                pos.setBlock(Blocks.flowing_water, 0, 3, world);
             }
 
             event.setHeatLoss(0.4);
@@ -137,7 +130,7 @@ public class ThermalEventHandler {
 
         if (block == Blocks.snow_layer) {
             if (event.getTemperature() >= ThermalPhysics.ICE_MELT_TEMPERATURE) {
-                world.setBlockToAir(x, y, z);
+                pos.setBlockToAir(world);
             }
 
             event.setHeatLoss(0.4);

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.item.IReactorComponent;
 import org.halvors.nuclearphysics.client.render.block.BlockRenderingHandler;
 import org.halvors.nuclearphysics.common.Reference;
@@ -51,7 +52,8 @@ public class BlockReactorCell extends BlockInventory {
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random random) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof TileReactorCell) {
             final TileReactorCell tileReactorCell = (TileReactorCell) tile;
@@ -66,7 +68,8 @@ public class BlockReactorCell extends BlockInventory {
 
     @Override
     public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof TileReactorCell) {
             final TileReactorCell tileReactorCell = (TileReactorCell) tile;
@@ -86,7 +89,7 @@ public class BlockReactorCell extends BlockInventory {
                     tileReactorCell.setInventorySlotContents(0, itemStack.copy());
                     player.inventory.decrStackSize(player.inventory.currentItem, 1);
                 } else {
-                    PlayerUtility.openGui(player, world, x, y, z);
+                    PlayerUtility.openGui(player, world, pos);
                 }
 
                 return true;

@@ -7,12 +7,12 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.IFluidBlock;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.effect.explosion.AntimatterExplosion;
 import org.halvors.nuclearphysics.common.init.ModItems;
@@ -40,7 +40,7 @@ public class ItemEventHandler {
                 final ItemStack itemStack = entityItem.getEntityItem();
 
                 if (itemStack.getItem() == ModItems.itemAntimatterCell) {
-                    final AntimatterExplosion explosion = new AntimatterExplosion(entityItem.worldObj, entityItem, (int) entityItem.posX, (int) entityItem.posY, (int) entityItem.posZ, 4, itemStack.getMetadata());
+                    final AntimatterExplosion explosion = new AntimatterExplosion(entityItem.worldObj, entityItem, new BlockPos(entityItem), 4, itemStack.getMetadata());
                     explosion.explode();
                 }
             }
@@ -49,13 +49,13 @@ public class ItemEventHandler {
 
     @SubscribeEvent
     public void onFillBucketEvent(FillBucketEvent event) {
-        MovingObjectPosition pos = event.target;
+        BlockPos pos = new BlockPos(event.target);
         World world = event.world;
-        Block block = world.getBlock(pos.blockX, pos.blockY, pos.blockZ);
+        Block block = pos.getBlock(world);
         ItemBucket itemBucket = bucketMap.get(block);
 
         if (itemBucket != null) {
-            world.setBlock(pos.blockX, pos.blockY, pos.blockZ, Blocks.air);
+            pos.setBlock(Blocks.air, world);
 
             event.result = new ItemStack(itemBucket);
             event.setResult(Result.ALLOW);

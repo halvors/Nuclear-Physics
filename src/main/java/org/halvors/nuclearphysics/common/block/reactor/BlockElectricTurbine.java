@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.client.render.block.BlockRenderingHandler;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockContainerBase;
@@ -29,12 +30,13 @@ public class BlockElectricTurbine extends BlockContainerBase {
 
     @Override
     public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof TileElectricTurbine) {
             final TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;
 
-            if (WrenchUtility.hasUsableWrench(player, x, y, z)) {
+            if (WrenchUtility.hasUsableWrench(player, pos)) {
                 return tileTurbine.getMultiBlock().toggleConstruct();
             }
         }
@@ -44,7 +46,8 @@ public class BlockElectricTurbine extends BlockContainerBase {
 
     @Override
     public void breakBlock(final World world, final int x, final int y, final int z, final Block block, final int metadata) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof TileElectricTurbine) {
             final TileElectricTurbine tileTurbine = (TileElectricTurbine) tile;

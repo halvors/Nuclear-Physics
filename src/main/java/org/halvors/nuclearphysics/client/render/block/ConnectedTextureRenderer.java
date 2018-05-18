@@ -9,9 +9,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.client.event.TextureEventHandler;
 import org.halvors.nuclearphysics.client.utility.BlockRenderUtility;
-import org.halvors.nuclearphysics.common.type.Position;
 import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
@@ -37,12 +37,13 @@ public class ConnectedTextureRenderer implements ISimpleBlockRenderer {
 
     @Override
     public boolean renderStatic(RenderBlocks renderer, IBlockAccess world, int x, int y, int z) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
         byte sideMap = 0;
 
         for (ForgeDirection facing : ForgeDirection.VALID_DIRECTIONS) {
-            Position checkPos = new Position(x, y, z).translate(facing);
-            TileEntity checkTile = checkPos.getTileEntity(world);
+            final BlockPos checkPos = pos.offset(facing);
+            final TileEntity checkTile = checkPos.getTileEntity(world);
 
             if (checkTile != null && checkTile.getClass() == tile.getClass() && checkPos.getBlockMetadata(world) == tile.getBlockMetadata()) {
                 sideMap = BlockRenderUtility.setEnableSide(sideMap, facing, true);

@@ -15,7 +15,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     protected ForgeDirection facing = ForgeDirection.NORTH;
 
     public TileRotatable() {
-
+        super();
     }
 
     @Override

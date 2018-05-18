@@ -20,7 +20,7 @@ public class ItemBlockTooltip extends ItemBlockBase {
     @SuppressWarnings("unchecked")
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean flag) {
+    public void addInformation(final ItemStack itemStack, final EntityPlayer player, final List list, final boolean flag) {
         final String tooltip = getUnlocalizedName(itemStack) + ".tooltip";
 
         if (LanguageUtility.canTranselate(tooltip)) {

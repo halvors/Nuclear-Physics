@@ -14,10 +14,10 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockConnectedTexture;
 import org.halvors.nuclearphysics.common.tile.particle.TileElectromagnet;
-import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.List;
 
@@ -66,11 +66,12 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(final IBlockAccess world, final int x, final int y, final int z, final int side) {
-        final Position neighborPosition = new Position(x, y, z).translate(ForgeDirection.getOrientation(side).getOpposite());
-        final Block block = world.getBlock(x, y, z);
-        final int metadata = world.getBlockMetadata(x, y, z);
-        final Block neighborBlock = neighborPosition.getBlock(world);
-        final int neighborMetadata = neighborPosition.getBlockMetadata(world);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final Block block = pos.getBlock(world);
+        final int metadata = pos.getBlockMetadata(world);
+        final BlockPos neighborPos = pos.offset(ForgeDirection.getOrientation(side).getOpposite());
+        final Block neighborBlock = neighborPos.getBlock(world);
+        final int neighborMetadata = neighborPos.getBlockMetadata(world);
 
         // Transparent electromagnetic glass.
         if (block == this && neighborBlock == this && metadata == 1 && neighborMetadata == 1) {
@@ -96,7 +97,7 @@ public class BlockElectromagnet extends BlockConnectedTexture {
 
     @Override
     public int getLightOpacity(final IBlockAccess world, final int x, final int y, final int z) {
-        EnumElectromagnet type = EnumElectromagnet.values()[world.getBlockMetadata(x, y, z)];
+        final EnumElectromagnet type = EnumElectromagnet.values()[world.getBlockMetadata(x, y, z)];
 
         if (type == EnumElectromagnet.GLASS) {
             return 0;

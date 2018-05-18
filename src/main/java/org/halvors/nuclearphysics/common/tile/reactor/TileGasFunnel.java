@@ -6,8 +6,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
+import org.halvors.nuclearphysics.common.tile.TileBase;
 
-public class TileGasFunnel extends TileEntity implements IBoilHandler, IFluidHandler {
+public class TileGasFunnel extends TileBase implements IBoilHandler, IFluidHandler {
     private static final String NBT_TANK = "tank";
 
     private final GasTank tank = new GasTank(FluidContainerRegistry.BUCKET_VOLUME * 16);

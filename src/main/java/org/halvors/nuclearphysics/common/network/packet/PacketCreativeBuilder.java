@@ -8,10 +8,10 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.type.Pair;
-import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
 
     }
 
-    public PacketCreativeBuilder(final Position pos, final int schematicId, final int size) {
+    public PacketCreativeBuilder(final BlockPos pos, final int schematicId, final int size) {
         super(pos);
 
         this.schematicId = schematicId;
@@ -53,21 +53,18 @@ public class PacketCreativeBuilder extends PacketLocation implements IMessage {
         public IMessage onMessage(final PacketCreativeBuilder message, final MessageContext messageContext) {
             final World world = PacketHandler.getWorld(messageContext);
             final EntityPlayer player = PacketHandler.getPlayer(messageContext);
-
-            int x = message.getX();
-            int y = message.getY();
-            int z = message.getZ();
+            final BlockPos pos = message.getPos();
 
             if (!world.isRemote && PlayerUtility.isOp(player)) {
                 try {
                     if (message.size > 0) {
                         // TODO: Implement dynamic facing, not just NORTH.
-                        final HashMap<Position, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(ForgeDirection.NORTH, message.size);
+                        final HashMap<BlockPos, Pair<Block, Integer>> map = BlockCreativeBuilder.getSchematic(message.schematicId).getStructure(ForgeDirection.NORTH, message.size);
 
-                        for (final Entry<Position, Pair<Block, Integer>> entry : map.entrySet()) {
-                            final Position placePos = entry.getKey().add(x, y, z);
+                        for (final Entry<BlockPos, Pair<Block, Integer>> entry : map.entrySet()) {
+                            final BlockPos placePos = entry.getKey().add(pos);
 
-                            world.setBlock(placePos.getIntX(), placePos.getIntY(), placePos.getIntZ(), entry.getValue().getLeft(), entry.getValue().getRight(), 2);
+                            placePos.setBlock(entry.getValue().getLeft(), entry.getValue().getRight(), 2, world);
                         }
                     }
                 } catch (Exception e) {

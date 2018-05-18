@@ -3,6 +3,7 @@ package org.halvors.nuclearphysics.common.block.debug;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.block.BlockBase;
 import org.halvors.nuclearphysics.common.block.debug.schematic.SchematicAccelerator;
@@ -47,8 +48,10 @@ public class BlockCreativeBuilder extends BlockBase {
     // Called when the block is right clicked by the player.
     @Override
     public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ) {
+        final BlockPos pos = new BlockPos(x, y, z);
+
         if (schematicRegistry.size() > 0) {
-            PlayerUtility.openGui(player, world, x, y, z);
+            PlayerUtility.openGui(player, world, pos);
 
             return true;
         }

@@ -11,9 +11,6 @@ import org.halvors.nuclearphysics.common.container.slot.SlotSpecific;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ContainerChemicalExtractor extends ContainerBase<TileChemicalExtractor> {
     public ContainerChemicalExtractor(final InventoryPlayer inventoryPlayer, final TileChemicalExtractor tile) {
         super(7, inventoryPlayer, tile);

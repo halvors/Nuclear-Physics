@@ -6,12 +6,12 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.client.gui.GuiComponentScreen;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.packet.PacketCreativeBuilder;
 import org.halvors.nuclearphysics.common.type.EnumColor;
-import org.halvors.nuclearphysics.common.type.Position;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import java.util.List;
@@ -19,11 +19,11 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiCreativeBuilder extends GuiComponentScreen {
     private Block block;
-    private Position pos;
+    private BlockPos pos;
     private int mode = 0;
     private GuiTextField textFieldSize;
 
-    public GuiCreativeBuilder(final Block block, final Position pos) {
+    public GuiCreativeBuilder(final Block block, final BlockPos pos) {
         this.block = block;
         this.pos = pos;
     }

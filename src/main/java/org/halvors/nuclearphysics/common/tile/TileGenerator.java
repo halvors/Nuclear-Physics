@@ -6,21 +6,21 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.capabilities.energy.EnergyStorage;
-import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.*;
 
 public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProvider {
-    private final List<Position> targets = new ArrayList<>();
-    private final Map<Position, ForgeDirection> facings = new HashMap<>();
+    private final List<BlockPos> targets = new ArrayList<>();
+    private final Map<BlockPos, ForgeDirection> facings = new HashMap<>();
 
     private int targetStartingIndex;
 
     protected EnergyStorage energyStorage;
 
     public TileGenerator() {
-
+        super();
     }
 
     @Override
@@ -106,11 +106,11 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
         targets.clear();
 
         for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-            final Position neighbor = new Position(xCoord, yCoord, zCoord).offset(side);
+            final BlockPos neighborPos = pos.offset(side);
 
-            if (isValidTarget(neighbor, side)) {
-                targets.add(neighbor);
-                facings.put(neighbor, side);
+            if (isValidTarget(neighborPos, side)) {
+                targets.add(neighborPos);
+                facings.put(neighborPos, side);
             }
         }
     }
@@ -118,7 +118,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
     protected void sendEnergyToTargets() {
         if (targets.size() > 0 && energyStorage.getEnergyStored() > 0) {
             for (int i = 0; i < targets.size(); ++i) {
-                final Position pos = targets.get((targetStartingIndex + i) % targets.size());
+                final BlockPos pos = targets.get((targetStartingIndex + i) % targets.size());
                 sendEnergyTo(pos, facings.get(pos));
             }
 
@@ -126,7 +126,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
         }
     }
 
-    protected boolean isValidTarget(final Position pos, final ForgeDirection to) {
+    protected boolean isValidTarget(final BlockPos pos, final ForgeDirection to) {
         final TileEntity tile = pos.getTileEntity(worldObj);
 
         if (tile instanceof IEnergyReceiver) {
@@ -138,7 +138,7 @@ public class TileGenerator extends TileBase implements ITileNetwork, IEnergyProv
         return false;
     }
 
-    protected void sendEnergyTo(final Position pos, final ForgeDirection to) {
+    protected void sendEnergyTo(final BlockPos pos, final ForgeDirection to) {
         final TileEntity tile = pos.getTileEntity(worldObj);
 
         if (tile instanceof IEnergyReceiver) {

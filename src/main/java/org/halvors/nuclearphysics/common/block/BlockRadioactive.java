@@ -11,9 +11,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModPotions;
-import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.List;
 import java.util.Random;
@@ -41,7 +41,7 @@ public class BlockRadioactive extends BlockBase {
             int radius = 3;
 
             for (int i = 0; i < 2; i++) {
-                final Position newPos = new Position(x, y, z).add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
+                final BlockPos newPos = new BlockPos(x, y, z).add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
                 final EntitySmokeFX fx = new EntitySmokeFX(world, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
                 fx.setRBGColorF(0.2F, 0.8F, 0);
                 Minecraft.getMinecraft().effectRenderer.addEffect(fx);

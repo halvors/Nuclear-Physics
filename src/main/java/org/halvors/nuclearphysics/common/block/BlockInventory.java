@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.BlockPos;
 
 import java.util.Random;
 
@@ -24,7 +25,8 @@ public class BlockInventory extends BlockRotatable {
     }
 
     public void dropEntireInventory(final World world, final int x, final int y, final int z, final int metadata) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof IInventory) {
             final IInventory inventory = (IInventory) tile;

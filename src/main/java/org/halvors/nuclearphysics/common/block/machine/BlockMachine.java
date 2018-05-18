@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.client.render.block.BlockRenderingHandler;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
@@ -97,8 +98,9 @@ public class BlockMachine extends BlockInventory {
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(final World world, final int x, final int y, final int z, final Random random) {
-        final EnumMachine type = EnumMachine.values()[world.getBlockMetadata(x, y, z)];
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
+        final EnumMachine type = EnumMachine.values()[pos.getBlockMetadata(world)];
 
         if (tile instanceof TileMachine) {
             final TileMachine tileMachine = (TileMachine) tile;
@@ -146,7 +148,8 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     public void onBlockAdded(final World world, final int x, final int y, final int z) {
-        TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof TileMachine) {
             ((TileMachine) tile).updatePower();
@@ -167,13 +170,14 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
         final ItemStack itemStack = player.getHeldItem();
 
         if (tile instanceof TilePlasmaHeater) {
-            return FluidUtility.playerActivatedFluidItem(world, x, y, z, player, itemStack, ForgeDirection.getOrientation(side));
+            return FluidUtility.playerActivatedFluidItem(world, pos, player, itemStack, ForgeDirection.getOrientation(side));
         } else if (!player.isSneaking()) {
-            PlayerUtility.openGui(player, world, x, y, z);
+            PlayerUtility.openGui(player, world, pos);
 
             return true;
         }
@@ -183,7 +187,8 @@ public class BlockMachine extends BlockInventory {
 
     @Override
     public void onNeighborBlockChange(final World world, final int x, final int y, final int z, final Block neighbor) {
-        TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof TileMachine) {
             ((TileMachine) tile).updatePower();

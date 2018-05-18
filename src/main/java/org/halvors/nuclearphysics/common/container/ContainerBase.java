@@ -20,10 +20,6 @@ public class ContainerBase<T extends TileBase> extends Container {
         this.slotCount = slotCount;
         this.inventory = inventory;
         this.tile = tile;
-
-        if (tile != null) {
-            tile.open(inventory.player);
-        }
     }
 
     @Override
@@ -57,15 +53,6 @@ public class ContainerBase<T extends TileBase> extends Container {
         }
 
         return null;
-    }
-
-    @Override
-    public void onContainerClosed(final EntityPlayer player) {
-        super.onContainerClosed(player);
-
-        if (tile != null) {
-            tile.close(player);
-        }
     }
 
     protected void addPlayerInventory(final EntityPlayer player) {

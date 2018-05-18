@@ -3,9 +3,9 @@ package org.halvors.nuclearphysics.common.tile.reactor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.common.init.ModSounds;
-import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.common.tile.TileBase;
 
-public class TileSiren extends TileEntity {
+public class TileSiren extends TileBase {
     public TileSiren() {
 
     }
@@ -19,8 +19,8 @@ public class TileSiren extends TileEntity {
                 float volume = 0.5F;
 
                 // Check in each direction for another siren block, if exists amplify volume.
-                    for (final ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-                    final TileEntity tile = new Position(xCoord, yCoord, zCoord).offset(side).getTileEntity(worldObj);
+                for (final ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
+                    final TileEntity tile = pos.offset(side).getTileEntity(worldObj);
 
                     if (tile == this) {
                         volume *= 1.5F;

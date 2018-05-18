@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.common.event;
 
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fluids.FluidStack;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 
 public class BoilEvent extends WorldEventBase {
@@ -11,21 +12,21 @@ public class BoilEvent extends WorldEventBase {
 
     /**
      * @param world - The world object
-     * @param x, y, z - The position in which the boiling happens.
+     * @param pos - The position in which the boiling happens.
      * @param fluidStack - The fluid being boiled.
      * @param maxSpread - The maximum distance the evaporated fluid can spread.
      * @param reactor - Determined if heat source if from power generation or a weapon.
      */
-    public BoilEvent(final IBlockAccess world, final int x, final int y, final int z, final FluidStack fluidStack, final int maxSpread, final boolean reactor) {
-        super(world, x, y, z);
+    public BoilEvent(final IBlockAccess world, final BlockPos pos, final FluidStack fluidStack, final int maxSpread, final boolean reactor) {
+        super(world, pos);
 
         this.fluidStack = fluidStack;
         this.maxSpread = maxSpread;
         this.reactor = reactor;
     }
 
-    public BoilEvent(final IBlockAccess world, final int x, final int y, final int z, final FluidStack fluidStack, final int maxSpread) {
-        this(world, x, y, z, fluidStack, maxSpread, false);
+    public BoilEvent(final IBlockAccess world, final BlockPos pos, final FluidStack fluidStack, final int maxSpread) {
+        this(world, pos, fluidStack, maxSpread, false);
     }
 
     public FluidStack getFluid() {

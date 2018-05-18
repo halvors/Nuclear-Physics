@@ -5,10 +5,10 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.ExplosionEvent;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.api.effect.explosion.IFulmination;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.tile.particle.TileFulminationGenerator;
-import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,8 +44,8 @@ public class FulminationEventHandler {
 
                 for (final TileFulminationGenerator tile : generators) {
                     if (tile != null && !tile.isInvalid()) {
-                        final Position tilePos = new Position(tile).translate(0.5);
-                        final double distance = tilePos.distance(x, y, z);
+                        final BlockPos pos = new BlockPos(tile);
+                        final double distance = pos.add(0.5, 0.5, 0.5).getDistance(pos.getX(), pos.getY(), pos.getZ());
 
                         if (distance <= customExplosion.getRadius() && distance > 0) {
                             final double density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world,tile.xCoord, tile.yCoord, tile.zCoord)));
@@ -61,11 +61,10 @@ public class FulminationEventHandler {
                 final float maxEnergyPerGenerator = totalEnergy / avaliableGenerators.size();
 
                 for (TileFulminationGenerator tile : avaliableGenerators) {
-                    //float density = event.world.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.world, tile.getPos()));
+                    //float density = event.worldgen.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.worldgen, tile.getPos()));
                     final double density = world.getBlockDensity(Vec3.createVectorHelper(x, y, z), Objects.requireNonNull(ModBlocks.blockFulmination.getCollisionBoundingBoxFromPool(world, tile.xCoord, tile.yCoord, tile.zCoord)));
-                    final double distance = new Position(tile).distance(x, y, z);
-                    int energy = (int) Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (distance / customExplosion.getRadius()));
-                    energy = (int) Math.max((1 - density) * energy, 0);
+                    final double distance = new BlockPos(tile).getDistance(x, y, z);
+                    int  energy = (int) Math.max((1 - density) * Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (distance / customExplosion.getRadius())), 0);
 
                     tile.getEnergyStorage().receiveEnergy(energy, false);
                 }

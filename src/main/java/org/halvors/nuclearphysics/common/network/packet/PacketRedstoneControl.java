@@ -6,10 +6,10 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
 import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
-import org.halvors.nuclearphysics.common.type.Position;
 
 public class PacketRedstoneControl extends PacketLocation implements IMessage {
     public EnumRedstoneControl redstoneControl;
@@ -18,7 +18,7 @@ public class PacketRedstoneControl extends PacketLocation implements IMessage {
 
     }
 
-    public PacketRedstoneControl(final Position pos, final EnumRedstoneControl redstoneControl) {
+    public PacketRedstoneControl(final BlockPos pos, final EnumRedstoneControl redstoneControl) {
         super(pos);
 
         this.redstoneControl = redstoneControl;
@@ -42,7 +42,7 @@ public class PacketRedstoneControl extends PacketLocation implements IMessage {
         @Override
         public IMessage onMessage(final PacketRedstoneControl message, final MessageContext messageContext) {
             final World world = PacketHandler.getWorld(messageContext);
-            final TileEntity tile = world.getTileEntity(message.getX(), message.getY(), message.getZ());
+            final TileEntity tile = message.getPos().getTileEntity(world);
 
             if (tile instanceof ITileRedstoneControl) {
                 ((ITileRedstoneControl) tile).setRedstoneControl(message.redstoneControl);

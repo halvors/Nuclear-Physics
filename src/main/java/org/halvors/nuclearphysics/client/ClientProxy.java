@@ -17,6 +17,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.client.event.TextureEventHandler;
 import org.halvors.nuclearphysics.client.gui.debug.GuiCreativeBuilder;
 import org.halvors.nuclearphysics.client.gui.machine.GuiChemicalExtractor;
@@ -49,7 +50,6 @@ import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
 import org.halvors.nuclearphysics.common.tile.reactor.TileReactorCell;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
-import org.halvors.nuclearphysics.common.type.Position;
 
 /**
  * This is the client proxy used only by the client.
@@ -90,7 +90,7 @@ public class ClientProxy extends CommonProxy implements IGuiHandler {
 
 	@Override
 	public Object getClientGuiElement(final int id, final EntityPlayer player, final World world, final int x, final int y, final int z) {
-		final Position pos = new Position(x, y, z);
+		final BlockPos pos = new BlockPos(x, y, z);
 		final TileEntity tile = pos.getTileEntity(world);
 		final Block block = pos.getBlock(world);
 

@@ -4,12 +4,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.item.ItemCell;
-import org.halvors.nuclearphysics.common.type.Position;
 
 public class FluidUtility {
     public static boolean isEmptyContainer(final ItemStack itemStack) {
@@ -48,7 +48,7 @@ public class FluidUtility {
     }
 
     public static ItemStack getFilledCell(final Fluid fluid) {
-        return getFilledContainer(new ItemStack(ModItems.itemCell), new FluidStack(fluid, ItemCell.capacity));
+        return getFilledContainer(new ItemStack(ModItems.itemCell), new FluidStack(fluid, ItemCell.CAPACITY));
     }
 
     public static ItemStack getFilledContainer(final ItemStack itemStack, final FluidStack fluidStack) {
@@ -62,11 +62,11 @@ public class FluidUtility {
         return itemStack;
     }
 
-    public static void transferFluidToNeighbors(final World world, final int x, final int y, final int z, final IFluidHandler from) {
+    public static void transferFluidToNeighbors(final IBlockAccess world, final BlockPos pos, final IFluidHandler from) {
         if (from != null) {
             for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-                final Position pos = new Position(x, y, z).offset(side);
-                final TileEntity tile = world.getTileEntity(pos.getIntX(), pos.getIntY(), pos.getIntZ());
+                final BlockPos neighborPos = pos.offset(side);
+                final TileEntity tile = neighborPos.getTileEntity(world);
 
                 if (tile instanceof IFluidHandler) {
                     final IFluidHandler to = (IFluidHandler) tile;
@@ -81,8 +81,8 @@ public class FluidUtility {
     }
 
     // Does all the work needed to fill or drain an item of fluid when a player clicks on the block.
-    public static boolean playerActivatedFluidItem(final World world, final int x, final int y, final int z, final EntityPlayer player, final ItemStack itemStack, final ForgeDirection side) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+    public static boolean playerActivatedFluidItem(final IBlockAccess world, final BlockPos pos, final EntityPlayer player, final ItemStack itemStack, final ForgeDirection side) {
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof IFluidHandler) {
             final IFluidHandler fluidHandler = (IFluidHandler) tile;

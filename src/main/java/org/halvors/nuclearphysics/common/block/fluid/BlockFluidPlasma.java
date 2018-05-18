@@ -15,8 +15,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidBlock;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasma;
-import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.Random;
 
@@ -54,8 +54,9 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(final IBlockAccess world, final int x, final int y, final int z, final int side) {
-        final Position pos = new Position(x, y, z).offset(ForgeDirection.getOrientation(side));
-        final Block neighborBlock = world.getBlock(pos.getIntX(), pos.getIntY(), pos.getIntZ());
+        final BlockPos pos = new BlockPos(x, y, z);
+        final BlockPos neighborPos = pos.offset(ForgeDirection.getOrientation(side));
+        final Block neighborBlock = neighborPos.getBlock(world);
 
         return neighborBlock != this && super.shouldSideBeRendered(world, x, y, z, side);
     }

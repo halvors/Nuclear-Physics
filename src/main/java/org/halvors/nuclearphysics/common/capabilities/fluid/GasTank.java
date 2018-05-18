@@ -15,17 +15,4 @@ public class GasTank extends LiquidTank {
 
         return 0;
     }
-
-    // TODO: Check if this is really needed in 1.7.10.
-    /*
-    @Nullable
-    @Override
-    public FluidStack drain(final FluidStack resource, final boolean doDrain) {
-        if (resource.getFluid().isGaseous()) {
-            return super.drain(resource, doDrain);
-        }
-
-        return null;
-    }
-    */
 }

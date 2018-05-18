@@ -7,19 +7,21 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 
 public class BlockRotatable extends BlockContainerBase {
     protected byte rotationMask = Byte.parseByte("111100", 2);
     protected boolean isFlipPlacement = false;
 
-    protected BlockRotatable(String name, Material material) {
+    protected BlockRotatable(final String name, final Material material) {
         super(name, material);
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entity, ItemStack itemIn) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+    public void onBlockPlacedBy(final World world, final int x, final int y, final int z, final EntityLivingBase entity, final ItemStack item) {
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof ITileRotatable) {
             final ITileRotatable tileRotatable = (ITileRotatable) tile;
@@ -30,7 +32,8 @@ public class BlockRotatable extends BlockContainerBase {
 
     @Override
     public ForgeDirection[] getValidRotations(final World world, final int x, final int y, final int z) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
         final ForgeDirection[] valid = new ForgeDirection[6];
 
         if (tile instanceof ITileRotatable) {
@@ -48,7 +51,8 @@ public class BlockRotatable extends BlockContainerBase {
 
     @Override
     public boolean rotateBlock(final World world, final int x, final int y, final int z, final ForgeDirection side) {
-        final TileEntity tile = world.getTileEntity(x, y, z);
+        final BlockPos pos = new BlockPos(x, y, z);
+        final TileEntity tile = pos.getTileEntity(world);
 
         if (tile instanceof ITileRotatable) {
             final ITileRotatable tileRotatable = (ITileRotatable) tile;
@@ -63,11 +67,11 @@ public class BlockRotatable extends BlockContainerBase {
         return false;
     }
 
-    public boolean canRotate(int ordinal) {
+    public boolean canRotate(final int ordinal) {
         return (rotationMask & 1 << ordinal) != 0;
     }
 
-    public int determineOrientation(World world, int x, int y, int z, EntityLivingBase entity) {
+    public int determineOrientation(final World world, final int x, final int y, final int z, EntityLivingBase entity) {
         if (MathHelper.abs((float) entity.posX - x) < 2 && MathHelper.abs((float) entity.posZ - z) < 2) {
             double d0 = entity.posY + 1.82D - entity.yOffset;
 

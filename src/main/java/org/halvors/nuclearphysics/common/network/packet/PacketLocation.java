@@ -2,53 +2,35 @@ package org.halvors.nuclearphysics.common.network.packet;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import io.netty.buffer.ByteBuf;
-import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.api.BlockPos;
 
 /**
  * This is a packet that provides a location, and is meant to be extended.
  */
 public abstract class PacketLocation implements IMessage {
-	private int x;
-	private int y;
-	private int z;
+	private BlockPos pos;
 
 	public PacketLocation() {
 
 	}
 
-	public PacketLocation(final int x, final int y, final int z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
-
-	public PacketLocation(final Position pos) {
-		this(pos.getIntX(), pos.getIntY(), pos.getIntZ());
+	public PacketLocation(final BlockPos pos) {
+		this.pos = pos;
 	}
 
 	@Override
 	public void fromBytes(final ByteBuf dataStream) {
-		this.x = dataStream.readInt();
-		this.y = dataStream.readInt();
-		this.z = dataStream.readInt();
+		pos = new BlockPos(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
 	}
 
 	@Override
 	public void toBytes(final ByteBuf dataStream) {
-		dataStream.writeInt(x);
-		dataStream.writeInt(y);
-		dataStream.writeInt(z);
+		dataStream.writeInt(pos.getX());
+		dataStream.writeInt(pos.getY());
+		dataStream.writeInt(pos.getZ());
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public int getZ() {
-		return z;
+	public BlockPos getPos() {
+		return pos;
 	}
 }

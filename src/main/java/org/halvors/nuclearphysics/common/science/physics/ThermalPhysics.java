@@ -2,7 +2,7 @@ package org.halvors.nuclearphysics.common.science.physics;
 
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.api.BlockPos;
 
 public class ThermalPhysics {
     public static final double ROOM_TEMPERATURE = 295;
@@ -17,8 +17,8 @@ public class ThermalPhysics {
      *
      * @return The temperature of the coordinate in the world in kelvin.
      */
-    public static double getTemperatureForCoordinate(final World world, final Position pos) {
-        final double worldTemperature = world.getBiomeGenForCoords(pos.getIntX(), pos.getIntZ()).getFloatTemperature(pos.getIntX(), pos.getIntY(), pos.getIntZ());
+    public static double getTemperatureForCoordinate(final World world, final BlockPos pos) {
+        final double worldTemperature = world.getBiomeGenForCoords(pos.getX(), pos.getZ()).getFloatTemperature(pos.getX(), pos.getY(), pos.getZ());
         final double averageTemperature = ICE_MELT_TEMPERATURE + ((worldTemperature - 0.4) * 50);
         final double dayNightVariance = averageTemperature * 0.05;
 
@@ -33,11 +33,11 @@ public class ThermalPhysics {
         return energy / (mass * specificHeatCapacity);
     }
 
-    public static double getRequiredBoilWaterEnergy(final World world, final Position pos) {
+    public static double getRequiredBoilWaterEnergy(final World world, final BlockPos pos) {
         return getRequiredBoilWaterEnergy(world, pos, 1000);
     }
 
-    public static double getRequiredBoilWaterEnergy(final World world, final Position pos, final int volume) {
+    public static double getRequiredBoilWaterEnergy(final World world, final BlockPos pos, final int volume) {
         final double temperatureChange = WATER_BOIL_TEMPERATURE - getTemperatureForCoordinate(world, pos);
         final double mass = getMass(volume, 1);
 
