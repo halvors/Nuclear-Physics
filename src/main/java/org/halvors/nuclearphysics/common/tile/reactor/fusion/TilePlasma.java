@@ -5,12 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
-<<<<<<< HEAD
-
-import org.halvors.nuclearphysics.common.NuclearPhysics;
-=======
 import org.halvors.nuclearphysics.api.BlockPos;
->>>>>>> 8a099d9d990d56ed2b6937b80e0388e60136c4cf
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
@@ -99,9 +94,5 @@ public class TilePlasma extends TileBase {
 
     public void setTemperature(final int temperature) {
         this.temperature = temperature;
-        NuclearPhysics.getLogger().warn("PLASM ["+this.xCoord+";"+this.yCoord+";"+this.zCoord+";"+this.temperature+"]");
-    }
-    public int getTemperature() {
-    	return this.temperature;
     }
 }
