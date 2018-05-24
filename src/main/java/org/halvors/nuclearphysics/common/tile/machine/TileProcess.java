@@ -6,8 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.*;
-
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
@@ -133,7 +131,6 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     public void fillTank(final int containerInput, final int containerOutput, final FluidTank tank) {
         final ItemStack itemStackInput = getStackInSlot(containerInput);
         final ItemStack itemStackOutput = getStackInSlot(containerOutput);
-
         int freeSpace;
         IFluidContainerItem processing;
         
