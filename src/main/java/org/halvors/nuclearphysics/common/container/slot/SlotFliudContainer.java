@@ -11,8 +11,11 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 public class SlotFliudContainer extends Slot {
 
 	private FluidStack flist[];
-	// на вход должен подаваться список жидкостей, которые будут приниматься слотом
-	// еще нужен параметр, обозначающий принятие пустых контейнеров под перечисленные жидкости
+
+	/**
+	 * Slot for simple & advanced filled fiuid containers
+	 * @param valid - array of FluidStacks that can be accepted by input tank
+	 */
 	public SlotFliudContainer(IInventory inventory, int index, int x, int y, FluidStack... valid) {
 		super(inventory, index, x, y);
 		this.flist = valid;

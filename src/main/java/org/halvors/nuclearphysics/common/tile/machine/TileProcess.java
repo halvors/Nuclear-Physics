@@ -144,7 +144,8 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
                 // bottle may have volume of 250 mb
                 if((result != null) && (result.getItem().equals(Items.glass_bottle))) fluidStack.amount = 250;
 
-                if (result != null && tank.fill(fluidStack, false) >= fluidStack.amount && (itemStackOutput == null || result.isItemEqual(itemStackOutput))) {
+                if (result != null && tank.fill(fluidStack, false) >= fluidStack.amount && 
+                		(itemStackOutput == null || (result.isItemEqual(itemStackOutput) && itemStackOutput.stackSize < itemStackOutput.getMaxStackSize()))) {
                     tank.fill(fluidStack, true);
                     decrStackSize(containerInput, 1);
                     incrStackSize(containerOutput, result);
@@ -157,6 +158,14 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
             		processing = (IFluidContainerItem)itemStackInput.getItem();
             		int amount = Math.min(freeSpace, processing.getFluid(itemStackInput).amount);
             		// do fill
+            		if(tank.fill(processing.drain(itemStackInput, processing.getCapacity(itemStackInput), false), false) > 0){
+            			int rez = tank.fill(processing.drain(itemStackInput, processing.getCapacity(itemStackInput), true), false);
+            			System.out.println("*** Tank filled for " + rez + " mB");
+            		}
+            		if(processing.getFluid(itemStackInput) == null && (itemStackOutput == null)) {
+            			decrStackSize(containerInput, 1);
+            			incrStackSize(containerOutput, itemStackInput);		// ? this works?
+            		}
             	}
             	else {																// stackable tank, we can't drain part of them
             		ItemStack oneCell = itemStackInput.copy();
