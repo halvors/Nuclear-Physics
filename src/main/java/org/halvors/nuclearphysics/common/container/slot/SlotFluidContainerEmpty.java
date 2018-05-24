@@ -1,5 +1,7 @@
 package org.halvors.nuclearphysics.common.container.slot;
 
+import org.halvors.nuclearphysics.common.NuclearPhysics;
+
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -11,7 +13,7 @@ import net.minecraftforge.fluids.IFluidContainerItem;
 /**
  * Slot for empty and partial-empty containers accepting given fluids
  * @author Gleb
- *
+ * TODO: при помещении в верхний слот выхода пустых ячеек из этого мода они не принимаются, хотя и должны принимать обе жидкости
  */
 public class SlotFluidContainerEmpty extends Slot {
 
@@ -29,6 +31,9 @@ public class SlotFluidContainerEmpty extends Slot {
 		if(FluidContainerRegistry.isContainer(itemstack)) {
 			if(FluidContainerRegistry.isEmptyContainer(itemstack)) {
 				for(int i=0; i< fcd.length; i++) {
+					// сообщить текущую анализируемую запись
+					NuclearPhysics.getLogger().warn("Current container:" + fcd[i].emptyContainer.getDisplayName()+", possible fluid:"
+							+ fcd[i].fluid.getLocalizedName());
 					if((itemstack.isItemEqual(fcd[i].emptyContainer)) && (inFluidArray(flist, fcd[i].fluid))) {
 						return true;	// this container can contains at least one of given liquids
 					}
