@@ -215,7 +215,6 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
         				}
         			}
             	} else {															// stackable, like our cells
-            		// тут все еще не плюсуются ячейки!
             		ItemStack oneCell = itemStackInput.copy();
             		oneCell.stackSize = 1;
             		FluidStack test = tank.drain(tank.getCapacity(), false);
@@ -225,7 +224,6 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
             			if(canMergeStack(oneCell, itemStackOutput)) {
             				tank.drain(itemTank.getCapacity(oneCell), true);
             				decrStackSize(containerInput, 1);
-System.out.println("*** increment " + itemStackOutput + " for " + oneCell);
             				incrStackSize(containerOutput, oneCell);
             			}
             		}
