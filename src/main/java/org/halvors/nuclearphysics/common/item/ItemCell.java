@@ -54,7 +54,7 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
         final FluidStack fluidStack = ((IFluidContainerItem) itemStack.getItem()).getFluid(itemStack);
 
         if (fluidStack != null) {
-            list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
+            list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip", fluidStack.getLocalizedName()) + fluidStack.amount + "mB" );
         } else {
             list.add(LanguageUtility.transelate("tooltip.empty"));
         }
@@ -128,19 +128,21 @@ public class ItemCell extends ItemTooltip implements IFluidContainerItem {
             itemStack.stackTagCompound = new NBTTagCompound();
         }
 
-        if (!itemStack.stackTagCompound.hasKey("fluid")) {
-            final NBTTagCompound fluidTag = resource.writeToNBT(new NBTTagCompound());
+        if (!itemStack.stackTagCompound.hasKey("fluid")) {									// empty cell
+        	FluidStack nfs = resource.copy();
+        	if(nfs.amount > CAPACITY) nfs.amount = CAPACITY;
+            final NBTTagCompound fluidTag = nfs.writeToNBT(new NBTTagCompound());
 
-            if (CAPACITY < resource.amount) {
+            /*if (CAPACITY < resource.amount) {
                 fluidTag.setInteger("amount", CAPACITY);
                 itemStack.stackTagCompound.setTag("fluid", fluidTag);
 
                 return CAPACITY;
-            }
+            }*/
 
             itemStack.stackTagCompound.setTag("fluid", fluidTag);
 
-            return resource.amount;
+            return nfs.amount;
         }
 
         final NBTTagCompound fluidTag = itemStack.stackTagCompound.getCompoundTag("fluid");
