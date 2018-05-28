@@ -92,7 +92,7 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Override
+	@Override
     public void updateEntity() {
         // TODO: Should we do this for fusion reactors as well?
         // Reactor cell plays random idle noises while operating with temperature above boiling water temperature.
@@ -152,7 +152,8 @@ public class TileReactorCell extends TileInventory implements IFluidHandler, IRe
 
                     // Emit radiation.
                     if (worldObj.getTotalWorldTime() % 20 == 0 && worldObj.rand.nextFloat() > 0.65) {
-                        final List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord - RADIUS * 2, yCoord - RADIUS * 2, zCoord - RADIUS * 2, xCoord + RADIUS * 2, yCoord + RADIUS * 2, zCoord + RADIUS * 2));
+                        @SuppressWarnings("unchecked")
+						final List<EntityLiving> entities = worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord - RADIUS * 2, yCoord - RADIUS * 2, zCoord - RADIUS * 2, xCoord + RADIUS * 2, yCoord + RADIUS * 2, zCoord + RADIUS * 2));
 
                         for (EntityLiving entity : entities) {
                             ModPotions.poisonRadiation.poisonEntity(entity);

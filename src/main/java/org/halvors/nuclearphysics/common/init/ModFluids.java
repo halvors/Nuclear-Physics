@@ -105,12 +105,15 @@ public class ModFluids {
         registerFluidContainers();
     }
 
+    /**
+     * TODO: Cells can't be registered as fluid containers, as their empty & filled items has the same ID ad metadata 
+     */
     private static void registerFluidContainers() {
-        FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.WATER, ItemCell.CAPACITY), FluidUtility.getFilledCell(FluidRegistry.WATER), new ItemStack(ModItems.itemCell));
+        //FluidContainerRegistry.registerFluidContainer(new FluidStack(FluidRegistry.WATER, ItemCell.CAPACITY), FluidUtility.getFilledCell(FluidRegistry.WATER), new ItemStack(ModItems.itemCell));
 
         for (final Fluid fluid : FLUIDS) {
             if (fluid == deuterium || fluid == tritium) {
-                FluidContainerRegistry.registerFluidContainer(new FluidStack(fluid, ItemCell.CAPACITY), FluidUtility.getFilledCell(fluid), new ItemStack(ModItems.itemCell));
+//              FluidContainerRegistry.registerFluidContainer(new FluidStack(fluid, ItemCell.CAPACITY), FluidUtility.getFilledCell(fluid), new ItemStack(ModItems.itemCell));
             } else if (fluid == toxicWaste) {
                 final ItemBucket itemBucket = (ItemBucket) ModItems.itemToxicWasteBucket;
 

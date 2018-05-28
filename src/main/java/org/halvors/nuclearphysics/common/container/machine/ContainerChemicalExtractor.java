@@ -3,13 +3,26 @@ package org.halvors.nuclearphysics.common.container.machine;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
+import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.oredict.OreDictionary;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.container.slot.SlotEnergyItem;
+import org.halvors.nuclearphysics.common.container.slot.SlotFliudContainer;
+import org.halvors.nuclearphysics.common.container.slot.SlotFluidContainerEmpty;
 import org.halvors.nuclearphysics.common.container.slot.SlotSpecific;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
+import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
+
+import cpw.mods.fml.common.Loader;
 
 public class ContainerChemicalExtractor extends ContainerBase<TileChemicalExtractor> {
     public ContainerChemicalExtractor(final InventoryPlayer inventoryPlayer, final TileChemicalExtractor tile) {
@@ -28,15 +41,15 @@ public class ContainerChemicalExtractor extends ContainerBase<TileChemicalExtrac
         addSlotToContainer(new SlotFurnace(inventoryPlayer.player, tile, 2, 107, 25));
 
         // Fluid input fill
-        addSlotToContainer(new Slot(tile, 3, 25, 19));
+        addSlotToContainer(new SlotFliudContainer(tile, 3, 25, 19, ModFluids.fluidStackWater, ModFluids.fluidStackDeuterium )); // supposable)
 
-        // Fluid input drain
+        // Fluid input drain (lower input - must be readonly)
         addSlotToContainer(new Slot(tile, 4, 25, 50));
 
-        // Fluid output fill
-        addSlotToContainer(new Slot(tile, 5, 135, 19));
+        // Fluid output fill (upper output)
+        addSlotToContainer(new SlotFluidContainerEmpty(tile, 5, 135, 19, ModFluids.fluidStackDeuterium, ModFluids.fluidStackTritium));
 
-        // Fluid output drain
+        // Fluid output drain (lower output - must be readonly)
         addSlotToContainer(new Slot(tile, 6, 135, 50));
 
         // Player inventory
