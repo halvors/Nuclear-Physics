@@ -56,6 +56,7 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     }
 
     @Override
+    @Nonnull
     public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
         super.writeToNBT(tag);
 
