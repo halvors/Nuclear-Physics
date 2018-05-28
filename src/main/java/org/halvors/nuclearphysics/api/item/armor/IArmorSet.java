@@ -12,7 +12,7 @@ public interface IArmorSet {
         FEET
     }
 
-    EntityEquipmentSlot getEquipmentSlot();
+    EntityEquipmentSlot getArmorType();
 
     boolean isArmorPartOfSet(ItemStack itemStack);
 
