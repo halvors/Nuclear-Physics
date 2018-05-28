@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import java.util.EnumSet;
 
 public interface IArmorSet {
-    EntityEquipmentSlot getEquipmentSlot();
+    EntityEquipmentSlot getArmorType();
 
     boolean isArmorPartOfSet(ItemStack itemStack);
 
