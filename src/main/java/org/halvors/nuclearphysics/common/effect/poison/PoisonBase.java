@@ -55,7 +55,7 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
                                 final IAntiPoisonArmor armor = (IAntiPoisonArmor) item;
 
                                 if (armor.isProtectedFromPoison(itemStack, entity, type)) {
-                                    armorWorn.add(armor.getEquipmentSlot());
+                                    armorWorn.add(armor.getArmorType());
                                     armor.onProtectFromPoison(itemStack, entity, type);
                                 }
                             }
