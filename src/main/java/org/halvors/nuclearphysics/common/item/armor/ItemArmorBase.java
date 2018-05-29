@@ -27,8 +27,7 @@ public class ItemArmorBase extends ItemArmor implements IArmorSet, ISpecialArmor
     }
 
     @Override
-    @Nonnull
-    public EntityEquipmentSlot getEquipmentSlot() {
+    public EntityEquipmentSlot getArmorType() {
         return EntityEquipmentSlot.values()[armorType];
     }
 
@@ -39,7 +38,7 @@ public class ItemArmorBase extends ItemArmor implements IArmorSet, ISpecialArmor
         if (item instanceof IArmorSet) {
             final IArmorSet armorSet = (IArmorSet) item;
 
-            return armorSet.getEquipmentSlot() == getEquipmentSlot();
+            return armorSet.getArmorType() == getArmorType();
         }
 
         return false;
