@@ -87,7 +87,7 @@ public class BlockMachine extends BlockInventory {
         if (tile instanceof TileMachine) {
             final TileMachine tileMachine = (TileMachine) tile;
 
-            if (type.hasParticle()) {// && tileMachine.getOperatingTicks() > 0) {
+            if (type.hasParticle() && tileMachine.getOperatingTicks() > 0) {
                 final float xRandom = (float) pos.getX() + 0.5F;
                 final float yRandom = (float) pos.getY() + 0.2F + random.nextFloat() * 6.0F / 16;
                 final float zRandom = (float) pos.getZ() + 0.5F;
@@ -131,17 +131,6 @@ public class BlockMachine extends BlockInventory {
                         break;
                 }
             }
-
-            /*
-            switch (type) {
-                case NUCLEAR_BOILER:
-                    if (tileMachine.getOperatingTicks() > 0) {
-                        particleTypes = EnumParticleTypes.CLOUD;
-                        ySpeed = 0.05;
-                    }
-                    break;
-            }
-            */
         }
     }
 

@@ -82,6 +82,21 @@ public class BlockStateMachine extends BlockStateFacing {
             return tileClass;
         }
 
+        public TileEntity getTileAsInstance() {
+            try {
+                return tileClass.newInstance();
+            } catch (Exception e) {
+                NuclearPhysics.getLogger().error("Unable to indirectly create tile entity.");
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        public EnumBlockRenderType getRenderType() {
+            return renderType;
+        }
+
         public boolean hasParticle() {
             return particle;
         }
@@ -100,21 +115,6 @@ public class BlockStateMachine extends BlockStateFacing {
 
         public double getParticleSpeed() {
             return particleSpeed;
-        }
-
-        public TileEntity getTileAsInstance() {
-            try {
-                return tileClass.newInstance();
-            } catch (Exception e) {
-                NuclearPhysics.getLogger().error("Unable to indirectly create tile entity.");
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        public EnumBlockRenderType getRenderType() {
-            return renderType;
         }
     }
 }
