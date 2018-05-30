@@ -16,6 +16,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.client.render.block.BlockRenderingHandler;
+import org.halvors.nuclearphysics.client.render.particle.EnumParticleType;
+import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
@@ -105,49 +107,66 @@ public class BlockMachine extends BlockInventory {
         if (tile instanceof TileMachine) {
             final TileMachine tileMachine = (TileMachine) tile;
 
-            String particleTypes = null;
-            final float xRandom = (float) x + 0.5F;
-            final float yRandom = (float) y + 0.2F + random.nextFloat() * 6.0F / 16.0F;
-            final float zRandom = (float) z + 0.5F;
-            final float iRandom = 0.52F;
-            final float jRandom = random.nextFloat() * 0.6F - 0.3F;
-            final double xSpeed = 0;
-            double ySpeed = 0;
-            final double zSpeed = 0;
+            if (type.hasParticle()) {// && tileMachine.getOperatingTicks() > 0) {
+                final float xRandom = (float) pos.getX() + 0.5F;
+                final float yRandom = (float) pos.getY() + 0.2F + random.nextFloat() * 6.0F / 16;
+                final float zRandom = (float) pos.getZ() + 0.5F;
+                final float iRandom = 0.52F;
+                final float jRandom = random.nextFloat() * 0.6F - 0.3F;
+                final double xSpeed = 0;
+                final double ySpeed = type.getParticleSpeed();
+                final double zSpeed = 0;
 
+                switch (tileMachine.getFacing()) {
+                    case NORTH:
+                        if (!type.hasCustomParticle()) {
+                            world.spawnParticle(type.getParticleType(), (xRandom + jRandom), yRandom, (zRandom - iRandom), xSpeed, ySpeed, zSpeed);
+                        } else {
+                            RenderUtility.renderParticle(type.getCustomParticleType(), world, (xRandom + jRandom), yRandom, (zRandom - iRandom), xSpeed, ySpeed, zSpeed);
+                        }
+                        break;
+
+                    case SOUTH:
+                        if (!type.hasCustomParticle()) {
+                            world.spawnParticle(type.getParticleType(), (xRandom + jRandom), yRandom, (zRandom + iRandom), xSpeed, ySpeed, zSpeed);
+                        } else {
+                            RenderUtility.renderParticle(type.getCustomParticleType(), world, (xRandom + jRandom), yRandom, (zRandom + iRandom), xSpeed, ySpeed, zSpeed);
+                        }
+                        break;
+
+                    case WEST:
+                        if (!type.hasCustomParticle()) {
+                            world.spawnParticle(type.getParticleType(), (xRandom - iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        } else {
+                            RenderUtility.renderParticle(type.getCustomParticleType(), world, (xRandom - iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        }
+                        break;
+
+                    case EAST:
+                        if (!type.hasCustomParticle()) {
+                            world.spawnParticle(type.getParticleType(), (xRandom + iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        } else {
+                            RenderUtility.renderParticle(type.getCustomParticleType(), world, (xRandom + iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        }
+                        break;
+                }
+            }
+
+            /*
             switch (type) {
                 case NUCLEAR_BOILER:
                     if (tileMachine.getOperatingTicks() > 0) {
-                        particleTypes = "cloud";
+                        particleTypes = EnumParticleTypes.CLOUD;
                         ySpeed = 0.05;
                     }
                     break;
             }
-
-            if (particleTypes != null) {
-                switch (tileMachine.getFacing()) {
-                    case NORTH:
-                        world.spawnParticle(particleTypes, (xRandom + jRandom), yRandom, (zRandom - iRandom), xSpeed, ySpeed, zSpeed);
-                        break;
-
-                    case SOUTH:
-                        world.spawnParticle(particleTypes, (xRandom + jRandom), yRandom, (zRandom + iRandom), xSpeed, ySpeed, zSpeed);
-                        break;
-
-                    case WEST:
-                        world.spawnParticle(particleTypes, (xRandom - iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
-                        break;
-
-                    case EAST:
-                        world.spawnParticle(particleTypes, (xRandom + iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
-                        break;
-                }
-            }
+            */
         }
     }
 
     @Override
-    public void onBlockAdded(final World world, final int x, final int y, final int z) {
+    public void onBlockAdded ( final World world, final int x, final int y, final int z){
         final BlockPos pos = new BlockPos(x, y, z);
         final TileEntity tile = pos.getTileEntity(world);
 
@@ -157,19 +176,21 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public void onBlockPlacedBy(final World world, final int x, final int y, final int z, final EntityLivingBase entity, final ItemStack itemStack) {
+    public void onBlockPlacedBy ( final World world, final int x, final int y, final int z,
+    final EntityLivingBase entity, final ItemStack itemStack){
         world.setBlockMetadataWithNotify(x, y, z, itemStack.getMetadata(), 2);
 
         super.onBlockPlacedBy(world, x, y, z, entity, itemStack);
     }
 
     @Override
-    public int damageDropped(final int metadata) {
+    public int damageDropped ( final int metadata){
         return metadata;
     }
 
     @Override
-    public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ) {
+    public boolean onBlockActivated ( final World world, final int x, final int y, final int z,
+    final EntityPlayer player, final int side, final float hitX, final float hitY, final float hitZ){
         final BlockPos pos = new BlockPos(x, y, z);
         final TileEntity tile = pos.getTileEntity(world);
         final ItemStack itemStack = player.getHeldItem();
@@ -186,7 +207,8 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public void onNeighborBlockChange(final World world, final int x, final int y, final int z, final Block neighbor) {
+    public void onNeighborBlockChange ( final World world, final int x, final int y, final int z,
+    final Block neighbor){
         final BlockPos pos = new BlockPos(x, y, z);
         final TileEntity tile = pos.getTileEntity(world);
 
@@ -196,16 +218,16 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public TileEntity createTileEntity(final World world, final int metadata) {
+    public TileEntity createTileEntity ( final World world, final int metadata){
         final EnumMachine type = EnumMachine.values()[metadata];
 
         return type.getTileAsInstance();
     }
 
     public enum EnumMachine {
-        CHEMICAL_EXTRACTOR(TileChemicalExtractor.class),
+        CHEMICAL_EXTRACTOR(TileChemicalExtractor.class, EnumParticleType.RADIOACTIVE),
         GAS_CENTRIFUGE(TileGasCentrifuge.class),
-        NUCLEAR_BOILER(TileNuclearBoiler.class),
+        NUCLEAR_BOILER(TileNuclearBoiler.class, "cloud", 0.025),
         PARTICLE_ACCELERATOR(TileParticleAccelerator.class, true),
         PLASMA_HEATER(TilePlasmaHeater.class),
         QUANTUM_ASSEMBLER(TileQuantumAssembler.class);
@@ -213,14 +235,45 @@ public class BlockMachine extends BlockInventory {
         private final Class<? extends TileEntity> tileClass;
         private boolean icon;
 
-        EnumMachine(Class<? extends TileEntity> tileClass) {
+        private boolean particle;
+        private boolean customParticle;
+        private String particleType;
+        private EnumParticleType customParticleType;
+        private double particleSpeed;
+
+        EnumMachine(final Class<? extends TileEntity> tileClass) {
             this.tileClass = tileClass;
         }
 
-        EnumMachine(Class<? extends TileEntity> tileClass, boolean icon) {
+        EnumMachine(final Class<? extends TileEntity> tileClass, boolean icon) {
             this(tileClass);
 
             this.icon = icon;
+        }
+
+        EnumMachine(final Class<? extends TileEntity> tileClass, final String particleType, final double particleSpeed) {
+            this(tileClass);
+
+            this.particle = true;
+            this.particleType = particleType;
+            this.particleSpeed = particleSpeed;
+        }
+
+        EnumMachine(final Class<? extends TileEntity> tileClass, final String particleType) {
+            this(tileClass, particleType, 0);
+        }
+
+        EnumMachine(final Class<? extends TileEntity> tileClass, final EnumParticleType customParticleType, final double particleSpeed) {
+            this(tileClass);
+
+            this.particle = true;
+            this.customParticle = true;
+            this.customParticleType = customParticleType;
+            this.particleSpeed = particleSpeed;
+        }
+
+        EnumMachine(final Class<? extends TileEntity> tileClass, final EnumParticleType customParticleType) {
+            this(tileClass, customParticleType, 0);
         }
 
         public String getName() {
@@ -235,15 +288,35 @@ public class BlockMachine extends BlockInventory {
             return icon;
         }
 
+        public boolean hasParticle() {
+            return particle;
+        }
+
+        public boolean hasCustomParticle() {
+            return customParticle;
+        }
+
+        public String getParticleType() {
+            return particleType;
+        }
+
+        public EnumParticleType getCustomParticleType() {
+            return customParticleType;
+        }
+
+        public double getParticleSpeed() {
+            return particleSpeed;
+        }
+
         public TileEntity getTileAsInstance() {
             try {
                 return tileClass.newInstance();
             } catch (Exception e) {
                 NuclearPhysics.getLogger().error("Unable to indirectly create tile entity.");
                 e.printStackTrace();
-
-                return null;
             }
+
+            return null;
         }
     }
 }
