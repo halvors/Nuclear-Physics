@@ -12,8 +12,6 @@ import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.block.fluid.BlockFluidPlasma;
 import org.halvors.nuclearphysics.common.block.fluid.BlockFluidRadioactive;
 import org.halvors.nuclearphysics.common.event.handler.ItemEventHandler;
-import org.halvors.nuclearphysics.common.item.ItemCell;
-import org.halvors.nuclearphysics.common.utility.FluidUtility;
 
 import java.util.HashSet;
 import java.util.Set;

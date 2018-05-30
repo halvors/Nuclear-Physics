@@ -9,7 +9,6 @@ import net.minecraftforge.fluids.*;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
-import org.halvors.nuclearphysics.common.utility.FluidUtility;
 
 import java.util.List;
 
