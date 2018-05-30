@@ -12,6 +12,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.api.BlockPos;
+import org.halvors.nuclearphysics.client.render.particle.EnumParticleType;
+import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 
@@ -41,10 +43,9 @@ public class BlockRadioactive extends BlockBase {
             int radius = 3;
 
             for (int i = 0; i < 2; i++) {
-                final BlockPos newPos = new BlockPos(x, y, z).add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
-                final EntitySmokeFX fx = new EntitySmokeFX(world, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
-                fx.setRBGColorF(0.2F, 0.8F, 0);
-                Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+                final BlockPos pos = new BlockPos(x, y, z);
+                final BlockPos newPos = pos.add(random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2, random.nextDouble() * radius - radius / 2);
+                RenderUtility.renderParticle(EnumParticleType.RADIOACTIVE, world, newPos.getX(), newPos.getY(), newPos.getZ(), (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D, (random.nextDouble() - 0.5D) / 2.0D);
             }
         }
     }

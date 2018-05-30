@@ -11,8 +11,6 @@ import org.halvors.nuclearphysics.api.item.armor.IArmorSet;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
-import javax.annotation.Nonnull;
-
 public class ItemArmorBase extends ItemArmor implements IArmorSet, ISpecialArmor {
     protected final String name;
 

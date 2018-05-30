@@ -10,6 +10,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
+import org.halvors.nuclearphysics.api.BlockPos;
+import org.halvors.nuclearphysics.client.render.particle.EnumParticleType;
+import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 
@@ -27,9 +30,8 @@ public class BlockFluidRadioactive extends BlockFluidClassic {
 
         if (General.allowRadioactiveOres && Minecraft.getMinecraft().gameSettings.particleSetting == 0) {
             if (random.nextInt(100) == 0) {
-                EntitySmokeFX fx = new EntitySmokeFX(world, x + random.nextFloat(), y + 1, z + random.nextFloat(), (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2);
-                fx.setRBGColorF(0.2F, 0.8F, 0);
-                Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+                final BlockPos pos = new BlockPos(x, y, z);
+                RenderUtility.renderParticle(EnumParticleType.RADIOACTIVE, world, pos.getX() + random.nextFloat(), pos.getY() + 1, pos.getZ() + random.nextFloat(), (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2, (random.nextDouble() - 0.5) / 2);
             }
         }
     }
