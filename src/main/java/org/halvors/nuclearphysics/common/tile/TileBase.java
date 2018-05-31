@@ -30,7 +30,7 @@ public class TileBase extends TileEntity {
     @Override
     @Nonnull
     public NBTTagCompound getUpdateTag() {
-        // Forge writes only x/y/z/id info to a new NBT Tag Compound. This is fine, we have a custom network system
+        // Forge writes only x/y/z/id info to a new NBT Tag Compound. This is fine, we have a custom network storage
         // to send other data so we don't use this one (yet).
         return super.getUpdateTag();
     }

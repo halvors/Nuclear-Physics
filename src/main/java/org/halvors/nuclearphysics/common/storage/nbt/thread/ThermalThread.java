@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.system.thread;
+package org.halvors.nuclearphysics.common.storage.nbt.thread;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -10,7 +10,7 @@ import org.halvors.nuclearphysics.api.tile.IReactor;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.event.ThermalEvent;
-import org.halvors.nuclearphysics.common.grid.thermal.ThermalPhysics;
+import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
 import org.halvors.nuclearphysics.common.type.Pair;
 
 import java.util.Map;

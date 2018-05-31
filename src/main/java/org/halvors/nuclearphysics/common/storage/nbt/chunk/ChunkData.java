@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.system.chunk;
+package org.halvors.nuclearphysics.common.storage.nbt.chunk;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -44,26 +44,26 @@ public class ChunkData {
      * @param value - value to set
      */
     public boolean setValue(int cx, int y, int cz, int value) {
-        //Keep inside of chunk
+        // Keep inside of chunk
         if (y >= 0 && y < CHUNK_HEIGHT) {
-            //Only set values that are above zero or have an existing layer
+            // Only set values that are above zero or have an existing layer
             if (value > 0 || hasLayer(y)) {
                 int prev = getLayer(y).getData(cx, cz);
 
-                //Set data into layer
+                // Set data into layer
                 boolean b = getLayer(y).setData(cx, cz, value);
 
-                //Remove layer if empty to save memory
+                // Remove layer if empty to save memory
                 if (getLayer(y).isEmpty()) {
                     removeLayer(y);
                 }
 
-                //Check for change
+                // Check for change
                 if (prev != getLayer(y).getData(cx, cz)) {
                     hasChanged = true;
                 }
 
-                //Return
+                // Return
                 return b;
             }
 

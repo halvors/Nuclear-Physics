@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.system.chunk;
+package org.halvors.nuclearphysics.common.storage.nbt.chunk;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -81,8 +81,8 @@ public class ChunkDataMap {
         //}
     }
 
-    public void remove(final Chunk chunk) {
-        remove(ChunkPos.asLong(chunk.xPosition, chunk.zPosition));
+    public void remove(final ChunkPos chunkPos) {
+        remove(ChunkPos.asLong(chunkPos.chunkXPos, chunkPos.chunkXPos));
     }
 
     public void clear() {
@@ -153,18 +153,5 @@ public class ChunkDataMap {
 
     public ChunkData getChunkFromPosition(BlockPos pos, boolean init) {
         return getChunk(pos.getX() >> 4, pos.getZ() >> 4, init);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public static ChunkDataMap getMap(final HashMap<IBlockAccess, ChunkDataMap> queryMap, final IBlockAccess world, final boolean init) {
-        ChunkDataMap map = queryMap.get(world);
-
-        if (map == null && init) {
-            map = new ChunkDataMap(world);
-            queryMap.put(world, map);
-        }
-
-        return map;
     }
 }

@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.system.thread;
+package org.halvors.nuclearphysics.common.storage.nbt.thread;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;

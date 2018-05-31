@@ -1,7 +1,7 @@
-package org.halvors.nuclearphysics.common.system.thread;
+package org.halvors.nuclearphysics.common.storage.nbt.thread;
 
 import net.minecraft.util.math.BlockPos;
-import org.halvors.nuclearphysics.common.system.chunk.ChunkDataMap;
+import org.halvors.nuclearphysics.common.storage.nbt.chunk.ChunkDataMap;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
