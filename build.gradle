@@ -32,7 +32,10 @@ idea {
 apply plugin: "net.minecraftforge.gradle.forge"
 
 repositories {
-
+    maven {
+        name 'ic2'
+        url 'http://maven.ic2.player.to'
+    }
 }
 
 // Define properties file
@@ -61,7 +64,7 @@ minecraft {
 }
 
 dependencies {
-
+    compileOnly "net.industrial-craft:industrialcraft-2:${config.ic2_version}:api"
 }
 
 processResources {

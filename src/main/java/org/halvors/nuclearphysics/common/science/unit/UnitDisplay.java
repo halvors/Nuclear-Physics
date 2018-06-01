@@ -7,11 +7,14 @@ public class UnitDisplay {
         final EnumElectricUnit unit = General.electricUnit;
 
         switch (unit) {
+            case JOULES:
+                return UnitDisplay.getDisplayShort(energy * General.toJoules, unit);
+
             case TESLA:
                 return UnitDisplay.getDisplayShort(energy * General.toTesla, unit);
 
-            case JOULE:
-                return UnitDisplay.getDisplayShort(energy * General.toJoule, unit);
+            case ELECTRICAL_UNITS:
+                return UnitDisplay.getDisplayShort(energy * General.toIC2, unit);
         }
 
         return getDisplayShort(energy, unit);

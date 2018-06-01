@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum EnumElectricUnit {
-    JOULE("Joule", "J"),
+    JOULES("Joules", "J"),
     FORGE_ENERGY("Forge Energy", "FE"),
     TESLA("Tesla", "T"),
     ELECTRICAL_UNITS("Electrical Unit", "EU");
@@ -32,7 +32,7 @@ public enum EnumElectricUnit {
             }
         }
 
-        return JOULE;
+        return JOULES;
     }
 
     public static EnumElectricUnit fromSymbol(final String symbol) {
@@ -42,7 +42,7 @@ public enum EnumElectricUnit {
             }
         }
 
-        return JOULE;
+        return JOULES;
     }
 
     public static List<String> getSymbols() {
