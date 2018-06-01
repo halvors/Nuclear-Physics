@@ -13,10 +13,7 @@ public class ChunkData {
     private static final String NBT_LAYER_HEIGHT = "height";
     private static final String NBT_LAYER_DATA = "data";
 
-    /** Array of active layers, modified by yStart */
     private ChunkDataLayer[] layers = new ChunkDataLayer[CHUNK_HEIGHT];
-
-    /** Starting point of the layer array as a Y level */
     private int yStart;
 
     public ChunkData() {
