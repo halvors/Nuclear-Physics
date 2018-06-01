@@ -9,14 +9,14 @@ import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.halvors.nuclearphysics.common.science.ThermalDataStorage;
-import org.halvors.nuclearphysics.common.storage.nbt.chunk.WorldData;
+import org.halvors.nuclearphysics.common.science.ThermalEnergyStorage;
+import org.halvors.nuclearphysics.common.storage.nbt.data.WorldData;
 
 @EventBusSubscriber
 public class WorldEventHandler {
     @SubscribeEvent
     public static void onWorldUnloadEvent(final WorldEvent.Unload event) {
-        final WorldData worldData = ThermalDataStorage.getInstance().getData(event.getWorld(), false);
+        final WorldData worldData = ThermalEnergyStorage.getInstance().getData(event.getWorld(), false);
 
         if (worldData != null) {
             worldData.clear();
@@ -27,7 +27,7 @@ public class WorldEventHandler {
     public static void onChunkUnloadEvent(final ChunkEvent.Unload event) {
         final IBlockAccess world = event.getWorld();
         final ChunkPos pos = event.getChunk().getChunkCoordIntPair();
-        final WorldData worldData = ThermalDataStorage.getInstance().getData(world, false);
+        final WorldData worldData = ThermalEnergyStorage.getInstance().getData(world, false);
 
         if (worldData != null) {
             worldData.remove(pos);
@@ -40,7 +40,7 @@ public class WorldEventHandler {
         final ChunkPos pos = event.getChunk().getChunkCoordIntPair();
         final NBTTagCompound tag = event.getData();
 
-        ThermalDataStorage.getInstance().readFromNBT(world, pos, tag);
+        ThermalEnergyStorage.getInstance().readFromNBT(world, pos, tag);
     }
 
     @SubscribeEvent
@@ -49,6 +49,6 @@ public class WorldEventHandler {
         final ChunkPos pos = event.getChunk().getChunkCoordIntPair();
         final NBTTagCompound tag = event.getData();
 
-        ThermalDataStorage.getInstance().writeToNBT(world, pos, tag);
+        ThermalEnergyStorage.getInstance().writeToNBT(world, pos, tag);
     }
 }

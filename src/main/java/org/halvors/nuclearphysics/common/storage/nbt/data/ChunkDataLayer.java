@@ -1,4 +1,4 @@
-package org.halvors.nuclearphysics.common.storage.nbt.chunk;
+package org.halvors.nuclearphysics.common.storage.nbt.data;
 
 public class ChunkDataLayer {
     public static final int CHUNK_WIDTH = 16;

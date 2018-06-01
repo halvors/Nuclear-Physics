@@ -1,28 +1,30 @@
-package org.halvors.nuclearphysics.common.storage.nbt.chunk;
+package org.halvors.nuclearphysics.common.storage.nbt.data;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.Reference;
 
 import java.util.HashMap;
 
 public class ChunkDataStorage {
+    private static final String NBT_MOD_ID = Reference.ID;
 
-    protected final HashMap<IBlockAccess, WorldData> worldToData = new HashMap<>();
-    protected final String nbtKey; // NBT key for this chunk data storage.
+    private final HashMap<IBlockAccess, WorldData> worldToDataMap = new HashMap<>();
+    private final String nbtKey;
 
     public ChunkDataStorage(final String nbtKey) {
         this.nbtKey = nbtKey;
     }
 
     public WorldData getData(final IBlockAccess world, final boolean init) {
-        WorldData worldData = worldToData.get(world);
+        WorldData worldData = worldToDataMap.get(world);
 
         if (worldData == null && init) {
-            worldData = new WorldData(world);
-            worldToData.put(world, worldData);
+            worldData = new WorldData((World) world);
+            worldToDataMap.put(world, worldData);
         }
 
         return worldData;
@@ -47,11 +49,13 @@ public class ChunkDataStorage {
     }
 
     public void readFromNBT(final IBlockAccess world, final ChunkPos pos, final NBTTagCompound tag) {
-        if (tag != null && nbtKey != null && tag.hasKey(nbtKey)) {
+        final NBTTagCompound modTag = tag.getCompoundTag(NBT_MOD_ID);
+
+        if (nbtKey != null && modTag.hasKey(nbtKey)) {
             final WorldData worldData = getData(world, true);
 
             if (worldData != null) {
-                final NBTTagCompound dataTag = tag.getCompoundTag(nbtKey);
+                final NBTTagCompound dataTag = modTag.getCompoundTag(nbtKey);
 
                 if (!dataTag.hasNoTags()) {
                     worldData.readFromNBT(pos, dataTag);
@@ -68,7 +72,9 @@ public class ChunkDataStorage {
             worldData.writeToNBT(pos, dataTag);
 
             if (!dataTag.hasNoTags()) {
-                tag.setTag(nbtKey, dataTag);
+                final NBTTagCompound modTag = new NBTTagCompound();
+                modTag.setTag(nbtKey, dataTag);
+                tag.setTag(NBT_MOD_ID, modTag);
             }
         }
 
