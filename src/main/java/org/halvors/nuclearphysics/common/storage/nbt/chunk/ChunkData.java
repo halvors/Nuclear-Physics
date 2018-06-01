@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.Constants;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 
 public class ChunkData {
     private static final int CHUNK_HEIGHT = 256;
@@ -15,10 +16,6 @@ public class ChunkData {
     private static final String NBT_LAYER_Y = "y";
     private static final String NBT_LAYER_DATA = "data";
 
-    private final IBlockAccess world;
-    private final int x;
-    private final int z;
-
     /** Array of active layers, modified by yStart */
     private ChunkDataLayer[] layers = new ChunkDataLayer[CHUNK_HEIGHT];
 
@@ -28,10 +25,8 @@ public class ChunkData {
     /** Triggers thread to rescan chunk to calculate exposure values */
     public boolean hasChanged = true;
 
-    public ChunkData(IBlockAccess world, ChunkPos chunkPos) {
-        this.world = world;
-        this.x = chunkPos.chunkXPos;
-        this.z = chunkPos.chunkZPos;
+    public ChunkData() {
+
     }
 
     /**
@@ -46,7 +41,7 @@ public class ChunkData {
         if (y >= 0 && y < CHUNK_HEIGHT && hasLayer(y)) {
             final ChunkDataLayer layer = getLayer(y);
 
-            return layer.getData(cx, cz);
+            return layer.getValue(cx, cz);
         }
 
         return 0;
@@ -66,10 +61,10 @@ public class ChunkData {
             // Only set values that are above zero or have an existing layer
             if (value > 0 || hasLayer(y)) {
                 final ChunkDataLayer layer = getLayer(y);
-                final int prev = layer.getData(cx, cz);
+                final int prev = layer.getValue(cx, cz);
 
                 // Set data into layer
-                final boolean b = layer.setData(cx, cz, value);
+                final boolean b = layer.setValue(cx, cz, value);
 
                 // Remove layer if empty to save memory
                 if (layer.isEmpty()) {
@@ -77,7 +72,7 @@ public class ChunkData {
                 }
 
                 // Check for change
-                if (prev != layer.getData(cx, cz)) {
+                if (prev != layer.getValue(cx, cz)) {
                     hasChanged = true;
                 }
 
@@ -171,7 +166,7 @@ public class ChunkData {
             final NBTTagList list = new NBTTagList();
 
             for (int i = 0; i < layers.length; i++) {
-                ChunkDataLayer layer = layers[i];
+                final ChunkDataLayer layer = layers[i];
 
                 if (layer != null && !layer.isEmpty()) {
                     final NBTTagCompound dataTag = new NBTTagCompound();

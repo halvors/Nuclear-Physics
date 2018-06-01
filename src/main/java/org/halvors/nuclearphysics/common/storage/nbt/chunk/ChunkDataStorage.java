@@ -4,72 +4,71 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IBlockAccess;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.common.Reference;
 
 import java.util.HashMap;
 
 public class ChunkDataStorage {
-    protected final HashMap<IBlockAccess, ChunkDataMap> worldToChunkDataMap = new HashMap<>();
+
+    protected final HashMap<IBlockAccess, WorldData> worldToData = new HashMap<>();
     protected final String nbtKey; // NBT key for this chunk data storage.
 
     public ChunkDataStorage(final String nbtKey) {
         this.nbtKey = nbtKey;
     }
 
-    public ChunkDataMap getMap(final IBlockAccess world, final boolean init) {
-        ChunkDataMap map = worldToChunkDataMap.get(world);
+    public WorldData getData(final IBlockAccess world, final boolean init) {
+        WorldData worldData = worldToData.get(world);
 
-        if (map == null && init) {
-            map = new ChunkDataMap(world);
-            worldToChunkDataMap.put(world, map);
+        if (worldData == null && init) {
+            worldData = new WorldData(world);
+            worldToData.put(world, worldData);
         }
 
-        return map;
+        return worldData;
     }
 
-    public int getData(final IBlockAccess world, final BlockPos pos) {
-        final ChunkDataMap map = getMap(world, false);
+    public int getValue(final IBlockAccess world, final BlockPos pos) {
+        final WorldData worldData = getData(world, false);
 
-        if (map != null) {
-            map.getData(pos);
+        if (worldData != null) {
+            return worldData.getValue(pos);
         }
 
         return 0;
     }
 
-    public void setData(final IBlockAccess world, final BlockPos pos, int value) {
-        final ChunkDataMap map = getMap(world, false);
+    public void setValue(final IBlockAccess world, final BlockPos pos, int value) {
+        final WorldData worldData = getData(world, value > 0);
 
-        if (map != null && value > 0) {
-            map.setData(pos, value);
+        if (worldData != null) {
+            worldData.setValue(pos, value);
         }
     }
 
     public void readFromNBT(final IBlockAccess world, final ChunkPos pos, final NBTTagCompound tag) {
         if (tag != null && nbtKey != null && tag.hasKey(nbtKey)) {
-            final ChunkDataMap map = getMap(world, true);
+            final WorldData worldData = getData(world, true);
 
-            if (map != null) {
+            if (worldData != null) {
                 final NBTTagCompound dataTag = tag.getCompoundTag(nbtKey);
 
                 if (!dataTag.hasNoTags()) {
-                    map.readFromNBT(pos, dataTag);
+                    worldData.readFromNBT(pos, dataTag);
                 }
             }
         }
     }
 
     public NBTTagCompound writeToNBT(final IBlockAccess world, final ChunkPos pos, final NBTTagCompound tag) {
-        final ChunkDataMap map = getMap(world, false);
+        final WorldData worldData = getData(world, false);
 
-        if (map != null && nbtKey != null) {
+        if (worldData != null && nbtKey != null) {
             final NBTTagCompound dataTag = new NBTTagCompound();
-            map.writeToNBT(pos, dataTag);
+            worldData.writeToNBT(pos, dataTag);
 
             if (!dataTag.hasNoTags()) {
                 tag.setTag(nbtKey, dataTag);
-            } else {
-                NuclearPhysics.getLogger().info("Tag is empty....");
             }
         }
 

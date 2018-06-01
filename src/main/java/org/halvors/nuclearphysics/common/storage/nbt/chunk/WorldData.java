@@ -5,31 +5,32 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
 import java.util.HashMap;
 
-public class ChunkDataMap {
-    public static final String NBT_CHUNK_DATA_MAP = Reference.ID;
+import static org.halvors.nuclearphysics.common.storage.nbt.chunk.ChunkDataLayer.CHUNK_WIDTH;
 
+public class WorldData {
     private final HashMap<Long, ChunkData> loadedChunks = new HashMap<>();
     private final IBlockAccess world;
 
-    public ChunkDataMap(final IBlockAccess world) {
+    public WorldData(final IBlockAccess world) {
         this.world = world;
     }
 
-    public int getData(BlockPos pos) {
-        final ChunkData chunk = getChunkData(pos, false);
+    public int getValue(BlockPos pos) {
+        final ChunkData chunkData = getChunkData(pos, false);
 
-        if (chunk != null) {
-            return chunk.getValue(pos.getX() & 15, pos.getY(), pos.getZ() & 15);
+        if (chunkData != null) {
+            return chunkData.getValue(pos.getX() & (CHUNK_WIDTH - 1), pos.getY(), pos.getZ() & (CHUNK_WIDTH - 1));
         }
 
         return 0;
     }
 
-    public boolean setData(BlockPos pos, int value) {
+    public boolean setValue(BlockPos pos, int value) {
         final ChunkData chunkData = getChunkData(pos, value > 0);
 
         if (chunkData != null) {
@@ -46,11 +47,11 @@ public class ChunkDataMap {
             */
 
             // Set value
-            boolean hasChanged = chunkData.setValue(pos.getX() & 15, pos.getY(), pos.getZ() & 15, value);
+            boolean hasChanged = chunkData.setValue(pos.getX() & (CHUNK_WIDTH - 1), pos.getY(), pos.getZ() & (CHUNK_WIDTH - 1), value);
 
             // If changed mark chunk so it saves
             if (hasChanged && world instanceof World) {
-                ((World) world).getChunkFromChunkCoords(pos.getX(), pos.getZ()).setChunkModified();
+                ((World) world).getChunkFromBlockCoords(pos).setChunkModified();
             }
 
             return hasChanged;
@@ -61,6 +62,22 @@ public class ChunkDataMap {
 
     public long getIndex(final int x, final int z) {
         return ChunkPos.asLong(x, z);
+    }
+
+    public ChunkData getChunkData(int x, int z, boolean init) {
+        final long index = getIndex(x, z);
+        ChunkData chunkData = loadedChunks.get(index);
+
+        if (chunkData == null && init) {
+            chunkData = new ChunkData();
+            loadedChunks.put(index, chunkData);
+        }
+
+        return chunkData;
+    }
+
+    public ChunkData getChunkData(BlockPos pos, boolean init) {
+        return getChunkData(pos.getX() >> 4, pos.getZ() >> 4, init);
     }
 
     public void clear() {
@@ -93,11 +110,11 @@ public class ChunkDataMap {
 
         // Init chunk data if missing
         if (chunkData == null) {
-            chunkData = new ChunkData(world, pos);
+            chunkData = new ChunkData();
             loadedChunks.put(index, chunkData);
         }
 
-        chunkData.readFromNBT(tag.getCompoundTag(NBT_CHUNK_DATA_MAP));
+        chunkData.readFromNBT(tag);
 
         /*
         // Queue to be scanned to update exposure map
@@ -111,34 +128,13 @@ public class ChunkDataMap {
         final long index = getIndex(pos.chunkXPos, pos.chunkZPos);
 
         if (loadedChunks.containsKey(index)) {
-            final ChunkData chunk = loadedChunks.get(index);
+            final ChunkData chunkData = loadedChunks.get(index);
 
-            if (chunk != null) {
-                final NBTTagCompound subTag = new NBTTagCompound();
-                chunk.writeToNBT(subTag);
-
-                if (!subTag.hasNoTags()) {
-                    tag.setTag(NBT_CHUNK_DATA_MAP, subTag);
-                }
+            if (chunkData != null) {
+                chunkData.writeToNBT(tag);
             }
         }
 
         return tag;
-    }
-
-    public ChunkData getChunkData(int x, int z, boolean init) {
-        final long index = getIndex(x, z);
-        ChunkData chunk = loadedChunks.get(index);
-
-        if (chunk == null && init) {
-            chunk = new ChunkData(world, new ChunkPos(x, z));
-            loadedChunks.put(index, chunk);
-        }
-
-        return chunk;
-    }
-
-    public ChunkData getChunkData(BlockPos pos, boolean init) {
-        return getChunkData(pos.getX() >> 4, pos.getZ() >> 4, init);
     }
 }

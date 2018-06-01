@@ -1,9 +1,9 @@
 package org.halvors.nuclearphysics.common.storage.nbt.chunk;
 
 public class ChunkDataLayer {
-    private static final int CHUNK_WIDTH = 16;
+    public static final int CHUNK_WIDTH = 16;
 
-    private final int y; // Index of this layer.
+    private final int y;
     private final int[] data = new int[CHUNK_WIDTH * CHUNK_WIDTH];
 
     public int blocksUsed = 0; // Number of non-zero slots, used to track if layer is empty
@@ -31,19 +31,7 @@ public class ChunkDataLayer {
         return -1;
     }
 
-    public int getY() {
-        return y;
-    }
-
-    public int[] getData() {
-        return data;
-    }
-
-    public boolean isEmpty() {
-        return blocksUsed <= 0;
-    }
-
-    public int getData(int x, int z) {
+    public int getValue(int x, int z) {
         int index = getIndex(x, z);
 
         if (index >= 0) {
@@ -53,7 +41,7 @@ public class ChunkDataLayer {
         return 0;
     }
 
-    public boolean setData(int x, int z, int value) {
+    public boolean setValue(int x, int z, int value) {
         int index = getIndex(x, z);
 
         if (index >= 0) {
@@ -70,5 +58,17 @@ public class ChunkDataLayer {
         }
 
         return false;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int[] getData() {
+        return data;
+    }
+
+    public boolean isEmpty() {
+        return blocksUsed <= 0;
     }
 }

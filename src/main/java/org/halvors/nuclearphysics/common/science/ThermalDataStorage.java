@@ -6,7 +6,7 @@ public class ThermalDataStorage extends ChunkDataStorage {
     private static final ThermalDataStorage instance = new ThermalDataStorage();
 
     public ThermalDataStorage() {
-        super("thermal");
+        super("ThermalEnergy");
     }
 
     public static ThermalDataStorage getInstance() {
