@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.halvors.nuclearphysics.api.effect.explosion.IFulmination;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
 import org.halvors.nuclearphysics.common.tile.particle.TileFulminationGenerator;
-import org.halvors.nuclearphysics.common.type.Position;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -45,7 +44,7 @@ public class FulminationEventHandler {
 
                 for (final TileFulminationGenerator tile : generators) {
                     if (tile != null && !tile.isInvalid()) {
-                        final double distance = new Position(tile).translate(0.5).distance(pos.getX(), pos.getY(), pos.getZ());
+                        final double distance = pos.add(0.5, 0.5, 0.5).getDistance(pos.getX(), pos.getY(), pos.getZ());
 
                         if (distance <= customExplosion.getRadius() && distance > 0) {
                             final double density = world.getBlockDensity(new Vec3d(pos), Objects.requireNonNull(ModBlocks.blockFulmination.getDefaultState().getCollisionBoundingBox(world, tile.getPos())));
@@ -63,9 +62,8 @@ public class FulminationEventHandler {
                 for (TileFulminationGenerator tile : avaliableGenerators) {
                     //float density = event.worldgen.getBlockDensity(new Vec3d(event.x, event.y, event.z), QuantumBlocks.blockFulmination.getCollisionBoundingBox(event.worldgen, tile.getPos()));
                     final double density = world.getBlockDensity(new Vec3d(pos), Objects.requireNonNull(ModBlocks.blockFulmination.getDefaultState().getCollisionBoundingBox(world, tile.getPos())));
-                    final double distance = new Position(tile).distance(pos.getX(), pos.getY(), pos.getZ());
-                    int energy = (int) Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (distance / customExplosion.getRadius()));
-                    energy = (int) Math.max((1 - density) * energy, 0);
+                    final double distance = pos.getDistance(pos.getX(), pos.getY(), pos.getZ());
+                    int  energy = (int) Math.max((1 - density) * Math.min(maxEnergyPerGenerator, maxEnergyPerGenerator / (distance / customExplosion.getRadius())), 0);
 
                     tile.getEnergyStorage().receiveEnergy(energy, false);
                 }

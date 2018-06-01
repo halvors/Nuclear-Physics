@@ -57,7 +57,7 @@ public class SchematicFusionReactor implements ISchematic {
             map.put(new BlockPos(-1, y, 0), ModBlocks.blockElectromagnet.getDefaultState());
         }
 
-        map.put(new BlockPos(0, 0, 0), ModBlocks.blockReactorCell.getDefaultState());
+        map.put(BlockPos.ORIGIN, ModBlocks.blockReactorCell.getDefaultState());
 
         return map;
     }

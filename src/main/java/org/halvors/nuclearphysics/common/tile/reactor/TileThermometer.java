@@ -3,12 +3,13 @@ package org.halvors.nuclearphysics.common.tile.reactor;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
 import org.halvors.nuclearphysics.common.tile.TileRotatable;
-import org.halvors.nuclearphysics.common.type.Position;
+import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -19,10 +20,10 @@ public class TileThermometer extends TileRotatable implements ITickable {
     private static final int MAX_THRESHOLD = 5000;
 
     private double detectedTemperature = ThermalPhysics.ROOM_TEMPERATURE; // Synced
-    private double previousDetectedTemperature = detectedTemperature; // Synced
-    private Position trackCoordinate = null; // Synced
+    private double previousDetectedTemperature = detectedTemperature;
+    private BlockPos trackCoordinate = null; // Synced
     private int threshold = 1000; // Synced
-    public boolean isProvidingPower = false; // Synced
+    public boolean isProvidingPower = false;
 
     public TileThermometer() {
 
@@ -35,7 +36,7 @@ public class TileThermometer extends TileRotatable implements ITickable {
         threshold = tag.getInteger(NBT_THRESHOLD);
 
         if (tag.hasKey(NBT_TRACK_COORDINATE)) {
-            trackCoordinate = new Position(tag.getCompoundTag(NBT_TRACK_COORDINATE));
+            trackCoordinate = VectorUtility.readFromNBT(tag.getCompoundTag(NBT_TRACK_COORDINATE));
         }
     }
 
@@ -47,7 +48,7 @@ public class TileThermometer extends TileRotatable implements ITickable {
         tag.setInteger(NBT_THRESHOLD, threshold);
 
         if (trackCoordinate != null) {
-            tag.setTag(NBT_TRACK_COORDINATE, trackCoordinate.writeToNBT(new NBTTagCompound()));
+            tag.setTag(NBT_TRACK_COORDINATE, VectorUtility.writeToNBT(trackCoordinate, new NBTTagCompound()));
         }
 
         return tag;
@@ -60,7 +61,7 @@ public class TileThermometer extends TileRotatable implements ITickable {
         if (!world.isRemote && world.getWorldTime() % 10 == 0) {
             // Grab temperature from target or from ourselves.
             if (trackCoordinate != null) {
-                detectedTemperature = ThermalGrid.getTemperature(world, trackCoordinate.getPos());
+                detectedTemperature = ThermalGrid.getTemperature(world, trackCoordinate);
             } else {
                 detectedTemperature = ThermalGrid.getTemperature(world, pos);
             }
@@ -69,8 +70,8 @@ public class TileThermometer extends TileRotatable implements ITickable {
             if (detectedTemperature != previousDetectedTemperature || isProvidingPower != isOverThreshold()) {
                 previousDetectedTemperature = detectedTemperature;
                 isProvidingPower = isOverThreshold();
-                world.notifyNeighborsOfStateChange(pos, getBlockType());
 
+                world.notifyNeighborsOfStateChange(pos, getBlockType());
                 NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
             }
         }
@@ -83,15 +84,13 @@ public class TileThermometer extends TileRotatable implements ITickable {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
-            detectedTemperature = dataStream.readDouble();
-            previousDetectedTemperature = dataStream.readDouble();
+            threshold = dataStream.readInt();
 
             if (dataStream.readBoolean()) {
-                trackCoordinate = new Position(dataStream);
+                trackCoordinate = VectorUtility.handlePacketData(dataStream);
             }
 
-            threshold = dataStream.readInt();
-            isProvidingPower = dataStream.readBoolean();
+            detectedTemperature = dataStream.readDouble();
         }
     }
 
@@ -99,29 +98,27 @@ public class TileThermometer extends TileRotatable implements ITickable {
     public List<Object> getPacketData(final List<Object> objects) {
         super.getPacketData(objects);
 
-        objects.add(detectedTemperature);
-        objects.add(previousDetectedTemperature);
+        objects.add(threshold);
 
         if (trackCoordinate != null) {
             objects.add(true);
-            trackCoordinate.getPacketData(objects);
+            VectorUtility.getPacketData(trackCoordinate, objects);
         } else {
             objects.add(false);
         }
 
-        objects.add(threshold);
-        objects.add(isProvidingPower);
+        objects.add(detectedTemperature);
 
         return objects;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public Position getTrackCoordinate() {
+    public BlockPos getTrackCoordinate() {
         return trackCoordinate;
     }
 
-    public void setTrackCoordinate(final Position trackCoordinate) {
+    public void setTrackCoordinate(final BlockPos trackCoordinate) {
         this.trackCoordinate = trackCoordinate;
     }
 

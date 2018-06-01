@@ -1,7 +1,6 @@
 package org.halvors.nuclearphysics.common.tile.reactor;
 
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.common.capabilities.Capability;
@@ -13,11 +12,12 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.halvors.nuclearphysics.api.fluid.IBoilHandler;
 import org.halvors.nuclearphysics.common.capabilities.CapabilityBoilHandler;
 import org.halvors.nuclearphysics.common.capabilities.fluid.GasTank;
+import org.halvors.nuclearphysics.common.tile.TileBase;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TileGasFunnel extends TileEntity implements ITickable, IBoilHandler {
+public class TileGasFunnel extends TileBase implements ITickable, IBoilHandler {
     private static final String NBT_TANK = "tank";
 
     private final GasTank tank = new GasTank(Fluid.BUCKET_VOLUME * 16) {
