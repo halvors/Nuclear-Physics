@@ -5,7 +5,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import org.halvors.nuclearphysics.common.Reference;
 
 import java.util.HashMap;
@@ -15,15 +14,13 @@ public class ChunkDataMap {
 
     private final HashMap<Long, ChunkData> loadedChunks = new HashMap<>();
     private final IBlockAccess world;
-    //private final boolean isMaterialMap;
 
     public ChunkDataMap(final IBlockAccess world) {
         this.world = world;
-        //this.isMaterialMap = isMaterialMap;
     }
 
     public int getData(BlockPos pos) {
-        final ChunkData chunk = getChunkFromPosition(pos, false);
+        final ChunkData chunk = getChunkData(pos, false);
 
         if (chunk != null) {
             return chunk.getValue(pos.getX() & 15, pos.getY(), pos.getZ() & 15);
@@ -33,28 +30,25 @@ public class ChunkDataMap {
     }
 
     public boolean setData(BlockPos pos, int value) {
-        final ChunkData chunk = getChunkFromPosition(pos, value > 0);
+        final ChunkData chunkData = getChunkData(pos, value > 0);
 
-        if (chunk != null) {
-            // Fire change event for modification and to trigger exposure map update
+        if (chunkData != null) {
             /*
-            if (isMaterialMap) {
-                int prev_value = getData(x, y, z);
+            int prev_value = getData(x, y, z);
 
-                RadiationMapEvent.UpdateRadiationMaterial event = new RadiationMapEvent.UpdateRadiationMaterial(this, x, y, z, prev_value, amount);
+            RadiationMapEvent.UpdateRadiationMaterial event = new RadiationMapEvent.UpdateRadiationMaterial(this, x, y, z, prev_value, amount);
 
-                if (MinecraftForge.EVENT_BUS.post(event)) {
-                    return false;
-                }
-
-                amount = event.new_value;
+            if (MinecraftForge.EVENT_BUS.post(event)) {
+                return false;
             }
+
+            amount = event.new_value;
             */
 
-            // set value
-            boolean hasChanged = chunk.setValue(pos.getX() & 15, pos.getY(), pos.getZ() & 15, value);
+            // Set value
+            boolean hasChanged = chunkData.setValue(pos.getX() & 15, pos.getY(), pos.getZ() & 15, value);
 
-            // if changed mark chunk so it saves
+            // If changed mark chunk so it saves
             if (hasChanged && world instanceof World) {
                 ((World) world).getChunkFromChunkCoords(pos.getX(), pos.getZ()).setChunkModified();
             }
@@ -65,61 +59,56 @@ public class ChunkDataMap {
         return true;
     }
 
-    public void remove(long index) {
-        /*if (loadedChunks.containsKey(index)) {
-
-            if (isMaterialMap) {
-                ChunkData chunk = loadedChunks.get(index);
-
-                if (chunk != null) {
-                    //RadiationChunkHandler.THREAD_RAD_EXPOSURE.queueChunkForRemoval(chunk);
-                }
-            }
-            */
-            //TODO maybe fire events?
-            loadedChunks.remove(index);
-        //}
-    }
-
-    public void remove(final ChunkPos chunkPos) {
-        remove(ChunkPos.asLong(chunkPos.chunkXPos, chunkPos.chunkXPos));
+    public long getIndex(final int x, final int z) {
+        return ChunkPos.asLong(x, z);
     }
 
     public void clear() {
         loadedChunks.clear();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public void readFromNBT(final ChunkPos pos, final NBTTagCompound data) {
-        final long index = ChunkPos.asLong(pos.chunkXPos, pos.chunkZPos);
-
-        // Get chunk
-        ChunkData chunk = null;
+    public void remove(final ChunkPos pos) {
+        final long index = getIndex(pos.chunkXPos, pos.chunkZPos);
 
         if (loadedChunks.containsKey(index)) {
-            chunk = loadedChunks.get(index);
+            final ChunkData chunk = loadedChunks.get(index);
+
+            if (chunk != null) {
+                //MinecraftForge.EVENT_BUS.post(new MapSystemEvent.RemoveChunk(this, chunk));
+            }
+
+            loadedChunks.remove(index);
+        }
+    }
+
+    public void readFromNBT(final ChunkPos pos, final NBTTagCompound tag) {
+        final long index = getIndex(pos.chunkXPos, pos.chunkZPos);
+
+        // Get chunk
+        ChunkData chunkData = null;
+
+        if (loadedChunks.containsKey(index)) {
+            chunkData = loadedChunks.get(index);
         }
 
         // Init chunk data if missing
-        if (chunk == null) {
-            chunk = new ChunkData(world, pos);
-            loadedChunks.put(index, chunk);
+        if (chunkData == null) {
+            chunkData = new ChunkData(world, pos);
+            loadedChunks.put(index, chunkData);
         }
 
-        // Load
-        chunk.readFromNBT(data.getCompoundTag(NBT_CHUNK_DATA_MAP));
+        chunkData.readFromNBT(tag.getCompoundTag(NBT_CHUNK_DATA_MAP));
 
         /*
         // Queue to be scanned to update exposure map
-        if (isMaterialMap) {
-            //RadiationChunkHandler.THREAD_RAD_EXPOSURE.queueChunkForAddition(radiationChunk);
+        if (radiationChunk != null) {
+            MinecraftForge.EVENT_BUS.post(new MapSystemEvent.AddChunk(this, radiationChunk));
         }
         */
     }
 
     public NBTTagCompound writeToNBT(final ChunkPos pos, final NBTTagCompound tag) {
-        final long index = ChunkPos.asLong(pos.chunkXPos, pos.chunkZPos);
+        final long index = getIndex(pos.chunkXPos, pos.chunkZPos);
 
         if (loadedChunks.containsKey(index)) {
             final ChunkData chunk = loadedChunks.get(index);
@@ -137,10 +126,8 @@ public class ChunkDataMap {
         return tag;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public ChunkData getChunk(int x, int z, boolean init) {
-        final long index = ChunkPos.asLong(x, z);
+    public ChunkData getChunkData(int x, int z, boolean init) {
+        final long index = getIndex(x, z);
         ChunkData chunk = loadedChunks.get(index);
 
         if (chunk == null && init) {
@@ -151,7 +138,7 @@ public class ChunkDataMap {
         return chunk;
     }
 
-    public ChunkData getChunkFromPosition(BlockPos pos, boolean init) {
-        return getChunk(pos.getX() >> 4, pos.getZ() >> 4, init);
+    public ChunkData getChunkData(BlockPos pos, boolean init) {
+        return getChunkData(pos.getX() >> 4, pos.getZ() >> 4, init);
     }
 }

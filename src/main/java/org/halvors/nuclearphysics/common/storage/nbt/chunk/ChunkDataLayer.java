@@ -3,14 +3,10 @@ package org.halvors.nuclearphysics.common.storage.nbt.chunk;
 public class ChunkDataLayer {
     private static final int CHUNK_WIDTH = 16;
 
-    /** Index of this layer */
-    private final int y;
-
-    /** Stored data in this layer */
+    private final int y; // Index of this layer.
     private final int[] data = new int[CHUNK_WIDTH * CHUNK_WIDTH];
 
-    /** Number of non-zero slots, used to track if layer is empty */
-    public int blocksUsed = 0;
+    public int blocksUsed = 0; // Number of non-zero slots, used to track if layer is empty
 
     public ChunkDataLayer(int y) {
         this.y = y;
@@ -35,17 +31,18 @@ public class ChunkDataLayer {
         return -1;
     }
 
+    public int getY() {
+        return y;
+    }
+
+    public int[] getData() {
+        return data;
+    }
+
     public boolean isEmpty() {
         return blocksUsed <= 0;
     }
 
-    /**
-     * Gets the data from the layer
-     *
-     * @param x - location
-     * @param z - location
-     * @return value
-     */
     public int getData(int x, int z) {
         int index = getIndex(x, z);
 
@@ -56,14 +53,6 @@ public class ChunkDataLayer {
         return 0;
     }
 
-    /**
-     * Sets data into the layer
-     *
-     * @param x     - location
-     * @param z     - location
-     * @param value - value
-     * @return true if data was set, false if nothing happened (likely means outside of the map)
-     */
     public boolean setData(int x, int z, int value) {
         int index = getIndex(x, z);
 
@@ -81,15 +70,5 @@ public class ChunkDataLayer {
         }
 
         return false;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public int getY() {
-        return y;
-    }
-
-    public int[] getData() {
-        return data;
     }
 }
