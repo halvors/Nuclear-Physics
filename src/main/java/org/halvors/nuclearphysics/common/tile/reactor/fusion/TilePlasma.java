@@ -10,10 +10,11 @@ import net.minecraftforge.common.MinecraftForge;
 import org.halvors.nuclearphysics.common.event.PlasmaEvent.PlasmaSpawnEvent;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
+import org.halvors.nuclearphysics.common.tile.TileBase;
 
 import javax.annotation.Nonnull;
 
-public class TilePlasma extends TileEntity implements ITickable {
+public class TilePlasma extends TileBase implements ITickable {
     private static final String NBT_TEMPERATURE = "temperature";
     public static final int PLASMA_MAX_TEMPERATURE = 1000000;
 

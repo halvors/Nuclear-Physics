@@ -22,12 +22,15 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class ItemCell extends ItemTooltip {
-    public static final int capacity = 200;
+    public static final int CAPACITY = 200; // In gram / mL.
+
+    private final ItemStack itemStackEmpty = new ItemStack(this);
 
     public ItemCell() {
         super("cell");
-        
-        setContainerItem(this);
+
+        // Add empty NBT tag to empty cell because Forge does not remove tag when emptying.
+        itemStackEmpty.setTagCompound(new NBTTagCompound());
     }
 
     @Override
@@ -51,14 +54,31 @@ public class ItemCell extends ItemTooltip {
     @SideOnly(Side.CLIENT)
     public void getSubItems(@Nonnull final Item item, final CreativeTabs tab, final List<ItemStack> list) {
         for (final EnumCell type : EnumCell.values()) {
-            list.add(type.getFluid() == null ? new ItemStack(item) : FluidUtility.getFilledCell(type.getFluid()));
+            list.add(type.getFluid() == null ? itemStackEmpty : FluidUtility.getFilledCell(type.getFluid()));
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public boolean hasContainerItem(final ItemStack itemStack) {
+        return itemStackEmpty != null;
+    }
+
+    @Override
+    @Nonnull
+    public ItemStack getContainerItem(@Nonnull final ItemStack itemStack) {
+        if (hasContainerItem(itemStack)) {
+            return itemStackEmpty.copy();
+        }
+
+        return super.getContainerItem(itemStack);
     }
 
     @Override
     @Nonnull
     public ICapabilityProvider initCapabilities(final ItemStack itemStack, final NBTTagCompound tag) {
-        return new FluidHandlerItemStackSimple(itemStack, capacity);
+        return new FluidHandlerItemStackSimple(itemStack, CAPACITY);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

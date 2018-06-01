@@ -57,7 +57,7 @@ public class GridTicker extends Thread {
             deltaTime = current - last;
 
             // Tick all updaters.
-            for (IGrid grid : grids) {
+            for (final IGrid grid : grids) {
                 if (grid.canUpdate()) {
                     grid.update();
                 }
@@ -72,7 +72,7 @@ public class GridTicker extends Thread {
             try {
                 Thread.sleep(50L);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                // This means the server has stopped this thread because it is shutting down.
             }
         }
     }

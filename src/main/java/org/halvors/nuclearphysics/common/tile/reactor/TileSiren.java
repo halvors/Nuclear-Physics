@@ -6,8 +6,9 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateSiren;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
+import org.halvors.nuclearphysics.common.tile.TileBase;
 
-public class TileSiren extends TileEntity implements ITickable {
+public class TileSiren extends TileBase implements ITickable {
     public TileSiren() {
 
     }

@@ -8,14 +8,13 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
-import org.halvors.nuclearphysics.common.tile.ITileNetwork;
 import org.halvors.nuclearphysics.common.tile.TileRotatable;
 import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileThermometer extends TileRotatable implements ITickable, ITileNetwork {
+public class TileThermometer extends TileRotatable implements ITickable {
     private static final String NBT_THRESHOLD = "threshold";
     private static final String NBT_TRACK_COORDINATE = "trackCoordinate";
     private static final int MAX_THRESHOLD = 5000;
