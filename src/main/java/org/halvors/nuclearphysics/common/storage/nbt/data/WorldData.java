@@ -4,6 +4,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.HashMap;
 
@@ -31,12 +33,20 @@ public class WorldData {
         final ChunkData chunkData = getChunkData(pos, value > 0);
 
         if (chunkData != null) {
+            final Chunk chunk = world.getChunkFromBlockCoords(pos);
+            final ChunkDataEvent.Update event = new ChunkDataEvent.Update(world, chunk.getChunkCoordIntPair(), value);
+            MinecraftForge.EVENT_BUS.post(event);
+
+            if (!event.isCanceled()) {
+                value = event.getValue();
+            }
+
             // Set value
             boolean changed = chunkData.setValue(pos.getX() & (CHUNK_WIDTH - 1), pos.getY(), pos.getZ() & (CHUNK_WIDTH - 1), value);
 
             // If changed mark data so it saves
             if (changed) {
-                world.getChunkFromBlockCoords(pos).setChunkModified();
+                chunk.setChunkModified();
             }
 
             return changed;
@@ -47,6 +57,10 @@ public class WorldData {
 
     public long getIndex(final int x, final int z) {
         return ChunkPos.asLong(x, z);
+    }
+
+    public long getIndex(final ChunkPos pos) {
+        return ChunkPos.asLong(pos.chunkXPos, pos.chunkZPos);
     }
 
     public ChunkData getChunkData(int x, int z, boolean init) {
@@ -70,13 +84,21 @@ public class WorldData {
     }
 
     public void remove(final ChunkPos pos) {
-        final long index = getIndex(pos.chunkXPos, pos.chunkZPos);
+        final long index = getIndex(pos);
 
-        loadedChunks.remove(index);
+        if (loadedChunks.containsKey(index)) {
+            final ChunkData chunkData = loadedChunks.get(index);
+
+            if (chunkData != null) {
+                MinecraftForge.EVENT_BUS.post(new ChunkDataEvent.Remove(world, pos, chunkData));
+            }
+
+            loadedChunks.remove(index);
+        }
     }
 
     public void readFromNBT(final ChunkPos pos, final NBTTagCompound tag) {
-        final long index = getIndex(pos.chunkXPos, pos.chunkZPos);
+        final long index = getIndex(pos);
         ChunkData chunkData = null;
 
         if (loadedChunks.containsKey(index)) {
@@ -90,10 +112,11 @@ public class WorldData {
         }
 
         chunkData.readFromNBT(tag);
+        MinecraftForge.EVENT_BUS.post(new ChunkDataEvent.Add(world, pos, chunkData));
     }
 
     public NBTTagCompound writeToNBT(final ChunkPos pos, final NBTTagCompound tag) {
-        final long index = getIndex(pos.chunkXPos, pos.chunkZPos);
+        final long index = getIndex(pos);
 
         if (loadedChunks.containsKey(index)) {
             final ChunkData chunkData = loadedChunks.get(index);
