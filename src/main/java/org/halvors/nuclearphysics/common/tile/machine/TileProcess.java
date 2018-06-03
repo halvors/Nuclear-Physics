@@ -14,6 +14,15 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
+import org.halvors.nuclearphysics.common.recipe.RecipeHandler;
+import org.halvors.nuclearphysics.common.recipe.inputs.FluidInput;
+import org.halvors.nuclearphysics.common.recipe.inputs.ItemStackInput;
+import org.halvors.nuclearphysics.common.recipe.inputs.MachineInput;
+import org.halvors.nuclearphysics.common.recipe.machines.BasicMachineRecipe;
+import org.halvors.nuclearphysics.common.recipe.machines.MachineRecipe;
+import org.halvors.nuclearphysics.common.recipe.outputs.FluidOutput;
+import org.halvors.nuclearphysics.common.recipe.outputs.ItemStackOutput;
+import org.halvors.nuclearphysics.common.recipe.outputs.MachineOutput;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
@@ -21,11 +30,11 @@ import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
-/*
- * General class for all machines that do traditional recipe processing.
- */
+
 public abstract class TileProcess extends TileInventoryMachine implements IFluidHandler {
+//public abstract class TileProcess extends TileInventoryMachine implements IFluidHandler {
     private static final String NBT_TANK_INPUT = "tankInput";
     private static final String NBT_TANK_OUTPUT = "tankInOutput";
 
@@ -206,5 +215,45 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
 
     public FluidTank getOutputTank() {
         return tankOutput;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Whether or not this machine can operate.
+     * @return can operate
+     */
+    public boolean canOperate(RECIPE recipe) {
+        return recipe != null && recipe.canOperate(inventory, 0, 2);
+    }
+
+    /**
+     * Runs this machine's operation -- or smelts the item.
+     */
+    public void operate(RECIPE recipe)  {
+        recipe.operate(inventory, 0, 2);
+
+        markDirty();
+    }
+
+    /**
+     * Gets this machine's recipes.
+     */
+    public Map<FluidInput, RECIPE> getRecipes() {
+        return null;
+    }
+
+    public RECIPE getRecipe() {
+        final ItemStackInput input = getInput();
+
+        if (cachedRecipe == null || !input.testEquality(cachedRecipe.getInput())) {
+            cachedRecipe = RecipeHandler.getRecipe(input, getRecipes());
+        }
+
+        return cachedRecipe;
+    }
+
+    public INPUT getInput() {
+        return new ItemStackInput(inventory.getStackInSlot(inputSlot));
     }
 }

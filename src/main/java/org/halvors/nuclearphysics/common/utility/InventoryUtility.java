@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class InventoryUtility {
     public static void incrStackSize(final IItemHandlerModifiable itemHandler, final int slot) {
@@ -109,5 +110,31 @@ public class InventoryUtility {
             entityItem.setPickupDelay(delay);
             world.spawnEntity(entityItem);
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static boolean equalsWildcard(ItemStack itemStack, ItemStack itemStackCheck) {
+        if (itemStack == null || itemStackCheck == null) {
+            return itemStackCheck == itemStack;
+        }
+
+        return itemStack.getItem() == itemStackCheck.getItem() && (itemStack.getItemDamage() == OreDictionary.WILDCARD_VALUE || itemStack.getItemDamage() == itemStackCheck.getItemDamage());
+    }
+
+    public static boolean equalsWildcardWithNBT(ItemStack itemStack, ItemStack itemStackCheck) {
+        final boolean wildcard = equalsWildcard(itemStack, itemStackCheck);
+
+        if (itemStack == null || itemStackCheck == null) {
+            return wildcard;
+        }
+
+        final NBTTagCompound itemStackTagCompound = itemStack.getTagCompound();
+
+        if (itemStackTagCompound != null) {
+            return wildcard && (!itemStack.hasTagCompound() ? !itemStackCheck.hasTagCompound() : (itemStackTagCompound == itemStackCheck.getTagCompound() || itemStackTagCompound.equals(itemStackCheck.getTagCompound())));
+        }
+
+        return false;
     }
 }

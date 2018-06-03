@@ -4,6 +4,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import org.halvors.nuclearphysics.common.init.ModItems;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OreDictionaryHelper {
     // Items
     public static boolean isEmptyCell(final ItemStack itemStack) {
@@ -56,6 +59,20 @@ public class OreDictionaryHelper {
         }
 
         return false;
+    }
+
+    public static List<String> getOreDictName(ItemStack itemStack) {
+        if (itemStack != null) {
+            final List<String> list = new ArrayList<>();
+
+            for (final int id : OreDictionary.getOreIDs(itemStack)) {
+                list.add(OreDictionary.getOreName(id));
+            }
+
+            return list;
+        }
+
+        return new ArrayList<>();
     }
 }
 

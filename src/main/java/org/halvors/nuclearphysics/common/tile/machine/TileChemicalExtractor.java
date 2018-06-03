@@ -13,10 +13,14 @@ import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.init.ModItems;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
+import org.halvors.nuclearphysics.common.recipe.RecipeHandler;
+import org.halvors.nuclearphysics.common.recipe.machines.ChemicalExtractorRecipe;
 import org.halvors.nuclearphysics.common.utility.EnergyUtility;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.OreDictionaryHelper;
+
+import java.util.Map;
 
 public class TileChemicalExtractor extends TileProcess {
     private static final int ENERGY_PER_TICK = 20000;
@@ -273,5 +277,14 @@ public class TileChemicalExtractor extends TileProcess {
         }
 
         return false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public ChemicalExtractorRecipe cachedRecipe = null;
+
+    @Override
+    public Map getRecipes() {
+        return RecipeHandler.Recipe.CHEMICAL_EXTRACTOR.getRecipes();
     }
 }
