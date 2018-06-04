@@ -1,6 +1,5 @@
 package org.halvors.nuclearphysics.common.storage.nbt.event.handler;
 
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IBlockAccess;

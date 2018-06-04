@@ -17,10 +17,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ThermalThread extends Thread {
-    private static final Map<Pair<World, BlockPos>, Double> thermalSourceMap = new ConcurrentHashMap<>();
+    //private static final Map<Pair<World, BlockPos>, Double> thermalSourceMap = new ConcurrentHashMap<>();
     private static final double SPREAD = Math.pow(7, -1);
     private static final double DELTA_TIME = Math.pow(20, -1);
 
+    /*
     public static double getTemperature(final World world, final BlockPos pos) {
         final Pair<World, BlockPos> key = new Pair<>(world, pos);
 
@@ -30,6 +31,7 @@ public class ThermalThread extends Thread {
 
         return ThermalPhysics.getTemperatureForCoordinate(world, pos);
     }
+    */
 
     public static void addTemperature(final World world, final BlockPos pos, final double deltaTemperature) {
         final Pair<World, BlockPos> key = new Pair<>(world, pos);
