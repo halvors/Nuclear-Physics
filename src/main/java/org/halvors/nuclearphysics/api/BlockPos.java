@@ -159,14 +159,14 @@ public class BlockPos {
      * Offset this BlockPos 1 block in northern direction
      */
     public BlockPos north() {
-        return this.north(1);
+        return north(1);
     }
 
     /**
      * Offset this BlockPos n blocks in northern direction
      */
     public BlockPos north(final int n) {
-        return this.offset(ForgeDirection.NORTH, n);
+        return offset(ForgeDirection.NORTH, n);
     }
 
     /**
@@ -223,7 +223,7 @@ public class BlockPos {
     /**
      * Offsets this BlockPos n blocks in the given direction
      */
-    public BlockPos offset(final ForgeDirection facing, int n) {
+    public BlockPos offset(final ForgeDirection facing, final int n) {
         return n == 0 ? this : new BlockPos(this.x + facing.offsetX * n, this.y + facing.offsetY * n, this.z + facing.offsetZ * n);
     }
 }
