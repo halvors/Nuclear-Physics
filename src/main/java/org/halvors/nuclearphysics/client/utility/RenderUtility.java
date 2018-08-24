@@ -6,14 +6,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.particle.EntitySmokeFX;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.api.BlockPos;
+import org.halvors.nuclearphysics.client.render.particle.EnumParticleType;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -156,8 +159,17 @@ public class RenderUtility {
         }
     }
 
-    public static void renderFloatingText(final String text, final BlockPos position) {
-        renderFloatingText(text, position, 0xFFFFFF);
+    public static void renderParticle(final EnumParticleType particleType, final World world, final double xCoord, final double yCoord, final double zCoord, final double xSpeed, final double ySpeed, final double zSpeed) {
+        switch (particleType) {
+            case RADIOACTIVE:
+                final EntitySmokeFX fx = new EntitySmokeFX(world, xCoord + world.rand.nextFloat(), yCoord + 1, zCoord + world.rand.nextFloat(), (world.rand.nextDouble() - 0.5) / 2, (world.rand.nextDouble() - 0.5) / 2, (world.rand.nextDouble() - 0.5) / 2);
+                fx.setRBGColorF(0.2F, 0.8F, 0);
+                Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+        }
+    }
+
+    public static void renderFloatingText(final String text, final BlockPos pos) {
+        renderFloatingText(text, pos, 0xFFFFFF);
     }
 
     /** Renders a floating text in a specific position.

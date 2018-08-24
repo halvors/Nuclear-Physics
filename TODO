@@ -12,6 +12,7 @@ Known bugs:
         - Verify the breeding process - Should breeding reactors only create heat when actually enriched uranium is present in the middle?
         - Fix electric turbine sound, for both small and large.
         - Check if more turbines is more efficient than one big one.
+        - Decrease turbine rotation speed?
 
     Low Priority:
         - JEI integration.
