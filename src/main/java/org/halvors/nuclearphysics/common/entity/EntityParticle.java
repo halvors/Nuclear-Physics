@@ -114,7 +114,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     @Override
     public void readSpawnData(final ByteBuf data) {
         movementPos = new BlockPos(data.readInt(), data.readInt(), data.readInt());
-        movementDirection = EnumFacing.getFront(data.readInt());
+        movementDirection = EnumFacing.byIndex(data.readInt());
     }
 
     @Override
@@ -221,7 +221,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     @Override
     protected void readEntityFromNBT(@Nonnull final NBTTagCompound tag) {
         movementPos = new BlockPos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z"));
-        movementDirection = EnumFacing.getFront(tag.getByte("direction"));
+        movementDirection = EnumFacing.byIndex(tag.getByte("direction"));
     }
 
     @Override

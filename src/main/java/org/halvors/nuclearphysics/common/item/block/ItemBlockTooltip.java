@@ -23,7 +23,7 @@ public class ItemBlockTooltip extends ItemBlockBase {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@Nonnull final ItemStack itemStack, @Nullable final World world, @Nonnull final List<String> list, @Nonnull final ITooltipFlag flag) {
-        final String tooltip = getUnlocalizedName(itemStack) + ".tooltip";
+        final String tooltip = getTranslationKey(itemStack) + ".tooltip";
 
         if (LanguageUtility.canTranselate(tooltip)) {
             if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {

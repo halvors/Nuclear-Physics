@@ -22,7 +22,7 @@ public class ItemTooltip extends ItemBase {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(final ItemStack itemStack, @Nullable final World world, final List<String> list, final ITooltipFlag flag) {
-        final String tooltip = getUnlocalizedName(itemStack) + ".tooltip";
+        final String tooltip = getTranslationKey(itemStack) + ".tooltip";
 
         if (LanguageUtility.canTranselate(tooltip)) {
             if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
@@ -35,11 +35,11 @@ public class ItemTooltip extends ItemBase {
 
     @Override
     @Nonnull
-    public String getUnlocalizedName(final ItemStack itemStack) {
+    public String getTranslationKey(final ItemStack itemStack) {
         if (itemStack.getHasSubtypes()) {
-            return super.getUnlocalizedName(itemStack) + "." + itemStack.getItemDamage();
+            return super.getTranslationKey(itemStack) + "." + itemStack.getItemDamage();
         }
 
-        return super.getUnlocalizedName(itemStack);
+        return super.getTranslationKey(itemStack);
     }
 }

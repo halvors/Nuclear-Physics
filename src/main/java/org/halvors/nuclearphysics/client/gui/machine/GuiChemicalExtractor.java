@@ -33,7 +33,7 @@ public class GuiChemicalExtractor extends GuiMachine<TileChemicalExtractor> {
 
     @Override
     protected void drawGuiContainerForegroundLayer(final int mouseX, final int mouseY) {
-        final List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tile.getBlockType().getUnlocalizedName() + "." + tile.getType().ordinal() + ".text"), 4);
+        final List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(tile.getBlockType().getTranslationKey() + "." + tile.getType().ordinal() + ".text"), 4);
 
         for (int i = 0; i < list.size(); i++) {
             fontRenderer.drawString(list.get(i), (xSize / 2) - 80, 85 + i * 9, 0x404040);

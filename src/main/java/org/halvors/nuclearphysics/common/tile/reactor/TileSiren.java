@@ -18,7 +18,7 @@ public class TileSiren extends TileBase implements ITickable {
         if (!world.isRemote && world.getWorldTime() % 30 == 0) {
             final int pitch = world.getBlockState(pos).getValue(BlockStateSiren.PITCH);
 
-            if (world.isBlockIndirectlyGettingPowered(pos) > 0) {
+            if (world.getRedstonePowerFromNeighbors(pos) > 0) {
                 float volume = 0.5F;
 
                 // Check in each direction for another siren block, if exists amplify volume.

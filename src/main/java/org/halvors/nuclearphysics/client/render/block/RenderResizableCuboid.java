@@ -257,7 +257,7 @@ public class RenderResizableCuboid {
         if (face == null) {
             return VEC_ZERO;
         }
-        return new Vec3d(face.getFrontOffsetX(), face.getFrontOffsetY(), face.getFrontOffsetZ());
+        return new Vec3d(face.getXOffset(), face.getYOffset(), face.getZOffset());
 
     }
 
@@ -275,8 +275,7 @@ public class RenderResizableCuboid {
         return faces;
     }
 
-    private void applyLocalAO(final BufferBuilder wr, final EnumFacing face, final IBlockLocation locationFormula, final IBlockAccess access, final EnumShadeArgument shadeTypes,
-                              final Vec3d vertex) {
+    private void applyLocalAO(final BufferBuilder wr, final EnumFacing face, final IBlockLocation locationFormula, final IBlockAccess access, final EnumShadeArgument shadeTypes, final Vec3d vertex) {
         // This doesn't work. At all.
         boolean allAround = false;
 

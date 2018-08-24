@@ -33,7 +33,7 @@ public class ItemAntimatterCell extends ItemTooltip {
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(final ItemStack itemStack, @Nullable final World world, final List<String> list, final ITooltipFlag flag) {
-        list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip"));
+        list.add(LanguageUtility.transelate(getTranslationKey(itemStack) + ".tooltip"));
     }
 
     @Override

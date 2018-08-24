@@ -122,7 +122,7 @@ public class TileMachine extends TileConsumer implements ITickable, ITileRedston
 
     public void updatePower() {
         if (!world.isRemote) {
-            boolean power = world.isBlockIndirectlyGettingPowered(pos) > 0;
+            boolean power = world.getRedstonePowerFromNeighbors(pos) > 0;
 
             if (redstone != power) {
                 redstone = power;
@@ -147,7 +147,7 @@ public class TileMachine extends TileConsumer implements ITickable, ITileRedston
     }
 
     public String getName() {
-        return LanguageUtility.transelate(getBlockType().getUnlocalizedName() + "." + type.ordinal() + ".name");
+        return LanguageUtility.transelate(getBlockType().getTranslationKey() + "." + type.ordinal() + ".name");
     }
 
     protected boolean canFunction() {

@@ -46,7 +46,7 @@ public class ItemCell extends ItemTooltip {
         final FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
 
         if (fluidStack != null) {
-            list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
+            list.add(LanguageUtility.transelate(getTranslationKey(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
         } else {
             list.add(LanguageUtility.transelate("tooltip.empty"));
         }

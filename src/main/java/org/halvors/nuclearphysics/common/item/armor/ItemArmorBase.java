@@ -22,7 +22,7 @@ public class ItemArmorBase extends ItemArmor implements IArmorSet, ISpecialArmor
 
         this.name = name;
 
-        setUnlocalizedName(Reference.ID + "." + name);
+        setTranslationKey(Reference.ID + "." + name);
         setRegistryName(Reference.ID, name);
         setCreativeTab(NuclearPhysics.getCreativeTab());
     }

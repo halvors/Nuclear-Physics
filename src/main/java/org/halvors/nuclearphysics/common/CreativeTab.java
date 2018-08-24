@@ -22,7 +22,7 @@ public class CreativeTab extends CreativeTabs {
 	@SideOnly(Side.CLIENT)
 	@Override
 	@Nonnull
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(Item.getItemFromBlock(ModBlocks.blockReactorCell));
 	}
 }

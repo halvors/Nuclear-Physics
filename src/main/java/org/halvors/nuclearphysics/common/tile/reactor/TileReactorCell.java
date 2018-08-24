@@ -174,7 +174,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                 final FluidStack drain = tank.drainInternal(Fluid.BUCKET_VOLUME, false);
 
                 if (drain != null && drain.amount >= Fluid.BUCKET_VOLUME) {
-                    final EnumFacing spawnDir = EnumFacing.getFront(world.rand.nextInt(4) + 2);
+                    final EnumFacing spawnDir = EnumFacing.byIndex(world.rand.nextInt(4) + 2);
                     final BlockPos spawnPos = pos.offset(spawnDir, 2);
 
                     if (world.isAirBlock(spawnPos)) {
@@ -355,7 +355,7 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
     }
 
     public String getLocalizedName() {
-        return LanguageUtility.transelate(getBlockType().getUnlocalizedName() + ".name");
+        return LanguageUtility.transelate(getBlockType().getTranslationKey() + ".name");
     }
 
     public IItemHandlerModifiable getInventory() {

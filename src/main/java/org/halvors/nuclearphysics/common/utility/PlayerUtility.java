@@ -25,7 +25,7 @@ public class PlayerUtility {
 	}
 
 	public static boolean isOp(final EntityPlayer player) {
-		return player instanceof EntityPlayerMP && ((EntityPlayerMP) player).mcServer.getPlayerList().canSendCommands(player.getGameProfile());
+		return player instanceof EntityPlayerMP && ((EntityPlayerMP) player).server.getPlayerList().canSendCommands(player.getGameProfile());
 	}
 
 	public static void openGui(final EntityPlayer player, final IBlockAccess world, final BlockPos pos) {

@@ -74,7 +74,7 @@ public class BlockFluidPlasma extends Block implements IFluidBlock {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(final World world, final BlockPos pos, final IBlockState state, final Entity entity) {
+    public void onEntityCollision(final World world, final BlockPos pos, final IBlockState state, final Entity entity) {
         entity.attackEntityFrom(DamageSource.IN_FIRE, 100);
     }
 

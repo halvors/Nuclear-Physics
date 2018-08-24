@@ -198,9 +198,9 @@ public class TileElectricTurbine extends TileGenerator implements IMultiBlockStr
         final Set<BlockPos> positions = new HashSet<>();
 
         final EnumFacing dir = EnumFacing.UP;
-        final int xMulti = dir.getFrontOffsetX() != 0 ? 0 : 1;
-        final int yMulti = dir.getFrontOffsetY() != 0 ? 0 : 1;
-        final int zMulti = dir.getFrontOffsetZ() != 0 ? 0 : 1;
+        final int xMulti = dir.getXOffset() != 0 ? 0 : 1;
+        final int yMulti = dir.getYOffset() != 0 ? 0 : 1;
+        final int zMulti = dir.getZOffset() != 0 ? 0 : 1;
 
         for (int x = -multiBlockRadius; x <= multiBlockRadius; x++) {
             for (int y = -multiBlockRadius; y <= multiBlockRadius; y++) {

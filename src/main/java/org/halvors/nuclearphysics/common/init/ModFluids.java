@@ -117,7 +117,7 @@ public class ModFluids {
                 final Block block = (Block) fluidBlock;
                 final Fluid fluid = fluidBlock.getFluid();
 
-                block.setUnlocalizedName(fluid.getUnlocalizedName());
+                block.setTranslationKey(fluid.getUnlocalizedName());
                 block.setRegistryName(fluid.getName());
 
                 if (fluid == plasma) {

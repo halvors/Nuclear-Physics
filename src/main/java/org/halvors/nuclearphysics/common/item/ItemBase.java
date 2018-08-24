@@ -15,7 +15,7 @@ public class ItemBase extends Item {
 	public ItemBase(final String name) {
 		this.name = name;
 
-		setUnlocalizedName(Reference.ID + "." + name);
+		setTranslationKey(Reference.ID + "." + name);
 		setRegistryName(Reference.ID, name);
 		setCreativeTab(NuclearPhysics.getCreativeTab());
 	}

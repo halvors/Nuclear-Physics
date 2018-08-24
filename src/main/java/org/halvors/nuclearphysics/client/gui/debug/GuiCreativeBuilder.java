@@ -40,10 +40,10 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
 
     @Override
     protected void drawGuiScreenForegroundLayer(final int mouseX, final int mouseY) {
-        final String name = LanguageUtility.transelate(block.getUnlocalizedName() + ".name");
+        final String name = LanguageUtility.transelate(block.getTranslationKey() + ".name");
         fontRenderer.drawString(name, (xSize / 2) - (fontRenderer.getStringWidth(name) / 2), (ySize / 2) - 102, 0x404040);
 
-        List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(block.getUnlocalizedName() + ".tooltip"), 4);
+        List<String> list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(block.getTranslationKey() + ".tooltip"), 4);
 
         for (int i = 0; i < list.size(); i++) {
             fontRenderer.drawString(list.get(i), (xSize / 2) - 80, 35 + i * 9, 0x404040);
@@ -55,7 +55,7 @@ public class GuiCreativeBuilder extends GuiComponentScreen {
         buttonList.get(0).displayString = LanguageUtility.transelate(BlockCreativeBuilder.getSchematic(mode).getName());
         fontRenderer.drawString(LanguageUtility.transelate("gui.mode") + ": ", (xSize / 2) - 80, (ySize / 2) - 9, 0x404040);
 
-        list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(block.getUnlocalizedName() + ".text"), 4);
+        list = LanguageUtility.splitStringPerWord(LanguageUtility.transelate(block.getTranslationKey() + ".text"), 4);
 
         for (int i = 0; i < list.size(); i++) {
             fontRenderer.drawString(list.get(i), (xSize / 2) - 80, 150 + i * 9, EnumColor.DARK_RED.getHex());

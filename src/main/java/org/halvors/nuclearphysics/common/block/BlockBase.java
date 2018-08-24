@@ -14,7 +14,7 @@ public class BlockBase extends Block {
 
         this.name = name;
 
-        setUnlocalizedName(Reference.ID + "." + name);
+        setTranslationKey(Reference.ID + "." + name);
         setRegistryName(name);
         setCreativeTab(NuclearPhysics.getCreativeTab());
     }

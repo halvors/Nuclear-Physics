@@ -42,7 +42,7 @@ public class SchematicFissionReactor implements ISchematic {
                             final BlockPos offsetPos = VectorUtility.normalize(new BlockPos(x, 0, z));
 
                             for (EnumFacing side : EnumFacing.values()) {
-                                if (offsetPos.getX() == side.getFrontOffsetX() && offsetPos.getY() == side.getFrontOffsetY() && offsetPos.getZ() == side.getFrontOffsetZ()) {
+                                if (offsetPos.getX() == side.getXOffset() && offsetPos.getY() == side.getYOffset() && offsetPos.getZ() == side.getZOffset()) {
                                     facing = side.getOpposite();
                                 }
                             }

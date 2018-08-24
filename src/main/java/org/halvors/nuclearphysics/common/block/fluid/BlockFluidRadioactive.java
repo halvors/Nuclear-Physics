@@ -36,7 +36,7 @@ public class BlockFluidRadioactive extends BlockFluidClassic {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(final World world, final BlockPos pos, final IBlockState state, final Entity entity) {
+    public void onEntityCollision(final World world, final BlockPos pos, final IBlockState state, final Entity entity) {
         if (entity instanceof EntityLivingBase) {
             entity.attackEntityFrom(ModPotions.poisonRadiation.getDamageSource(), 3);
 
