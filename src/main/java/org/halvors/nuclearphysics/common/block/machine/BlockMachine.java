@@ -11,11 +11,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine;
@@ -83,41 +87,47 @@ public class BlockMachine extends BlockInventory {
         if (tile instanceof TileMachine) {
             final TileMachine tileMachine = (TileMachine) tile;
 
-            EnumParticleTypes particleTypes = null;
-            final float xRandom = (float)pos.getX() + 0.5F;
-            final float yRandom = (float)pos.getY() + 0.2F + random.nextFloat() * 6.0F / 16.0F;
-            final float zRandom = (float)pos.getZ() + 0.5F;
-            final float iRandom = 0.52F;
-            final float jRandom = random.nextFloat() * 0.6F - 0.3F;
-            final double xSpeed = 0;
-            double ySpeed = 0;
-            final double zSpeed = 0;
+            if (type.hasParticle() && tileMachine.getOperatingTicks() > 0) {
+                final float xRandom = (float) pos.getX() + 0.5F;
+                final float yRandom = (float) pos.getY() + 0.2F + random.nextFloat() * 6.0F / 16;
+                final float zRandom = (float) pos.getZ() + 0.5F;
+                final float iRandom = 0.52F;
+                final float jRandom = random.nextFloat() * 0.6F - 0.3F;
+                final double xSpeed = 0;
+                final double ySpeed = type.getParticleSpeed();
+                final double zSpeed = 0;
 
-            switch (type) {
-                case NUCLEAR_BOILER:
-                    if (tileMachine.getOperatingTicks() > 0) {
-                        particleTypes = EnumParticleTypes.CLOUD;
-                        ySpeed = 0.05;
-                    }
-                    break;
-            }
-
-            if (particleTypes != null) {
                 switch (tileMachine.getFacing()) {
                     case NORTH:
-                        world.spawnParticle(particleTypes, (xRandom + jRandom), yRandom, (zRandom - iRandom), xSpeed, ySpeed, zSpeed);
+                        if (!type.hasCustomParticle()) {
+                            world.spawnParticle(type.getParticleType(), (xRandom + jRandom), yRandom, (zRandom - iRandom), xSpeed, ySpeed, zSpeed);
+                        } else {
+                            RenderUtility.renderParticle(type.getCustomParticleType(), world, (xRandom + jRandom), yRandom, (zRandom - iRandom), xSpeed, ySpeed, zSpeed);
+                        }
                         break;
 
                     case SOUTH:
-                        world.spawnParticle(particleTypes, (xRandom + jRandom), yRandom, (zRandom + iRandom), xSpeed, ySpeed, zSpeed);
+                        if (!type.hasCustomParticle()) {
+                            world.spawnParticle(type.getParticleType(), (xRandom + jRandom), yRandom, (zRandom + iRandom), xSpeed, ySpeed, zSpeed);
+                        } else {
+                            RenderUtility.renderParticle(type.getCustomParticleType(), world, (xRandom + jRandom), yRandom, (zRandom + iRandom), xSpeed, ySpeed, zSpeed);
+                        }
                         break;
 
                     case WEST:
-                        world.spawnParticle(particleTypes, (xRandom - iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        if (!type.hasCustomParticle()) {
+                            world.spawnParticle(type.getParticleType(), (xRandom - iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        } else {
+                            RenderUtility.renderParticle(type.getCustomParticleType(), world, (xRandom - iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        }
                         break;
 
                     case EAST:
-                        world.spawnParticle(particleTypes, (xRandom + iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        if (!type.hasCustomParticle()) {
+                            world.spawnParticle(type.getParticleType(), (xRandom + iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        } else {
+                            RenderUtility.renderParticle(type.getCustomParticleType(), world, (xRandom + iRandom), yRandom, (zRandom + jRandom), xSpeed, ySpeed, zSpeed);
+                        }
                         break;
                 }
             }

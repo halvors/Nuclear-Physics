@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.client.utility;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -12,9 +11,11 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.client.render.particle.EnumParticleType;
 
 @SideOnly(Side.CLIENT)
 public class RenderUtility {
@@ -41,8 +42,8 @@ public class RenderUtility {
         }
     }
 
-    public static void renderParticle(final Particle particle) {
-        Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    public static void renderParticle(final EnumParticleType particleType, final World world, final double xCoord, final double yCoord, final double zCoord, final double xSpeed, final double ySpeed, final double zSpeed) {
+        Minecraft.getMinecraft().effectRenderer.addEffect(particleType.getParticleAsInstance(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed));
     }
 
     public static void renderFloatingText(final String text, final BlockPos pos) {
