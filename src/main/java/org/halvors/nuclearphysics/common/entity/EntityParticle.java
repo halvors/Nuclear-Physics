@@ -164,11 +164,13 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
                 return;
             }
 
-            final BlockPos accelerationPos = VectorUtility.scale(BlockPos.ORIGIN.offset(movementDirection), acceleration);
+            final double accelerationX = movementDirection.offsetX * acceleration;
+            final double accelerationY = movementDirection.offsetY * acceleration;
+            final double accelerationZ = movementDirection.offsetZ * acceleration;
 
-            motionX = Math.min(accelerationPos.getX() + motionX, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
-            motionY = Math.min(accelerationPos.getY() + motionY, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
-            motionZ = Math.min(accelerationPos.getZ() + motionZ, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
+            motionX = Math.min(motionX + accelerationX, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
+            motionY = Math.min(motionY + accelerationY, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
+            motionZ = Math.min(motionZ + accelerationZ, TileParticleAccelerator.ANTIMATTER_CREATION_SPEED);
             isAirBorne = true;
 
             lastTickPosX = posX;
