@@ -23,15 +23,15 @@ import java.util.Map;
 public class BlockRenderingHandler implements ISimpleBlockRenderingHandler {
     private static final BlockRenderingHandler instance = new BlockRenderingHandler();
     private static final int id = RenderingRegistry.getNextAvailableRenderId();
-    private static final Map<ItemStack, TileEntity> tileEntitiesCache = new HashMap<>();
+    private static final Map<String, TileEntity> tileEntitiesCache = new HashMap<>();
 
     public TileEntity getTileEntityForBlock(Block block, int metadata) {
         final ItemStack itemStack = new ItemStack(block, 1, metadata);
-        TileEntity tile = tileEntitiesCache.get(itemStack);
+        TileEntity tile = tileEntitiesCache.get(itemStack.getUnlocalizedName());
 
         if (tile == null) {
             tile = block.createTileEntity(Minecraft.getMinecraft().thePlayer.getEntityWorld(), metadata);
-            tileEntitiesCache.put(itemStack, tile);
+            tileEntitiesCache.put(itemStack.getUnlocalizedName(), tile);
         }
 
         return tile;
