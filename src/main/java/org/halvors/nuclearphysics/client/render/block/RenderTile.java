@@ -10,7 +10,6 @@ import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
 public abstract class RenderTile<T extends TileEntity> extends TileEntitySpecialRenderer {
@@ -28,7 +27,7 @@ public abstract class RenderTile<T extends TileEntity> extends TileEntitySpecial
 
         // Translate to the location of our tile entity
         GL11.glTranslated(x, y, z);
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        //GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 
         // Rotate block based on direction.
         if (tile instanceof ITileRotatable) {
