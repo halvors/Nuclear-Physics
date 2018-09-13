@@ -12,7 +12,6 @@ import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
 import org.halvors.nuclearphysics.common.type.EnumResource;
 import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 @SideOnly(Side.CLIENT)
 public class RenderElectricTurbine extends TileEntitySpecialRenderer {
@@ -39,9 +38,10 @@ public class RenderElectricTurbine extends TileEntitySpecialRenderer {
 
                 // Translate to the location of our tile entity
                 GL11.glTranslated(x, y, z);
-                GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+                //GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 
                 if (tileTurbine.getMultiBlock().isConstructed()) {
+
                     bindTexture(TEXTURE_LARGE);
 
                     GL11.glPushMatrix();
