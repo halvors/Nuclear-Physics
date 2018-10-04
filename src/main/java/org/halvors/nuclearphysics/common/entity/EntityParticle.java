@@ -26,7 +26,6 @@ import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
-import org.halvors.nuclearphysics.common.utility.VectorUtility;
 
 import javax.annotation.Nonnull;
 import java.util.List;

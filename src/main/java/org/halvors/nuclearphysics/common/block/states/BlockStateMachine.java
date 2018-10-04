@@ -5,7 +5,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IStringSerializable;
-import org.halvors.nuclearphysics.client.render.particle.EnumParticleType;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
@@ -14,6 +13,7 @@ import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
+import org.halvors.nuclearphysics.common.type.EnumParticleType;
 
 public class BlockStateMachine extends BlockStateFacing {
     public static final PropertyEnum<EnumMachine> TYPE = PropertyEnum.create("type", EnumMachine.class);
