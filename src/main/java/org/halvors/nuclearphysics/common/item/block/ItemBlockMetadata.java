@@ -16,6 +16,6 @@ public class ItemBlockMetadata extends ItemBlockTooltip {
     @Override
     @Nonnull
     public String getTranslationKey(final ItemStack itemStack) {
-        return super.getUnlocalizedNameInefficiently(itemStack) + "." + itemStack.getMetadata();
+        return super.getTranslationKey(itemStack) + "." + itemStack.getMetadata();
     }
 }
