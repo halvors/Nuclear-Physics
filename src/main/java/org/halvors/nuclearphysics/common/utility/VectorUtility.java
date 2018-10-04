@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.common.utility;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
