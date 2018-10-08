@@ -62,7 +62,7 @@ public class ThermalGrid implements IGrid {
             } else {
                 final double deltaFromEquilibrium = getDefaultTemperature(world, pos) - currentTemperature;
                 final TileEntity tile = pos.getTileEntity(world);
-                final TileEntity tileUp = pos.offset(ForgeDirection.UP).getTileEntity(world);
+                final TileEntity tileUp = pos.up().getTileEntity(world);
                 final boolean isReactor = tile instanceof IReactor || tileUp instanceof IBoilHandler;
 
                 final ThermalUpdateEvent event = new ThermalUpdateEvent(world, pos, currentTemperature, deltaFromEquilibrium, DELTA_TIME, isReactor);
