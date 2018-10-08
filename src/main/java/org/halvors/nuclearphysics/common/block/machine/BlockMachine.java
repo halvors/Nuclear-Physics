@@ -16,7 +16,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.api.BlockPos;
 import org.halvors.nuclearphysics.client.render.block.BlockRenderingHandler;
-import org.halvors.nuclearphysics.client.render.particle.EnumParticleType;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
@@ -28,6 +27,7 @@ import org.halvors.nuclearphysics.common.tile.machine.TileNuclearBoiler;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
 import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
+import org.halvors.nuclearphysics.common.type.EnumParticleType;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 

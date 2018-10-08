@@ -11,20 +11,16 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.halvors.nuclearphysics.api.BlockPos;
-import org.halvors.nuclearphysics.client.render.particle.EnumParticleType;
+import org.halvors.nuclearphysics.common.type.EnumParticleType;
 import org.lwjgl.opengl.GL11;
-
-import java.util.HashMap;
 
 @SideOnly(Side.CLIENT)
 public class RenderUtility {
     /** Icon loading map for external icon registration. */
-    public static final HashMap<String, IIcon> loadedIconMap = new HashMap<>();
     public static RenderBlocks renderBlocks = new RenderBlocks();
 
     public static void renderNormalBlockAsItem(Block block, int metadata, RenderBlocks renderer) {

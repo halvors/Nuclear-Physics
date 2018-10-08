@@ -70,8 +70,8 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
         }
 
         if (itemStack != null) {
-            // Text field for total number of ticks remaining.
-            int secondsLeft = itemStack.getMaxDurability() - itemStack.getMetadata();
+            // Text field for total number of seconds remaining.
+            int secondsLeft = (itemStack.getMaxDurability() - itemStack.getMetadata()) / 20;
 
             fontRendererObj.drawString(LanguageUtility.transelate("gui.remaining"), (xSize / 2) + 14, 45, 0x404040);
             fontRendererObj.drawString(secondsLeft + "s", (xSize / 2) + 14, 58, 0x404040);

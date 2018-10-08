@@ -11,10 +11,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import org.halvors.nuclearphysics.api.BlockPos;
-import org.halvors.nuclearphysics.client.render.particle.EnumParticleType;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModPotions;
+import org.halvors.nuclearphysics.common.type.EnumParticleType;
 
 import java.util.List;
 import java.util.Random;

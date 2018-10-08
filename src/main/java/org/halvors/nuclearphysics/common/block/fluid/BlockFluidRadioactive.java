@@ -10,10 +10,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
 import org.halvors.nuclearphysics.api.BlockPos;
-import org.halvors.nuclearphysics.client.render.particle.EnumParticleType;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModPotions;
+import org.halvors.nuclearphysics.common.type.EnumParticleType;
 
 import java.util.Random;
 
