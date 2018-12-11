@@ -49,7 +49,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             setRenderDistanceWeight(4);
         }
 
-        setSize(0.3F, 0.3F);
+        setSize(0.1F, 0.1F);
     }
 
     public EntityParticle(final World world, final BlockPos pos, final BlockPos movementPos, final EnumFacing movementDirection) {
@@ -70,19 +70,17 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
      * Checks to see if a new particle can be spawned at the location.
      * @param world - world to check in
      * @param pos - location to check
-     * @return true if the spawn location is clear and 2 electromagnets are next to the location
+     * @return true if the spawn location is clear and at least 4 electromagnets are next to the location
      */
     public static boolean canSpawnParticle(final World world, final BlockPos pos) {
         if (world.isAirBlock(pos)) {
             int electromagnetCount = 0;
 
             for (EnumFacing side : EnumFacing.values()) {
-                if (isElectromagnet(world, pos, side)) {
-                    electromagnetCount++;
+                if (isElectromagnet(world, pos, side) && ++electromagnetCount >= 4){
+                    return true;   
                 }
             }
-
-            return electromagnetCount >= 2;
         }
 
         return false;
