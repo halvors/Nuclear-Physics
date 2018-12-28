@@ -27,7 +27,7 @@ public class BlockPos {
     }
 
     public BlockPos(final Entity entity) {
-        this(entity.posX, entity.posY, entity.posZ);
+        this(Math.floor(entity.posX), Math.floor(entity.posY), Math.floor(entity.posZ));
     }
 
     public BlockPos(final TileEntity tile) {
