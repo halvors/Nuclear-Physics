@@ -47,6 +47,7 @@ public class TilePlasma extends TileBase {
 
                 if (temperature <= PLASMA_MAX_TEMPERATURE / 10) {
                     // At this temperature, set block to fire.
+                	// TODO:check first for non-air substrate
                     worldObj.setBlock(xCoord, yCoord, zCoord, Blocks.fire);
                 } else {
                     for (final ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
@@ -67,7 +68,7 @@ public class TilePlasma extends TileBase {
                                     final TileEntity spreadTile = spreadPos.getTileEntity(worldObj);
 
                                     if (spreadTile instanceof TilePlasma) {
-                                        temperature = event.getTemperature();
+                                        temperature = event.getTemperature(); // temp down??
                                     }
                                 }
                             }

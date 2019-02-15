@@ -25,3 +25,4 @@ output
 /logs
 out
 development utilities
+.metadata/**

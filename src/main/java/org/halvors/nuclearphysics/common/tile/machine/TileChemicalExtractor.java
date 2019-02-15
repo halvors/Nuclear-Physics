@@ -120,6 +120,11 @@ public class TileChemicalExtractor extends TileProcess {
 
             case 3: // Input tank fill slot.
             case 4: // Input tank drain slot.
+            	boolean a,b,c;
+            	a = FluidUtility.isEmptyContainer(itemStack);
+            	b = FluidUtility.isFilledContainer(itemStack, FluidRegistry.WATER);
+            	c = FluidUtility.isFilledContainer(itemStack, ModFluids.deuterium);
+            	NuclearPhysics.getLogger().warn("*** isItemValidForSlot() returns [" + a + "," + b + "," + c + "]");
                 return FluidUtility.isEmptyContainer(itemStack) || FluidUtility.isFilledContainer(itemStack, FluidRegistry.WATER) || FluidUtility.isFilledContainer(itemStack, ModFluids.deuterium);
 
             case 5: // Output tank fill slot.
