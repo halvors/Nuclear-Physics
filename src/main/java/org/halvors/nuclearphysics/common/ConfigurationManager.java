@@ -49,9 +49,9 @@ public class ConfigurationManager {
 
         General.electricUnit = EnumElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", EnumElectricUnit.JOULE.getSymbol(), null, EnumElectricUnit.getSymbols().toArray(new String[EnumElectricUnit.values().length])).getString());
         General.temperatureUnit = EnumTemperatureUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "temperatureUnit", EnumTemperatureUnit.KELVIN.getSymbol(), null, EnumTemperatureUnit.getSymbols().toArray(new String[EnumTemperatureUnit.values().length])).getString());
-        General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "toTesla", 1).getDouble();
+        General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "toTesla", 1.0).getDouble();
         General.toJoule = configuration.get(Configuration.CATEGORY_GENERAL, "toJoule", 0.4).getDouble();
-        General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "fromTesla", 1).getDouble();
+        General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "fromTesla", 1.0).getDouble();
         General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "fromJoules", 2.5).getDouble();
 
         General.enableAntimatterPower = configuration.get(Configuration.CATEGORY_GENERAL, "enableAntimatterPower", true).getBoolean();
@@ -61,11 +61,11 @@ public class ConfigurationManager {
 
         General.uraniumPerChunk = configuration.get(Configuration.CATEGORY_GENERAL, "uraniumPerChunk", 9).getInt();
 
-        General.antimatterDensityMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "antimatterDensityMultiplier", 1).getInt();
-        General.fulminationOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "fulminationOutputMultiplier", 1).getDouble();
-        General.turbineOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "turbineOutputMultiplier", 1).getDouble();
-        General.steamOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "steamOutputMultiplier", 1).getDouble();
-        General.fissionBoilVolumeMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "fissionBoilVolumeMultiplier", 1).getDouble();
+        General.antimatterDensityMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "antimatterDensityMultiplier", 1.0).getInt();
+        General.fulminationOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "fulminationOutputMultiplier", 1.0).getDouble();
+        General.turbineOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "turbineOutputMultiplier", 1.0).getDouble();
+        General.steamOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "steamOutputMultiplier", 1.0).getDouble();
+        General.fissionBoilVolumeMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "fissionBoilVolumeMultiplier", 1.0).getDouble();
 
         General.uraniumHexaflourideRatio = configuration.get(Configuration.CATEGORY_GENERAL, "uraniumHexaflourideRatio", 200).getInt();
         General.waterPerDeutermium = configuration.get(Configuration.CATEGORY_GENERAL, "waterPerDeutermium", 4).getInt();
