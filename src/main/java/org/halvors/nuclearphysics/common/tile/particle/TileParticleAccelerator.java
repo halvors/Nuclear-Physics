@@ -33,7 +33,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     public static final float ANTIMATTER_CREATION_SPEED = 0.9F; // Speed by which a particle will turn into anitmatter.
 
     // Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
-    private int particleDensity = General.antimatterDensityMultiplier;
+    private int particleDensity = General.antimatterParticleDensity;
 
     // The amount of anti-matter stored within the accelerator. Measured in milligrams.
     private int antimatterCount = 0; // Synced
@@ -42,7 +42,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
     public int totalEnergyConsumed = 0; // Synced
 
     private EntityParticle entityParticle = null;
-    private float velocity = 0; // Synced
+    private double velocity = 0; // Synced
     private int lastSpawnTick = 0;
 
     public TileParticleAccelerator() {
@@ -289,23 +289,23 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
 
                 // Prevent negative numbers and disallow zero for density multiplier.
                 // We can give any BlockPos as argument, it's not used anyway.
-                particleDensity = Math.round(state.getBlockHardness(world, pos)) * General.antimatterDensityMultiplier;
+                particleDensity = Math.round(state.getBlockHardness(world, pos)) * General.antimatterParticleDensity;
             }
 
             if (particleDensity < 1) {
-                particleDensity = General.antimatterDensityMultiplier;
+                particleDensity = General.antimatterParticleDensity;
             }
 
             if (particleDensity > 1000) {
-                particleDensity = 1000 * General.antimatterDensityMultiplier;
+                particleDensity = 1000 * General.antimatterParticleDensity;
             }
         }
     }
 
     // Get velocity for the particle and @return it as a float.
-    public float getParticleVelocity() {
+    public double getParticleVelocity() {
         if (entityParticle != null) {
-            return (float) entityParticle.getVelocity();
+            return entityParticle.getVelocity();
         }
 
         return 0;
@@ -323,7 +323,7 @@ public class TileParticleAccelerator extends TileInventoryMachine implements IEl
         return antimatterCount;
     }
 
-    public float getVelocity() {
+    public double getVelocity() {
         return velocity;
     }
 }

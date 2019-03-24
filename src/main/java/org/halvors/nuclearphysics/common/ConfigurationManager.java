@@ -25,7 +25,7 @@ public class ConfigurationManager {
 
         public static int uraniumPerChunk;
 
-        public static int antimatterDensityMultiplier;
+        public static int antimatterParticleDensity;
         public static double fulminationOutputMultiplier;
         public static double turbineOutputMultiplier;
         public static double steamOutputMultiplier;
@@ -61,7 +61,7 @@ public class ConfigurationManager {
 
         General.uraniumPerChunk = configuration.get(Configuration.CATEGORY_GENERAL, "uraniumPerChunk", 9).getInt();
 
-        General.antimatterDensityMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "antimatterDensityMultiplier", 1.0).getInt();
+        General.antimatterParticleDensity = configuration.get(Configuration.CATEGORY_GENERAL, "antimatterParticleDensity", 1.0).getInt();
         General.fulminationOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "fulminationOutputMultiplier", 1.0).getDouble();
         General.turbineOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "turbineOutputMultiplier", 1.0).getDouble();
         General.steamOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "steamOutputMultiplier", 1.0).getDouble();
@@ -101,7 +101,7 @@ public class ConfigurationManager {
 
         General.uraniumPerChunk = dataStream.readInt();
 
-        General.antimatterDensityMultiplier = dataStream.readInt();
+        General.antimatterParticleDensity = dataStream.readInt();
         General.fulminationOutputMultiplier = dataStream.readDouble();
         General.turbineOutputMultiplier = dataStream.readDouble();
         General.steamOutputMultiplier = dataStream.readDouble();
@@ -137,7 +137,7 @@ public class ConfigurationManager {
 
         objects.add(General.uraniumPerChunk);
 
-        objects.add(General.antimatterDensityMultiplier);
+        objects.add(General.antimatterParticleDensity);
         objects.add(General.fulminationOutputMultiplier);
         objects.add(General.turbineOutputMultiplier);
         objects.add(General.steamOutputMultiplier);
