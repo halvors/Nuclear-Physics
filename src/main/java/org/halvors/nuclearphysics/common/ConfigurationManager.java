@@ -14,7 +14,7 @@ public class ConfigurationManager {
         public static EnumElectricUnit electricUnit;
         public static EnumTemperatureUnit temperatureUnit;
         public static double toTesla;
-        public static double toJoule;
+        public static double toJoules;
         public static double fromTesla;
         public static double fromJoules;
 
@@ -49,10 +49,10 @@ public class ConfigurationManager {
 
         General.electricUnit = EnumElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", EnumElectricUnit.JOULE.getSymbol(), null, EnumElectricUnit.getSymbols().toArray(new String[EnumElectricUnit.values().length])).getString());
         General.temperatureUnit = EnumTemperatureUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "temperatureUnit", EnumTemperatureUnit.KELVIN.getSymbol(), null, EnumTemperatureUnit.getSymbols().toArray(new String[EnumTemperatureUnit.values().length])).getString());
-        General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "toTesla", 1.0).getDouble();
-        General.toJoule = configuration.get(Configuration.CATEGORY_GENERAL, "toJoule", 0.4).getDouble();
-        General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "fromTesla", 1.0).getDouble();
-        General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "fromJoules", 2.5).getDouble();
+        General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "ForgeToTesla", 1.0).getDouble(); // Conversion multiplier from Forge Energy to Tesla (FE * ForgeToTesla = Tesla)
+        General.toJoules = configuration.get(Configuration.CATEGORY_GENERAL, "ForgeToJoules", 2.5).getDouble(); // Conversion multiplier from Forge Energy to Tesla (FE * ForgeToJoules = Joules)
+        General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "ForgeFromTesla", 1.0).getDouble(); // Conversion multiplier from Tesla to Forge Energy (Tesla * ForgeFromTesla = FE)
+        General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "ForgeFromJoules", 0.4).getDouble(); // Conversion multiplier from Joules to Forge Energy (Joules * ForgeFromJoules = FE)
 
         General.enableAntimatterPower = configuration.get(Configuration.CATEGORY_GENERAL, "enableAntimatterPower", true).getBoolean();
         General.enableBoilingOfWaterBlocks = configuration.get(Configuration.CATEGORY_GENERAL, "enableBoilingOfWaterBlocks", true).getBoolean();
@@ -90,7 +90,7 @@ public class ConfigurationManager {
         General.electricUnit = EnumElectricUnit.values()[dataStream.readInt()];
         General.temperatureUnit = EnumTemperatureUnit.values()[dataStream.readInt()];
         General.toTesla = dataStream.readDouble();
-        General.toJoule = dataStream.readDouble();
+        General.toJoules = dataStream.readDouble();
         General.fromTesla = dataStream.readDouble();
         General.fromJoules = dataStream.readDouble();
 
@@ -126,7 +126,7 @@ public class ConfigurationManager {
         objects.add(General.electricUnit.ordinal());
         objects.add(General.temperatureUnit.ordinal());
         objects.add(General.toTesla);
-        objects.add(General.toJoule);
+        objects.add(General.toJoules);
         objects.add(General.fromTesla);
         objects.add(General.fromJoules);
 

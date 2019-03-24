@@ -11,7 +11,7 @@ public class UnitDisplay {
                 return UnitDisplay.getDisplayShort(energy * General.toTesla, unit);
 
             case JOULE:
-                return UnitDisplay.getDisplayShort(energy * General.toJoule, unit);
+                return UnitDisplay.getDisplayShort(energy * General.toJoules, unit);
         }
 
         return getDisplayShort(energy, unit);
