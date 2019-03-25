@@ -68,10 +68,10 @@ public class GuiReactorCell extends GuiComponentContainer<TileReactorCell> {
             fontRenderer.drawString(LanguageUtility.transelate("gui.temperature"), (xSize / 2) - 80, 45, 0x404040);
             fontRenderer.drawString(temperature + "/" + meltingPointColor + meltingPoint, (xSize / 2) - 80, 58, 0x404040);
         }
-
+        
         if (!itemStack.isEmpty()) {
-            // Text field for total number of ticks remaining.
-            int secondsLeft = itemStack.getMaxDamage() - itemStack.getMetadata();
+            // Text field for total number of seconds remaining.
+            int secondsLeft = (itemStack.getMaxDamage() - itemStack.getMetadata()) / 20;
 
             fontRenderer.drawString(LanguageUtility.transelate("gui.remaining"), (xSize / 2) + 14, 45, 0x404040);
             fontRenderer.drawString(secondsLeft + "s", (xSize / 2) + 14, 58, 0x404040);

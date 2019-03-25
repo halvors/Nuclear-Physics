@@ -215,13 +215,15 @@ public class TileReactorCell extends TileRotatable implements ITickable, IReacto
                     if (fuelRod.getMetadata() >= fuelRod.getMaxDamage()) {
                         inventory.setStackInSlot(0, ItemStack.EMPTY);
                     }
-
+                    
                     // Emit radiation.
-                    if (world.getTotalWorldTime() % 20 == 0 && world.rand.nextFloat() > 0.65) {
+                    if (world.getTotalWorldTime() % 40 == 0) {
                         final List<EntityLiving> entities = world.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(pos.getX() - RADIUS * 2, pos.getY() - RADIUS * 2, pos.getZ() - RADIUS * 2, pos.getX() + RADIUS * 2, pos.getY() + RADIUS * 2, pos.getZ() + RADIUS * 2));
 
                         for (EntityLiving entity : entities) {
-                            ModPotions.poisonRadiation.poisonEntity(entity);
+                            if (world.rand.nextFloat() < (1F / Math.abs(entity.getDistance(pos.getX(), pos.getY(), pos.getZ())))) {
+                                ModPotions.poisonRadiation.poisonEntity(entity);
+                            }
                         }
                     }
                 }
