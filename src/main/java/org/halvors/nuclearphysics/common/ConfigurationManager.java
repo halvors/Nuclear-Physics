@@ -42,6 +42,13 @@ public class ConfigurationManager {
         //public static boolean allowAlternateRecipes = true;
         //public static boolean allowIC2UraniumCompression = true;
         public static boolean allowGeneratedQuantumAssemblerRecipes;
+
+
+    }
+
+    // TODO: Testing new options.
+    public static class Energy {
+        public static int particleAcceleratorEnergyPerTick;
     }
 
     public static void loadConfiguration(final Configuration configuration) {
@@ -78,6 +85,9 @@ public class ConfigurationManager {
         //General.allowAlternateRecipes = configuration.get(Configuration.CATEGORY_GENERAL, "allowAlternateRecipes", true).getBoolean();
         //General.allowIC2UraniumCompression = configuration.get(Configuration.CATEGORY_GENERAL, "allowIC2UraniumCompression", true).getBoolean();
         General.allowGeneratedQuantumAssemblerRecipes = configuration.get(Configuration.CATEGORY_GENERAL, "allowGeneratedQuantumAssemblerRecipes", true).getBoolean();
+
+        // TODO: Testing new options, and fix category.
+        configuration.get(Configuration.CATEGORY_GENERAL, "particleAcceleratorEnergyPerTick", 19000).getInt();
 
         configuration.save();
     }
@@ -118,6 +128,9 @@ public class ConfigurationManager {
         //General.allowAlternateRecipes = dataStream.readBoolean();
         //General.allowIC2UraniumCompression = dataStream.readBoolean();
         General.allowGeneratedQuantumAssemblerRecipes = dataStream.readBoolean();
+
+        // TODO: Testing new options.
+        Energy.particleAcceleratorEnergyPerTick = dataStream.readInt();
     }
 
     public static void writeConfiguration(final ByteBuf dataStream) {
@@ -154,6 +167,9 @@ public class ConfigurationManager {
         //objects.add(General.allowAlternateRecipes);
         //objects.add(General.allowIC2UraniumCompression);
         objects.add(General.allowGeneratedQuantumAssemblerRecipes);
+
+        // TODO: Testing new options.
+        objects.add(Energy.particleAcceleratorEnergyPerTick = dataStream.readInt());
 
         PacketHandler.writeObjects(objects, dataStream);
     }

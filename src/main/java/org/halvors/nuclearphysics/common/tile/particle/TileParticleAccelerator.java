@@ -11,6 +11,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.ItemStackHandler;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
+import org.halvors.nuclearphysics.common.ConfigurationManager.Energy;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
@@ -29,7 +30,7 @@ import java.util.List;
 public class TileParticleAccelerator extends TileInventoryMachine implements IElectromagnet {
     private static final String NBT_TOTAL_ENERGY_CONSUMED = "totalEnergyConsumed";
     private static final String NBT_ANTIMATTER_COUNT = "antimatterCount";
-    private static final int ENERGY_PER_TICK = 19000;
+    private static final int ENERGY_PER_TICK = Energy.particleAcceleratorEnergyPerTick; // 19000
     public static final float ANTIMATTER_CREATION_SPEED = 0.9F; // Speed by which a particle will turn into anitmatter.
 
     // Multiplier that is used to give extra anti-matter based on density (hardness) of a given ore.
