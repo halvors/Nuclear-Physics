@@ -31,20 +31,20 @@ import org.halvors.nuclearphysics.common.science.physics.ThermalPhysics;
 public class ThermalEventHandler {
     @SubscribeEvent
     public static void onBoilEvent(final BoilEvent event) {
-        final World world = event.getWorld();
-        final BlockPos pos = event.getPos();
-        final IBlockState state = world.getBlockState(pos);
+        World world = event.getWorld();
+        BlockPos pos = event.getPos();
+        IBlockState state = world.getBlockState(pos);
 
         NuclearPhysics.getProxy().addScheduledTask(() -> {
             // Only boil water blocks.
             if (state == Blocks.WATER.getDefaultState() || state == Blocks.FLOWING_WATER.getDefaultState()) {
                 // Boil the water into steam.
                 for (int height = 1; height <= event.getMaxSpread(); height++) {
-                    final TileEntity tile = world.getTileEntity(pos.up(height));
+                    TileEntity tile = world.getTileEntity(pos.up(height));
 
                     if (tile != null && tile.hasCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN)) {
-                        final IBoilHandler boilHandler = tile.getCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
-                        final FluidStack gasStack = event.getGas(height);
+                        IBoilHandler boilHandler = tile.getCapability(CapabilityBoilHandler.BOIL_HANDLER_CAPABILITY, EnumFacing.DOWN);
+                        FluidStack gasStack = event.getGas(height);
 
                         if (gasStack.amount > 0 && boilHandler.receiveGas(gasStack, false) > 0) {
                             gasStack.amount -= boilHandler.receiveGas(gasStack, true);
@@ -80,9 +80,9 @@ public class ThermalEventHandler {
 
     @SubscribeEvent
     public static void onPlasmaSpawnEvent(final PlasmaSpawnEvent event) {
-        final World world = event.getWorld();
-        final BlockPos pos = event.getPos();
-        final IBlockState state = world.getBlockState(pos);
+        World world = event.getWorld();
+        BlockPos pos = event.getPos();
+        IBlockState state = world.getBlockState(pos);
 
         if (!event.isCanceled()) {
             // Checking if block is breakable, if not it's bedrock, portal, command block etc.
@@ -91,7 +91,7 @@ public class ThermalEventHandler {
                 event.setCanceled(true);
             }
 
-            final TileEntity tile = world.getTileEntity(pos);
+            TileEntity tile = world.getTileEntity(pos);
 
             if (tile instanceof IElectromagnet) {
                 event.setCanceled(true);
@@ -100,10 +100,10 @@ public class ThermalEventHandler {
     }
 
     @SubscribeEvent
-    public static void onThermalUpdateEvent(final ThermalUpdateEvent event) {
-        final World world = event.getWorld();
-        final BlockPos pos = event.getPos();
-        final TileEntity tile = world.getTileEntity(pos);
+    public static void onThermalUpdateEvent(ThermalUpdateEvent event) {
+        World world = event.getWorld();
+        BlockPos pos = event.getPos();
+        TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof IElectromagnet) {
             event.setHeatLoss(event.getDeltaTemperature() * 0.6);
@@ -118,8 +118,8 @@ public class ThermalEventHandler {
         if (state == Blocks.WATER.getDefaultState() ||
             state == Blocks.FLOWING_WATER.getDefaultState()) {
             if (event.getTemperature() >= ThermalPhysics.WATER_BOIL_TEMPERATURE) {
-                final int volume = (int) (Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.WATER_BOIL_TEMPERATURE) * General.steamOutputMultiplier);
-                MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, new FluidStack(FluidRegistry.WATER, volume), 2, event.isReactor()));
+                double volume = Fluid.BUCKET_VOLUME * (event.getTemperature() / ThermalPhysics.WATER_BOIL_TEMPERATURE) * General.steamOutputMultiplier;
+                MinecraftForge.EVENT_BUS.post(new BoilEvent(world, pos, volume, 2, event.isReactor()));
 
                 event.setHeatLoss(0.2);
             }

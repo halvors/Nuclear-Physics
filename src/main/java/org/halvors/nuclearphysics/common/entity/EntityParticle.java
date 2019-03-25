@@ -31,6 +31,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class EntityParticle extends Entity implements IEntityAdditionalSpawnData {
+
     private static final DataParameter<EnumFacing> movementDirectionParameter = EntityDataManager.createKey(EntityParticle.class, DataSerializers.FACING);
 
     public Ticket updateTicket;
@@ -307,4 +308,5 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     public boolean didCollide() {
         return didCollide;
     }
+
 }

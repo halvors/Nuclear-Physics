@@ -52,7 +52,7 @@ public class ItemFissileFuel extends ItemFuel implements IReactorComponent {
             }
 
             // Create toxic waste.
-            if (General.allowToxicWaste && world.rand.nextFloat() > 0.5) {
+            if (General.allowToxicWaste && world.rand.nextFloat() > 0.5) { // TODO: Add midifider option here?
                 reactor.getTank().fillInternal(new FluidStack(ModFluids.toxicWaste, 1), true);
             }
         }

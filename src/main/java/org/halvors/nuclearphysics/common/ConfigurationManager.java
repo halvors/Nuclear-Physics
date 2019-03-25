@@ -14,7 +14,7 @@ public class ConfigurationManager {
         public static EnumElectricUnit electricUnit;
         public static EnumTemperatureUnit temperatureUnit;
         public static double toTesla;
-        public static double toJoule;
+        public static double toJoules;
         public static double fromTesla;
         public static double fromJoules;
 
@@ -25,7 +25,7 @@ public class ConfigurationManager {
 
         public static int uraniumPerChunk;
 
-        public static int antimatterDensityMultiplier;
+        public static int antimatterParticleDensity;
         public static double fulminationOutputMultiplier;
         public static double turbineOutputMultiplier;
         public static double steamOutputMultiplier;
@@ -42,6 +42,13 @@ public class ConfigurationManager {
         //public static boolean allowAlternateRecipes = true;
         //public static boolean allowIC2UraniumCompression = true;
         public static boolean allowGeneratedQuantumAssemblerRecipes;
+
+
+    }
+
+    // TODO: Testing new options.
+    public static class Energy {
+        public static int particleAcceleratorEnergyPerTick;
     }
 
     public static void loadConfiguration(final Configuration configuration) {
@@ -49,10 +56,10 @@ public class ConfigurationManager {
 
         General.electricUnit = EnumElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", EnumElectricUnit.JOULE.getSymbol(), null, EnumElectricUnit.getSymbols().toArray(new String[EnumElectricUnit.values().length])).getString());
         General.temperatureUnit = EnumTemperatureUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "temperatureUnit", EnumTemperatureUnit.KELVIN.getSymbol(), null, EnumTemperatureUnit.getSymbols().toArray(new String[EnumTemperatureUnit.values().length])).getString());
-        General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "toTesla", 1).getDouble();
-        General.toJoule = configuration.get(Configuration.CATEGORY_GENERAL, "toJoule", 0.4).getDouble();
-        General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "fromTesla", 1).getDouble();
-        General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "fromJoules", 2.5).getDouble();
+        General.toTesla = configuration.get(Configuration.CATEGORY_GENERAL, "ForgeToTesla", 1.0).getDouble(); // Conversion multiplier from Forge Energy to Tesla (FE * ForgeToTesla = Tesla)
+        General.toJoules = configuration.get(Configuration.CATEGORY_GENERAL, "ForgeToJoules", 2.5).getDouble(); // Conversion multiplier from Forge Energy to Tesla (FE * ForgeToJoules = Joules)
+        General.fromTesla = configuration.get(Configuration.CATEGORY_GENERAL, "ForgeFromTesla", 1.0).getDouble(); // Conversion multiplier from Tesla to Forge Energy (Tesla * ForgeFromTesla = FE)
+        General.fromJoules = configuration.get(Configuration.CATEGORY_GENERAL, "ForgeFromJoules", 0.4).getDouble(); // Conversion multiplier from Joules to Forge Energy (Joules * ForgeFromJoules = FE)
 
         General.enableAntimatterPower = configuration.get(Configuration.CATEGORY_GENERAL, "enableAntimatterPower", true).getBoolean();
         General.enableBoilingOfWaterBlocks = configuration.get(Configuration.CATEGORY_GENERAL, "enableBoilingOfWaterBlocks", true).getBoolean();
@@ -61,11 +68,11 @@ public class ConfigurationManager {
 
         General.uraniumPerChunk = configuration.get(Configuration.CATEGORY_GENERAL, "uraniumPerChunk", 9).getInt();
 
-        General.antimatterDensityMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "antimatterDensityMultiplier", 1).getInt();
-        General.fulminationOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "fulminationOutputMultiplier", 1).getDouble();
-        General.turbineOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "turbineOutputMultiplier", 1).getDouble();
-        General.steamOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "steamOutputMultiplier", 1).getDouble();
-        General.fissionBoilVolumeMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "fissionBoilVolumeMultiplier", 1).getDouble();
+        General.antimatterParticleDensity = configuration.get(Configuration.CATEGORY_GENERAL, "antimatterParticleDensity", 1.0).getInt();
+        General.fulminationOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "fulminationOutputMultiplier", 1.0).getDouble();
+        General.turbineOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "turbineOutputMultiplier", 1.0).getDouble();
+        General.steamOutputMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "steamOutputMultiplier", 1.0).getDouble();
+        General.fissionBoilVolumeMultiplier = configuration.get(Configuration.CATEGORY_GENERAL, "fissionBoilVolumeMultiplier", 1.0).getDouble();
 
         General.uraniumHexaflourideRatio = configuration.get(Configuration.CATEGORY_GENERAL, "uraniumHexaflourideRatio", 200).getInt();
         General.waterPerDeutermium = configuration.get(Configuration.CATEGORY_GENERAL, "waterPerDeutermium", 4).getInt();
@@ -79,6 +86,9 @@ public class ConfigurationManager {
         //General.allowIC2UraniumCompression = configuration.get(Configuration.CATEGORY_GENERAL, "allowIC2UraniumCompression", true).getBoolean();
         General.allowGeneratedQuantumAssemblerRecipes = configuration.get(Configuration.CATEGORY_GENERAL, "allowGeneratedQuantumAssemblerRecipes", true).getBoolean();
 
+        // TODO: Testing new options, and fix category.
+        configuration.get(Configuration.CATEGORY_GENERAL, "particleAcceleratorEnergyPerTick", 19000).getInt();
+
         configuration.save();
     }
 
@@ -90,7 +100,7 @@ public class ConfigurationManager {
         General.electricUnit = EnumElectricUnit.values()[dataStream.readInt()];
         General.temperatureUnit = EnumTemperatureUnit.values()[dataStream.readInt()];
         General.toTesla = dataStream.readDouble();
-        General.toJoule = dataStream.readDouble();
+        General.toJoules = dataStream.readDouble();
         General.fromTesla = dataStream.readDouble();
         General.fromJoules = dataStream.readDouble();
 
@@ -101,7 +111,7 @@ public class ConfigurationManager {
 
         General.uraniumPerChunk = dataStream.readInt();
 
-        General.antimatterDensityMultiplier = dataStream.readInt();
+        General.antimatterParticleDensity = dataStream.readInt();
         General.fulminationOutputMultiplier = dataStream.readDouble();
         General.turbineOutputMultiplier = dataStream.readDouble();
         General.steamOutputMultiplier = dataStream.readDouble();
@@ -118,6 +128,9 @@ public class ConfigurationManager {
         //General.allowAlternateRecipes = dataStream.readBoolean();
         //General.allowIC2UraniumCompression = dataStream.readBoolean();
         General.allowGeneratedQuantumAssemblerRecipes = dataStream.readBoolean();
+
+        // TODO: Testing new options.
+        Energy.particleAcceleratorEnergyPerTick = dataStream.readInt();
     }
 
     public static void writeConfiguration(final ByteBuf dataStream) {
@@ -126,7 +139,7 @@ public class ConfigurationManager {
         objects.add(General.electricUnit.ordinal());
         objects.add(General.temperatureUnit.ordinal());
         objects.add(General.toTesla);
-        objects.add(General.toJoule);
+        objects.add(General.toJoules);
         objects.add(General.fromTesla);
         objects.add(General.fromJoules);
 
@@ -137,7 +150,7 @@ public class ConfigurationManager {
 
         objects.add(General.uraniumPerChunk);
 
-        objects.add(General.antimatterDensityMultiplier);
+        objects.add(General.antimatterParticleDensity);
         objects.add(General.fulminationOutputMultiplier);
         objects.add(General.turbineOutputMultiplier);
         objects.add(General.steamOutputMultiplier);
@@ -154,6 +167,9 @@ public class ConfigurationManager {
         //objects.add(General.allowAlternateRecipes);
         //objects.add(General.allowIC2UraniumCompression);
         objects.add(General.allowGeneratedQuantumAssemblerRecipes);
+
+        // TODO: Testing new options.
+        objects.add(Energy.particleAcceleratorEnergyPerTick = dataStream.readInt());
 
         PacketHandler.writeObjects(objects, dataStream);
     }
