@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
  *
  * @author halvors
  */
-public class CreativeTab extends CreativeTabs {
+public class CreativeTabx extends net.minecraft.client.gui. {
 	public CreativeTab() {
 		super(Reference.ID);
 	}

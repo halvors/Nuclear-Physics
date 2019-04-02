@@ -1,23 +1,13 @@
 package org.halvors.nuclearphysics.common;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
-import net.minecraftforge.common.ForgeChunkManager.Type;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.halvors.nuclearphysics.client.ClientProxy;
 import org.halvors.nuclearphysics.common.entity.EntityParticle;
 import org.halvors.nuclearphysics.common.init.ModCapabilities;
 import org.halvors.nuclearphysics.common.init.ModMessages;
@@ -27,20 +17,22 @@ import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.science.grid.GridTicker;
 import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 
-@Mod(modid = Reference.ID,
+/*@Mod(modid = Reference.ID,
      name = Reference.NAME,
      version = Reference.VERSION,
 	 dependencies = "after:" + Integration.BUILDCRAFT_CORE_ID + ";after:" + Integration.COFH_CORE_ID + ";after:" + Integration.MEKANISM_ID,
 	 acceptedMinecraftVersions = "[1.12,1.13)",
 	 guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
+*/
 public class NuclearPhysics {
 	// The instance of your mod that Forge uses.
-	@Instance(Reference.ID)
+	//@Instance(Reference.ID)
 	private static NuclearPhysics instance;
 
 	// Says where the client and server 'proxy' code is loaded.
-	@SidedProxy(clientSide = "org.halvors." + Reference.ID + ".client.ClientProxy", serverSide = "org.halvors." + Reference.ID + ".common.CommonProxy")
-	private static CommonProxy proxy;
+	//@SidedProxy(clientSide = "org.halvors." + Reference.ID + ".client.ClientProxy", serverSide = "org.halvors." + Reference.ID + ".common.CommonProxy")
+	//private static CommonProxy proxy;
+	public static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
 	// Configuration
 	private static Configuration configuration;
@@ -58,8 +50,15 @@ public class NuclearPhysics {
 		FluidRegistry.enableUniversalBucket(); // Must be called before preInit
 	}
 
-	@EventHandler
-	public void preInit(final FMLPreInitializationEvent event) {
+	public NuclearPhysics() {
+		instance = this;
+
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::preInit);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::init);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::postInit);
+	}
+
+	public void preInit(FMLCommonSetupEvent event) {
 		// Initialize configuration.
         configuration = new Configuration(event.getSuggestedConfigurationFile());
 
@@ -76,7 +75,6 @@ public class NuclearPhysics {
 		proxy.preInit();
 	}
 
-	@EventHandler
 	public void init(final FMLInitializationEvent event) {
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
@@ -138,7 +136,7 @@ public class NuclearPhysics {
 		return logger;
 	}
 
-	public static CreativeTabs getCreativeTab() {
+	public static CreativeTab getCreativeTab() {
 		return creativeTab;
 	}
 }
