@@ -14,8 +14,8 @@ import java.util.List;
 
 public class PlayerUtility {
 	public static List<EntityPlayerMP> getPlayers() {
-		final List<EntityPlayerMP> playerList = new ArrayList<>();
-		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+		List<EntityPlayerMP> playerList = new ArrayList<>();
+		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 
 		if (server != null) {
 			return server.getPlayerList().getPlayers();
@@ -24,11 +24,11 @@ public class PlayerUtility {
 		return playerList;
 	}
 
-	public static boolean isOp(final EntityPlayer player) {
+	public static boolean isOp(EntityPlayer player) {
 		return player instanceof EntityPlayerMP && ((EntityPlayerMP) player).mcServer.getPlayerList().canSendCommands(player.getGameProfile());
 	}
 
-	public static void openGui(final EntityPlayer player, final IBlockAccess world, final BlockPos pos) {
+	public static void openGui(EntityPlayer player, IBlockAccess world, BlockPos pos) {
 		player.openGui(NuclearPhysics.getInstance(), 0, (World) world, pos.getX(), pos.getY(), pos.getZ());
 	}
 }

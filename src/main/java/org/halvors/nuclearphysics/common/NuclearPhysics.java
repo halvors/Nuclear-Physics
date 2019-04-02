@@ -55,7 +55,7 @@ public class NuclearPhysics {
 	}
 
 	@EventHandler
-	public void preInit(final FMLPreInitializationEvent event) {
+	public void preInit(FMLPreInitializationEvent event) {
 		// Initialize configuration.
         configuration = new Configuration(event.getSuggestedConfigurationFile());
 
@@ -74,14 +74,14 @@ public class NuclearPhysics {
 	}
 
 	@EventHandler
-	public void init(final FMLInitializationEvent event) {
+	public void init(FMLInitializationEvent event) {
 		// Register the proxy as our GuiHandler to NetworkRegistry.
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 
 		ForgeChunkManager.setForcedChunkLoadingCallback(this, (tickets, world) -> {
             for (Ticket ticket : tickets) {
                 if (ticket.getType() == Type.ENTITY) {
-					final Entity entity = ticket.getEntity();
+					Entity entity = ticket.getEntity();
 
 					if (entity instanceof EntityParticle) {
 						((EntityParticle) entity).updateTicket = ticket;
@@ -95,7 +95,7 @@ public class NuclearPhysics {
 	}
 
 	@EventHandler
-	public void postInit(final FMLPostInitializationEvent event) {
+	public void postInit(FMLPostInitializationEvent event) {
 		if (!GridTicker.getInstance().isAlive()) {
 			GridTicker.getInstance().start();
 		}
@@ -111,7 +111,7 @@ public class NuclearPhysics {
 	}
 
 	@EventHandler
-	public void serverStopping(final FMLServerStoppingEvent event) {
+	public void serverStopping(FMLServerStoppingEvent event) {
 		GridTicker.getInstance().interrupt();
 	}
 

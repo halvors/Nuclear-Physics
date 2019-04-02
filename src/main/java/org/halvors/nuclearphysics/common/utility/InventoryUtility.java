@@ -14,23 +14,23 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class InventoryUtility {
-    public static void incrStackSize(final IItemHandlerModifiable itemHandler, final int slot) {
-        final ItemStack itemStack = itemHandler.getStackInSlot(slot);
+    public static void incrStackSize(IItemHandlerModifiable itemHandler, int slot) {
+        ItemStack itemStack = itemHandler.getStackInSlot(slot);
 
         if (itemStack != null) {
             itemHandler.insertItem(slot, ItemHandlerHelper.copyStackWithSize(itemStack, itemStack.stackSize++), false);
         }
     }
 
-    public static void decrStackSize(final IItemHandlerModifiable itemHandler, final int slot) {
-        final ItemStack itemStack = itemHandler.getStackInSlot(slot);
+    public static void decrStackSize(IItemHandlerModifiable itemHandler, int slot) {
+        ItemStack itemStack = itemHandler.getStackInSlot(slot);
 
         if (itemStack != null) {
             itemHandler.extractItem(slot, 1, false);
         }
     }
 
-    public static NBTTagCompound getNBTTagCompound(final ItemStack itemStack) {
+    public static NBTTagCompound getNBTTagCompound(ItemStack itemStack) {
         if (itemStack != null) {
             if (itemStack.getTagCompound() == null) {
                 itemStack.setTagCompound(new NBTTagCompound());
@@ -44,12 +44,12 @@ public class InventoryUtility {
 
     public static ItemStack getItemStackWithNBT(final IBlockState state, final World world, final BlockPos pos) {
         if (state != null) {
-            final Block block = state.getBlock();
-            final ItemStack dropStack = new ItemStack(block, block.quantityDropped(state, 0, world.rand), block.damageDropped(state));
-            final TileEntity tile = world.getTileEntity(pos);
+            Block block = state.getBlock();
+            ItemStack dropStack = new ItemStack(block, block.quantityDropped(state, 0, world.rand), block.damageDropped(state));
+            TileEntity tile = world.getTileEntity(pos);
 
             if (tile != null) {
-                final NBTTagCompound tag = new NBTTagCompound();
+                NBTTagCompound tag = new NBTTagCompound();
                 tile.writeToNBT(tag);
                 dropStack.setTagCompound(tag);
             }
@@ -60,9 +60,9 @@ public class InventoryUtility {
         return null;
     }
 
-    public static void dropBlockWithNBT(final IBlockState state, final World world, final BlockPos pos) {
+    public static void dropBlockWithNBT(IBlockState state, World world, BlockPos pos) {
         if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops")) {
-            final ItemStack itemStack = getItemStackWithNBT(state, world, pos);
+            ItemStack itemStack = getItemStackWithNBT(state, world, pos);
 
             if (itemStack != null) {
                 InventoryUtility.dropItemStack(world, pos, itemStack);
@@ -72,11 +72,11 @@ public class InventoryUtility {
 
     public static void readFromNBT(NBTTagCompound tag, IItemHandlerModifiable inventory) {
         if (tag.getTagId("Inventory") == Constants.NBT.TAG_LIST) {
-            final NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
+            NBTTagList tagList = tag.getTagList("Inventory", Constants.NBT.TAG_COMPOUND);
 
             for (int i = 0; i < tagList.tagCount(); i++) {
-                final NBTTagCompound slotTag = (NBTTagCompound) tagList.get(i);
-                final byte slot = slotTag.getByte("Slot");
+                NBTTagCompound slotTag = (NBTTagCompound) tagList.get(i);
+                byte slot = slotTag.getByte("Slot");
 
                 if (slot < inventory.getSlots()) {
                     inventory.setStackInSlot(slot, ItemStack.loadItemStackFromNBT(slotTag));
@@ -85,22 +85,22 @@ public class InventoryUtility {
         }
     }
 
-    public static void dropItemStack(final World world, final BlockPos pos, final ItemStack itemStack) {
+    public static void dropItemStack(World world, BlockPos pos, ItemStack itemStack) {
         dropItemStack(world, pos, itemStack, 10);
     }
 
-    public static void dropItemStack(final World world, final BlockPos pos, final ItemStack itemStack, final int delay) {
+    public static void dropItemStack(World world, BlockPos pos, ItemStack itemStack, int delay) {
         dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), itemStack, delay);
     }
 
-    public static void dropItemStack(final World world, final double x, final double y, final double z, final ItemStack itemStack, final int delay) {
+    public static void dropItemStack(World world, double x, double y, double z, ItemStack itemStack, int delay) {
         if (!world.isRemote && itemStack != null) {
-            final float motion = 0.7F;
-            final double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
-            final double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
-            final double motionZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+            float motion = 0.7F;
+            double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+            double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
+            double motionZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
 
-            final EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
+            EntityItem entityItem = new EntityItem(world, x + motionX, y + motionY, z + motionZ, itemStack);
 
             if (itemStack.hasTagCompound()) {
                 entityItem.getEntityItem().setTagCompound(itemStack.getTagCompound().copy());

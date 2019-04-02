@@ -16,16 +16,15 @@ public enum EnumParticleType {
 
     @SideOnly(Side.CLIENT)
     public Class<? extends Particle> getParticleClass() {
-        switch (this) {
-            case RADIOACTIVE:
-                return ParticleRadioactive.class;
+        if (this == EnumParticleType.RADIOACTIVE) {
+            return ParticleRadioactive.class;
         }
 
         return null;
     }
 
     @SideOnly(Side.CLIENT)
-    public Particle getParticleAsInstance(final World world, final double xCoord, final double yCoord, final double zCoord, final double xSpeed, final double ySpeed, final double zSpeed) {
+    public Particle getParticleAsInstance(World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed) {
         Class<? extends Particle> particleClass = getParticleClass();
 
         if (particleClass != null) {

@@ -5,7 +5,7 @@ import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.type.EnumResource;
 
 public class ResourceUtility {
-	public static ResourceLocation getResource(final EnumResource resource, final String name) {
+	public static ResourceLocation getResource(EnumResource resource, String name) {
 		return new ResourceLocation(Reference.DOMAIN, resource.getPrefix() + name);
 	}
 }

@@ -51,7 +51,7 @@ public class ConfigurationManager {
         public static int particleAcceleratorEnergyPerTick;
     }
 
-    public static void loadConfiguration(final Configuration configuration) {
+    public static void loadConfiguration(Configuration configuration) {
         configuration.load();
 
         General.electricUnit = EnumElectricUnit.fromSymbol(configuration.get(Configuration.CATEGORY_GENERAL, "electricUnit", EnumElectricUnit.JOULE.getSymbol(), null, EnumElectricUnit.getSymbols().toArray(new String[EnumElectricUnit.values().length])).getString());
@@ -92,11 +92,11 @@ public class ConfigurationManager {
         configuration.save();
     }
 
-    public static void saveConfiguration(final Configuration configuration) {
+    public static void saveConfiguration(Configuration configuration) {
         configuration.save();
     }
 
-    public static void readConfiguration(final ByteBuf dataStream) {
+    public static void readConfiguration(ByteBuf dataStream) {
         General.electricUnit = EnumElectricUnit.values()[dataStream.readInt()];
         General.temperatureUnit = EnumTemperatureUnit.values()[dataStream.readInt()];
         General.toTesla = dataStream.readDouble();
@@ -133,8 +133,8 @@ public class ConfigurationManager {
         Energy.particleAcceleratorEnergyPerTick = dataStream.readInt();
     }
 
-    public static void writeConfiguration(final ByteBuf dataStream) {
-        final List<Object> objects = new ArrayList<>();
+    public static void writeConfiguration(ByteBuf dataStream) {
+        List<Object> objects = new ArrayList<>();
 
         objects.add(General.electricUnit.ordinal());
         objects.add(General.temperatureUnit.ordinal());

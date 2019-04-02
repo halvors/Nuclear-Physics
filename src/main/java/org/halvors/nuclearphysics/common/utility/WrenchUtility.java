@@ -19,10 +19,10 @@ public class WrenchUtility {
      * @return if the player can use the wrench
      */
     public static boolean hasUsableWrench(final EntityPlayer player, final EnumHand hand, final BlockPos pos) {
-        final ItemStack itemStack = player.getHeldItemMainhand();
+        ItemStack itemStack = player.getHeldItemMainhand();
 
         if (itemStack != null) {
-            final Item item = itemStack.getItem();
+            Item item = itemStack.getItem();
 
             if (item instanceof IWrench) {
                 return ((IWrench) item).canUseWrench(itemStack, player, pos);

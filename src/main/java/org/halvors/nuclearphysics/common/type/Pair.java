@@ -4,7 +4,7 @@ public class Pair<L, R> {
     private final L left;
     private final R right;
 
-    public Pair(final L left, final R right) {
+    public Pair(L left, R right) {
         this.left = left;
         this.right = right;
     }
@@ -27,9 +27,9 @@ public class Pair<L, R> {
     }
 
     @Override
-    public boolean equals(final Object object) {
+    public boolean equals(Object object) {
         if (object instanceof Pair) {
-            final Pair pair = (Pair) object;
+            Pair pair = (Pair) object;
 
             return left.equals(pair.getLeft()) && right.equals(pair.getRight());
         }

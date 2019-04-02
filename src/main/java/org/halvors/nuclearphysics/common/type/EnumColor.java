@@ -35,7 +35,7 @@ public enum EnumColor {
 	private final int hex;
 	private final int meta;
 
-	EnumColor(final String code, final String name, final int[] rgbCode, final int hex, final int meta) {
+	EnumColor(String code, String name, int[] rgbCode, int hex, int meta) {
 		this.code = code;
 		this.name = name;
 		this.rgbCode = rgbCode;
@@ -64,7 +64,7 @@ public enum EnumColor {
 	 * @param index - R:0, G:1, B:2
 	 * @return the color value
 	 */
-	public float getColor(final int index) {
+	public float getColor(int index) {
 		return (float) rgbCode[index] / 255;
 	}
 
