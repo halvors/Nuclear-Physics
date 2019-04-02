@@ -7,12 +7,12 @@ import net.minecraft.world.World;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 
 public class ItemRadioactive extends ItemTooltip {
-    public ItemRadioactive(final String name) {
+    public ItemRadioactive(String name) {
         super(name);
     }
 
     @Override
-    public void onUpdate(final ItemStack itemStack, final World world, final Entity entity, final int int1, final boolean type) {
+    public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof EntityLivingBase) {
             ModPotions.poisonRadiation.poisonEntity((EntityLivingBase) entity, 1);
         }

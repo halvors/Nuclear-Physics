@@ -38,9 +38,8 @@ public class TileQuantumAssembler extends TileInventoryMachine {
             }
 
             private boolean isItemValidForSlot(final int slot, final ItemStack itemStack) {
-                switch (slot) {
-                    case 6:
-                        return QuantumAssemblerRecipes.hasRecipe(itemStack);
+                if (slot == 6) {
+                    return QuantumAssemblerRecipes.hasRecipe(itemStack);
                 }
 
                 return OreDictionaryHelper.isDarkmatterCell(itemStack);

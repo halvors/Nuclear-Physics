@@ -30,7 +30,7 @@ New features to add:
 
     Enhancement:
         - Preserve inventory items in item block when destroying blocks.
-        - Make antimatter and dark matter fluid items, 200 dl = 200 mg.
+        - Make antimatter and dark matter fluid items, 200 dl = 200 mg???
         - Make toxic waste spawn when reactor melts down, based on toxic waste amount in the reactor.
         - Turn sand into glass when exposed to high temperatures.
         - Make accelerator GUI show energy usage per 5 mg antimatter, as a measure of efficiency.

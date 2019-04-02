@@ -22,7 +22,7 @@ public class TileConsumer extends TileRotatable {
     }
 
     @Override
-    public void readFromNBT(final NBTTagCompound tag) {
+    public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         if (energyStorage != null) {
@@ -31,7 +31,7 @@ public class TileConsumer extends TileRotatable {
     }
 
     @Override
-    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (energyStorage != null) {
@@ -42,14 +42,14 @@ public class TileConsumer extends TileRotatable {
     }
 
     @Override
-    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityEnergy.ENERGY || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if (capability == CapabilityEnergy.ENERGY) {
             return (T) energyStorage;
         }
@@ -60,7 +60,7 @@ public class TileConsumer extends TileRotatable {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(final ByteBuf dataStream) {
+    public void handlePacketData(ByteBuf dataStream) {
         super.handlePacketData(dataStream);
 
         if (world.isRemote) {
@@ -69,7 +69,7 @@ public class TileConsumer extends TileRotatable {
     }
 
     @Override
-    public List<Object> getPacketData(final List<Object> objects) {
+    public List<Object> getPacketData(List<Object> objects) {
         super.getPacketData(objects);
 
         objects.add(energyStorage.getEnergyStored());

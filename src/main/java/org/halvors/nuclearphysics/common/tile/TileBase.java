@@ -19,7 +19,7 @@ public class TileBase extends TileEntity {
     }
 
     @Override
-    public void handleUpdateTag(@Nonnull final NBTTagCompound tag) {
+    public void handleUpdateTag(@Nonnull NBTTagCompound tag) {
         // The super implementation of handleUpdateTag is to call this readFromNBT. But, the given TagCompound
         // only has x/y/z/id data, so our readFromNBT will set a bunch of default values which are wrong.
         // So simply call the super's readFromNBT, to let Forge do whatever it wants, but don't treat this like

@@ -29,7 +29,7 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork {
     }
 
     @Override
-    public void readFromNBT(final NBTTagCompound tag) {
+    public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
 
         if (energyStorage != null) {
@@ -38,7 +38,7 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork {
     }
 
     @Override
-    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
 
         if (energyStorage != null) {
@@ -49,14 +49,14 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork {
     }
 
     @Override
-    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable final EnumFacing facing) {
         return (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) || super.hasCapability(capability, facing);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable final EnumFacing facing) {
         if (capability == CapabilityEnergy.ENERGY && getExtractingDirections().contains(facing)) {
             return (T) energyStorage;
         }
@@ -80,14 +80,14 @@ public class TileGenerator extends TileBase implements ITickable, ITileNetwork {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public void handlePacketData(final ByteBuf dataStream) {
+    public void handlePacketData(ByteBuf dataStream) {
         if (world.isRemote) {
             energyStorage.setEnergyStored(dataStream.readInt());
         }
     }
 
     @Override
-    public List<Object> getPacketData(final List<Object> objects) {
+    public List<Object> getPacketData(List<Object> objects) {
         objects.add(energyStorage.getEnergyStored());
 
         return objects;

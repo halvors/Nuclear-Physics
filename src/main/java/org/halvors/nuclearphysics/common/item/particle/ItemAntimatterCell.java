@@ -24,27 +24,27 @@ public class ItemAntimatterCell extends ItemTooltip {
 
     @Override
     public void registerItemModel() {
-        for (final EnumAntimatterCell type : EnumAntimatterCell.values()) {
+        for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
             NuclearPhysics.getProxy().registerItemRenderer(this, type.ordinal(), name + "_" + type.getName());
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(final ItemStack itemStack, final EntityPlayer player, final List<String> list, final boolean flag) {
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> list, boolean flag) {
         list.add(LanguageUtility.transelate(getUnlocalizedName(itemStack) + ".tooltip"));
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull final Item item, final CreativeTabs tab, final List<ItemStack> list) {
-        for (final EnumAntimatterCell type : EnumAntimatterCell.values()) {
+    public void getSubItems(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
+        for (EnumAntimatterCell type : EnumAntimatterCell.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }
 
     @Override
-    public int getEntityLifespan(final ItemStack itemStack, final World world) {
+    public int getEntityLifespan(ItemStack itemStack, World world) {
         return 160;
     }
 

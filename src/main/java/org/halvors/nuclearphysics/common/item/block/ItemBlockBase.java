@@ -5,7 +5,7 @@ import net.minecraft.item.ItemBlock;
 import org.halvors.nuclearphysics.common.NuclearPhysics;
 
 public class ItemBlockBase extends ItemBlock {
-    public ItemBlockBase(final Block block) {
+    public ItemBlockBase(Block block) {
         super(block);
 
         setRegistryName(block.getRegistryName());

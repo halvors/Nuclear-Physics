@@ -21,15 +21,15 @@ public class ItemUranium extends ItemRadioactive {
 
     @Override
     public void registerItemModel() {
-        for (final EnumUranium type : EnumUranium.values()) {
+        for (EnumUranium type : EnumUranium.values()) {
             NuclearPhysics.getProxy().registerItemRenderer(this, type.ordinal(), name);
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull final Item item, final CreativeTabs tab, final List<ItemStack> list) {
-        for (final EnumUranium type : EnumUranium.values()) {
+    public void getSubItems(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
+        for (EnumUranium type : EnumUranium.values()) {
             list.add(new ItemStack(item, 1, type.ordinal()));
         }
     }

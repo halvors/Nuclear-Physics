@@ -243,8 +243,8 @@ public class TileChemicalExtractor extends TileProcess {
 
     public boolean extractDeuterium() {
         if (canProcess()) {
-            final int waterUsage = General.waterPerDeutermium;
-            final FluidStack fluidStack = tankInput.drainInternal(waterUsage * EXTRACT_SPEED, false);
+            int waterUsage = General.waterPerDeutermium;
+            FluidStack fluidStack = tankInput.drainInternal(waterUsage * EXTRACT_SPEED, false);
 
             if (fluidStack != null && fluidStack.amount >= 1 && fluidStack.isFluidEqual(ModFluids.fluidStackWater)) {
                 if (tankOutput.fillInternal(new FluidStack(ModFluids.deuterium, EXTRACT_SPEED), true) >= EXTRACT_SPEED) {
@@ -260,8 +260,8 @@ public class TileChemicalExtractor extends TileProcess {
 
     public boolean extractTritium() {
         if (canProcess()) {
-            final int deutermiumUsage = General.deutermiumPerTritium;
-            final FluidStack fluidStack = tankInput.drainInternal(deutermiumUsage * EXTRACT_SPEED, false);
+            int deutermiumUsage = General.deutermiumPerTritium;
+            FluidStack fluidStack = tankInput.drainInternal(deutermiumUsage * EXTRACT_SPEED, false);
 
             if (fluidStack != null && fluidStack.amount >= 1 && fluidStack.isFluidEqual(ModFluids.fluidStackDeuterium)) {
                 if (tankOutput.fillInternal(new FluidStack(ModFluids.tritium, EXTRACT_SPEED), true) >= EXTRACT_SPEED) {

@@ -40,7 +40,7 @@ public class ItemCell extends ItemTooltip {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(final ItemStack itemStack, final EntityPlayer player, final List<String> list, final boolean flag) {
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> list, boolean flag) {
         final FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
 
         if (fluidStack != null) {
@@ -52,8 +52,8 @@ public class ItemCell extends ItemTooltip {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(@Nonnull final Item item, final CreativeTabs tab, final List<ItemStack> list) {
-        for (final EnumCell type : EnumCell.values()) {
+    public void getSubItems(@Nonnull Item item, CreativeTabs tab, List<ItemStack> list) {
+        for (EnumCell type : EnumCell.values()) {
             list.add(type.getFluid() == null ? itemStackEmpty : FluidUtility.getFilledCell(type.getFluid()));
         }
     }
@@ -61,13 +61,13 @@ public class ItemCell extends ItemTooltip {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean hasContainerItem(final ItemStack itemStack) {
+    public boolean hasContainerItem(ItemStack itemStack) {
         return itemStackEmpty != null;
     }
 
     @Override
     @Nonnull
-    public ItemStack getContainerItem(@Nonnull final ItemStack itemStack) {
+    public ItemStack getContainerItem(@Nonnull ItemStack itemStack) {
         if (hasContainerItem(itemStack)) {
             return itemStackEmpty.copy();
         }
@@ -77,7 +77,7 @@ public class ItemCell extends ItemTooltip {
 
     @Override
     @Nonnull
-    public ICapabilityProvider initCapabilities(final ItemStack itemStack, final NBTTagCompound tag) {
+    public ICapabilityProvider initCapabilities(ItemStack itemStack, NBTTagCompound tag) {
         return new FluidHandlerItemStackSimple(itemStack, CAPACITY);
     }
 
@@ -95,7 +95,7 @@ public class ItemCell extends ItemTooltip {
 
         }
 
-        EnumCell(final Fluid fluid) {
+        EnumCell(Fluid fluid) {
             this.fluid = fluid;
         }
 
