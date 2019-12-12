@@ -1,13 +1,13 @@
 package org.halvors.nuclearphysics.common.block.particle;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.IBlockReader;
 import org.halvors.nuclearphysics.common.block.BlockConnectedTexture;
 import org.halvors.nuclearphysics.common.tile.particle.TileFulminationGenerator;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class BlockFulminationGenerator extends BlockConnectedTexture {
     public BlockFulminationGenerator() {
@@ -17,8 +17,9 @@ public class BlockFulminationGenerator extends BlockConnectedTexture {
         setResistance(25000);
     }
 
+    @Nullable
     @Override
-    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TileFulminationGenerator();
     }
 }

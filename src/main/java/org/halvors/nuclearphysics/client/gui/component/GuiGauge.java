@@ -1,10 +1,9 @@
 package org.halvors.nuclearphysics.client.gui.component;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.type.EnumResource;
@@ -12,7 +11,7 @@ import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.awt.*;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class GuiGauge extends GuiComponent {
     private static final int WIDTH = 14;
     protected static final int HEIGHT = 49;

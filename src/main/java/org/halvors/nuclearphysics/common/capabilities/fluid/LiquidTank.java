@@ -1,9 +1,9 @@
 package org.halvors.nuclearphysics.common.capabilities.fluid;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class LiquidTank extends FluidTank {
         if (fluid != null) {
             objects.add(true);
 
-            final NBTTagCompound compoundInputTank = new NBTTagCompound();
+            final CompoundNBT compoundInputTank = new CompoundNBT();
             fluid.writeToNBT(compoundInputTank);
             objects.add(compoundInputTank);
         } else {

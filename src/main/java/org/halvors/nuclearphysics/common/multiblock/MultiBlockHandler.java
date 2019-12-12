@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.common.multiblock;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.nuclearphysics.api.nbt.ISaveObject;
@@ -165,9 +165,9 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
 
     /** Only the primary wrapper of the multiblock saves and loads data. */
     @Override
-    public void readFromNBT(final NBTTagCompound tag) {
-        if (tag.hasKey(NBT_PRIMARY_MULTIBLOCK)) {
-            newPrimary = VectorUtility.readFromNBT(tag.getCompoundTag(NBT_PRIMARY_MULTIBLOCK));
+    public void read(final CompoundNBT compound) {
+        if (compound.contains(NBT_PRIMARY_MULTIBLOCK)) {
+            newPrimary = VectorUtility.read(compound.getCompound(NBT_PRIMARY_MULTIBLOCK));
             update();
         } else {
             primary = null;
@@ -175,12 +175,12 @@ public class MultiBlockHandler<W extends IMultiBlockStructure> implements ISaveO
     }
 
     @Override
-    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
+    public CompoundNBT write(final CompoundNBT compound) {
         if (isConstructed()) {
-            tag.setTag(NBT_PRIMARY_MULTIBLOCK, VectorUtility.writeToNBT(getPrimary().getPosition().subtract(self.getPosition()), new NBTTagCompound()));
+            tag.setTag(NBT_PRIMARY_MULTIBLOCK, VectorUtility.write(getPrimary().getPosition().subtract(self.getPosition()), new CompoundNBT()));
         }
 
-        return tag;
+        return compound;
     }
 
     public void handlePacketData(final ByteBuf dataStream) {

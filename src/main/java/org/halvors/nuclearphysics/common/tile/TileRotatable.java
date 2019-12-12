@@ -1,41 +1,40 @@
 package org.halvors.nuclearphysics.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class TileRotatable extends TileBase implements ITileNetwork, ITileRotatable {
-    private static final String NBT_FACING = "facing";
+    private static final String NBT_DIRECTION = "direction";
 
-    protected EnumFacing facing = EnumFacing.NORTH;
+    protected Direction direction = Direction.NORTH;
 
-    public TileRotatable() {
-
+    public TileRotatable(TileEntityType<?> tileEntityType) {
+        super(tileEntityType);
     }
 
     @Override
-    public void readFromNBT(final NBTTagCompound tag) {
-        super.readFromNBT(tag);
+    public void read(CompoundNBT compound) {
+        super.read(compound);
 
-        if (tag.hasKey(NBT_FACING)) {
-            facing = EnumFacing.byIndex(tag.getInteger(NBT_FACING));
+        if (compound.contains(NBT_DIRECTION)) {
+            direction = Direction.byIndex(compound.getInt(NBT_DIRECTION));
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
-        super.writeToNBT(tag);
-
-        if (facing != null) {
-            tag.setInteger(NBT_FACING, facing.ordinal());
+    public CompoundNBT write(CompoundNBT compound) {
+        if (direction != null) {
+            compound.putInt(NBT_DIRECTION, direction.ordinal());
         }
 
-        return tag;
+        return super.write(compound);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,13 +42,13 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     @Override
     public void handlePacketData(final ByteBuf dataStream) {
         if (world.isRemote) {
-            facing = EnumFacing.byIndex(dataStream.readInt());
+            direction = Direction.byIndex(dataStream.readInt());
         }
     }
 
     @Override
     public List<Object> getPacketData(final List<Object> objects) {
-        objects.add(facing.ordinal());
+        objects.add(direction.ordinal());
 
         return objects;
     }
@@ -57,18 +56,18 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean canSetFacing(final EnumFacing facing) {
-        return Arrays.asList(EnumFacing.HORIZONTALS).contains(facing);
+    public boolean canSetDirection(Direction direction) {
+        return Arrays.asList(Direction.DOWN, Direction.EAST, Direction.NORTH, Direction.SOUTH).contains(direction);
     }
 
     @Override
-    public EnumFacing getFacing() {
-        return facing;
+    public Direction getDirection() {
+        return direction;
     }
 
     @Override
-    public void setFacing(final EnumFacing facing) {
-        this.facing = facing;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
 
         NuclearPhysics.getPacketHandler().sendToReceivers(new PacketTileEntity(this), this);
     }

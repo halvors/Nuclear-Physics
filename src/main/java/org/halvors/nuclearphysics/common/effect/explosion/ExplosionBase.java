@@ -3,10 +3,12 @@ package org.halvors.nuclearphysics.common.effect.explosion;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.server.SPacketExplosion;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import java.util.Random;
@@ -17,7 +19,7 @@ public class ExplosionBase extends Explosion {
     protected final BlockPos pos;
     protected final float size;
 
-    public ExplosionBase(final IBlockAccess world, final Entity entity, final BlockPos pos, final float size, final boolean flaming, final boolean damagesTerrain) {
+    public ExplosionBase(final IWorld world, final Entity entity, final BlockPos pos, final float size, final boolean flaming, final boolean damagesTerrain) {
         super((World) world, entity, pos.getX(), pos.getY(), pos.getZ(), size, flaming, damagesTerrain);
 
         this.world = (World) world;
@@ -31,9 +33,9 @@ public class ExplosionBase extends Explosion {
 
         // Send explosion packet to the client for client-side explosion.
         if (!world.isRemote) {
-            for (final EntityPlayer player : world.playerEntities) {
+            for (final PlayerEntity player : world.getPlayers()) {
                 if (player.getDistanceSq(pos) < 4096) {
-                    ((EntityPlayerMP) player).connection.sendPacket(new SPacketExplosion(pos.getX(), pos.getY(), pos.getZ(), size, getAffectedBlockPositions(), getPlayerKnockbackMap().get(player)));
+                    ((ServerPlayerEntity) player).connection.sendPacket(new SPacketExplosion(pos.getX(), pos.getY(), pos.getZ(), size, getAffectedBlockPositions(), getPlayerKnockbackMap().get(player)));
                 }
             }
         }

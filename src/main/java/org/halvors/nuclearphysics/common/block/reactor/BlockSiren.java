@@ -1,21 +1,24 @@
 package org.halvors.nuclearphysics.common.block.reactor;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockContainerBase;
 import org.halvors.nuclearphysics.common.block.states.BlockStateSiren;
 import org.halvors.nuclearphysics.common.tile.reactor.TileSiren;
 import org.halvors.nuclearphysics.common.utility.WrenchUtility;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class BlockSiren extends BlockContainerBase {
     public BlockSiren() {
@@ -49,7 +52,7 @@ public class BlockSiren extends BlockContainerBase {
     }
 
     @Override
-    public boolean onBlockActivated(final World world, final BlockPos pos, final IBlockState state, final EntityPlayer player, final EnumHand hand, final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if (WrenchUtility.hasUsableWrench(player, hand, pos)) {
             int pitch = state.getValue(BlockStateSiren.PITCH);
 
@@ -65,8 +68,9 @@ public class BlockSiren extends BlockContainerBase {
         return false;
     }
 
+    @Nullable
     @Override
-    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TileSiren();
     }
 }

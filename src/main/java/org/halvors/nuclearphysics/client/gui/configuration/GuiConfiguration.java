@@ -1,22 +1,22 @@
 package org.halvors.nuclearphysics.client.gui.configuration;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.DummyConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.IConfigEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.client.gui.configuration.category.CategoryEntryGeneral;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiConfiguration extends GuiConfig {
     private static final List<IConfigElement> CONFIG_ELEMENTS = new ArrayList<>();
 

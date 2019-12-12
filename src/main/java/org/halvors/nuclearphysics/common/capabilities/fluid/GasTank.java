@@ -2,7 +2,7 @@ package org.halvors.nuclearphysics.common.capabilities.fluid;
 
 import net.minecraftforge.fluids.FluidStack;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 public class GasTank extends LiquidTank {
     public GasTank(final int capacity) {
@@ -10,19 +10,19 @@ public class GasTank extends LiquidTank {
     }
 
     @Override
-    public int fill(final FluidStack resource, final boolean doFill) {
+    public int fill(FluidStack resource, FluidAction action) {
         if (resource.getFluid().isGaseous()) {
-            return super.fill(resource, doFill);
+            return super.fill(resource, action);
         }
 
         return 0;
     }
 
-    @Nullable
+    @Nonnull
     @Override
-    public FluidStack drain(final FluidStack resource, final boolean doDrain) {
+    public FluidStack drain(FluidStack resource, FluidAction action) {
         if (resource.getFluid().isGaseous()) {
-            return super.drain(resource, doDrain);
+            return super.drain(resource, action);
         }
 
         return null;

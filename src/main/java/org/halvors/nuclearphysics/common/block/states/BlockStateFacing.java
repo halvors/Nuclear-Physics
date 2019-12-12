@@ -1,9 +1,6 @@
 package org.halvors.nuclearphysics.common.block.states;
 
-import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.world.chunk.BlockStateContainer;
 import org.halvors.nuclearphysics.common.block.BlockRotatable;
 
 public class BlockStateFacing extends BlockStateContainer {

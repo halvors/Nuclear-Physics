@@ -1,14 +1,13 @@
 package org.halvors.nuclearphysics.client.gui;
 
-import net.minecraft.client.gui.FontRenderer;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.inventory.Container;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.halvors.nuclearphysics.client.gui.component.IGuiComponent;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.type.EnumResource;
@@ -20,7 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiComponentContainer<T extends TileEntity> extends GuiContainer implements IGuiWrapper {
     protected ResourceLocation defaultResource = ResourceUtility.getResource(EnumResource.GUI, "base.png");
     protected final Set<IGuiComponent> components = new HashSet<>();
@@ -50,7 +49,7 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
     protected void drawGuiContainerBackgroundLayer(final float partialTick, final int mouseX, final int mouseY) {
         RenderUtility.bindTexture(defaultResource);
 
-        GlStateManager.color(1, 1, 1, 1);
+        GlStateManager.color4f(1, 1, 1, 1);
 
         final int guiWidth = (width - xSize) / 2;
         final int guiHeight = (height - ySize) / 2;
@@ -151,10 +150,5 @@ public class GuiComponentContainer<T extends TileEntity> extends GuiContainer im
     @Override
     public void displayTooltips(final List<String> list, final int xAxis, final int yAxis) {
         drawHoveringText(list, xAxis, yAxis);
-    }
-
-    @Override
-    public FontRenderer getFontRenderer() {
-        return fontRenderer;
     }
 }

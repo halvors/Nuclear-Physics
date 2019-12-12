@@ -1,11 +1,11 @@
 package org.halvors.nuclearphysics.common.tile;
 
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 
 public interface ITileRotatable {
-    boolean canSetFacing(final EnumFacing facing);
+    boolean canSetDirection(final Direction direction);
 
-    EnumFacing getFacing();
+    Direction getDirection();
 
-    void setFacing(final EnumFacing facing);
+    void setDirection(final Direction direction);
 }

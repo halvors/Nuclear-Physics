@@ -1,16 +1,15 @@
 package org.halvors.nuclearphysics.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ITickable;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import net.minecraft.client.renderer.texture.ITickable;
+import net.minecraft.nbt.CompoundNBT;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.network.packet.PacketTileEntity;
 import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import org.halvors.nuclearphysics.common.utility.RedstoneUtility;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class TileMachine extends TileConsumer implements ITickable, ITileRedstoneControl {
@@ -36,24 +35,21 @@ public class TileMachine extends TileConsumer implements ITickable, ITileRedston
     }
 
     @Override
-    public void readFromNBT(final NBTTagCompound tag) {
-        super.readFromNBT(tag);
+    public void read(CompoundNBT compound) {
+        super.read(compound);
 
-        operatingTicks = tag.getInteger(NBT_OPERATING_TICKS);
-        redstone = tag.getBoolean(NBT_REDSTONE);
-        redstoneControl = EnumRedstoneControl.values()[tag.getInteger(NBT_REDSTONE_CONTROL)];
+        operatingTicks = compound.getInt(NBT_OPERATING_TICKS);
+        redstone = compound.getBoolean(NBT_REDSTONE);
+        redstoneControl = EnumRedstoneControl.values()[compound.getInt(NBT_REDSTONE_CONTROL)];
     }
 
     @Override
-    @Nonnull
-    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
-        super.writeToNBT(tag);
+    public CompoundNBT write(CompoundNBT compound) {
+        compound.putInt(NBT_OPERATING_TICKS, operatingTicks);
+        compound.putBoolean(NBT_REDSTONE, redstone);
+        compound.putInt(NBT_REDSTONE_CONTROL, redstoneControl.ordinal());
 
-        tag.setInteger(NBT_OPERATING_TICKS, operatingTicks);
-        tag.setBoolean(NBT_REDSTONE, redstone);
-        tag.setInteger(NBT_REDSTONE_CONTROL, redstoneControl.ordinal());
-
-        return tag;
+        return super.write(compound);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +130,7 @@ public class TileMachine extends TileConsumer implements ITickable, ITileRedston
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public EnumMachine getType() {
+    public EnumMachine getMachineType() {
         return type;
     }
 

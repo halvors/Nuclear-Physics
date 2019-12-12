@@ -2,7 +2,6 @@ package org.halvors.nuclearphysics.client.utility;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;

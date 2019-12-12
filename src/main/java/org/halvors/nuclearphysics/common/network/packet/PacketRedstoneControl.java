@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.PacketHandler;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
 import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;

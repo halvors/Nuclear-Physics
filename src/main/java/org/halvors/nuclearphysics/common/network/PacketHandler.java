@@ -2,8 +2,8 @@ package org.halvors.nuclearphysics.common.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry.TargetPoint;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 import org.halvors.nuclearphysics.common.type.Range;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
@@ -32,7 +32,7 @@ import java.util.Set;
 public class PacketHandler {
 	public static final SimpleNetworkWrapper networkWrapper = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.ID);
 
-	public void sendTo(final IMessage message, final EntityPlayerMP player) {
+	public void sendTo(final IMessage message, final ServerPlayerEntity player) {
 		networkWrapper.sendTo(message, player);
 	}
 
@@ -60,7 +60,7 @@ public class PacketHandler {
 	 */
 	public void sendToCuboid(final IMessage message, final AxisAlignedBB cuboid, final int dimensionId) {
 		if (cuboid != null) {
-			for (final EntityPlayerMP player : PlayerUtility.getPlayers()) {
+			for (final ServerPlayerEntity player : PlayerUtility.getPlayers()) {
 				if (player.dimension == dimensionId && cuboid.contains(new Vec3d(player.posX, player.posY, player.posZ))) {
 					sendTo(message, player);
 				}
@@ -68,14 +68,14 @@ public class PacketHandler {
 		}
 	}
 
-	public void sendToReceivers(final IMessage message, final Set<EntityPlayer> playerList) {
-		for (final EntityPlayer player : playerList) {
-			sendTo(message, (EntityPlayerMP) player);
+	public void sendToReceivers(final IMessage message, final Set<PlayerEntity> playerList) {
+		for (final PlayerEntity player : playerList) {
+			sendTo(message, (ServerPlayerEntity) player);
 		}
 	}
 
 	public void sendToReceivers(final IMessage message, final Range range) {
-		for (final EntityPlayerMP player : PlayerUtility.getPlayers()) {
+		for (final ServerPlayerEntity player : PlayerUtility.getPlayers()) {
 			if (player.getEntityWorld().equals(range.getWorld()) && Range.getChunkRange(player).intersects(range)) {
 				sendTo(message, player);
 			}
@@ -90,7 +90,7 @@ public class PacketHandler {
 		sendToReceivers(message, new Range(tileEntity));
 	}
 
-	public static EntityPlayer getPlayer(final MessageContext context) {
+	public static PlayerUtility getPlayer(final MessageContext context) {
 		return NuclearPhysics.getProxy().getPlayer(context);
 	}
 

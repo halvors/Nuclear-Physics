@@ -1,23 +1,26 @@
 package org.halvors.nuclearphysics.common.block.reactor;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootContext;
 import org.halvors.nuclearphysics.common.block.BlockRotatable;
 import org.halvors.nuclearphysics.common.item.block.reactor.ItemBlockThermometer;
 import org.halvors.nuclearphysics.common.tile.reactor.TileThermometer;
 import org.halvors.nuclearphysics.common.utility.InventoryUtility;
 import org.halvors.nuclearphysics.common.utility.WrenchUtility;
 
-import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +32,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public boolean onBlockActivated(final World world, final BlockPos pos, final IBlockState state, final EntityPlayer player, final EnumHand hand, final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileThermometer) {
@@ -61,7 +64,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public void onBlockPlacedBy(final World world, final BlockPos pos, final IBlockState state, final EntityLivingBase entity, final ItemStack itemStack) {
+    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack itemStack) {
         final TileEntity tile = world.getTileEntity(pos);
 
         // Fetch saved coordinates from ItemBlockThermometer and apply them to the block.
@@ -75,7 +78,7 @@ public class BlockThermometer extends BlockRotatable {
     }
 
     @Override
-    public boolean removedByPlayer(@Nonnull final IBlockState state, final World world, @Nonnull final BlockPos pos, @Nonnull final EntityPlayer player, final boolean willHarvest) {
+    public boolean removedByPlayer(BlockState state, World world, BlockPos pos, PlayerEntity player, boolean willHarvest, IFluidState fluid) {
         if (!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
             final ItemStack itemStack = InventoryUtility.getItemStackWithNBT(state, world, pos);
             InventoryUtility.dropItemStack(world, pos, itemStack);
@@ -84,16 +87,14 @@ public class BlockThermometer extends BlockRotatable {
         return world.setBlockToAir(pos);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public boolean canProvidePower(final IBlockState state) {
+    public boolean canProvidePower(BlockState state) {
         return true;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public int getWeakPower(final IBlockState state, final IBlockAccess world, final BlockPos pos, final EnumFacing side) {
-        final TileEntity tile = world.getTileEntity(pos);
+    public int getWeakPower(BlockState state, IBlockReader block, BlockPos pos, Direction side) {
+        final TileEntity tile = block.getTileEntity(pos);
 
         if (tile instanceof TileThermometer) {
             final TileThermometer tileThermometer = (TileThermometer) tile;
@@ -101,18 +102,17 @@ public class BlockThermometer extends BlockRotatable {
             return tileThermometer.isProvidingPower ? 15 : 0;
         }
 
-        return super.getWeakPower(state, world, pos, side);
+        return super.getWeakPower(state, block, pos, side);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    @Nonnull
-    public List<ItemStack> getDrops(@Nonnull final IBlockAccess world, @Nonnull final BlockPos pos, @Nonnull final IBlockState state, final int fortune) {
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         return new ArrayList<>();
     }
 
+    @Nullable
     @Override
-    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TileThermometer();
     }
 }

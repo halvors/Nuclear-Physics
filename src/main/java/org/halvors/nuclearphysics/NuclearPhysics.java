@@ -1,21 +1,18 @@
-package org.halvors.nuclearphysics.common;
+package org.halvors.nuclearphysics;
 
-import net.minecraft.entity.Entity;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.halvors.nuclearphysics.client.ClientProxy;
-import org.halvors.nuclearphysics.common.entity.EntityParticle;
-import org.halvors.nuclearphysics.common.init.ModCapabilities;
-import org.halvors.nuclearphysics.common.init.ModMessages;
-import org.halvors.nuclearphysics.common.init.ModRecipes;
-import org.halvors.nuclearphysics.common.init.ModWorldGenerators;
-import org.halvors.nuclearphysics.common.network.PacketHandler;
-import org.halvors.nuclearphysics.common.science.grid.GridTicker;
-import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
+import org.halvors.nuclearphysics.common.item.group.ItemGroupMain;
+import org.halvors.nuclearphysics.setup.ClientSetup;
+import org.halvors.nuclearphysics.setup.CommonSetup;
 
 /*@Mod(modid = Reference.ID,
      name = Reference.NAME,
@@ -24,7 +21,35 @@ import org.halvors.nuclearphysics.common.science.grid.ThermalGrid;
 	 acceptedMinecraftVersions = "[1.12,1.13)",
 	 guiFactory = "org.halvors." + Reference.ID + ".client.gui.configuration.GuiConfiguationFactory")
 */
-public class NuclearPhysics {
+@Mod(NuclearPhysics.ID)
+public final class NuclearPhysics {
+	public static final String ID = "nuclearphysics";
+
+	//public static final NetworkHandler NETWORK_HANDLER = new NetworkHandler();
+	public static final ItemGroup MAIN_GROUP = new ItemGroupMain();
+	//public static final ServerConfig SERVER_CONFIG = new ServerConfig();
+	//public static final ClientConfig CLIENT_CONFIG = new ClientConfig();
+
+	public NuclearPhysics() {
+		DistExecutor.runWhenOn(Dist.CLIENT, () -> ClientSetup::new);
+
+
+		//ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG.getSpec());
+		//ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG.getSpec());
+
+		CommonSetup commonSetup = new CommonSetup();
+
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(commonSetup::onCommonSetup);
+		FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class, commonSetup::onRegisterBlocks);
+		FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(TileEntityType.class, commonSetup::onRegisterTiles);
+		FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, commonSetup::onRegisterItems);
+		FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(IRecipeSerializer.class, commonSetup::onRegisterRecipeSerializers);
+		FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ContainerType.class, commonSetup::onRegisterContainers);
+	}
+
+	// 1.12.2 ///////////////////////////////////////////////////////////////////
+
+	/*
 	// The instance of your mod that Forge uses.
 	//@Instance(Reference.ID)
 	private static NuclearPhysics instance;
@@ -139,4 +164,5 @@ public class NuclearPhysics {
 	public static CreativeTab getCreativeTab() {
 		return creativeTab;
 	}
+	*/
 }

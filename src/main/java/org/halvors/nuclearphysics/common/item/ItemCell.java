@@ -3,6 +3,7 @@ package org.halvors.nuclearphysics.common.item;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
@@ -14,7 +15,7 @@ import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
 import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
@@ -32,7 +33,7 @@ public class ItemCell extends ItemTooltip {
         super("cell");
 
         // Add empty NBT tag to empty cell because Forge does not remove tag when emptying.
-        itemStackEmpty.setTagCompound(new NBTTagCompound());
+        itemStackEmpty.setTag(new CompoundNBT());
     }
 
     @Override

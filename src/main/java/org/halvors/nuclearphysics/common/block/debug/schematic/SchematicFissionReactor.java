@@ -1,12 +1,11 @@
 package org.halvors.nuclearphysics.common.block.debug.schematic;
 
-import net.minecraft.block.BlockLever;
 import net.minecraft.block.BlockLever.EnumOrientation;
-import net.minecraft.block.BlockPistonBase;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.LeverBlock;
+import net.minecraft.block.PistonBlock;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
@@ -21,8 +20,8 @@ public class SchematicFissionReactor implements ISchematic {
     }
 
     @Override
-    public HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size) {
-        final HashMap<BlockPos, IBlockState> map = new HashMap<>();
+    public HashMap<BlockPos, BlockState> getStructure(Direction direction, int size) {
+        final HashMap<BlockPos, BlockState> map = new HashMap<>();
         final int radius = 2;
 
         // We do not support high reactor towers yet. Forcing HEIGHT.
@@ -41,15 +40,15 @@ public class SchematicFissionReactor implements ISchematic {
                             // Place piston base to push control rods in.
                             final BlockPos offsetPos = VectorUtility.normalize(new BlockPos(x, 0, z));
 
-                            for (EnumFacing side : EnumFacing.values()) {
+                            for (Direction side : Direction.values()) {
                                 if (offsetPos.getX() == side.getXOffset() && offsetPos.getY() == side.getYOffset() && offsetPos.getZ() == side.getZOffset()) {
-                                    facing = side.getOpposite();
+                                    direction = side.getOpposite();
                                 }
                             }
 
                             final BlockPos pos = targetPos.add(offsetPos);
-                            map.put(pos, Blocks.STICKY_PISTON.getDefaultState().withProperty(BlockPistonBase.FACING, facing));
-                            map.put(pos.offset(facing.getOpposite()), Blocks.LEVER.getDefaultState().withProperty(BlockLever.FACING, (facing.getAxis() == Axis.X ? EnumOrientation.UP_X : EnumOrientation.UP_Z)));
+                            map.put(pos, Blocks.STICKY_PISTON.getDefaultState().withProperty(PistonBlock.FACING, direction));
+                            map.put(pos.offset(direction.getOpposite()), Blocks.LEVER.getDefaultState().withProperty(LeverBlock.FACING, (facing.getAxis() == Direction.Axis.X ? EnumOrientation.UP_X : EnumOrientation.UP_Z)));
                         } else if (x == -radius || x == radius || z == -radius || z == radius) {
                             map.put(targetPos, Blocks.GLASS.getDefaultState());
                         } else if (x == 0 && z == 0) {

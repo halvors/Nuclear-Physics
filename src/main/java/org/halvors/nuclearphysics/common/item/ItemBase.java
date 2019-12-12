@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.common.item;
 
 import net.minecraft.item.Item;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
 /**
@@ -17,7 +17,7 @@ public class ItemBase extends Item {
 
 		setTranslationKey(Reference.ID + "." + name);
 		setRegistryName(Reference.ID, name);
-		setCreativeTab(NuclearPhysics.getCreativeTab());
+		//setCreativeTab(NuclearPhysics.getCreativeTab());
 	}
 
 	public void registerItemModel() {

@@ -1,11 +1,11 @@
 package org.halvors.nuclearphysics.common.block.states;
 
-import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.Property;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IStringSerializable;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.machine.BlockMachine;
 import org.halvors.nuclearphysics.common.tile.machine.TileChemicalExtractor;
 import org.halvors.nuclearphysics.common.tile.machine.TileGasCentrifuge;
@@ -16,7 +16,7 @@ import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.nuclearphysics.common.type.EnumParticleType;
 
 public class BlockStateMachine extends BlockStateFacing {
-    public static final PropertyEnum<EnumMachine> TYPE = PropertyEnum.create("type", EnumMachine.class);
+    public static final Property<EnumMachine> Property<EnumMachine> TYPE = PropertyEnum.create("type", EnumMachine.class);
 
     public BlockStateMachine(final BlockMachine block) {
         super(block, TYPE);
@@ -25,30 +25,30 @@ public class BlockStateMachine extends BlockStateFacing {
     public enum EnumMachine implements IStringSerializable {
         CHEMICAL_EXTRACTOR(TileChemicalExtractor.class, EnumParticleType.RADIOACTIVE),
         GAS_CENTRIFUGE(TileGasCentrifuge.class),
-        NUCLEAR_BOILER(TileNuclearBoiler.class, EnumParticleTypes.CLOUD, 0.025),
-        PARTICLE_ACCELERATOR(TileParticleAccelerator.class, EnumBlockRenderType.MODEL),
+        NUCLEAR_BOILER(TileNuclearBoiler.class, ParticleTypes.CLOUD, 0.025),
+        PARTICLE_ACCELERATOR(TileParticleAccelerator.class, BlockRenderType.MODEL),
         PLASMA_HEATER(TilePlasmaHeater.class),
         QUANTUM_ASSEMBLER(TileQuantumAssembler.class);
 
         private final Class<? extends TileEntity> tileClass;
-        private final EnumBlockRenderType renderType;
+        private final BlockRenderType blockRenderType;
 
         private boolean particle;
         private boolean customParticle;
-        private EnumParticleTypes particleType;
+        private ParticleTypes particleType;
         private EnumParticleType customParticleType;
         private double particleSpeed;
 
-        EnumMachine(final Class<? extends TileEntity> tileClass, final EnumBlockRenderType renderType) {
+        EnumMachine(final Class<? extends TileEntity> tileClass, final BlockRenderType blockRenderType) {
             this.tileClass = tileClass;
-            this.renderType = renderType;
+            this.blockRenderType = blockRenderType;
         }
 
         EnumMachine(final Class<? extends TileEntity> tileClass) {
-            this(tileClass, EnumBlockRenderType.ENTITYBLOCK_ANIMATED);
+            this(tileClass, BlockRenderType.ENTITYBLOCK_ANIMATED);
         }
 
-        EnumMachine(final Class<? extends TileEntity> tileClass, final EnumParticleTypes particleType, final double particleSpeed) {
+        EnumMachine(final Class<? extends TileEntity> tileClass, final ParticleTypes particleType, final double particleSpeed) {
             this(tileClass);
 
             this.particle = true;
@@ -56,7 +56,7 @@ public class BlockStateMachine extends BlockStateFacing {
             this.particleSpeed = particleSpeed;
         }
 
-        EnumMachine(final Class<? extends TileEntity> tileClass, final EnumParticleTypes particleType) {
+        EnumMachine(final Class<? extends TileEntity> tileClass, final ParticleTypes particleType) {
             this(tileClass, particleType, 0);
         }
 
@@ -93,8 +93,8 @@ public class BlockStateMachine extends BlockStateFacing {
             return null;
         }
 
-        public EnumBlockRenderType getRenderType() {
-            return renderType;
+        public BlockRenderType getBlockRenderType() {
+            return blockRenderType;
         }
 
         public boolean hasParticle() {
@@ -105,7 +105,7 @@ public class BlockStateMachine extends BlockStateFacing {
             return customParticle;
         }
 
-        public EnumParticleTypes getParticleType() {
+        public ParticleTypes getParticleType() {
             return particleType;
         }
 

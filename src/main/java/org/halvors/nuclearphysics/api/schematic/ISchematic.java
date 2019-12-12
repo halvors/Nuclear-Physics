@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.api.schematic;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.HashMap;
@@ -19,5 +19,5 @@ public interface ISchematic {
      *
      * @param size - The size multiplier.
      * @return A Hashmap of positions and block states. */
-    HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size);
+    HashMap<BlockPos, BlockState> getStructure(Direction direction, int size);
 }

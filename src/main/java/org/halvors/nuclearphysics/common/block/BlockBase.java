@@ -2,8 +2,7 @@ package org.halvors.nuclearphysics.common.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemBlock;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.Reference;
 
 public class BlockBase extends Block {

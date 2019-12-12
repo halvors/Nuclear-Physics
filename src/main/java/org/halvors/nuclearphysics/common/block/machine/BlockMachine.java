@@ -1,12 +1,12 @@
 package org.halvors.nuclearphysics.common.block.machine;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -15,11 +15,13 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.world.chunk.BlockStateContainer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockInventory;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
@@ -29,6 +31,7 @@ import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.PlayerUtility;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockMachine extends BlockInventory {
@@ -50,27 +53,27 @@ public class BlockMachine extends BlockInventory {
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public EnumBlockRenderType getRenderType(final IBlockState state) {
         return state.getValue(BlockStateMachine.TYPE).getRenderType();
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean isFullCube(final IBlockState state) {
         return false;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean isOpaqueCube(final IBlockState state) {
         return false;
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void getSubBlocks(final CreativeTabs tab, final NonNullList<ItemStack> list) {
         for (final EnumMachine type : EnumMachine.values()) {
             list.add(new ItemStack(this, 1, type.ordinal()));
@@ -78,7 +81,7 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void randomDisplayTick(final IBlockState state, final World world, final BlockPos pos, final Random random) {
         final EnumMachine type = state.getValue(BlockStateMachine.TYPE);
         final TileEntity tile = world.getTileEntity(pos);
@@ -173,7 +176,7 @@ public class BlockMachine extends BlockInventory {
     }
 
     @Override
-    public boolean onBlockActivated(final World world, final BlockPos pos, final IBlockState state, final EntityPlayer player, final EnumHand hand, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
+    public boolean onBlockActivated(final World world, final BlockPos pos, final IBlockState state, final PlayerEntity player, final EnumHand hand, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TilePlasmaHeater) {
@@ -187,9 +190,8 @@ public class BlockMachine extends BlockInventory {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(final IBlockState state, final World world, final BlockPos pos, final Block block, final BlockPos fromPos) {
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileMachine) {
@@ -197,8 +199,9 @@ public class BlockMachine extends BlockInventory {
         }
     }
 
+    @Nullable
     @Override
-    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         final EnumMachine type = state.getValue(BlockStateMachine.TYPE);
 
         return type.getTileAsInstance();

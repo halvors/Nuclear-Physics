@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.api.tile;
 
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 
 public interface IReactor {
     void heat(long energy);

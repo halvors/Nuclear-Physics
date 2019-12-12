@@ -2,12 +2,12 @@ package org.halvors.nuclearphysics.client.gui;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public interface IGuiWrapper {
     void drawTexturedRect(int x, int y, int u, int v, int w, int h);
 

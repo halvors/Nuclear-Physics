@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.common.tile;
 
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -25,7 +25,7 @@ public abstract class TileInventoryMachine extends TileMachine {
     }
 
     @Override
-    public void readFromNBT(final NBTTagCompound tag) {
+    public void readFromNBT(final CompoundNBT tag) {
         super.readFromNBT(tag);
 
         InventoryUtility.readFromNBT(tag, inventory);
@@ -33,7 +33,7 @@ public abstract class TileInventoryMachine extends TileMachine {
     }
 
     @Override
-    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
+    public CompoundNBT writeToNBT(final CompoundNBT tag) {
         super.writeToNBT(tag);
 
         tag.setTag(NBT_SLOTS, CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(inventory, null));
@@ -42,19 +42,19 @@ public abstract class TileInventoryMachine extends TileMachine {
     }
 
     @Override
-    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    public boolean hasCapability(@Nonnull final Capability<?> capability, @Nullable final Direction direction) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, direction);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Nonnull
-    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final EnumFacing facing) {
+    public <T> T getCapability(@Nonnull final Capability<T> capability, @Nullable final Direction direction) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return (T) inventory;
         }
 
-        return super.getCapability(capability, facing);
+        return super.getCapability(capability, direction);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

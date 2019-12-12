@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.common.block;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -10,6 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.BlockStateContainer;
 import org.halvors.nuclearphysics.common.block.states.BlockStateFacing;
 import org.halvors.nuclearphysics.common.tile.ITileRotatable;
 
@@ -31,7 +32,7 @@ public class BlockRotatable extends BlockContainerBase {
     @SuppressWarnings("deprecation")
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(final int metadata) {
+    public BlockState getStateFromMeta(final int metadata) {
         return getDefaultState();
     }
 

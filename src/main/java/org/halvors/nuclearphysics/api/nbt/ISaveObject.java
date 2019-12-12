@@ -1,9 +1,9 @@
 package org.halvors.nuclearphysics.api.nbt;
 
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 
 public interface ISaveObject {
-    void readFromNBT(NBTTagCompound tag);
+    void read(final CompoundNBT compound);
 
-    NBTTagCompound writeToNBT(NBTTagCompound tag);
+    CompoundNBT write(final CompoundNBT compound);
 }

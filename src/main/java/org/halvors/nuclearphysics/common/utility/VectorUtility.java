@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.common.utility;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
@@ -31,16 +31,16 @@ public class VectorUtility {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public static BlockPos readFromNBT(final NBTTagCompound tag) {
-        return new BlockPos(tag.getDouble(NBT_X), tag.getDouble(NBT_Y), tag.getDouble(NBT_Z));
+    public static BlockPos read(final CompoundNBT compound) {
+        return new BlockPos(compound.getDouble(NBT_X), compound.getDouble(NBT_Y), compound.getDouble(NBT_Z));
     }
 
-    public static NBTTagCompound writeToNBT(final BlockPos pos, final NBTTagCompound tag) {
-        tag.setDouble(NBT_X, pos.getX());
-        tag.setDouble(NBT_Y, pos.getY());
-        tag.setDouble(NBT_Z, pos.getZ());
+    public static CompoundNBT write(final BlockPos pos, final CompoundNBT compound) {
+        compound.putDouble(NBT_X, pos.getX());
+        compound.putDouble(NBT_Y, pos.getY());
+        compound.putDouble(NBT_Z, pos.getZ());
 
-        return tag;
+        return compound;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

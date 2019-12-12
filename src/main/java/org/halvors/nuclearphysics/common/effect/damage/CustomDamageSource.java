@@ -2,9 +2,11 @@ package org.halvors.nuclearphysics.common.effect.damage;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
@@ -79,22 +81,22 @@ public class CustomDamageSource extends DamageSource {
 
     @Override
     @Nonnull
-    public ITextComponent getDeathMessage(EntityLivingBase victum) {
-        EntityLivingBase attacker = victum.getAttackingEntity();
+    public ITextComponent getDeathMessage(LivingEntity victum) {
+        LivingEntity attacker = victum.getAttackingEntity();
         String deathTranslation = "death.attack." + this.damageType;
         String playerKillTranslation = deathTranslation + ".player";
         String machineKillTranslation = deathTranslation + ".process";
 
         if (damageSource instanceof TileEntity) {
             if (LanguageUtility.canTranselate(machineKillTranslation)) {
-                return new TextComponentTranslation(machineKillTranslation, victum.getCommandSenderEntity().getDisplayName());
+                TextComponentTranslation(machineKillTranslation, victum.getCommandSource().getDisplayName());
             }
         } else if (attacker != null) {
             if (LanguageUtility.canTranselate(playerKillTranslation)) {
-                return new TextComponentTranslation(playerKillTranslation, victum.getCommandSenderEntity().getDisplayName(), attacker.getCommandSenderEntity().getDisplayName());
+                return new TextComponentTranslation(playerKillTranslation, victum.getCommandSource().getDisplayName(), attacker.getCommandSource().getDisplayName());
             }
         } else if (LanguageUtility.canTranselate(deathTranslation)) {
-            return new TextComponentTranslation(deathTranslation, victum.getCommandSenderEntity().getDisplayName());
+            return new TextComponentTranslation(deathTranslation, victum.getCommandSource().getDisplayName());
         }
 
         return null;

@@ -1,14 +1,14 @@
 package org.halvors.nuclearphysics.client.gui.component;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 
 import java.util.List;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public abstract class GuiComponent implements IGuiComponent {
     protected final ResourceLocation resource;
     protected final IGuiWrapper gui;
@@ -43,7 +43,7 @@ public abstract class GuiComponent implements IGuiComponent {
 
             GlStateManager.pushMatrix();
 
-            GlStateManager.scale(scale, scale, scale);
+            GlStateManager.scaled(scale, scale, scale);
             gui.getFontRenderer().drawString(text, (int) (x * reverse), (int) ((y * reverse) + yAdd), color);
 
             GlStateManager.popMatrix();

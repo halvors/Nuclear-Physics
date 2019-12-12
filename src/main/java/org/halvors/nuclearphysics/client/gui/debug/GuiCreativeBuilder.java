@@ -5,10 +5,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.client.gui.GuiComponentScreen;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.debug.BlockCreativeBuilder;
 import org.halvors.nuclearphysics.common.network.packet.PacketCreativeBuilder;
 import org.halvors.nuclearphysics.common.type.EnumColor;
@@ -17,7 +17,7 @@ import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 import java.io.IOException;
 import java.util.List;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiCreativeBuilder extends GuiComponentScreen {
     private final Block block;
     private final BlockPos pos;

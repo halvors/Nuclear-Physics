@@ -1,10 +1,10 @@
 package org.halvors.nuclearphysics.common.container;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import org.halvors.nuclearphysics.common.tile.TileBase;
 
@@ -18,19 +18,19 @@ public class ContainerBase<T extends TileBase> extends Container {
     protected int yInventoryDisplacement = 135;
     protected int yHotBarDisplacement = 193;
 
-    public ContainerBase(final int slotCount, final InventoryPlayer inventory, final T tile) {
+    public ContainerBase(final int slotCount, final PlayerInventory playerInventory, final T tile) {
         this.slotCount = slotCount;
-        this.inventory = inventory;
+        this.inventory = playerInventory;
         this.tile = tile;
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull final EntityPlayer player) {
+    public boolean canInteractWith(@Nonnull final PlayerEntity player) {
         return inventory.isUsableByPlayer(player);
     }
 
     @Override
-    public ItemStack transferStackInSlot(final EntityPlayer player, final int index) {
+    public ItemStack transferStackInSlot(final PlayerEntity player, final int index) {
         final Slot slot = inventorySlots.get(index);
 
         if (slot != null && !slot.getStack().isEmpty()) {
@@ -57,15 +57,15 @@ public class ContainerBase<T extends TileBase> extends Container {
         return ItemStack.EMPTY;
     }
 
-    protected void addPlayerInventory(final EntityPlayer player) {
+    protected void addPlayerInventory(final PlayerEntity player) {
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
-                addSlotToContainer(new Slot(player.inventory, x + y * 9 + 9, xInventoryDisplacement + x * 18, yInventoryDisplacement + y * 18));
+                addSlot(new Slot(player.inventory, x + y * 9 + 9, xInventoryDisplacement + x * 18, yInventoryDisplacement + y * 18));
             }
         }
 
         for (int x = 0; x < 9; x++) {
-            addSlotToContainer(new Slot(player.inventory, x, xInventoryDisplacement + x * 18, yHotBarDisplacement));
+            addSlot(new Slot(player.inventory, x, xInventoryDisplacement + x * 18, yHotBarDisplacement));
         }
     }
 }

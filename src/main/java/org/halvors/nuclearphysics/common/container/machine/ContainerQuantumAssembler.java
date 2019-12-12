@@ -1,26 +1,26 @@
 package org.halvors.nuclearphysics.common.container.machine;
 
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraftforge.items.SlotItemHandler;
 import org.halvors.nuclearphysics.common.container.ContainerBase;
 import org.halvors.nuclearphysics.common.tile.machine.TileQuantumAssembler;
 
 public class ContainerQuantumAssembler extends ContainerBase<TileQuantumAssembler> {
-    public ContainerQuantumAssembler(final InventoryPlayer inventoryPlayer, final TileQuantumAssembler tile) {
-        super(7, inventoryPlayer, tile);
+    public ContainerQuantumAssembler(final PlayerInventory playerInventory, final TileQuantumAssembler tile) {
+        super(7, playerInventory, tile);
 
         yInventoryDisplacement = 148;
         yHotBarDisplacement = 206;
 
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 0, 80, 40));
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 1, 53, 56));
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 2, 107, 56));
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 3, 53, 88));
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 4, 107, 88));
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 5, 80, 103));
-        addSlotToContainer(new SlotItemHandler(tile.getInventory(), 6, 80, 72));
+        addSlot(new SlotItemHandler(tile.getInventory(), 0, 80, 40));
+        addSlot(new SlotItemHandler(tile.getInventory(), 1, 53, 56));
+        addSlot(new SlotItemHandler(tile.getInventory(), 2, 107, 56));
+        addSlot(new SlotItemHandler(tile.getInventory(), 3, 53, 88));
+        addSlot(new SlotItemHandler(tile.getInventory(), 4, 107, 88));
+        addSlot(new SlotItemHandler(tile.getInventory(), 5, 80, 103));
+        addSlot(new SlotItemHandler(tile.getInventory(), 6, 80, 72));
 
         // Player inventory
-        addPlayerInventory(inventoryPlayer.player);
+        addPlayerInventory(playerInventory.player);
     }
 }

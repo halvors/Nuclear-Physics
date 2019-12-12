@@ -17,12 +17,14 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ChunkManager;
+import net.minecraft.world.server.Ticket;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.api.tile.IElectromagnet;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.init.ModPotions;
 import org.halvors.nuclearphysics.common.init.ModSoundEvents;
 import org.halvors.nuclearphysics.common.tile.particle.TileParticleAccelerator;
@@ -137,7 +139,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
             // TODO: Calculate direction so to only load two chunks instead of 5.
             for (int x = -1; x < 1; x++) {
                 for (int z = -1; z < 1; z++) {
-                    ForgeChunkManager.forceChunk(updateTicket, new ChunkPos(((int) posX >> 4) + x, ((int) posZ >> 4) + z));
+                    ChunkManager.forceChunk(updateTicket, new ChunkPos(((int) posX >> 4) + x, ((int) posZ >> 4) + z));
                 }
             }
 

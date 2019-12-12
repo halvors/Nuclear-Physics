@@ -1,12 +1,13 @@
 package org.halvors.nuclearphysics.common.block.reactor.fusion;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -15,10 +16,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.block.BlockConnectedTexture;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet;
 import org.halvors.nuclearphysics.common.block.states.BlockStateElectromagnet.EnumElectromagnet;
@@ -37,9 +42,8 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    @Nonnull
-    public SoundType getSoundType(final IBlockState state, final World world, final BlockPos pos, final @Nullable Entity entity) {
+    @OnlyIn(Dist.CLIENT)
+    public SoundType getSoundType(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity entity) {
         final EnumElectromagnet type = state.getValue(BlockStateElectromagnet.TYPE);
 
         if (type == EnumElectromagnet.GLASS) {
@@ -62,8 +66,8 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean canRenderInLayer(final IBlockState state, final @Nonnull BlockRenderLayer layer) {
+    @OnlyIn(Dist.CLIENT)
+    public boolean canRenderInLayer(BlockState state, BlockRenderLayer layer) {
         final EnumElectromagnet type = state.getValue(BlockStateElectromagnet.TYPE);
 
         if (type == EnumElectromagnet.GLASS) {
@@ -125,8 +129,8 @@ public class BlockElectromagnet extends BlockConnectedTexture {
     }
 
     @Override
-    public void onBlockPlacedBy(final World world, final BlockPos pos, final IBlockState state, final EntityLivingBase entity, final ItemStack itemStack) {
-        world.setBlockState(pos, state.withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.values()[itemStack.getItemDamage()]), 2);
+    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, ItemStack itemStack) {
+        world.setBlockState(pos, state.withProperty(BlockStateElectromagnet.TYPE, EnumElectromagnet.values()[itemStack.getDamage()]), 2);
     }
 
     @Override
@@ -163,8 +167,9 @@ public class BlockElectromagnet extends BlockConnectedTexture {
         return super.canConnect(originalState, connectedState);
     }
 
+    @Nullable
     @Override
-    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TileElectromagnet();
     }
 }

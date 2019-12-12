@@ -2,17 +2,14 @@ package org.halvors.nuclearphysics.common.tile.machine;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.FluidTankPropertiesWrapper;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import org.halvors.nuclearphysics.common.block.states.BlockStateMachine.EnumMachine;
 import org.halvors.nuclearphysics.common.capabilities.fluid.LiquidTank;
 import org.halvors.nuclearphysics.common.tile.TileInventoryMachine;
@@ -48,22 +45,22 @@ public abstract class TileProcess extends TileInventoryMachine implements IFluid
     }
 
     @Override
-    public void readFromNBT(final NBTTagCompound tag) {
-        super.readFromNBT(tag);
+    public void read(final CompoundNBT compound) {
+        super.read(compound);
 
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInput, null, tag.getTag(NBT_TANK_INPUT));
-        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankOutput, null, tag.getTag(NBT_TANK_OUTPUT));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankInput, null, compound.getCompound(NBT_TANK_INPUT));
+        CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.readNBT(tankOutput, null, compound.getCompound(NBT_TANK_OUTPUT));
     }
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
-        super.writeToNBT(tag);
+    public CompoundNBT write(final CompoundNBT compound) {
+        super.write(compound);
 
         tag.setTag(NBT_TANK_INPUT, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankInput, null));
         tag.setTag(NBT_TANK_OUTPUT, CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.writeNBT(tankOutput, null));
 
-        return tag;
+        return compound;
     }
 
     @Override

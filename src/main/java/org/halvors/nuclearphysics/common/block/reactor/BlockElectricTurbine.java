@@ -1,14 +1,18 @@
 package org.halvors.nuclearphysics.common.block.reactor;
 
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.common.block.BlockContainerBase;
@@ -16,6 +20,7 @@ import org.halvors.nuclearphysics.common.tile.reactor.TileElectricTurbine;
 import org.halvors.nuclearphysics.common.utility.WrenchUtility;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class BlockElectricTurbine extends BlockContainerBase {
     public BlockElectricTurbine() {
@@ -24,12 +29,10 @@ public class BlockElectricTurbine extends BlockContainerBase {
         setHardness(0.6F);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    @Nonnull
-    @SideOnly(Side.CLIENT)
-    public EnumBlockRenderType getRenderType(final IBlockState state) {
-        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+    @OnlyIn(Dist.CLIENT)
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @SuppressWarnings("deprecation")
@@ -47,7 +50,7 @@ public class BlockElectricTurbine extends BlockContainerBase {
     }
 
     @Override
-    public boolean onBlockActivated(final World world, final BlockPos pos, final IBlockState state, final EntityPlayer player, final EnumHand hand, final EnumFacing facing, final float hitX, final float hitY, final float hitZ) {
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         final TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileElectricTurbine) {
@@ -73,8 +76,9 @@ public class BlockElectricTurbine extends BlockContainerBase {
         super.breakBlock(world, pos, state);
     }
 
+    @Nullable
     @Override
-    public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new TileElectricTurbine();
     }
 }

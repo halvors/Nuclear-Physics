@@ -1,8 +1,8 @@
 package org.halvors.nuclearphysics.common.tile;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -17,28 +17,26 @@ public class TileConsumer extends TileRotatable {
 
     protected EnergyStorage energyStorage;
 
-    public TileConsumer() {
-
+    public TileConsumer(TileEntityType<?> tileEntityType) {
+        super(tileEntityType);
     }
 
     @Override
-    public void readFromNBT(final NBTTagCompound tag) {
-        super.readFromNBT(tag);
+    public void read(CompoundNBT compound) {
+        super.read(compound);
 
         if (energyStorage != null) {
-            CapabilityEnergy.ENERGY.readNBT(energyStorage, null, tag.getTag(NBT_STORED_ENERGY));
+            CapabilityEnergy.ENERGY.readNBT(energyStorage, null, compound.get(NBT_STORED_ENERGY));
         }
     }
 
     @Override
-    public NBTTagCompound writeToNBT(final NBTTagCompound tag) {
-        super.writeToNBT(tag);
-
+    public CompoundNBT write(CompoundNBT compound) {
         if (energyStorage != null) {
-            tag.setTag(NBT_STORED_ENERGY, CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));
+            compound.put(NBT_STORED_ENERGY, CapabilityEnergy.ENERGY.writeNBT(energyStorage, null));
         }
 
-        return tag;
+        return super.write(compound);
     }
 
     @Override

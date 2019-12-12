@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.common.type;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -55,7 +55,7 @@ public class Range {
 		this(tile.getWorld(), tile.getPos());
 	}
 
-	public static Range getChunkRange(final EntityPlayer player) {
+	public static Range getChunkRange(final PlayerEntity player) {
 		final int radius = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getViewDistance();
 		final ChunkPos chunkPos = new ChunkPos(player.getPosition());
 

@@ -1,13 +1,13 @@
 package org.halvors.nuclearphysics.client.gui.component;
 
-import net.minecraft.init.SoundEvents;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.SoundEvents;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.sound.SoundHandler;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketRedstoneControl;
 import org.halvors.nuclearphysics.common.tile.ITileRedstoneControl;
 import org.halvors.nuclearphysics.common.type.EnumRedstoneControl;
@@ -16,7 +16,7 @@ import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.awt.*;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiRedstoneControl extends GuiComponent {
     private final TileEntity tile;
 

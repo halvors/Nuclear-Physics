@@ -7,7 +7,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.item.ItemTooltip;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 

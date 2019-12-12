@@ -1,14 +1,11 @@
 package org.halvors.nuclearphysics.common.worldgen;
 
-import net.minecraft.block.state.pattern.BlockMatcher;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.pattern.BlockMatcher;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkGeneratorEnd;
-import net.minecraft.world.gen.ChunkGeneratorHell;
-import net.minecraft.world.gen.IChunkGenerator;
-import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraft.world.chunk.AbstractChunkProvider;
+import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraftforge.fml.common.IWorldGenerator;
 import org.halvors.nuclearphysics.common.ConfigurationManager.General;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
@@ -17,7 +14,7 @@ import java.util.Random;
 
 public class OreGenerator implements IWorldGenerator {
     @Override
-    public void generate(final Random random, final int chunkX, final int chunkZ, final World world, final IChunkGenerator chunkGenerator, final IChunkProvider chunkProvider) {
+    public void generate(Random random, int chunkX, int chunkZ, World world, ChunkGenerator chunkGenerator, AbstractChunkProvider chunkProvider) {
         if (!(chunkGenerator instanceof ChunkGeneratorHell) && !(chunkGenerator instanceof ChunkGeneratorEnd)) {
             if (General.enableOreRegeneration) {
                 for (int i = 0; i < General.uraniumPerChunk; i++) {

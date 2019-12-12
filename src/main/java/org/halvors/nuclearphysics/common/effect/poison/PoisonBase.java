@@ -1,7 +1,9 @@
 package org.halvors.nuclearphysics.common.effect.poison;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -35,11 +37,11 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
     }
 
     @Override
-    public boolean isEntityProtected(final EntityLivingBase entity, final int amplifier) {
+    public boolean isEntityProtected(final LivingEntity entity, final int amplifier) {
         final EnumSet<EntityEquipmentSlot> armorWorn = EnumSet.noneOf(EntityEquipmentSlot.class);
 
-        if (entity instanceof EntityPlayer) {
-            final EntityPlayer player = (EntityPlayer) entity;
+        if (entity instanceof PlayerEntity) {
+            final PlayerEntity player = (PlayerEntity) entity;
 
             for (final ItemStack itemStack : player.getArmorInventoryList()) {
                 if (!itemStack.isEmpty()) {
@@ -73,15 +75,15 @@ public abstract class PoisonBase extends PotionBase implements IPoison {
     }
 
     @Override
-    public void poisonEntity(final EntityLivingBase entity, final int amplifier) {
+    public void poisonEntity(final LivingEntity entity, final int amplifier) {
         if (!isEntityProtected(entity, amplifier)) {
             performPoisonEffect(entity, amplifier);
         }
     }
 
-    public void poisonEntity(final EntityLivingBase entity) {
+    public void poisonEntity(final LivingEntity entity) {
         poisonEntity(entity, 0);
     }
 
-    protected abstract void performPoisonEffect(final EntityLivingBase entity, final int amplifier);
+    protected abstract void performPoisonEffect(final LivingEntity entity, final int amplifier);
 }

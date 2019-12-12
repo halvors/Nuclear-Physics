@@ -2,10 +2,10 @@ package org.halvors.nuclearphysics.common.type;
 
 import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.client.render.particle.ParticleRadioactive;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
 
 public enum EnumParticleType {
     RADIOACTIVE;
@@ -14,7 +14,7 @@ public enum EnumParticleType {
 
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public Class<? extends Particle> getParticleClass() {
         switch (this) {
             case RADIOACTIVE:
@@ -24,7 +24,7 @@ public enum EnumParticleType {
         return null;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public Particle getParticleAsInstance(final World world, final double xCoord, final double yCoord, final double zCoord, final double xSpeed, final double ySpeed, final double zSpeed) {
         Class<? extends Particle> particleClass = getParticleClass();
 

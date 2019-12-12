@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import org.halvors.nuclearphysics.common.NuclearPhysics;
+import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.network.packet.PacketConfiguration;
 
 @EventBusSubscriber

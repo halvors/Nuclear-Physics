@@ -1,9 +1,9 @@
 package org.halvors.nuclearphysics.common.block.debug.schematic;
 
-import net.minecraft.block.BlockPistonBase;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.PistonBlock;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import org.halvors.nuclearphysics.api.schematic.ISchematic;
 import org.halvors.nuclearphysics.common.init.ModBlocks;
@@ -18,8 +18,8 @@ public class SchematicBreedingReactor implements ISchematic {
     }
 
     @Override
-    public HashMap<BlockPos, IBlockState> getStructure(EnumFacing facing, int size) {
-        final HashMap<BlockPos, IBlockState> map = new HashMap<>();
+    public HashMap<BlockPos, BlockState> getStructure(Direction direction, int size) {
+        final HashMap<BlockPos, BlockState> map = new HashMap<>();
 
         int radius = Math.max(size, 2);
 
@@ -43,15 +43,15 @@ public class SchematicBreedingReactor implements ISchematic {
                         map.put(new BlockPos(x, -2, z), Blocks.REDSTONE_WIRE.getDefaultState());
                     } else {
                         map.put(new BlockPos(x, -1, z), ModBlocks.blockControlRod.getDefaultState());
-                        map.put(new BlockPos(x, -2, z), Blocks.STICKY_PISTON.getDefaultState().withProperty(BlockPistonBase.FACING, EnumFacing.UP));
+                        map.put(new BlockPos(x, -2, z), Blocks.STICKY_PISTON.getDefaultState().withProperty(PistonBlock.FACING, Direction.UP));
                     }
                 }
             }
         }
 
-        map.put(BlockPos.ORIGIN.down(2), Blocks.STONE.getDefaultState());
-        map.put(BlockPos.ORIGIN.down(3), Blocks.STONE.getDefaultState());
-        map.put(BlockPos.ORIGIN, ModBlocks.blockReactorCell.getDefaultState());
+        map.put(BlockPos.ZERO.down(2), Blocks.STONE.getDefaultState());
+        map.put(BlockPos.ZERO.down(3), Blocks.STONE.getDefaultState());
+        map.put(BlockPos.ZERO, ModBlocks.blockReactorCell.getDefaultState());
 
         return map;
     }

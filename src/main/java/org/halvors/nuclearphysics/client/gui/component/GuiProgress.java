@@ -1,7 +1,7 @@
 package org.halvors.nuclearphysics.client.gui.component;
 
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import org.halvors.nuclearphysics.client.gui.IGuiWrapper;
 import org.halvors.nuclearphysics.client.utility.RenderUtility;
 import org.halvors.nuclearphysics.common.type.EnumResource;
@@ -9,7 +9,7 @@ import org.halvors.nuclearphysics.common.utility.ResourceUtility;
 
 import java.awt.*;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class GuiProgress extends GuiComponent {
     private static final int WIDTH = 22;
     private static final int HEIGHT = 16;
