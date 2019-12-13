@@ -57,7 +57,7 @@ public class TileRotatable extends TileBase implements ITileNetwork, ITileRotata
 
     @Override
     public boolean canSetDirection(Direction direction) {
-        return Arrays.asList(Direction.DOWN, Direction.EAST, Direction.NORTH, Direction.SOUTH).contains(direction);
+        return Direction.Plane.HORIZONTAL.test(direction); // Confirm this, Arrays.asList(Direction.DOWN, Direction.EAST, Direction.NORTH, Direction.SOUTH).contains(direction);
     }
 
     @Override

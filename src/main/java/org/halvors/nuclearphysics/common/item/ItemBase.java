@@ -10,12 +10,7 @@ import org.halvors.nuclearphysics.common.Reference;
  * @author halvors
  */
 public class ItemBase extends Item {
-	protected final String name;
-
-	public ItemBase(final String name) {
-		this.name = name;
-
-		setTranslationKey(Reference.ID + "." + name);
+	public ItemBase(final Properties properties) {
 		setRegistryName(Reference.ID, name);
 		//setCreativeTab(NuclearPhysics.getCreativeTab());
 	}

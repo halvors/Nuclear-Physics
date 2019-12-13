@@ -9,14 +9,18 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentUtils;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional.Interface;
@@ -59,8 +63,7 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
     }
 
     @Override
-    @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(final World world, final EntityPlayer player, @Nonnull final EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(final World world, final PlayerEntity player, final Hand hand) {
         final ItemStack itemStack = player.getHeldItem(hand);
 
         if (player.isSneaking()) {
@@ -70,13 +73,13 @@ public class ItemWrench extends ItemBase implements IWrench, IToolWrench, IToolH
             state = getState(itemStack);
 
             if (!world.isRemote) {
-                player.sendMessage(new TextComponentString(EnumColor.DARK_BLUE + "[" + Reference.NAME + "] " + EnumColor.GREY + LanguageUtility.transelate("tooltip.state") + ": " + state.getColor() + state.getName()));
+                player.sendMessage(new TextComponentUtils(EnumColor.DARK_BLUE + "[" + Reference.NAME + "] " + EnumColor.GREY + LanguageUtility.transelate("tooltip.state") + ": " + state.getColor() + state.getName()));
 
-                return new ActionResult<>(EnumActionResult.SUCCESS, itemStack);
+                return new ActionResult<>(ActionResultType.SUCCESS, itemStack);
             }
         }
 
-        return new ActionResult<>(EnumActionResult.PASS, itemStack);
+        return new ActionResult<>(ActionResultType.PASS, itemStack);
     }
 
     @Override

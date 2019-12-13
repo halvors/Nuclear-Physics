@@ -27,7 +27,7 @@ public class CommonSetup {
     }
 
     @SubscribeEvent
-    public void onRegisterBlocks(RegistryEvent.Register<Block> e) {
+    public void onRegisterBlocks(RegistryEvent.Register<Block> event) {
         /*
         e.getRegistry().register(new QuartzEnrichedIronBlock());
         e.getRegistry().register(new ControllerBlock(NetworkType.NORMAL));
@@ -118,7 +118,9 @@ public class CommonSetup {
     }
 
     @SubscribeEvent
-    public void onRegisterItems(RegistryEvent.Register<Item> e) {
+    public void onRegisterItems(RegistryEvent.Register<Item> event) {
+
+
         /*
         e.getRegistry().register(new CoreItem(CoreItem.Type.CONSTRUCTION));
         e.getRegistry().register(new CoreItem(CoreItem.Type.DESTRUCTION));

@@ -1,23 +1,23 @@
 package org.halvors.nuclearphysics.common.item;
 
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStackSimple;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.halvors.nuclearphysics.NuclearPhysics;
 import org.halvors.nuclearphysics.common.init.ModFluids;
-import org.halvors.nuclearphysics.common.utility.FluidUtility;
 import org.halvors.nuclearphysics.common.utility.LanguageUtility;
 
 import javax.annotation.Nonnull;
@@ -42,17 +42,20 @@ public class ItemCell extends ItemTooltip {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(final ItemStack itemStack, @Nullable final World world, final List<String> list, final ITooltipFlag flag) {
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(final ItemStack itemStack, @Nullable final World world, final List<ITextComponent> tooltip, final ITooltipFlag flag) {
         final FluidStack fluidStack = FluidUtil.getFluidContained(itemStack);
 
         if (fluidStack != null) {
-            list.add(LanguageUtility.transelate(getTranslationKey(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
+            tooltip.add(LanguageUtility.transelate(getTranslationKey(itemStack) + ".tooltip", fluidStack.getLocalizedName()));
         } else {
-            list.add(LanguageUtility.transelate("tooltip.empty"));
+            tooltip.add(LanguageUtility.transelate("tooltip.empty"));
         }
     }
 
+    getSub
+
+    /*
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(@Nonnull final CreativeTabs tab, @Nonnull final NonNullList<ItemStack> list) {
@@ -62,6 +65,7 @@ public class ItemCell extends ItemTooltip {
             }
         }
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -80,9 +84,9 @@ public class ItemCell extends ItemTooltip {
         return super.getContainerItem(itemStack);
     }
 
+    @Nullable
     @Override
-    @Nonnull
-    public ICapabilityProvider initCapabilities(final ItemStack itemStack, final NBTTagCompound tag) {
+    public ICapabilityProvider initCapabilities(final ItemStack itemStack, @Nullable final CompoundNBT compound) {
         return new FluidHandlerItemStackSimple(itemStack, CAPACITY);
     }
 
@@ -92,7 +96,7 @@ public class ItemCell extends ItemTooltip {
         EMPTY,
         DEUTERIUM(ModFluids.deuterium),
         TRITIUM(ModFluids.tritium),
-        WATER(FluidRegistry.WATER);
+        WATER(Fluids.WATER);
 
         private Fluid fluid;
 

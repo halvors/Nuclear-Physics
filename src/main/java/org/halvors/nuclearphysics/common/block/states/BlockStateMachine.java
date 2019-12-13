@@ -2,6 +2,7 @@ package org.halvors.nuclearphysics.common.block.states;
 
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.state.EnumProperty;
 import net.minecraft.state.Property;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
@@ -16,7 +17,7 @@ import org.halvors.nuclearphysics.common.tile.reactor.fusion.TilePlasmaHeater;
 import org.halvors.nuclearphysics.common.type.EnumParticleType;
 
 public class BlockStateMachine extends BlockStateFacing {
-    public static final Property<EnumMachine> Property<EnumMachine> TYPE = PropertyEnum.create("type", EnumMachine.class);
+    public static final Property<EnumMachine> TYPE = EnumProperty.create("type", EnumMachine.class);
 
     public BlockStateMachine(final BlockMachine block) {
         super(block, TYPE);

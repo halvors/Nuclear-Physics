@@ -3,12 +3,16 @@ package org.halvors.nuclearphysics.common.entity;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumParticleTypes;
@@ -20,7 +24,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ChunkManager;
 import net.minecraft.world.server.Ticket;
 import net.minecraftforge.common.ForgeChunkManager;
-import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.ForgeChunkManager.Type;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import org.halvors.nuclearphysics.NuclearPhysics;
@@ -33,7 +36,6 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class EntityParticle extends Entity implements IEntityAdditionalSpawnData {
-
     private static final DataParameter<EnumFacing> movementDirectionParameter = EntityDataManager.createKey(EntityParticle.class, DataSerializers.FACING);
 
     public Ticket updateTicket;
@@ -79,7 +81,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
         if (world.isAirBlock(pos)) {
             int electromagnetCount = 0;
 
-            for (EnumFacing side : EnumFacing.values()) {
+            for (Direction side : Direction.values()) {
                 if (isElectromagnet(world, pos, side) && ++electromagnetCount >= 4){
                     return true;   
                 }
@@ -96,7 +98,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
      * @param side - direction to check in
      * @return true if the location contains an active electromagnet block
      */
-    public static boolean isElectromagnet(final World world, final BlockPos pos, final EnumFacing side) {
+    public static boolean isElectromagnet(final World world, final BlockPos pos, final Direction side) {
         final BlockPos checkPos = pos.offset(side);
         final TileEntity tile = world.getTileEntity(checkPos);
 
@@ -104,7 +106,7 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public void writeSpawnData(final ByteBuf data) {
+    public void writeSpawnData(PacketBuffer data) {
         data.writeInt(movementPos.getX());
         data.writeInt(movementPos.getY());
         data.writeInt(movementPos.getZ());
@@ -112,9 +114,9 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public void readSpawnData(final ByteBuf data) {
+    public void readSpawnData(PacketBuffer data) {
         movementPos = new BlockPos(data.readInt(), data.readInt(), data.readInt());
-        movementDirection = EnumFacing.byIndex(data.readInt());
+        movementDirection = Direction.byIndex(data.readInt());
     }
 
     @Override
@@ -221,9 +223,9 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
     }
 
     @Override
-    protected void readEntityFromNBT(@Nonnull final NBTTagCompound tag) {
-        movementPos = new BlockPos(tag.getInteger("x"), tag.getInteger("y"), tag.getInteger("z"));
-        movementDirection = EnumFacing.byIndex(tag.getByte("direction"));
+    public void read(final CompoundNBT compound) {
+        movementPos = new BlockPos(compound.getInt("x"), compound.getInt("y"), compound.getInt("z"));
+        movementDirection = Direction.byIndex(compound.getByte("direction"));
     }
 
     @Override
@@ -294,9 +296,9 @@ public class EntityParticle extends Entity implements IEntityAdditionalSpawnData
 
         final float radius = 6;
         final AxisAlignedBB bounds = new AxisAlignedBB(posX - radius, posY - radius, posZ - radius, posX + radius, posY + radius, posZ + radius);
-        final List<EntityLivingBase> entitiesNearby = world.getEntitiesWithinAABB(EntityLivingBase.class, bounds);
+        final List<LivingEntity> entitiesNearby = world.getEntitiesWithinAABB(LivingEntity.class, bounds);
 
-        for (EntityLivingBase entity : entitiesNearby) {
+        for (LivingEntity entity : entitiesNearby) {
             ModPotions.poisonRadiation.poisonEntity(entity);
         }
 

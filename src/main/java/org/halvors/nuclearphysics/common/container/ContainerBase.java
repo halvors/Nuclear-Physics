@@ -18,6 +18,7 @@ public class ContainerBase<T extends TileBase> extends Container {
     protected int yInventoryDisplacement = 135;
     protected int yHotBarDisplacement = 193;
 
+
     public ContainerBase(final int slotCount, final PlayerInventory playerInventory, final T tile) {
         this.slotCount = slotCount;
         this.inventory = playerInventory;
